@@ -5,6 +5,8 @@
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
+
+
 class WikiIocComponentManager{
     public static $MESSAGES = array("Error. El nom del paquet està repetit",
         "Error. Ja existeix un altre paquest amb la mateixa localitazació i nom diferent"
@@ -58,14 +60,15 @@ class WikiIocComponentManager{
             { name: "dojox", location: "//ajax.googleapis.com/ajax/libs/dojo/1.8/dojox" }
         ]
          */
+        $json = new JSON();
         $ret = "packages: [\n";
         foreach ($this->resourcePackages as $obj){
             static $first=true;
             if($first){
-                $ret .= json_encode($obj);
+                $ret .= $json->encode($obj); //  json_encode($obj);
                 $first=false;
             }else{
-                $ret .= ", \n".json_encode($obj);
+                $ret .= ", \n".$json->encode($obj);   //json_encode($obj);
             }
         }
         $ret .="\n]\n";
