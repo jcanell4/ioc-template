@@ -22,46 +22,9 @@ if(!define(DOKU_TPL_CLASSES)){
 if(!define(DOKU_TPL_CONF)){
     define(DOKU_TPL_CONF, DOKU_TPLINC.'conf/');
 }
-require_once(DOKU_TPL_CLASSES.'WikiIocComponent.php');
+require_once(DOKU_TPL_CLASSES.'WikiIocActionComponent.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
-
-abstract class WikiIocActionComponent extends WikiIocComponent{
-    private $id;
-    private $label;
-    private $toolTip;
-    
-    function __construct($label="", $id=NULL, $reqPackage=array()){
-       parent::__construct($reqPackage);
-       $this->label=$label;
-       $this->toolTip=$label;
-       $this->id=$id;
-    }
-    
-    function getLabel(){
-        return $this->label;
-    }
-    
-    function getId(){
-        return $this->id;
-    }
-    
-    function setLabel($label){
-        $this->label=$label;
-    }
-    
-    function setId($id){
-        $this->id=$id;
-    }
-    
-    function getToolTip(){
-        return $this->toolTip;
-    }
-    
-    function setToolTip($tip){
-        $this->toolTip=$tip;
-    }
-}
 
 class WikiIocActionTabContainer extends WikiIocActionComponent{
     const DEFAULT_TAB_TYPE=0;
@@ -203,6 +166,10 @@ class WikiIocActionContainer extends WikiIocActionComponent{
         if($reqPackage==NULL){
             $reqPackage=array(
                 array(
+                    "name" => "ioc",
+                    "location" => $js_packages["ioc"],
+                ),
+                array(
                     "name" => "dojo",
                     "location" => $js_packages["dojo"],
                 ),
@@ -289,13 +256,6 @@ class WikiIocActionContainerFromPage extends WikiIocActionContainer{
    private $page;
    
    function __construct($label="", $page=NULL, $id=NULL){
-        global $js_packages;
-        $reqPackage=array(                
-            array(
-                "name" => "ioc",
-                "location" => $js_packages["ioc"],
-            )
-        );
         parent::__construct($label, $id, $reqPackage);
         $this->page=$page;
    }
@@ -340,12 +300,6 @@ class WikiIocActionTreeContainer extends WikiIocActionContainer{
    
    function __construct($label="", $treeDataSource=NULL, $pageDataSource=NULL, 
                                                     $rootValue="", $id=NULL){
-       $reqPackage=array(                
-           array(
-               "name" => "ioc",
-               "location" => $js_packages["ioc"],
-           )
-       );
        parent::__construct($label, $id, $reqPackage);
        $this->treeDataSource=$treeDataSource;
        $this->rootValue=$rootValue;
