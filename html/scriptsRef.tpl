@@ -4,7 +4,7 @@
       "dojo/dom"
      ,"dojo/dom-style"
      ,"dojo/window"
-     ,"ioc/wiki30/Dispatcher"
+     ,"ioc/wiki30/dispatcherSingleton"
      ,"dijit/registry"
      ,"dojo/ready"
      ,"dojo/_base/lang"
@@ -32,34 +32,37 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, Dispatcher, registry, ready, lang){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
         var h = 100*(win.getBox().h-55)/win.getBox().h;
         var divMainContent = dom.byId("mainContent");
         domStyle.set(divMainContent, "height", h+"%");
+        /*
         var wikiIocDispatcher = new Dispatcher({
             containerNodeId: "bodyContent"
         });
+        */
+        wikiIocDispatcher.containerNodeId="bodyContent";
         wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
         ready(function(){
             var tbContainer = registry.byId("tb_docu");
-            tbContainer.set("dispatcher", wikiIocDispatcher);
+            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", "dijit_layout_ContentPane_7");
             
             tbContainer = registry.byId("tb_index");
-            tbContainer.set("dispatcher", wikiIocDispatcher);
+            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", "dijit_layout_ContentPane_7");
             wikiIocDispatcher.toUpdateSectok.push(tbContainer);
             tbContainer.updateSectok();
 
             tbContainer = registry.byId("loginDialog");
-            tbContainer.set("dispatcher", wikiIocDispatcher);
+            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             tbContainer.set("standbyId", "loginDialog_hidden_container");
             
             tbContainer = registry.byId("newButton");
-            tbContainer.set("dispatcher", wikiIocDispatcher);
+            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 //            tbContainer.set("standbyId", "loginDialog_hidden_container");
         });
