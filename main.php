@@ -26,16 +26,19 @@ require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 $tpl = WikiIocTpl::Instance();
 
 require_once(DOKU_TPL_CLASSES.'WikiIocActionComponents.php');
-$actionTabContainer = new WikiIocActionTabContainer("nav", 
-                                  WikiIocActionTabContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab("tb_index", new WikiIocActionTreeContainer("Índex", 
-   "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer = new WikiIocActionTabContainer("nav", WikiIocActionTabContainer::RESIZING_TAB_TYPE);
+$actionTabContainer->putTab("tb_index", new WikiIocActionTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
 $actionTabContainer->putTab("tb_perfil", new WikiIocActionContainer("Perfil"));
 $actionTabContainer->putTab("tb_admin", new WikiIocActionContainer("Admin"));
-$actionTabContainer->putTab("tb_docu", 
-        new WikiIocActionContainerFromPage("documentació", ":wiki:navigation"));
+$actionTabContainer->putTab("tb_docu", new WikiIocActionContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 //$actionTabContainer->setScrollingButtons(TRUE);
+
+$actionButtonExit = new WikiIocActionButton("Sortir","exitButton","do=logoff",true,false,true);
+$actionButtonNew = new WikiIocActionButton("Nou","newButton","do=logoff",true,true,true);
+$actionButtonSave = new WikiIocActionButton("Desar","saveButton","do=save",true,true,false);
+$actionButtonEdit = new WikiIocActionButton("Edició","editButton","do=edit",true,true,true);
+$actionButtonEdparc = new WikiIocActionButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
 
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
@@ -92,8 +95,8 @@ $tpl->printHeaderTags();
     <div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="right" splitter="true" minSize="0" maxSize="Infinity" style="padding:0px; width: 60px;" closable="true">
         <!-- 
         <div dojoType="dijit.layout.SplitContainer" orientation="vertical"  layoutAlign="client" sizerWidth="7">-->
-                <div class="wikiIocRotate">    
-                <div id="loginButton" data-dojo-type="dijit.form.DropDownButton" style="font-size:0.75em">
+        <div class="wikiIocRotate">    
+                <div id="loginButton" data-dojo-type="ioc.gui.IocDropDownButton" style="font-size:0.75em">
                     <span>Entrar</span>
                     <div id="loginDialog" data-dojo-type="ioc.gui.ActionHiddenDialogDokuwiki">
                     <!--
@@ -107,17 +110,13 @@ $tpl->printHeaderTags();
                     </div>                       
                 </div>
                 </div>
-                <div id="exitButton" style="display: none;">
-                <input type="button" data-dojo-type="dijit.form.Button" tabIndex="-1" intermediateChanges="false" label="Sortir" iconClass="dijitNoIcon" style="font-size:0.75em"></input>
-                </div><div class="wikiIocRotate">
-                <input id='newButton' type="button" data-dojo-type="ioc.gui.IocButton" data-dojo-props="command:'do=logoff'" tabIndex="-1" intermediateChanges="false" label="Nou" iconClass="dijitNoIcon"  style="font-size:0.75em"></input>
-                </div><div class="wikiIocRotate">
-                <input type="button" data-dojo-type="dijit.form.Button" tabIndex="-1" intermediateChanges="false" label="Salvar" iconClass="dijitNoIcon" style="font-size:0.75em"></input>
-                </div><div class="wikiIocRotate">
-                <input type="button" data-dojo-type="dijit.form.Button" tabIndex="-1" intermediateChanges="false" label="Edició" iconClass="dijitNoIcon" style="font-size:0.75em"></input>
-                </div><div class="wikiIocRotate">
-                <input type="button" data-dojo-type="dijit.form.Button" tabIndex="-1" intermediateChanges="false" label="Ed. Parc." iconClass="dijitNoIcon" style="font-size:0.75em"></input>
-                </div>
+		<?php
+		echo $actionButtonExit->getRenderingCode();
+        echo $actionButtonNew->getRenderingCode();
+        echo $actionButtonSave->getRenderingCode();
+        echo $actionButtonEdit->getRenderingCode();
+        echo $actionButtonEdparc->getRenderingCode();
+		?>
         <!-- </div>
         -->
     </div>

@@ -19,6 +19,7 @@
      ,"dijit/TitlePane"
      ,"ioc/gui/ResizingTabController"
      ,"ioc/gui/IocButton"
+     ,"ioc/gui/IocDropDownButton"
      ,"dijit/layout/TabContainer"
      ,"dijit/layout/AccordionContainer"
      ,"dijit/Toolbar"
@@ -61,7 +62,7 @@
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             tbContainer.set("standbyId", "loginDialog_hidden_container");
             
-            tbContainer = registry.byId("newButton");
+            tbContainer = registry.byId("exitButton");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 //            tbContainer.set("standbyId", "loginDialog_hidden_container");

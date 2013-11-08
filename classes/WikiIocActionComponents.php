@@ -25,7 +25,6 @@ if(!define(DOKU_TPL_CONF)){
 require_once(DOKU_TPL_CLASSES.'WikiIocActionComponent.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
-
 class WikiIocActionTabContainer extends WikiIocActionComponent{
     const DEFAULT_TAB_TYPE=0;
     const RESIZING_TAB_TYPE=1;
@@ -36,8 +35,7 @@ class WikiIocActionTabContainer extends WikiIocActionComponent{
     private $bMenuButton; 
     private $bScrollingButtons; 
     
-    public function __construct($label = "", $tabType=0, $id = NULL, 
-                                $reqPackage=NULL){
+    public function __construct($label = "", $tabType=0, $id = NULL, $reqPackage=NULL){
         global $js_packages;
         if($reqPackage==NULL){
             $reqPackage=array(
@@ -221,9 +219,6 @@ class WikiIocActionContainer extends WikiIocActionComponent{
     }
 }
 
-//class IoctplActionButton extends WikiIocActionComponent{
-//}
-
 class WikiIocActionContainerFromMenuPage extends WikiIocActionContainer{
    private $page;
    
@@ -366,4 +361,44 @@ class WikiIocActionTreeContainer extends WikiIocActionContainer{
        return "";
     }
 }
+
+class WikiIocActionButton extends WikiIocActionComponent{
+	private $query;
+	private $autoSize;
+	private $display;
+	private $displayBlock;
+
+	function __construct($label="", $id=NULL, $query=NULL, $autoSize=false, $display=true, $displayBlock=true/*, $baseUrl=NULL*/){
+		global $js_packages;
+		$reqPackage=array(
+			array("name" => "ioc"
+				,"location" => $js_packages["ioc"]
+			),
+			array("name" => "dojo"
+				,"location" => $js_packages["dojo"]
+			),
+			array("name" => "dijit"
+				,"location" => $js_packages["dijit"]
+			)
+		);
+        parent::__construct($label, $id, $reqPackage/*, $baseUrl*/);
+		$this->query = $query;
+		$this->autoSize = $autoSize;
+		$this->display = $display;
+		$this->displayBlock = $displayBlock;
+	}
+
+	public function getRenderingCode() {
+		$autoSize = $this->autoSize ? 'true' : 'false';
+		//$display = $this->display ? "" : "display:none;";
+		$display = $this->display ? 'true' : 'false';
+		$displayBlock = $this->displayBlock ? "iocDisplayBlock" : "dijitInline";
+		
+		$ret = "\n<input id='{$this->getId()}' class='$displayBlock' type='button' data-dojo-type='ioc.gui.IocButton'"
+				." data-dojo-props=\"query:'{$this->query}', autoSize:$autoSize, visible:$display\"" 
+				." label='{$this->getLabel()}' tabIndex='-1' intermediateChanges='false'"
+				." iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+        return $ret;
+    }
+}	
 ?>
