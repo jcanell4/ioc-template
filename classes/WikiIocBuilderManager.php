@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Description of WikiIocComponentManager. 
+ * Description of WikiIocBuilderManager. 
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
 
-class WikiIocComponentManager{
+class WikiIocBuilderManager{
     public static $MESSAGES = array("Error. El nom del paquet està repetit",
         "Error. Ja existeix un altre paquest amb la mateixa localitazació i nom diferent"
         );
@@ -20,7 +20,7 @@ class WikiIocComponentManager{
     public static function Instance(){
         static $inst = null;
         if ($inst === null) {
-            $inst = new WikiIocComponentManager();
+            $inst = new WikiIocBuilderManager();
         }
         return $inst;
     }
@@ -42,12 +42,12 @@ class WikiIocComponentManager{
                 //error nom repetit /*TO DO Multilanguage */
                 throw new Exception(
                         $this->getErrorMessage(
-                                WikiIocComponentManager::$REPEATED_PACKAGE_NAME));
+                                WikiIocBuilderManager::$REPEATED_PACKAGE_NAME));
             }else if($existName && !$existLocation){
                 //error locallització repetida /*TO DO Multilanguage */
                 throw new Exception(
                         $this->getErrorMessage(
-                                WikiIocComponentManager::$REPEATED_PACKAGE_LOC));
+                                WikiIocBuilderManager::$REPEATED_PACKAGE_LOC));
             }
         }
     }
@@ -76,7 +76,7 @@ class WikiIocComponentManager{
     }
     
     function getErrorMessage($ind){
-        return WikiIocComponentManager::$MESSAGES[$ind];
+        return WikiIocBuilderManager::$MESSAGES[$ind];
     }
 }
 

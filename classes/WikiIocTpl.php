@@ -11,12 +11,8 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
-if (!defined("DOKU_INC")){
-    die();
-}
-if(!define(DOKU_TPL_CLASSES)){
-    define(DOKU_TPL_CLASSES, DOKU_TPLINC.'classes/');
-}
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 
 require_once DOKU_TPL_CLASSES."WikiIocContentPage.php";
 
@@ -167,7 +163,7 @@ class WikiIocTpl {
         echo "    async:true,\n";
         echo "    baseUrl: '/iocjslib/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
-        echo WikiIocComponentManager::Instance()->getRenderingCodeForRequiredPackages();
+        echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
         echo "\n};\n";
         echo '</script>'."\n";
         

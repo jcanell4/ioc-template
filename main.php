@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Main file of the "vector" template for DokuWiki
  *
@@ -12,33 +11,38 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
-
 //check if we are running within the DokuWiki environment
-if (!defined("DOKU_INC")){
-    die();
-}
-if(!define(DOKU_TPL_CLASSES)){
-    define(DOKU_TPL_CLASSES, DOKU_TPLINC.'classes/');
-}
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $tpl = WikiIocTpl::Instance();
 
-require_once(DOKU_TPL_CLASSES.'WikiIocActionComponents.php');
-$actionTabContainer = new WikiIocActionTabContainer("nav", WikiIocActionTabContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab("tb_index", new WikiIocActionTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$actionTabContainer->putTab("tb_perfil", new WikiIocActionContainer("Perfil"));
-$actionTabContainer->putTab("tb_admin", new WikiIocActionContainer("Admin"));
-$actionTabContainer->putTab("tb_docu", new WikiIocActionContainerFromPage("documentació", ":wiki:navigation"));
+require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
+$actionTabContainer = new WikiIocTabsContainer("nav", WikiIocTabsContainer::RESIZING_TAB_TYPE);
+$actionTabContainer->putTab("tb_index", new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane("Perfil"));
+$actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
+$actionTabContainer->putTab("tb_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 //$actionTabContainer->setScrollingButtons(TRUE);
 
-$actionButtonExit = new WikiIocActionButton("Sortir","exitButton","do=logoff",true,false,true);
-$actionButtonNew = new WikiIocActionButton("Nou","newButton","do=logoff",true,true,true);
-$actionButtonSave = new WikiIocActionButton("Desar","saveButton","do=save",true,true,false);
-$actionButtonEdit = new WikiIocActionButton("Edició","editButton","do=edit",true,true,true);
-$actionButtonEdparc = new WikiIocActionButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
+$actionButtonNew = new WikiIocButton("Nou","newButton","do=logoff",true,true,true);
+$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,false);
+$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
+$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+
+$actionItemDropDownComponent = new WikiIocHiddenDialog("login","login");
+$actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
+$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p"));
+
+$actionDropDownButtonLogin = new WikiIocDropDownButton("Entrar","login");
+$actionDropDownButtonLogin->setAutoSize(true);
+$actionDropDownButtonLogin->setDisplay(true);
+$actionDropDownButtonLogin->setDisplayBlock(true);
+$actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
@@ -93,32 +97,15 @@ $tpl->printHeaderTags();
       </div>
     </div>
     <div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="right" splitter="true" minSize="0" maxSize="Infinity" style="padding:0px; width: 60px;" closable="true">
-        <!-- 
-        <div dojoType="dijit.layout.SplitContainer" orientation="vertical"  layoutAlign="client" sizerWidth="7">-->
-        <div class="wikiIocRotate">    
-                <div id="loginButton" data-dojo-type="ioc.gui.IocDropDownButton" style="font-size:0.75em">
-                    <span>Entrar</span>
-                    <div id="loginDialog" data-dojo-type="ioc.gui.ActionHiddenDialogDokuwiki">
-                    <!--
-                    <div data-dojo-type="dijit.TooltipDialog">
-                    -->
-                        <label for="name">Usuari:</label> <input data-dojo-type="dijit.form.TextBox" id="name" name="u" /><br />
-                        <label for="pass">Contrasenya:</label> <input type="password" data-dojo-type="dijit.form.TextBox" id="pass" name="p" /><br />
-                        <!--
-                        <button data-dojo-type="dijit.form.Button" type="submit">D'acord</button>
-                        -->
-                    </div>                       
-                </div>
-                </div>
 		<?php
+		echo $actionDropDownButtonLogin->getRenderingCode();
+		
 		echo $actionButtonExit->getRenderingCode();
         echo $actionButtonNew->getRenderingCode();
         echo $actionButtonSave->getRenderingCode();
         echo $actionButtonEdit->getRenderingCode();
         echo $actionButtonEdparc->getRenderingCode();
 		?>
-        <!-- </div>
-        -->
     </div>
     <div class="ioc_content" data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="center" splitter="false" maxSize="Infinity" doLayout="false">
         <div id="content">
