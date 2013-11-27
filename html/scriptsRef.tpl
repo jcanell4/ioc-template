@@ -35,14 +35,14 @@
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
         var h = 100*(win.getBox().h-55)/win.getBox().h;
-        var divMainContent = dom.byId("mainContent");
+        var divMainContent = dom.byId("@@MAIN_CONTENT@@");
         domStyle.set(divMainContent, "height", h+"%");
         /*
         var wikiIocDispatcher = new Dispatcher({
             containerNodeId: "bodyContent"
         });
         */
-        wikiIocDispatcher.containerNodeId="bodyContent";
+        wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
         wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
         ready(function(){
             var tbContainer = registry.byId("nav");

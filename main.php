@@ -43,12 +43,19 @@ $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
-$actionBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior","barra_menu_superior");
-$actionBarraMenuContainer->setPosition("fixed");
-$actionBarraMenuContainer->setTopLeft(25,275);
-$actionBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","v_dojoButton","alert('VISTA')",true,false));
-$actionBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","e_dojoButton","alert('EDICIO')",true,false,1.3));
-$actionBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","c_dojoButton","alert('CORRECCIO')",true,false));
+$blocBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior");
+$blocBarraMenuContainer->setPosition("fixed");
+$blocBarraMenuContainer->setTopLeft(25,275);
+$blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","v_dojoButton","alert('VISTA')",true,false));
+$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","e_dojoButton","alert('EDICIO')",true,false,1.3));
+$blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","c_dojoButton","alert('CORRECCIO')",true,false));
+
+$blocHeadContainer = new WikiIocHeadContainer();
+$blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
+$blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
+
+$blocBottomContainer = new WikiIocBottomContainer("area_missatges");
+//$blocBottomContainer->setMessage("àrea de missateges");
 
 //$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
 //$actionFormProva->putItem("idinput1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
@@ -65,7 +72,14 @@ if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
 }
 $tpl->setNavigationComponent($actionTabContainer);
-$tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", array('%%ID%%'=>"ajax", '%%SECTOK%%'=>getSecurityToken()));
+
+//Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
+$tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", 
+		array('%%ID%%'=>"ajax"
+			, '%%SECTOK%%'=>getSecurityToken()
+			, '@@MAIN_CONTENT@@'=>"mainContent"
+			, '@@BODY_CONTENT@@'=>"bodyContent"
+		));
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -79,28 +93,18 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", array('%%ID%%'=>"
 <body id="main" class="claro">
 
 <!-- Logo i Barra de Menú horitzontal	-->
-<div style="height: 55px; width: 100%;">
-	<span style="top: 2px; left: 0px; width: 240px; height: 50px; position: absolute; z-index: 900;">
-		<img alt="logo" style="position: absolute; z-index: 900; top: 0px; left: 10px; height: 50px; width: 200px;" src="<?=DOKU_TPL?>img/logo.png"></img>
-	</span>
-	<?php
-	echo $actionBarraMenuContainer->getRenderingCode();
-	?>
-</div>
+<?php echo $blocHeadContainer->getRenderingCode();?>
 	
 <div id="mainContent">
 	<div data-dojo-type="dijit.layout.BorderContainer" design="headline" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 100%;">
 
 		<!-- Contenidor de la part inferior -->
-		<div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="bottom" splitter="true" maxSize="Infinity" style="height: 30px;" doLayout="false">
-		</div>
+		<?php echo $blocBottomContainer->getRenderingCode();?>
 
 		<!-- Bloc de contenidors de la part esquerra -->
 		<div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" minSize="150" maxSize="Infinity" style="width: 190px;" closable="false">
 			<div id="tb_container" style="height: 40%;">
-				<?php 
-				echo $actionTabContainer->getRenderingCode();   
-				?>
+				<?php echo $actionTabContainer->getRenderingCode();?>
 			</div>
 		
 			<div style="height: 60%;">

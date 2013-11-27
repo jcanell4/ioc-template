@@ -375,7 +375,8 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
 }
 
 class WikiDojoFormContainer extends WikiIocItemsContainer {
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		Crea un contenidor de la classe dijit.form.Form
 	 *		dissenyat per contenir items.
 	 *		Els métodes de construcció els hereda de WikiIocItemsContainer.
@@ -427,7 +428,8 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 }
 
 class WikiIocDropDownButton extends WikiIocContainer{
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		Dibuixa un botó de la classe ioc.gui.IocDropDownButton
 	 * Propietats:
 	 *		Accepta n paràmetres que configuren l'aspecte del botó:
@@ -499,7 +501,8 @@ class WikiIocDropDownButton extends WikiIocContainer{
 }	
 
 class WikiDojoButton extends WikiIocComponent{
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		Dibuixa un botó de la classe dijit.form.Button
 	 * Propietats:
 	 *		Accepta paràmetres que configuren l'aspecte del botó:
@@ -559,7 +562,8 @@ class WikiDojoButton extends WikiIocComponent{
 }	
 
 class WikiIocButton extends WikiDojoButton{
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		Dibuixa un botó de la classe ioc.gui.IocButton
 	 * Propietats:
 	 *		Accepta paràmetres que configuren l'aspecte del botó:
@@ -610,7 +614,8 @@ class WikiIocButton extends WikiDojoButton{
 }	
 
 class WikiIocFormInputField extends WikiIocComponent{
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		Dibuixa un item que pot ser albergat en un contenidor
 	 *		Aquest item és un input textbox de la classe dijit.form.TextBox
 	 */
@@ -631,7 +636,8 @@ class WikiIocFormInputField extends WikiIocComponent{
 }
 
 class WikiDojoToolBar extends WikiIocItemsContainer{
-	/* Descripció:
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
 	 *		És un contenidor que construeix una barra de botons.
 	 *		Permet establir la seva posició i tamany.
 	 */
@@ -646,6 +652,7 @@ class WikiDojoToolBar extends WikiIocItemsContainer{
 			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
 			array("name"=>"dijit","location"=>$js_packages["dijit"])
 		);
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id, $reqPackage);
 		$this->position = $position;
 		$this->zindex = $zindex;
@@ -687,9 +694,19 @@ class WikiDojoToolBar extends WikiIocItemsContainer{
 }	
 
 class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per allotjar els items centrals.
+	 *		Està dissenyat per contenir itmes com a pestanyes.
+	 * Mètodes:
+	 *		putTab: afegeix un nou item al contenidor
+	 * Propietats:
+	 *		tabType: 0=sin botones, 1=con botones para el scroll horizontal de pestañas
+	 *		tabSelected: conté el id de la pestanya seleccionada
+	 */
     const DEFAULT_TAB_TYPE=0;
     const SCROLLING_TAB_TYPE=1;
-    private $tabType; //0=normal, 1=botones de scroll horizontal de pestañas
+    private $tabType; 
     private $tabSelected;
     private $bMenuButton; 
     private $bScrollingButtons; 
@@ -778,5 +795,69 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
         $ret = "</div>\n</div>\n";
         return $ret;
     }
+}
+
+class WikiIocHeadContainer extends WikiIocItemsContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per allotjar els items de la capçalera.
+	 * Mètodes:
+	 *		putItem: afegeix un nou item al contenidor
+	 */
+    public function __construct($id=NULL, $label="", $reqPackage=NULL){
+        parent::__construct($label, $id, $reqPackage);
+    }
+	
+	protected function getPreContent(){
+		return "<div style='height: 55px; width: 100%;'>";	
+	}
+	protected function getPostContent(){
+		return "</div>";
+	}
+}
+
+class WikiIocHeadLogo extends WikiIocComponent{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Dibuixa el logo IOC
+	 */
+	public function getRenderingCode() {
+		$ret = "<span style='top: 2px; left: 0px; width: 240px; height: 50px; position: absolute; z-index: 900;'>\n"
+				."<img alt='logo' style='position: absolute; z-index: 900; top: 0px; left: 10px; height: 50px; width: 200px;' src='".DOKU_TPL."img/logo.png'></img>\n"
+				."</span>\n";
+		return $ret;
+	}
+}
+
+class WikiIocBottomContainer extends WikiIocContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per escriure missatges d'informació per l'usuari.
+	 */
+	private $missatge;
+	
+    public function __construct($label="", $id=NULL){
+		global $js_packages;
+		$reqPackage=array(
+			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+			array("name"=>"dijit","location"=>$js_packages["dijit"])
+		);
+		if ($id==NULL) $id=$label;
+        parent::__construct($label, $id, $reqPackage);
+    }
+	
+	public function setMessage($msg) {
+		$this->missatge = $msg;
+	}
+
+	protected function getPreContent(){
+		return "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='bottom' splitter='true' maxSize='Infinity' style='height: 30px;' doLayout='false'>";
+	}
+	protected function getPostContent(){
+		return "</div>";
+	}
+	protected function getContent(){
+		return $this->missatge;
+	}
 }
 ?>
