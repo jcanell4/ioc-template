@@ -45,7 +45,13 @@
         wikiIocDispatcher.containerNodeId="bodyContent";
         wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
         ready(function(){
-            var tbContainer = registry.byId("tb_docu");
+            var tbContainer = registry.byId("nav");
+			tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
+				if (newTab.updateRendering)
+					newTab.updateRendering();
+			});
+			
+            tbContainer = registry.byId("tb_docu");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", "dijit_layout_ContentPane_7");
