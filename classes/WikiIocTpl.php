@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of WikiIocTpl
  *
@@ -25,21 +19,21 @@ class WikiIocTpl {
     private $scriptTemplateFile;
     private $replaceInTemplateFile;
 
-//$tpl_view = "content";
-//
-//if (!empty($_REQUEST["view"])){
-//    $tpl_view = (string)$_REQUEST["view"];
-//}
-//if (!empty($tpl_view) &&
-//    $tpl_view !== "content" &&
-//    $tpl_view !== "print" &&
-//    $tpl_view !== "detail" &&
-//    $tpl_view !== "discuss" &&
-//    $tpl_view !== "cite"){
-//    //ignore unknown values
-//    $tpl_view = "content";
-//}
-//    
+	/*
+	$tpl_view = "content";
+
+	if (!empty($_REQUEST["view"])){
+	    $tpl_view = (string)$_REQUEST["view"];
+	}
+	if (!empty($tpl_view) &&
+	    $tpl_view !== "content" &&
+	    $tpl_view !== "print" &&
+	    $tpl_view !== "detail" &&
+	    $tpl_view !== "discuss" &&
+	    $tpl_view !== "cite"){
+	    //ignore unknown values
+	    $tpl_view = "content";
+	}*/
     
     /*SINGLETON CLASS*/
     public static function Instance(){
@@ -76,12 +70,11 @@ class WikiIocTpl {
     
     public function getTitle(){
         global $conf;
-        return tpl_pagetitle($this->contentComponent->getId(), true)
-                                                ." - ".hsc($conf["title"]); 
+        return tpl_pagetitle($this->contentComponent->getId(), true)." - ".hsc($conf["title"]); 
     }
     
     public function setScriptTemplateFile($fileName, $replace){
-        $this->scriptTemplateFile=$fileName;
+        $this->scriptTemplateFile = $fileName;
         $this->replaceInTemplateFile = $replace;
     }
     
@@ -106,32 +99,27 @@ class WikiIocTpl {
 
         //include default or userdefined favicon
         //
-        //note: since 2011-04-22 "Rincewind RC1", there is a core function named
-        //      "tpl_getFavicon()". But its functionality is not really fitting the
-        //      behaviour of this template, therefore I don't use it here.
+        //note: since 2011-04-22 "Rincewind RC1", there is a core function named "tpl_getFavicon()".
+        //      But its functionality is not really fitting the behaviour of this template, therefore I don't use it here.
         if (file_exists(DOKU_TPLINC."user/favicon.ico")){
-            //user defined - you might find http://tools.dynamicdrive.com/favicon/
-            //useful to generate one
+            //user defined - you might find http://tools.dynamicdrive.com/favicon/ useful to generate one
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."user/favicon.ico\" />\n";
         }elseif (file_exists(DOKU_TPLINC."user/favicon.png")){
-            //note: I do NOT recommend PNG for favicons (cause it is not supported by
-            //all browsers), but some users requested this feature.
+            //note: I do NOT recommend PNG for favicons (cause it is not supported by all browsers), but some users requested this feature.
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."user/favicon.png\" />\n";
         }else{
             //default
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."static/3rd/dokuwiki/favicon.ico\" />\n";
         }
 
-        //include default or userdefined Apple Touch Icon (see <http://j.mp/sx3NMT> for
-        //details)
+        //include default or userdefined Apple Touch Icon (see <http://j.mp/sx3NMT> for details)
         if (file_exists(DOKU_TPLINC."user/apple-touch-icon.png")){
             echo "<link rel=\"apple-touch-icon\" href=\"".DOKU_TPL."user/apple-touch-icon.png\" />\n";
         }else{
             //default
             echo "<link rel=\"apple-touch-icon\" href=\"".DOKU_TPL."static/3rd/dokuwiki/apple-touch-icon.png\" />\n";
         }
-        
-        ////load userdefined js?
+        /*/load userdefined js?
         //if (tpl_getConf("vector_loaduserjs")){
         //    echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"".DOKU_TPL."user/user.js\"></script>\n";
         //}
@@ -144,7 +132,7 @@ class WikiIocTpl {
         //  echo  "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."static/3rd/dokuwiki/print.css\" />\n"
         //       ."<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."static/css/print.css\" />\n"
         //       ."<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."user/print.css\" />\n";
-        //}    
+        //} */   
 
         //load language specific css hacks?
         if (file_exists(DOKU_TPLINC."lang/".$conf["lang"]."/style.css")){
@@ -154,10 +142,9 @@ class WikiIocTpl {
           }
         }
         
-        print '<!--[if lt IE 7]><style type="text/css">body{behavior:url("'
-                .DOKU_TPL.'static/3rd/csshover.htc")}</style><![endif]-->'."\n";
-        
-        echo '<script>'."\n";
+        print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url(\""
+                .DOKU_TPL."static/3rd/csshover.htc\")}</style><![endif]-->\n";
+        echo "<script>\n";
         echo "var dojoConfig = {\n";
         echo "    parseOnLoad:true,\n";
         echo "    async:true,\n";
@@ -165,18 +152,15 @@ class WikiIocTpl {
         echo "    tlmSiblingOfDojo: false,\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
         echo "\n};\n";
-        echo '</script>'."\n";
+        echo "</script>\n";
         
         if(@file_exists($this->scriptTemplateFile)){
             $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
             foreach ($this->replaceInTemplateFile as $key => $value) {
-                $contentTemplateFile = preg_replace('/'.$key.'/', 
-                                                    $value, 
-                                                    $contentTemplateFile);
+                $contentTemplateFile = preg_replace('/'.$key.'/', $value, $contentTemplateFile);
             }
             echo $contentTemplateFile;
         }
-
     }
     
     public function printContentPage(){
@@ -194,7 +178,6 @@ class WikiIocTpl {
             $this->rev = (int)$INFO["lastmod"];
         }
     }
-
 
     /**
      * Stores the name the current client used to login
@@ -231,5 +214,4 @@ class WikiIocTpl {
     }
 
 }
-
 ?>
