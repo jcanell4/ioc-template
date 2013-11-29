@@ -11,7 +11,12 @@ if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classe
 require_once DOKU_TPL_CLASSES."WikiIocContentPage.php";
 
 class WikiIocTpl {
+    private $blocSuperiorComponent;
+    private $blocCentralComponent;
     private $navigationComponent;
+    private $propertiesComponent;
+    private $blocRightComponent;
+    private $blocInferiorComponent;
     private $loginname;
     private $lang;
     private $rev;
@@ -78,7 +83,18 @@ class WikiIocTpl {
         $this->replaceInTemplateFile = $replace;
     }
     
+    public function printPage(){
+		global $conf, $lang;
+		echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
+		echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='".hsc($conf["lang"])."' lang='".hsc($conf["lang"])."' dir='".hsc($lang["direction"])."'>\n";
+		$this->printHeaderTags();
+		$this->printBody();
+		echo "</html>";
+	}
+	
     public function printHeaderTags(){
+        global $conf, $lang;
+		echo "<head>\n";
         echo "<meta charset='utf-8'/>\n";    
         echo "<meta http-equiv='X-UA-Compatible' content='IE=edge'/>\n";
         echo "<title>".$this->getTitle()."</title>\n";
@@ -142,8 +158,7 @@ class WikiIocTpl {
           }
         }
         
-        print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url(\""
-                .DOKU_TPL."static/3rd/csshover.htc\")}</style><![endif]-->\n";
+        print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('".DOKU_TPL."static/3rd/csshover.htc')}</style><![endif]-->\n";
         echo "<script>\n";
         echo "var dojoConfig = {\n";
         echo "    parseOnLoad:true,\n";
@@ -151,7 +166,7 @@ class WikiIocTpl {
         echo "    baseUrl: '/iocjslib/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
-        echo "\n};\n";
+        echo "};\n";
         echo "</script>\n";
         
         if(@file_exists($this->scriptTemplateFile)){
@@ -161,14 +176,71 @@ class WikiIocTpl {
             }
             echo $contentTemplateFile;
         }
+		echo "</head>\n";
     }
     
-    public function printContentPage(){
+    public function printBody(){
+		echo "<body id='main' class='claro'>\n";
+		
+		// bloc superior: conté el logo i la #zona d'accions# (barra de menú)
+		echo "<div style='height: 55px; width: 100%;'>";	
+			echo $this->blocSuperiorComponent->getRenderingCode();
+		echo "</div>";
+
+		echo "<div id='mainContent'>\n";
+		echo "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
+		
+		// bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='left' splitter='true' minSize='150' maxSize='Infinity' style='width:190px;' closable='false'>\n";
+			//#zona de navegació#
+			echo "<div id='tb_container' style='height: 40%;'>\n";
+				echo $this->navigationComponent->getRenderingCode();
+			echo "</div>\n";
+			//#zona de propietats#
+			echo "<div style='height: 60%;'>\n";
+				echo $this->propertiesComponent->getRenderingCode();
+			echo "</div>\n";
+		echo "</div>\n";
+		
+		// bloc central
+		echo "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
+			echo $this->blocCentralComponent->getRenderingCode();
+		echo "</div>\n";
+
+		// bloc dreta
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='right' splitter='true' minSize='0' maxSize='Infinity' style='padding:0px; width: 80px;' closable='true'>\n";
+			echo $this->blocRightComponent->getRenderingCode();
+		echo "</div>\n";
+
+		// bloc inferior: mostra els missatges
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='bottom' splitter='true' maxSize='Infinity' style='height: 30px;' doLayout='false'>\n";
+			echo $this->blocInferiorComponent->getRenderingCode();
+		echo "</div>\n";
+		
+		echo "</div>\n</div>\n</body>\n";
+	}
+
+	public function printContentPage(){
         $this->contentComponent->printRenderingCode();
     }
     
+    public function setBlocSuperiorComponent(&$component){
+        $this->blocSuperiorComponent = &$component;
+    }
+    public function setBlocCentralComponent(&$component){
+        $this->blocCentralComponent = &$component;
+    }
     public function setNavigationComponent(&$component){
-        $this->navigationComponent=&$component;
+        $this->navigationComponent = &$component;
+    }
+    public function setPropertiesComponent(&$component){
+        $this->propertiesComponent = &$component;
+    }
+    public function setBlocRightComponent(&$component){
+        $this->blocRightComponent = &$component;
+    }
+    public function setBlocInferiorComponent(&$component){
+        $this->blocInferiorComponent = &$component;
     }
     
     private function _storeRevision(){
@@ -198,8 +270,7 @@ class WikiIocTpl {
     }
     
     private function _setLanguange(){
-        global $conf;
-        global $lang;
+        global $conf,$lang;
         //get needed language array
         include DOKU_TPLINC."lang/en/lang.php";
         //overwrite English language values with available translations

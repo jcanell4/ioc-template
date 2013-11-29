@@ -27,12 +27,6 @@ $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab("tb_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocPropertiesContainer = new WikiIocPropertiesContainer("propietats");
-$blocPropertiesContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
-$blocPropertiesContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
-$blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
-$blocPropertiesContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
-
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
 $actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
 $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,true);
@@ -69,7 +63,7 @@ $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
 $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
 
 $blocBottomContainer = new WikiIocBottomContainer("area_missatges");
-$blocBottomContainer->setMessage("àrea de missatges");
+//$blocBottomContainer->setMessage("àrea de missateges");
 
 //$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
 //$actionFormProva->putItem("idinput1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
@@ -85,6 +79,11 @@ $blocCentralContainer->setScrollingButtons(TRUE);
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
 }
+$tpl->setBlocSuperiorComponent($blocHeadContainer);
+$tpl->setBlocCentralComponent($blocCentralContainer);
+$tpl->setNavigationComponent($actionTabContainer);
+$tpl->setBlocRightComponent($blocRightContainer);
+$tpl->setBlocInferiorComponent($blocBottomContainer);
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
 $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", 
@@ -94,12 +93,68 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '@@BODY_CONTENT@@'=>"bodyContent"
 		));
 
-$tpl->setBlocSuperiorComponent($blocHeadContainer);
-$tpl->setBlocCentralComponent($blocCentralContainer);
-$tpl->setNavigationComponent($actionTabContainer);
-$tpl->setPropertiesComponent($blocPropertiesContainer);
-$tpl->setBlocRightComponent($blocRightContainer);
-$tpl->setBlocInferiorComponent($blocBottomContainer);
-
-$tpl->printPage();
+//? >
+//<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+//<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo hsc($conf["lang"]);? >" lang="<?php echo hsc($conf["lang"]);? >" dir="<?php echo hsc($lang["direction"]);? >">
+//<head>
+//< ?php
+//$tpl->printHeaderTags();
 ?>
+<!--/head-->
+<body id="main" class="claro">
+
+<!-- Logo i Barra de Menú horitzontal	-->
+<?php 
+//echo $blocHeadContainer->getRenderingCode();
+?>
+	
+<div id="mainContent">
+	<div data-dojo-type="dijit.layout.BorderContainer" design="headline" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 100%;">
+
+		<!-- Contenidor de la part inferior -->
+		<?php echo $blocBottomContainer->getRenderingCode();?>
+
+		<!-- Bloc de contenidors de la part esquerra -->
+		<div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" minSize="150" maxSize="Infinity" style="width: 190px;" closable="false">
+			<div id="tb_container" style="height: 40%;">
+				<?php echo $actionTabContainer->getRenderingCode();?>
+			</div>
+		
+			<div style="height: 60%;">
+				<span data-dojo-type="dijit.layout.AccordionContainer" duration="200" persist="false" style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;">
+					<div data-dojo-type="dijit.layout.ContentPane" title="PROJECT" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" selected="true" closable="false" doLayout="false"></div>
+					<div data-dojo-type="dijit.layout.ContentPane" title="MEDIA" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" closable="false" doLayout="false"></div>
+					<div data-dojo-type="dijit.layout.ContentPane" title="DISCUS" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" closable="false" doLayout="false"></div>
+					<div data-dojo-type="dijit.layout.ContentPane" title="VERSIONS" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" closable="false" doLayout="false"></div>
+				</span>
+			</div>
+		</div>
+	
+		<!-- Bloc de contenidors de la part dreta -->
+		<div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="right" splitter="true" minSize="0" maxSize="Infinity" style="padding:0px; width: 80px;" closable="true">
+			<?php
+			echo $actionDropDownButtonLogin->getRenderingCode();
+			echo $actionButtonExit->getRenderingCode();
+			echo $actionButtonNew->getRenderingCode();
+			echo $actionButtonSave->getRenderingCode();
+			echo $actionButtonEdit->getRenderingCode();
+			echo $actionButtonEdparc->getRenderingCode();
+			?>
+		</div>
+
+		<!-- Bloc de contenidors central -->
+		<!--<div class="ioc_content" data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="center" splitter="false" maxSize="Infinity" doLayout="false">
+			<div id="content">
+				<div id="bodyContent" class="dokuwiki">
+				</div>
+			</div>
+		</div>-->
+		<?php 
+		$blocCentralContainer->selectTab("tb_cos_perfil");
+		echo $blocCentralContainer->getRenderingCode();
+		?>
+
+	</div>
+</div>
+</body>
+</html>
