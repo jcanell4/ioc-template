@@ -217,7 +217,8 @@ class WikiIocTpl {
 			echo $this->blocInferiorComponent->getRenderingCode();
 		echo "</div>\n";
 		
-		echo "</div>\n</div>\n</body>\n";
+		echo "</div>\n</div>\n";
+		echo "</body>\n";
 	}
 
 	public function printContentPage(){

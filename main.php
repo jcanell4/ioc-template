@@ -61,7 +61,7 @@ $blocBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior");
 $blocBarraMenuContainer->setPosition("fixed");
 $blocBarraMenuContainer->setTopLeft(25,275);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","v_dojoButton","alert('VISTA')",true,false));
-$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","e_dojoButton","alert('EDICIO')",true,false,1.3));
+$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","e_dojoButton","alert('EDICIO')",true,false));
 $blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","c_dojoButton","alert('CORRECCIO')",true,false));
 
 $blocHeadContainer = new WikiIocHeadContainer();
@@ -75,10 +75,6 @@ $blocBottomContainer->setMessage("àrea de missatges");
 //$actionFormProva->putItem("idinput1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
 
 $blocCentralContainer = new WikiIocCentralTabsContainer("bodyContent", WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
-//$blocCentralContainer->putTab("tb_cos_index", new WikiIocTreeContainer("índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-//$blocCentralContainer->putTab("tb_cos_perfil", new WikiIocContentPane("perfil"));
-//$blocCentralContainer->putTab("tb_cos_admin", new WikiIocContentPane("administració"));
-//$blocCentralContainer->putTab("tb_cos_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
 
