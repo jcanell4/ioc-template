@@ -208,7 +208,7 @@ class WikiIocTpl {
 		echo "</div>\n";
 
 		// bloc dreta
-		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='right' splitter='true' minSize='0' maxSize='Infinity' style='padding:0px; width: 80px;' closable='true'>\n";
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='right' splitter='true' minSize='0' maxSize='Infinity' style='padding:0px; width:65px;' closable='true'>\n";
 			echo $this->blocRightComponent->getRenderingCode();
 		echo "</div>\n";
 
