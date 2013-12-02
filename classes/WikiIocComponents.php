@@ -341,7 +341,7 @@ class WikiIocTreeContainer extends WikiIocContentPane{
     
    protected function getContent() {
 //        if($this->page!=NULL)
-//			$ret .= "<div class=\"tb_container\">\n".tpl_include_page($this->page, false)."\n</div>\n";
+//			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->page, false)."\n</div>\n";
 //        else
 //			$ret="";
 //        return $ret;
@@ -693,6 +693,110 @@ class WikiDojoToolBar extends WikiIocItemsContainer{
     }
 }	
 
+class WikiIocLeftContainer extends WikiIocItemsContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per allotjar els items de la part esquerra.
+	 *		Està dissenyat per contenir blocs d'itmes.
+	 * Mètodes:
+	 *		putItem: afegeix un nou item al contenidor
+	 */
+	function __construct($label="", $id=NULL){
+		global $js_packages;
+		$reqPackage=array(
+			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+			array("name"=>"dijit","location"=>$js_packages["dijit"])
+		);
+		if ($id==NULL) $id=$label;
+        parent::__construct($label, $id, $reqPackage);
+	}
+	
+    protected function getPreContent(){
+		$ret = '<div data-dojo-type="dijit.layout.ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" minSize="150" maxSize="Infinity" style="width: 190px;" closable="false">\n';
+        return $ret;
+	}
+	protected function getPostContent(){
+        $ret = "</div>\n</div>\n";
+        return $ret;
+    }
+}
+
+class WikiIocRightContainer extends WikiIocItemsContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per allotjar els items de la #zona de canvi de mode# (part dreta).
+	 *		Està dissenyat per contenir els botons.
+	 * Mètodes:
+	 *		putItem: afegeix un nou item al contenidor
+	 */
+	function __construct($label="", $id=NULL){
+		global $js_packages;
+		$reqPackage=array(
+			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+			array("name"=>"dijit","location"=>$js_packages["dijit"])
+		);
+		if ($id==NULL) $id=$label;
+        parent::__construct($label, $id, $reqPackage);
+	}
+	
+    protected function getPreContent(){
+        return "";
+	}
+	protected function getPostContent(){
+        return "";
+    }
+}
+
+class WikiIocPropertiesContainer extends WikiIocItemsContainer{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per allotjar els items de la #zona de propietats# (part esquerre).
+	 *		Està dissenyat per contenir els div de propietats.
+	 * Mètodes:
+	 *		putItem: afegeix un nou item al contenidor
+	 */
+	function __construct($label="", $id=NULL){
+		global $js_packages;
+		$reqPackage=array(
+			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+			array("name"=>"dijit","location"=>$js_packages["dijit"])
+		);
+		if ($id==NULL) $id=$label;
+        parent::__construct($label, $id, $reqPackage);
+	}
+	
+    protected function getPreContent(){
+        return "<span data-dojo-type='dijit.layout.AccordionContainer' duration='200' persist='false' style='min-width: 1em; min-height: 1em; width: 100%; height: 100%;'>";
+	}
+	protected function getPostContent(){
+        return "</span>";
+    }
+}
+
+class WikiIocProperty extends WikiIocComponent{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Crea un contenidor per a la zona de propietats
+	 */
+	function __construct($label="", $id=NULL, $title="", $selected=false){
+		global $js_packages;
+        if($reqPackage==NULL){
+			$reqPackage=array(
+				array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+				array("name"=>"dijit","location"=>$js_packages["dijit"])
+			);
+		}
+        parent::__construct($label, $id, $reqPackage);
+		$this->title = $title;
+		$this->selected = ($selected) ? "selected='true'" : "";
+	}
+	
+	public function getRenderingCode() {
+		$ret = "<div data-dojo-type='dijit.layout.ContentPane' title='{$this->title}' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' {$this->selected} closable='false' doLayout='false'></div>\n";
+		return $ret;
+	}
+}
+
 class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
@@ -778,8 +882,8 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
 		$useMenu = $this->hasMenuButton() ? "true" : "false";
 		$useSlider = $this->hasScrollingButtons() ? "true" : "false";
 		
-		$ret = "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
-        $ret.= "<div id='{$this->getId()}' data-dojo-type='dijit.layout.TabContainer' persist='false'";
+		//$ret = "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
+        $ret = "<div id='{$this->getId()}' data-dojo-type='dijit.layout.TabContainer' persist='false'";
         if($this->tabType==1 /*SCROLLING*/){
             $ret.=" controllerWidget='dijit.layout.ScrollingTabController'";
 	        $ret.=" useMenu='$useMenu'";
@@ -792,7 +896,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
     }
     
     protected function getPostContent(){
-        $ret = "</div>\n</div>\n";
+        $ret = "</div>\n";
         return $ret;
     }
 }
@@ -809,10 +913,10 @@ class WikiIocHeadContainer extends WikiIocItemsContainer{
     }
 	
 	protected function getPreContent(){
-		return "<div style='height: 55px; width: 100%;'>";	
+		return "";
 	}
 	protected function getPostContent(){
-		return "</div>";
+		return "";
 	}
 }
 
@@ -851,10 +955,10 @@ class WikiIocBottomContainer extends WikiIocContainer{
 	}
 
 	protected function getPreContent(){
-		return "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='bottom' splitter='true' maxSize='Infinity' style='height: 30px;' doLayout='false'>";
+		return "";
 	}
 	protected function getPostContent(){
-		return "</div>";
+		return "";
 	}
 	protected function getContent(){
 		return $this->missatge;

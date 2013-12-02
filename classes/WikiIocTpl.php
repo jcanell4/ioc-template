@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of WikiIocTpl
  *
@@ -17,7 +11,12 @@ if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classe
 require_once DOKU_TPL_CLASSES."WikiIocContentPage.php";
 
 class WikiIocTpl {
+    private $blocSuperiorComponent;
+    private $blocCentralComponent;
     private $navigationComponent;
+    private $propertiesComponent;
+    private $blocRightComponent;
+    private $blocInferiorComponent;
     private $loginname;
     private $lang;
     private $rev;
@@ -25,21 +24,21 @@ class WikiIocTpl {
     private $scriptTemplateFile;
     private $replaceInTemplateFile;
 
-//$tpl_view = "content";
-//
-//if (!empty($_REQUEST["view"])){
-//    $tpl_view = (string)$_REQUEST["view"];
-//}
-//if (!empty($tpl_view) &&
-//    $tpl_view !== "content" &&
-//    $tpl_view !== "print" &&
-//    $tpl_view !== "detail" &&
-//    $tpl_view !== "discuss" &&
-//    $tpl_view !== "cite"){
-//    //ignore unknown values
-//    $tpl_view = "content";
-//}
-//    
+	/*
+	$tpl_view = "content";
+
+	if (!empty($_REQUEST["view"])){
+	    $tpl_view = (string)$_REQUEST["view"];
+	}
+	if (!empty($tpl_view) &&
+	    $tpl_view !== "content" &&
+	    $tpl_view !== "print" &&
+	    $tpl_view !== "detail" &&
+	    $tpl_view !== "discuss" &&
+	    $tpl_view !== "cite"){
+	    //ignore unknown values
+	    $tpl_view = "content";
+	}*/
     
     /*SINGLETON CLASS*/
     public static function Instance(){
@@ -76,16 +75,26 @@ class WikiIocTpl {
     
     public function getTitle(){
         global $conf;
-        return tpl_pagetitle($this->contentComponent->getId(), true)
-                                                ." - ".hsc($conf["title"]); 
+        return tpl_pagetitle($this->contentComponent->getId(), true)." - ".hsc($conf["title"]); 
     }
     
     public function setScriptTemplateFile($fileName, $replace){
-        $this->scriptTemplateFile=$fileName;
+        $this->scriptTemplateFile = $fileName;
         $this->replaceInTemplateFile = $replace;
     }
     
+    public function printPage(){
+		global $conf, $lang;
+		echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
+		echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='".hsc($conf["lang"])."' lang='".hsc($conf["lang"])."' dir='".hsc($lang["direction"])."'>\n";
+		$this->printHeaderTags();
+		$this->printBody();
+		echo "</html>";
+	}
+	
     public function printHeaderTags(){
+        global $conf, $lang;
+		echo "<head>\n";
         echo "<meta charset='utf-8'/>\n";    
         echo "<meta http-equiv='X-UA-Compatible' content='IE=edge'/>\n";
         echo "<title>".$this->getTitle()."</title>\n";
@@ -106,32 +115,27 @@ class WikiIocTpl {
 
         //include default or userdefined favicon
         //
-        //note: since 2011-04-22 "Rincewind RC1", there is a core function named
-        //      "tpl_getFavicon()". But its functionality is not really fitting the
-        //      behaviour of this template, therefore I don't use it here.
+        //note: since 2011-04-22 "Rincewind RC1", there is a core function named "tpl_getFavicon()".
+        //      But its functionality is not really fitting the behaviour of this template, therefore I don't use it here.
         if (file_exists(DOKU_TPLINC."user/favicon.ico")){
-            //user defined - you might find http://tools.dynamicdrive.com/favicon/
-            //useful to generate one
+            //user defined - you might find http://tools.dynamicdrive.com/favicon/ useful to generate one
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."user/favicon.ico\" />\n";
         }elseif (file_exists(DOKU_TPLINC."user/favicon.png")){
-            //note: I do NOT recommend PNG for favicons (cause it is not supported by
-            //all browsers), but some users requested this feature.
+            //note: I do NOT recommend PNG for favicons (cause it is not supported by all browsers), but some users requested this feature.
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."user/favicon.png\" />\n";
         }else{
             //default
             echo "\n<link rel=\"shortcut icon\" href=\"".DOKU_TPL."static/3rd/dokuwiki/favicon.ico\" />\n";
         }
 
-        //include default or userdefined Apple Touch Icon (see <http://j.mp/sx3NMT> for
-        //details)
+        //include default or userdefined Apple Touch Icon (see <http://j.mp/sx3NMT> for details)
         if (file_exists(DOKU_TPLINC."user/apple-touch-icon.png")){
             echo "<link rel=\"apple-touch-icon\" href=\"".DOKU_TPL."user/apple-touch-icon.png\" />\n";
         }else{
             //default
             echo "<link rel=\"apple-touch-icon\" href=\"".DOKU_TPL."static/3rd/dokuwiki/apple-touch-icon.png\" />\n";
         }
-        
-        ////load userdefined js?
+        /*/load userdefined js?
         //if (tpl_getConf("vector_loaduserjs")){
         //    echo "<script type=\"text/javascript\" charset=\"utf-8\" src=\"".DOKU_TPL."user/user.js\"></script>\n";
         //}
@@ -144,7 +148,7 @@ class WikiIocTpl {
         //  echo  "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."static/3rd/dokuwiki/print.css\" />\n"
         //       ."<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."static/css/print.css\" />\n"
         //       ."<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"".DOKU_TPL."user/print.css\" />\n";
-        //}    
+        //} */   
 
         //load language specific css hacks?
         if (file_exists(DOKU_TPLINC."lang/".$conf["lang"]."/style.css")){
@@ -154,37 +158,90 @@ class WikiIocTpl {
           }
         }
         
-        print '<!--[if lt IE 7]><style type="text/css">body{behavior:url("'
-                .DOKU_TPL.'static/3rd/csshover.htc")}</style><![endif]-->'."\n";
-        
-        echo '<script>'."\n";
+        print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('".DOKU_TPL."static/3rd/csshover.htc')}</style><![endif]-->\n";
+        echo "<script>\n";
         echo "var dojoConfig = {\n";
         echo "    parseOnLoad:true,\n";
         echo "    async:true,\n";
         echo "    baseUrl: '/iocjslib/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
-        echo "\n};\n";
-        echo '</script>'."\n";
+        echo "};\n";
+        echo "</script>\n";
         
         if(@file_exists($this->scriptTemplateFile)){
             $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
             foreach ($this->replaceInTemplateFile as $key => $value) {
-                $contentTemplateFile = preg_replace('/'.$key.'/', 
-                                                    $value, 
-                                                    $contentTemplateFile);
+                $contentTemplateFile = preg_replace('/'.$key.'/', $value, $contentTemplateFile);
             }
             echo $contentTemplateFile;
         }
-
+		echo "</head>\n";
     }
     
-    public function printContentPage(){
+    public function printBody(){
+		echo "<body id='main' class='claro'>\n";
+		
+		// bloc superior: conté el logo i la #zona d'accions# (barra de menú)
+		echo "<div style='height: 55px; width: 100%;'>";	
+			echo $this->blocSuperiorComponent->getRenderingCode();
+		echo "</div>";
+
+		echo "<div id='mainContent'>\n";
+		echo "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
+		
+		// bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='left' splitter='true' minSize='150' maxSize='Infinity' style='width:190px;' closable='false'>\n";
+			//#zona de navegació#
+			echo "<div id='tb_container' style='height: 40%;'>\n";
+				echo $this->navigationComponent->getRenderingCode();
+			echo "</div>\n";
+			//#zona de propietats#
+			echo "<div style='height: 60%;'>\n";
+				echo $this->propertiesComponent->getRenderingCode();
+			echo "</div>\n";
+		echo "</div>\n";
+		
+		// bloc central
+		echo "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
+			echo $this->blocCentralComponent->getRenderingCode();
+		echo "</div>\n";
+
+		// bloc dreta
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='right' splitter='true' minSize='0' maxSize='Infinity' style='padding:0px; width: 80px;' closable='true'>\n";
+			echo $this->blocRightComponent->getRenderingCode();
+		echo "</div>\n";
+
+		// bloc inferior: mostra els missatges
+		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='bottom' splitter='true' maxSize='Infinity' style='height: 30px;' doLayout='false'>\n";
+			echo $this->blocInferiorComponent->getRenderingCode();
+		echo "</div>\n";
+		
+		echo "</div>\n</div>\n";
+		echo "</body>\n";
+	}
+
+	public function printContentPage(){
         $this->contentComponent->printRenderingCode();
     }
     
+    public function setBlocSuperiorComponent(&$component){
+        $this->blocSuperiorComponent = &$component;
+    }
+    public function setBlocCentralComponent(&$component){
+        $this->blocCentralComponent = &$component;
+    }
     public function setNavigationComponent(&$component){
-        $this->navigationComponent=&$component;
+        $this->navigationComponent = &$component;
+    }
+    public function setPropertiesComponent(&$component){
+        $this->propertiesComponent = &$component;
+    }
+    public function setBlocRightComponent(&$component){
+        $this->blocRightComponent = &$component;
+    }
+    public function setBlocInferiorComponent(&$component){
+        $this->blocInferiorComponent = &$component;
     }
     
     private function _storeRevision(){
@@ -194,7 +251,6 @@ class WikiIocTpl {
             $this->rev = (int)$INFO["lastmod"];
         }
     }
-
 
     /**
      * Stores the name the current client used to login
@@ -215,8 +271,7 @@ class WikiIocTpl {
     }
     
     private function _setLanguange(){
-        global $conf;
-        global $lang;
+        global $conf,$lang;
         //get needed language array
         include DOKU_TPLINC."lang/en/lang.php";
         //overwrite English language values with available translations
@@ -231,5 +286,4 @@ class WikiIocTpl {
     }
 
 }
-
 ?>
