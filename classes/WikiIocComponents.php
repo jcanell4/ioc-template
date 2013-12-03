@@ -298,28 +298,23 @@ class WikiIocTreeContainer extends WikiIocContentPane{
    function getRootValue(){
        return $this->rootValue;
    }
-
    function setRootValue($value){
         $this->rootValue=$value;
    }
-   
    function getTreeDataSource(){
        return $this->treeDataSource;
    }
-
    function setTreeDataSource($value){
         $this->treeDataSource=$value;
    }
-   
    function getPageDataSource(){
        return $this->pageDataSource;
    }
-
    function setPageDataSource($value){
         $this->pageDataSource=$value;
    }
    
-    protected function getPreContent(){
+   protected function getPreContent(){
         $ret = "<div id='{$this->getId()}' data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
                     ." title='{$this->getLabel()}' tooltip='{$this->getToolTip()}'"
                     ." extractContent='false' preventCache='false'"
@@ -340,12 +335,10 @@ class WikiIocTreeContainer extends WikiIocContentPane{
     }
     
    protected function getContent() {
-//        if($this->page!=NULL)
+		$ret="";
+//      if($this->page!=NULL)
 //			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->page, false)."\n</div>\n";
-//        else
-//			$ret="";
-//        return $ret;
-       return "";
+		return $ret;
     }
 }
 
