@@ -49,7 +49,7 @@ $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
-$blocRightContainer = new WikiIocRightContainer("zCanvi");
+$blocRightContainer = new WikiIocRightContainer("zonaCanvi");
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
 $blocRightContainer->putItem("bExit", $actionButtonExit);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
@@ -68,7 +68,7 @@ $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
 $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
 
-$blocBottomContainer = new WikiIocBottomContainer("area_missatges");
+$blocBottomContainer = new WikiIocBottomContainer("zonaMissatges");
 $blocBottomContainer->setMessage("àrea de missatges");
 
 //$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
