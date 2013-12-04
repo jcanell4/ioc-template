@@ -27,7 +27,7 @@ $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab("tb_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocPropertiesContainer = new WikiIocPropertiesContainer("propietats");
+$blocPropertiesContainer = new WikiIocPropertiesContainer("zonaPropietats");
 $blocPropertiesContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 $blocPropertiesContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 $blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -71,12 +71,14 @@ $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuCont
 $blocBottomContainer = new WikiIocBottomContainer("zonaMissatges");
 $blocBottomContainer->setMessage("àrea de missatges");
 
-//$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
-//$actionFormProva->putItem("idinput1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
+$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
+$actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
+$actionFormProva->putItem("frm_button1", new WikiIocButton("acceptar","acceptar","do=info"));
 
 $blocCentralContainer = new WikiIocCentralTabsContainer("bodyContent", WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
+$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
