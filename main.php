@@ -27,7 +27,7 @@ $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab("tb_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocPropertiesContainer = new WikiIocPropertiesContainer("propietats");
+$blocPropertiesContainer = new WikiIocPropertiesContainer("zonaPropietats");
 $blocPropertiesContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 $blocPropertiesContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 $blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -51,11 +51,11 @@ $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
 $blocRightContainer = new WikiIocRightContainer("zonaCanvi");
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
-$blocRightContainer->putItem("bExit", $actionButtonExit);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
 $blocRightContainer->putItem("bSave", $actionButtonSave);
 $blocRightContainer->putItem("bEdit", $actionButtonEdit);
 $blocRightContainer->putItem("bEditparc", $actionButtonEdparc);
+$blocRightContainer->putItem("bExit", $actionButtonExit);
 
 $blocBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior");
 $blocBarraMenuContainer->setPosition("fixed");
@@ -71,12 +71,17 @@ $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuCont
 $blocBottomContainer = new WikiIocBottomContainer("zonaMissatges");
 $blocBottomContainer->setMessage("àrea de missatges");
 
-//$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
-//$actionFormProva->putItem("idinput1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
+$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,20);
+$actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
+$botoSubmit = new WikiDojoButton("acceptar","acceptar");
+$botoSubmit->setAction = "alert('Es nota que amb el ratolí hi tens la mà trencada.')";
+$botoSubmit->setType("submit");
+$actionFormProva->putItem("frm_button1", $botoSubmit);
 
 $blocCentralContainer = new WikiIocCentralTabsContainer("bodyContent", WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
+$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);

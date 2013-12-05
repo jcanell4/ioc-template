@@ -411,8 +411,9 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 	}
 	
 	protected function getPreContent(){
-		$ret .= "\n<span id='{$this->getId()}Form' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>";
-		$ret .= "\n<span id='formContent' data-dojo-type='dijit.form.Form'>\n";
+		$ret = "<span id='{$this->getId()}Form' title='{$this->getLabel()}' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
+//		$ret.= "<span id='{$this->getId()}FormContent' data-dojo-type='dijit.form.Form'>\n";
+		$ret.= "<span id='{$this->getId()}FormContent' data-dojo-type='ioc.gui.iocForm'>\n";
 		return $ret;
 	}
     protected function getPostContent(){
@@ -514,7 +515,7 @@ class WikiDojoButton extends WikiIocComponent{
 	protected $displayBlock;
 	protected $fontSize;
 
-	function __construct($label="", $id=NULL, $action=NULL, $display=true, $displayBlock=true, $fontSize=1, $reqPackage=NULL){
+	function __construct($label="", $id=NULL, $action=NULL, $display=true, $displayBlock=true, $fontSize=1, $type='button', $reqPackage=NULL){
 		global $js_packages;
         if($reqPackage==NULL){
 			$reqPackage=array(
@@ -527,6 +528,7 @@ class WikiDojoButton extends WikiIocComponent{
 		$this->display = $display;
 		$this->displayBlock = $displayBlock;
 		$this->fontSize = $fontSize;
+		$this->type = $type;
 	}
 
 	public function setAction($action) {
@@ -541,12 +543,15 @@ class WikiDojoButton extends WikiIocComponent{
 	public function setFontSize($fontSize) {
 		$this->fontSize = $fontSize;
 	}
+	public function setType($type) {
+		$this->type = $type;
+	}
 
 	public function getRenderingCode() {
 		$display = $this->display ? 'true' : 'false';
 		$displayBlock = $this->displayBlock ? "iocDisplayBlock" : "dijitInline";
 		
-		$ret = "\n<input id='{$this->getId()}' class='$displayBlock' type='button' data-dojo-type='dijit.form.Button'"
+		$ret = "<input id='{$this->getId()}' class='$displayBlock' type='{$this->type}' data-dojo-type='dijit.form.Button'"
 				." data-dojo-props=\"onClick: function(){{$this->action}}, visible:$display\"" 
 				." label='{$this->getLabel()}' tabIndex='-1' intermediateChanges='false'"
 				." iconClass='dijitNoIcon' style='font-size:{$this->fontSize}em;'></input>\n";
@@ -581,7 +586,7 @@ class WikiIocButton extends WikiDojoButton{
 		$reqPackage=array(
 			array("name"=>"ioc", "location"=>$js_packages["ioc"])
 		);
-        parent::__construct($label, $id, $query, $display, $displayBlock, $reqPackage);
+        parent::__construct($label, $id, $query, $display, $displayBlock, 'button', $reqPackage);
 		$this->query = $query;
 		$this->autoSize = $autoSize;		
 	}
@@ -624,7 +629,7 @@ class WikiIocFormInputField extends WikiIocComponent{
 	}
    
     public function getRenderingCode() {
-        return "\n<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' /><br />";
+        return "<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' /><br />";
     }
 }
 
