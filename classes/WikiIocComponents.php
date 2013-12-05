@@ -411,8 +411,8 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 	}
 	
 	protected function getPreContent(){
-		$ret .= "\n<span id='{$this->getId()}Form' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>";
-		$ret .= "\n<span id='formContent' data-dojo-type='dijit.form.Form'>\n";
+		$ret = "<span id='{$this->getId()}Form' title='{$this->getLabel()}' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
+		$ret.= "<span id='{$this->getId()}FormContent' data-dojo-type='dijit.form.Form'>\n";
 		return $ret;
 	}
     protected function getPostContent(){
@@ -546,7 +546,7 @@ class WikiDojoButton extends WikiIocComponent{
 		$display = $this->display ? 'true' : 'false';
 		$displayBlock = $this->displayBlock ? "iocDisplayBlock" : "dijitInline";
 		
-		$ret = "\n<input id='{$this->getId()}' class='$displayBlock' type='button' data-dojo-type='dijit.form.Button'"
+		$ret = "<input id='{$this->getId()}' class='$displayBlock' type='button' data-dojo-type='dijit.form.Button'"
 				." data-dojo-props=\"onClick: function(){{$this->action}}, visible:$display\"" 
 				." label='{$this->getLabel()}' tabIndex='-1' intermediateChanges='false'"
 				." iconClass='dijitNoIcon' style='font-size:{$this->fontSize}em;'></input>\n";
@@ -624,7 +624,27 @@ class WikiIocFormInputField extends WikiIocComponent{
 	}
    
     public function getRenderingCode() {
-        return "\n<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' /><br />";
+        return "<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' /><br />";
+    }
+}
+
+class WikiIocFormSubmitButton extends WikiDojoButton{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		crea un botó 'submit' de la classe dijit.form.Button
+	 */
+	function __construct($label="", $id=NULL, $action=NULL, $display=true, $displayBlock=true, $fontSize=1){
+        parent::__construct($label, $id, $action, $display, $displayBlock, $fontSize);
+	}
+    public function getRenderingCode() {
+		$display = $this->display ? 'true' : 'false';
+		$displayBlock = $this->displayBlock ? "iocDisplayBlock" : "dijitInline";
+		
+		$ret = "<input id='{$this->getId()}' class='$displayBlock' type='button' data-dojo-type='dijit.form.Button'"
+				." data-dojo-props=\"onClick: function(){{$this->action}}, visible:$display\"" 
+				." label='{$this->getLabel()}' tabIndex='-1' intermediateChanges='false'"
+				." iconClass='dijitNoIcon' style='font-size:{$this->fontSize}em;'></input>\n";
+        return $ret;
     }
 }
 

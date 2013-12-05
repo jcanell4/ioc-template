@@ -71,9 +71,9 @@ $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuCont
 $blocBottomContainer = new WikiIocBottomContainer("zonaMissatges");
 $blocBottomContainer->setMessage("àrea de missatges");
 
-$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,0);
+$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,20);
 $actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
-$actionFormProva->putItem("frm_button1", new WikiIocButton("acceptar","acceptar","do=info"));
+$actionFormProva->putItem("frm_button1", new WikiIocFormSubmitButton("acceptar","acceptar","alert('Es nota que amb el ratolí hi tens la mà trencada.')"));
 
 $blocCentralContainer = new WikiIocCentralTabsContainer("bodyContent", WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
