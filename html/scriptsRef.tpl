@@ -28,7 +28,7 @@
      ,"dijit/form/DropDownButton" 
      ,"dijit/TooltipDialog"
      ,"dijit/form/TextBox"
-     ,"dijit/form/Form"        
+     ,"ioc/gui/IocForm"        
      ,"ioc/gui/ContentTabDokuwikiPage"
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"

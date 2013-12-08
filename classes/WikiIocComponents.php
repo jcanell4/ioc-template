@@ -413,7 +413,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 	protected function getPreContent(){
 		$ret = "<span id='{$this->getId()}Form' title='{$this->getLabel()}' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
 //		$ret.= "<span id='{$this->getId()}FormContent' data-dojo-type='dijit.form.Form'>\n";
-		$ret.= "<span id='{$this->getId()}_form' data-dojo-type='ioc.gui.iocForm'>\n";
+		$ret.= "<span id='{$this->getId()}_form' data-dojo-type='ioc.gui.IocForm'>\n";
 		return $ret;
 	}
     protected function getPostContent(){
