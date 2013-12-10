@@ -374,12 +374,14 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 	 *		dissenyat per contenir items.
 	 *		Els métodes de construcció els hereda de WikiIocItemsContainer.
 	 */
+	private $action;
+	private $urlBase;
 	private $position;
 	private $top;
 	private $left;
 	private $zindex;
 
-    public function __construct($id, $label="", $position="static", $top=0, $left=0, $zindex=900){
+    public function __construct($label="", $id=NULL, $action=NULL, $position="static", $top=0, $left=0, $zindex=900){
         global $js_packages;
         $reqPackage=array(
                 array("name"=>"ioc", "location"=>$js_packages["ioc"]),
@@ -387,6 +389,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
                 array("name"=>"dijit", "location"=>$js_packages["dijit"])
         );
         parent::__construct($label, $id, $reqPackage);
+		$this->action = $action;
 		$this->position = $position;
 		$this->top = $top;
 		$this->left = $left;
@@ -409,15 +412,27 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 		$this->top = $top;
 		$this->left = $left;
 	}
+	public function setAction($action) {
+		$this->action = $action;
+	}
+	public function setUrlBase($url) {
+		$this->urlBase = $url;
+	}
 	
 	protected function getPreContent(){
-		$ret = "<span id='{$this->getId()}Form' title='{$this->getLabel()}' style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
-//		$ret.= "<span id='{$this->getId()}FormContent' data-dojo-type='dijit.form.Form'>\n";
-		$ret.= "<span id='{$this->getId()}_form' data-dojo-type='ioc.gui.IocForm'>\n";
+        $ret = "<span id='{$this->getId()}' title='{$this->getLabel()}' tooltip='{$this->getToolTip()}'"
+				//." extractContent='false' preventCache='false' preload='false' refreshOnShow='false' closable='false' doLayout='false'"
+				." style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
+		if ($this->action==NULL)
+			$ret.= "<script>alert('No s'ha definit lelement action al formulari [{$this->getLabel()}].');</script>\n";
+		$ret.= "<span id='{$this->getId()}_form' data-dojo-type='ioc.gui.IocForm'"
+				." data-dojo-props=\"action:'{$this->action}', urlBase:'{$this->urlBase}'\">\n";
 		return $ret;
 	}
     protected function getPostContent(){
-        return "</span>\n</span>\n";
+		//if ($this->action !== NULL) 
+		$ret = "</span>\n</span>\n";
+        return $ret;
     }
 }
 
@@ -778,12 +793,10 @@ class WikiIocProperty extends WikiIocComponent{
 	 */
 	function __construct($label="", $id=NULL, $title="", $selected=false){
 		global $js_packages;
-        if($reqPackage==NULL){
-			$reqPackage=array(
-				array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-				array("name"=>"dijit","location"=>$js_packages["dijit"])
-			);
-		}
+		$reqPackage=array(
+			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+			array("name"=>"dijit","location"=>$js_packages["dijit"])
+		);
         parent::__construct($label, $id, $reqPackage);
 		$this->title = $title;
 		$this->selected = ($selected) ? "selected='true'" : "";
@@ -953,10 +966,12 @@ class WikiIocBottomContainer extends WikiIocContainer{
 	}
 
 	protected function getPreContent(){
-		return "";
+		$ret = "<div id='{$this->getId()}' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false'"; 
+		$ret.= "preload='false' refreshOnShow='false' closable='false' doLayout='false'>";
+		return $ret;
 	}
 	protected function getPostContent(){
-		return "";
+		return "</div>\n";
 	}
 	protected function getContent(){
 		return $this->missatge;

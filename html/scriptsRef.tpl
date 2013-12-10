@@ -24,8 +24,6 @@
      ,"dijit/layout/AccordionContainer"
      ,"dijit/Toolbar"
      ,"dijit/layout/SplitContainer"
-     ,"dijit/form/Button"
-     ,"dijit/form/DropDownButton" 
      ,"dijit/TooltipDialog"
      ,"dijit/form/TextBox"
      ,"ioc/gui/IocForm"        
@@ -43,6 +41,7 @@
         });
         */
         wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
+        wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
         wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
         ready(function(){
             var tbContainer = registry.byId("nav");
@@ -54,7 +53,7 @@
             tbContainer = registry.byId("tb_docu");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
-            tbContainer.set("standbyId", "dijit_layout_ContentPane_7");
+            tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             
             tbContainer = registry.byId("tb_index");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
@@ -71,7 +70,7 @@
             tbContainer = registry.byId("exitButton");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
-//            tbContainer.set("standbyId", "loginDialog_hidden_container");
+			//tbContainer.set("standbyId", "loginDialog_hidden_container");
         });
     });
 </script>

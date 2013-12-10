@@ -19,6 +19,10 @@ require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $tpl = WikiIocTpl::Instance();
 
+// Variables
+$bodyContent = "bodyContent";
+$zonaMissatges = "zonaMissatges";
+
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
 $actionTabContainer = new WikiIocTabsContainer("nav", WikiIocTabsContainer::RESIZING_TAB_TYPE);
 $actionTabContainer->putTab("tb_index", new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
@@ -34,6 +38,7 @@ $blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pD
 $blocPropertiesContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
+//$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,true,true);
 $actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
 $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,true);
 $actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
@@ -68,17 +73,19 @@ $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
 $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
 
-$blocBottomContainer = new WikiIocBottomContainer("zonaMissatges");
+$blocBottomContainer = new WikiIocBottomContainer($zonaMissatges);
 $blocBottomContainer->setMessage("àrea de missatges");
 
-$actionFormProva = new WikiDojoFormContainer("form_proves","formproves","relative",40,20);
+$actionFormProva = new WikiDojoFormContainer("formulari-prova",NULL,NULL,"relative",40,20);
+$actionFormProva->setAction("commandreport");
+$actionFormProva->setUrlBase("lib/plugins/ajaxcommand/ajax.php?call=");
 $actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
 $botoSubmit = new WikiDojoButton("acceptar","acceptar");
-$botoSubmit->setAction = "alert('Es nota que amb el ratolí hi tens la mà trencada.')";
+//$botoSubmit->setAction("alert('Es nota que amb el ratolí hi tens la mà trencada.')");
 $botoSubmit->setType("submit");
 $actionFormProva->putItem("frm_button1", $botoSubmit);
 
-$blocCentralContainer = new WikiIocCentralTabsContainer("bodyContent", WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
+$blocCentralContainer = new WikiIocCentralTabsContainer($bodyContent, WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
 $blocCentralContainer->putTab("frm_prova", $actionFormProva);
@@ -89,10 +96,11 @@ if(!empty($_REQUEST["tb_container_sel"])){
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
 $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", 
-		array('%%ID%%'=>"ajax"
-			, '%%SECTOK%%'=>getSecurityToken()
-			, '@@MAIN_CONTENT@@'=>"mainContent"
-			, '@@BODY_CONTENT@@'=>"bodyContent"
+		array('%%ID%%' => "ajax"
+			, '%%SECTOK%%' => getSecurityToken()
+			, '@@MAIN_CONTENT@@' => "mainContent"
+			, '@@BODY_CONTENT@@' => $bodyContent
+			, '@@INFO_NODE_ID@@' => $zonaMissatges
 		));
 
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
