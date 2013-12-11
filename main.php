@@ -38,7 +38,6 @@ $blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pD
 $blocPropertiesContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
-//$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,true,true);
 $actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
 $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,true);
 $actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
@@ -65,9 +64,10 @@ $blocRightContainer->putItem("bExit", $actionButtonExit);
 $blocBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior");
 $blocBarraMenuContainer->setPosition("fixed");
 $blocBarraMenuContainer->setTopLeft(25,275);
-$blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","v_dojoButton","alert('VISTA')",true,false));
-$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","e_dojoButton","alert('EDICIO')",true,false));
-$blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","c_dojoButton","alert('CORRECCIO')",true,false));
+$blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
+$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
+$blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
+$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("FORMULARI DE PROVA","menu_formulari","alert('CORRECCIO')",true,false));
 
 $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
@@ -79,8 +79,8 @@ $blocBottomContainer->setMessage("àrea de missatges");
 $actionFormProva = new WikiDojoFormContainer("formulari-prova",NULL,NULL,"relative",40,20);
 $actionFormProva->setAction("commandreport");
 $actionFormProva->setUrlBase("lib/plugins/ajaxcommand/ajax.php?call=");
-$actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input_1", "input_1"));
-$botoSubmit = new WikiDojoButton("acceptar","acceptar");
+$actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input1"));
+$botoSubmit = new WikiDojoButton("acceptar");
 //$botoSubmit->setAction("alert('Es nota que amb el ratolí hi tens la mà trencada.')");
 $botoSubmit->setType("submit");
 $actionFormProva->putItem("frm_button1", $botoSubmit);

@@ -58,7 +58,6 @@
             tbContainer = registry.byId("tb_index");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
-            //tbContainer.set("standbyId", "dijit_layout_ContentPane_7");
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tbContainer);
             tbContainer.updateSectok();
