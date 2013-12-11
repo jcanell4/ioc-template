@@ -169,9 +169,13 @@ class WikiIocTpl {
 		echo "</div>\n";
 		
 		// bloc central
-		echo "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
+		// Tant el contenidor div id='content' con la classe 'dokuwiki' del seu contenidor fill, 
+		// s'han creat per compatibilitat amb els continguts actuals de la wiki i els CSS assosciats
+		// a aquests atributs, però no formen part original del contenidor central d'aquesta "Zona de Treball"
+		echo "<div id='content'>";
+		echo "<div class='ioc_content dokuwiki' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
 			echo $this->blocCentralComponent->getRenderingCode();
-		echo "</div>\n";
+		echo "</div>\n</div>\n";
 
 		// bloc dreta
 		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='right' splitter='true' minSize='0' maxSize='Infinity' style='padding:0px; width:65px;' closable='true'>\n";
