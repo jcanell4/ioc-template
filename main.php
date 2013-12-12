@@ -67,7 +67,7 @@ $blocBarraMenuContainer->setTopLeft(25,275);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
 $blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
 $blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
-$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("FORMULARI DE PROVA","menu_formulari","alert('CORRECCIO')",true,false));
+$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("FORMULARI DE PROVA","menu_formulari","alert('FORMULARI DE PROVA')",true,false));
 
 $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
@@ -88,7 +88,7 @@ $actionFormProva->putItem("frm_button1", $botoSubmit);
 $blocCentralContainer = new WikiIocCentralTabsContainer($bodyContent, WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
-$blocCentralContainer->putTab("frm_prova", $actionFormProva);
+//$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
 if(!empty($_REQUEST["tb_container_sel"])){
     $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
