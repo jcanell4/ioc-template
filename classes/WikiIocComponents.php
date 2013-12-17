@@ -345,7 +345,7 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
     }
 
 	protected function getPreContent(){
-		return "\n<div id='{$this->getId()}Dialog' data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
+		return "\n<div id='{$this->getId()}' data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
 	}
     protected function getPostContent(){
         return "</div>\n";
@@ -447,7 +447,7 @@ class WikiIocDropDownButton extends WikiIocContainer{
 	private $displayBlock;
 	private $actionHidden;
 
-	function __construct($label="", $id=NULL, $autoSize=false, $display=true, $displayBlock=true, $actionHidden=NULL){
+	function __construct($id=NULL, $label="", $autoSize=false, $display=true, $displayBlock=true, $actionHidden=NULL){
 		global $js_packages;
 		$reqPackage=array(
 			array("name"=>"ioc", "location"=>$js_packages["ioc"]),
@@ -479,7 +479,7 @@ class WikiIocDropDownButton extends WikiIocContainer{
 		$display = $this->display ? 'true' : 'false';
 		$displayBlock = $this->displayBlock ? "iocDisplayBlock" : "dijitInline";
 		
-		$ret = "\n<div id='{$this->getId()}Button' data-dojo-type='ioc.gui.IocDropDownButton' class='$displayBlock' style='font-size:0.75em'"
+		$ret = "\n<div id='{$this->getId()}' data-dojo-type='ioc.gui.IocDropDownButton' class='$displayBlock' style='font-size:0.75em'"
 				." data-dojo-props=\"autoSize:$autoSize, visible:$display\">" 
 				."\n<span>{$this->getLabel()}</span>";
         return $ret;

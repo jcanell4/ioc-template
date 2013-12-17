@@ -8,6 +8,7 @@
      ,"dijit/registry"
      ,"dojo/ready"
      ,"dojo/_base/lang"
+	 ,"dojo/_base/array"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
@@ -31,7 +32,7 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, array){
         var h = 100*(win.getBox().h-55)/win.getBox().h;
         var divMainContent = dom.byId("@@MAIN_CONTENT@@");
         domStyle.set(divMainContent, "height", h+"%");
@@ -42,7 +43,13 @@
         */
         wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
         wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
-        wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
+		wikiIocDispatcher.tab_index = '@@TAB_INDEX@@';
+		wikiIocDispatcher.tab_docu = '@@TAB_DOCU@@';
+		wikiIocDispatcher.login_dialog = '@@LOGIN_DIALOG@@';
+		wikiIocDispatcher.login_button = '@@LOGIN_BUTTON@@';
+
+		wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
+		
         ready(function(){
             var tbContainer = registry.byId("nav");
 			tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
@@ -50,19 +57,19 @@
 					newTab.updateRendering();
 			});
 			
-            tbContainer = registry.byId("tb_docu");
-            //tbContainer.set("dispatcher", wikiIocDispatcher);
-            tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
-            tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
-            
-            tbContainer = registry.byId("tb_index");
+            tbContainer = registry.byId(wikiIocDispatcher.tab_index);
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tbContainer);
             tbContainer.updateSectok();
 
-            tbContainer = registry.byId("loginDialog");
+            tbContainer = registry.byId(wikiIocDispatcher.tab_docu);
+            //tbContainer.set("dispatcher", wikiIocDispatcher);
+            tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
+            tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
+            
+            tbContainer = registry.byId(wikiIocDispatcher.login_dialog);
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             tbContainer.set("standbyId", "loginDialog_hidden_container");
@@ -71,6 +78,16 @@
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 			//tbContainer.set("standbyId", "loginDialog_hidden_container");
+			
+			var loginDialog = registry.byId(wikiIocDispatcher.login_dialog);
+			loginDialog.on('hide',function(){
+				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
+				array.forEach(
+				    query("input[type='text']", node),
+					function(selectTag){ selectTag.value = ""; }
+				);
+			});
+
         });
     });
 </script>

@@ -22,13 +22,17 @@ $tpl = WikiIocTpl::Instance();
 // Variables
 $bodyContent = "bodyContent";
 $zonaMissatges = "zonaMissatges";
+$tb_index = "tb_index";
+$tb_docu = "tb_docu";
+$loginDialog = "loginDialog";
+$loginButton = "loginButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
 $actionTabContainer = new WikiIocTabsContainer("nav", WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab("tb_index", new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
 $actionTabContainer->putTab("tb_perfil", new WikiIocContentPane("Perfil"));
 $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
-$actionTabContainer->putTab("tb_docu", new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
+$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
 $blocPropertiesContainer = new WikiIocPropertiesContainer("zonaPropietats");
@@ -43,11 +47,11 @@ $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,t
 $actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
 $actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
 
-$actionItemDropDownComponent = new WikiIocHiddenDialog("login","login");
+$actionItemDropDownComponent = new WikiIocHiddenDialog($loginDialog,"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
 $actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p"));
 
-$actionDropDownButtonLogin = new WikiIocDropDownButton("Entrar","login");
+$actionDropDownButtonLogin = new WikiIocDropDownButton($loginButton,"Entrar");
 $actionDropDownButtonLogin->setAutoSize(true);
 $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
@@ -101,6 +105,10 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '@@MAIN_CONTENT@@' => "mainContent"
 			, '@@BODY_CONTENT@@' => $bodyContent
 			, '@@INFO_NODE_ID@@' => $zonaMissatges
+			, '@@TAB_INDEX@@'    => $tb_index
+			, '@@TAB_DOCU@@'     => $tb_docu
+			, '@@LOGIN_DIALOG@@' => $loginDialog
+			, '@@LOGIN_BUTTON@@' => $loginButton
 		));
 
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
