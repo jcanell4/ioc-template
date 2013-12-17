@@ -79,17 +79,26 @@
             loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             loginDialog.set("standbyId", "loginDialog_hidden_container");
             
-			loginDialog.on('hide',function(){
-				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
-				node.reset();
-			});
+            loginDialog.on('hide',function(){
+                /*farem el reset des del widget. Així si fos necessari 
+                 * funcionarien tots els events. Si ho fas des del node no 
+                 * funcionarien*/ 
+                loginDialog.reset(); 
+            });
+            
 
-			var loginCancelButton = registry.byId(wikiIocDispatcher.login_dialog+'_CancelButton');
-			loginCancelButton.on('click',function(){
-				var node = dom.byId(wikiIocDispatcher.login_dialog);
-	            domStyle.set(node, "display", "none");
-			});
+            var loginCancelButton = registry.byId(
+                                wikiIocDispatcher.login_dialog+'_CancelButton');
+            
+            loginCancelButton.on('click',function(){
+                /*DropDownButton té un mètode que amaga el seu contingut. es 
+                 * diu closeDropDown. se li passa true si volem deixar el focus 
+                 * en el botó. En principi ens és igual true que false. Ho 
+                 * deixem a false?*/
+                var but = registry.byId(wikiIocDispatcher.login_button);
+                but.closeDropDown(false);
 
+            });
         });
     });
 </script>
