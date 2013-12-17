@@ -79,15 +79,15 @@
             loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             loginDialog.set("standbyId", "loginDialog_hidden_container");
             
-			loginDialog.on('reset',function(){
-				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
-				var nodePare = node.parent;
-				style.set(node, "display", "none");;
-			});
-
 			loginDialog.on('hide',function(){
 				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
 				node.reset();
+			});
+
+			var loginCancelButton = registry.byId(wikiIocDispatcher.login_dialog+'_CancelButton');
+			loginCancelButton.on('click',function(){
+				var node = dom.byId(wikiIocDispatcher.login_dialog);
+	            domStyle.set(node, "display", "none");
 			});
 
         });
