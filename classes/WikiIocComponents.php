@@ -624,18 +624,24 @@ class WikiIocFormInputField extends WikiIocComponent{
 	 *		Aquest item és un input textbox de la classe dijit.form.TextBox
 	 */
 	private $name;
+	private $type;
 
-	function __construct($label="", $id=NULL, $name=NULL){
+	function __construct($label="", $id=NULL, $name=NULL, $type=NULL){
 		global $js_packages;
 		$reqPackage=array(
 			array("name"=>"dojo", "location"=>$js_packages["dojo"])
 		);
         parent::__construct($label, $id, $reqPackage);
         $this->name = ($name == NULL) ? $this->getId() : $name;
+		$this->type = ($type == NULL) ? "" : "type='$type' ";
 	}
-   
+	
+	public function setType($type){
+		$this->type = ($type == NULL) ? "" : "type='$type' ";
+	}
+	
     public function getRenderingCode() {
-        return "<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' /><br />";
+        return "<label for='{$this->getId()}'>{$this->getLabel()}</label> <input data-dojo-type='dijit.form.TextBox' id='{$this->getId()}' name='{$this->name}' {$this->type}/><br />";
     }
 }
 

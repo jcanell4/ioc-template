@@ -8,7 +8,6 @@
      ,"dijit/registry"
      ,"dojo/ready"
      ,"dojo/_base/lang"
-	 ,"dojo/_base/array"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
@@ -32,7 +31,7 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, array){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
         var h = 100*(win.getBox().h-55)/win.getBox().h;
         var divMainContent = dom.byId("@@MAIN_CONTENT@@");
         domStyle.set(divMainContent, "height", h+"%");
