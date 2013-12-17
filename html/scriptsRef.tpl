@@ -69,23 +69,25 @@
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             
-            tbContainer = registry.byId(wikiIocDispatcher.login_dialog);
-            //tbContainer.set("dispatcher", wikiIocDispatcher);
-            tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
-            tbContainer.set("standbyId", "loginDialog_hidden_container");
-            
             tbContainer = registry.byId("exitButton");
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 			//tbContainer.set("standbyId", "loginDialog_hidden_container");
 			
 			var loginDialog = registry.byId(wikiIocDispatcher.login_dialog);
+            //loginDialog.set("dispatcher", wikiIocDispatcher);
+            loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
+            loginDialog.set("standbyId", "loginDialog_hidden_container");
+            
+			loginDialog.on('reset',function(){
+				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
+				var nodePare = node.parent;
+				style.set(node, "display", "none");;
+			});
+
 			loginDialog.on('hide',function(){
 				var node = dom.byId(wikiIocDispatcher.login_dialog+'_form');
-				array.forEach(
-				    query("input[type='text']", node),
-					function(selectTag){ selectTag.value = ""; }
-				);
+				node.reset();
 			});
 
         });
