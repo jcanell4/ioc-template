@@ -49,7 +49,7 @@ $actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",t
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($loginDialog,"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
-$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p"));
+$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p","password"));
 
 $actionDropDownButtonLogin = new WikiIocDropDownButton($loginButton,"Entrar");
 $actionDropDownButtonLogin->setAutoSize(true);
