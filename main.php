@@ -21,6 +21,7 @@ $tpl = WikiIocTpl::Instance();
 
 // Variables
 $bodyContent = "bodyContent";
+$zonaMetaInfo = "zonaMetaInfo";
 $zonaMissatges = "zonaMissatges";
 $tb_index = "tb_index";
 $tb_docu = "tb_docu";
@@ -35,11 +36,11 @@ $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocPropertiesContainer = new WikiIocPropertiesContainer("zonaPropietats");
-$blocPropertiesContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
-$blocPropertiesContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
-$blocPropertiesContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
-$blocPropertiesContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
+$blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
+//$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
+//$blocMetaInfoContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
+//$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
+//$blocMetaInfoContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
 $actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
@@ -71,7 +72,11 @@ $blocBarraMenuContainer->setTopLeft(25,275);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
 $blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
 $blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
-$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("FORMULARI DE PROVA","menu_formulari","alert('FORMULARI DE PROVA')",true,false));
+//$botoMenuMetaInfo = new WikiDojoButton("Nova MetaInfo","menu_metainfo","",true,false);
+//$array = array('type'=>"metainfo, 'value'=>array('id'=>"meta3", 'docId'=>"doc_meta3", 'title'=>"títol MetaInfo", 'content'=>"contingut meta informació 3"));
+//$botoMenuMetaInfo->setAction("procResponse($array)");
+//$blocBarraMenuContainer->putItem(barFormulari, $botoMenuMetaInfo);
+//$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("Nova MetaInfo","menu_MetaInfo","alert('metainfo')",true,false));
 
 $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
@@ -104,6 +109,7 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '%%SECTOK%%' => getSecurityToken()
 			, '@@MAIN_CONTENT@@' => "mainContent"
 			, '@@BODY_CONTENT@@' => $bodyContent
+			, '@@METAINFO_NODE_ID@@' => $zonaMetaInfo
 			, '@@INFO_NODE_ID@@' => $zonaMissatges
 			, '@@TAB_INDEX@@'    => $tb_index
 			, '@@TAB_DOCU@@'     => $tb_docu
@@ -114,7 +120,7 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
 $tpl->setBlocCentralComponent($blocCentralContainer);
 $tpl->setNavigationComponent($actionTabContainer);
-$tpl->setPropertiesComponent($blocPropertiesContainer);
+$tpl->setMetaInfoComponent($blocMetaInfoContainer);
 $tpl->setBlocRightComponent($blocRightContainer);
 $tpl->setBlocInferiorComponent($blocBottomContainer);
 

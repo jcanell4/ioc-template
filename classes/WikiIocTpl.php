@@ -14,7 +14,7 @@ class WikiIocTpl {
     private $blocSuperiorComponent;
     private $blocCentralComponent;
     private $navigationComponent;
-    private $propertiesComponent;
+    private $metaInfoComponent;
     private $blocRightComponent;
     private $blocInferiorComponent;
     private $loginname;
@@ -162,9 +162,9 @@ class WikiIocTpl {
 			echo "<div id='tb_container' style='height: 40%;'>\n";
 				echo $this->navigationComponent->getRenderingCode();
 			echo "</div>\n";
-			//#zona de propietats#
+			//#zona de meta-informació#
 			echo "<div style='height: 60%;'>\n";
-				echo $this->propertiesComponent->getRenderingCode();
+				echo $this->metaInfoComponent->getRenderingCode();
 			echo "</div>\n";
 		echo "</div>\n";
 		
@@ -203,8 +203,8 @@ class WikiIocTpl {
     public function setNavigationComponent(&$component){
         $this->navigationComponent = &$component;
     }
-    public function setPropertiesComponent(&$component){
-        $this->propertiesComponent = &$component;
+    public function setMetaInfoComponent(&$component){
+        $this->metaInfoComponent = &$component;
     }
     public function setBlocRightComponent(&$component){
         $this->blocRightComponent = &$component;

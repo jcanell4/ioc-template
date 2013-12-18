@@ -41,13 +41,14 @@
         });
         */
         wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
+		wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
         wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
-		wikiIocDispatcher.tab_index = '@@TAB_INDEX@@';
-		wikiIocDispatcher.tab_docu = '@@TAB_DOCU@@';
-		wikiIocDispatcher.login_dialog = '@@LOGIN_DIALOG@@';
-		wikiIocDispatcher.login_button = '@@LOGIN_BUTTON@@';
-
 		wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
+		
+		var tab_index = '@@TAB_INDEX@@';
+		var tab_docu = '@@TAB_DOCU@@';
+		var login_dialog = '@@LOGIN_DIALOG@@';
+		var login_button = '@@LOGIN_BUTTON@@';
 		
         ready(function(){
             var tbContainer = registry.byId("nav");
@@ -56,14 +57,14 @@
 					newTab.updateRendering();
 			});
 			
-            tbContainer = registry.byId(wikiIocDispatcher.tab_index);
+            tbContainer = registry.byId(tab_index);
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tbContainer);
             tbContainer.updateSectok();
 
-            tbContainer = registry.byId(wikiIocDispatcher.tab_docu);
+            tbContainer = registry.byId(tab_docu);
             //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
@@ -73,32 +74,25 @@
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 			//tbContainer.set("standbyId", "loginDialog_hidden_container");
 			
-			var loginDialog = registry.byId(wikiIocDispatcher.login_dialog);
+			var loginDialog = registry.byId(login_dialog);
             //loginDialog.set("dispatcher", wikiIocDispatcher);
             loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             loginDialog.set("standbyId", "loginDialog_hidden_container");
             
             loginDialog.on('hide',function(){
-                /*farem el reset des del widget. Així si fos necessari 
-                 * funcionarien tots els events. Si ho fas des del node no 
-                 * funcionarien*/ 
                 loginDialog.reset(); 
             });
             
-
-            var loginCancelButton = registry.byId(
-                                wikiIocDispatcher.login_dialog+'_CancelButton');
-            
+            var loginCancelButton = registry.byId(login_dialog+'_CancelButton');
             loginCancelButton.on('click',function(){
-                /*DropDownButton té un mètode que amaga el seu contingut. es 
-                 * diu closeDropDown. se li passa true si volem deixar el focus 
-                 * en el botó. En principi ens és igual true que false. Ho 
-                 * deixem a false?*/
-                var but = registry.byId(wikiIocDispatcher.login_button);
+                var but = registry.byId(login_button);
                 but.closeDropDown(false);
-
             });
-        });
+
+			var array = {'type':'metainfo', 'value':{'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3", 'docId':'id_doc3'}};
+			wikiIocDispatcher.processResponse(array);
+		});
+		
     });
 </script>
 

@@ -757,7 +757,7 @@ class WikiIocRightContainer extends WikiIocItemsContainer{
     }
 }
 
-class WikiIocPropertiesContainer extends WikiIocItemsContainer{
+class WikiIocMetaInfoContainer extends WikiIocItemsContainer{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Crea un contenidor per allotjar els items de la #zona de propietats# (part esquerre).
@@ -776,7 +776,7 @@ class WikiIocPropertiesContainer extends WikiIocItemsContainer{
 	}
 	
     protected function getPreContent(){
-        return "<span data-dojo-type='dijit.layout.AccordionContainer' duration='200' persist='false' style='min-width: 1em; min-height: 1em; width: 100%; height: 100%;'>";
+        return "<span id='{$this->getId()}' data-dojo-type='dijit.layout.AccordionContainer' data-dojo-props='id:\"{$this->getId()}\"' duration='200' persist='false' style='min-width: 1em; min-height: 1em; width: 100%; height: 100%;'>\n";
 	}
 	protected function getPostContent(){
         return "</span>";
