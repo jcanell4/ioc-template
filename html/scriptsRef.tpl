@@ -41,6 +41,7 @@
         });
         */
         wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
+        wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
 		wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
         wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
 		wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
@@ -51,7 +52,7 @@
 		var login_button = '@@LOGIN_BUTTON@@';
 		
         ready(function(){
-            var tbContainer = registry.byId("nav");
+            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 			tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
 				if (newTab.updateRendering)
 					newTab.updateRendering();

@@ -21,6 +21,7 @@ $tpl = WikiIocTpl::Instance();
 
 // Variables
 $bodyContent = "bodyContent";
+$zonaNavegacio = "zonaNavegacio"; // ojo, ojito, musho cuidadito, antes se llamaba "nav"
 $zonaMetaInfo = "zonaMetaInfo";
 $zonaMissatges = "zonaMissatges";
 $tb_index = "tb_index";
@@ -29,7 +30,7 @@ $loginDialog = "loginDialog";
 $loginButton = "loginButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
-$actionTabContainer = new WikiIocTabsContainer("nav", WikiIocTabsContainer::RESIZING_TAB_TYPE);
+$actionTabContainer = new WikiIocTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
 $actionTabContainer->putTab($tb_index, new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
 $actionTabContainer->putTab("tb_perfil", new WikiIocContentPane("Perfil"));
 $actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
@@ -109,6 +110,7 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '%%SECTOK%%' => getSecurityToken()
 			, '@@MAIN_CONTENT@@' => "mainContent"
 			, '@@BODY_CONTENT@@' => $bodyContent
+			, '@@NAVEGACIO_NODE_ID@@' => $zonaNavegacio
 			, '@@METAINFO_NODE_ID@@' => $zonaMetaInfo
 			, '@@INFO_NODE_ID@@' => $zonaMissatges
 			, '@@TAB_INDEX@@'    => $tb_index
