@@ -28,6 +28,7 @@ $tb_index = "tb_index";
 $tb_docu = "tb_docu";
 $loginDialog = "loginDialog";
 $loginButton = "loginButton";
+$exitButton = "exitButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
 $actionTabContainer = new WikiIocTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
@@ -112,6 +113,7 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '@@TAB_DOCU@@'     => $tb_docu
 			, '@@LOGIN_DIALOG@@' => $loginDialog
 			, '@@LOGIN_BUTTON@@' => $loginButton
+			, '@@EXIT_BUTTON@@' => $exitButton
 		));
 
 $tpl->setBlocSuperiorComponent($blocHeadContainer);

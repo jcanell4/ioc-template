@@ -890,7 +890,6 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
 		$useMenu = $this->hasMenuButton() ? "true" : "false";
 		$useSlider = $this->hasScrollingButtons() ? "true" : "false";
 		
-		//$ret = "<div class='ioc_content' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
         $ret = "<div id='{$this->getId()}' data-dojo-type='dijit.layout.TabContainer' persist='false'";
         if($this->tabType==1 /*SCROLLING*/){
             $ret.=" controllerWidget='dijit.layout.ScrollingTabController'";
