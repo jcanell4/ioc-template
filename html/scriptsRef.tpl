@@ -91,7 +91,7 @@
             });
 
 			//Prova per insertar un nou element a la zona de metainformació
-			//var array = {'type':'metainfo', 'value':{'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3", 'docId':'id_doc3'}};
+			//var array = {'type':'metainfo', 'value':{'docId':'id_doc3', 'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3"}};
 			//wikiIocDispatcher.processResponse(array);
 		});
 		

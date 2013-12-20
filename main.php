@@ -21,7 +21,7 @@ $tpl = WikiIocTpl::Instance();
 
 // Variables
 $bodyContent = "bodyContent";
-$zonaNavegacio = "zonaNavegacio"; // ojo, ojito, musho cuidadito, antes se llamaba "nav"
+$zonaNavegacio = "zonaNavegacio"; //ojo, ojito, musho cuidadito, antes se llamaba "nav"
 $zonaMetaInfo = "zonaMetaInfo";
 $zonaMissatges = "zonaMissatges";
 $tb_index = "tb_index";
@@ -73,11 +73,6 @@ $blocBarraMenuContainer->setTopLeft(25,275);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
 $blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
 $blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
-//$botoMenuMetaInfo = new WikiDojoButton("Nova MetaInfo","menu_metainfo","",true,false);
-//$array = array('type'=>"metainfo, 'value'=>array('id'=>"meta3", 'docId'=>"doc_meta3", 'title'=>"títol MetaInfo", 'content'=>"contingut meta informació 3"));
-//$botoMenuMetaInfo->setAction("procResponse($array)");
-//$blocBarraMenuContainer->putItem(barFormulari, $botoMenuMetaInfo);
-//$blocBarraMenuContainer->putItem(barFormulari, new WikiDojoButton("Nova MetaInfo","menu_MetaInfo","alert('metainfo')",true,false));
 
 $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
