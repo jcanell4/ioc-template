@@ -6,6 +6,7 @@ if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classe
 if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPLINC.'conf/');
 
 require_once(DOKU_TPL_CLASSES.'WikiIocComponent.php');
+require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponents.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
 abstract class WikiIocContainer extends WikiIocComponent{

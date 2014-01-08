@@ -8,14 +8,7 @@ if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPLINC.'conf/');
 require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponent.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
-abstract class WikiIocCfgContainer extends WikiIocCfgComponent{
-	
-    function __construct($label="", $id=NULL, $requiredPackages=NULL){
-        parent::__construct($label, $id, $requiredPackages);
-    }
-}
-
-abstract class WikiIocCfgItemsContainer extends WikiIocCfgContainer {
+abstract class WikiIocCfgItemsContainer extends WikiIocCfgComponent {
 	protected $items;
 	
     function __construct($label="", $id=NULL, $reqPackage=NULL){
@@ -121,7 +114,7 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     }
 }
 
-class WikiIocCfgContentPane extends WikiIocCfgContainer{
+class WikiIocCfgContentPane extends WikiIocCfgComponent{
 	
     function __construct($label="", $id=NULL, $reqPackage=NULL){
         global $js_packages;
@@ -223,13 +216,6 @@ class WikiIocCfgHiddenDialog extends WikiIocCfgItemsContainer {
         );
         parent::__construct($label, $id, $reqPackage);
     }
-
-	protected function getPreContent(){
-		return "\n<div id='{$this->getId()}' data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
-	}
-    protected function getPostContent(){
-        return "</div>\n";
-    }
 }
 
 class WikiDojoCfgFormContainer extends WikiIocCfgItemsContainer {
@@ -290,7 +276,7 @@ class WikiDojoCfgFormContainer extends WikiIocCfgItemsContainer {
 	}
 }
 
-class WikiIocCfgDropDownButton extends WikiIocCfgContainer{
+class WikiIocCfgDropDownButton extends WikiIocCfgComponent{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un botó de la classe ioc.gui.IocDropDownButton
@@ -669,7 +655,7 @@ class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer{
     }
 }
 
-class WikiIocCfgBottomContainer extends WikiIocCfgContainer{
+class WikiIocCfgBottomContainer extends WikiIocCfgComponent{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per escriure missatges d'informació per l'usuari.
