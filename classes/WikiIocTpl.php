@@ -56,6 +56,9 @@ class WikiIocTpl {
     public function initialize(){
         global $INFO;
         
+        global $INFO;
+
+        $INFO["isDojoLoaded"]=true;
         $INFO['prependTOC'] = FALSE;
         $this->_storeLogin();
         $this->_setLanguange();

@@ -71,7 +71,7 @@ div.tb_container ul{
     min-width: 5px;
     width: 32px;
 }*/
-.claro .dijitTabContainerTop .dijitTabContent{
+.claro .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabContent{
     min-width: 5px;
 /*    padding-left: 2px;
     padding-right: 2px;*/
@@ -83,6 +83,7 @@ div.tb_container ul{
 -o-transform: rotate(90deg);
 writing-mode: tb-rl;    */
 }
+
 .iocDisplayBlock{
 	display:block;
 }
