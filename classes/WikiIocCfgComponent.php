@@ -26,12 +26,12 @@ abstract class WikiIocCfgComponent extends WikiIocCfgBuilder{
         return $this->label;
     }
     
-    function getId(){
-        return $this->id;
-    }
-    
     function setLabel($label){
         $this->label=$label;
+    }
+    
+    function getId(){
+        return $this->id;
     }
     
     function setId($id){

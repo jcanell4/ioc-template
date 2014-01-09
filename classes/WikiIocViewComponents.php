@@ -5,14 +5,22 @@ if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPLINC.'conf/');
 
-require_once(DOKU_TPL_CLASSES.'WikiIocComponent.php');
 require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponents.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
-abstract class WikiIocContainer extends WikiIocComponent{
+abstract class WikiIocContainer extends WikiIocCfgComponent{
 	
-    function __construct($label="", $id=NULL, $requiredPackages=NULL){
+    protected $id;
+    protected $label;
+    protected $toolTip;
+    protected $selected;
+
+	function __construct($label="", $id=NULL, $requiredPackages=NULL){
         parent::__construct($label, $id, $requiredPackages);
+	    $id = getId();
+		$label = getLabel();
+		$toolTip = getToolTip();
+		$selected = isSelected();
     }
 
     abstract protected function getPreContent();

@@ -8,7 +8,7 @@ if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classe
 
 require_once(DOKU_TPL_CLASSES.'WikiIocBuilderManager.php');
 
-abstract class WikiIocBuilder{
+abstract class WikiIocCfgBuilder{
     protected $requiredPakages;  //WE MUST CONTROL PAKAGE LEVEL ONLY
     
     function __construct($requiredPakages=array()){
