@@ -17,16 +17,14 @@ abstract class WikiIocContainer extends WikiIocCfgComponent{
 
 	function __construct($label="", $id=NULL, $requiredPackages=NULL){
         parent::__construct($label, $id, $requiredPackages);
-	    $id = getId();
-		$label = getLabel();
-		$toolTip = getToolTip();
-		$selected = isSelected();
+	    $id = $this->getId();
+		$label = $this->getLabel();
+		$toolTip = $this->getToolTip();
+		$selected = $this->isSelected();
     }
 
     abstract protected function getPreContent();
-    
     abstract protected function getPostContent();
-   
     abstract protected function getContent();
 
     public function getRenderingCode() {
@@ -84,7 +82,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
     private $bMenuButton; 
     private $bScrollingButtons; 
     
-    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL){
+    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL, $cfg=NULL){
         global $js_packages;
         if($reqPackage==NULL){
             $reqPackage=array(
@@ -94,7 +92,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
             );
         }
 		if ($id == NULL) $id = $label;
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id, $reqPackage, $cfg);
         $this->tabType=$tabType;
         $this->bMenuButton=FALSE;
         $this->bScrollingButtons=FALSE;

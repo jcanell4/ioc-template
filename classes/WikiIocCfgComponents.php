@@ -48,7 +48,7 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     private $bMenuButton; 
     private $bScrollingButtons; 
     
-    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL){
+    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL, $cfg=NULL){
         global $js_packages;
         if($reqPackage==NULL){
             $reqPackage=array(
@@ -62,8 +62,13 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
         $this->tabType=$tabType;
         $this->bMenuButton=FALSE;
         $this->bScrollingButtons=FALSE;
+		$this->init($cfg);
     }
     
+	function init($cfg) {
+		if ($cfg == NULL) $cfg = new WikiIocCfgTabsContainer();
+	}
+			
     function putTab($id, &$tab){
 		if(!is_array($this->items)){
             $this->tabSelected=$id;
