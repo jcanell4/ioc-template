@@ -11,8 +11,8 @@ require_once(DOKU_TPL_CONF.'js_packages.php');
 abstract class WikiIocCfgItemsContainer extends WikiIocCfgComponent {
 	protected $items;
 	
-    function __construct($label="", $id=NULL, $reqPackage=NULL){
-        parent::__construct($label, $id, $reqPackage);
+    function __construct($label="", $id=NULL){
+        parent::__construct($label, $id);
     }
 
 	public function putItem($id, &$item){
@@ -39,6 +39,13 @@ abstract class WikiIocCfgItemsContainer extends WikiIocCfgComponent {
     }
 }
 
+class WikiIocCfgContentPane extends WikiIocCfgComponent{
+	
+    function __construct($label="", $id=NULL){
+        parent::__construct($label, $id);
+    }
+}
+
 class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     const DEFAULT_TAB_TYPE=0;
     const RESIZING_TAB_TYPE=1;
@@ -48,17 +55,10 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     private $bMenuButton; 
     private $bScrollingButtons; 
     
-    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL){
-        global $js_packages;
-        if($reqPackage==NULL){
-            $reqPackage=array(
-                array("name"=>"ioc", "location"=>$js_packages["ioc"]),
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-            );
-        }
-		if ($id == NULL) $id = $label;
-        parent::__construct($label, $id, $reqPackage);
+    public function __construct($label="", $tabType=0, $id=NULL){
+		if ($id == NULL) 
+			$id = $label;
+        parent::__construct($label, $id);
         $this->tabType=$tabType;
         $this->bMenuButton=FALSE;
         $this->bScrollingButtons=FALSE;
@@ -114,20 +114,6 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     }
 }
 
-class WikiIocCfgContentPane extends WikiIocCfgComponent{
-	
-    function __construct($label="", $id=NULL, $reqPackage=NULL){
-        global $js_packages;
-        if($reqPackage==NULL){
-            $reqPackage=array(
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-            );
-        }
-        parent::__construct($label, $id, $reqPackage);
-    }
-}
-
 class WikiIocCfgContainerFromMenuPage extends WikiIocCfgContentPane{
    private $page;
    
@@ -148,11 +134,7 @@ class WikiIocCfgContainerFromPage extends WikiIocCfgContentPane{
    private $page;
    
 	function __construct($label="", $page=NULL, $id=NULL){
-        global $js_packages;
-        $reqPackage=array(
-            array("name"=>"ioc", "location"=>$js_packages["ioc"])
-        );
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
         $this->page=$page;
 	}
    
@@ -170,14 +152,10 @@ class WikiIocCfgTreeContainer extends WikiIocCfgContentPane{
    private $pageDataSource;
    
    function __construct($label="", $treeDataSource=NULL, $pageDataSource=NULL, $rootValue="", $id=NULL){
-		global $js_packages;
-		$reqPackage=array(
-				array("name"=>"ioc", "location"=>$js_packages["ioc"])
-		);
-		parent::__construct($label, $id, $reqPackage);
-		$this->treeDataSource=$treeDataSource;
-		$this->rootValue=$rootValue;
-		$this->pageDataSource=$pageDataSource;
+		parent::__construct($label, $id);
+		$this->treeDataSource = $treeDataSource;
+		$this->rootValue = $rootValue;
+		$this->pageDataSource = $pageDataSource;
 	}
    
    function getRootValue(){
@@ -208,13 +186,7 @@ class WikiIocCfgHiddenDialog extends WikiIocCfgItemsContainer {
 	 *		Els métodes de construcció els hereda de WikiIocCfgItemsContainer.
 	 */
     public function __construct($id, $label=""){
-        global $js_packages;
-        $reqPackage=array(
-                array("name"=>"ioc", "location"=>$js_packages["ioc"]),
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-        );
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
     }
 }
 
@@ -234,13 +206,7 @@ class WikiDojoCfgFormContainer extends WikiIocCfgItemsContainer {
 	private $zindex;
 
     public function __construct($label="", $id=NULL, $action=NULL, $position="static", $top=0, $left=0, $display=true, $zindex=900){
-        global $js_packages;
-        $reqPackage=array(
-                array("name"=>"ioc", "location"=>$js_packages["ioc"]),
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-        );
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
 		$this->action = $action;
 		$this->position = $position;
 		$this->top = $top;
@@ -298,13 +264,7 @@ class WikiIocCfgDropDownButton extends WikiIocCfgComponent{
 	private $actionHidden;
 
 	function __construct($id=NULL, $label="", $autoSize=false, $display=true, $displayBlock=true, $actionHidden=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"ioc", "location"=>$js_packages["ioc"]),
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit", "location"=>$js_packages["dijit"])
-		);
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
 		$this->autoSize = $autoSize;
 		$this->display = $display;
 		$this->displayBlock = $displayBlock;
@@ -346,16 +306,10 @@ class WikiDojoCfgButton extends WikiIocCfgComponent{
 	protected $displayBlock;
 	protected $fontSize;
 
-	function __construct($label="", $id=NULL, $action=NULL, $display=true, $displayBlock=true, $fontSize=1, $type='button', $reqPackage=NULL){
-		global $js_packages;
-        if($reqPackage==NULL){
-			$reqPackage=array(
-				array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-				array("name"=>"dijit","location"=>$js_packages["dijit"])
-			);
-		}
-		if ($id == NULL) $id = $label;
-        parent::__construct($label, $id, $reqPackage);
+	function __construct($label="", $id=NULL, $action=NULL, $display=true, $displayBlock=true, $fontSize=1, $type='button'){
+		if ($id == NULL) 
+			$id = $label;
+        parent::__construct($label, $id);
 		$this->action = $action;
 		$this->display = $display;
 		$this->displayBlock = $displayBlock;
@@ -403,11 +357,7 @@ class WikiIocCfgButton extends WikiDojoCfgButton{
 	private $autoSize;
 
 	function __construct($label="", $id=NULL, $query=NULL, $autoSize=false, $display=true, $displayBlock=true){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"ioc", "location"=>$js_packages["ioc"])
-		);
-        parent::__construct($label, $id, $query, $display, $displayBlock, 'button', $reqPackage);
+        parent::__construct($label, $id, $query, $display, $displayBlock, 'button');
 		$this->query = $query;
 		$this->autoSize = $autoSize;		
 	}
@@ -430,11 +380,7 @@ class WikiIocCfgFormInputField extends WikiIocCfgComponent{
 	private $type;
 
 	function __construct($label="", $id=NULL, $name=NULL, $type=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"])
-		);
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
         $this->name = ($name == NULL) ? $this->getId() : $name;
 		$this->type = ($type == NULL) ? "" : "type='$type' ";
 	}
@@ -456,13 +402,9 @@ class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
 	private $left;
 
 	function __construct($label="", $id=NULL, $position="static", $top=0, $left=0, $zindex=900){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-		if ($id==NULL) $id=$label;
-        parent::__construct($label, $id, $reqPackage);
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
 		$this->position = $position;
 		$this->zindex = $zindex;
 		$this->top = $top;
@@ -496,13 +438,9 @@ class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-		if ($id==NULL) $id=$label;
-        parent::__construct($label, $id, $reqPackage);
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
 	}
 }
 
@@ -515,13 +453,9 @@ class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-		if ($id==NULL) $id=$label;
-        parent::__construct($label, $id, $reqPackage);
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
 	}
 }
 
@@ -534,13 +468,9 @@ class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-		if ($id==NULL) $id=$label;
-        parent::__construct($label, $id, $reqPackage);
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
 	}
 }
 
@@ -549,15 +479,12 @@ class WikiIocCfgProperty extends WikiIocCfgComponent{
 	 * Descripció:
 	 *		Defineix un contenidor per a la zona de propietats
 	 */
+	private $title; //és el mateix que LABEL ?????
+	
 	function __construct($label="", $id=NULL, $title="", $selected=false){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-        parent::__construct($label, $id, $reqPackage);
+        parent::__construct($label, $id);
 		$this->title = $title;
-		$this->selected = ($selected) ? "selected='true'" : "";
+		$this->setSelected(($selected) ? "selected='true'" : "");
 	}
 }
 
@@ -579,20 +506,13 @@ class WikiIocCfgCentralTabsContainer extends WikiIocCfgItemsContainer{
     private $bMenuButton; 
     private $bScrollingButtons; 
     
-    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL){
-        global $js_packages;
-        if($reqPackage==NULL){
-            $reqPackage=array(
-                array("name"=>"ioc", "location"=>$js_packages["ioc"]),
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-            );
-        }
-		if ($id==NULL) {$id=$label;}
-        parent::__construct($label, $id, $reqPackage);
-        $this->tabType=$tabType;
-        $this->bMenuButton=FALSE;
-        $this->bScrollingButtons=FALSE;
+    public function __construct($label="", $tabType=0, $id=NULL){
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
+        $this->tabType = $tabType;
+        $this->bMenuButton = FALSE;
+        $this->bScrollingButtons = FALSE;
     }
     
     function putTab($id, &$tab){
@@ -650,8 +570,8 @@ class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer{
 	 * Mètodes:
 	 *		putItem: afegeix un nou item al contenidor
 	 */
-    public function __construct($id=NULL, $label="", $reqPackage=NULL){
-        parent::__construct($label, $id, $reqPackage);
+    public function __construct($id=NULL, $label=""){
+        parent::__construct($label, $id);
     }
 }
 
@@ -663,13 +583,9 @@ class WikiIocCfgBottomContainer extends WikiIocCfgComponent{
 	private $missatge;
 	
     public function __construct($label="", $id=NULL){
-		global $js_packages;
-		$reqPackage=array(
-			array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-			array("name"=>"dijit","location"=>$js_packages["dijit"])
-		);
-		if ($id==NULL) $id=$label;
-        parent::__construct($label, $id, $reqPackage);
+		if ($id==NULL) 
+			$id=$label;
+        parent::__construct($label, $id);
     }
 	
 	public function setMessage($msg) {
