@@ -5,22 +5,13 @@ if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPLINC.'conf/');
 
-require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponents.php');
+require_once(DOKU_TPL_CLASSES.'WikiIocViewComponent.php');
 require_once(DOKU_TPL_CONF.'js_packages.php');
 
-abstract class WikiIocContainer extends WikiIocCfgComponent{
+abstract class WikiIocContainer extends WikiIocComponent{
 	
-    protected $id;
-    protected $label;
-    protected $toolTip;
-    protected $selected;
-
-	function __construct($label="", $id=NULL, $requiredPackages=NULL){
-        parent::__construct($label, $id, $requiredPackages);
-	    $id = $this->getId();
-		$label = $this->getLabel();
-		$toolTip = $this->getToolTip();
-		$selected = $this->isSelected();
+	function __construct($cfg=NULL, $requiredPackages=NULL){
+        parent::__construct($cfg, $requiredPackages);
     }
 
     abstract protected function getPreContent();
@@ -36,53 +27,76 @@ abstract class WikiIocContainer extends WikiIocCfgComponent{
 }
 
 abstract class WikiIocItemsContainer extends WikiIocContainer {
-	protected $items;
 	
-    function __construct($label="", $id=NULL, $reqPackage=NULL){
-        parent::__construct($label, $id, $reqPackage);
+    function __construct($cfg=NULL, $reqPackage=NULL){
+        parent::__construct($cfg, $reqPackage);
     }
 
 	public function putItem($id, &$item){
-        if($item->getId()==NULL){
-            $item->setId($id);
-        }
-        $ret = $this->items[$id];
-        $this->items[$id]=&$item;
-        return $ret;
+        return $this->cfg->putItem($id, &$item);
     }
     
     public function getItem($id){
-        return $this->items[$id];
+        return $this->cfg->getItem($id);
     }
     
     public function removeItem($id){
-        $ret = $this->items[$id];
-        unset($this->items[$id]);
-        return $ret;
+        return $this->cfg->removeItem($id);
     }
     
     public function removeAllItems(){
-        unset($this->items);
+        $this->cfg->removeAllItems();
     }
 	
     public function getContent() {
-        foreach ($this->items as $i){
+        foreach ($this->cfg->items as $i){
             $ret .= $i->getRenderingCode();
         }
         return $ret;
 	}
 }
 
+class WikiIocContentPane extends WikiIocContainer{
+	
+    function __construct($cfg=NULL, $reqPackage=NULL){
+        global $js_packages;
+        if($reqPackage==NULL){
+            $reqPackage=array(
+                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
+                array("name"=>"dijit", "location"=>$js_packages["dijit"])
+            );
+        }
+        parent::__construct($cfg, $reqPackage);
+    }
+
+    protected function getPreContent(){
+        $ret = "<div id='{$this->cfg->getId()}' data-dojo-type='dijit.layout.ContentPane'"
+              ." title='{$this->cfg->getLabel()}' tooltip='{$this->cfg->getToolTip()}'"
+              ." extractContent='false' preventCache='false'"
+              ." preload='false' refreshOnShow='false'";
+        if($this->cfg->isSelected()){
+            $ret .= " selected='true'";
+        }
+        $ret .= " closable='false' doLayout='false'>\n";
+        return $ret;
+    }
+    
+    protected function getPostContent(){
+        return "</div>\n";
+    }
+   
+    protected function getContent(){
+        return "";
+    }
+
+}
+
 class WikiIocTabsContainer extends WikiIocItemsContainer{
     const DEFAULT_TAB_TYPE=0;
     const RESIZING_TAB_TYPE=1;
     const SCROLLING_TAB_TYPE=2;
-    private $tabSelected;
-    private $tabType; //0= normal, 1=resizing, 2=scrolling
-    private $bMenuButton; 
-    private $bScrollingButtons; 
     
-    public function __construct($label="", $tabType=0, $id=NULL, $reqPackage=NULL, $cfg=NULL){
+    public function __construct($cfg=NULL, $reqPackage=NULL){
         global $js_packages;
         if($reqPackage==NULL){
             $reqPackage=array(
@@ -91,60 +105,43 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
                 array("name"=>"dijit", "location"=>$js_packages["dijit"])
             );
         }
-		if ($id == NULL) $id = $label;
-        parent::__construct($label, $id, $reqPackage, $cfg);
-        $this->tabType=$tabType;
-        $this->bMenuButton=FALSE;
-        $this->bScrollingButtons=FALSE;
+        parent::__construct($cfg, $reqPackage);
     }
     
     function putTab($id, &$tab){
-		if(!is_array($this->items)){
-            $this->tabSelected=$id;
-            $tab->setSelected(TRUE);
-		}else if($tab->isSelected()){
-            $this->selectTab($id);
-		}
-		$ret = $this->putItem($id, $tab);
-		return $ret;
+        return $this->cfg->putTab($id, &$tab);
     }
     
     function selectTab($id){
-        if(array_key_exists($id, $this->items)){
-            if(array_key_exists($this->tabSelected, $this->items)){
-                $this->items[$this->tabSelected]->setSelected(FALSE);
-            }
-            $this->tabSelected=$id;
-            $this->items[$id]->setSelected(TRUE);
-        }
+		$this->cfg->selectTab($id);		
     }
     
     function getTab($id){
-        return $this->getItem($id);
+        return $this->cfg->getTab($id);
     }
     function removeTab($id){
-        return $this->removeItem($id);
+        return $this->cfg->removeTab($id);
     }
     function removeAllTabs(){
-        return $this->removeAllItems();
+        return $this->cfg->removeAllTabs();
     }
     function getTabType(){
-        return $this->tabType;
+        return $this->cfg->getTabType();
     }
     function setTabType(/*int*/ $type){
-        $this->tabType=$type;
+        $this->cfg->setTabType($type);
     }
     function hasMenuButton(){
-       return $this->bMenuButton;
+       return $this->cfg->hasMenuButton();
     }
     function setMenuButton(/*boolean*/ $value){
-        $this->bMenuButton=$value;
+        $this->cfg->setMenuButton($value);
     }
     function hasScrollingButtons(){
-       return $this->bScrollingButtons;
+       return $this->cfg->hasScrollingButtons();
     }
     function setScrollingButtons(/*boolean*/ $value){
-        $this->bScrollingButtons=$value;
+        $this->cfg->setScrollingButtons($value);
     }
 	
     protected function getPreContent(){
@@ -168,83 +165,43 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
     }
 }
 
-class WikiIocContentPane extends WikiIocContainer{
-	
-    function __construct($label="", $id=NULL, $reqPackage=NULL){
-        global $js_packages;
-        if($reqPackage==NULL){
-            $reqPackage=array(
-                array("name"=>"dojo", "location"=>$js_packages["dojo"]),
-                array("name"=>"dijit", "location"=>$js_packages["dijit"])
-            );
-        }
-        parent::__construct($label, $id, $reqPackage);
-    }
-
-    protected function getPreContent(){
-        $ret = "<div id='{$this->getId()}' data-dojo-type='dijit.layout.ContentPane'"
-              ." title='{$this->getLabel()}' tooltip='{$this->getToolTip()}'"
-              ." extractContent='false' preventCache='false'"
-              ." preload='false' refreshOnShow='false'";
-        if($this->isSelected()){
-            $ret .= " selected='true'";
-        }
-        $ret .= " closable='false' doLayout='false'>\n";
-        return $ret;
-    }
-    
-    protected function getPostContent(){
-        return "</div>\n";
-    }
-   
-    protected function getContent(){
-        return "";
-    }
-
-}
-
 class WikiIocContainerFromMenuPage extends WikiIocContentPane{
-   private $page;
    
-   function __construct($label="", $page=NULL, $id=NULL){
-       parent::__construct($label, $id);
-       $this->page=$page;
+   function __construct($cfg=NULL){
+       parent::__construct($cfg);
    }
    
    function getPageName(){
-       return $this->page;
+       return $this->cfg->getPageName();
    }
-
    function setPageName($value){
-        $this->page=$value;
+        $this->cfg->setPageName($value);
    }
    
    protected function getContent() {
 		$ret="";
-        if($this->page!=NULL){
-			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->page, false)."\n</div>\n";
+        if($this->getPageName() != NULL){
+			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->getPageName(), false)."\n</div>\n";
         }
         return $ret;
     }
 }
 
 class WikiIocContainerFromPage extends WikiIocContentPane{
-   private $page;
    
-	function __construct($label="", $page=NULL, $id=NULL){
+	function __construct($cfg=NULL){
         global $js_packages;
         $reqPackage=array(
             array("name"=>"ioc", "location"=>$js_packages["ioc"])
         );
-        parent::__construct($label, $id, $reqPackage);
-        $this->page=$page;
+        parent::__construct($cfg, $reqPackage);
 	}
    
 	function getPageName(){
-       return $this->page;
-	}
-	function setPageName($value){
-        $this->page=$value;
+       return $this->cfg->getPageName();
+   }
+   function setPageName($value){
+        $this->cfg->setPageName($value);
 	}
    
 	protected function getPreContent(){
@@ -260,58 +217,52 @@ class WikiIocContainerFromPage extends WikiIocContentPane{
     
 	protected function getContent() {
 		$ret = "";
-        if($this->page!=NULL){
-			$ret .= "<div class=\"tb_container\">\n".tpl_include_page($this->page, false)."\n</div>\n";
+        if($this->getPageName() != NULL){
+			$ret .= "<div class=\"tb_container\">\n".tpl_include_page($this->getPageName(), false)."\n</div>\n";
         }
         return $ret;
     }
 }
 
 class WikiIocTreeContainer extends WikiIocContentPane{
-   private $treeDataSource;
-   private $rootValue;
-   private $pageDataSource;
    
-   function __construct($label="", $treeDataSource=NULL, $pageDataSource=NULL, $rootValue="", $id=NULL){
+   function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
 				array("name"=>"ioc", "location"=>$js_packages["ioc"])
 		);
-		parent::__construct($label, $id, $reqPackage);
-		$this->treeDataSource=$treeDataSource;
-		$this->rootValue=$rootValue;
-		$this->pageDataSource=$pageDataSource;
+		parent::__construct($cfg, $reqPackage);
 	}
    
    function getRootValue(){
-       return $this->rootValue;
+       return $this->cfg->getRootValue();
    }
    function setRootValue($value){
-        $this->rootValue=$value;
+        $this->cfg->setRootValue($value);
    }
    function getTreeDataSource(){
-       return $this->treeDataSource;
+       return $this->cfg->getTreeDataSource();
    }
    function setTreeDataSource($value){
-        $this->treeDataSource=$value;
+        $this->cfg->setTreeDataSource($value);
    }
    function getPageDataSource(){
-       return $this->pageDataSource;
+       return $this->cfg->getPageDataSource();
    }
    function setPageDataSource($value){
-        $this->pageDataSource=$value;
+        $this->cfg->setPageDataSource($value);
    }
    
    protected function getPreContent(){
         $ret = "<div id='{$this->getId()}' data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
 				." title='{$this->getLabel()}' tooltip='{$this->getToolTip()}'"
 				." extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
-				." data-dojo-props='treeDataSource:\"{$this->treeDataSource}\"";
-        if($this->rootValue!==NULL){
-            $ret .= ", rootValue:\"{$this->rootValue}\"";
+				." data-dojo-props='treeDataSource:\"{$this->getTreeDataSource()}\"";
+        if($this->getRootValue() !== NULL){
+            $ret .= ", rootValue:\"{$this->getRootValue()}\"";
         }
-        if($this->pageDataSource!==NULL){
-            $ret .=", urlBase:\"{$this->pageDataSource}\"";
+        if($this->getPageDataSource() !== NULL){
+            $ret .=", urlBase:\"{$this->getPageDataSource()}\"";
         }
         $ret .= "'";
         if($this->isSelected()){
@@ -322,10 +273,7 @@ class WikiIocTreeContainer extends WikiIocContentPane{
     }
     
    protected function getContent() {
-		$ret="";
-//      if($this->page!=NULL)
-//			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->page, false)."\n</div>\n";
-		return $ret;
+		return "";
     }
 }
 

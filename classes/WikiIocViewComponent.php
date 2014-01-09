@@ -21,35 +21,35 @@ abstract class WikiIocComponent extends WikiIocBuilder{
     }
     
     function getLabel(){
-        return $this->label;
-    }
-    
-    function getId(){
-        return $this->id;
+        return $this->cfg->getLabel();
     }
     
     function setLabel($label){
-        $this->label=$label;
+        $this->cfg->setLabel($label);
+    }
+    
+    function getId(){
+        return $this->cfg->getId();
     }
     
     function setId($id){
-        $this->id=$id;
+        $this->cfg->setId($id);
     }
     
     function getToolTip(){
-        return $this->toolTip;
+        return $this->cfg->getToolTip();
     }
     
     function setToolTip($tip){
-        $this->toolTip=$tip;
+        $this->cfg->setToolTip($tip);
     }
 
 	function isSelected(){
-        return $this->selected;
+        return $this->cfg->isSelected();
     }
  
     function setSelected($value){
-        $this->selected=$value;
+        $this->cfg->setSelected($value);
     }
 }
 ?>

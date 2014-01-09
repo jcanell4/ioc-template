@@ -39,6 +39,13 @@ abstract class WikiIocCfgItemsContainer extends WikiIocCfgComponent {
     }
 }
 
+class WikiIocCfgContentPane extends WikiIocCfgComponent{
+	
+    function __construct($label="", $id=NULL){
+        parent::__construct($label, $id);
+    }
+}
+
 class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     const DEFAULT_TAB_TYPE=0;
     const RESIZING_TAB_TYPE=1;
@@ -55,7 +62,6 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
         $this->tabType=$tabType;
         $this->bMenuButton=FALSE;
         $this->bScrollingButtons=FALSE;
-		$this->init($cfg);
     }
     
     function putTab($id, &$tab){
@@ -105,13 +111,6 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
     }
     function setScrollingButtons(/*boolean*/ $value){
         $this->bScrollingButtons=$value;
-    }
-}
-
-class WikiIocCfgContentPane extends WikiIocCfgComponent{
-	
-    function __construct($label="", $id=NULL){
-        parent::__construct($label, $id);
     }
 }
 
@@ -480,12 +479,12 @@ class WikiIocCfgProperty extends WikiIocCfgComponent{
 	 * Descripció:
 	 *		Defineix un contenidor per a la zona de propietats
 	 */
-	private $title;
+	private $title; //és el mateix que LABEL ?????
 	
 	function __construct($label="", $id=NULL, $title="", $selected=false){
         parent::__construct($label, $id);
 		$this->title = $title;
-		$this->selected = ($selected) ? "selected='true'" : "";
+		$this->setSelected(($selected) ? "selected='true'" : "");
 	}
 }
 
@@ -571,8 +570,8 @@ class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer{
 	 * Mètodes:
 	 *		putItem: afegeix un nou item al contenidor
 	 */
-    public function __construct($id=NULL, $label="", $reqPackage=NULL){
-        parent::__construct($label, $id, $reqPackage);
+    public function __construct($id=NULL, $label=""){
+        parent::__construct($label, $id);
     }
 }
 
