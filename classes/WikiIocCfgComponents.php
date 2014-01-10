@@ -507,7 +507,7 @@ class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
 	}
 }	
 
-class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la part esquerra.
@@ -521,7 +521,7 @@ class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer{
 	}
 }
 
-class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la #zona de canvi de mode# (part dreta).
@@ -535,7 +535,7 @@ class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer{
 	}
 }
 
-class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la #zona de propietats# (part esquerre).
@@ -642,7 +642,7 @@ class WikiIocCfgCentralTabsContainer extends WikiIocCfgItemsContainer{
     }
 }
 
-class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer /* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la capçalera.
