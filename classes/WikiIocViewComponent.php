@@ -20,36 +20,30 @@ abstract class WikiIocComponent extends WikiIocBuilder{
 		parent::__construct($reqPackage);
     }
     
-    function getLabel(){
-        return $this->cfg->getLabel();
-    }
-    
     function setLabel($label){
         $this->cfg->setLabel($label);
     }
-    
-    function getId(){
-        return $this->cfg->getId();
-    }
-    
     function setId($id){
         $this->cfg->setId($id);
     }
-    
-    function getToolTip(){
-        return $this->cfg->getToolTip();
-    }
-    
     function setToolTip($tip){
         $this->cfg->setToolTip($tip);
     }
-
-	function isSelected(){
-        return $this->cfg->isSelected();
-    }
- 
     function setSelected($value){
         $this->cfg->setSelected($value);
+    }
+    
+    function getLabel(){
+        return $this->cfg->getLabel();
+    }
+    function getId(){
+        return $this->cfg->getId();
+    }
+    function getToolTip(){
+        return $this->cfg->getToolTip();
+    }
+	function isSelected(){
+        return $this->cfg->isSelected();
     }
 }
 ?>

@@ -18,36 +18,31 @@ abstract class WikiIocCfgComponent {
        $this->selected = FALSE;
     }
 	
-    function getLabel(){
-        return $this->label;
-    }
     
     function setLabel($label){
         $this->label=$label;
     }
-    
-    function getId(){
-        return $this->id;
-    }
-    
     function setId($id){
         $this->id=$id;
     }
-    
-    function getToolTip(){
-        return $this->toolTip;
-    }
-    
     function setToolTip($tip){
         $this->toolTip=$tip;
     }
-
-	function isSelected(){
-        return $this->selected;
-    }
- 
     function setSelected($value){
         $this->selected=$value;
+    }
+    
+    function getLabel(){
+        return $this->label;
+    }
+    function getId(){
+        return $this->id;
+    }
+    function getToolTip(){
+        return $this->toolTip;
+    }
+	function isSelected(){
+        return $this->selected;
     }
 }
 ?>
