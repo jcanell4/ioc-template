@@ -649,11 +649,20 @@ class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer /* PENDENT DE SUP
 	 * Mètodes:
 	 *		putItem: afegeix un nou item al contenidor
 	 */
-    public function __construct($id=NULL, $label=""){
+    function __construct($id=NULL, $label=""){
         parent::__construct($label, $id);
     }
 }
 
+class WikiIocCfgHeadLogo extends WikiIocCfgComponent{
+	/* @author Rafael Claver <rclaver@xtec.cat>
+	 * Descripció:
+	 *		Dibuixa el logo IOC
+	 */
+    function __construct($id=NULL, $label=""){
+        parent::__construct($label, $id);
+    }
+}
 class WikiIocCfgBottomContainer extends WikiIocCfgComponent{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:

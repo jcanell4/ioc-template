@@ -100,9 +100,6 @@ class WikiIocContentPane extends WikiIocContainer{
 }
 
 class WikiIocTabsContainer extends WikiIocItemsContainer{
-    const DEFAULT_TAB_TYPE=0;
-    const RESIZING_TAB_TYPE=1;
-    const SCROLLING_TAB_TYPE=2;
 	private $cfg;
     
     public function __construct($cfg=NULL, $reqPackage=NULL){
@@ -821,8 +818,6 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
 	 *		tabType: 0=sin botones, 1=con botones para el scroll horizontal de pestañas
 	 *		tabSelected: conté el id de la pestanya seleccionada
 	 */
-    const DEFAULT_TAB_TYPE=0;
-    const SCROLLING_TAB_TYPE=1;
 	private $cfg;
 
     public function __construct($cfg=NULL){
@@ -900,7 +895,7 @@ class WikiIocHeadContainer extends WikiIocItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
     public function __construct($cfg=NULL){
-        parent::__construct($cfg=NULL);
+        parent::__construct($cfg);
     }
 	
 	protected function getPreContent(){

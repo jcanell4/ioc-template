@@ -34,22 +34,21 @@ $exitButton = "exitButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
 
-$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$cfgTabContainer->putTab("tb_perfil", new WikiIocCfgContentPane("Perfil"));
-$cfgTabContainer->putTab("tb_admin", new WikiIocCfgContentPane("Admin"));
-$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
+//$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
+//$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+//$cfgTabContainer->putTab("tb_perfil", new WikiIocCfgContentPane("Perfil"));
+//$cfgTabContainer->putTab("tb_admin", new WikiIocCfgContentPane("Admin"));
+//$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
+//$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
 
-$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
-
-//$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE));
-//$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
-//$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
-//$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
-//$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
+$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocCfgTabsContainer::RESIZING_TAB_TYPE));
+$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
+$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
+$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
+$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
+$blocMetaInfoContainer = new WikiIocMetaInfoContainer(new WikiIocCfgMetaInfoContainer($zonaMetaInfo));
 //$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 //$blocMetaInfoContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -70,13 +69,13 @@ $actionItemDropDownComponent = new WikiIocHiddenDialog(new WikiIocCfgHiddenDialo
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField(new WikiIocCfgFormInputField("Usuari:","name","u")));
 $actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField(new WikiIocCfgFormInputField("Contrasenya:","pass","p","password")));
 
-$actionDropDownButtonLogin = new WikiIocDropDownButton($loginButton,"Entrar");
+$actionDropDownButtonLogin = new WikiIocDropDownButton(new WikiIocCfgDropDownButton($loginButton,"Entrar"));
 $actionDropDownButtonLogin->setAutoSize(true);
 $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
-$blocRightContainer = new WikiIocRightContainer($zonaCanvi);
+$blocRightContainer = new WikiIocRightContainer(new WikiIocCfgRightContainer($zonaCanvi));
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
 $blocRightContainer->putItem("bSave", $actionButtonSave);
@@ -84,30 +83,30 @@ $blocRightContainer->putItem("bEdit", $actionButtonEdit);
 $blocRightContainer->putItem("bEditparc", $actionButtonEdparc);
 $blocRightContainer->putItem("bExit", $actionButtonExit);
 
-$blocBarraMenuContainer = new WikiDojoToolBar("barra_menu_superior");
+$blocBarraMenuContainer = new WikiDojoToolBar(new WikiDojoCfgToolBar("barra_menu_superior"));
 $blocBarraMenuContainer->setPosition("fixed");
 $blocBarraMenuContainer->setTopLeft(25,275);
-$blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
-$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
-$blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
+$blocBarraMenuContainer->putItem(barVista, new WikiDojoButton(new WikiDojoCfgButton("VISTA","menu_vista","alert('VISTA')",true,false)));
+$blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton(new WikiDojoCfgButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false)));
+$blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton(new WikiDojoCfgButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false)));
 
-$blocHeadContainer = new WikiIocHeadContainer();
-$blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
+$blocHeadContainer = new WikiIocHeadContainer(new WikiIocCfgHeadContainer());
+$blocHeadContainer->putItem("logo", new WikiIocHeadLogo(new WikiIocCfgHeadLogo()));
 $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
 
-$blocBottomContainer = new WikiIocBottomContainer($zonaMissatges);
+$blocBottomContainer = new WikiIocBottomContainer(new WikiIocCfgBottomContainer($zonaMissatges));
 $blocBottomContainer->setMessage("àrea de missatges");
 
-$actionFormProva = new WikiDojoFormContainer("formulari-prova",NULL,NULL,"relative",40,20);
+$actionFormProva = new WikiDojoFormContainer(new WikiDojoCfgFormContainer("formulari-prova",NULL,NULL,"relative",40,20));
 $actionFormProva->setAction("commandreport");
 $actionFormProva->setUrlBase("lib/plugins/ajaxcommand/ajax.php?call=");
-$actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input1"));
-$botoSubmit = new WikiDojoButton("acceptar");
+$actionFormProva->putItem("frm_input1", new WikiIocFormInputField(new WikiIocCfgFormInputField("input 1:", "input1")));
+$botoSubmit = new WikiDojoButton(new WikiDojoCfgButton("acceptar"));
 //$botoSubmit->setAction("alert('Es nota que amb el ratolí hi tens la mà trencada.')");
 $botoSubmit->setType("submit");
 $actionFormProva->putItem("frm_button1", $botoSubmit);
 
-$blocCentralContainer = new WikiIocCentralTabsContainer($bodyContent, WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
+$blocCentralContainer = new WikiIocCentralTabsContainer(new WikiIocCfgCentralTabsContainer($bodyContent, WikiIocCfgCentralTabsContainer::SCROLLING_TAB_TYPE));
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
 //$blocCentralContainer->putTab("frm_prova", $actionFormProva);
