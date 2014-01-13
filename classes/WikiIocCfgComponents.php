@@ -155,14 +155,14 @@ class WikiIocCfgContainerFromPage extends WikiIocCfgContentPane{
 
 class WikiIocCfgTreeContainer extends WikiIocCfgContentPane{
    private $treeDataSource;
-   private $rootValue;
    private $pageDataSource;
+   private $rootValue;
    
    function __construct($label="", $treeDataSource=NULL, $pageDataSource=NULL, $rootValue="", $id=NULL){
 		parent::__construct($label, $id);
 		$this->treeDataSource = $treeDataSource;
-		$this->rootValue = $rootValue;
 		$this->pageDataSource = $pageDataSource;
+		$this->rootValue = $rootValue;
 	}
    
    function getRootValue(){

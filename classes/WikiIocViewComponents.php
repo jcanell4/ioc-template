@@ -29,8 +29,11 @@ abstract class WikiIocContainer extends WikiIocComponent{
 
 abstract class WikiIocItemsContainer extends WikiIocContainer {
 	
+	private $cfg;
+	
     function __construct($cfg=NULL, $reqPackage=NULL){
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
 
 	public function putItem($id, &$item){
@@ -60,6 +63,8 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
 
 class WikiIocContentPane extends WikiIocContainer{
 	
+	private $cfg;
+	
     function __construct($cfg=NULL, $reqPackage=NULL){
         global $js_packages;
         if($reqPackage==NULL){
@@ -69,6 +74,7 @@ class WikiIocContentPane extends WikiIocContainer{
             );
         }
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
 
     protected function getPreContent(){
@@ -97,6 +103,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
     const DEFAULT_TAB_TYPE=0;
     const RESIZING_TAB_TYPE=1;
     const SCROLLING_TAB_TYPE=2;
+	private $cfg;
     
     public function __construct($cfg=NULL, $reqPackage=NULL){
         global $js_packages;
@@ -108,6 +115,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
             );
         }
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
     
     function getTab($id){
@@ -167,34 +175,40 @@ class WikiIocTabsContainer extends WikiIocItemsContainer{
 
 class WikiIocContainerFromMenuPage extends WikiIocContentPane{
    
-   function __construct($cfg=NULL){
-       parent::__construct($cfg);
-   }
+	private $cfg;
+
+	function __construct($cfg=NULL){
+		parent::__construct($cfg);
+		$this->cfg = $cfg;
+	}
    
-   function getPageName(){
-       return $this->cfg->getPageName();
-   }
-   function setPageName($value){
-        $this->cfg->setPageName($value);
-   }
-   
-   protected function getContent() {
+	function getPageName(){
+		return $this->cfg->getPageName();
+	}
+	function setPageName($value){
+		$this->cfg->setPageName($value);
+	}
+
+	protected function getContent() {
 		$ret="";
         if($this->getPageName() != NULL){
 			$ret .= "<div class='tb_container'>\n".tpl_include_page($this->getPageName(), false)."\n</div>\n";
         }
         return $ret;
-    }
+	}
 }
 
 class WikiIocContainerFromPage extends WikiIocContentPane{
    
+	private $cfg;
+
 	function __construct($cfg=NULL){
         global $js_packages;
         $reqPackage=array(
             array("name"=>"ioc", "location"=>$js_packages["ioc"])
         );
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
    
 	function getPageName(){
@@ -226,55 +240,58 @@ class WikiIocContainerFromPage extends WikiIocContentPane{
 
 class WikiIocTreeContainer extends WikiIocContentPane{
    
-   function __construct($cfg=NULL){
+	private $cfg;
+
+	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
 				array("name"=>"ioc", "location"=>$js_packages["ioc"])
 		);
 		parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
+	}
+
+	function getRootValue(){
+		return $this->cfg->getRootValue();
+	}
+	function setRootValue($value){
+		$this->cfg->setRootValue($value);
+	}
+	function getTreeDataSource(){
+		return $this->cfg->getTreeDataSource();
+	}
+	function setTreeDataSource($value){
+		$this->cfg->setTreeDataSource($value);
+	}
+	function getPageDataSource(){
+		return $this->cfg->getPageDataSource();
+	}
+	function setPageDataSource($value){
+		$this->cfg->setPageDataSource($value);
 	}
    
-   function getRootValue(){
-       return $this->cfg->getRootValue();
-   }
-   function setRootValue($value){
-        $this->cfg->setRootValue($value);
-   }
-   function getTreeDataSource(){
-       return $this->cfg->getTreeDataSource();
-   }
-   function setTreeDataSource($value){
-        $this->cfg->setTreeDataSource($value);
-   }
-   function getPageDataSource(){
-       return $this->cfg->getPageDataSource();
-   }
-   function setPageDataSource($value){
-        $this->cfg->setPageDataSource($value);
-   }
-   
-   protected function getPreContent(){
-        $ret = "<div id='{$this->getId()}' data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
+	protected function getPreContent(){
+		$ret = "<div id='{$this->getId()}' data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
 				." title='{$this->getLabel()}' tooltip='{$this->getToolTip()}'"
 				." extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
 				." data-dojo-props='treeDataSource:\"{$this->getTreeDataSource()}\"";
-        if($this->getRootValue() !== NULL){
-            $ret .= ", rootValue:\"{$this->getRootValue()}\"";
-        }
-        if($this->getPageDataSource() !== NULL){
-            $ret .=", urlBase:\"{$this->getPageDataSource()}\"";
-        }
-        $ret .= "'";
-        if($this->isSelected()){
-            $ret .= " selected='true'";
-        }
-        $ret .= " style='overflow:auto;' closable='false' doLayout='false'>\n";
-        return $ret;
-    }
+		if($this->getRootValue() !== NULL){
+			$ret .= ", rootValue:\"{$this->getRootValue()}\"";
+		}
+		if($this->getPageDataSource() !== NULL){
+			$ret .=", urlBase:\"{$this->getPageDataSource()}\"";
+		}
+		$ret .= "'";
+		if($this->isSelected()){
+			$ret .= " selected='true'";
+		}
+		$ret .= " style='overflow:auto;' closable='false' doLayout='false'>\n";
+		return $ret;
+	}
     
-   protected function getContent() {
+	protected function getContent() {
 		return "";
-    }
+	}
 }
 
 class WikiIocHiddenDialog extends WikiIocItemsContainer {
@@ -309,6 +326,8 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 	 *		dissenyat per contenir items de formulari.
 	 *		Els métodes de construcció els hereda de WikiIocItemsContainer.
 	 */
+	private $cfg;
+
     public function __construct($cfg=NULL){
         global $js_packages;
         $reqPackage=array(
@@ -317,6 +336,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
                 array("name"=>"dijit", "location"=>$js_packages["dijit"])
         );
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
 
 	public function setPosition($position) {
@@ -398,6 +418,8 @@ class WikiIocDropDownButton extends WikiIocContainer{
 	 *				true: utilitzarà la classe CSS .iocDisplayBlock {display:block}.
 	 *				false: utilitzarà la classe CSS dijitInline.
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
@@ -406,6 +428,7 @@ class WikiIocDropDownButton extends WikiIocContainer{
 			array("name"=>"dijit", "location"=>$js_packages["dijit"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 	
 	public function setAutoSize($autoSize) {
@@ -474,6 +497,8 @@ class WikiDojoButton extends WikiIocComponent{
 	 *		Accepta paràmetres que configuren l'acció del botó:
 	 *		- action
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL, $reqPackage=NULL){
 		global $js_packages;
         if($reqPackage==NULL){
@@ -483,6 +508,7 @@ class WikiDojoButton extends WikiIocComponent{
 			);
 		}
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 
 	public function setAction($action) {
@@ -547,12 +573,15 @@ class WikiIocButton extends WikiDojoButton{
 	 *		Accepta paràmetres que configuren l'acció del botó:
 	 *		- query
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
 			array("name"=>"ioc", "location"=>$js_packages["ioc"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 
 	public function setQuery($query) {
@@ -587,12 +616,15 @@ class WikiIocFormInputField extends WikiIocComponent{
 	 *		Dibuixa un item que pot ser albergat en un contenidor
 	 *		Aquest item és un input textbox de la classe dijit.form.TextBox
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
 			array("name"=>"dojo", "location"=>$js_packages["dojo"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 	
 	public function setType($type){
@@ -618,6 +650,8 @@ class WikiDojoToolBar extends WikiIocItemsContainer{
 	 *		És un contenidor que construeix una barra de botons.
 	 *		Permet establir la seva posició i tamany.
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
@@ -625,6 +659,7 @@ class WikiDojoToolBar extends WikiIocItemsContainer{
 			array("name"=>"dijit","location"=>$js_packages["dijit"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 	
 	public function setPosition($position) {
@@ -753,6 +788,8 @@ class WikiIocProperty extends WikiIocComponent{
 	 * Descripció:
 	 *		Crea un contenidor per a la zona de propietats
 	 */
+	private $cfg;
+
 	function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
@@ -760,6 +797,7 @@ class WikiIocProperty extends WikiIocComponent{
 			array("name"=>"dijit","location"=>$js_packages["dijit"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
 	}
 
 	public function getTitle(){
@@ -785,7 +823,8 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
 	 */
     const DEFAULT_TAB_TYPE=0;
     const SCROLLING_TAB_TYPE=1;
-    
+	private $cfg;
+
     public function __construct($cfg=NULL){
         global $js_packages;
 		$reqPackage=array(
@@ -794,6 +833,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer{
                 array("name"=>"dijit", "location"=>$js_packages["dijit"])
         );
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
     
     function putTab($id, &$tab){
@@ -889,6 +929,8 @@ class WikiIocBottomContainer extends WikiIocContainer{
 	 * Descripció:
 	 *		Crea un contenidor per escriure missatges d'informació per l'usuari.
 	 */
+	private $cfg;
+
     public function __construct($cfg=NULL){
 		global $js_packages;
 		$reqPackage=array(
@@ -896,6 +938,7 @@ class WikiIocBottomContainer extends WikiIocContainer{
 			array("name"=>"dijit","location"=>$js_packages["dijit"])
 		);
         parent::__construct($cfg, $reqPackage);
+		$this->cfg = $cfg;
     }
 	
 	public function setMessage($msg) {

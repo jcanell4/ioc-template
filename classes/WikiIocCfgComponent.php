@@ -17,7 +17,6 @@ abstract class WikiIocCfgComponent {
        $this->id = $id;
        $this->selected = FALSE;
     }
-	
     
     function setLabel($label){
         $this->label=$label;

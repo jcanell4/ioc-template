@@ -20,10 +20,12 @@ require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 $tpl = WikiIocTpl::Instance();
 
 // Variables
+$mainContent = "mainContent";
 $bodyContent = "bodyContent";
 $zonaNavegacio = "zonaNavegacio"; //ojo, ojito, musho cuidadito, antes se llamaba "nav"
 $zonaMetaInfo = "zonaMetaInfo";
 $zonaMissatges = "zonaMissatges";
+$zonaCanvi = "zonaCanvi";
 $tb_index = "tb_index";
 $tb_docu = "tb_docu";
 $loginDialog = "loginDialog";
@@ -31,11 +33,20 @@ $loginButton = "loginButton";
 $exitButton = "exitButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
-$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE));
-$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
-$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
-$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
-$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
+
+$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
+$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$cfgTabContainer->putTab("tb_perfil", new WikiIocCfgContentPane("Perfil"));
+$cfgTabContainer->putTab("tb_admin", new WikiIocCfgContentPane("Admin"));
+$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
+
+$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
+
+//$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE));
+//$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
+//$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
+//$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
+//$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
 $actionTabContainer->setMenuButton(TRUE);
 
 $blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
@@ -55,9 +66,9 @@ $actionButtonSave = new WikiIocButton($cfgButtonSave);
 $actionButtonEdit = new WikiIocButton($cfgButtonEdit);
 $actionButtonEdparc = new WikiIocButton($cfgButtonEdparc);
 
-$actionItemDropDownComponent = new WikiIocHiddenDialog($loginDialog,"login");
-$actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
-$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p","password"));
+$actionItemDropDownComponent = new WikiIocHiddenDialog(new WikiIocCfgHiddenDialog($loginDialog,"login"));
+$actionItemDropDownComponent->putItem("name", new WikiIocFormInputField(new WikiIocCfgFormInputField("Usuari:","name","u")));
+$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField(new WikiIocCfgFormInputField("Contrasenya:","pass","p","password")));
 
 $actionDropDownButtonLogin = new WikiIocDropDownButton($loginButton,"Entrar");
 $actionDropDownButtonLogin->setAutoSize(true);
@@ -65,7 +76,7 @@ $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
-$blocRightContainer = new WikiIocRightContainer("zonaCanvi");
+$blocRightContainer = new WikiIocRightContainer($zonaCanvi);
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
 $blocRightContainer->putItem("bSave", $actionButtonSave);
@@ -109,11 +120,12 @@ if(!empty($_REQUEST["tb_container_sel"])){
 $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl", 
 		array('%%ID%%' => "ajax"
 			, '%%SECTOK%%' => getSecurityToken()
-			, '@@MAIN_CONTENT@@' => "mainContent"
+			, '@@MAIN_CONTENT@@' => $mainContent
 			, '@@BODY_CONTENT@@' => $bodyContent
 			, '@@NAVEGACIO_NODE_ID@@' => $zonaNavegacio
 			, '@@METAINFO_NODE_ID@@' => $zonaMetaInfo
 			, '@@INFO_NODE_ID@@' => $zonaMissatges
+			, '@@CANVI_NODE_ID@@' => $zonaCanvi
 			, '@@TAB_INDEX@@'    => $tb_index
 			, '@@TAB_DOCU@@'     => $tb_docu
 			, '@@LOGIN_DIALOG@@' => $loginDialog
