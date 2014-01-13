@@ -30,12 +30,12 @@ $loginDialog = "loginDialog";
 $loginButton = "loginButton";
 $exitButton = "exitButton";
 
-require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
-$actionTabContainer = new WikiIocTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane("Perfil"));
-$actionTabContainer->putTab("tb_admin", new WikiIocContentPane("Admin"));
-$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
+require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
+$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE));
+$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
+$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
+$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
+$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
 $actionTabContainer->setMenuButton(TRUE);
 
 $blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
@@ -44,11 +44,16 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
 //$blocMetaInfoContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
-$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
-$actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
-$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,true);
-$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
-$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$cfgButtonExit = new WikiIocCfgButton("Sortir","exitButton","do=logoff",true,false,true);
+$cfgButtonNew = new WikiIocCfgButton("Nou","newButton","do=new",true,true,true);
+$cfgButtonSave = new WikiIocCfgButton("Desar","saveButton","do=save",true,true,true);
+$cfgButtonEdit = new WikiIocCfgButton("Edició","editButton","do=edit",true,true,true);
+$cfgButtonEdparc = new WikiIocCfgButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$actionButtonExit = new WikiIocButton($cfgButtonExit);
+$actionButtonNew = new WikiIocButton($cfgButtonNew);
+$actionButtonSave = new WikiIocButton($cfgButtonSave);
+$actionButtonEdit = new WikiIocButton($cfgButtonEdit);
+$actionButtonEdparc = new WikiIocButton($cfgButtonEdparc);
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($loginDialog,"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));

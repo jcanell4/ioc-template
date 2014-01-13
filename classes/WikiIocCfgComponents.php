@@ -28,6 +28,14 @@ abstract class WikiIocCfgItemsContainer extends WikiIocCfgComponent {
         return $this->items[$id];
     }
     
+    public function getAllItems(){
+		$ret = array();
+        foreach ($this->items as $i){
+            $ret[] = $i;
+        }
+        return $ret;
+    }
+    
     public function removeItem($id){
         $ret = $this->items[$id];
         unset($this->items[$id]);
@@ -59,9 +67,9 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
 		if ($id == NULL) 
 			$id = $label;
         parent::__construct($label, $id);
-        $this->tabType=$tabType;
-        $this->bMenuButton=FALSE;
-        $this->bScrollingButtons=FALSE;
+        $this->tabType = $tabType;
+        $this->bMenuButton = FALSE;
+        $this->bScrollingButtons = FALSE;
     }
     
     function putTab($id, &$tab){
@@ -71,8 +79,7 @@ class WikiIocCfgTabsContainer extends WikiIocCfgItemsContainer{
 		}else if($tab->isSelected()){
             $this->selectTab($id);
 		}
-		$ret = $this->putItem($id, $tab);
-		return $ret;
+		return $this->putItem($id, $tab);
     }
     
     function selectTab($id){
@@ -240,6 +247,27 @@ class WikiDojoCfgFormContainer extends WikiIocCfgItemsContainer {
 	public function setDisplay($display) {
 		$this->display = $display;
 	}
+	public function getPosition() {
+		return $this->position;
+	}
+	public function getZindex() {
+		return $this->zindex;
+	}
+	public function getTop() {
+		return $this->top;
+	}
+	public function getLeft() {
+		return $this->left;
+	}
+	public function getAction() {
+		return $this->action;
+	}
+	public function getUrlBase() {
+		return $this->urlBase;
+	}
+	public function getDisplay() {
+		return $this->display;
+	}
 }
 
 class WikiIocCfgDropDownButton extends WikiIocCfgComponent{
@@ -282,6 +310,18 @@ class WikiIocCfgDropDownButton extends WikiIocCfgComponent{
 	}
 	public function setActionHidden($actionHidden) {
 		$this->actionHidden = $actionHidden;
+	}
+	public function getAutoSize() {
+		return $this->autoSize;
+	}
+	public function getDisplay() {
+		return $this->display;
+	}
+	public function getDisplayBlock() {
+		return $this->displayBlock;
+	}
+	public function getActionHidden() {
+		return $this->actionHidden;
 	}
 }	
 
@@ -332,6 +372,21 @@ class WikiDojoCfgButton extends WikiIocCfgComponent{
 	public function setType($type) {
 		$this->type = $type;
 	}
+	public function getAction() {
+		return $this->action;
+	}
+	public function getDisplay() {
+		return $this->display;
+	}
+	public function getDisplayBlock() {
+		return $this->displayBlock;
+	}
+	public function getFontSize() {
+		return $this->fontSize;
+	}
+	public function getType() {
+		return $this->type;
+	}
 }	
 
 class WikiIocCfgButton extends WikiDojoCfgButton{
@@ -368,6 +423,12 @@ class WikiIocCfgButton extends WikiDojoCfgButton{
 	public function setAutoSize($autoSize) {
 		$this->autoSize = $autoSize;
 	}
+	public function getQuery() {
+		return $this->query;
+	}
+	public function getAutoSize() {
+		return $this->autoSize;
+	}
 }	
 
 class WikiIocCfgFormInputField extends WikiIocCfgComponent{
@@ -388,6 +449,12 @@ class WikiIocCfgFormInputField extends WikiIocCfgComponent{
 	public function setType($type){
 		$this->type = ($type == NULL) ? "" : "type='$type' ";
 	}
+	public function getType(){
+		return $this->type;
+	}
+	public function getName(){
+		return $this->name;
+	}
 }
 
 class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
@@ -402,8 +469,7 @@ class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
 	private $left;
 
 	function __construct($label="", $id=NULL, $position="static", $top=0, $left=0, $zindex=900){
-		if ($id==NULL) 
-			$id=$label;
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id);
 		$this->position = $position;
 		$this->zindex = $zindex;
@@ -413,9 +479,6 @@ class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
 	
 	public function setPosition($position) {
 		$this->position = $position;
-	}
-	public function setZindex($zindex) {
-		$this->zindex = $zindex;
 	}
 	public function setTop($top) {
 		$this->top = $top;
@@ -427,9 +490,24 @@ class WikiDojoCfgToolBar extends WikiIocCfgItemsContainer{
 		$this->top = $top;
 		$this->left = $left;
 	}
+	public function setZindex($zindex) {
+		$this->zindex = $zindex;
+	}
+	public function getPosition() {
+		return $this->position;
+	}
+	public function getTop() {
+		return $this->top;
+	}
+	public function getLeft() {
+		return $this->left;
+	}
+	public function getZindex() {
+		return $this->zindex;
+	}
 }	
 
-class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la part esquerra.
@@ -438,13 +516,12 @@ class WikiIocCfgLeftContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		if ($id==NULL) 
-			$id=$label;
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id);
 	}
 }
 
-class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la #zona de canvi de mode# (part dreta).
@@ -453,13 +530,12 @@ class WikiIocCfgRightContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		if ($id==NULL) 
-			$id=$label;
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id);
 	}
 }
 
-class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer	/* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la #zona de propietats# (part esquerre).
@@ -468,8 +544,7 @@ class WikiIocCfgMetaInfoContainer extends WikiIocCfgItemsContainer{
 	 *		putItem: afegeix un nou item al contenidor
 	 */
 	function __construct($label="", $id=NULL){
-		if ($id==NULL) 
-			$id=$label;
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id);
 	}
 }
@@ -486,6 +561,10 @@ class WikiIocCfgProperty extends WikiIocCfgComponent{
 		$this->title = $title;
 		$this->setSelected(($selected) ? "selected='true'" : "");
 	}
+
+	public function getTitle(){
+        return $this->title;
+    }
 }
 
 class WikiIocCfgCentralTabsContainer extends WikiIocCfgItemsContainer{
@@ -563,7 +642,7 @@ class WikiIocCfgCentralTabsContainer extends WikiIocCfgItemsContainer{
     }
 }
 
-class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer{
+class WikiIocCfgHeadContainer extends WikiIocCfgItemsContainer /* PENDENT DE SUPRIMIR */{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:
 	 *		Defineix un contenidor per allotjar els items de la capçalera.
@@ -583,13 +662,15 @@ class WikiIocCfgBottomContainer extends WikiIocCfgComponent{
 	private $missatge;
 	
     public function __construct($label="", $id=NULL){
-		if ($id==NULL) 
-			$id=$label;
+		if ($id==NULL) $id=$label;
         parent::__construct($label, $id);
     }
 	
 	public function setMessage($msg) {
 		$this->missatge = $msg;
+	}
+	public function getMessage() {
+		return $this->missatge;
 	}
 }
 ?>
