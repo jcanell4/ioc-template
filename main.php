@@ -14,38 +14,18 @@
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 
+require_once DOKU_TPLINC."conf/mainCfg.php";
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $tpl = WikiIocTpl::Instance();
 
-// Variables
-$mainContent = "mainContent";
-$bodyContent = "bodyContent";
-$zonaNavegacio = "zonaNavegacio"; //ojo, ojito, musho cuidadito, antes se llamaba "nav"
-$zonaMetaInfo = "zonaMetaInfo";
-$zonaMissatges = "zonaMissatges";
-$zonaCanvi = "zonaCanvi";
-$tb_index = "tb_index";
-$tb_docu = "tb_docu";
-$loginDialog = "loginDialog";
-$loginButton = "loginButton";
-$exitButton = "exitButton";
-
 require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
 
-//$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
-//$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-//$cfgTabContainer->putTab("tb_perfil", new WikiIocCfgContentPane("Perfil"));
-//$cfgTabContainer->putTab("tb_admin", new WikiIocCfgContentPane("Admin"));
-//$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
-//$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
-
-$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocCfgTabsContainer::RESIZING_TAB_TYPE));
-$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
-$actionTabContainer->putTab("tb_perfil", new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
-$actionTabContainer->putTab("tb_admin", new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
-$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
-$actionTabContainer->setMenuButton(TRUE);
+$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
+$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer($cfgTabIndex));
+$actionTabContainer->putTab($tb_perfil, new WikiIocContentPane($cfgTabPerfil));
+$actionTabContainer->putTab($tb_admin, new WikiIocContentPane($cfgTabAdmin));
+$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage($cfgTabDocu));
 
 $blocMetaInfoContainer = new WikiIocMetaInfoContainer(new WikiIocCfgMetaInfoContainer($zonaMetaInfo));
 //$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));

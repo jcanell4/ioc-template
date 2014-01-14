@@ -1,11 +1,22 @@
 <?php
 /**
- * Main configuration file of the "vector" template for DokuWiki
- * @author Rafael Claver <rclaver@xtec.cat>
+ * Main file of the "vector" template for DokuWiki
+ *
+ *
+ * LICENSE: This file is open source software (OSS) and may be copied under
+ *          certain conditions. See COPYING file for details or try to contact
+ *          the author(s) of this file in doubt.
+ *
+ * @license GPLv2 (http://www.gnu.org/licenses/gpl2.html)
+ * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
+
+require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
+
+$tpl = WikiIocTpl::Instance();
 
 // Variables
 $mainContent = "mainContent";
@@ -22,16 +33,23 @@ $loginDialog = "loginDialog";
 $loginButton = "loginButton";
 $exitButton = "exitButton";
 
-require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponents.php');
+require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
 
-$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$cfgTabContainer->putTab($tb_perfil, new WikiIocCfgContentPane("Perfil"));
-$cfgTabContainer->putTab($tb_admin, new WikiIocCfgContentPane("Admin"));
-$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
-$cfgTabContainer->setMenuButton(true);
+//$cfgTabContainer = new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocCfgTabsContainer::RESIZING_TAB_TYPE);
+//$cfgTabContainer->putTab($tb_index, new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+//$cfgTabContainer->putTab($tb_perfil, new WikiIocCfgContentPane("Perfil"));
+//$cfgTabContainer->putTab($tb_admin, new WikiIocCfgContentPane("Admin"));
+//$cfgTabContainer->putTab($tb_docu, new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation"));
+//$actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
 
-$blocMetaInfoContainer = new WikiIocCfgMetaInfoContainer($zonaMetaInfo);
+$actionTabContainer = new WikiIocTabsContainer(new WikiIocCfgTabsContainer($zonaNavegacio, WikiIocCfgTabsContainer::RESIZING_TAB_TYPE));
+$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer(new WikiIocCfgTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/")));
+$actionTabContainer->putTab($tb_perfil, new WikiIocContentPane(new WikiIocCfgContentPane("Perfil")));
+$actionTabContainer->putTab($tb_admin, new WikiIocContentPane(new WikiIocCfgContentPane("Admin")));
+$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage(new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation")));
+$actionTabContainer->setMenuButton(TRUE);
+
+$blocMetaInfoContainer = new WikiIocMetaInfoContainer(new WikiIocCfgMetaInfoContainer($zonaMetaInfo));
 //$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 //$blocMetaInfoContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -42,15 +60,20 @@ $cfgButtonNew = new WikiIocCfgButton("Nou","newButton","do=new",true,true,true);
 $cfgButtonSave = new WikiIocCfgButton("Desar","saveButton","do=save",true,true,true);
 $cfgButtonEdit = new WikiIocCfgButton("Edició","editButton","do=edit",true,true,true);
 $cfgButtonEdparc = new WikiIocCfgButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$actionButtonExit = new WikiIocButton($cfgButtonExit);
+$actionButtonNew = new WikiIocButton($cfgButtonNew);
+$actionButtonSave = new WikiIocButton($cfgButtonSave);
+$actionButtonEdit = new WikiIocButton($cfgButtonEdit);
+$actionButtonEdparc = new WikiIocButton($cfgButtonEdparc);
 
-$cfgItemDropDownComponent = new WikiIocCfgHiddenDialog($loginDialog,"login");
-$cfgItemDropDownComponent->putItem("name", new WikiIocFormInputField(new WikiIocCfgFormInputField("Usuari:","name","u")));
-$cfgItemDropDownComponent->putItem("pass", new WikiIocFormInputField(new WikiIocCfgFormInputField("Contrasenya:","pass","p","password")));
+$actionItemDropDownComponent = new WikiIocHiddenDialog(new WikiIocCfgHiddenDialog($loginDialog,"login"));
+$actionItemDropDownComponent->putItem("name", new WikiIocFormInputField(new WikiIocCfgFormInputField("Usuari:","name","u")));
+$actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField(new WikiIocCfgFormInputField("Contrasenya:","pass","p","password")));
 
-$cfgDropDownButtonLogin = new WikiIocCfgDropDownButton($loginButton,"Entrar");
-$cfgDropDownButtonLogin->setAutoSize(true);
-$cfgDropDownButtonLogin->setDisplay(true);
-$cfgDropDownButtonLogin->setDisplayBlock(true);
+$actionDropDownButtonLogin = new WikiIocDropDownButton(new WikiIocCfgDropDownButton($loginButton,"Entrar"));
+$actionDropDownButtonLogin->setAutoSize(true);
+$actionDropDownButtonLogin->setDisplay(true);
+$actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
 $blocRightContainer = new WikiIocRightContainer(new WikiIocCfgRightContainer($zonaCanvi));
@@ -90,7 +113,7 @@ $blocCentralContainer->setScrollingButtons(TRUE);
 //$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
 if(!empty($_REQUEST["tb_container_sel"])){
-    $cfgTabContainer->selectTab($_REQUEST["tb_container_sel"]);
+    $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
 }
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
