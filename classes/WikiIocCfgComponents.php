@@ -663,6 +663,7 @@ class WikiIocCfgHeadLogo extends WikiIocCfgComponent{
         parent::__construct($label, $id);
     }
 }
+
 class WikiIocCfgBottomContainer extends WikiIocCfgComponent{
 	/* @author Rafael Claver <rclaver@xtec.cat>
 	 * Descripció:

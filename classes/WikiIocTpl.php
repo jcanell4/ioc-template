@@ -55,8 +55,7 @@ class WikiIocTpl {
     
     public function initialize(){
         global $INFO;
-        
-        global $INFO;
+        global $ACT;
 
         $INFO["isDojoLoaded"]=true;
         $INFO['prependTOC'] = FALSE;
