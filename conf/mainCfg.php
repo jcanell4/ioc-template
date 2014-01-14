@@ -7,6 +7,9 @@
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
 
+require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
+$tpl = WikiIocTpl::Instance();
+
 // Variables
 $mainContent = "mainContent";
 $bodyContent = "bodyContent";
@@ -33,12 +36,6 @@ $cfgTabDocu = new WikiIocCfgContainerFromPage("documentació", ":wiki:navigation
 
 $cfgMetaInfoContainer = new WikiIocCfgMetaInfoContainer($zonaMetaInfo);
 
-$cfgButtonExit = new WikiIocCfgButton("Sortir","exitButton","do=logoff",true,false,true);
-$cfgButtonNew = new WikiIocCfgButton("Nou","newButton","do=new",true,true,true);
-$cfgButtonSave = new WikiIocCfgButton("Desar","saveButton","do=save",true,true,true);
-$cfgButtonEdit = new WikiIocCfgButton("Edició","editButton","do=edit",true,true,true);
-$cfgButtonEdparc = new WikiIocCfgButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
-
 $cfgItemDropDownComponent = new WikiIocCfgHiddenDialog($loginDialog,"login");
 $cfgItemDropDownName = new WikiIocCfgFormInputField("Usuari:","name","u");
 $cfgItemDropDownPass = new WikiIocCfgFormInputField("Contrasenya:","pass","p","password");
@@ -47,6 +44,12 @@ $cfgDropDownButtonLogin = new WikiIocCfgDropDownButton($loginButton,"Entrar");
 $cfgDropDownButtonLogin->setAutoSize(true);
 $cfgDropDownButtonLogin->setDisplay(true);
 $cfgDropDownButtonLogin->setDisplayBlock(true);
+
+$cfgButtonNew = new WikiIocCfgButton("Nou","newButton","do=new",true,true,true);
+$cfgButtonSave = new WikiIocCfgButton("Desar","saveButton","do=save",true,true,true);
+$cfgButtonEdit = new WikiIocCfgButton("Edició","editButton","do=edit",true,true,true);
+$cfgButtonEdparc = new WikiIocCfgButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$cfgButtonExit = new WikiIocCfgButton("Sortir","exitButton","do=logoff",true,false,true);
 
 $cfgRightContainer = new WikiIocCfgRightContainer($zonaCanvi);
 
@@ -95,13 +98,4 @@ $tpl->setScriptTemplateFile(DOKU_TPLINC."html/scriptsRef.tpl",
 			, '@@LOGIN_BUTTON@@' => $loginButton
 			, '@@EXIT_BUTTON@@' => $exitButton
 		));
-
-$tpl->setBlocSuperiorComponent($blocHeadContainer);
-$tpl->setBlocCentralComponent($blocCentralContainer);
-$tpl->setNavigationComponent($actionTabContainer);
-$tpl->setMetaInfoComponent($blocMetaInfoContainer);
-$tpl->setBlocRightComponent($blocRightContainer);
-$tpl->setBlocInferiorComponent($blocBottomContainer);
-
-$tpl->printPage();
 ?>
