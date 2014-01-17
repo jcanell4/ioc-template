@@ -11,10 +11,12 @@ class WikiIocCfg {
 	private $arrConfig = array(
 				"mainContent" => "mainContent"
 				,"bodyContent" => "bodyContent"
+				,"zonaAccions" => "zonaAccions"
 				,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
 				,"zonaMetaInfo" => "zonaMetaInfo"
 				,"zonaMissatges" => "zonaMissatges"
 				,"zonaCanvi" => "zonaCanvi"
+				,"barraMenu" => "barraMenu"
 				,"tb_index" => "tb_index"
 				,"tb_perfil" => "tb_perfil"
 				,"tb_admin" => "tb_admin"

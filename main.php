@@ -13,35 +13,19 @@ if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'class
 require_once DOKU_TPL_CFG."mainCfg.php";
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
+$cfg = new WikiIocCfg();
 $tpl = WikiIocTpl::Instance();
-
-// Variables
-$mainContent = "mainContent";
-$bodyContent = "bodyContent";
-$zonaAccions = "zonaAccions"; 
-$zonaNavegacio = "zonaNavegacio"; //ojo, ojito, musho cuidadito, antes se llamaba "nav"
-$zonaMetaInfo = "zonaMetaInfo";
-$zonaMissatges = "zonaMissatges";
-$zonaCanvi = "zonaCanvi";
-$barraMenu = "barraMenu";
-$tb_index = "tb_index";
-$tb_perfil = "tb_perfil";
-$tb_admin = "tb_admin";
-$tb_docu = "tb_docu";
-$loginDialog = "loginDialog";
-$loginButton = "loginButton";
-$exitButton = "exitButton";
 
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
 
-$actionTabContainer = new WikiIocTabsContainer($zonaNavegacio, WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab($tb_index, new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$actionTabContainer->putTab($tb_perfil, new WikiIocContentPane("Perfil"));
-$actionTabContainer->putTab($tb_admin, new WikiIocContentPane("Admin"));
-$actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
+$actionTabContainer = new WikiIocTabsContainer($cfg->getConfig("zonaNavegacio"), WikiIocTabsContainer::RESIZING_TAB_TYPE);
+$actionTabContainer->putTab($cfg->getConfig("tb_index"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab($cfg->getConfig("tb_perfil"), new WikiIocContentPane("Perfil"));
+$actionTabContainer->putTab($cfg->getConfig("tb_admin"), new WikiIocContentPane("Admin"));
+$actionTabContainer->putTab($cfg->getConfig("tb_docu"), new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
-$blocMetaInfoContainer = new WikiIocMetaInfoContainer($zonaMetaInfo);
+$blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaInfo"));
 //$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 //$blocMetaInfoContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -53,17 +37,17 @@ $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,t
 $actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
 $actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
 
-$actionItemDropDownComponent = new WikiIocHiddenDialog($loginDialog,"login");
+$actionItemDropDownComponent = new WikiIocHiddenDialog($cfg->getConfig("loginDialog"),"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
 $actionItemDropDownComponent->putItem("pass", new WikiIocFormInputField("Contrasenya:","pass","p","password"));
 
-$actionDropDownButtonLogin = new WikiIocDropDownButton($loginButton,"Entrar");
+$actionDropDownButtonLogin = new WikiIocDropDownButton($cfg->getConfig("loginButton"),"Entrar");
 $actionDropDownButtonLogin->setAutoSize(true);
 $actionDropDownButtonLogin->setDisplay(true);
 $actionDropDownButtonLogin->setDisplayBlock(true);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
-$blocRightContainer = new WikiIocRightContainer($zonaCanvi);
+$blocRightContainer = new WikiIocRightContainer($cfg->getConfig("zonaCanvi"));
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
 $blocRightContainer->putItem("bSave", $actionButtonSave);
@@ -71,7 +55,7 @@ $blocRightContainer->putItem("bEdit", $actionButtonEdit);
 $blocRightContainer->putItem("bEditparc", $actionButtonEdparc);
 $blocRightContainer->putItem("bExit", $actionButtonExit);
 
-$blocBarraMenuContainer = new WikiDojoToolBar($barraMenu);
+$blocBarraMenuContainer = new WikiDojoToolBar($cfg->getConfig("barraMenu"));
 $blocBarraMenuContainer->setPosition("fixed");
 $blocBarraMenuContainer->setTopLeft(25,275);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
@@ -82,7 +66,7 @@ $blocHeadContainer = new WikiIocHeadContainer();
 $blocHeadContainer->putItem("logo", new WikiIocHeadLogo());
 $blocHeadContainer->putItem($blocBarraMenuContainer->getId(), $blocBarraMenuContainer);
 
-$blocBottomContainer = new WikiIocBottomContainer(new WikiIocCfgBottomContainer($zonaMissatges));
+$blocBottomContainer = new WikiIocBottomContainer($cfg->getConfig("zonaMissatges"));
 $blocBottomContainer->setMessage("àrea de missatges");
 
 $actionFormProva = new WikiDojoFormContainer("formulari-prova",NULL,NULL,"relative",40,20);
@@ -94,7 +78,7 @@ $botoSubmit = new WikiDojoButton("acceptar");
 $botoSubmit->setType("submit");
 $actionFormProva->putItem("frm_button1", $botoSubmit);
 
-$blocCentralContainer = new WikiIocCentralTabsContainer($bodyContent, WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
+$blocCentralContainer = new WikiIocCentralTabsContainer($cfg->getConfig("bodyContent"), WikiIocCentralTabsContainer::SCROLLING_TAB_TYPE);
 $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
 //$blocCentralContainer->putTab("frm_prova", $actionFormProva);
@@ -107,17 +91,17 @@ if(!empty($_REQUEST["tb_container_sel"])){
 $tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
 		array('%%ID%%' => "ajax"
 			, '%%SECTOK%%' => getSecurityToken()
-			, '@@MAIN_CONTENT@@' => $mainContent
-			, '@@BODY_CONTENT@@' => $bodyContent
-			, '@@NAVEGACIO_NODE_ID@@' => $zonaNavegacio
-			, '@@METAINFO_NODE_ID@@' => $zonaMetaInfo
-			, '@@INFO_NODE_ID@@' => $zonaMissatges
-			, '@@CANVI_NODE_ID@@' => $zonaCanvi
-			, '@@TAB_INDEX@@'    => $tb_index
-			, '@@TAB_DOCU@@'     => $tb_docu
-			, '@@LOGIN_DIALOG@@' => $loginDialog
-			, '@@LOGIN_BUTTON@@' => $loginButton
-			, '@@EXIT_BUTTON@@' => $exitButton
+			, '@@MAIN_CONTENT@@' => $cfg->getConfig("mainContent")
+			, '@@BODY_CONTENT@@' => $cfg->getConfig("bodyContent")
+			, '@@NAVEGACIO_NODE_ID@@' => $cfg->getConfig("zonaNavegacio")
+			, '@@METAINFO_NODE_ID@@' => $cfg->getConfig("zonaMetaInfo")
+			, '@@INFO_NODE_ID@@' => $cfg->getConfig("zonaMissatges")
+			, '@@CANVI_NODE_ID@@' => $cfg->getConfig("zonaCanvi")
+			, '@@TAB_INDEX@@'    => $cfg->getConfig("tb_index")
+			, '@@TAB_DOCU@@'     => $cfg->getConfig("tb_docu")
+			, '@@LOGIN_DIALOG@@' => $cfg->getConfig("loginDialog")
+			, '@@LOGIN_BUTTON@@' => $cfg->getConfig("loginButton")
+			, '@@EXIT_BUTTON@@' => $cfg->getConfig("exitButton")
 		));
 
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
