@@ -17,6 +17,9 @@ if (!defined("DOKU_INC")){
     die();
 }
 
+//startpage
+$conf["ioc_template_startpage"] = "start"; //namespace to use for user page storage
+
 //user pages
 $conf["ioc_template_userpage"]    = true; //TRUE: use/show user pages
 $conf["ioc_template_userpage_ns"] = ":wiki:user:"; //namespace to use for user page storage

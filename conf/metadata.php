@@ -33,6 +33,9 @@ if (!defined("DOKU_INC")){
     die();
 }
 
+//startpage
+$meta["ioc_template_startpage"] =  array("string"); 
+
 //user pages
 $meta["ioc_template_userpage"]    = array("onoff");
 $meta["ioc_template_userpage_ns"] = array("string", "_pattern" => "/^:.{1,}:$/");

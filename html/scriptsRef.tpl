@@ -59,24 +59,24 @@
 			});
 			
             tbContainer = registry.byId(tab_index);
-            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tbContainer);
             tbContainer.updateSectok();
 
             tbContainer = registry.byId(tab_docu);
-            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             
             tbContainer = registry.byId("exitButton");
-            //tbContainer.set("dispatcher", wikiIocDispatcher);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 			//tbContainer.set("standbyId", "loginDialog_hidden_container");
 			
-			var loginDialog = registry.byId(login_dialog);
-            //loginDialog.set("dispatcher", wikiIocDispatcher);
+            tbContainer = registry.byId("editButton");
+            tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
+	    //tbContainer.set("standbyId", "loginDialog_hidden_container");
+
+            var loginDialog = registry.byId(login_dialog);
             loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
             loginDialog.set("standbyId", "loginDialog_hidden_container");
             

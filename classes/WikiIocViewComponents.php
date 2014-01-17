@@ -2,8 +2,8 @@
 /**
 **/
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
-if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPLINC.'conf/');
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
+if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir().'conf/');
 
 require_once(DOKU_TPL_CLASSES.'WikiIocViewComponent.php');
 require_once(DOKU_TPL_CLASSES.'WikiIocCfgComponents.php');

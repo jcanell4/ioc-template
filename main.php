@@ -12,9 +12,9 @@
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
-if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPLINC.'classes/');
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
 
-require_once DOKU_TPLINC."conf/mainCfg.php";
+require_once tpl_incdir()."conf/mainCfg.php";
 require_once(DOKU_TPL_CLASSES.'WikiIocViewComponents.php');
 
 $actionTabContainer = new WikiIocTabsContainer($cfgTabContainer);
@@ -37,9 +37,9 @@ $actionDropDownButtonLogin = new WikiIocDropDownButton($cfgDropDownButtonLogin);
 $actionDropDownButtonLogin->setActionHidden($actionItemDropDownComponent);
 
 $actionButtonNew = new WikiIocButton($cfgButtonNew);
-$actionButtonSave = new WikiIocButton($cfgButtonSave);
 $actionButtonEdit = new WikiIocButton($cfgButtonEdit);
-$actionButtonEdparc = new WikiIocButton($cfgButtonEdparc);
+//$actionButtonEdparc = new WikiIocButton($cfgButtonEdparc);
+$actionButtonSave = new WikiIocButton($cfgButtonSave);
 $actionButtonExit = new WikiIocButton($cfgButtonExit);
 
 $blocRightContainer = new WikiIocRightContainer($cfgRightContainer);
