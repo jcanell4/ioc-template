@@ -5,7 +5,7 @@
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
-if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
+if (!defined("DOKU_TPL_CLASSES")) define("DOKU_TPL_CLASSES", tpl_incdir()."classes/");
 
 class WikiIocCfg {
 	private $arrConfig = array(
@@ -17,17 +17,46 @@ class WikiIocCfg {
 				,"zonaMissatges" => "zonaMissatges"
 				,"zonaCanvi" => "zonaCanvi"
 				,"barraMenu" => "barraMenu"
-				,"tb_index" => "tb_index"
-				,"tb_perfil" => "tb_perfil"
-				,"tb_admin" => "tb_admin"
-				,"tb_docu" => "tb_docu"
+				,"zN_Index_id" => "tb_index"
+				,"zN_perfil_id" => "tb_perfil"
+				,"zN_admin_id" => "tb_admin"
+				,"zN_docum_id" => "tb_docu"
 				,"loginDialog" => "loginDialog"
 				,"loginButton" => "loginButton"
 				,"exitButton" => "exitButton"
+				,"editButton" => "editButton"
 			);
+	
+	private $arrTpl = array(
+				"%%ID%%" => "ajax"
+				,"%%SECTOK%%" => "getSecurityToken()"
+				,"@@MAIN_CONTENT@@" => "mainContent"
+				,"@@BODY_CONTENT@@" => "bodyContent"
+				,"@@NAVEGACIO_NODE_ID@@" => "zonaNavegacio"
+				,"@@METAINFO_NODE_ID@@" => "zonaMetaInfo"
+				,"@@INFO_NODE_ID@@" => "zonaMissatges"
+				,"@@CANVI_NODE_ID@@" => "zonaCanvi"
+				,"@@TAB_INDEX@@"    => "tb_index"
+				,"@@TAB_DOCU@@"     => "tb_docu"
+				,"@@LOGIN_DIALOG@@" => "loginDialog"
+				,"@@LOGIN_BUTTON@@" => "loginButton"
+				,"@@EXIT_BUTTON@@" => "exitButton"
+				,"@@EDIT_BUTTON@@" => "editButton"
+			);
+
+    function __construct(){
+		foreach ($this->arrConfig as $key => $value) {
+			$this->arrTpl[$key] = $value;
+		}
+	}
 	
 	public function getConfig($key){
 		return $this->arrConfig[$key];
 	}
+
+	public function getArrayTpl(){
+		return $this->arrTpl;
+	}
+	
 }
 ?>

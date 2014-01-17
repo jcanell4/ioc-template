@@ -19,10 +19,10 @@ $tpl = WikiIocTpl::Instance();
 require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
 
 $actionTabContainer = new WikiIocTabsContainer($cfg->getConfig("zonaNavegacio"), WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab($cfg->getConfig("tb_index"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
-$actionTabContainer->putTab($cfg->getConfig("tb_perfil"), new WikiIocContentPane("Perfil"));
-$actionTabContainer->putTab($cfg->getConfig("tb_admin"), new WikiIocContentPane("Admin"));
-$actionTabContainer->putTab($cfg->getConfig("tb_docu"), new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
+$actionTabContainer->putTab($cfg->getConfig("zN_Index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab($cfg->getConfig("zN_perfil_id"), new WikiIocContentPane("Perfil"));
+$actionTabContainer->putTab($cfg->getConfig("zN_admin_id"), new WikiIocContentPane("Admin"));
+$actionTabContainer->putTab($cfg->getConfig("zN_docum_id"), new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
 $actionTabContainer->setMenuButton(TRUE);
 
 $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaInfo"));
@@ -33,9 +33,9 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaI
 
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
 $actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
-$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,true,true);
-$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,true,true);
-$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,true,true);
+$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,false,true);
+$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,false,true);
+$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,false,true);
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($cfg->getConfig("loginDialog"),"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
@@ -57,7 +57,7 @@ $blocRightContainer->putItem("bExit", $actionButtonExit);
 
 $blocBarraMenuContainer = new WikiDojoToolBar($cfg->getConfig("barraMenu"));
 $blocBarraMenuContainer->setPosition("fixed");
-$blocBarraMenuContainer->setTopLeft(25,275);
+$blocBarraMenuContainer->setTopLeft(28,270);
 $blocBarraMenuContainer->putItem(barVista, new WikiDojoButton("VISTA","menu_vista","alert('VISTA')",true,false));
 $blocBarraMenuContainer->putItem(barEdicio, new WikiDojoButton("EDICIÓ","menu_edicio","alert('EDICIO')",true,false));
 $blocBarraMenuContainer->putItem(barCorreccio, new WikiDojoButton("CORRECCIÓ","menu_correccio","alert('CORRECCIO')",true,false));
@@ -74,7 +74,7 @@ $actionFormProva->setAction("commandreport");
 $actionFormProva->setUrlBase("lib/plugins/ajaxcommand/ajax.php?call=");
 $actionFormProva->putItem("frm_input1", new WikiIocFormInputField("input 1:", "input1"));
 $botoSubmit = new WikiDojoButton("acceptar");
-//$botoSubmit->setAction("alert('Es nota que amb el ratolí hi tens la mà trencada.')");
+$botoSubmit->setAction("alert('Es nota que amb el ratolí hi tens la mà trencada.')");
 $botoSubmit->setType("submit");
 $actionFormProva->putItem("frm_button1", $botoSubmit);
 
@@ -83,26 +83,25 @@ $blocCentralContainer->setMenuButton(TRUE);
 $blocCentralContainer->setScrollingButtons(TRUE);
 //$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
-if(!empty($_REQUEST["tb_container_sel"])){
-    $actionTabContainer->selectTab($_REQUEST["tb_container_sel"]);
-}
-
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
-$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
-		array('%%ID%%' => "ajax"
-			, '%%SECTOK%%' => getSecurityToken()
-			, '@@MAIN_CONTENT@@' => $cfg->getConfig("mainContent")
-			, '@@BODY_CONTENT@@' => $cfg->getConfig("bodyContent")
-			, '@@NAVEGACIO_NODE_ID@@' => $cfg->getConfig("zonaNavegacio")
-			, '@@METAINFO_NODE_ID@@' => $cfg->getConfig("zonaMetaInfo")
-			, '@@INFO_NODE_ID@@' => $cfg->getConfig("zonaMissatges")
-			, '@@CANVI_NODE_ID@@' => $cfg->getConfig("zonaCanvi")
-			, '@@TAB_INDEX@@'    => $cfg->getConfig("tb_index")
-			, '@@TAB_DOCU@@'     => $cfg->getConfig("tb_docu")
-			, '@@LOGIN_DIALOG@@' => $cfg->getConfig("loginDialog")
-			, '@@LOGIN_BUTTON@@' => $cfg->getConfig("loginButton")
-			, '@@EXIT_BUTTON@@' => $cfg->getConfig("exitButton")
-		));
+$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", $cfg->getArrayTpl());
+
+//$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
+//		array('%%ID%%' => "ajax"
+//			, '%%SECTOK%%' => getSecurityToken()
+//			, '@@MAIN_CONTENT@@' => $cfg->getConfig("mainContent")
+//			, '@@BODY_CONTENT@@' => $cfg->getConfig("bodyContent")
+//			, '@@NAVEGACIO_NODE_ID@@' => $cfg->getConfig("zonaNavegacio")
+//			, '@@METAINFO_NODE_ID@@' => $cfg->getConfig("zonaMetaInfo")
+//			, '@@INFO_NODE_ID@@' => $cfg->getConfig("zonaMissatges")
+//			, '@@CANVI_NODE_ID@@' => $cfg->getConfig("zonaCanvi")
+//			, '@@TAB_INDEX@@'    => $cfg->getConfig("zN_Index_id")
+//			, '@@TAB_DOCU@@'     => $cfg->getConfig("zN_docum_id")
+//			, '@@LOGIN_DIALOG@@' => $cfg->getConfig("loginDialog")
+//			, '@@LOGIN_BUTTON@@' => $cfg->getConfig("loginButton")
+//			, '@@EXIT_BUTTON@@' => $cfg->getConfig("exitButton")
+//			, '@@EDIT_BUTTON@@' => $cfg->getConfig("editButton")
+//		));
 
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
 $tpl->setBlocCentralComponent($blocCentralContainer);

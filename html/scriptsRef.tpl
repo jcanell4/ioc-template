@@ -50,6 +50,8 @@
 		var tab_docu = '@@TAB_DOCU@@';
 		var login_dialog = '@@LOGIN_DIALOG@@';
 		var login_button = '@@LOGIN_BUTTON@@';
+		var exit_button = '@@EXIT_BUTTON@@';
+		var edit_button = '@@EDIT_BUTTON@@';
 		
         ready(function(){
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
@@ -68,11 +70,11 @@
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
             tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
             
-            tbContainer = registry.byId("exitButton");
+            tbContainer = registry.byId(exit_button);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
 			//tbContainer.set("standbyId", "loginDialog_hidden_container");
 			
-            tbContainer = registry.byId("editButton");
+            tbContainer = registry.byId(edit_button);
             tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
 	    //tbContainer.set("standbyId", "loginDialog_hidden_container");
 
