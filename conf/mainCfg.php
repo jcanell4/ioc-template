@@ -44,11 +44,11 @@ class WikiIocCfg {
 				,"@@EDIT_BUTTON@@" => "editButton"
 			);
 
-    function __construct(){
-		foreach ($this->arrConfig as $key => $value) {
-			$this->arrTpl[$key] = $value;
-		}
-	}
+//    function __construct(){
+//		foreach ($this->arrConfig as $key => $value) {
+//			$this->arrTpl[$key] = $value;
+//		}
+//	}
 	
 	public function getConfig($key){
 		return $this->arrConfig[$key];
