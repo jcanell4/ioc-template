@@ -23,7 +23,7 @@ $actionTabContainer->putTab($tb_perfil, new WikiIocContentPane($cfgTabPerfil));
 $actionTabContainer->putTab($tb_admin, new WikiIocContentPane($cfgTabAdmin));
 $actionTabContainer->putTab($tb_docu, new WikiIocContainerFromPage($cfgTabDocu));
 
-$blocMetaInfoContainer = new WikiIocMetaInfoContainer(new WikiIocCfgMetaInfoContainer($zonaMetaInfo));
+$blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfgMetaInfoContainer);
 //$blocMetaInfoContainer->putItem("project", new WikiIocProperty("pProject","pProject","PROJECT",true));
 //$blocMetaInfoContainer->putItem("media", new WikiIocProperty("pMedia","pMedia","MEDIA"));
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
@@ -51,8 +51,8 @@ $blocRightContainer->putItem("bEditparc", $actionButtonEdparc);
 $blocRightContainer->putItem("bExit", $actionButtonExit);
 
 $blocMenuBarContainer = new WikiDojoToolBar($cfgMenuBarContainer);
-$blocMenuBarContainer->setPosition("fixed");
-$blocMenuBarContainer->setTopLeft(25,275);
+//$blocMenuBarContainer->setPosition("fixed");
+//$blocMenuBarContainer->setTopLeft(25,275);
 $blocMenuBarContainer->putItem(barVista, new WikiDojoButton($cfgMenuBarButtonVista));
 $blocMenuBarContainer->putItem(barEdicio, new WikiDojoButton($cfgMenuBarButtonEdicio));
 $blocMenuBarContainer->putItem(barCorreccio, new WikiDojoButton($cfgMenuBarButtonCorreccio));
