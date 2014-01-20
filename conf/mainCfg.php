@@ -34,8 +34,7 @@ class WikiIocCfg {
 			);
 	
 	private $arrTpl;
-	private $arrWikiIocTpl;
-	
+	private $arrMain;
 	//LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
 
     function __construct(){

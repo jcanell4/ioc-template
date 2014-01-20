@@ -30,11 +30,11 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaI
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
 //$blocMetaInfoContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
-$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
-$actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,false,true);
-$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,false,true);
-$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,false,true);
-$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,false,true);
+$actionButtonExit = new WikiIocButton("Sortir",$cfg->getConfig("exitButton"),"do=logoff",true,false,true);
+$actionButtonNew = new WikiIocButton("Nou",$cfg->getConfig("newButton"),"do=new",true,false,true);
+$actionButtonSave = new WikiIocButton("Desar",$cfg->getConfig("saveButton"),"do=save",true,false,true);
+$actionButtonEdit = new WikiIocButton("Edició",$cfg->getConfig("editButton"),"do=edit",true,false,true);
+$actionButtonEdparc = new WikiIocButton("Ed. Parc.",$cfg->getConfig("edparcButton"),"do=edparc",true,false,true);
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($cfg->getConfig("loginDialog"),"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));

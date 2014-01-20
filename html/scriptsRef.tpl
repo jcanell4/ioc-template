@@ -32,6 +32,8 @@
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
+            
+			var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var tab_index = '@@TAB_INDEX@@';
             var tab_docu = '@@TAB_DOCU@@';
             var login_dialog = '@@LOGIN_DIALOG@@';
@@ -42,11 +44,10 @@
             var save_button = '@@SAVE_BUTTON@@';
             var ed_parc_button = '@@ED_PARC_BUTTON@@';
             var h = 100*(win.getBox().h-55)/win.getBox().h;
-            var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             domStyle.set(divMainContent, "height", h+"%");
             /*
             var wikiIocDispatcher = new Dispatcher({
-                containerNodeId: "bodyContent"
+                containerNodeId: "@@BODY_CONTENT@@"
             });
             */
             wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
@@ -85,12 +86,12 @@
             };
 
 
-            ready(function(){
-                var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                            tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
-                                    if (newTab.updateRendering)
-                                            newTab.updateRendering();
-                            });
+			ready(function(){
+				var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
+					if (newTab.updateRendering)
+						newTab.updateRendering();
+					});
 
                 tbContainer = registry.byId(tab_index);
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
@@ -104,7 +105,7 @@
 
                 tbContainer = registry.byId(exit_button);
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
-                            //tbContainer.set("standbyId", "loginDialog_hidden_container");
+                //tbContainer.set("standbyId", "loginDialog_hidden_container");
 
                 tbContainer = registry.byId(edit_button);
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
