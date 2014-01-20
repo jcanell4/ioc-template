@@ -34,6 +34,8 @@
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang
                 ,UpdateViewHandler){
+                
+            var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var tab_index = '@@TAB_INDEX@@';
             var tab_docu = '@@TAB_DOCU@@';
             var login_dialog = '@@LOGIN_DIALOG@@';
