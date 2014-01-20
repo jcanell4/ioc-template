@@ -8,6 +8,7 @@
      ,"dijit/registry"
      ,"dojo/ready"
      ,"dojo/_base/lang"
+     ,"ioc/wiki30/UpdateViewHandler"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
@@ -31,7 +32,8 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang
+                ,UpdateViewHandler){
             var tab_index = '@@TAB_INDEX@@';
             var tab_docu = '@@TAB_DOCU@@';
             var login_dialog = '@@LOGIN_DIALOG@@';
@@ -51,39 +53,43 @@
             */
             wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
             wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
-                    wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
+            wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
             wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
             wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
 //            wikiIocDispatcher.loginButtonId = '@@LOGIN_BUTTON@@';
 //            wikiIocDispatcher.exitButtonId = '@@EXIT_BUTTON@@';
 //            wikiIocDispatcher.editButtonId = '@@EDIT_BUTTON@@';
-            wikiIocDispatcher.updateFromState = function(){
-                if(!this.globalState.login){
-                    this.changeWidgetProperty(login_button, "visible", true);
-                    this.changeWidgetProperty(exit_button, "visible", false);
-                    this.changeWidgetProperty(new_button, "visible", false);
-                    this.changeWidgetProperty(edit_button, "visible", false);
-                    this.changeWidgetProperty(save_button, "visible", false);
-                    this.changeWidgetProperty(ed_parc_button, "visible", false);
+            var updateHandler = new UpdateViewHandler(wikiIocDispatcher);
+            
+            updateHandler.update = function(){
+                var disp = this.getDispatcher();
+                if(!disp.globalState.login){
+                    disp.changeWidgetProperty(login_button, "visible", true);
+                    disp.changeWidgetProperty(exit_button, "visible", false);
+                    disp.changeWidgetProperty(new_button, "visible", false);
+                    disp.changeWidgetProperty(edit_button, "visible", false);
+                    disp.changeWidgetProperty(save_button, "visible", false);
+                    disp.changeWidgetProperty(ed_parc_button, "visible", false);
                 }else{
-                    this.changeWidgetProperty(login_button, "visible", false);
-                    this.changeWidgetProperty(exit_button, "visible", true);
-                    this.changeWidgetProperty(new_button, "visible", true);
-                    if(this.globalState.currentTabId){
-                        var page = this.globalState.pages[this.globalState.currentTabId];
+                    disp.changeWidgetProperty(login_button, "visible", false);
+                    disp.changeWidgetProperty(exit_button, "visible", true);
+                    disp.changeWidgetProperty(new_button, "visible", true);
+                    if(disp.globalState.currentTabId){
+                        var page = disp.globalState.pages[disp.globalState.currentTabId];
                         if(page.action==='view'){
-                            this.changeWidgetProperty(edit_button, "visible", true);
-                            this.changeWidgetProperty(save_button, "visible", false);
-                            this.changeWidgetProperty(ed_parc_button, "visible", true);
+                            disp.changeWidgetProperty(edit_button, "visible", true);
+                            disp.changeWidgetProperty(save_button, "visible", false);
+                            disp.changeWidgetProperty(ed_parc_button, "visible", true);
                         }else if(page.action==='edit'){
-                            this.changeWidgetProperty(edit_button, "visible", false);
-                            this.changeWidgetProperty(save_button, "visible", true);
-                            this.changeWidgetProperty(ed_parc_button, "visible", false);
+                            disp.changeWidgetProperty(edit_button, "visible", false);
+                            disp.changeWidgetProperty(save_button, "visible", true);
+                            disp.changeWidgetProperty(ed_parc_button, "visible", false);
                         }
                     }
                 }
-            }
-
+            };
+            wikiIocDispatcher.addUpdateView(updateHandler);
+            
 
             ready(function(){
                 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
