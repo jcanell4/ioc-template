@@ -51,7 +51,7 @@
             */
             wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
             wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
-                    wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
+			wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
             wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
             wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
 //            wikiIocDispatcher.loginButtonId = '@@LOGIN_BUTTON@@';
@@ -82,7 +82,7 @@
                         }
                     }
                 }
-            }
+            };
 
 
             ready(function(){

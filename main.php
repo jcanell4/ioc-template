@@ -7,19 +7,18 @@
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
-if (!defined('DOKU_TPL_CFG')) define('DOKU_TPL_CFG', tpl_incdir().'conf/');
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
 
-require_once DOKU_TPL_CFG."mainCfg.php";
+require_once tpl_incdir()."conf/mainCfg.php";
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $cfg = new WikiIocCfg();
 $tpl = WikiIocTpl::Instance();
 
-require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
+require_once(DOKU_TPL_CLASSES."WikiIocComponents.php");
 
 $actionTabContainer = new WikiIocTabsContainer($cfg->getConfig("zonaNavegacio"), WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab($cfg->getConfig("zN_Index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab($cfg->getConfig("zN_index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
 $actionTabContainer->putTab($cfg->getConfig("zN_perfil_id"), new WikiIocContentPane("Perfil"));
 $actionTabContainer->putTab($cfg->getConfig("zN_admin_id"), new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab($cfg->getConfig("zN_docum_id"), new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
@@ -85,7 +84,6 @@ $blocCentralContainer->setScrollingButtons(TRUE);
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
 $tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", $cfg->getArrayTpl());
-
 //$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
 //		array('%%ID%%' => "ajax"
 //			, '%%SECTOK%%' => getSecurityToken()
@@ -103,6 +101,7 @@ $tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", $cfg->getArrayTp
 //			, '@@EDIT_BUTTON@@' => $cfg->getConfig("editButton")
 //		));
 
+$tpl->setBodyIds($cfg->getArrayMain());
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
 $tpl->setBlocCentralComponent($blocCentralContainer);
 $tpl->setNavigationComponent($actionTabContainer);

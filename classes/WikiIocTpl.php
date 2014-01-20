@@ -23,6 +23,10 @@ class WikiIocTpl {
     private $contentComponent;
     private $scriptTemplateFile;
     private $replaceInTemplateFile;
+	private $mainID;
+	private $mainContentID;
+	private $tb_containerID;
+	private $contentID;
 
 	/*
 	$tpl_view = "content";
@@ -148,20 +152,20 @@ class WikiIocTpl {
     }
     
     public function printBody(){
-		echo "<body id='main' class='claro'>\n";
+		echo "<body id='{$this->mainID}' class='claro'>\n";
 		
 		// bloc superior: conté el logo i la #zona d'accions# (barra de menú)
 		echo "<div style='height: 55px; width: 100%;'>";	
 			echo $this->blocSuperiorComponent->getRenderingCode();
 		echo "</div>";
 
-		echo "<div id='mainContent'>\n";
+		echo "<div id='{$this->mainContentID}'>\n";
 		echo "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
 		
 		// bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
 		echo "<div data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' doLayout='true' region='left' splitter='true' minSize='150' maxSize='Infinity' style='width:190px;' closable='false'>\n";
 			//#zona de navegació#
-			echo "<div id='tb_container' style='height: 40%;'>\n";
+			echo "<div id='{$this->tb_containerID}' style='height: 40%;'>\n";
 				echo $this->navigationComponent->getRenderingCode();
 			echo "</div>\n";
 			//#zona de meta-informació#
@@ -174,7 +178,7 @@ class WikiIocTpl {
 		// Tant el contenidor div id='content' con la classe 'dokuwiki' del seu contenidor fill, 
 		// s'han creat per compatibilitat amb els continguts actuals de la wiki i els CSS assosciats
 		// a aquests atributs, però no formen part original del contenidor central d'aquesta "Zona de Treball"
-		echo "<div id='content'>";
+		echo "<div id='{$this->contentID}'>";
 		echo "<div class='ioc_content dokuwiki' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' region='center' splitter='false' maxSize='Infinity' doLayout='false'>\n";
 			echo $this->blocCentralComponent->getRenderingCode();
 		echo "</div>\n</div>\n";
@@ -193,6 +197,13 @@ class WikiIocTpl {
 		echo "</body>\n";
 	}
 
+	public function setBodyIds($cfg){
+		$this->mainID = $cfg["main"];
+		$this->mainContentID = $cfg["mainContent"];
+		$this->tb_containerID = $cfg["tb_container"];
+		$this->contentID = $cfg["content"];
+
+    }
 	public function printContentPage(){
         $this->contentComponent->printRenderingCode();
     }
