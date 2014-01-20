@@ -7,19 +7,18 @@
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
-if (!defined('DOKU_TPL_CFG')) define('DOKU_TPL_CFG', tpl_incdir().'conf/');
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
 
-require_once DOKU_TPL_CFG."mainCfg.php";
+require_once tpl_incdir()."conf/mainCfg.php";
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $cfg = new WikiIocCfg();
 $tpl = WikiIocTpl::Instance();
 
-require_once(DOKU_TPL_CLASSES.'WikiIocComponents.php');
+require_once(DOKU_TPL_CLASSES."WikiIocComponents.php");
 
 $actionTabContainer = new WikiIocTabsContainer($cfg->getConfig("zonaNavegacio"), WikiIocTabsContainer::RESIZING_TAB_TYPE);
-$actionTabContainer->putTab($cfg->getConfig("zN_Index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
+$actionTabContainer->putTab($cfg->getConfig("zN_index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
 $actionTabContainer->putTab($cfg->getConfig("zN_perfil_id"), new WikiIocContentPane("Perfil"));
 $actionTabContainer->putTab($cfg->getConfig("zN_admin_id"), new WikiIocContentPane("Admin"));
 $actionTabContainer->putTab($cfg->getConfig("zN_docum_id"), new WikiIocContainerFromPage("documentació", ":wiki:navigation"));
@@ -31,11 +30,11 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaI
 //$blocMetaInfoContainer->putItem("discussio", new WikiIocProperty("pDiscus","pDiscus","DISCUS"));
 //$blocMetaInfoContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
-$actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
-$actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,false,true);
-$actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,false,true);
-$actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,false,true);
-$actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,false,true);
+$actionButtonExit = new WikiIocButton("Sortir",$cfg->getConfig("exitButton"),"do=logoff",true,false,true);
+$actionButtonNew = new WikiIocButton("Nou",$cfg->getConfig("newButton"),"do=new",true,false,true);
+$actionButtonSave = new WikiIocButton("Desar",$cfg->getConfig("saveButton"),"do=save",true,false,true);
+$actionButtonEdit = new WikiIocButton("Edició",$cfg->getConfig("editButton"),"do=edit",true,false,true);
+$actionButtonEdparc = new WikiIocButton("Ed. Parc.",$cfg->getConfig("edparcButton"),"do=edparc",true,false,true);
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($cfg->getConfig("loginDialog"),"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));
@@ -85,7 +84,6 @@ $blocCentralContainer->setScrollingButtons(TRUE);
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
 $tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", $cfg->getArrayTpl());
-
 //$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
 //		array('%%ID%%' => "ajax"
 //			, '%%SECTOK%%' => getSecurityToken()
@@ -103,6 +101,7 @@ $tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", $cfg->getArrayTp
 //			, '@@EDIT_BUTTON@@' => $cfg->getConfig("editButton")
 //		));
 
+$tpl->setBodyIds($cfg->getArrayMain());
 $tpl->setBlocSuperiorComponent($blocHeadContainer);
 $tpl->setBlocCentralComponent($blocCentralContainer);
 $tpl->setNavigationComponent($actionTabContainer);
