@@ -32,7 +32,7 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaI
 //$blocMetaInfoContainer->putItem("versions", new WikiIocProperty("pVersions","pVersions","VERSIONS"));
 
 $actionButtonExit = new WikiIocButton("Sortir","exitButton","do=logoff",true,false,true);
-$actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,true,true);
+$actionButtonNew = new WikiIocButton("Nou","newButton","do=new",true,false,true);
 $actionButtonSave = new WikiIocButton("Desar","saveButton","do=save",true,false,true);
 $actionButtonEdit = new WikiIocButton("Edició","editButton","do=edit",true,false,true);
 $actionButtonEdparc = new WikiIocButton("Ed. Parc.","edparcButton","do=edparc",true,false,true);

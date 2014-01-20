@@ -25,6 +25,9 @@ class WikiIocCfg {
 				,"loginButton" => "loginButton"
 				,"exitButton" => "exitButton"
 				,"editButton" => "editButton"
+				,"newButton" => "newButton"
+				,"saveButton" => "saveButton"
+				,"edparcButton" => "edparcButton"
 			);
 	
 	private $arrTpl = array(
@@ -42,6 +45,10 @@ class WikiIocCfg {
 				,"@@LOGIN_BUTTON@@" => "loginButton"
 				,"@@EXIT_BUTTON@@" => "exitButton"
 				,"@@EDIT_BUTTON@@" => "editButton"
+                                ,'@@NEW_BUTTON@@' => "newButton"
+                                ,'@@SAVE_BUTTON@@' => "saveButton"
+                                ,'@@ED_PARC_BUTTON@@' => "edparcButton"
+            
 			);
 
 //    function __construct(){

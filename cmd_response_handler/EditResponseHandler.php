@@ -21,9 +21,9 @@ class EditResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
     protected function process($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addWikiCodeDoc($contentData['id'], 
-                                    $contentData['ns'], $contentData['title'],
-                                    $contentData['content']);
+        $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
+                                    $responseData['ns'], $contentData['title'],
+                                    $responseData['content']);
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEditing", 
                                 $this->getToolbarIds());        
     }    
