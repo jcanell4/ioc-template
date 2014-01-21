@@ -32,26 +32,22 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang
-                ,UpdateViewHandler){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, UpdateViewHandler){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
-            var tab_index = '@@TAB_INDEX@@';
-            var tab_docu = '@@TAB_DOCU@@';
-            var login_dialog = '@@LOGIN_DIALOG@@';
-            var login_button = '@@LOGIN_BUTTON@@';
-            var exit_button = '@@EXIT_BUTTON@@';
-            var edit_button = '@@EDIT_BUTTON@@';
-            var new_button = '@@NEW_BUTTON@@';
-            var save_button = '@@SAVE_BUTTON@@';
-            var ed_parc_button = '@@ED_PARC_BUTTON@@';
+//            var tab_index = '@@TAB_INDEX@@';
+//            var tab_docu = '@@TAB_DOCU@@';
+//            var login_dialog = '@@LOGIN_DIALOG@@';
+//            var login_button = '@@LOGIN_BUTTON@@';
+//            var exit_button = '@@EXIT_BUTTON@@';
+//            var edit_button = '@@EDIT_BUTTON@@';
+//            var new_button = '@@NEW_BUTTON@@';
+//            var save_button = '@@SAVE_BUTTON@@';
+//            var ed_parc_button = '@@ED_PARC_BUTTON@@';
             var h = 100*(win.getBox().h-55)/win.getBox().h;
             domStyle.set(divMainContent, "height", h+"%");
-            /*
-            var wikiIocDispatcher = new Dispatcher({
-                containerNodeId: "@@BODY_CONTENT@@"
-            });
-            */
+
+//            var wikiIocDispatcher = new Dispatcher({containerNodeId: "@@BODY_CONTENT@@"});
             wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
             wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
             wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
@@ -65,26 +61,26 @@
             updateHandler.update = function(){
                 var disp = this.getDispatcher();
                 if(!disp.globalState.login){
-                    disp.changeWidgetProperty(login_button, "visible", true);
-                    disp.changeWidgetProperty(exit_button, "visible", false);
-                    disp.changeWidgetProperty(new_button, "visible", false);
-                    disp.changeWidgetProperty(edit_button, "visible", false);
-                    disp.changeWidgetProperty(save_button, "visible", false);
-                    disp.changeWidgetProperty(ed_parc_button, "visible", false);
+                    disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
+                    disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
                 }else{
-                    disp.changeWidgetProperty(login_button, "visible", false);
-                    disp.changeWidgetProperty(exit_button, "visible", true);
-                    disp.changeWidgetProperty(new_button, "visible", true);
+                    disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
+                    disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
                     if(disp.globalState.currentTabId){
                         var page = disp.globalState.pages[disp.globalState.currentTabId];
                         if(page.action==='view'){
-                            disp.changeWidgetProperty(edit_button, "visible", true);
-                            disp.changeWidgetProperty(save_button, "visible", false);
-                            disp.changeWidgetProperty(ed_parc_button, "visible", true);
+                            disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", true);
+                            disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
+                            disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", true);
                         }else if(page.action==='edit'){
-                            disp.changeWidgetProperty(edit_button, "visible", false);
-                            disp.changeWidgetProperty(save_button, "visible", true);
-                            disp.changeWidgetProperty(ed_parc_button, "visible", false);
+                            disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
+                            disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", true);
+                            disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
                         }
                     }
                 }
@@ -99,30 +95,29 @@
 						newTab.updateRendering();
 					});
 
-                tbContainer = registry.byId(tab_index);
+                tbContainer = registry.byId('@@TAB_INDEX@@');
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
                 tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
                 wikiIocDispatcher.toUpdateSectok.push(tbContainer);
                 tbContainer.updateSectok();
 
-                tbContainer = registry.byId(tab_docu);
+                tbContainer = registry.byId('@@TAB_DOCU@@');
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
                 tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
 
-                tbContainer = registry.byId(exit_button);
+                tbContainer = registry.byId('@@EXIT_BUTTON@@');
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
                 //tbContainer.set("standbyId", "loginDialog_hidden_container");
 
-                tbContainer = registry.byId(edit_button);
+                tbContainer = registry.byId('@@EDIT_BUTTON@@');
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
                 tbContainer.getQuery = function(){
-                    var ns = wikiIocDispatcher.globalState.pages[
-                                wikiIocDispatcher.globalState.currentTabId]["ns"];
+                    var ns = wikiIocDispatcher.globalState.pages[wikiIocDispatcher.globalState.currentTabId]["ns"];
                     return this.query+"&id="+ns;
-                }
+                };
                 //tbContainer.set("standbyId", "loginDialog_hidden_container");
 
-                var loginDialog = registry.byId(login_dialog);
+                var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
                 loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
                 loginDialog.set("standbyId", "loginDialog_hidden_container");
 
@@ -130,15 +125,15 @@
                     loginDialog.reset(); 
                 });
 
-                var loginCancelButton = registry.byId(login_dialog+'_CancelButton');
+                var loginCancelButton = registry.byId('@@LOGIN_DIALOG@@'+'_CancelButton');
                 loginCancelButton.on('click',function(){
-                    var but = registry.byId(login_button);
+                    var but = registry.byId('@@LOGIN_BUTTON@@');
                     but.closeDropDown(false);
                 });
 
-                    //Prova per insertar un nou element a la zona de metainformació
-                    //var array = {'type':'metainfo', 'value':{'docId':'id_doc3', 'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3"}};
-                    //wikiIocDispatcher.processResponse(array);
+				//Prova per insertar un nou element a la zona de metainformació
+				//var array = {'type':'metainfo', 'value':{'docId':'id_doc3', 'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3"}};
+				//wikiIocDispatcher.processResponse(array);
             });
 		
     });
