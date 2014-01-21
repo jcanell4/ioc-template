@@ -92,8 +92,8 @@
             wikiIocDispatcher.addUpdateView(updateHandler);
             
 
-			ready(function(){
-				var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+            ready(function(){
+                var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
                 tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
 					if (newTab.updateRendering)
 						newTab.updateRendering();
@@ -115,6 +115,11 @@
 
                 tbContainer = registry.byId(edit_button);
                 tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
+                tbContainer.getQuery = function(){
+                    var ns = wikiIocDispatcher.globalState.pages[
+                                wikiIocDispatcher.globalState.currentTabId]["ns"];
+                    return this.query+"&id="+ns;
+                }
                 //tbContainer.set("standbyId", "loginDialog_hidden_container");
 
                 var loginDialog = registry.byId(login_dialog);
