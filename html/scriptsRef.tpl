@@ -35,15 +35,6 @@
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, UpdateViewHandler){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
-//            var tab_index = '@@TAB_INDEX@@';
-//            var tab_docu = '@@TAB_DOCU@@';
-//            var login_dialog = '@@LOGIN_DIALOG@@';
-//            var login_button = '@@LOGIN_BUTTON@@';
-//            var exit_button = '@@EXIT_BUTTON@@';
-//            var edit_button = '@@EDIT_BUTTON@@';
-//            var new_button = '@@NEW_BUTTON@@';
-//            var save_button = '@@SAVE_BUTTON@@';
-//            var ed_parc_button = '@@ED_PARC_BUTTON@@';
             var h = 100*(win.getBox().h-55)/win.getBox().h;
             domStyle.set(divMainContent, "height", h+"%");
 
@@ -58,8 +49,9 @@
             wikiIocDispatcher.saveButtonId = '@@SAVE_BUTTON@@';
             wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
             wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
+			
             var updateHandler = new UpdateViewHandler(wikiIocDispatcher);
-            
+
             updateHandler.update = function(){
                 var disp = this.getDispatcher();
                 if(!disp.globalState.login){
@@ -98,32 +90,32 @@
 
             ready(function(){
                 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                tbContainer.watch("selectedChildWidget", function(name,oldTab,newTab){
+                tbContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
 					if (newTab.updateRendering)
 						newTab.updateRendering();
 					});
 
-                tbContainer = registry.byId('@@TAB_INDEX@@');
-                tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
-                tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
-                wikiIocDispatcher.toUpdateSectok.push(tbContainer);
-                tbContainer.updateSectok();
+                var tab = registry.byId('@@TAB_INDEX@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
+                tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+                wikiIocDispatcher.toUpdateSectok.push(tab);
+                tab.updateSectok();
 
-                tbContainer = registry.byId('@@TAB_DOCU@@');
-                tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
-                tbContainer.set("standbyId", wikiIocDispatcher.containerNodeId);
+                tab = registry.byId('@@TAB_DOCU@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page"); 
+                tab.set("standbyId", wikiIocDispatcher.containerNodeId);
 
-                tbContainer = registry.byId('@@EXIT_BUTTON@@');
-                tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
-                //tbContainer.set("standbyId", "loginDialog_hidden_container");
+                tab = registry.byId('@@EXIT_BUTTON@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
+                //tab.set("standbyId", "loginDialog_hidden_container");
 
-                tbContainer = registry.byId('@@EDIT_BUTTON@@');
-                tbContainer.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
-                tbContainer.getQuery = function(){
+                tab = registry.byId('@@EDIT_BUTTON@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
+                tab.getQuery = function(){
                     var ns = wikiIocDispatcher.globalState.pages[wikiIocDispatcher.globalState.currentTabId]["ns"];
                     return this.query+"&id="+ns;
                 };
-                //tbContainer.set("standbyId", "loginDialog_hidden_container");
+                //tab.set("standbyId", "loginDialog_hidden_container");
 
                 var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
                 loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
@@ -138,6 +130,26 @@
                     var but = registry.byId('@@LOGIN_BUTTON@@');
                     but.closeDropDown(false);
                 });
+
+                var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
+                centralContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
+							//1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
+							wikiIocDispatcher.removeAllChildrenWidgets(oldTab);
+							//2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
+							var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+							var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id);
+							var m, cp;
+							for (m in metaContentCache) {
+								cp = new ContentPane({
+										id: metaContentCache[m].id
+										,title: metaContentCache[m].title
+										,content: metaContentCache[m].content
+									});
+								nodeMetaInfo.addChild(cp);
+								nodeMetaInfo.resize();
+							}
+							wikiIocDispatcher.globalState.currentTabId=newTab.id;
+						});
 
 				//Prova per insertar un nou element a la zona de metainformació
 				//var array = {'type':'metainfo', 'value':{'docId':'id_doc3', 'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3"}};
