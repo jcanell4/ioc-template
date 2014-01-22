@@ -47,15 +47,17 @@
             var h = 100*(win.getBox().h-55)/win.getBox().h;
             domStyle.set(divMainContent, "height", h+"%");
 
-//            var wikiIocDispatcher = new Dispatcher({containerNodeId: "@@BODY_CONTENT@@"});
             wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
             wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
             wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
             wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
             wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
-//            wikiIocDispatcher.loginButtonId = '@@LOGIN_BUTTON@@';
-//            wikiIocDispatcher.exitButtonId = '@@EXIT_BUTTON@@';
-//            wikiIocDispatcher.editButtonId = '@@EDIT_BUTTON@@';
+            wikiIocDispatcher.loginButtonId = '@@LOGIN_BUTTON@@';
+            wikiIocDispatcher.exitButtonId = '@@EXIT_BUTTON@@';
+            wikiIocDispatcher.editButtonId = '@@EDIT_BUTTON@@';
+            wikiIocDispatcher.saveButtonId = '@@SAVE_BUTTON@@';
+            wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
+            wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
             var updateHandler = new UpdateViewHandler(wikiIocDispatcher);
             
             updateHandler.update = function(){
@@ -66,6 +68,8 @@
                     disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", false);
                     disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
                     disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
+                    disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
                     disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
                 }else{
                     disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", false);
@@ -76,10 +80,14 @@
                         if(page.action==='view'){
                             disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", true);
                             disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
+                            disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
+                            disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
                             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", true);
                         }else if(page.action==='edit'){
                             disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
                             disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", true);
+                            disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", true);
+                            disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", true);
                             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
                         }
                     }

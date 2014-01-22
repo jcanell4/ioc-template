@@ -30,6 +30,8 @@ class WikiIocCfg {
 				,"editButton"   => "editButton"
 				,"newButton"    => "newButton"
 				,"saveButton"   => "saveButton"
+				,"previewButton"   => "previewButton"
+				,"cancelButton"   => "cancelButton"
 				,"edparcButton" => "edparcButton"
 			);
 	
@@ -55,6 +57,8 @@ class WikiIocCfg {
 				,"@@EDIT_BUTTON@@" => $this->getConfig("editButton")
 				,'@@NEW_BUTTON@@' => $this->getConfig("newButton")
 				,'@@SAVE_BUTTON@@' => $this->getConfig("saveButton")
+				,'@@PREVIEW_BUTTON@@' => $this->getConfig("previewButton")
+				,'@@CANCEL_BUTTON@@' => $this->getConfig("cancelButton")
 				,'@@ED_PARC_BUTTON@@' => $this->getConfig("edparcButton")
 		);
 		

@@ -33,6 +33,8 @@ $blocMetaInfoContainer = new WikiIocMetaInfoContainer($cfg->getConfig("zonaMetaI
 $actionButtonExit = new WikiIocButton("Sortir",$cfg->getConfig("exitButton"),"do=logoff",true,false,true);
 $actionButtonNew = new WikiIocButton("Nou",$cfg->getConfig("newButton"),"do=new",true,false,true);
 $actionButtonSave = new WikiIocButton("Desar",$cfg->getConfig("saveButton"),"do=save",true,false,true);
+$actionButtonPre = new WikiIocButton("Previsualitza",$cfg->getConfig("previewButton"),"do=preview",true,false,true);
+$actionButtonCancel = new WikiIocButton("Cancel·la",$cfg->getConfig("cancelButton"),"do=cancel",true,false,true);
 $actionButtonEdit = new WikiIocButton("Edició",$cfg->getConfig("editButton"),"do=edit",true,false,true);
 $actionButtonEdparc = new WikiIocButton("Ed. Parc.",$cfg->getConfig("edparcButton"),"do=edparc",true,false,true);
 
@@ -50,6 +52,8 @@ $blocRightContainer = new WikiIocRightContainer($cfg->getConfig("zonaCanvi"));
 $blocRightContainer->putItem("bLogin", $actionDropDownButtonLogin);
 $blocRightContainer->putItem("bNew", $actionButtonNew);
 $blocRightContainer->putItem("bSave", $actionButtonSave);
+$blocRightContainer->putItem("bPreview", $actionButtonPre);
+$blocRightContainer->putItem("bCancel", $actionButtonCancel);
 $blocRightContainer->putItem("bEdit", $actionButtonEdit);
 $blocRightContainer->putItem("bEditparc", $actionButtonEdparc);
 $blocRightContainer->putItem("bExit", $actionButtonExit);
