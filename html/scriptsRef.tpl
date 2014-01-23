@@ -133,27 +133,24 @@
 
                 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
                 centralContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
-							//1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
-							wikiIocDispatcher.removeAllChildrenWidgets(oldTab);
-							//2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
-							var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-							var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id);
-							var m, cp;
-							for (m in metaContentCache) {
-								cp = new ContentPane({
-										id: metaContentCache[m].id
-										,title: metaContentCache[m].title
-										,content: metaContentCache[m].content
-									});
-								nodeMetaInfo.addChild(cp);
-								nodeMetaInfo.resize();
-							}
-							wikiIocDispatcher.globalState.currentTabId=newTab.id;
-						});
-
-				//Prova per insertar un nou element a la zona de metainformació
-				//var array = {'type':'metainfo', 'value':{'docId':'id_doc3', 'id':'meta3', 'title':'títol MetaInfo3', 'content':"contingut meta informació 3"}};
-				//wikiIocDispatcher.processResponse(array);
+                        //1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
+                        wikiIocDispatcher.removeAllChildrenWidgets(wikiIocDispatcher.metaInfoNodeId);
+                        //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
+                        var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id);
+                        var m, cp;
+                        /*NOTA el problema està aquí! revisa-ho*/
+//                        for (m in metaContentCache) {
+//                                cp = new ContentPane({
+//                                                id: metaContentCache[m].id
+//                                                ,title: metaContentCache[m].title
+//                                                ,content: metaContentCache[m].content
+//                                        });
+//                                nodeMetaInfo.addChild(cp);
+//                                nodeMetaInfo.resize();
+//                        }
+//                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
+                });
             });
 		
     });

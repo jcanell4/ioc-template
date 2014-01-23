@@ -16,6 +16,7 @@
 if (!defined("DOKU_INC")){
     die();
 }
+$conf['dojo_base'] = "//ajax.googleapis.com/ajax/libs/dojo/1.8/";
 
 //startpage
 $conf["ioc_template_startpage"] = "start"; //namespace to use for user page storage

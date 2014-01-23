@@ -33,6 +33,8 @@ if (!defined("DOKU_INC")){
     die();
 }
 
+$meta["dojo_base"] =  array("string"); 
+
 //startpage
 $meta["ioc_template_startpage"] =  array("string"); 
 
@@ -53,38 +55,4 @@ $meta["ioc_template_documentation_translate"] = array("onoff");
 $meta["ioc_template_copyright"]    = array("onoff");
 $meta["ioc_template_default"]      = array("onoff");
 $meta["ioc_template_copyright_ns"] = array("string", "_pattern" => "/^:.{1,}:$/");
-
-////site notice
-//$meta["vector_sitenotice"]          = array("onoff");
-//$meta["vector_sitenotice_location"] = array("string");
-//
-////navigation
-//$meta["vector_navigation"]           = array("onoff");
-//$meta["vector_navigation_location"]  = array("string");
-//$meta["vector_navigation_translate"] = array("onoff");
-//
-////exportbox ("print/export")
-//$meta["vector_exportbox"]          = array("onoff");
-//$meta["vector_exportbox_default"]  = array("onoff");
-//$meta["vector_exportbox_location"] = array("string");
-//
-////toolbox
-//$meta["vector_toolbox"]          = array("onoff");
-//$meta["vector_toolbox_default"]  = array("onoff");
-//$meta["vector_toolbox_location"] = array("string");
-//
-////donation link/button
-//$meta["vector_donate"]          = array("onoff");
-//$meta["vector_donate_default"]  = array("onoff");
-//$meta["vector_donate_url"]      = array("string", "_pattern" => "/^.{1,6}:\/{2}.+$/");
-//
-////TOC
-//$meta["vector_toc_position"] = array("multichoice", "_choices" => array("article", "sidebar"));
-//
-////other stuff
-//$meta["vector_breadcrumbs_position"]  = array("multichoice", "_choices" => array("top", "bottom"));
-//$meta["vector_youarehere_position"]   = array("multichoice", "_choices" => array("top", "bottom"));
-//$meta["vector_cite_author"]           = array("string");
-//$meta["vector_loaduserjs"]            = array("onoff");
-//$meta["vector_closedwiki"]            = array("onoff");
 
