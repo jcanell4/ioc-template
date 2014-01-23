@@ -133,26 +133,32 @@
 
                 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
                 centralContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
-                        //1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
-                        wikiIocDispatcher.removeAllChildrenWidgets(wikiIocDispatcher.metaInfoNodeId);
-                        //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id);
+						//alert('És @@METAINFO_NODE_ID@@.\nwikiIocDispatcher.metaInfoNodeId = '+wikiIocDispatcher.metaInfoNodeId + '\nnodeMetaInfo = '+nodeMetaInfo);
+						//alert('wikiIocDispatcher.globalState.currentTabId = '+wikiIocDispatcher.globalState.currentTabId + '\nnewTab.id = '+newTab.id);
+                        //1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
+                        wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
+                        //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
+                        var metaContentCache = wikiIocDispatcher.contentCache[newTab.id];
                         var m, cp;
+						alert('nodeMetaInfo = '+nodeMetaInfo + '\n\nnewTab.id = '+newTab.id + '\n\nmetaContentCache["start"] = '+metaContentCache["start"] + '\n\nmetaContentCache["id"] = '+metaContentCache["id"] + '\n\nmetaContentCache["title"] = '+metaContentCache["title"] + '\n\nmetaContentCache["metaData"] = '+metaContentCache["metaData"] );
                         /*NOTA el problema està aquí! revisa-ho*/
-//                        for (m in metaContentCache) {
-//                                cp = new ContentPane({
-//                                                id: metaContentCache[m].id
-//                                                ,title: metaContentCache[m].title
-//                                                ,content: metaContentCache[m].content
-//                                        });
-//                                nodeMetaInfo.addChild(cp);
-//                                nodeMetaInfo.resize();
-//                        }
-//                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
+                        for (m in metaContentCache) {
+							alert('metaContentCache = '+metaContentCache + '\n\nm = '+m + '\nmetaContentCache[m] = '+metaContentCache[m]);
+							if (metaContentCache[m] != "" && metaContentCache[m] != null && metaContentCache[m] != 'undefined') {
+								alert('BUCLE:\n\nm = '+m + '\n\nmetaContentCache[m] = ' + metaContentCache[m]);
+								cp = new ContentPane({
+										id: 'metaContentCache_m_id'
+										,title: 'metaContentCache_m_title'
+										,content: 'metaContentCache_m_content'
+									});
+								nodeMetaInfo.addChild(cp);
+//								nodeMetaInfo.resize();
+							}
+                        }
+                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
                 });
             });
-		
     });
 </script>
 
