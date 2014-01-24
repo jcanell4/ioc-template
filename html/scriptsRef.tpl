@@ -8,6 +8,8 @@
      ,"dijit/registry"
      ,"dojo/ready"
      ,"dojo/_base/lang"
+     ,"dojo/dom-style"
+     ,"dijit/layout/ContentPane"        
      ,"ioc/wiki30/UpdateViewHandler"
      ,"dijit/dijit"
      ,"dojo/parser"
@@ -32,7 +34,8 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, UpdateViewHandler){
+    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, 
+                    style, ContentPane, UpdateViewHandler){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var h = 100*(win.getBox().h-55)/win.getBox().h;
@@ -54,33 +57,36 @@
 
             updateHandler.update = function(){
                 var disp = this.getDispatcher();
+                var cur = wikiIocDispatcher.globalState.currentTabId; 
+                if(cur){
+                    style.set(cur, "overflow", "auto");
+                }
+                disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
+                disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
+
                 if(!disp.globalState.login){
                     disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
-                    disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
-                    disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
                 }else{
-                    disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", false);
                     disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
                     disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
                     if(disp.globalState.currentTabId){
                         var page = disp.globalState.pages[disp.globalState.currentTabId];
                         if(page.action==='view'){
                             disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", true);
-                            disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
-                            disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
-                            disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
                             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", true);
                         }else if(page.action==='edit'){
-                            disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
                             disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", true);
                             disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", true);
                             disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", true);
-                            disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
+                            if(cur){
+                                style.set(cur, "overflow", "hidden");
+                            }
                         }
                     }
                 }
@@ -133,23 +139,25 @@
 
                 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
                 centralContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
+                    if(wikiIocDispatcher.getContentCache(newTab.id)){
                         //1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
                         wikiIocDispatcher.removeAllChildrenWidgets(wikiIocDispatcher.metaInfoNodeId);
                         //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id);
+                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
                         var m, cp;
                         /*NOTA el problema està aquí! revisa-ho*/
-//                        for (m in metaContentCache) {
-//                                cp = new ContentPane({
-//                                                id: metaContentCache[m].id
-//                                                ,title: metaContentCache[m].title
-//                                                ,content: metaContentCache[m].content
-//                                        });
-//                                nodeMetaInfo.addChild(cp);
-//                                nodeMetaInfo.resize();
-//                        }
-//                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
+                        for (m in metaContentCache) {
+                                cp = new ContentPane({
+                                                id: metaContentCache[m].id
+                                                ,title: metaContentCache[m].title
+                                                ,content: metaContentCache[m].content
+                                        });
+                                nodeMetaInfo.addChild(cp);
+                                nodeMetaInfo.resize();
+                        }
+                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
+                    }
                 });
             });
 		

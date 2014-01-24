@@ -24,8 +24,12 @@ class EditResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
                                     $responseData['ns'], $contentData['title'],
                                     $responseData['content']);
+        $params = array();                
+        $this->getToolbarIds($params);
+        $params['id'] = $responseData['id'];
+        $params['licenseClass'] = "license";
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEditing", 
-                                $this->getToolbarIds());        
+                                $params);        
     }    
 }
 

@@ -81,10 +81,13 @@ abstract class WikiIocResponseHandler extends ResponseHandler {
         return $contentData;                
     }
     
-    protected function getToolbarIds(){
-        return array("varName" => "toolbar", 
-                    "toolbarId" => "tool__bar",
-                    "wikiTextId" => "wiki__text");
+    protected function getToolbarIds(&$value){
+        $value["varName"] = "toolbar";
+        $value["toolbarId"] = "tool__bar";
+        $value["wikiTextId"] = "wiki__text";
+        $value["editBarId"] = "wiki__editbar";
+        $value["editFormId"] = "dw__editform";
+        $value["summaryId"] = "edit__summary";
     }
 }
 
