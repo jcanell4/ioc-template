@@ -117,11 +117,16 @@
 
                 tab = registry.byId('@@EDIT_BUTTON@@');
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
-                tab.getQuery = function(){
+                var getQuery = function(){
                     var ns = wikiIocDispatcher.globalState.pages[wikiIocDispatcher.globalState.currentTabId]["ns"];
                     return this.query+"&id="+ns;
                 };
+                tab.getQuery = getQuery;
                 //tab.set("standbyId", "loginDialog_hidden_container");
+                
+                tab = registry.byId('@@CANCEL_BUTTON@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel"); 
+                tab.getQuery = getQuery;
 
                 var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
                 loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 
