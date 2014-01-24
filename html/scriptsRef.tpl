@@ -133,32 +133,29 @@
 
                 var loginCancelButton = registry.byId('@@LOGIN_DIALOG@@'+'_CancelButton');
                 loginCancelButton.on('click',function(){
-                    var but = registry.byId('@@LOGIN_BUTTON@@');
-                    but.closeDropDown(false);
+                    var bt = registry.byId('@@LOGIN_BUTTON@@');
+                    bt.closeDropDown(false);
                 });
 
                 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
                 centralContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
-                    if(wikiIocDispatcher.getContentCache(newTab.id)){
-                        //1. elimina els widgets corresponents a les metaInfo de la antiga pestanya
+                    if (wikiIocDispatcher.getContentCache(newTab.id)){
+                        var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+                        //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
                         wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
                         //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
-                        var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
                         var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
                         var m, cp;
-//						alert('nodeMetaInfo = '+nodeMetaInfo + '\n\nnewTab.id = '+newTab.id + '\n\nmetaContentCache[0] = '+metaContentCache[0] + '\n\nmetaContentCache["start"] = '+metaContentCache["start"] + '\n\nmetaContentCache["id"] = '+metaContentCache["id"] + '\n\nmetaContentCache["title"] = '+metaContentCache["title"] + '\n\nmetaContentCache["metaData"] = '+metaContentCache["metaData"] );
-//						alert('nodeMetaInfo = '+nodeMetaInfo + '\n\nnewTab.id = '+newTab.id + '\n\nmetaContentCache.id = ['+metaContentCache.id + ']\n\nmetaContentCache.title = ['+metaContentCache.title + ']\n\nmetaContentCache.metaData = ['+metaContentCache.metaData+']' );
-                        /*NOTA el problema està aquí! revisa-ho*/
                         for (m in metaContentCache) {
-                                cp = new ContentPane({
-                                                id: metaContentCache[m].id
-                                                ,title: metaContentCache[m].title
-                                                ,content: metaContentCache[m].content
-                                        });
-                                nodeMetaInfo.addChild(cp);
-                                nodeMetaInfo.resize();
+                            cp = new ContentPane({
+                                        id: metaContentCache[m].id
+                                        ,title: metaContentCache[m].title
+                                        ,content: metaContentCache[m].content
+                            });
+                            nodeMetaInfo.addChild(cp);
+                            nodeMetaInfo.resize();
                         }
-                        wikiIocDispatcher.globalState.currentTabId=newTab.id;
+                        wikiIocDispatcher.globalState.currentTabId = newTab.id;
                     }
                 });
             });
