@@ -14,6 +14,15 @@ class CancelResponseHandler extends PageResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::CANCEL);
     }
+    protected function process($requestParams, 
+                                $responseData, 
+                                &$ajaxCmdResponseGenerator) {
+        parent::process($requestParams, 
+                        $responseData, 
+                        $ajaxCmdResponseGenerator);
+        $ajaxCmdResponseGenerator->addProcessFunction(true, 
+                                            "ioc/dokuwiki/processCancellation");
+    }
 }
 
 ?>

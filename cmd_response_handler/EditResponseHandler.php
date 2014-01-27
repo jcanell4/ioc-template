@@ -21,6 +21,8 @@ class EditResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
     protected function process($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        global $conf;
+        
         $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
                                     $responseData['ns'], $contentData['title'],
                                     $responseData['content']);
@@ -28,6 +30,8 @@ class EditResponseHandler extends WikiIocResponseHandler {
         $this->getToolbarIds($params);
         $params['id'] = $responseData['id'];
         $params['licenseClass'] = "license";
+        $params['timeout']= $conf['locktime'] - 60;
+        $params['draft']=$conf['usedraft']!=0;
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEditing", 
                                 $params);        
     }    
