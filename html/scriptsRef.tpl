@@ -9,6 +9,7 @@
      ,"dojo/ready"
      ,"dojo/_base/lang"
      ,"dojo/dom-style"
+     ,"dojo/dom-form"
      ,"dijit/layout/ContentPane"        
      ,"ioc/wiki30/UpdateViewHandler"
      ,"dijit/dijit"
@@ -35,7 +36,7 @@
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, 
-                    style, ContentPane, UpdateViewHandler){
+                    style, domForm, ContentPane, UpdateViewHandler){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var h = 100*(win.getBox().h-55)/win.getBox().h;
@@ -127,6 +128,13 @@
                 tab = registry.byId('@@CANCEL_BUTTON@@');
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel"); 
                 tab.getQuery = getQuery;
+
+                tab = registry.byId('@@SAVE_BUTTON@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save"); 
+                tab.getQuery = getQuery;
+                tab.getPostData = function(){
+                    return domForm.toObject("dw__editform");
+                }
 
                 var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
                 loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login"); 

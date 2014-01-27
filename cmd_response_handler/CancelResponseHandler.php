@@ -22,6 +22,7 @@ class CancelResponseHandler extends PageResponseHandler {
                         $ajaxCmdResponseGenerator);
         $ajaxCmdResponseGenerator->addProcessFunction(true, 
                                             "ioc/dokuwiki/processCancellation");
+        $ajaxCmdResponseGenerator->addInfoDta(' ');
     }
 }
 
