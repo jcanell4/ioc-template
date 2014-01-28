@@ -96,6 +96,7 @@
             
 
             ready(function(){
+            
                 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
                 tbContainer.watch("selectedChildWidget", function(name, oldTab, newTab){
 					if (newTab.updateRendering)
