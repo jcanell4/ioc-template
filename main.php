@@ -36,7 +36,7 @@ $actionButtonSave = new WikiIocButton("Desar",$cfg->getConfig("saveButton"),"do=
 $actionButtonPre = new WikiIocButton("Previsualitza",$cfg->getConfig("previewButton"),"do=preview",true,false,true);
 $actionButtonCancel = new WikiIocButton("Cancel·la",$cfg->getConfig("cancelButton"),"do=cancel",true,false,true);
 $actionButtonEdit = new WikiIocButton("Edició",$cfg->getConfig("editButton"),"do=edit",true,false,true);
-$actionButtonEdparc = new WikiIocButton("Ed. Parc.",$cfg->getConfig("edparcButton"),"do=edparc",true,false,true);
+$actionButtonEdparc = new WikiIocButton("Ed. Parc.",$cfg->getConfig("edparcButton"),"",true,false,true);
 
 $actionItemDropDownComponent = new WikiIocHiddenDialog($cfg->getConfig("loginDialog"),"login");
 $actionItemDropDownComponent->putItem("name", new WikiIocFormInputField("Usuari:","name","u"));

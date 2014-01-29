@@ -12,6 +12,7 @@
      ,"dojo/dom-form"
      ,"dijit/layout/ContentPane"        
      ,"ioc/wiki30/UpdateViewHandler"
+     ,"ioc/dokuwiki/dwPageUi"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
@@ -36,7 +37,7 @@
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, 
-                    style, domForm, ContentPane, UpdateViewHandler){
+                    style, domForm, ContentPane, UpdateViewHandler, dwPageUi){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var h = 100*(win.getBox().h-55)/win.getBox().h;
@@ -53,6 +54,7 @@
             wikiIocDispatcher.saveButtonId = '@@SAVE_BUTTON@@';
             wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
             wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
+            wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
 			
             var updateHandler = new UpdateViewHandler(wikiIocDispatcher);
 
@@ -120,11 +122,31 @@
                 tab = registry.byId('@@EDIT_BUTTON@@');
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
                 var getQuery = function(){
-                    var ns = wikiIocDispatcher.globalState.pages[wikiIocDispatcher.globalState.currentTabId]["ns"];
-                    return this.query+"&id="+ns;
+                    var ret;
+                    var ns = wikiIocDispatcher.globalState.pages[
+                                wikiIocDispatcher.globalState.currentTabId]["ns"];
+                    if(this.query){
+                        ret = this.query+"&id="+ns;
+                    }else{
+                        ret = "id="+ns;
+                    }
+                    return ret;
                 };
                 tab.getQuery = getQuery;
-                //tab.set("standbyId", "loginDialog_hidden_container");
+
+                tab = registry.byId('@@ED_PARC_BUTTON@@');
+                tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
+                tab.getQuery = function(){
+                    var ret;
+                    var q = dwPageUi.getFormQueryToEditSection(
+                            wikiIocDispatcher.globalState.getCurrentSectionId());
+                    if(this.query){
+                        ret = this.query+"&"+q;
+                    }else{
+                        ret = q;
+                    }
+                    return ret;
+                };
                 
                 tab = registry.byId('@@CANCEL_BUTTON@@');
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel"); 
