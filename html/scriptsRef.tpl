@@ -5,18 +5,20 @@
      ,"dojo/dom-style"
      ,"dojo/window"
      ,"ioc/wiki30/dispatcherSingleton"
+     ,"ioc/wiki30/Request"
      ,"dijit/registry"
      ,"dojo/ready"
-     ,"dojo/_base/lang"
      ,"dojo/dom-style"
      ,"dojo/dom-form"
      ,"dijit/layout/ContentPane"        
      ,"ioc/wiki30/UpdateViewHandler"
      ,"ioc/dokuwiki/dwPageUi"
+     ,"dojo/_base/array"
+     ,'dojo/_base/unload'
+     ,"dojo/json"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
-     ,"dijit/layout/ContentPane"
      ,"dijit/MenuBar"
      ,"dijit/PopupMenuBarItem"
      ,"dijit/MenuItem"
@@ -36,8 +38,9 @@
      ,"ioc/gui/ContentTabDokuwikiNsTree"
      ,"ioc/gui/ActionHiddenDialogDokuwiki"
      ,"dojo/domReady!"
-    ], function(dom, domStyle, win, wikiIocDispatcher, registry, ready, lang, 
-                    style, domForm, ContentPane, UpdateViewHandler, dwPageUi){
+    ], function(dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
+                    style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
+                    array, unload, JSON){
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var h = 100*(win.getBox().h-55)/win.getBox().h;
@@ -60,7 +63,7 @@
 
             updateHandler.update = function(){
                 var disp = this.getDispatcher();
-                var cur = wikiIocDispatcher.globalState.currentTabId; 
+                var cur = disp.getGlobalState().currentTabId; 
                 if(cur){
                     style.set(cur, "overflow", "auto");
                 }
@@ -73,13 +76,13 @@
                 disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
                 disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
 
-                if(!disp.globalState.login){
+                if(!disp.getGlobalState().login){
                     disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
                 }else{
                     disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
                     disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
-                    if(disp.globalState.currentTabId){
-                        var page = disp.globalState.pages[disp.globalState.currentTabId];
+                    if(disp.getGlobalState().currentTabId){
+                        var page = disp.getGlobalState().pages[disp.getGlobalState().currentTabId];
                         if(page.action==='view'){
                             disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", true);
                             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", true);
@@ -96,7 +99,13 @@
             };
             wikiIocDispatcher.addUpdateView(updateHandler);
             
-
+            unload.addOnWindowUnload(function(){
+                 if(typeof(Storage)!=="undefined"){
+                    sessionStorage.globalState = JSON.stringify(
+                                            wikiIocDispatcher.getGlobalState());
+                 }
+            });
+            
             ready(function(){
             
                 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
@@ -123,8 +132,8 @@
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit"); 
                 var getQuery = function(){
                     var ret;
-                    var ns = wikiIocDispatcher.globalState.pages[
-                                wikiIocDispatcher.globalState.currentTabId]["ns"];
+                    var ns = wikiIocDispatcher.getGlobalState().pages[
+                                wikiIocDispatcher.getGlobalState().currentTabId]["ns"];
                     if(this.query){
                         ret = this.query+"&id="+ns;
                     }else{
@@ -139,7 +148,7 @@
                 tab.getQuery = function(){
                     var ret;
                     var q = dwPageUi.getFormQueryToEditSection(
-                            wikiIocDispatcher.globalState.getCurrentSectionId());
+                            wikiIocDispatcher.getGlobalState().getCurrentSectionId());
                     if(this.query){
                         ret = this.query+"&"+q;
                     }else{
@@ -191,10 +200,68 @@
                             nodeMetaInfo.addChild(cp);
                             nodeMetaInfo.resize();
                         }
-                        wikiIocDispatcher.globalState.currentTabId = newTab.id;
+                        wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
                     }
                 });
+                
+                //cercar l'estat
+                if(typeof(Storage)!=="undefined"
+                    && sessionStorage.globalState){
+                    
+                    var state = JSON.parse(sessionStorage.globalState);
+                    //actualitza l'estat
+                    if(state.login){
+                        wikiIocDispatcher.processResponse({
+                             "type":"login"
+                            ,"value":{
+                                    "loginRequest":true
+                                   ,"loginResult":true
+                               }
+                        });
+                    }
+                    
+                    if(state.sectok){
+                        wikiIocDispatcher.processResponse({
+                            "type":"sectok", 
+                            "value":state.sectok
+                        });
+                    }
+                    
+                    if(state.title){
+                        wikiIocDispatcher.processResponse({
+                             "type":"title"
+                            ,"value": state.title
+                        });
+                    }
+
+                    if(state.pages){
+                        var requestState = new Request();
+                        requestState.urlBase="lib/plugins/ajaxcommand/ajax.php?call=page";
+                        for(var id in state.pages){
+                            requestState.sendRequest("id="+state.pages[id].ns);
+                        }
+                    }
+                    
+                    if(state.info){
+                        wikiIocDispatcher.processResponse({
+                                "type":"info"
+                               ,"value":state.info
+                        });
+                    }
+                    
+                    if(state.currentTabId){
+                        var tc = registry.byId(wikiIocDispatcher.containerNodeId);
+                        var widget = registry.byId(state.currentTabId); 
+                        tc.selectChild(widget);                        
+                    }
+                    
+                    if(state.currentSectionId){
+                    
+                    }
+                }
             });
+            
+            
     });
 </script>
 
