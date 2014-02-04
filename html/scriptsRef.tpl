@@ -13,9 +13,11 @@
      ,"dijit/layout/ContentPane"        
      ,"ioc/wiki30/UpdateViewHandler"
      ,"ioc/dokuwiki/dwPageUi"
-     ,"dojo/_base/array"
+     ,"ioc/wiki30/ReloadStateHandler"
      ,'dojo/_base/unload'
      ,"dojo/json"
+     ,"dojo/_base/lang"
+     ,"ioc/wiki30/GlobalState"
      ,"dijit/dijit"
      ,"dojo/parser"
      ,"dijit/layout/BorderContainer"
@@ -40,7 +42,11 @@
      ,"dojo/domReady!"
     ], function(dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
                     style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
-                    array, unload, JSON){
+                    ReloadStateHandler, unload, JSON, lang, globalState){
+            //declaració de funcions
+            
+            
+            
                 
             var divMainContent = dom.byId("@@MAIN_CONTENT@@");
             var h = 100*(win.getBox().h-55)/win.getBox().h;
@@ -59,10 +65,10 @@
             wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
             wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
 			
-            var updateHandler = new UpdateViewHandler(wikiIocDispatcher);
+            var updateHandler = new UpdateViewHandler();
 
             updateHandler.update = function(){
-                var disp = this.getDispatcher();
+                var disp = wikiIocDispatcher;
                 var cur = disp.getGlobalState().currentTabId; 
                 if(cur){
                     style.set(cur, "overflow", "auto");
@@ -98,6 +104,64 @@
                 }
             };
             wikiIocDispatcher.addUpdateView(updateHandler);
+            
+            var reloadStateHandler = new ReloadStateHandler(function(state){
+            //actualitza l'estat
+                    if(state.login){
+                        wikiIocDispatcher.processResponse({
+                             "type":"login"
+                            ,"value":{
+                                    "loginRequest":true
+                                   ,"loginResult":true
+                               }
+                        });
+                    }
+                    
+                    if(state.sectok){
+                        wikiIocDispatcher.processResponse({
+                            "type":"sectok", 
+                            "value":state.sectok
+                        });
+                    }
+                    
+                    if(state.title){
+                        wikiIocDispatcher.processResponse({
+                             "type":"title"
+                            ,"value": state.title
+                        });
+                    }
+
+                    if(state.pages){
+                        var np = 0;
+                        var length = state.pagesLength();
+                        var requestState = new Request();
+                        requestState.urlBase="lib/plugins/ajaxcommand/ajax.php?call=page";
+                        for(var id in state.pages){
+                            requestState.sendRequest("id="+state.pages[id].ns).always(function(){                            
+                                np++;
+                                if(np==length){
+                                    if(state.info){
+                                        wikiIocDispatcher.processResponse({
+                                            "type":"info"
+                                           ,"value":state.info
+                                        });
+                                    }
+                    
+                                    if(state.currentTabId){
+                                        var tc = registry.byId(wikiIocDispatcher.containerNodeId);
+                                        var widget = registry.byId(state.currentTabId); 
+                                        tc.selectChild(widget);                        
+                                    }
+
+                //                    if(state.currentSectionId){                    
+                //                    }            
+
+                                }
+                            });
+                        }
+                    }
+            });            
+            wikiIocDispatcher.addReloadState(reloadStateHandler);
             
             unload.addOnWindowUnload(function(){
                  if(typeof(Storage)!=="undefined"){
@@ -207,57 +271,9 @@
                 //cercar l'estat
                 if(typeof(Storage)!=="undefined"
                     && sessionStorage.globalState){
-                    
-                    var state = JSON.parse(sessionStorage.globalState);
-                    //actualitza l'estat
-                    if(state.login){
-                        wikiIocDispatcher.processResponse({
-                             "type":"login"
-                            ,"value":{
-                                    "loginRequest":true
-                                   ,"loginResult":true
-                               }
-                        });
-                    }
-                    
-                    if(state.sectok){
-                        wikiIocDispatcher.processResponse({
-                            "type":"sectok", 
-                            "value":state.sectok
-                        });
-                    }
-                    
-                    if(state.title){
-                        wikiIocDispatcher.processResponse({
-                             "type":"title"
-                            ,"value": state.title
-                        });
-                    }
-
-                    if(state.pages){
-                        var requestState = new Request();
-                        requestState.urlBase="lib/plugins/ajaxcommand/ajax.php?call=page";
-                        for(var id in state.pages){
-                            requestState.sendRequest("id="+state.pages[id].ns);
-                        }
-                    }
-                    
-                    if(state.info){
-                        wikiIocDispatcher.processResponse({
-                                "type":"info"
-                               ,"value":state.info
-                        });
-                    }
-                    
-                    if(state.currentTabId){
-                        var tc = registry.byId(wikiIocDispatcher.containerNodeId);
-                        var widget = registry.byId(state.currentTabId); 
-                        tc.selectChild(widget);                        
-                    }
-                    
-                    if(state.currentSectionId){
-                    
-                    }
+                    var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
+//                    var state = JSON.parse(sessionStorage.globalState);
+                    wikiIocDispatcher.reloadFromState(state);
                 }
             });
             
