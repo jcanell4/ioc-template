@@ -10,6 +10,7 @@ if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki e
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
 
 require_once tpl_incdir()."conf/mainCfg.php";
+require_once(DOKU_TPL_CLASSES.'WikiIocBuilderManager.php');
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
 $cfg = new WikiIocCfg();
@@ -112,6 +113,11 @@ $tpl->setNavigationComponent($actionTabContainer);
 $tpl->setMetaInfoComponent($blocMetaInfoContainer);
 $tpl->setBlocRightComponent($blocRightContainer);
 $tpl->setBlocInferiorComponent($blocBottomContainer);
+
+/*TO DO*/
+//Afegeixo manual el paquet ACE però s'ha d'automatitzar
+WikiIocBuilderManager::Instance()->putRequiredPackage(
+                            array("name"=>"ace", "location"=>"/ace/lib/ace"));
 
 $tpl->printPage();
 ?>
