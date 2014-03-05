@@ -228,7 +228,7 @@
                 tab = registry.byId('@@SAVE_BUTTON@@');
                 tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save"); 
                 tab.getQuery = getQuery;
-                tab.getPostData = function(){
+                tab.getPostData = function(){                    
                     return domForm.toObject("dw__editform");
                 }
 

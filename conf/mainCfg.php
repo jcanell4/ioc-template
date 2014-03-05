@@ -81,5 +81,14 @@ class WikiIocCfg {
 	public function getArrayMain(){
 		return $this->arrMain;
 	}
+        
+        /*SINGLETON CLASS*/
+        public static function Instance(){
+            static $inst = null;
+            if ($inst === null) {
+                $inst = new WikiIocCfg();
+            }
+            return $inst;
+        }        
 }
 ?>

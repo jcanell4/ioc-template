@@ -28,7 +28,10 @@ abstract class WikiIocResponseHandler extends ResponseHandler {
             "responseData" => $responseData,
             "ajaxCmdesponseGenerator" => $ajaxCmdResponseGenerator,
         );
-        $evt = new Doku_Event("PROCESS_CMD", $data);
+        $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
+        $evt->advise_after();
+        unset($evt);
+        $evt = new Doku_Event("WIOC_PROCESS_RESPONSE_".$this->getCommandName(), $data);
         $evt->advise_after();
         unset($evt);
     }
@@ -39,8 +42,11 @@ abstract class WikiIocResponseHandler extends ResponseHandler {
             "requestParams" => $requestParams,
             "ajaxCmdesponseGenerator" => $ajaxCmdResponseGenerator,
         );
-        $evt = new Doku_Event("PROCESS_CMD", $data);
+        $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $ret = $evt->advise_before();
+        unset($evt);
+        $evt = new Doku_Event("WIOC_PROCESS_RESPONSE_".$this->getCommandName(), $data);
+        $ret = $ret.$evt->advise_before();
         unset($evt);
         return $ret;
     }

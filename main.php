@@ -13,7 +13,7 @@ require_once tpl_incdir()."conf/mainCfg.php";
 require_once(DOKU_TPL_CLASSES.'WikiIocBuilderManager.php');
 require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
 
-$cfg = new WikiIocCfg();
+$cfg = WikiIocCfg::Instance();
 $tpl = WikiIocTpl::Instance();
 
 require_once(DOKU_TPL_CLASSES."WikiIocComponents.php");
