@@ -7,8 +7,10 @@
 
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
+if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir().'conf/');
 
 require_once DOKU_TPL_CLASSES."WikiIocContentPage.php";
+require_once(DOKU_TPL_CONF.'js_packages.php');
 
 class WikiIocTpl {
     private $blocSuperiorComponent;
@@ -99,13 +101,13 @@ class WikiIocTpl {
 	}
 	
     public function printHeaderTags(){
-        global $conf, $lang;
+        global $conf, $lang, $js_packages;
 		echo "<head>\n";
         echo "<meta charset='utf-8'/>\n";    
         echo "<meta http-equiv='X-UA-Compatible' content='IE=edge'/>\n";
         echo "<title>".$this->getTitle()."</title>\n";
-        echo "<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/dojo/1.8/dijit/themes/claro/claro.css' />\n";
-        echo "<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/dojo/1.8/dijit/themes/claro/document.css'/>\n";
+        echo "<link rel='stylesheet' href='".$js_packages["dijit"]."/themes/claro/claro.css' />\n";
+        echo "<link rel='stylesheet' href='".$js_packages["dijit"]."/themes/claro/document.css'/>\n";
         tpl_metaheaders();
         echo "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n";
 
