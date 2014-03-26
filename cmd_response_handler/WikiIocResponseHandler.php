@@ -14,9 +14,9 @@
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'ajaxcommand/ResponseHandler.php');
+require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
 
-abstract class WikiIocResponseHandler extends ResponseHandler {
+abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
         parent::__construct($cmd);
     }

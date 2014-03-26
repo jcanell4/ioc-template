@@ -105,8 +105,9 @@
             };
             wikiIocDispatcher.addUpdateView(updateHandler);
             
+            //Objecte que gestiona el refresc de la pàgina
             var reloadStateHandler = new ReloadStateHandler(function(state){
-            //actualitza l'estat
+                    //actualitza l'estat a partir de les dades emmagatzemades en local
                     if(state.login){
                         wikiIocDispatcher.processResponse({
                              "type":"login"
