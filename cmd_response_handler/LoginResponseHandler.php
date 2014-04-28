@@ -18,7 +18,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::LOGIN);
     }
     
-    protected function process($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $this->login($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 

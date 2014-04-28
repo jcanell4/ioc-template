@@ -20,7 +20,7 @@ class PageResponseHandler extends WikiIocResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::PAGE);
     }
-    protected function process($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
         $ajaxCmdResponseGenerator->addHtmlDoc($responseData['id'], 
                                                 $responseData['ns'], 

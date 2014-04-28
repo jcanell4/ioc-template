@@ -21,7 +21,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         parent::__construct($cmd);
     }
 
-    protected function postProcess($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $data = array(
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,
@@ -36,7 +36,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
     }
 
-    protected function preProcess($requestParams, &$ajaxCmdResponseGenerator) {
+    protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
         $data = array(
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,

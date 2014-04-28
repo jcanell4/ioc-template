@@ -15,12 +15,12 @@ class SaveResponseHandler extends EditResponseHandler {
         parent::__construct(WikiIocResponseHandler::SAVE);
     }
     
-    protected function process($requestParams, 
+    protected function response($requestParams, 
                                 $responseData, 
                                 &$ajaxCmdResponseGenerator) {
         $ajaxCmdResponseGenerator->addProcessFunction(true, 
                                             "ioc/dokuwiki/processSaving");
-        parent::process($requestParams, 
+        parent::response($requestParams, 
                         $responseData, 
                         $ajaxCmdResponseGenerator);
     }

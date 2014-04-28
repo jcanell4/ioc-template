@@ -20,7 +20,7 @@ class EditResponseHandler extends WikiIocResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
-    protected function process($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         global $conf;
         
         $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
