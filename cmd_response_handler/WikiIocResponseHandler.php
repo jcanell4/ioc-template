@@ -20,14 +20,19 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
         parent::__construct($cmd);
     }
-
-    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $data = array(
+    
+    private function _getDataEvent(){
+        return array(
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdesponseGenerator" => $ajaxCmdResponseGenerator,
-        );
+            "tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
+        );        
+    }
+
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        $data = $this->_getDataEvent();
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $evt->advise_after();
         unset($evt);
@@ -37,11 +42,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
-        $data = array(
-            "command" => $this->getCommandName(),
-            "requestParams" => $requestParams,
-            "ajaxCmdesponseGenerator" => $ajaxCmdResponseGenerator,
-        );
+        $data = $this->_getDataEvent();
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $ret = $evt->advise_before();
         unset($evt);
