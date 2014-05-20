@@ -415,7 +415,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
 				//." extractContent='false' preventCache='false' preload='false' refreshOnShow='false' closable='false' doLayout='false'"
 				." style='position:{$this->position}; top:{$this->top}px; left:{$this->left}px; z-index:{$this->zindex};'>\n";
 		if ($this->action==NULL)
-			$ret.= "<script>alert('No s'ha definit l\'element action al formulari [{$this->getLabel()}].');</script>\n";
+			$ret.= "<script>alert('No s\'ha definit l\'element action al formulari [{$this->getLabel()}].');</script>\n";
 		$ret.= "<span id='{$this->getId()}_form' data-dojo-type='ioc.gui.IocForm'"
 				." data-dojo-props=\"action:'{$this->action}', urlBase:'{$this->urlBase}', visible:$visible\">\n";
 		return $ret;

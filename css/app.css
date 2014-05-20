@@ -66,11 +66,7 @@ div.tb_container ul{
     margin: 0;
     font-size: 0.75em;
 }
- 
-/*.claro .dijitTabContainerTop-tabs .dijitTab{
-    min-width: 5px;
-    width: 32px;
-}*/
+
 .claro .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabContent{
     min-width: 5px;
 /*    padding-left: 2px;

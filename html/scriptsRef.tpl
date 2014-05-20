@@ -1,4 +1,4 @@
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.8/dojo/dojo.js"></script>
+<script type="text/javascript" src="@@DOJO_SOURCE@@/dojo.js"></script>
 <script type="text/javascript">
     require([
       "dojo/dom"

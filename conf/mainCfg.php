@@ -60,6 +60,7 @@ class WikiIocCfg {
 				,'@@PREVIEW_BUTTON@@' => $this->getConfig("previewButton")
 				,'@@CANCEL_BUTTON@@' => $this->getConfig("cancelButton")
 				,'@@ED_PARC_BUTTON@@' => $this->getConfig("edparcButton")
+                                ,'@@DOJO_SOURCE@@' => $this->getJsPackage("dojo")
 		);
 		
 		$this->arrMain = array(
@@ -82,6 +83,13 @@ class WikiIocCfg {
 		return $this->arrMain;
 	}
         
+        public function getJsPackage($id){
+            global $js_packages;
+            return $js_packages[$id];
+        }
+                
+               
+        
         /*SINGLETON CLASS*/
         public static function Instance(){
             static $inst = null;
@@ -89,6 +97,6 @@ class WikiIocCfg {
                 $inst = new WikiIocCfg();
             }
             return $inst;
-        }        
+        }                
 }
 ?>
