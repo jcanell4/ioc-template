@@ -955,4 +955,3 @@ class WikiIocBottomContainer extends WikiIocContainer{
 		return $this->getMessage();
 	}
 }
-?>

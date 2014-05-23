@@ -46,4 +46,3 @@ abstract class WikiIocComponent extends WikiIocBuilder{
         return $this->cfg->isSelected();
     }
 }
-?>
