@@ -98,6 +98,7 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
         foreach($this->items as $i) {
             $ret .= $i->getRenderingCode();
         }
+        return $ret;
     }
 }
 
@@ -1050,7 +1051,7 @@ class WikiIocBottomContainer extends WikiIocContainer {
 
     protected function getPreContent() {
         $ret = "<div id='{$this->getId()}' data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false'";
-        $ret .= "preload='false' refreshOnShow='false' closable='false' doLayout='false'>";
+        $ret .= " preload='false' refreshOnShow='false' closable='false' doLayout='false'>";
         return $ret;
     }
 
