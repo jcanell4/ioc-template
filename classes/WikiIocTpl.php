@@ -6,6 +6,7 @@ if(!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir() . 'conf/');
 
 require_once DOKU_TPL_CLASSES . "WikiIocContentPage.php";
 require_once(DOKU_TPL_CONF . 'js_packages.php');
+require_once(DOKU_INC.'inc/common.php');
 
 /**
  * Class WikiIocTpl
@@ -133,7 +134,7 @@ class WikiIocTpl {
      */
     public function printPage() {
         global $conf, $lang;
-        echo "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n";
+        echo "<!DOCTYPE html>\n";
         echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='" . hsc($conf["lang"]) . "' lang='" . hsc($conf["lang"]) . "' dir='" . hsc($lang["direction"]) . "'>\n";
         $this->printHeaderTags();
         $this->printBody();
@@ -182,6 +183,7 @@ class WikiIocTpl {
         echo "    async:true,\n";
         echo "    baseUrl: '/iocjslib/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
+        echo "    locale: \"".hsc($conf["lang"])."\",\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
         echo "};\n";
         echo "</script>\n";
