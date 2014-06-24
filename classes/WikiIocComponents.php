@@ -64,7 +64,7 @@ abstract class WikiIocContainer extends WikiIocComponent {
 }
 
 abstract class WikiIocItemsContainer extends WikiIocContainer {
-    protected $items;
+    protected $items = array();
 
     function __construct($label = "", $id = NULL, $reqPackage = NULL) {
         parent::__construct($label, $id, $reqPackage);
@@ -95,6 +95,7 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
 
     public function getContent() {
         $ret = '';
+
         foreach($this->items as $i) {
             $ret .= $i->getRenderingCode();
         }
