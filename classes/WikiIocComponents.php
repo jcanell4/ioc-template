@@ -66,7 +66,7 @@ abstract class WikiIocContainer extends WikiIocComponent {
 abstract class WikiIocItemsContainer extends WikiIocContainer {
     protected $items = array();
 
-    function __construct($label = "", $id = NULL, $reqPackage = NULL) {
+    function __construct($label = "", $id = NULL, $reqPackage = array()) {
         parent::__construct($label, $id, $reqPackage);
     }
 
@@ -112,7 +112,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
     private $bMenuButton;
     private $bScrollingButtons;
 
-    public function __construct($label = "", $tabType = 0, $id = NULL, $reqPackage = NULL) {
+    public function __construct($label = "", $tabType = 0, $id = NULL, $reqPackage = array()) {
         global $js_packages;
         if($reqPackage == NULL) {
             $reqPackage = array(
@@ -211,7 +211,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
 
 class WikiIocContentPane extends WikiIocContainer {
 
-    function __construct($label = "", $id = NULL, $reqPackage = NULL) {
+    function __construct($label = "", $id = NULL, $reqPackage = array()) {
         global $js_packages;
         if($reqPackage == NULL) {
             $reqPackage = array(
@@ -581,7 +581,7 @@ class WikiDojoButton extends WikiIocComponent {
     protected $displayBlock;
     protected $fontSize;
 
-    function __construct($label = "", $id = NULL, $action = NULL, $display = TRUE, $displayBlock = TRUE, $fontSize = 1, $type = 'button', $reqPackage = NULL) {
+    function __construct($label = "", $id = NULL, $action = NULL, $display = TRUE, $displayBlock = TRUE, $fontSize = 1, $type = 'button', $reqPackage = array()) {
         global $js_packages;
         if($reqPackage == NULL) {
             $reqPackage = array(
@@ -896,7 +896,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer {
     private $bMenuButton;
     private $bScrollingButtons;
 
-    public function __construct($label = "", $tabType = 0, $id = NULL, $reqPackage = NULL) {
+    public function __construct($label = "", $tabType = 0, $id = NULL, $reqPackage = array()) {
         global $js_packages;
         if($reqPackage == NULL) {
             $reqPackage = array(
@@ -1003,7 +1003,7 @@ class WikiIocHeadContainer extends WikiIocItemsContainer {
      * Mètodes:
      *        putItem: afegeix un nou item al contenidor
      */
-    public function __construct($id = NULL, $label = "", $reqPackage = NULL) {
+    public function __construct($id = NULL, $label = "", $reqPackage = array()) {
         parent::__construct($label, $id, $reqPackage);
     }
 
