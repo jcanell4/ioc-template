@@ -1,12 +1,13 @@
 <?php
 
-if(!defined("DOKU_INC")) die();
-if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir() . 'classes/');
-if(!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir() . 'conf/');
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INC')) define('DOKU_TPL_INC', tpl_incdir());
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPL_INC . 'classes/');
+if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPL_INC . 'conf/');
 
 require_once DOKU_TPL_CLASSES . "WikiIocContentPage.php";
-require_once(DOKU_TPL_CONF . 'js_packages.php');
-require_once(DOKU_INC.'inc/common.php');
+require_once DOKU_TPL_CONF . 'js_packages.php';
+require_once DOKU_INC.'inc/common.php';
 
 /**
  * Class WikiIocTpl
@@ -160,7 +161,7 @@ class WikiIocTpl {
         //are slashes "/" used for the keynames (see bugreport for more information:
         //<http://bugs.php.net/bug.php?id=49692>). to trigger this workaround, simply
         //delete/rename vector's style.ini.
-        if(!file_exists(tpl_incdir() . "style.ini")) {
+        if(!file_exists(DOKU_TPL_INC . "style.ini")) {
             echo "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"" . DOKU_TPL . "bug49642.php" . ((!empty($lang["direction"]) && $lang["direction"] === "rtl") ? "?langdir=rtl" : "") . "\" />\n"; //var comes from DokuWiki core
             echo '<link rel="stylesheet" href="css/app.css" />';
         }
@@ -169,8 +170,8 @@ class WikiIocTpl {
         $this->_userdefinedJs();
 
         //load language specific css hacks?
-        if(file_exists(tpl_incdir() . "lang/" . $conf["lang"] . "/style.css")) {
-            $interim = trim(file_get_contents(tpl_incdir() . "lang/" . $conf["lang"] . "/style.css"));
+        if(file_exists(DOKU_TPL_INC . "lang/" . $conf["lang"] . "/style.css")) {
+            $interim = trim(file_get_contents(DOKU_TPL_INC . "lang/" . $conf["lang"] . "/style.css"));
             if(!empty($interim)) {
                 echo "<style type=\"text/css\" media=\"all\">\n" . hsc($interim) . "\n</style>\n";
             }
@@ -353,15 +354,15 @@ class WikiIocTpl {
     private function _setLanguange() {
         global $conf, $lang;
         //get needed language array
-        include tpl_incdir() . "lang/en/lang.php";
+        include DOKU_TPL_INC . "lang/en/lang.php";
         //overwrite English language values with available translations
         if(!empty($conf["lang"]) &&
             $conf["lang"] !== "en" &&
-            file_exists(tpl_incdir() . "/lang/" . $conf["lang"] . "/lang.php")
+            file_exists(DOKU_TPL_INC . "/lang/" . $conf["lang"] . "/lang.php")
         ) {
             //get language file (partially translated language files are no problem
             //cause non translated stuff is still existing as English array value)
-            include tpl_incdir() . "/lang/" . $conf["lang"] . "/lang.php";
+            include DOKU_TPL_INC . "/lang/" . $conf["lang"] . "/lang.php";
         }
         $this->lang =& $lang;
     }
@@ -371,10 +372,10 @@ class WikiIocTpl {
         //
         //note: since 2011-04-22 "Rincewind RC1", there is a core function named "tpl_getFavicon()".
         //      But its functionality is not really fitting the behaviour of this template, therefore I don't use it here.
-        if(file_exists(tpl_incdir() . "user/favicon.ico")) {
+        if(file_exists(DOKU_TPL_INC . "user/favicon.ico")) {
             //user defined - you might find http://tools.dynamicdrive.com/favicon/ useful to generate one
             echo "\n<link rel=\"shortcut icon\" href=\"" . DOKU_TPL . "user/favicon.ico\" />\n";
-        } elseif(file_exists(tpl_incdir() . "user/favicon.png")) {
+        } elseif(file_exists(DOKU_TPL_INC . "user/favicon.png")) {
             //note: I do NOT recommend PNG for favicons (cause it is not supported by all browsers), but some users requested this feature.
             echo "\n<link rel=\"shortcut icon\" href=\"" . DOKU_TPL . "user/favicon.png\" />\n";
         } else {
@@ -383,7 +384,7 @@ class WikiIocTpl {
         }
 
         //include default or userdefined Apple Touch Icon (see <http://j.mp/sx3NMT> for details)
-        if(file_exists(tpl_incdir() . "user/apple-touch-icon.png")) {
+        if(file_exists(DOKU_TPL_INC . "user/apple-touch-icon.png")) {
             echo "<link rel=\"apple-touch-icon\" href=\"" . DOKU_TPL . "user/apple-touch-icon.png\" />\n";
         } else {
             //default

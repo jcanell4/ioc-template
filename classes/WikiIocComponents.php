@@ -6,9 +6,10 @@
  */
 
 //check if we are running within the DokuWiki environment
-if(!defined("DOKU_INC")) die();
-if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir() . 'classes/');
-if(!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir() . 'conf/');
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INC')) define('DOKU_TPL_INC', tpl_incdir());
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPL_INC . 'classes/');
+if (!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', DOKU_TPL_INC . 'conf/');
 
 require_once(DOKU_TPL_CLASSES . 'WikiIocComponent.php');
 require_once(DOKU_TPL_CONF . 'js_packages.php');
@@ -950,8 +951,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer {
         return $this->tabType;
     }
 
-    function setTabType( /*int*/
-        $type) {
+    function setTabType(/*int*/ $type) {
         $this->tabType = $type;
     }
 
@@ -959,8 +959,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer {
         return $this->bMenuButton;
     }
 
-    function setMenuButton( /*boolean*/
-        $value) {
+    function setMenuButton(/*boolean*/ $value) {
         $this->bMenuButton = $value;
     }
 
@@ -968,8 +967,7 @@ class WikiIocCentralTabsContainer extends WikiIocItemsContainer {
         return $this->bScrollingButtons;
     }
 
-    function setScrollingButtons( /*boolean*/
-        $value) {
+    function setScrollingButtons(/*boolean*/ $value) {
         $this->bScrollingButtons = $value;
     }
 
@@ -1061,5 +1059,106 @@ class WikiIocBottomContainer extends WikiIocContainer {
 
     protected function getContent() {
         return $this->missatge;
+    }
+}
+
+class WikiIocConstructComponent extends WikiIocComponent {
+    
+    function __construct($label = "", $id = NULL, $tplCfg = array(), $requiredPackages = NULL) {
+        parent::__construct($label, $id, $requiredPackages);
+        $this->tplCfg = $tplCfg;
+        $this->objConstruct($this->tplCfg);
+    }
+
+    public function getRenderingCode();
+    
+    private function objConstruct($tplCfg) {
+        if ($tplCfg['class']) {
+            $component = new $tplCfg['class']($tplCfg['parms']);
+            $this->objConstruct($tplCfg['parms']);
+        }
+        else {
+            foreach($tplCfg as $obj) {
+                if (is_array($obj)) $this->objConstruct($obj);
+            }
+        }
+    }
+}
+
+class WikiIocTopBloc extends WikiIocComponent {
+
+    private $tplCfgTop;
+    private $blocSuperiorComponent;
+    private $height = "55px";
+    private $width = "100%";
+    function __construct($label = "", $id = NULL, $tplCfgTop = array(), $requiredPackages = NULL) {
+        parent::__construct($label, $id, $requiredPackages);
+        //$tplCfgTop recibe $tplCfg['body']['top']['parms']
+        $this->tplCfgTop = $tplCfgTop;
+        $this->height = $this->tplCfgTop['height'];
+        $this->width = $this->tplCfgTop['width'];
+    }
+
+    private function objConstruct($tplCfg) {
+        if ($tplCfg['class']) {
+            $component = new $tplCfg['class']($tplCfg['parms']);
+            return $tplCfg['parms'];
+        }
+        else {
+            foreach($tplCfg as $obj) {
+                if (is_array($obj)) $this->objConstruct($obj);
+            }
+        }
+    }
+
+    public function getPreContent() {
+        return "<div style='height:{$this->height}; width:{$this->width};'>";
+    }
+
+    public function getPostContent() {
+        return "</div>";
+    }
+
+    public function getContent() {
+        //$tplCfgTop recibe $tplCfg['body']['top']
+        $this->blocSuperiorComponent = new $this->tplCfgTop['class'];
+        return $this->blocSuperiorComponent->getRenderingCode();
+    }
+
+    public function getRenderingCode() {
+        $ret = $this->getPreContent()
+            . $this->getContent()
+            . $this->getPostContent();
+        return $ret;
+    }
+}
+
+class WikiIocMainContent extends WikiIocComponent {
+    
+    private $id;
+    function __construct($label = "", $id = NULL, $requiredPackages = NULL) {
+        parent::__construct($label, $id, $requiredPackages);
+        $this->id = $id;
+    }
+
+    public function getPreContent() {
+        $ret = "<div id='{$this->id}'>\n"
+             . "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
+        return $ret;
+    }
+
+    public function getPostContent() {
+        return "</div>\n</div>\n";
+    }
+
+    public function getContent() {
+        //
+    }
+
+    public function getRenderingCode() {
+        $ret = $this->getPreContent()
+            . $this->getContent()
+            . $this->getPostContent();
+        return $ret;
     }
 }

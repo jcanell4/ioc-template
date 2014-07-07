@@ -5,9 +5,10 @@
  */
 
 if (!defined("DOKU_INC")) die();	//check if we are running within the DokuWiki environment
-if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir().'classes/');
+if (!defined('DOKU_TPL_INC')) define('DOKU_TPL_INC', tpl_incdir());
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPL_INC.'classes/');
 
-require_once DOKU_TPL_CLASSES."WikiIocTpl.php";
+require_once DOKU_TPL_CLASSES."WikiIocTpl(2).php";
 $tpl = WikiIocTpl::Instance();
 
 // Variables
@@ -83,7 +84,7 @@ if(!empty($_REQUEST["tb_container_sel"])){
 }
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
-$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
+$tpl->setScriptTemplateFile(DOKU_TPL_INC."html/scriptsRef.tpl", 
 		array('%%ID%%' => "ajax"
 			, '%%SECTOK%%' => getSecurityToken()
 			, '@@MAIN_CONTENT@@' => $mainContent

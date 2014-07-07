@@ -6,17 +6,18 @@
  * @author  Josep Cañellas <jcanell4@ioc.cat>
  */
 
-if(!defined("DOKU_INC")) die(); //check if we are running within the DokuWiki environment
-if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir() . 'classes/');
+if (!defined("DOKU_INC")) die(); //check if we are running within the DokuWiki environment
+if (!defined('DOKU_TPL_INC')) define('DOKU_TPL_INC', tpl_incdir());
+if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', DOKU_TPL_INC . 'classes/');
 
-require_once tpl_incdir() . "conf/mainCfg.php";
-require_once(DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php');
+require_once DOKU_TPL_INC . "conf/mainCfg.php";
+require_once DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php';
 require_once DOKU_TPL_CLASSES . "WikiIocTpl.php";
 
 $cfg = WikiIocCfg::Instance();
 $tpl = WikiIocTpl::Instance();
 
-require_once(DOKU_TPL_CLASSES . "WikiIocComponents.php");
+require_once DOKU_TPL_CLASSES . "WikiIocComponents.php";
 
 $actionTabContainer = new WikiIocTabsContainer($cfg->getConfig("zonaNavegacio"), WikiIocTabsContainer::RESIZING_TAB_TYPE);
 $actionTabContainer->putTab($cfg->getConfig("zN_index_id"), new WikiIocTreeContainer("Índex", "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"));
@@ -88,8 +89,8 @@ $blocCentralContainer->setScrollingButtons(true);
 //$blocCentralContainer->putTab("frm_prova", $actionFormProva);
 
 //Definició de les variables a reemplaçar al fitxer descrit en aquesta funció
-$tpl->setScriptTemplateFile(tpl_incdir() . "html/scriptsRef.tpl", $cfg->getArrayTpl());
-//$tpl->setScriptTemplateFile(tpl_incdir()."html/scriptsRef.tpl", 
+$tpl->setScriptTemplateFile(DOKU_TPL_INC . "html/scriptsRef.tpl", $cfg->getArrayTpl());
+//$tpl->setScriptTemplateFile(DOKU_TPL_INC."html/scriptsRef.tpl", 
 //		array('%%ID%%' => "ajax"
 //			, '%%SECTOK%%' => getSecurityToken()
 //			, '@@MAIN_CONTENT@@' => $cfg->getConfig("mainContent")
