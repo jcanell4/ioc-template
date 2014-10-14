@@ -18,7 +18,7 @@ require([
     "dojo/json",
     "dojo/_base/lang",
     "ioc/wiki30/GlobalState",
-    "dijit/dijit",
+    "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
     "dijit/MenuBar",
@@ -40,10 +40,16 @@ require([
     "ioc/gui/ContentTabDokuwikiNsTree",
     "ioc/gui/ActionHiddenDialogDokuwiki",
     "dojo/domReady!"
-], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi, ReloadStateHandler, unload, JSON, lang, globalState) {
+], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
+                style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
+                ReloadStateHandler, unload, JSON, lang, globalState) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
+    if (!divMainContent) {
+        return;
+    }
+    
     var h = 100 * (win.getBox().h - 55) / win.getBox().h;
     domStyle.set(divMainContent, "height", h + "%");
 
@@ -106,22 +112,25 @@ require([
         //actualitza l'estat a partir de les dades emmagatzemades en local
         if (state.login) {
             wikiIocDispatcher.processResponse({
-                "type": "login", "value": {
-                    "loginRequest": true, "loginResult": true
-                }
+                    "type": "login"
+                   ,"value": {
+                        "loginRequest": true
+                       ,"loginResult": true
+                    }
             });
         }
 
         if (state.sectok) {
             wikiIocDispatcher.processResponse({
-                "type":  "sectok",
-                "value": state.sectok
+                "type":  "sectok"
+               ,"value": state.sectok
             });
         }
 
         if (state.title) {
             wikiIocDispatcher.processResponse({
-                "type": "title", "value": state.title
+                "type": "title"
+               ,"value": state.title
             });
         }
 
@@ -145,10 +154,6 @@ require([
                             var widget = registry.byId(state.currentTabId);
                             tc.selectChild(widget);
                         }
-
-                        //                    if(state.currentSectionId){
-                        //                    }
-
                     }
                 });
             }
@@ -165,27 +170,33 @@ require([
 
     ready(function () {
         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-        tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-            if (newTab.updateRendering)
-                newTab.updateRendering();
-        });
+        if (tbContainer) {
+            tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+                if (newTab.updateRendering)
+                    newTab.updateRendering();
+            });
+        }
 
         var tab = registry.byId('@@TAB_INDEX@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-        tab.set("standbyId", wikiIocDispatcher.containerNodeId);
-        wikiIocDispatcher.toUpdateSectok.push(tab);
-        tab.updateSectok();
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+            wikiIocDispatcher.toUpdateSectok.push(tab);
+            tab.updateSectok();
+        }
 
         tab = registry.byId('@@TAB_DOCU@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-        tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+        }
 
         tab = registry.byId('@@EXIT_BUTTON@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-        //tab.set("standbyId", "loginDialog_hidden_container");
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+            //tab.set("standbyId", "loginDialog_hidden_container");
+        }
 
-        tab = registry.byId('@@EDIT_BUTTON@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
         var getQuery = function () {
             var ret;
             var ns = wikiIocDispatcher.getGlobalState().pages[
@@ -197,83 +208,96 @@ require([
             }
             return ret;
         };
-        /** @override */
-        tab.getQuery = getQuery;
+
+        tab = registry.byId('@@EDIT_BUTTON@@');
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            /** @override */
+            tab.getQuery = getQuery;
+        }
 
         tab = registry.byId('@@ED_PARC_BUTTON@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
-        tab.getQuery = function () {
-            var ret;
-            var q = dwPageUi.getFormQueryToEditSection(
-                    wikiIocDispatcher.getGlobalState().getCurrentSectionId());
-            if (this.query) {
-                ret = this.query + "&" + q;
-            } else {
-                ret = q;
-            }
-            return ret;
-        };
-
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            tab.getQuery = function () {
+                var ret;
+                var q = dwPageUi.getFormQueryToEditSection(
+                        wikiIocDispatcher.getGlobalState().getCurrentSectionId());
+                if (this.query) {
+                    ret = this.query + "&" + q;
+                } else {
+                    ret = q;
+                }
+                return ret;
+            };
+        }
+        
         tab = registry.byId('@@CANCEL_BUTTON@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel");
-        /** @override */
-        tab.getQuery = getQuery;
-
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel");
+            /** @override */
+            tab.getQuery = getQuery;
+        }
+        
         tab = registry.byId('@@SAVE_BUTTON@@');
-        tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");
-        /** @override */
-        tab.getQuery = getQuery;
-        /** @override */
-        tab.getPostData = function () {
-            return domForm.toObject("dw__editform");
-        };
-
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");
+            /** @override */
+            tab.getQuery = getQuery;
+            /** @override */
+            tab.getPostData = function () {
+                return domForm.toObject("dw__editform");
+            };
+        }
+        
         var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
-        loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-        loginDialog.set("standbyId", "loginDialog_hidden_container");
+        if (loginDialog) {
+            loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+            loginDialog.set("standbyId", "loginDialog_hidden_container");
 
-        loginDialog.on('hide', function () {
-            loginDialog.reset();
-        });
-
+            loginDialog.on('hide', function () {
+                loginDialog.reset();
+            });
+        }
+        
         var loginCancelButton = registry.byId('@@LOGIN_DIALOG@@' + '_CancelButton');
-        loginCancelButton.on('click', function () {
-            var bt = registry.byId('@@LOGIN_BUTTON@@');
-            bt.closeDropDown(false);
-        });
+        if (loginCancelButton) {
+            loginCancelButton.on('click', function () {
+                var bt = registry.byId('@@LOGIN_BUTTON@@');
+                bt.closeDropDown(false);
+            });
+        }
 
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
-        centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-            if (wikiIocDispatcher.getContentCache(newTab.id)) {
-                var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-                //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
-                wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
-                //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
-                var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
-                var m, cp;
-                for (m in metaContentCache) {
-                    cp = new ContentPane({
-                        id:      metaContentCache[m].id,
-                        title:   metaContentCache[m].title,
-                        content: metaContentCache[m].content
-                    });
-                    nodeMetaInfo.addChild(cp);
-                    nodeMetaInfo.resize();
+        if (centralContainer) {
+            centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+                if (wikiIocDispatcher.getContentCache(newTab.id)) {
+                    var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+                    //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
+                    wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
+                    //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
+                    var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
+                    var m, cp;
+                    for (m in metaContentCache) {
+                        cp = new ContentPane({
+                            id:      metaContentCache[m].id,
+                            title:   metaContentCache[m].title,
+                            content: metaContentCache[m].content
+                        });
+                        nodeMetaInfo.addChild(cp);
+                        nodeMetaInfo.resize();
+                    }
+                    wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
                 }
-                wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
-            }
-        });
-
+            });
+        }
         //cercar l'estat
         if (typeof(Storage) !== "undefined"
                 && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
-            //                    var state = JSON.parse(sessionStorage.globalState);
+            // var state = JSON.parse(sessionStorage.globalState);
             wikiIocDispatcher.reloadFromState(state);
         }
     });
-
-
 });
 </script>
-
