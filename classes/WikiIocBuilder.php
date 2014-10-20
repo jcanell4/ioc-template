@@ -8,7 +8,7 @@ require_once(DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php');
 /**
  * Class WikiIocBuilder
  * Aquesta classe es la superclasse de WikiIocComponent, que es superclasse de WikiDojoButton, WikiIocContainer,
- * WikiIocFormInputField i WikiIocProperty.
+ * WikiIocFormInputField i WikiIocProperty->(eliminat).
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
@@ -42,6 +42,4 @@ abstract class WikiIocBuilder {
     public function getRequiredPackages() {
         return $this->requiredPakages;
     }
-
-    public abstract function getRenderingCode();
 }

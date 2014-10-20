@@ -239,6 +239,13 @@ require([
             tab.getQuery = getQuery;
         }
         
+        tab = registry.byId('@@NEW_BUTTON@@');
+        if (tab) {
+            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=new_page");
+            /** @override */
+            tab.getQuery = getQuery;
+        }
+        
         tab = registry.byId('@@SAVE_BUTTON@@');
         if (tab) {
             tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");

@@ -1,11 +1,10 @@
 <?php
 
-if(!defined("DOKU_INC")) die();
-if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir() . 'classes/');
-if(!defined('DOKU_TPL_CONF')) define('DOKU_TPL_CONF', tpl_incdir() . 'conf/');
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
-require_once(DOKU_TPL_CLASSES . 'WikiIocBuilder.php');
-require_once(DOKU_TPL_CONF . 'js_packages.php');
+require_once(DOKU_TPL_INCDIR . 'classes/WikiIocBuilder.php');
+require_once(DOKU_TPL_INCDIR . 'conf/js_packages.php');
 
 /**
  * Description of WikiIocComponent
@@ -24,13 +23,15 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * @param array[] $reqPackage  hash amb els packages requerit amb el format:
      *                             "array("name" => "ioc", "location" => $js_packages["ioc"])
      */
-    function __construct($label = "", $id = NULL, $reqPackage = array()) {
+    function __construct($aParms = array("id" => NULL, "label" => ""), $reqPackage = array()) {
         parent::__construct($reqPackage);
-        $this->label    = $label;
-        $this->toolTip  = $label;
-        $this->id       = $id;
+        $this->id       = $aParms['id'];
+        $this->label    = $aParms['label'];
+        $this->toolTip  = $aParms['label'];
         $this->selected = FALSE;
     }
+
+    public abstract function getRenderingCode();
 
     /**
      * Retorna la etiqueta del component.
@@ -48,6 +49,24 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      */
     function getId() {
         return $this->id;
+    }
+
+    /**
+     * Retorna el tooltip del component.
+     *
+     * @return string
+     */
+    function getToolTip() {
+        return $this->toolTip;
+    }
+
+    /**
+     * Retorna true si es seleccionat o false en cas contrari
+     *
+     * @return bool
+     */
+    function isSelected() {
+        return $this->selected;
     }
 
     /**
@@ -69,30 +88,12 @@ abstract class WikiIocComponent extends WikiIocBuilder {
     }
 
     /**
-     * Retorna el tooltip del component.
-     *
-     * @return string
-     */
-    function getToolTip() {
-        return $this->toolTip;
-    }
-
-    /**
      * Estableix el tooltip del component.
      *
      * @param string $tip
      */
     function setToolTip($tip) {
         $this->toolTip = $tip;
-    }
-
-    /**
-     * Retorna true si es seleccionat o false en cas contrari
-     *
-     * @return bool
-     */
-    function isSelected() {
-        return $this->selected;
     }
 
     /**

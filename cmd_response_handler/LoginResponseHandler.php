@@ -25,7 +25,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     private function login ($requestParams, $responseData, &$ajaxCmdResponseGenerator){
         $ajaxCmdResponseGenerator->addLoginInfo($responseData["loginRequest"], $responseData['loginResult']);
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
-		$cfg = new WikiIocCfg();
+		$cfg = WikiIocCfg::Instance();
 
         if($responseData["loginResult"]){
             $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());

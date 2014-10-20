@@ -40,11 +40,10 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,
             "responseData" => $responseData,
-            "ajaxCmdesponseGenerator" => $ajaxCmdResponseGenerator,
+            "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
             "tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
         );  
-        return $ret;
-        
+        return $ret;        
     }
 
     protected function postResponse($requestParams, 
@@ -118,4 +117,3 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     }
 }
 
-?>

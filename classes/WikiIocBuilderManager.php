@@ -76,22 +76,6 @@ class WikiIocBuilderManager {
 
         foreach($packages as $obj) {
             $this->putRequiredPackage($obj);
-//            $existName = array_key_exists($obj["location"], $this->locationController);
-//            $existLocation = array_key_exists($obj["name"], $this->resourcePackages);
-//            if(!$existLocation && !$existName){
-//                $this->resourcePackages[$obj["name"]]=$obj;
-//                $this->locationController[$obj["location"]]=$obj;
-//            }else if($existName && !$existLocation){
-//                //error nom repetit /*TO DO Multilanguage */
-//                throw new Exception(
-//                        $this->getErrorMessage(
-//                                WikiIocBuilderManager::$REPEATED_PACKAGE_NAME));
-//            }else if($existName && !$existLocation){
-//                //error locallització repetida /*TO DO Multilanguage */
-//                throw new Exception(
-//                        $this->getErrorMessage(
-//                                WikiIocBuilderManager::$REPEATED_PACKAGE_LOC));
-//            }
         }
 
     }
