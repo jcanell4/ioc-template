@@ -32,10 +32,6 @@ abstract class WikiIocBuilder {
         $this->requiredPakages = $requiredPakages;
     }
 
-//    function addRequiredPasckage($name, $location){
-//        $this->requiredResources[$reqResources]=true;
-//    }
-
     /**
      * @return array[] array amb hash que conté els packages requerits.
      */
