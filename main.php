@@ -17,7 +17,6 @@ require_once (DOKU_TPL_INCDIR . 'classes/WikiIocTpl.php');
 //  $instIoc = WikiIocCfg::Instance();
 //  $aIocCfg = $instIoc->getIocCfg();
 //  print "<pre>"; print_r($aIocCfg); print "</pre>";
-////  print $aIocCfg['parms']['main']['parms']['items']['left']['parms']['items']['zN']['parms']['items']['parms']['items']['0']['parms']['treeDataSource'];
 
 $instIoc = WikiIocCfg::Instance();
 $aIocCfg = $instIoc->getIocCfg();
@@ -26,6 +25,7 @@ $tpl = WikiIocTpl::Instance();
 $tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", $instIoc->getArrayTpl());
 $tpl->setBodyIds($instIoc->getArrayMain());
 
+/* TODO: la càrrega del package ACE hauria d'anar al fitxer conf/js_packages.js */
 WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace", "location" => "/ace/lib/ace"));
 
 $ioc_class = $aIocCfg['class'];
