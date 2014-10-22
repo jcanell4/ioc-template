@@ -78,8 +78,12 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         
         $INFO = pageinfo();
         //export minimal infos to JS, plugins can add more
-        $JSINFO['id']        = $ID;
-        $JSINFO['namespace'] = (string) $INFO['namespace']; 
+        if($INFO['id']){
+            $JSINFO['id'] = $INFO['id'];
+        }
+        if($INFO['namespace']){
+            $JSINFO['namespace'] = (string) $INFO['namespace']; 
+        }
     
         return $JSINFO;                        
     }  
