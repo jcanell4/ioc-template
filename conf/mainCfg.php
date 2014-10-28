@@ -65,11 +65,13 @@ class WikiIocCfg {
                                                               ,"parms" => array(
                                                                              "id"=> "id_logo"
                                                                             ,"label"=> "iocLogo"
-                                                                            ,"position"=> "absolute"
-                                                                            ,"top"=> "2"
-                                                                            ,"left"=> "0"
-                                                                            ,"width"=> "240"
-                                                                            ,"height"=> "50"
+                                                                            ,"span-position"=> "absolute"
+                                                                            ,"span-top"=> "2px"
+                                                                            ,"span-left"=> "0px"
+                                                                            ,"width"=> "240px"
+                                                                            ,"height"=> "50px"
+                                                                            ,"z-index"=> "900"
+                                                                            ,"src" => "img/logo.png"
                                                                           )
                                                             )
                                                  ,"menu" => array(
@@ -350,7 +352,7 @@ class WikiIocCfg {
                                                                          ,"items" => array(
                                                                                        array(
                                                                                           "class" => "WikiIocTextContentPane"
-                                                                                         ,"parms" => array("id" => "zonaMissatges")
+                                                                                         ,"parms" => array("id" => "zonaMissatges", "missatge" => "eooo! estoy aquíiiii!")
                                                                                        )
                                                                                      )
                                                                        )
