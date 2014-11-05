@@ -78,8 +78,8 @@ class WikiIocTpl {
         $this->replaceInTemplateFile = $replace;
     }
 
-    public function setBody($obj, $parms) {
-        $this->aIocCfg = new $obj($parms);
+    public function setBody($obj, $parms, $items) {
+        $this->aIocCfg = new $obj($parms, $items);
     }
 
     public function printPage() {

@@ -21,8 +21,11 @@ abstract class WikiIocContainer extends WikiIocComponent {
      * @param array() $requiredPackages hash amb els packages requerit amb el format:
      *                                  "array("name" => "ioc", "location" => $js_packages["ioc"])
      */
-    function __construct($aParms = array(), $reqPackage = array()) {
+    private $content;
+    
+    function __construct($aParms = array(), $objContent = NULL, $reqPackage = array()) {
         parent::__construct($aParms, $reqPackage);
+        $this->content = $objContent;
     }
 
     /**
@@ -42,8 +45,10 @@ abstract class WikiIocContainer extends WikiIocComponent {
      *
      * @return string
      */
-    abstract protected function getContent();
-
+    public function getContent() {
+        $ret = (is_object($this->content)) ? $this->content->getRenderingCode() : $this->content;
+        return $ret;
+    }
     /**
      * Crea el codi a mostrar afegint el contingut anterior, el contingut i el contingut posterior i el retorna.
      *
@@ -104,18 +109,12 @@ abstract class WikiIocContainer extends WikiIocComponent {
 abstract class WikiIocItemsContainer extends WikiIocContainer {
     protected $items = array();
 
-    function __construct( $aIocCfg = array(
-                                        "parms" => array()
-                                       ,"items" => array()
-                                     )
-                         ,$reqPackage = array()
-                        )
-    {
-        parent::__construct($aIocCfg['parms'], $reqPackage);
+    function __construct($aParms = array(), $aItems = array(), $reqPackage = array()) {
+        parent::__construct($aParms, NULL, $reqPackage);
 
-        foreach($aIocCfg['items'] as $aItem) {
-            $ioc_class = $aItem['class'];
-            $obj = new $ioc_class($aItem['parms']);
+        foreach($aItems as $item) {
+            $ioc_class = $item['class'];
+            $obj = new $ioc_class($item['parms'], $item['items']);
             $id = $obj->getId();
             $this->putItem($id, $obj);
             unset($obj);
@@ -156,22 +155,13 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
 
 class WikiIocBody extends WikiIocItemsContainer {
 
-    function __construct($aIocParms = array("id" => NULL, "label" => NULL, "items" => array())) {
-        //$aIocParms recibe $arrIocCfg['parms'] que contiene ['top'] y ['main']
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aIocParms['id']
-                                 ,"label" => $aIocParms['label']
-                               )
-                   ,"items" => $aIocParms['items']
-                 );
-        parent::__construct($aParm, array());
+    function __construct($aParms = array(), $aItems = array()) {
+        parent::__construct($aParms, $aItems, array());
     }
 
     protected function getPreContent() {
         return "<body id='{$this->get('id')}' class='claro'>\n";
     }
-
     protected function getPostContent() {
         return "</body>\n";
     }
@@ -182,20 +172,9 @@ class WikiIocBody extends WikiIocItemsContainer {
  *      Contenidor de tipus DIV sense propietats dijit
 */
 class WikiIocDivBloc extends WikiIocItemsContainer {
-    /**
-     * @param type $aIocParms
-     */
-    function __construct($aIocParms = array("id" => NULL, "label" => NULL, "height" => NULL, "width" => NULL, "items" => array())) {
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aIocParms['id']
-                                 ,"label" => $aIocParms['label']
-                                 ,"height" => $aIocParms['height']
-                                 ,"width" => $aIocParms['width']
-                               )
-                   ,"items" => $aIocParms['items']
-                 );
-        parent::__construct($aParm, array());
+
+    function __construct($aParms = array(), $aItems = array()) {
+        parent::__construct($aParms, $aItems, array());
     }
 
     protected function getPreContent() {
@@ -235,15 +214,8 @@ class WikiIocImage extends WikiIocComponent {
  */
 class WikiIocBorderContainer extends WikiIocItemsContainer {
 
-    function __construct($aIocParms = array("id" => NULL, "label" => NULL, "items" => array())) {
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aIocParms['id']
-                                 ,"label" => $aIocParms['label']
-                               )
-                   ,"items" => $aIocParms['items']
-                 );
-        parent::__construct($aParm, array());
+    function __construct($aParms = array(), $aItems = array()) {
+        parent::__construct($aParms, $aItems, array());
     }
 
     protected function getPreContent() {
@@ -265,81 +237,42 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
  */
 class WikiIocItemsPanel extends WikiIocItemsContainer {
     // bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
-    private $_div;
-    private $_class;
-    private $_doLayout;
-    private $_splitter;
-    private $_minSize;
-    private $_closable;
-    private $_style;
-    
-    function __construct($aIocParms = array("id" => NULL
-                                            ,"label" => NULL
-                                            ,"region" => NULL
-                                            ,"height" => NULL
-                                            ,"width" => NULL
-                                            ,"div" => false
-                                            ,"class" => NULL
-                                            ,"doLayout" => NULL
-                                            ,"splitter" => NULL
-                                            ,"minSize" => NULL
-                                            ,"closable" => NULL
-                                            ,"style" => NULL
-                                            ,"items" => array())
-                                      ) {
+    function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
             array("name" => "dojo", "location" => $js_packages["dojo"]),
             array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aIocParms['id']
-                                 ,"label" => $aIocParms['label']
-                                 ,"height" => $aIocParms['height']
-                                 ,"width" => $aIocParms['width']
-                                 ,"region" => $aIocParms['region']
-                                 ,"div" => $aIocParms['div']
-                                 ,"class" => $aIocParms['class']
-                                 ,"doLayout" => $aIocParms['doLayout']
-                                 ,"splitter" => $aIocParms['splitter']
-                                 ,"minSize" => $aIocParms['minSize']
-                                 ,"closable" => $aIocParms['closable']
-                                 ,"style" => $aIocParms['style']
-                               )
-                   ,"items" => $aIocParms['items']
-                 );
-        parent::__construct($aParm, $reqPackage);
-        
-        $this->_div = $this->get('div');
-        $this->_class = $this->get('class');
-        $this->_doLayout = $this->get('doLayout');
-        $this->_splitter = $this->get('splitter');
-        $this->_minSize = $this->get('minSize');
-        $this->_closable = $this->get('closable');
-        $this->_style = $this->get('style');
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     protected function getPreContent() {
-        $class = ($this->_class) ? "class='{$this->_class}'" : "";
-        $doLayout = ($this->_doLayout) ? "doLayout='{$this->_doLayout}'" : "";
-        $splitter = ($this->_splitter) ? "splitter='{$this->_splitter}'" : "";
-        $minSize = ($this->_minSize) ? "minSize='{$this->_minSize}'" : "";
-        $closable = ($this->_closable) ? "closable='{$this->_closable}'" : "";
+        $class = $this->get('class');
+        $doLayout = $this->get('doLayout');
+        $splitter = $this->get('splitter');
+        $minSize = $this->get('minSize');
+        $closable = $this->get('closable');
+        $style = $this->get('style');
 
-        $s = ($this->_style) ? "{$this->_style};" : "";
+        $class = ($class) ? "class='{$class}'" : "";
+        $doLayout = ($doLayout) ? "doLayout='{$doLayout}'" : "";
+        $splitter = ($splitter) ? "splitter='{$splitter}'" : "";
+        $minSize = ($minSize) ? "minSize='{$minSize}'" : "";
+        $closable = ($closable) ? "closable='{$closable}'" : "";
+
+        $s = ($style) ? "{$style};" : "";
         $h = ($this->get('height')); $h = ($h) ? "height:{$h};" : "";
         $w = ($this->get('width'));  $w = ($w) ? "width:{$w};" : "";
         $style = ($s || $h || $w) ? "style='$s$h$w'" : "";
 
-        $ret = ($this->_div) ? "<div id='{$this->get('id')}'>\n" : "";
+        $ret = ($this->get('div')) ? "<div id='{$this->get('id')}'>\n" : "";
         $ret .= "<div $class data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' "
               . "$doLayout region='{$this->get('region')}' $splitter $minSize maxSize='Infinity' $style $closable>\n";
         return $ret;
     }
 
     protected function getPostContent() {
-        $ret = ($this->_div) ? "</div>\n" : "";
+        $ret = ($this->get('div')) ? "</div>\n" : "";
         $ret .= "</div>\n";
         return $ret;
     }
@@ -358,40 +291,15 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
     const DEFAULT_TAB_TYPE   = 0;
     const RESIZING_TAB_TYPE  = 1;
     const SCROLLING_TAB_TYPE = 2;
-//    private $tabSelected;
-//    private $tabType = DEFAULT_TAB_TYPE;
-//    private $bMenuButton = FALSE;
-//    private $bScrollingButtons = FALSE;
 
-    public function __construct($aParms = array( "id" => NULL
-                                                ,"label" => NULL
-                                                ,"tabType" => DEFAULT_TAB_TYPE
-                                                ,"bMenuButton" => FALSE
-                                                ,"bScrollingButtons" => FALSE
-                                                ,"items" => array())
-                               ) 
-    {
+    public function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "ioc", "location" => $js_packages["ioc"])
                         ,array("name" => "dojo", "location" => $js_packages["dojo"])
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aParms['id']
-                                 ,"label" => $aParms['label']
-                                 ,"tabType" => $aParms['tabType']
-                                 ,"bMenuButton" => $aParms['bMenuButton']
-                                 ,"bScrollingButtons" => $aParms['bScrollingButtons']
-                               )
-                   ,"items" => $aParms['items']
-                 );
-        parent::__construct($aParm, $reqPackage);
-
-//        $this->setTabType($aParms['tabType']);
-//        $this->setMenuButton($aParms['bMenuButton']);
-//        $this->setScrollingButtons($aParms['bScrollingButtons']);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     function putItem($id, &$tab) {
@@ -487,8 +395,15 @@ class WikiIocContentPane extends WikiIocContainer {
                             ,array("name" => "dijit", "location" => $js_packages["dijit"])
                           );
         }
-        parent::__construct($aParms, $reqPackage);
+        parent::__construct($aParms, NULL, $reqPackage);
     }
+
+//    function setPageName($value) {
+//        $this->set('page', $value);
+//    }
+//    function getPageName() {
+//        return $this->get('page');
+//    }
 
     protected function getPreContent() {
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
@@ -506,25 +421,7 @@ class WikiIocContentPane extends WikiIocContainer {
         return "</div>\n";
     }
 
-    protected function getContent() {
-        return "";
-    }
-}
-
-class WikiIocContainerFromMenuPage extends WikiIocContentPane {
-
-    function __construct($aParms = array("id" => NULL, "label" => "", "page" => NULL)) {
-        parent::__construct($aParms, array());
-    }
-
-    function setPageName($value) {
-        $this->set('page', $value);
-    }
-    function getPageName() {
-        return $this->get('page');
-    }
-
-    protected function getContent() {
+    public function getContent() {
         $ret = "";
         $page = $this->get('page');
         if($page != NULL) {
@@ -534,21 +431,21 @@ class WikiIocContainerFromMenuPage extends WikiIocContentPane {
     }
 }
 
+class WikiIocContainerFromMenuPage extends WikiIocContentPane {
+
+    function __construct($aParms = array()) {
+        parent::__construct($aParms, array());
+    }
+}
+
 class WikiIocContainerFromPage extends WikiIocContentPane {
 
-    function __construct($aParms = array("id" => "", "label" => "", "page" => "")) {
+    function __construct($aParms = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "ioc", "location" => $js_packages["ioc"])
                       );
         parent::__construct($aParms, $reqPackage);
-    }
-
-    function setPageName($value) {
-        $this->set('page', $value);
-    }
-    function getPageName() {
-        return $this->get('page');
     }
 
     protected function getPreContent() {
@@ -561,20 +458,11 @@ class WikiIocContainerFromPage extends WikiIocContentPane {
             . " $selected closable='false' doLayout='false'>\n";
         return $ret;
     }
-
-    protected function getContent() {
-        $ret = "";
-        $page = $this->get('page');
-        if($page != NULL) {
-            $ret .= "<div class=\"tb_container\">\n" . tpl_include_page($page, FALSE) . "\n</div>\n";
-        }
-        return $ret;
-    }
 }
 
 class WikiIocTreeContainer extends WikiIocContentPane {
 
-    function __construct($aParms = array("id" => "", "label" => "", "treeDataSource" => "")) {
+    function __construct($aParms = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "ioc", "location" => $js_packages["ioc"])
@@ -619,9 +507,9 @@ class WikiIocTreeContainer extends WikiIocContentPane {
         return $ret;
     }
 
-//    protected function getContent() {
-//        return "";
-//    }
+    public function getContent() {
+        return "";
+    }
 }
 
 class WikiIocHiddenDialog extends WikiIocItemsContainer {
@@ -630,21 +518,14 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
      *		que no és visible en el moment de la seva creació.
      *		Aquest contenidor està dissenyat per contenir items.
      */
-    public function __construct($aParms = array("id" => NULL, "label" => NULL, "items" => array())) {
+    public function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "ioc", "location" => $js_packages["ioc"])
                         ,array("name" => "dojo", "location" => $js_packages["dojo"])
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aParms['id']
-                                 ,"label" => $aParms['label']
-                               )
-                   ,"items" => $aParms['items']
-                 );
-        parent::__construct($aParm, $reqPackage);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     protected function getPreContent() {
@@ -664,63 +545,45 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
      *        Crea un contenidor de la classe ioc.gui.IocForm
      *        dissenyat per contenir items de formulari.
      */
-    private $action;
-    private $urlBase;
-    private $display = TRUE;
-
-    public function __construct($aParms = array("id"=>NULL, "label"=>NULL, "action"=>NULL, "position"=>"", "top"=>0, "left"=>0, "display"=>TRUE, "zindex"=>NULL, "items" => array())) {
+    public function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "ioc", "location" => $js_packages["ioc"])
                         ,array("name" => "dojo", "location" => $js_packages["dojo"])
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aParms['id']
-                                 ,"label" => $aParms['label']
-                                 ,"position" => $aParms['position']
-                                 ,"top" => $aParms['top']
-                                 ,"left" => $aParms['left']
-                                 ,"zindex" => $aParms['zindex']
-                               )
-                   ,"items" => array($aParms['items'])
-                 );
-        parent::__construct($aParm, $reqPackage);
-        
-        $this->setAction($aParms['action']);
-        $this->setDisplay($aParms['display']);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     public function setAction($action) {
-        $this->action = $action;
+        $this->set('action', $action);
     }
     public function setDisplay($display) {
-        $this->display = $display;
+        $this->set('display', $display);
     }
     public function setUrlBase($url) {
-        $this->urlBase = $url;
+        $this->set('urlBase', $url);
     }
     public function getAction() {
-        return $this->action;
+        return $this->get('action');
     }
     public function getDisplay() {
-        return $this->display;
+        return $this->get('display');
     }
     public function getUrlBase() {
-        return $this->urlBase;
+        return $this->get('urlBase');
     }
 
     protected function getPreContent() {
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $id_form = $id ? "id='{$id}_form'" : "";
-        $action = $this->getAction() ? "" : "<script>alert('No s\'ha definit l\'element action al formulari [{$this->get('label')}].');</script>\n";
-        $visible = $this->getDisplay() ? 'true' : 'false';
+        $action = $this->get('action') ? "" : "<script>alert('No s\'ha definit l\'element action al formulari [{$this->get('label')}].');</script>\n";
+        $visible = $this->get('display') ? 'true' : 'false';
         
         $ret = "<span $id title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
             . " style='position:{$this->get('position')}; top:{$this->get('top')}; left:{$this->get('left')}; z-index:{$this->get('zindex')};'>\n"
             . " $action <span $id_form data-dojo-type='ioc.gui.IocForm'"
-            . " data-dojo-props=\"action:'{$this->getAction()}', urlBase:'{$this->getUrlBase()}', visible:$visible\">\n";
+            . " data-dojo-props=\"action:'{$this->get('action')}', urlBase:'{$this->get('urlBase')}', visible:$visible\">\n";
         return $ret;
     }
 
@@ -746,19 +609,18 @@ class WikiIocDropDownButton extends WikiIocContainer {
      *                true: utilitzarà la classe CSS .iocDisplayBlock {display:block}.
      *                false: utilitzarà la classe CSS dijitInline.
      */
-    public function __construct($aParms = array("id" => NULL, "label" => "", "autoSize" => FALSE, "display" => TRUE, "displayBlock" => TRUE, "actionHidden" => NULL)) {
+    public function __construct($aParms = array()) {
         global $js_packages;
         $reqPackage = array(
             array("name" => "ioc", "location" => $js_packages["ioc"]),
             array("name" => "dojo", "location" => $js_packages["dojo"]),
             array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        parent::__construct($aParms, $reqPackage);
-        
         if ($aParms['actionHidden']) {
             $iocClass = $aParms['actionHidden']['class'];
-            $this->set('actionHidden', new $iocClass($aParms['actionHidden']['parms']));
+            $this->set('actionHidden', new $iocClass($aParms['actionHidden']['parms'], $aParms['actionHidden']['items']));
         }
+        parent::__construct($aParms, $this->get('actionHidden'), $reqPackage);
     }
 
     public function setAutoSize($autoSize) {
@@ -802,12 +664,13 @@ class WikiIocDropDownButton extends WikiIocContainer {
     protected function getPostContent() {
         return "\n</div>\n";
     }
-
+/*
     protected function getContent() {
         $_ActionHidden = $this->get('actionHidden');
         $ret = ($_ActionHidden) ? $_ActionHidden->getRenderingCode() : "";
         return $ret;
     }
+ */
 }
 
 class WikiDojoButton extends WikiIocComponent {
@@ -985,25 +848,14 @@ class WikiDojoToolBar extends WikiIocItemsContainer {
      *        Permet establir la seva posició i tamany.
      */
 
-    function __construct($aParms = array("id" => NULL, "label" => NULL, "position" => "static", "top" => 0, "left" => 0, "zindex" => 900, "items" => array())) {
+    function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "dojo", "location" => $js_packages["dojo"])
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                         ,array("name" => "ioc", "location" => $js_packages["ioc"])
                       );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aParms['id']
-                                 ,"label" => $aParms['label']
-                                 ,"position" => $aParms['position']
-                                 ,"top" => $aParms['top']
-                                 ,"left" => $aParms['left']
-                                 ,"zindex" => $aParms['zindex']
-                               )
-                   ,"items" => $aParms['items']
-                 );
-        parent::__construct($aParm, $reqPackage);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     protected function getPreContent() {
@@ -1032,20 +884,13 @@ class WikiIocAccordionContainer extends WikiIocItemsContainer {
      * Mètodes:
      *        putItem: afegeix un nou item al contenidor
      */
-    function __construct($aParms = array("id" => NULL, "label" => NULL, "items" => array())) {
+    function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
                          array("name" => "dojo", "location" => $js_packages["dojo"])
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
-        $aParm = array(
-                    "parms" => array(
-                                  "id" => $aParms['id']
-                                 ,"label" => $aParms['label']
-                               )
-                   ,"items" => $aParms['items']
-                 );
-        parent::__construct($aParm, $reqPackage);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     protected function getPreContent() {
@@ -1100,13 +945,12 @@ class WikiIocTextContentPane extends WikiIocContainer {
              array("name" => "dojo", "location" => $js_packages["dojo"])
             ,array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        parent::__construct($aParms, $reqPackage);
+        parent::__construct($aParms, NULL, $reqPackage);
     }
 
     public function setMessage($msg) {
         $this->set('missatge', $msg);
     }
-
     public function getMessage() {
         return $this->get('missatge');
     }
@@ -1118,7 +962,7 @@ class WikiIocTextContentPane extends WikiIocContainer {
         return $ret;
     }
 
-    protected function getContent() {
+    public function getContent() {
         return $this->get('missatge');
     }
 
