@@ -351,7 +351,7 @@ class WikiIocCfg {
                             )
     );
     
-    private $arrCfg;
+    private $arrIds;
     private $arrTpl;
 
     /*SINGLETON CLASS*/
@@ -367,7 +367,7 @@ class WikiIocCfg {
         if ($soloArrayIoc !== "soloArrIocCfg") {
 
             //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
-            $this->arrCfg = array(
+            $this->arrIds = array(
             		"mainContent" => "mainContent"
                 	,"bodyContent" => "bodyContent"
     				//id's de les Zones/Contenidors principals
@@ -396,25 +396,25 @@ class WikiIocCfg {
 
     		$this->arrTpl = array(
         			"%%ID%%" => "ajax"
-            		,"%%SECTOK%%" => getSecurityToken()
-                	,"@@MAIN_CONTENT@@" => $this->getConfig("mainContent")
-                    ,"@@BODY_CONTENT@@" => $this->getConfig("bodyContent")
-    				,"@@NAVEGACIO_NODE_ID@@" => $this->getConfig("zonaNavegacio")
-        			,"@@METAINFO_NODE_ID@@" => $this->getConfig("zonaMetaInfo")
-            		,"@@INFO_NODE_ID@@" => $this->getConfig("zonaMissatges")
-                	,"@@CANVI_NODE_ID@@" => $this->getConfig("zonaCanvi")
-                    ,"@@TAB_INDEX@@"    => $this->getConfig("zN_index_id")
-    				,"@@TAB_DOCU@@"     => $this->getConfig("zN_docum_id")
-        			,"@@LOGIN_DIALOG@@" => $this->getConfig("loginDialog")
-            		,"@@LOGIN_BUTTON@@" => $this->getConfig("loginButton")
-                	,"@@EXIT_BUTTON@@" => $this->getConfig("exitButton")
-                    ,"@@EDIT_BUTTON@@" => $this->getConfig("editButton")
-    				,'@@NEW_BUTTON@@' => $this->getConfig("newButton")
-        			,'@@SAVE_BUTTON@@' => $this->getConfig("saveButton")
-            		,'@@PREVIEW_BUTTON@@' => $this->getConfig("previewButton")
-                	,'@@CANCEL_BUTTON@@' => $this->getConfig("cancelButton")
-                    ,'@@ED_PARC_BUTTON@@' => $this->getConfig("edparcButton")
-                    ,'@@DOJO_SOURCE@@' => $this->getJsPackage("dojo")
+            		,'%%SECTOK%%'            => getSecurityToken()
+                	,'@@MAIN_CONTENT@@'      => $this->getArrIds("mainContent")
+                    ,'@@BODY_CONTENT@@'      => $this->getArrIds("bodyContent")
+    				,'@@NAVEGACIO_NODE_ID@@' => $this->getArrIds("zonaNavegacio")
+        			,'@@METAINFO_NODE_ID@@'  => $this->getArrIds("zonaMetaInfo")
+            		,'@@INFO_NODE_ID@@'      => $this->getArrIds("zonaMissatges")
+                	,'@@CANVI_NODE_ID@@'     => $this->getArrIds("zonaCanvi")
+                    ,'@@TAB_INDEX@@'         => $this->getArrIds("zN_index_id")
+    				,'@@TAB_DOCU@@'          => $this->getArrIds("zN_docum_id")
+        			,'@@LOGIN_DIALOG@@'      => $this->getArrIds("loginDialog")
+            		,'@@LOGIN_BUTTON@@'      => $this->getArrIds("loginButton")
+                	,'@@EXIT_BUTTON@@'       => $this->getArrIds("exitButton")
+                    ,'@@EDIT_BUTTON@@'       => $this->getArrIds("editButton")
+    				,'@@NEW_BUTTON@@'        => $this->getArrIds("newButton")
+        			,'@@SAVE_BUTTON@@'       => $this->getArrIds("saveButton")
+            		,'@@PREVIEW_BUTTON@@'    => $this->getArrIds("previewButton")
+                	,'@@CANCEL_BUTTON@@'     => $this->getArrIds("cancelButton")
+                    ,'@@ED_PARC_BUTTON@@'    => $this->getArrIds("edparcButton")
+                    ,'@@DOJO_SOURCE@@'       => $this->getJsPackage("dojo")
         	);
         }
 	}
@@ -424,8 +424,8 @@ class WikiIocCfg {
         return $js_packages[$id];
     }
 	
-	public function getConfig($key){
-		return $this->arrCfg[$key];
+	public function getArrIds($key){
+		return $this->arrIds[$key];
 	}
 
 	public function getIocCfg(){

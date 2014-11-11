@@ -33,20 +33,20 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
 //            $pr = $this->getLoginPageResponse();
 //            $ajaxCmdResponseGenerator->addHtmlDoc($pr["id"], $pr["ns"], $pr["title"], $pr["content"]);
-//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getConfig("exitButton"), "visible", true);
-//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getConfig("loginButton"), "visible", false);
-            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getConfig("zN_index_id"));
+//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getArrIds("exitButton"), "visible", true);
+//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getArrIds("loginButton"), "visible", false);
+            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
 //            //elimina, si existe, la pestaña 'desconectat'
 //            $logout = $this->getLogoutPageResponse();
 //            $ajaxCmdResponseGenerator->addRemoveContentTab($logout['id']);
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
-//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getConfig("exitButton"), "visible", false);
-//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getConfig("loginButton"), "visible", true);
-            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getConfig("zN_index_id"));
+//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getArrIds("exitButton"), "visible", false);
+//            $ajaxCmdResponseGenerator->addChangeWidgetProperty($cfg->getArrIds("loginButton"), "visible", true);
+            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
-            $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren($cfg->getConfig("zonaMetaInfo"));
+            $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren($cfg->getArrIds("zonaMetaInfo"));
 //            $pr = $this->getLogoutPageResponse();
 //            $ajaxCmdResponseGenerator->addHtmlDoc($pr["id"], $pr["ns"], $pr["title"], $pr["content"]);
             $title = '';
