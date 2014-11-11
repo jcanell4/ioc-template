@@ -15,18 +15,6 @@ require_once (DOKU_TPL_INCDIR . 'conf/js_packages.php');
  */
 class WikiIocTpl {
     private $aIocCfg;
-    /** @var  WikiIocHeadContainer */
-    private $blocSuperiorComponent;
-    /** @var  WikiIocCentralTabsContainer */
-    private $blocCentralComponent;
-    /** @var  WikiIocTabsContainer */
-    private $navigationComponent;
-    /** @var  WikiIocAccordionContainer */
-    private $metaInfoComponent;
-    /** @var  WikiIocItemsContainer */
-    private $blocRightComponent;
-    /** @var  WikiIocTextContentPane */
-    private $blocInferiorComponent;
     private $loginname;
     private $lang;
     private $rev;
@@ -34,10 +22,6 @@ class WikiIocTpl {
     private $contentComponent;
     private $scriptTemplateFile;
     private $replaceInTemplateFile;
-    private $mainID;
-    private $mainContentID;
-    private $tb_containerID;
-    private $contentID;
 
     public static function Instance() {
         static $inst = NULL;
@@ -76,6 +60,17 @@ class WikiIocTpl {
     public function setScriptTemplateFile($fileName, $replace) {
         $this->scriptTemplateFile    = $fileName;
         $this->replaceInTemplateFile = $replace;
+        /*
+         * Para incluir este trozo de código aquí y quitarlo de printHeaderTags()
+         * hay que declarar la variable privada $contentTemplateFile
+         * 
+        if(@file_exists($this->scriptTemplateFile)) {
+            $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
+            foreach($this->replaceInTemplateFile as $key => $value) {
+                $contentTemplateFile = preg_replace('/' . $key . '/', $value, $contentTemplateFile);
+            }
+        }
+        */
     }
 
     public function setBody($obj, $parms, $items) {
@@ -140,78 +135,12 @@ class WikiIocTpl {
     }
 
     /**
-     * Estableix les ids del cos de la pàgina a partir del hash passat com argument.
-     *
-     * @param array $cfg hash amb les dades de configuració
-     */
-    public function setBodyIds($cfg) {
-        $this->mainID         = $cfg["main"];
-        $this->mainContentID  = $cfg["mainContent"];
-        $this->tb_containerID = $cfg["tb_container"];
-        $this->contentID      = $cfg["content"];
-    }
-
-    /**
      * Crida al mètode de la pàgina per renderitzar el codi, el que dispara l'event corresponent a dokuwiki.
      *
      * @todo[Xavier] no s'utilitza?
      */
     public function printContentPage() {
         $this->contentComponent->printRenderingCode();
-    }
-
-    /**
-     * Estableix el contenidor del bloc superior.
-     *
-     * @param WikiIocHeadContainer $component
-     */
-    public function setBlocSuperiorComponent(&$component) {
-        $this->blocSuperiorComponent = & $component;
-    }
-
-    /**
-     * Estableix el contenidor central.
-     *
-     * @param WikiIocCentralTabsContainer $component
-     */
-    public function setBlocCentralComponent(&$component) {
-        $this->blocCentralComponent = & $component;
-    }
-
-    /**
-     * Estableix el contenidor amb pestanyes de navegació
-     *
-     * @param WikiIocTabsContainer $component
-     */
-    public function setNavigationComponent(&$component) {
-        $this->navigationComponent = & $component;
-    }
-
-    /**
-     * Estableix el contenidor amb la meta-informació del document actiu.
-     *
-     * @param WikiIocAccordionContainer $component
-     */
-    public function setMetaInfoComponent(&$component) {
-        $this->metaInfoComponent = & $component;
-    }
-
-    /**
-     * Estableix el contenidor de la dreta.
-     *
-     * @param WikiIocItemsContainer $component
-     */
-    public function setBlocRightComponent(&$component) {
-        $this->blocRightComponent = & $component;
-    }
-
-    /**
-     * Estableix el contenidor inferior.
-     *
-     * @param WikiIocTextContentPane $component
-     */
-    public function setBlocInferiorComponent(&$component) {
-        $this->blocInferiorComponent = & $component;
     }
 
     private function _storeRevision() {

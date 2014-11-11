@@ -25,7 +25,12 @@ abstract class WikiIocContainer extends WikiIocComponent {
     
     function __construct($aParms = array(), $objContent = NULL, $reqPackage = array()) {
         parent::__construct($aParms, $reqPackage);
-        $this->content = $objContent;
+        if (is_array($objContent)) {
+            $classe = $objContent['class'];
+            $this->content = new $classe($objContent['parms'], $objContent['items']);
+        }else {
+            $this->content = $objContent;            
+        }
     }
 
     /**
@@ -609,18 +614,19 @@ class WikiIocDropDownButton extends WikiIocContainer {
      *                true: utilitzarà la classe CSS .iocDisplayBlock {display:block}.
      *                false: utilitzarà la classe CSS dijitInline.
      */
-    public function __construct($aParms = array()) {
+    public function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
             array("name" => "ioc", "location" => $js_packages["ioc"]),
             array("name" => "dojo", "location" => $js_packages["dojo"]),
             array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        if ($aParms['actionHidden']) {
-            $iocClass = $aParms['actionHidden']['class'];
-            $this->set('actionHidden', new $iocClass($aParms['actionHidden']['parms'], $aParms['actionHidden']['items']));
-        }
-        parent::__construct($aParms, $this->get('actionHidden'), $reqPackage);
+//        if ($aParms['actionHidden']) {
+//            $iocClass = $aParms['actionHidden']['class'];
+//            $this->set('actionHidden', new $iocClass($aParms['actionHidden']['parms'], $aParms['actionHidden']['items']));
+//        }
+//        parent::__construct($aParms, $this->get('actionHidden'), $reqPackage);
+        parent::__construct($aParms, $aItems, $reqPackage);
     }
 
     public function setAutoSize($autoSize) {
@@ -939,13 +945,13 @@ class WikiIocProperty extends WikiIocComponent {
  */
 class WikiIocTextContentPane extends WikiIocContainer {
 
-    public function __construct($aParms = array()) {
+    public function __construct($aParms = array(), $contingut = NULL) {
         global $js_packages;
         $reqPackage = array(
              array("name" => "dojo", "location" => $js_packages["dojo"])
             ,array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        parent::__construct($aParms, NULL, $reqPackage);
+        parent::__construct($aParms, $contingut, $reqPackage);
     }
 
     public function setMessage($msg) {
@@ -962,9 +968,9 @@ class WikiIocTextContentPane extends WikiIocContainer {
         return $ret;
     }
 
-    public function getContent() {
-        return $this->get('missatge');
-    }
+//    public function getContent() {
+//        return $this->get('missatge');
+//    }
 
     protected function getPostContent() {
         return "</div>\n";

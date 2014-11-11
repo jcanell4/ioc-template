@@ -215,39 +215,39 @@ class WikiIocCfg {
                                                                                      array(
                                                                                         "class" => "WikiIocDropDownButton"
                                                                                        ,"parms" => array(
-                                                                                                     "id" => "loginButton"
-                                                                                                    ,"label" => "Entrar"
-                                                                                                    ,"autoSize" => true
-                                                                                                    ,"display" => true
-                                                                                                    ,"displayBlock" => true
-                                                                                                    ,"actionHidden" => array(
-                                                                                                                          "class" => "WikiIocHiddenDialog"
-                                                                                                                         ,"parms" => array(
-                                                                                                                                        "id" => "loginDialog"
-                                                                                                                                       ,"label" => "loginDialog"
-                                                                                                                                     )
-                                                                                                                         ,"items" => array(
-                                                                                                                                        array(
-                                                                                                                                           "class" => "WikiIocFormInputField"
-                                                                                                                                          ,"parms" => array(
-                                                                                                                                                         "id" => "name"
-                                                                                                                                                        ,"label" => "Usuari:"
-                                                                                                                                                        ,"name" => "u"
-                                                                                                                                                      )
-                                                                                                                                        )
-                                                                                                                                       ,array(
-                                                                                                                                           "class" => "WikiIocFormInputField"
-                                                                                                                                          ,"parms" => array(
-                                                                                                                                                         "id" => "pass"
-                                                                                                                                                        ,"label" => "Contrasenya:"
-                                                                                                                                                        ,"name" => "p"
-                                                                                                                                                        ,"type" => "password"
-                                                                                                                                                      )
-                                                                                                                                        )
-                                                                                                                                     )
-                                                                                                                       )
+                                                                                                      "id" => "loginButton"
+                                                                                                     ,"label" => "Entrar"
+                                                                                                     ,"autoSize" => true
+                                                                                                     ,"display" => true
+                                                                                                     ,"displayBlock" => true
                                                                                                    )
-                                                                                      )
+                                                                                       ,"items" => array(
+                                                                                                      "class" => "WikiIocHiddenDialog"
+                                                                                                     ,"parms" => array(
+                                                                                                                    "id" => "loginDialog"
+                                                                                                                   ,"label" => "loginDialog"
+                                                                                                                 )
+                                                                                                     ,"items" => array(
+                                                                                                                    array(
+                                                                                                                       "class" => "WikiIocFormInputField"
+                                                                                                                      ,"parms" => array(
+                                                                                                                                     "id" => "name"
+                                                                                                                                    ,"label" => "Usuari:"
+                                                                                                                                    ,"name" => "u"
+                                                                                                                                  )
+                                                                                                                         )
+                                                                                                                   ,array(
+                                                                                                                       "class" => "WikiIocFormInputField"
+                                                                                                                      ,"parms" => array(
+                                                                                                                                     "id" => "pass"
+                                                                                                                                    ,"label" => "Contrasenya:"
+                                                                                                                                    ,"name" => "p"
+                                                                                                                                    ,"type" => "password"
+                                                                                                                                  )
+                                                                                                                         )
+                                                                                                                      )
+                                                                                                        )
+                                                                                          )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
@@ -353,7 +353,6 @@ class WikiIocCfg {
     
     private $arrCfg;
     private $arrTpl;
-	private $arrMain;
 
     /*SINGLETON CLASS*/
     public static function Instance($soloArrayIoc){
@@ -367,63 +366,56 @@ class WikiIocCfg {
     private function __construct($soloArrayIoc){
         if ($soloArrayIoc !== "soloArrIocCfg") {
 
-        //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
-        $this->arrCfg = array(
-				"mainContent" => "mainContent"
-				,"bodyContent" => "bodyContent"
-				//id's de les Zones/Contenidors principals
-				,"zonaAccions"   => "zonaAccions"	
-				,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
-				,"zonaMetaInfo"  => "zonaMetaInfo"
-				,"zonaMissatges" => "zonaMissatges"
-				,"zonaCanvi"     => "zonaCanvi"
-				,"barraMenu" => "barraMenu"
-				//id's de les pestanyes (tabs) de la zona de Navegació
-				,"zN_index_id"  => "tb_index"	
-				,"zN_perfil_id" => "tb_perfil"	
-				,"zN_admin_id"  => "tb_admin"	
-				,"zN_docum_id"  => "tb_docu"	
-				//id's dels botons de la zona de Canvi
-				,"loginDialog"  => "loginDialog"
-				,"loginButton"  => "loginButton"
-				,"exitButton"   => "exitButton"
-				,"editButton"   => "editButton"
-				,"newButton"    => "newButton"
-				,"saveButton"   => "saveButton"
-				,"previewButton"   => "previewButton"
-				,"cancelButton"   => "cancelButton"
-				,"edparcButton" => "edparcButton"
-			);
+            //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
+            $this->arrCfg = array(
+            		"mainContent" => "mainContent"
+                	,"bodyContent" => "bodyContent"
+    				//id's de les Zones/Contenidors principals
+        			,"zonaAccions"   => "zonaAccions"	
+            		,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
+                	,"zonaMetaInfo"  => "zonaMetaInfo"
+                    ,"zonaMissatges" => "zonaMissatges"
+    				,"zonaCanvi"     => "zonaCanvi"
+        			,"barraMenu" => "barraMenu"
+            		//id's de les pestanyes (tabs) de la zona de Navegació
+                	,"zN_index_id"  => "tb_index"	
+                    ,"zN_perfil_id" => "tb_perfil"	
+    				,"zN_admin_id"  => "tb_admin"	
+        			,"zN_docum_id"  => "tb_docu"	
+            		//id's dels botons de la zona de Canvi
+                	,"loginDialog"  => "loginDialog"
+                    ,"loginButton"  => "loginButton"
+    				,"exitButton"   => "exitButton"
+        			,"editButton"   => "editButton"
+            		,"newButton"    => "newButton"
+                	,"saveButton"   => "saveButton"
+                    ,"previewButton"   => "previewButton"
+    				,"cancelButton"   => "cancelButton"
+        			,"edparcButton" => "edparcButton"
+            	);
 
-		$this->arrTpl = array(
-				"%%ID%%" => "ajax"
-				,"%%SECTOK%%" => getSecurityToken()
-				,"@@MAIN_CONTENT@@" => $this->getConfig("mainContent")
-				,"@@BODY_CONTENT@@" => $this->getConfig("bodyContent")
-				,"@@NAVEGACIO_NODE_ID@@" => $this->getConfig("zonaNavegacio")
-				,"@@METAINFO_NODE_ID@@" => $this->getConfig("zonaMetaInfo")
-				,"@@INFO_NODE_ID@@" => $this->getConfig("zonaMissatges")
-				,"@@CANVI_NODE_ID@@" => $this->getConfig("zonaCanvi")
-				,"@@TAB_INDEX@@"    => $this->getConfig("zN_index_id")
-				,"@@TAB_DOCU@@"     => $this->getConfig("zN_docum_id")
-				,"@@LOGIN_DIALOG@@" => $this->getConfig("loginDialog")
-				,"@@LOGIN_BUTTON@@" => $this->getConfig("loginButton")
-				,"@@EXIT_BUTTON@@" => $this->getConfig("exitButton")
-				,"@@EDIT_BUTTON@@" => $this->getConfig("editButton")
-				,'@@NEW_BUTTON@@' => $this->getConfig("newButton")
-				,'@@SAVE_BUTTON@@' => $this->getConfig("saveButton")
-				,'@@PREVIEW_BUTTON@@' => $this->getConfig("previewButton")
-				,'@@CANCEL_BUTTON@@' => $this->getConfig("cancelButton")
-				,'@@ED_PARC_BUTTON@@' => $this->getConfig("edparcButton")
-                ,'@@DOJO_SOURCE@@' => $this->getJsPackage("dojo")
-		);
-        
-		$this->arrMain = array(
-				"main" => "main"
-				,"mainContent" => "mainContent"
-				,"tb_container" => "tb_container"
-				,"content" => "content"
-		);
+    		$this->arrTpl = array(
+        			"%%ID%%" => "ajax"
+            		,"%%SECTOK%%" => getSecurityToken()
+                	,"@@MAIN_CONTENT@@" => $this->getConfig("mainContent")
+                    ,"@@BODY_CONTENT@@" => $this->getConfig("bodyContent")
+    				,"@@NAVEGACIO_NODE_ID@@" => $this->getConfig("zonaNavegacio")
+        			,"@@METAINFO_NODE_ID@@" => $this->getConfig("zonaMetaInfo")
+            		,"@@INFO_NODE_ID@@" => $this->getConfig("zonaMissatges")
+                	,"@@CANVI_NODE_ID@@" => $this->getConfig("zonaCanvi")
+                    ,"@@TAB_INDEX@@"    => $this->getConfig("zN_index_id")
+    				,"@@TAB_DOCU@@"     => $this->getConfig("zN_docum_id")
+        			,"@@LOGIN_DIALOG@@" => $this->getConfig("loginDialog")
+            		,"@@LOGIN_BUTTON@@" => $this->getConfig("loginButton")
+                	,"@@EXIT_BUTTON@@" => $this->getConfig("exitButton")
+                    ,"@@EDIT_BUTTON@@" => $this->getConfig("editButton")
+    				,'@@NEW_BUTTON@@' => $this->getConfig("newButton")
+        			,'@@SAVE_BUTTON@@' => $this->getConfig("saveButton")
+            		,'@@PREVIEW_BUTTON@@' => $this->getConfig("previewButton")
+                	,'@@CANCEL_BUTTON@@' => $this->getConfig("cancelButton")
+                    ,'@@ED_PARC_BUTTON@@' => $this->getConfig("edparcButton")
+                    ,'@@DOJO_SOURCE@@' => $this->getJsPackage("dojo")
+        	);
         }
 	}
 
@@ -442,9 +434,5 @@ class WikiIocCfg {
 
 	public function getArrayTpl(){
 		return $this->arrTpl;
-	}
-
-    public function getArrayMain(){
-		return $this->arrMain;
 	}
 }
