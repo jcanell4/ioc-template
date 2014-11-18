@@ -138,9 +138,17 @@ require([
             var np = 0;
             var length = state.pagesLength();
             var requestState = new Request();
-            requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+            requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php";
             for (var id in state.pages) {
-                requestState.sendRequest("id=" + state.pages[id].ns).always(function () {
+                var queryParams;
+                if(state.pages[id].action==="view"){
+                    queryParams = "call=page&id=";
+                }else if(state.pages[id].action==="edit"){
+                    queryParams = "call=edit&id=";
+                }else{
+                    queryParams = "call=page&id=";
+                }
+                requestState.sendRequest(queryParams + state.pages[id].ns).always(function () {
                     np++;
                     if (np == length) {
                         if (state.info) {
