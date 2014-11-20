@@ -27,7 +27,7 @@ class PageResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['title'], 
                                                 $responseData['content']);
         
-        $metaData = $this->getMetaResponse($responseData['id']);
+        $metaData = $this->getModelWrapper()->getMetaResponse($responseData['id']);
         $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
                                                 $metaData['meta']);
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(

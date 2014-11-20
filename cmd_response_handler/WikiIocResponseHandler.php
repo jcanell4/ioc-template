@@ -88,28 +88,28 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         return $JSINFO;                        
     }  
     
-    protected function getMetaResponse($id){
-        global $lang;
-        $ret=array('docId' => \str_replace(":", "_",$id));
-        $meta=array();
-        $mEvt = new Doku_Event('ADD_META', $meta);                
-        if($mEvt ->advise_before()){
-            $toc = wrapper_tpl_toc();
-            $metaId = \str_replace(":", "_",$id).'_toc';
-            $meta[] = $this->getMetaPage($metaId, $lang['toc'], $toc);
-        }       
-        $mEvt->advise_after();
-        unset($mEvt);        
-        $ret['meta']=$meta;
-        return $ret;        
-    }
-    
-    private function getMetaPage($metaId, $metaTitle, $metaToSend){
-        $contentData = array('id' => $metaId,
-            'title' => $metaTitle,
-            'content' => $metaToSend);
-        return $contentData;                
-    }
+//    protected function getMetaResponse($id){
+//        global $lang;
+//        $ret=array('docId' => \str_replace(":", "_",$id));
+//        $meta=array();
+//        $mEvt = new Doku_Event('WIOC_ADD_META', $meta);                
+//        if($mEvt ->advise_before()){
+//            $toc = wrapper_tpl_toc();
+//            $metaId = \str_replace(":", "_",$id).'_toc';
+//            $meta[] = $this->getMetaPage($metaId, $lang['toc'], $toc);
+//        }       
+//        $mEvt->advise_after();
+//        unset($mEvt);        
+//        $ret['meta']=$meta;
+//        return $ret;        
+//    }
+//    
+//    private function getMetaPage($metaId, $metaTitle, $metaToSend){
+//        $contentData = array('id' => $metaId,
+//            'title' => $metaTitle,
+//            'content' => $metaToSend);
+//        return $contentData;                
+//    }
     
     protected function getToolbarIds(&$value){
         $value["varName"] = "toolbar";
