@@ -102,3 +102,9 @@ $lang["vector_fillplaceholder"] = "Si us plau, ompliu aquest text variable";
 $lang["vector_donate"] = "Fes una donació";
 $lang["vector_mdtemplatefordw"] = "Plantilla vector per a DokuWiki";
 $lang["vector_recentchanges"] = "Canvis recents";
+
+//overwrite
+$lang['img_manager']           = 'Gestor de medis';
+$lang['img_backto']            = 'Tancar';
+$lang['img_detail_title']      = 'DETALL IMATGE: ';
+

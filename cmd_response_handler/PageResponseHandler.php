@@ -36,7 +36,8 @@ class PageResponseHandler extends WikiIocResponseHandler {
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
                 "ns" => $responseData['ns'], 
-                "command" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
     }    
