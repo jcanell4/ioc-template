@@ -376,22 +376,27 @@ class WikiIocCfg {
                 	,"zonaMetaInfo"  => "zonaMetaInfo"
                     ,"zonaMissatges" => "zonaMissatges"
     				,"zonaCanvi"     => "zonaCanvi"
-        			,"barraMenu" => "barraMenu"
+        			,"barraMenu"     => "barraMenu"
             		//id's de les pestanyes (tabs) de la zona de Navegació
                 	,"zN_index_id"  => "tb_index"	
                     ,"zN_perfil_id" => "tb_perfil"	
     				,"zN_admin_id"  => "tb_admin"	
         			,"zN_docum_id"  => "tb_docu"	
             		//id's dels botons de la zona de Canvi
-                	,"loginDialog"  => "loginDialog"
-                    ,"loginButton"  => "loginButton"
-    				,"exitButton"   => "exitButton"
-        			,"editButton"   => "editButton"
-            		,"newButton"    => "newButton"
-                	,"saveButton"   => "saveButton"
-                    ,"previewButton"   => "previewButton"
-    				,"cancelButton"   => "cancelButton"
-        			,"edparcButton" => "edparcButton"
+                	,"loginDialog"   => "loginDialog"
+                    ,"loginButton"   => "loginButton"
+    				,"exitButton"    => "exitButton"
+        			,"editButton"    => "editButton"
+            		,"newButton"     => "newButton"
+                	,"saveButton"    => "saveButton"
+                    ,"previewButton" => "previewButton"
+    				,"cancelButton"  => "cancelButton"
+        			,"edparcButton"  => "edparcButton"
+                    ,"userButton"    => "userButton"
+                    ,"userMenu"         => "userMenu"
+                    ,"userMenuItem"     => "userMenuItem"
+                    ,"talkUserMenuItem" => "talkUserMenuItem"
+                    ,"logoffMenuItem"   => "logoffMenuItem"
             	);
 
     		$this->arrTpl = array(
@@ -414,6 +419,11 @@ class WikiIocCfg {
             		,'@@PREVIEW_BUTTON@@'    => $this->getArrIds("previewButton")
                 	,'@@CANCEL_BUTTON@@'     => $this->getArrIds("cancelButton")
                     ,'@@ED_PARC_BUTTON@@'    => $this->getArrIds("edparcButton")
+                    ,'@@USER_BUTTON@@'       => $this->getArrIds("userButton")
+                    ,'@@USER_MENU@@'         => $this->getArrIds("userMenu")
+                    ,'@@USER_MENUITEM@@'     => $this->getArrIds("userMenuItem")
+                    ,'@@TALKUSER_MENUITEM@@' => $this->getArrIds("talkUserMenuItem")
+                    ,'@@LOGOFF_MENUITEM@@'   => $this->getArrIds("logoffMenuItem")
                     ,'@@DOJO_SOURCE@@'       => $this->getJsPackage("dojo")
         	);
         }

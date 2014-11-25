@@ -65,6 +65,8 @@ require([
     wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
     wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
     wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
+    wikiIocDispatcher.userButtonId = '@@USER_BUTTON@@';
+
 
     // TODO[Xavi] es pot passar la funció següent com el constructor.
     var updateHandler = new UpdateViewHandler();
@@ -83,12 +85,17 @@ require([
         disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
-
+        /* nou menulogin */
+        disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
+        
         if (!disp.getGlobalState().login) {
             disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
         } else {
             disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
             disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
+            /* nou menulogin */
+            disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", true);
+            
             if (disp.getGlobalState().currentTabId) {
                 var page = disp.getGlobalState().pages[disp.getGlobalState().currentTabId];
                 if (page.action === 'view') {
@@ -307,12 +314,14 @@ require([
             });
         }
         //cercar l'estat
-        if (typeof(Storage) !== "undefined"
-                && sessionStorage.globalState) {
+        if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             // var state = JSON.parse(sessionStorage.globalState);
             wikiIocDispatcher.reloadFromState(state);
         }
+        
+        /* nou menulogin */
+        wikiIocDispatcher.updateFromState();
     });
 });
 </script>
