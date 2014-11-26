@@ -29,6 +29,7 @@ require([
     "ioc/gui/ResizingTabController",
     "ioc/gui/IocButton",
     "ioc/gui/IocDropDownButton",
+    "ioc/gui/IocMenuItem",
     "dijit/layout/TabContainer",
     "dijit/layout/AccordionContainer",
     "dijit/Toolbar",
@@ -85,7 +86,6 @@ require([
         disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
-        /* nou menulogin */
         disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
         
         if (!disp.getGlobalState().login) {
@@ -93,7 +93,6 @@ require([
         } else {
             disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
             disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
-            /* nou menulogin */
             disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", true);
             
             if (disp.getGlobalState().currentTabId) {
@@ -320,7 +319,6 @@ require([
             wikiIocDispatcher.reloadFromState(state);
         }
         
-        /* nou menulogin */
         wikiIocDispatcher.updateFromState();
     });
 });

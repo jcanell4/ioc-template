@@ -261,8 +261,8 @@ class WikiIocCfg {
                                                                                        ,"items" => array(
                                                                                                       "class" => "WikiIocDropDownMenu"
                                                                                                      ,"parms" => array(
-                                                                                                                    "id" => "loginDialog"
-                                                                                                                   ,"label" => "loginDialog"
+                                                                                                                    "id" => "userDialog"
+                                                                                                                   ,"label" => "userDialog"
                                                                                                                  )
                                                                                                      ,"items" => array(
                                                                                                                     array(
@@ -447,7 +447,8 @@ class WikiIocCfg {
                     ,"previewButton" => "previewButton"
     				,"cancelButton"  => "cancelButton"
         			,"edparcButton"  => "edparcButton"
-                    ,"userButton"    => "userButton"
+                	,"userDialog"       => "userDialog"
+                    ,"userButton"       => "userButton"
                     ,"userMenu"         => "userMenu"
                     ,"userMenuItem"     => "userMenuItem"
                     ,"talkUserMenuItem" => "talkUserMenuItem"
