@@ -880,8 +880,9 @@ class WikiIocFormInputField extends WikiIocComponent {
         $id = $this->get('id');
         $name = $this->get('name'); $name = ($name == NULL) ? $this->get('id') : $name;
         $type = $this->get('type'); $type = ($type == NULL) ? "" : "type='$type' ";
+        $required = ($this->get('required')) ? "required=true" : "";
         $ret = "<label for='$id'>{$this->get('label')}</label>"
-             . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type}/><br />";
+             . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type} {$required}/><br />";
         return $ret;
     }
 }

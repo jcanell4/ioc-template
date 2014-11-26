@@ -248,6 +248,61 @@ class WikiIocCfg {
                                                                                                                       )
                                                                                                         )
                                                                                           )
+
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocDropDownButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "id" => "userButton"
+                                                                                                     ,"label" => "Menú User"
+                                                                                                     ,"autoSize" => true
+                                                                                                     ,"display" => true
+                                                                                                     ,"displayBlock" => true
+                                                                                                   )
+                                                                                       ,"items" => array(
+                                                                                                      "class" => "WikiIocDropDownMenu"
+                                                                                                     ,"parms" => array(
+                                                                                                                    "id" => "loginDialog"
+                                                                                                                   ,"label" => "loginDialog"
+                                                                                                                 )
+                                                                                                     ,"items" => array(
+                                                                                                                    array(
+                                                                                                                       "class" => "WikiIocMenuItem"
+                                                                                                                      ,"parms" => array(
+                                                                                                                                     "id" => "userMenuItem"
+                                                                                                                                    ,"label" => "La meva pàgina"
+                                                                                                                                    ,"query" => "do=user"
+                                                                                                                                    ,"autoSize" => true
+                                                                                                                                    ,"display" => false
+                                                                                                                                    ,"displayBlock" => true
+                                                                                                                                  )
+                                                                                                                         )
+                                                                                                                   ,array(
+                                                                                                                       "class" => "WikiIocMenuItem"
+                                                                                                                      ,"parms" => array(
+                                                                                                                                     "id" => "talkUserMenuItem"
+                                                                                                                                    ,"label" => "Discussió"
+                                                                                                                                    ,"query" => "do=talkUser"
+                                                                                                                                    ,"autoSize" => true
+                                                                                                                                    ,"display" => false
+                                                                                                                                    ,"displayBlock" => true
+                                                                                                                                  )
+                                                                                                                         )
+                                                                                                                   ,array(
+                                                                                                                       "class" => "WikiIocMenuItem"
+                                                                                                                      ,"parms" => array(
+                                                                                                                                     "id" => "logoffMenuItem"
+                                                                                                                                    ,"label" => "Desconnectar"
+                                                                                                                                    ,"query" => "do=logoff"
+                                                                                                                                    ,"autoSize" => true
+                                                                                                                                    ,"display" => false
+                                                                                                                                    ,"displayBlock" => true
+                                                                                                                                  )
+                                                                                                                         )
+                                                                                                                      )
+                                                                                                        )
+                                                                                          )
+
+
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
