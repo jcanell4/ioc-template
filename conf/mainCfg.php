@@ -89,9 +89,9 @@ class WikiIocCfg {
                                                                   ,"parms" => array(
                                                                                  "id" => "zonaLogin"
                                                                                 ,"label" => "zonaLogin"
-                                                                                ,"width" => "auto"
-                                                                                ,"height" => "100%"
-                                                                                ,"style" => "float:right;padding:0px"
+                                                                                ,"width" => "80px"
+                                                                                ,"height" => "60px"
+                                                                                ,"float" => "right"
                                                                               )
                                                                   ,"items" => array(
                                                                                  array(
@@ -151,7 +151,7 @@ class WikiIocCfg {
                                                                                                                   ,"parms" => array(
                                                                                                                                  "id" => "userMenuItem"
                                                                                                                                 ,"label" => "La meva pàgina"
-                                                                                                                                ,"query" => "do=user"
+                                                                                                                                ,"query" => "id=user"
                                                                                                                                 ,"autoSize" => true
                                                                                                                                 ,"display" => false
                                                                                                                                 ,"displayBlock" => true
@@ -162,7 +162,7 @@ class WikiIocCfg {
                                                                                                                   ,"parms" => array(
                                                                                                                                  "id" => "talkUserMenuItem"
                                                                                                                                 ,"label" => "Discussió"
-                                                                                                                                ,"query" => "do=talkUser"
+                                                                                                                                ,"query" => "id=talkUser"
                                                                                                                                 ,"autoSize" => true
                                                                                                                                 ,"display" => false
                                                                                                                                 ,"displayBlock" => true
@@ -550,7 +550,6 @@ class WikiIocCfg {
         			,"edparcButton"  => "edparcButton"
                 	,"userDialog"       => "userDialog"
                     ,"userButton"       => "userButton"
-                    ,"userMenu"         => "userMenu"
                     ,"userMenuItem"     => "userMenuItem"
                     ,"talkUserMenuItem" => "talkUserMenuItem"
                     ,"logoffMenuItem"   => "logoffMenuItem"
@@ -576,8 +575,8 @@ class WikiIocCfg {
             		,'@@PREVIEW_BUTTON@@'    => $this->getArrIds("previewButton")
                 	,'@@CANCEL_BUTTON@@'     => $this->getArrIds("cancelButton")
                     ,'@@ED_PARC_BUTTON@@'    => $this->getArrIds("edparcButton")
+                    ,'@@USER_DIALOG@@'       => $this->getArrIds("userDialog")
                     ,'@@USER_BUTTON@@'       => $this->getArrIds("userButton")
-                    ,'@@USER_MENU@@'         => $this->getArrIds("userMenu")
                     ,'@@USER_MENUITEM@@'     => $this->getArrIds("userMenuItem")
                     ,'@@TALKUSER_MENUITEM@@' => $this->getArrIds("talkUserMenuItem")
                     ,'@@LOGOFF_MENUITEM@@'   => $this->getArrIds("logoffMenuItem")

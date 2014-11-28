@@ -186,8 +186,8 @@ class WikiIocDivBloc extends WikiIocItemsContainer {
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $h  = $this->get('height'); $h = ($h) ? "height:{$h};" : "";
         $w  = $this->get('width');  $w = ($w) ? "width:{$w};" : "";
-        $s  = $this->get('style');
-        $style = ($h || $w || $s) ? "style='$h$w$s'" : "";
+        $f  = $this->get('float');  $f = ($f) ? "float:{$f};" : "";
+        $style = ($h || $w || $f) ? "style='$h$w$f'" : "";
 
         $ret = "<div $id $style>\n";
         return $ret;
@@ -885,7 +885,7 @@ class WikiIocFormInputField extends WikiIocComponent {
         $name = $this->get('name'); $name = ($name == NULL) ? $this->get('id') : $name;
         $type = $this->get('type'); $type = ($type == NULL) ? "" : "type='$type' ";
         $required = ($this->get('required')) ? "required=true" : "";
-        $ret = "<label for='$id'>{$this->get('label')}</label>"
+        $ret = "<label for='$id'>{$this->get('label')}</label><br />"
              . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type} {$required}/><br />";
         return $ret;
     }

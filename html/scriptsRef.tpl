@@ -91,7 +91,7 @@ require([
         if (!disp.getGlobalState().login) {
             disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
         } else {
-            disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
+            //disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
             disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
             disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", true);
             
@@ -289,6 +289,31 @@ require([
             });
         }
 
+        var userDialog = registry.byId('@@USER_DIALOG@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@USER_BUTTON@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@USER_MENUITEM@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@TALKUSER_MENUITEM@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@LOGOFF_MENUITEM@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+        }
+        
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
         if (centralContainer) {
             centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
