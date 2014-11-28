@@ -184,9 +184,10 @@ class WikiIocDivBloc extends WikiIocItemsContainer {
 
     protected function getPreContent() {
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $h = ($this->get('height')); $h = ($h) ? "height:{$h};" : "";
-        $w = ($this->get('width'));  $w = ($w) ? "width:{$w};" : "";
-        $style = ($h || $w) ? "style='$h$w'" : "";
+        $h  = $this->get('height'); $h = ($h) ? "height:{$h};" : "";
+        $w  = $this->get('width');  $w = ($w) ? "width:{$w};" : "";
+        $s  = $this->get('style');
+        $style = ($h || $w || $s) ? "style='$h$w$s'" : "";
 
         $ret = "<div $id $style>\n";
         return $ret;
@@ -238,10 +239,12 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
 
 /**
  * class WikiIocItemsPanel
- *      Contenidor de tipus ContentPane. Pot contenir items de qualsevol tipus
+ *      Contenidor de tipus ContentPane allotjat en un BorderContainer
+ *      Pot contenir items de qualsevol tipus
  */
 class WikiIocItemsPanel extends WikiIocItemsContainer {
     // bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
+    // bloc dreta: conté la #zona de canvi#
     function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
@@ -848,6 +851,7 @@ class WikiIocMenuItem extends WikiDojoButton {
         return $ret;
     }
 }
+
 class WikiIocFormInputField extends WikiIocComponent {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:
