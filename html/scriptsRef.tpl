@@ -18,6 +18,7 @@ require([
     "dojo/json",
     "dojo/_base/lang",
     "ioc/wiki30/GlobalState",
+    "ioc/wiki30/processor/ErrorWithResendingProcessor",
     "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
@@ -43,7 +44,8 @@ require([
     "dojo/domReady!"
 ], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
                 style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
-                ReloadStateHandler, unload, JSON, lang, globalState) {
+                ReloadStateHandler, unload, JSON, lang, globalState, 
+                ErrorWithResendingProcessor) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
@@ -301,12 +303,34 @@ require([
         
         userDialog = registry.byId('@@USER_MENUITEM@@');
         if (userDialog) {
+            var getQueryUser = function(){
+                return "id=wiki:user:"+window.JSINFO['user'];
+            };
             userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            userDialog.getQuery=getQueryUser;            
+            var processorUser = new ErrorWithResendingProcessor();
+            var requestUser = new Request();
+            requestUser.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
+            processorUser.addErrorAction("1001", function(){
+                requestUser.sendRequest(getQueryUser());
+            });
+            userDialog.addProcessor(processorUser.type, processorUser);
         }
         
         userDialog = registry.byId('@@TALKUSER_MENUITEM@@');
         if (userDialog) {
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            var getQueryTalk = function(){
+                return "id=talk:wiki:user:"+window.JSINFO['user'];
+            };
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
+            userDialog.getQuery=getQueryTalk;
+            var processorTalk = new ErrorWithResendingProcessor();
+            var requestTalk = new Request();
+            requestTalk.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
+            processorTalk.addErrorAction("1001", function(){                
+                requestTalk.sendRequest(getQueryTalk());
+            });
+            userDialog.addProcessor(processorTalk.type, processorTalk);
         }
         
         userDialog = registry.byId('@@LOGOFF_MENUITEM@@');

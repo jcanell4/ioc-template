@@ -72,52 +72,17 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     }
     
     protected function getJsInfo(){
-        global $INFO;
-        global $JSINFO;
-        global $ID;
-        
-        $INFO = pageinfo();
-        //export minimal infos to JS, plugins can add more
-        if($INFO['id']){
-            $JSINFO['id'] = $INFO['id'];
-        }
-        if($INFO['namespace']){
-            $JSINFO['namespace'] = (string) $INFO['namespace']; 
-        }
-    
-        return $JSINFO;                        
+        return $this->getModelWrapper()->getJsInfo();                     
     }  
     
-//    protected function getMetaResponse($id){
-//        global $lang;
-//        $ret=array('docId' => \str_replace(":", "_",$id));
-//        $meta=array();
-//        $mEvt = new Doku_Event('WIOC_ADD_META', $meta);                
-//        if($mEvt ->advise_before()){
-//            $toc = wrapper_tpl_toc();
-//            $metaId = \str_replace(":", "_",$id).'_toc';
-//            $meta[] = $this->getMetaPage($metaId, $lang['toc'], $toc);
-//        }       
-//        $mEvt->advise_after();
-//        unset($mEvt);        
-//        $ret['meta']=$meta;
-//        return $ret;        
-//    }
-//    
-//    private function getMetaPage($metaId, $metaTitle, $metaToSend){
-//        $contentData = array('id' => $metaId,
-//            'title' => $metaTitle,
-//            'content' => $metaToSend);
-//        return $contentData;                
-//    }
-    
     protected function getToolbarIds(&$value){
-        $value["varName"] = "toolbar";
-        $value["toolbarId"] = "tool__bar";
-        $value["wikiTextId"] = "wiki__text";
-        $value["editBarId"] = "wiki__editbar";
-        $value["editFormId"] = "dw__editform";
-        $value["summaryId"] = "edit__summary";
+        $this->getModelWrapper()->getToolbarIds($value);
+//        $value["varName"] = "toolbar";
+//        $value["toolbarId"] = "tool__bar";
+//        $value["wikiTextId"] = "wiki__text";
+//        $value["editBarId"] = "wiki__editbar";
+//        $value["editFormId"] = "dw__editform";
+//        $value["summaryId"] = "edit__summary";
     }
 }
 
