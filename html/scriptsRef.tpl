@@ -18,7 +18,7 @@ require([
     "dojo/json",
     "dojo/_base/lang",
     "ioc/wiki30/GlobalState",
-    "ioc/wiki30/processor/ErrorWithResendingProcessor",
+    "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
     "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
@@ -45,7 +45,7 @@ require([
 ], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
                 style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
                 ReloadStateHandler, unload, JSON, lang, globalState, 
-                ErrorWithResendingProcessor) {
+                ErrorMultiFunctionProcessor) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
@@ -308,7 +308,7 @@ require([
             };
             userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
             userDialog.getQuery=getQueryUser;            
-            var processorUser = new ErrorWithResendingProcessor();
+            var processorUser = new ErrorMultiFunctionProcessor();
             var requestUser = new Request();
             requestUser.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
             processorUser.addErrorAction("1001", function(){
@@ -324,7 +324,7 @@ require([
             };
             userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
             userDialog.getQuery=getQueryTalk;
-            var processorTalk = new ErrorWithResendingProcessor();
+            var processorTalk = new ErrorMultiFunctionProcessor();
             var requestTalk = new Request();
             requestTalk.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
             processorTalk.addErrorAction("1001", function(){                
