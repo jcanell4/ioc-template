@@ -32,10 +32,13 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         if($responseData["loginResult"]){
             $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
             $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
+            $ajaxCmdResponseGenerator->addChangeWidgetProperty(
+                                                    $cfg->getArrIds("userButton"), 
+                                                    "label", 
+                                                    $responseData["userId"]);
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
-            $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
             $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
             $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren($cfg->getArrIds("zonaMetaInfo"));

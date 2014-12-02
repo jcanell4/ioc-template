@@ -304,7 +304,7 @@ require([
         userDialog = registry.byId('@@USER_MENUITEM@@');
         if (userDialog) {
             var getQueryUser = function(){
-                return "id=wiki:user:"+window.JSINFO['user'];
+                return "id=wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
             userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
             userDialog.getQuery=getQueryUser;            
@@ -320,7 +320,7 @@ require([
         userDialog = registry.byId('@@TALKUSER_MENUITEM@@');
         if (userDialog) {
             var getQueryTalk = function(){
-                return "id=talk:wiki:user:"+window.JSINFO['user'];
+                return "id=talk:wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
             userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
             userDialog.getQuery=getQueryTalk;
