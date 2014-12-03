@@ -18,6 +18,7 @@ require([
     "dojo/json",
     "dojo/_base/lang",
     "ioc/wiki30/GlobalState",
+    "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
     "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
@@ -29,6 +30,7 @@ require([
     "ioc/gui/ResizingTabController",
     "ioc/gui/IocButton",
     "ioc/gui/IocDropDownButton",
+    "ioc/gui/IocMenuItem",
     "dijit/layout/TabContainer",
     "dijit/layout/AccordionContainer",
     "dijit/Toolbar",
@@ -42,7 +44,8 @@ require([
     "dojo/domReady!"
 ], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
                 style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
-                ReloadStateHandler, unload, JSON, lang, globalState) {
+                ReloadStateHandler, unload, JSON, lang, globalState, 
+                ErrorMultiFunctionProcessor) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
@@ -65,6 +68,8 @@ require([
     wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
     wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
     wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
+    wikiIocDispatcher.userButtonId = '@@USER_BUTTON@@';
+
 
     // TODO[Xavi] es pot passar la funció següent com el constructor.
     var updateHandler = new UpdateViewHandler();
@@ -83,12 +88,15 @@ require([
         disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
         disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
-
+        disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
+        
         if (!disp.getGlobalState().login) {
             disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
         } else {
-            disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
+            //disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
             disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
+            disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", true);
+            
             if (disp.getGlobalState().currentTabId) {
                 var page = disp.getGlobalState().pages[disp.getGlobalState().currentTabId];
                 if (page.action === 'view') {
@@ -283,6 +291,53 @@ require([
             });
         }
 
+        var userDialog = registry.byId('@@USER_DIALOG@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@USER_BUTTON@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+        }
+        
+        userDialog = registry.byId('@@USER_MENUITEM@@');
+        if (userDialog) {
+            var getQueryUser = function(){
+                return "id=wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
+            };
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            userDialog.getQuery=getQueryUser;            
+            var processorUser = new ErrorMultiFunctionProcessor();
+            var requestUser = new Request();
+            requestUser.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
+            processorUser.addErrorAction("1001", function(){
+                requestUser.sendRequest(getQueryUser());
+            });
+            userDialog.addProcessor(processorUser.type, processorUser);
+        }
+        
+        userDialog = registry.byId('@@TALKUSER_MENUITEM@@');
+        if (userDialog) {
+            var getQueryTalk = function(){
+                return "id=talk:wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
+            };
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
+            userDialog.getQuery=getQueryTalk;
+            var processorTalk = new ErrorMultiFunctionProcessor();
+            var requestTalk = new Request();
+            requestTalk.urlBase="lib/plugins/ajaxcommand/ajax.php?call=new_page";
+            processorTalk.addErrorAction("1001", function(){                
+                requestTalk.sendRequest(getQueryTalk());
+            });
+            userDialog.addProcessor(processorTalk.type, processorTalk);
+        }
+        
+        userDialog = registry.byId('@@LOGOFF_MENUITEM@@');
+        if (userDialog) {
+            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+        }
+        
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
         if (centralContainer) {
             centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
@@ -307,12 +362,13 @@ require([
             });
         }
         //cercar l'estat
-        if (typeof(Storage) !== "undefined"
-                && sessionStorage.globalState) {
+        if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             // var state = JSON.parse(sessionStorage.globalState);
             wikiIocDispatcher.reloadFromState(state);
         }
+        
+        wikiIocDispatcher.updateFromState();
     });
 });
 </script>

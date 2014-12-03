@@ -184,9 +184,10 @@ class WikiIocDivBloc extends WikiIocItemsContainer {
 
     protected function getPreContent() {
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $h = ($this->get('height')); $h = ($h) ? "height:{$h};" : "";
-        $w = ($this->get('width'));  $w = ($w) ? "width:{$w};" : "";
-        $style = ($h || $w) ? "style='$h$w'" : "";
+        $h  = $this->get('height'); $h = ($h) ? "height:{$h};" : "";
+        $w  = $this->get('width');  $w = ($w) ? "width:{$w};" : "";
+        $f  = $this->get('float');  $f = ($f) ? "float:{$f};" : "";
+        $style = ($h || $w || $f) ? "style='$h$w$f'" : "";
 
         $ret = "<div $id $style>\n";
         return $ret;
@@ -238,10 +239,12 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
 
 /**
  * class WikiIocItemsPanel
- *      Contenidor de tipus ContentPane. Pot contenir items de qualsevol tipus
+ *      Contenidor de tipus ContentPane allotjat en un BorderContainer
+ *      Pot contenir items de qualsevol tipus
  */
 class WikiIocItemsPanel extends WikiIocItemsContainer {
     // bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
+    // bloc dreta: conté la #zona de canvi#
     function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
@@ -598,6 +601,26 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
     }
 }
 
+class WikiIocDropDownMenu extends WikiIocItemsContainer {
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        parent::__construct($aParms, $aItems, $reqPackage);
+    }
+
+    public function getPreContent() {
+        $ret = "\n<div id='{$this->get('id')}' data-dojo-type='dijit.DropDownMenu'>";
+        return $ret;
+    }
+    public function getPostContent() {
+        $ret = "\n</div>\n";
+        return $ret;
+    }
+}
+
 class WikiIocDropDownButton extends WikiIocContainer {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:
@@ -621,11 +644,6 @@ class WikiIocDropDownButton extends WikiIocContainer {
             array("name" => "dojo", "location" => $js_packages["dojo"]),
             array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-//        if ($aParms['actionHidden']) {
-//            $iocClass = $aParms['actionHidden']['class'];
-//            $this->set('actionHidden', new $iocClass($aParms['actionHidden']['parms'], $aParms['actionHidden']['items']));
-//        }
-//        parent::__construct($aParms, $this->get('actionHidden'), $reqPackage);
         parent::__construct($aParms, $aItems, $reqPackage);
     }
 
@@ -661,9 +679,10 @@ class WikiIocDropDownButton extends WikiIocContainer {
         $display      = $this->get('display') ? 'true' : 'false';
         $displayBlock = $this->get('displayBlock') ? "iocDisplayBlock" : "dijitInline";
 
-        $ret = "\n<div $id data-dojo-type='ioc.gui.IocDropDownButton' class='$displayBlock' style='font-size:0.75em'"
-            . " data-dojo-props=\"autoSize:$autoSize, visible:$display\">"
-            . "\n<span>{$this->get('label')}</span>";
+        $ret = "\n<div $id data-dojo-type='ioc.gui.IocDropDownButton' class='$displayBlock'"
+              ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'"
+              ." data-dojo-props=\"autoSize:$autoSize, visible:$display\">"
+              ."\n<span>{$this->get('label')}</span>";
         return $ret;
     }
 
@@ -809,6 +828,30 @@ class WikiIocButton extends WikiDojoButton {
     }
 }
 
+class WikiIocMenuItem extends WikiDojoButton {
+    function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "ioc", "location" => $js_packages["ioc"])
+                      );
+        parent::__construct($aParms, $reqPackage);
+    }
+
+    public function getRenderingCode() {
+        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
+        $autoSize = $this->get('autoSize') ? 'true' : 'false';
+        $disabled = $this->get('disabled') ? 'true' : 'false';
+
+        $ret = "\n<div $id type='button' data-dojo-type='ioc.gui.IocMenuItem'"
+             . " data-dojo-props=\"query:'{$this->get('query')}', autoSize:$autoSize, disabled:$disabled\""
+             . " label='{$this->get('label')}' iconClass='dijitNoIcon'"
+             . " style='font-size:{$this->get('fontSize')};'></div>\n";
+        return $ret;
+    }
+}
+
 class WikiIocFormInputField extends WikiIocComponent {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:
@@ -841,8 +884,9 @@ class WikiIocFormInputField extends WikiIocComponent {
         $id = $this->get('id');
         $name = $this->get('name'); $name = ($name == NULL) ? $this->get('id') : $name;
         $type = $this->get('type'); $type = ($type == NULL) ? "" : "type='$type' ";
-        $ret = "<label for='$id'>{$this->get('label')}</label>"
-             . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type}/><br />";
+        $required = ($this->get('required')) ? "required=true" : "";
+        $ret = "<label for='$id'>{$this->get('label')}</label><br />"
+             . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type} {$required}/><br />";
         return $ret;
     }
 }
