@@ -24,8 +24,15 @@ class EditResponseHandler extends WikiIocResponseHandler {
         global $conf;
         
         $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
-                                    $responseData['ns'], $contentData['title'],
+                                    $responseData['ns'], $responseData['title'],
                                     $responseData['content']);
+        if($requestParams["reload"]){
+            $metaData = $this->getModelWrapper()->getMetaResponse(
+                                                        $responseData['id']);
+            $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
+                                                        $metaData['meta']);
+        }
+
         $params = array();                
         $this->getToolbarIds($params);
         $params['id'] = $responseData['id'];
