@@ -124,6 +124,16 @@ require([
                    ,"value": {
                         "loginRequest": true
                        ,"loginResult": true
+                       ,"userId":state.userId
+                    }
+            });
+            wikiIocDispatcher.processResponse({
+                    "type": "command"
+                   ,"value": {
+                        "type": "change_widget_property"
+                       ,"id":'@@USER_BUTTON@@'
+                       ,"propertyName":"label"
+                       ,"propertyValue":state.userId
                     }
             });
         }
@@ -141,7 +151,7 @@ require([
                ,"value": state.title
             });
         }
-
+        
         if (state.pages) {
             var np = 0;
             var length = state.pagesLength();
@@ -152,7 +162,7 @@ require([
                 if(state.pages[id].action==="view"){
                     queryParams = "call=page&id=";
                 }else if(state.pages[id].action==="edit"){
-                    queryParams = "call=edit&id=";
+                    queryParams = "call=edit&reload=1&id=";
                 }else{
                     queryParams = "call=page&id=";
                 }
@@ -359,6 +369,7 @@ require([
                     }
                     wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
                 }
+                wikiIocDispatcher.updateFromState();
             });
         }
         //cercar l'estat
