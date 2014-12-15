@@ -3,6 +3,7 @@
 require([
     "dojo/dom",
     "dojo/dom-style",
+    "dojo/dom-prop",
     "dojo/window",
     "ioc/wiki30/dispatcherSingleton",
     "ioc/wiki30/Request",
@@ -42,8 +43,8 @@ require([
     "ioc/gui/ContentTabDokuwikiNsTree",
     "ioc/gui/ActionHiddenDialogDokuwiki",
     "dojo/domReady!"
-], function (dom, domStyle, win, wikiIocDispatcher, Request, registry, ready, 
-                style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
+], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry, 
+                ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
                 ReloadStateHandler, unload, JSON, lang, globalState, 
                 ErrorMultiFunctionProcessor) {
     //declaració de funcions
@@ -368,6 +369,58 @@ require([
                         nodeMetaInfo.resize();
                     }
                     wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
+                }
+                if(oldTab && wikiIocDispatcher.getGlobalState()
+                                            .getContentAction(oldTab.id)=="edit"){
+                    var queue = new Array()
+                    var content = dom.byId(oldTab.id);
+                    var children = content.children;
+                    for(var i=0; i<children.length; i++){
+                        queue.push(children[i]);
+                    }
+                    while(queue.length>0){
+                        var elem = queue.shift();
+                        children = elem.children;
+                        for(var i=0; i<children.length; i++){
+                            queue.push(children[i]);
+                        }
+                        if(elem.id){
+                            if(typeof elem.id === "string"){
+                                var newId = oldTab.id
+                                        + "_"
+                                        + elem.id;
+                                domProp.set(elem, "id", newId)
+                            }else{
+                                domProp.set(elem, "id", oldTab.id + "_dw__editform")
+                            }
+                            //console.log(elem.id);
+                        }
+                    }
+                }
+                if(wikiIocDispatcher.getGlobalState()
+                                            .getContentAction(newTab.id)=="edit"){
+                    var queue = new Array()
+                    var content = dom.byId(newTab.id);
+                    var children = content.children;
+                    for(var i=0; i<children.length; i++){
+                        queue.push(children[i]);
+                    }
+                    while(queue.length>0){
+                        var elem = queue.shift();
+                        children = elem.children;
+                        for(var i=0; i<children.length; i++){
+                            queue.push(children[i]);
+                        }
+                        if(elem.id){
+                            if(typeof elem.id === "string"){
+                                var newId = elem.id.substr(newTab.id.length+1);
+                                domProp.set(elem, "id", newId)
+                            }else{
+                                domProp.set(elem, "id", "dw__editform")
+                            }
+//                            console.log(elem.id);
+                        }
+                    }
                 }
                 wikiIocDispatcher.updateFromState();
             });

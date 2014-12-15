@@ -112,12 +112,17 @@ class WikiIocTpl {
             }
         }
 
+        // TODO[Xavi] carreguem la llibrería ace
+        echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";
+
+
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
         echo "<script>\n";
         echo "var dojoConfig = {\n";
         echo "    parseOnLoad:true,\n";
         echo "    async:true,\n";
-        echo "    baseUrl: '/iocjslib/',\n";
+        //echo "    baseUrl: '/iocjslib/',\n";
+        echo "    baseUrl: '/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
         echo "    locale: \"".hsc($conf["lang"])."\",\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
