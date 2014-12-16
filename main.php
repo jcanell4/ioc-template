@@ -25,7 +25,7 @@ $tpl = WikiIocTpl::Instance();
 $tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", $instIoc->getArrayTpl());
 
 /* TODO: la càrrega del package ACE hauria d'anar al fitxer conf/js_packages.js */
-WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace", "location" => "/ace/lib/ace"));
+WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => "/ace-builds/src-noconflict"));
 
 $tpl->setBody($first_class, $aIocCfg['parms'], $aIocCfg['items']);
 $tpl->printPage();

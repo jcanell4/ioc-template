@@ -121,7 +121,8 @@ class WikiIocTpl {
         echo "var dojoConfig = {\n";
         echo "    parseOnLoad:true,\n";
         echo "    async:true,\n";
-        echo "    baseUrl: '/iocjslib/',\n";
+        //echo "    baseUrl: '/iocjslib/',\n";
+        echo "    baseUrl: '/',\n";
         echo "    tlmSiblingOfDojo: false,\n";
         echo "    locale: \"".hsc($conf["lang"])."\",\n";
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
