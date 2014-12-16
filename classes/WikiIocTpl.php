@@ -82,7 +82,7 @@ class WikiIocTpl {
         echo "<!DOCTYPE html>\n";
         echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='" . hsc($conf["lang"]) . "' lang='" . hsc($conf["lang"]) . "' dir='" . hsc($lang["direction"]) . "'>\n";
         $this->printHeaderTags();
-        echo $this->aIocCfg->getRenderingCode(); 
+        echo $this->aIocCfg->getRenderingCode();
         echo "</html>";
     }
 
@@ -111,6 +111,10 @@ class WikiIocTpl {
                 echo "<style type=\"text/css\" media=\"all\">\n" . hsc($interim) . "\n</style>\n";
             }
         }
+
+        // TODO[Xavi] carreguem la llibrería ace
+        echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";
+
 
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
         echo "<script>\n";

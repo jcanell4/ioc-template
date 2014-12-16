@@ -104,6 +104,10 @@ class WikiIocBuilderManager {
                 $ret .= ", \n" . $json->encode($obj); //json_encode($obj);
             }
         }
+
+        // TODO[Xavi] Afegit manualment per les proves del processAceEditor
+        $ret .= ", \n" . "{\"name\": \"ace-builds\", \"location\": \"/ace-builds/src-noconflict\"}";
+
         $ret .= "\n]\n";
         return $ret;
     }
