@@ -24,6 +24,13 @@ class SaveResponseHandler extends PageResponseHandler {
             $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true, 
                                             "ioc/dokuwiki/processSaving");
+            $params = array(
+                "formId" => $responseData["formId"],
+                "inputs" => $responseData["inputs"],
+            );
+            $ajaxCmdResponseGenerator->addProcessFunction(true, 
+                                        "ioc/dokuwiki/processSetFormInputValue",
+                                        $params);
         }else{
             $ajaxCmdResponseGenerator->addError($responseData["code"], 
                                                 $responseData["info"]);

@@ -372,6 +372,8 @@ require([
                 }
                 if(oldTab && wikiIocDispatcher.getGlobalState()
                                             .getContentAction(oldTab.id)=="edit"){
+                    wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
+                    /*                            
                     var queue = new Array()
                     var content = dom.byId(oldTab.id);
                     var children = content.children;
@@ -396,9 +398,12 @@ require([
                             //console.log(elem.id);
                         }
                     }
+                    */
                 }
                 if(wikiIocDispatcher.getGlobalState()
                                             .getContentAction(newTab.id)=="edit"){
+                    wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
+                    /*
                     var queue = new Array()
                     var content = dom.byId(newTab.id);
                     var children = content.children;
@@ -421,7 +426,8 @@ require([
 //                            console.log(elem.id);
                         }
                     }
-                }
+                    */
+                }               
                 wikiIocDispatcher.updateFromState();
             });
         }
