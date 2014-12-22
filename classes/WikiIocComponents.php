@@ -65,50 +65,51 @@ abstract class WikiIocContainer extends WikiIocComponent {
             . $this->getPostContent();
         return $ret;
     }
-    
+    /*
     public function getHeight() {
-        return $this->get('height');
+        return $this->get('CSS','height');
     }
     public function getWidth() {
-        return $this->get('width');
+        return $this->get('CSS','width');
     }
     public function getPosition() {
-        return $this->get('position');
+        return $this->get('CSS','position');
     }
     public function getRegion() {
         return $this->get('region');
     }
     public function getTop() {
-        return $this->get('top');
+        return $this->get('CSS','top');
     }
     public function getLeft() {
-        return $this->get('left');
+        return $this->get('CSS','left');
     }
     public function getZindex() {
-        return $this->get('zindex');
+        return $this->get('CSS','z-index');
     }
 
     public function setHeight($v) {
-        $this->set('height', $v);
+        $this->set('CSS','height', $v);
     }
     public function setWidth($v) {
-        $this->set('width', $v);
+        $this->set('CSS','width', $v);
     }
     public function setPosition($v) {
-        $this->set('position', $v);
+        $this->set('CSS','position', $v);
     }
     public function setRegion($v) {
         $this->set('region', $v);
     }
     public function setTop($v) {
-        $this->set('top', $v);
+        $this->set('CSS','top', $v);
     }
     public function setLeft($v) {
-        $this->set(left, $v);
+        $this->set('CSS',left, $v);
     }
     public function setZindex($v) {
-        $this->set('zindex', $v);
+        $this->set('CSS','z-index', $v);
     }
+    */
 }
 
 abstract class WikiIocItemsContainer extends WikiIocContainer {
@@ -150,7 +151,7 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
     }
 
     public function getContent() {
-        $ret = '';
+        $ret = "";
         foreach($this->items as $i) {
             $ret .= $i->getRenderingCode();
         }
@@ -165,7 +166,7 @@ class WikiIocBody extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        return "<body id='{$this->get('id')}' class='claro'>\n";
+        return "<body {$this->getDOM()}class='claro'>\n";
     }
     protected function getPostContent() {
         return "</body>\n";
@@ -183,14 +184,7 @@ class WikiIocDivBloc extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $h  = $this->get('height'); $h = ($h) ? "height:{$h};" : "";
-        $w  = $this->get('width');  $w = ($w) ? "width:{$w};" : "";
-        $f  = $this->get('float');  $f = ($f) ? "float:{$f};" : "";
-        $style = ($h || $w || $f) ? "style='$h$w$f'" : "";
-
-        $ret = "<div $id $style>\n";
-        return $ret;
+        return "<div {$this->getDOM()} {$this->getCSS()}>\n";
     }
 
     protected function getPostContent() {
@@ -207,9 +201,9 @@ class WikiIocImage extends WikiIocComponent {
     }
 
     function getRenderingCode() {
-        $ret = "<span style='position:{$this->get('span-position')}; top:{$this->get('span-top')}; left:{$this->get('span-left')}; width:{$this->get('width')}; height:{$this->get('height')}; z-index:{$this->get('z-index')};'>\n"
-            . "<img alt='logo' style='width:{$this->get('width')}; height:{$this->get('height')}; z-index:{$this->get('z-index')}' src='".DOKU_TPL."{$this->get('src')}'></img>\n"
-            . "</span>\n";
+        $ret = "<span {$this->getCSS()}>\n"
+             . "<img alt='logo' {$this->getCSS(array('width','height','z-index'))} src='".DOKU_TPL."{$this->getPRP('src')}'></img>\n"
+             . "</span>\n";
         return $ret;
     }
 }
@@ -225,8 +219,7 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $ret = "<div $id>\n"
+        $ret = "<div {$this->getDOM()}>\n"
              . "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' "
              . "style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
         return $ret;
@@ -255,34 +248,41 @@ class WikiIocItemsPanel extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $class = $this->get('class');
-        $doLayout = $this->get('doLayout');
-        $splitter = $this->get('splitter');
-        $minSize = $this->get('minSize');
-        $closable = $this->get('closable');
-        $style = $this->get('style');
-
-        $class = ($class) ? "class='{$class}'" : "";
-        $doLayout = ($doLayout) ? "doLayout='{$doLayout}'" : "";
-        $splitter = ($splitter) ? "splitter='{$splitter}'" : "";
-        $minSize = ($minSize) ? "minSize='{$minSize}'" : "";
-        $closable = ($closable) ? "closable='{$closable}'" : "";
-
-        $s = ($style) ? "{$style};" : "";
-        $h = ($this->get('height')); $h = ($h) ? "height:{$h};" : "";
-        $w = ($this->get('width'));  $w = ($w) ? "width:{$w};" : "";
-        $style = ($s || $h || $w) ? "style='$s$h$w'" : "";
-
-        $ret = ($this->get('div')) ? "<div id='{$this->get('id')}'>\n" : "";
-        $ret .= "<div $class data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false' preload='false' refreshOnShow='false' "
-              . "$doLayout region='{$this->get('region')}' $splitter $minSize maxSize='Infinity' $style $closable>\n";
+        $ret .= "<div {$this->getDOM()} {$this->getCSS()} data-dojo-type='dijit.layout.ContentPane' "
+              . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n";
         return $ret;
     }
 
     protected function getPostContent() {
-        $ret = ($this->get('div')) ? "</div>\n" : "";
-        $ret .= "</div>\n";
+        return "</div>\n";
+    }
+}
+
+/**
+ * class WikiIocItemsPanelDiv
+ *      Contenidor de tipus ContentPane allotjat en un DIV allotjat en un BorderContainer
+ *      Pot contenir items de qualsevol tipus
+ */
+class WikiIocItemsPanelDiv extends WikiIocItemsContainer {
+
+    function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+            array("name" => "dojo", "location" => $js_packages["dojo"]),
+            array("name" => "dijit", "location" => $js_packages["dijit"])
+        );
+        parent::__construct($aParms, $aItems, $reqPackage);
+    }
+
+    protected function getPreContent() {
+        $ret = "<div {$this->getDOM('id')}>\n";
+        $ret .= "<div {$this->getNoDOM(array('id','label'))} data-dojo-type='dijit.layout.ContentPane' "
+              . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n";
         return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n</div>\n";
     }
 }
 
@@ -312,7 +312,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
 
     function putItem($id, &$tab) {
         if(!is_array($this->items)) {
-            $this->set('tabSelected', $id);
+            $this->set('DOM','tabSelected', $id);
             $tab->setSelected(TRUE);
         } else if($tab->isSelected()) {
             $this->selectTab($id);
@@ -323,10 +323,10 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
 
     function selectTab($id) {
         if(array_key_exists($id, $this->items)) {
-            if(array_key_exists($this->get('tabSelected'), $this->items)) {
-                $this->items[$this->get('tabSelected')]->setSelected(FALSE);
+            if(array_key_exists($this->get('DOM','tabSelected'), $this->items)) {
+                $this->items[$this->get('DOM','tabSelected')]->setSelected(FALSE);
             }
-            $this->set('tabSelected', $id);
+            $this->set('DOM','tabSelected', $id);
             $this->items[$id]->setSelected(TRUE);
         }
     }
@@ -335,13 +335,13 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
         return $this->getItem($id);
     }
     function getTabType() {
-        return $this->get('tabType');
+        return $this->get('DOM','tabType');
     }
     function hasMenuButton() {
-        return $this->get('bMenuButton');
+        return $this->get('DOM','useMenu');
     }
     function hasScrollingButtons() {
-        return $this->get('bScrollingButtons');
+        return $this->get('DOM','useSlider');
     }
 
     function removeTab($id) {
@@ -355,23 +355,22 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
         $this->set('tabType', $type);
     }
     function setMenuButton($value) {
-        $this->set('bMenuButton', $value);
+        $this->set('DOM','useMenu', $value);
     }
     function setScrollingButtons($value) {
-        $this->set('bScrollingButtons', $value);
+        $this->set('DOM','useSlider', $value);
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $useMenu   = $this->get('bMenuButton') ? "true" : "false";
-        $useSlider = $this->get('bScrollingButtons') ? "true" : "false";
+        $useMenu   = $this->get('DOM','useMenu') ? "true" : "false";
+        $useSlider = $this->get('DOM','useSlider') ? "true" : "false";
 
-        $ret = "<div $id data-dojo-type='dijit.layout.TabContainer' persist='false'";
-        if($this->get('tabType') == 2) {
+        $ret = "<div {$this->getDOM('id')} data-dojo-type='dijit.layout.TabContainer' persist='false'";
+        if($this->get('DOM','tabType') == 2) {
             $ret .= " controllerWidget='dijit.layout.ScrollingTabController'";
             $ret .= " useMenu='$useMenu'";
             $ret .= " useSlider='$useSlider'";
-        } elseif($this->get('tabType') == 1) {
+        } elseif($this->get('DOM','tabType') == 1) {
             $ret .= " controllerWidget='ioc.gui.ResizingTabController'";
             $ret .= " useMenu='$useMenu'";
         } else {
@@ -406,22 +405,22 @@ class WikiIocContentPane extends WikiIocContainer {
         parent::__construct($aParms, NULL, $reqPackage);
     }
 
-//    function setPageName($value) {
-//        $this->set('page', $value);
-//    }
-//    function getPageName() {
-//        return $this->get('page');
-//    }
-
     protected function getPreContent() {
+        /*
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $selected = $this->get('selected') ? " selected='true'" : "";
         
-        $ret = "<div $id data-dojo-type='dijit.layout.ContentPane'"
-            . " title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
-            . " extractContent='false' preventCache='false'"
-            . " preload='false' refreshOnShow='false'"
+        $ret = "<div {$this->getDOM()} data-dojo-type='dijit.layout.ContentPane'"
+            . " title='{$this->getDOM('label')}' tooltip='{$this->getDOM('toolTip')}'"
+            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " $selected closable='false' doLayout='false'>\n";
+        */
+        $label = $this->get('DOM','label');
+        $title = ($label) ? "title='$label'" : "";
+        $tooltip = ($label) ? "tooltip='$label'" : "";
+        $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='dijit.layout.ContentPane'"
+            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
+            . " closable='false' doLayout='false'>\n";
         return $ret;
     }
 
@@ -431,7 +430,7 @@ class WikiIocContentPane extends WikiIocContainer {
 
     public function getContent() {
         $ret = "";
-        $page = $this->get('page');
+        $page = $this->get('PRP','page');
         if($page != NULL) {
             $ret .= "<div class='tb_container'>\n" . tpl_include_page($page, FALSE) . "\n</div>\n";
         }
@@ -457,6 +456,7 @@ class WikiIocContainerFromPage extends WikiIocContentPane {
     }
 
     protected function getPreContent() {
+        /*
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $selected = $this->get('selected') ? " selected='true'" : "";
 
@@ -464,6 +464,13 @@ class WikiIocContainerFromPage extends WikiIocContentPane {
             . " title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " $selected closable='false' doLayout='false'>\n";
+        */
+        $label = $this->get('DOM','label');
+        $title = ($label) ? "title='$label'" : "";
+        $tooltip = ($label) ? "tooltip='$label'" : "";
+        $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='ioc.gui.ContentTabDokuwikiPage'"
+            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
+            . " closable='false' doLayout='false'>\n";
         return $ret;
     }
 }
@@ -477,7 +484,7 @@ class WikiIocTreeContainer extends WikiIocContentPane {
                       );
         parent::__construct($aParms, $reqPackage);
     }
-
+    /*
     function setRootValue($value) {
         $this->set('rootValue', $value);
     }
@@ -497,8 +504,9 @@ class WikiIocTreeContainer extends WikiIocContentPane {
     function getPageDataSource() {
         return $this->get('pageDataSource');
     }
-
+    */
     protected function getPreContent() {
+        /*
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $treeDataSource = $this->get('treeDataSource') ? "treeDataSource:\"{$this->get('treeDataSource')}\"" : "";
         $coma = $treeDataSource ? "," : "";
@@ -512,6 +520,14 @@ class WikiIocTreeContainer extends WikiIocContentPane {
             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " data-dojo-props='{$treeDataSource}{$rootValue}{$pageDataSource}'"
             . " $selected style='overflow:auto;' closable='false' doLayout='false'>\n";
+        */
+        $label = $this->get('DOM','label');
+        $title = ($label) ? "title='$label'" : "";
+        $tooltip = ($label) ? "tooltip='$label'" : "";
+        $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
+            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
+            . " {$this->getDJO()}"
+            . " style='overflow:auto;' closable='false' doLayout='false'>\n";
         return $ret;
     }
 
@@ -537,8 +553,7 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $ret = "\n<div $id data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
         return $ret;
     }
 
@@ -562,7 +577,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
                       );
         parent::__construct($aParms, $aItems, $reqPackage);
     }
-
+    /*
     public function setAction($action) {
         $this->set('action', $action);
     }
@@ -581,17 +596,16 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
     public function getUrlBase() {
         return $this->get('urlBase');
     }
-
+    */
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
+        $id = $this->getDOM('id'); $id = $id ? "id='$id'" : "";
         $id_form = $id ? "id='{$id}_form'" : "";
-        $action = $this->get('action') ? "" : "<script>alert('No s\'ha definit l\'element action al formulari [{$this->get('label')}].');</script>\n";
-        $visible = $this->get('display') ? 'true' : 'false';
+        $action = $this->getDJO('action') ? "" : "<script>alert('No s\'ha definit l\'element action al formulari [{$this->getDOM('label')}].');</script>\n";
+        //$visible = $this->get('visible') ? 'true' : 'false';
         
-        $ret = "<span $id title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
-            . " style='position:{$this->get('position')}; top:{$this->get('top')}; left:{$this->get('left')}; z-index:{$this->get('zindex')};'>\n"
-            . " $action <span $id_form data-dojo-type='ioc.gui.IocForm'"
-            . " data-dojo-props=\"action:'{$this->get('action')}', urlBase:'{$this->get('urlBase')}', visible:$visible\">\n";
+        $ret = "<span id='{$this->getDOM('id')}' title='{$this->getDOM('label')}' tooltip='{$this->getDOM('toolTip')}' {$this->getCSS()}'>\n"
+            . " $action"
+            . " <span $id_form data-dojo-type='ioc.gui.IocForm' {$this->getDJO()}>\n";
         return $ret;
     }
 
@@ -612,12 +626,11 @@ class WikiIocDropDownMenu extends WikiIocItemsContainer {
     }
 
     public function getPreContent() {
-        $ret = "\n<div id='{$this->get('id')}' data-dojo-type='dijit.DropDownMenu'>";
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='dijit.DropDownMenu'>";
         return $ret;
     }
     public function getPostContent() {
-        $ret = "\n</div>\n";
-        return $ret;
+        return "\n</div>\n";
     }
 }
 
@@ -646,7 +659,7 @@ class WikiIocDropDownButton extends WikiIocContainer {
         );
         parent::__construct($aParms, $aItems, $reqPackage);
     }
-
+    /*
     public function setAutoSize($autoSize) {
         $this->set('autoSize', $autoSize);
     }
@@ -672,30 +685,18 @@ class WikiIocDropDownButton extends WikiIocContainer {
     public function getActionHidden() {
         return $this->get('actionHidden');
     }
-
+    */
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $autoSize     = $this->get('autoSize') ? 'true' : 'false';
-        $display      = $this->get('display') ? 'true' : 'false';
-        $displayBlock = $this->get('displayBlock') ? "iocDisplayBlock" : "dijitInline";
-
-        $ret = "\n<div $id data-dojo-type='ioc.gui.IocDropDownButton' class='$displayBlock'"
-              ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'"
-              ." data-dojo-props=\"autoSize:$autoSize, visible:$display\">"
-              ."\n<span>{$this->get('label')}</span>";
+        $ret = "\n<div {$this->getDOM(array('id','class'))} data-dojo-type='ioc.gui.IocDropDownButton'"
+              ." {$this->getDJO()}"
+              ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'>"
+              ."\n<span>{$this->get('DOM','label')}</span>";
         return $ret;
     }
 
     protected function getPostContent() {
         return "\n</div>\n";
     }
-/*
-    protected function getContent() {
-        $_ActionHidden = $this->get('actionHidden');
-        $ret = ($_ActionHidden) ? $_ActionHidden->getRenderingCode() : "";
-        return $ret;
-    }
- */
 }
 
 class WikiDojoButton extends WikiIocComponent {
@@ -725,53 +726,15 @@ class WikiDojoButton extends WikiIocComponent {
         parent::__construct($aParms, $reqPackage);
     }
 
-    public function setAction($action) {
-        $this->set('action', $action);
-    }
-    public function setDisplay($display) {
-        $this->set('display', $display);
-    }
-    public function setDisplayBlock($displayBlock) {
-        $this->set('displayBlock', $displayBlock);
-    }
-    public function setFontSize($fontSize) {
-        $this->set('fontSize', $fontSize);
-    }
-    public function setType($type) {
-        $this->set('type', $type);
-    }
-
-    public function getAction() {
-        return $this->get('action');
-    }
-    public function getDisplay() {
-        return $this->get('display');
-    }
-    public function getDisplayBlock() {
-        return $this->get('displayBlock');
-    }
-    public function getFontSize() {
-        return $this->get('fontSize');
-    }
-    public function getType() {
-        return $this->get('type');
-    }
-
     public function getRenderingCode() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $visible      = $this->get('display') ? 'true' : 'false';
-        $displayBlock = $this->get('displayBlock') ? "iocDisplayBlock" : "dijitInline";
-        $fontSize     = $this->get('fontSize') ? $this->get('fontSize') : "1em";
-
-        $ret = "<input $id class='$displayBlock' type='{$this->get('type')}' data-dojo-type='dijit.form.Button'"
-            . " data-dojo-props=\"onClick: function(){{$this->get('action')}}, visible:$visible\""
-            . " label='{$this->get('label')}' tabIndex='-1' intermediateChanges='false'"
-            . " iconClass='dijitNoIcon' style='font-size:{$fontSize};'></input>\n";
+        $ret = "<input {$this->getDOM()} type='button' data-dojo-type='dijit.form.Button'"
+            . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
+            . " iconClass='dijitNoIcon' style='font-size:1em;'></input>\n";
         return $ret;
     }
 }
 
-class WikiIocButton extends WikiDojoButton {
+class WikiIocButton extends WikiIocComponent {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:
      *        Dibuixa un botó de la classe ioc.gui.IocButton
@@ -800,35 +763,15 @@ class WikiIocButton extends WikiDojoButton {
         parent::__construct($aParms, $reqPackage);
     }
 
-    public function setQuery($query) {
-        $this->set('query', $query);
-    }
-    public function setAutoSize($autoSize) {
-        $this->set('autoSize', $autoSize);
-    }
-
-    public function getQuery() {
-        return $this->get('query');
-    }
-    public function getAutoSize() {
-        return $this->get('autoSize');
-    }
-
     public function getRenderingCode() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $autoSize     = $this->get('autoSize') ? 'true' : 'false';
-        $display      = $this->get('display') ? 'true' : 'false';
-        $displayBlock = $this->get('displayBlock') ? "iocDisplayBlock" : "dijitInline";
-
-        $ret = "\n<input $id class='$displayBlock' type='button' data-dojo-type='ioc.gui.IocButton'"
-            . " data-dojo-props=\"query:'{$this->get('query')}', autoSize:$autoSize, visible:$display\""
-            . " label='{$this->get('label')}' tabIndex='-1' intermediateChanges='false'"
+        $ret = "<input {$this->getDOM()} type='button' data-dojo-type='ioc.gui.IocButton'"
+            . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
             . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
         return $ret;
     }
 }
 
-class WikiIocMenuItem extends WikiDojoButton {
+class WikiIocMenuItem extends WikiIocComponent {
     function __construct($aParms = array()) {
         global $js_packages;
         $reqPackage = array(
@@ -840,14 +783,14 @@ class WikiIocMenuItem extends WikiDojoButton {
     }
 
     public function getRenderingCode() {
+        /*
         $id = $this->get('id'); $id = $id ? "id='$id'" : "";
         $autoSize = $this->get('autoSize') ? 'true' : 'false';
         $disabled = $this->get('disabled') ? 'true' : 'false';
-
-        $ret = "\n<div $id type='button' data-dojo-type='ioc.gui.IocMenuItem'"
-             . " data-dojo-props=\"query:'{$this->get('query')}', autoSize:$autoSize, disabled:$disabled\""
-             . " label='{$this->get('label')}' iconClass='dijitNoIcon'"
-             . " style='font-size:{$this->get('fontSize')};'></div>\n";
+        */
+        $ret = "\n<div {$this->getDOM()} type='button' data-dojo-type='ioc.gui.IocMenuItem'"
+             . " {$this->getDJO()} iconClass='dijitNoIcon'"
+             . " style='font-size:1em;'></div>";
         return $ret;
     }
 }
@@ -865,7 +808,7 @@ class WikiIocFormInputField extends WikiIocComponent {
         );
         parent::__construct($aParms, $reqPackage);
     }
-
+    /*
     public function setName($name) {
         $this->set('name', $name);
     }
@@ -879,14 +822,14 @@ class WikiIocFormInputField extends WikiIocComponent {
     public function getType() {
         return $this->get('type');
     }
-
+    */
     public function getRenderingCode() {
-        $id = $this->get('id');
-        $name = $this->get('name'); $name = ($name == NULL) ? $this->get('id') : $name;
-        $type = $this->get('type'); $type = ($type == NULL) ? "" : "type='$type' ";
-        $required = ($this->get('required')) ? "required=true" : "";
-        $ret = "<label for='$id'>{$this->get('label')}</label><br />"
-             . "<input data-dojo-type='dijit.form.TextBox' id='$id' name='{$name}' {$type} {$required}/><br />";
+        $id = $this->get('DOM','id');
+        $name = $this->get('DOM','name'); $name = "name='" . (($name == NULL) ? $id : $name) . "'";
+        $type = $this->get('DOM','type'); $type = ($type == NULL) ? "" : "type='$type' ";
+        $required = ($this->get('DOM','required')) ? "required=true" : "";
+        $ret = "\n<label for='$id'>{$this->get('DOM','label')}</label><br />\n"
+             . "<input data-dojo-type='dijit.form.TextBox' id='$id' {$name} {$type} {$required}/><br />";
         return $ret;
     }
 }
@@ -909,10 +852,10 @@ class WikiDojoToolBar extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        if($this->get('position') == "absolute" && ($this->get('top') == NULL || $this->get('left') == NULL)) {
+        if($this->get('CSS','position') == "absolute" && ($this->get('CSS','top') == NULL || $this->get('CSS','left') == NULL)) {
             $ret = "\n<span missatgeError='nombre incorrecte de paràmetres'>\n";
         } else {
-            $ret = "\n<span style='position:{$this->get('position')}; top:{$this->get('top')}; left:{$this->get('left')}; z-index:{$this->get('zindex')};'>";
+            $ret = "\n<span {$this->getCSS()}>";
         }
         $ret .= "\n<span data-dojo-type='dijit.Toolbar'>\n";
         return $ret;
@@ -944,8 +887,10 @@ class WikiIocAccordionContainer extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $ret = "<span $id data-dojo-type='dijit.layout.AccordionContainer' data-dojo-props='id:\"{$this->get('id')}\"' duration='200' persist='false' style='min-width: 1em; min-height: 1em; width: 100%; height: 100%;'>\n";
+        //$id = $this->get('id'); $id = $id ? "id='$id'" : "";
+        $ret = "<span {$this->getDOM('id')} data-dojo-type='dijit.layout.AccordionContainer'"
+             . " data-dojo-props='id:\"{$this->get('DOM','id')}\"' duration='200' persist='false'"
+             . " style='min-width: 1em; min-height: 1em; width: 100%; height: 100%;'>\n";
         return $ret;
     }
 
@@ -967,17 +912,17 @@ class WikiIocProperty extends WikiIocComponent {
         );
         parent::__construct($aParms, $reqPackage);
     }
-
+    /*
     public function setTitle($title) {
         $this->set('title', $title);
     }
     public function getTitle() {
         return $this->get('title');
     }
-
+    */
     public function getRenderingCode() {
-        $selected = ($this->get('selected')) ? "selected='true'" : "";
-        $ret = "<div data-dojo-type='dijit.layout.ContentPane' title='{$this->get('title')}' extractContent='false'"
+        $selected = ($this->get('DOM','selected')) ? "selected='true'" : "";
+        $ret = "<div data-dojo-type='dijit.layout.ContentPane' title='{$this->get('DOM','title')}' extractContent='false'"
              . " preventCache='false' preload='false' refreshOnShow='false' $selected closable='false' doLayout='false'></div>\n";
         return $ret;
     }
@@ -999,22 +944,17 @@ class WikiIocTextContentPane extends WikiIocContainer {
     }
 
     public function setMessage($msg) {
-        $this->set('missatge', $msg);
+        $this->set('PRP','missatge', $msg);
     }
     public function getMessage() {
-        return $this->get('missatge');
+        return $this->getPRP('missatge');
     }
 
     protected function getPreContent() {
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $ret = "<div $id data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false'"
+        $ret = "<div {$this->getDOM()} data-dojo-type='dijit.layout.ContentPane' extractContent='false' preventCache='false'"
               ." preload='false' refreshOnShow='false' closable='false' doLayout='false'>";
         return $ret;
     }
-
-//    public function getContent() {
-//        return $this->get('missatge');
-//    }
 
     protected function getPostContent() {
         return "</div>\n";
