@@ -220,7 +220,7 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
 
     protected function getPreContent() {
         $ret = "<div {$this->getDOM()}>\n"
-             . "<div data-dojo-type='dijit.layout.BorderContainer' design='headline' persist='false' gutters='true' "
+             . "<div data-dojo-type='dijit.layout.BorderContainer' design='sidebar' persist='false' gutters='true' "
              . "style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
         return $ret;
     }
