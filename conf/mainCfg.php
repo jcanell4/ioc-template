@@ -773,7 +773,7 @@ class WikiIocCfg {
                                                                                              ,"region" => "left"
                                                                                              ,"doLayout" => "true"
                                                                                              ,"splitter" => "true"
-                                                                                             ,"minSize" => "150px"
+                                                                                             ,"minSize" => "150"
                                                                                              ,"closable" => "false"
                                                                                             )
                                                                                   ,"CSS" => array(
@@ -908,7 +908,7 @@ class WikiIocCfg {
                                                                                               ,"region" => "right"
                                                                                               ,"doLayout" => "true"
                                                                                               ,"splitter" => "true"
-                                                                                              ,"minSize" => "0px"
+                                                                                              ,"minSize" => "50"
                                                                                               ,"closable" => "true"
                                                                                              )
                                                                                    ,"CSS" => array(
