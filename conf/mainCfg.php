@@ -9,76 +9,98 @@ require_once(DOKU_TPL_INCDIR . 'classes/WikiIocComponents.php');
 
 
 class WikiIocCfg {
-    
+/*
     private $arrIocCfg = array(
                  "class" => "WikiIocBody"
                 ,"parms" => array(
-                               "id" => "main"
-                              ,"label" => "IocBody"
+                              "DOM" => array(
+                                         "id" => "main"
+                                       )
                             )
                 ,"items" => array(
                               "top" => array(
                                           "class" => "WikiIocDivBloc"
                                          ,"parms" => array(
-                                                        "id" => ""
-                                                       ,"label" => "TopBloc"
-                                                       ,"height" => "55px"
-                                                       ,"width" => "100%"
+                                                       "DOM" => array(
+                                                                  "id" => "TopBloc"
+                                                                )
+                                                      ,"CSS" => array(
+                                                                  "height" => "55px"
+                                                                 ,"width" => "100%"
+                                                                )
                                                      )
                                          ,"items" => array(
                                                       "logo" => array(
                                                                   "class" => "WikiIocImage"
                                                                  ,"parms" => array(
-                                                                               "id"=> "id_logo"
-                                                                              ,"label"=> "iocLogo"
-                                                                              ,"span-position"=> "absolute"
-                                                                              ,"span-top"=> "2px"
-                                                                              ,"span-left"=> "0px"
-                                                                              ,"width"=> "240px"
-                                                                              ,"height"=> "50px"
-                                                                              ,"z-index"=> "900"
-                                                                              ,"src" => "img/logo.png"
+                                                                               "CSS" => array(
+                                                                                          "position"=> "absolute"
+                                                                                         ,"top"=> "2px"
+                                                                                         ,"left"=> "0px"
+                                                                                         ,"width"=> "240px"
+                                                                                         ,"height"=> "50px"
+                                                                                         ,"z-index"=> "900"
+                                                                                        )
+                                                                              ,"PRP" => array(
+                                                                                          "src" => "img/logo.png"
+                                                                                        )
                                                                              )
                                                                 )
                                                      ,"menu" => array(
                                                                   "class" => "WikiDojoToolBar"
                                                                  ,"parms" => array(
-                                                                               "id" => "barraMenu"
-                                                                              ,"label" => "BarraMenu"
-                                                                              ,"position" => "fixed"
-                                                                              ,"top" => "28px"
-                                                                              ,"left" => "270px"
-                                                                              ,"zindex" => "900"
+                                                                               "DOM" => array(
+                                                                                          "id"=> "barraMenu"
+                                                                                         ,"label"=> "BarraMenu"
+                                                                                        )
+                                                                              ,"CSS" => array(
+                                                                                          "position" => "fixed"
+                                                                                         ,"top" => "28px"
+                                                                                         ,"left" => "270px"
+                                                                                         ,"z-index" => "900"
+                                                                                        )
                                                                              )
                                                                  ,"items" => array(
                                                                                 array(
                                                                                   "class" => "WikiDojoButton"
                                                                                  ,"parms" => array(
-                                                                                                "id" => "menu_vista"
-                                                                                               ,"label" => "VISTA"
-                                                                                               ,"action" => "alert('VISTA')"
-                                                                                               ,"display" => true
-                                                                                               ,"displayBlock" => false
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_vista"
+                                                                                                         ,"label"=> "VISTA"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('VISTA')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
                                                                                              )
                                                                                 )
                                                                                ,array(
                                                                                   "class" => "WikiDojoButton"
                                                                                  ,"parms" => array(
-                                                                                                "id" => "menu_edicio"
-                                                                                               ,"label" => "EDICIÓ"
-                                                                                               ,"action" => "alert('EDICIO')"
-                                                                                               ,"display" => true
-                                                                                               ,"displayBlock" => false
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_edicio"
+                                                                                                         ,"label"=> "EDICIÓ"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('EDICIÓ')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
                                                                                              )
                                                                                 )
                                                                                ,array(
                                                                                   "class" => "WikiDojoButton"
                                                                                  ,"parms" => array(
-                                                                                                "id" => "menu_correccio"
-                                                                                               ,"label" => "CORRECCIÓ"
-                                                                                               ,"action" => "alert('CORRECCIO')"
-                                                                                               ,"display" => true
-                                                                                               ,"displayBlock" => false
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_correccio"
+                                                                                                         ,"label"=> "CORRECCIÓ"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('CORRECCIÓ')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
                                                                                              )
                                                                                 )
                                                                              )
@@ -87,44 +109,56 @@ class WikiIocCfg {
                                                      ,"login" => array(
                                                                    "class" => "WikiIocDivBloc"
                                                                   ,"parms" => array(
-                                                                                 "id" => "zonaLogin"
-                                                                                ,"label" => "zonaLogin"
-                                                                                ,"width" => "80px"
-                                                                                ,"height" => "60px"
-                                                                                ,"float" => "right"
+                                                                                "DOM" => array(
+                                                                                           "id"=> "zonaLogin"
+                                                                                         )
+                                                                               ,"CSS" => array(
+                                                                                           "width" => "80px"
+                                                                                          ,"height" => "60px"
+                                                                                          ,"float" => "right"
+                                                                                         )
                                                                               )
                                                                   ,"items" => array(
                                                                                  array(
                                                                                     "class" => "WikiIocDropDownButton"
                                                                                    ,"parms" => array(
-                                                                                                  "id" => "loginButton"
-                                                                                                 ,"label" => "Entrar"
-                                                                                                 ,"autoSize" => true
-                                                                                                 ,"display" => true
-                                                                                                 ,"displayBlock" => true
+                                                                                                 "DOM" => array(
+                                                                                                            "id" => "loginButton"
+                                                                                                           ,"label" => "Entrar"
+                                                                                                           ,"class" => "iocDisplayBlock"
+                                                                                                          )
+                                                                                                ,"DJO" => array(
+                                                                                                            "autoSize" => true
+                                                                                                           ,"visible" => true
+                                                                                                          )
                                                                                                )
                                                                                    ,"items" => array(
                                                                                                   "class" => "WikiIocHiddenDialog"
                                                                                                  ,"parms" => array(
-                                                                                                                "id" => "loginDialog"
-                                                                                                               ,"label" => "loginDialog"
+                                                                                                               "DOM" => array(
+                                                                                                                          "id"=> "loginDialog"
+                                                                                                                        )
                                                                                                              )
                                                                                                  ,"items" => array(
                                                                                                                 array(
                                                                                                                    "class" => "WikiIocFormInputField"
                                                                                                                   ,"parms" => array(
-                                                                                                                                 "id" => "name"
-                                                                                                                                ,"label" => "Usuari:"
-                                                                                                                                ,"name" => "u"
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "name"
+                                                                                                                                          ,"label" => "Usuari:"
+                                                                                                                                          ,"name" => "u"
+                                                                                                                                         )
                                                                                                                               )
                                                                                                                 )
                                                                                                                ,array(
                                                                                                                    "class" => "WikiIocFormInputField"
                                                                                                                   ,"parms" => array(
-                                                                                                                                 "id" => "pass"
-                                                                                                                                ,"label" => "Contrasenya:"
-                                                                                                                                ,"name" => "p"
-                                                                                                                                ,"type" => "password"
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "pass"
+                                                                                                                                          ,"label" => "Contrasenya:"
+                                                                                                                                          ,"name" => "p"
+                                                                                                                                          ,"type" => "password"
+                                                                                                                                         )
                                                                                                                               )
                                                                                                                 )
                                                                                                              )
@@ -133,50 +167,64 @@ class WikiIocCfg {
                                                                                 ,array(
                                                                                     "class" => "WikiIocDropDownButton"
                                                                                    ,"parms" => array(
-                                                                                                  "id" => "userButton"
-                                                                                                 ,"label" => "Menú User"
-                                                                                                 ,"autoSize" => true
-                                                                                                 ,"display" => true
-                                                                                                 ,"displayBlock" => true
+                                                                                                 "DOM" => array(
+                                                                                                            "id" => "userButton"
+                                                                                                           ,"label" => "Menú User"
+                                                                                                           ,"class" => "iocDisplayBlock"
+                                                                                                          )
+                                                                                                ,"DJO" => array(
+                                                                                                            "autoSize" => true
+                                                                                                           ,"visible" => true
+                                                                                                          )
                                                                                                )
                                                                                    ,"items" => array(
                                                                                                   "class" => "WikiIocDropDownMenu"
                                                                                                  ,"parms" => array(
-                                                                                                                "id" => "userDialog"
-                                                                                                               ,"label" => "userDialog"
+                                                                                                               "DOM" => array(
+                                                                                                                           "id" => "userDialog"
+                                                                                                                        )
                                                                                                              )
                                                                                                  ,"items" => array(
                                                                                                                 array(
                                                                                                                    "class" => "WikiIocMenuItem"
                                                                                                                   ,"parms" => array(
-                                                                                                                                 "id" => "userMenuItem"
-                                                                                                                                ,"label" => "La meva pàgina"
-                                                                                                                                ,"query" => "id=user"
-                                                                                                                                ,"autoSize" => true
-                                                                                                                                ,"display" => false
-                                                                                                                                ,"displayBlock" => true
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "userMenuItem"
+                                                                                                                                          ,"label" => "La meva pàgina"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'id=user'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
                                                                                                                               )
                                                                                                                 )
                                                                                                                ,array(
                                                                                                                    "class" => "WikiIocMenuItem"
                                                                                                                   ,"parms" => array(
-                                                                                                                                 "id" => "talkUserMenuItem"
-                                                                                                                                ,"label" => "Discussió"
-                                                                                                                                ,"query" => "id=talkUser"
-                                                                                                                                ,"autoSize" => true
-                                                                                                                                ,"display" => false
-                                                                                                                                ,"displayBlock" => true
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "talkUserMenuItem"
+                                                                                                                                          ,"label" => "Discussió"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'id=talkUser'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
                                                                                                                               )
                                                                                                                 )
                                                                                                                ,array(
                                                                                                                    "class" => "WikiIocMenuItem"
                                                                                                                   ,"parms" => array(
-                                                                                                                                 "id" => "logoffMenuItem"
-                                                                                                                                ,"label" => "Desconnectar"
-                                                                                                                                ,"query" => "do=logoff"
-                                                                                                                                ,"autoSize" => true
-                                                                                                                                ,"display" => false
-                                                                                                                                ,"displayBlock" => true
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "logoffMenuItem"
+                                                                                                                                          ,"label" => "Desconnectar"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'do=logoff'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
                                                                                                                               )
                                                                                                                 )
                                                                                                              )
@@ -189,68 +237,89 @@ class WikiIocCfg {
                              ,"main" => array(
                                            "class" => "WikiIocBorderContainer"
                                           ,"parms" => array(
-                                                         "id" => "mainContent"
-                                                        ,"label" => "MainContent"
+                                                        "DOM" => array(
+                                                                   "id" => "mainContent"
+                                                                 )
                                                       )
                                           ,"items" => array(
                                                          "left" => array(
                                                                       "class" => "WikiIocItemsPanel"
                                                                      ,"parms" => array(
-                                                                                    "id" => "id_LeftPanel"
-                                                                                   ,"label" => "LeftPanel"
-                                                                                   ,"region" => "left"
-                                                                                   ,"width" => "190px"
-                                                                                   ,"doLayout" => "true"
-                                                                                   ,"splitter" => "true"
-                                                                                   ,"minSize" => "150px"
-                                                                                   ,"closable" => "false"
+                                                                                   "DOM" => array(
+                                                                                              "id" => "id_LeftPanel"
+                                                                                             ,"region" => "left"
+                                                                                             ,"doLayout" => "true"
+                                                                                             ,"splitter" => "true"
+                                                                                             ,"minSize" => "150px"
+                                                                                             ,"closable" => "false"
+                                                                                            )
+                                                                                  ,"CSS" => array(
+                                                                                              "width" => "190px"
+                                                                                            )
                                                                                  )
                                                                      ,"items" => array(
                                                                                     "zN" => array(
                                                                                                "class" => "WikiIocDivBloc"
                                                                                               ,"parms" => array(
-                                                                                                             "id" => "tb_container"
-                                                                                                            ,"label" => "tb_container"
-                                                                                                            ,"height" => "40%"
+                                                                                                            "DOM" => array(
+                                                                                                                       "id"=> "tb_container"
+                                                                                                                     )
+                                                                                                           ,"CSS" => array(
+                                                                                                                        "height" => "40%"
+                                                                                                                     )
                                                                                                           )
                                                                                               ,"items" => array(
                                                                                                              array(
                                                                                                                 "class" => "WikiIocTabsContainer"
                                                                                                                ,"parms" => array(
-                                                                                                                              "id" => "zonaNavegacio"
-                                                                                                                             ,"label" => "tabsNavegacio"
-                                                                                                                             ,"tabType" => WikiIocTabsContainer::RESIZING_TAB_TYPE
-                                                                                                                             ,"bMenuButton" => true
+                                                                                                                             "DOM" => array(
+                                                                                                                                        "id" => "zonaNavegacio"
+                                                                                                                                       ,"label" => "tabsNavegacio"
+                                                                                                                                       ,"tabType" => WikiIocTabsContainer::RESIZING_TAB_TYPE
+                                                                                                                                       ,"useMenu" => true
+                                                                                                                                      )
                                                                                                                            )
                                                                                                                ,"items" => array(
                                                                                                                               array(
                                                                                                                                  "class" => "WikiIocTreeContainer"
                                                                                                                                 ,"parms" => array(
-                                                                                                                                               "id" => "tb_index"
-                                                                                                                                              ,"label" => "Índex"
-                                                                                                                                              ,"treeDataSource" => "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/"
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_index"
+                                                                                                                                                        ,"label" => "Índex"
+                                                                                                                                                       )
+                                                                                                                                             ,"DJO" => array(
+                                                                                                                                                         "treeDataSource" => "'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/'"
+                                                                                                                                                       )
                                                                                                                                             )
                                                                                                                               )
                                                                                                                              ,array(
                                                                                                                                  "class" => "WikiIocContentPane"
                                                                                                                                 ,"parms" => array(
-                                                                                                                                               "id" => "tb_perfil"
-                                                                                                                                              ,"label" => "Perfil"
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_perfil"
+                                                                                                                                                        ,"label" => "Perfil"
+                                                                                                                                                       )
                                                                                                                                             )
                                                                                                                               )
                                                                                                                              ,array(
                                                                                                                                  "class" => "WikiIocContentPane"
                                                                                                                                 ,"parms" => array(
-                                                                                                                                               "id" => "tb_admin"
-                                                                                                                                              ,"label" => "Admin"
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_admin"
+                                                                                                                                                        ,"label" => "Admin"
+                                                                                                                                                       )
                                                                                                                                             )
                                                                                                                               )
                                                                                                                              ,array(
                                                                                                                                  "class" => "WikiIocContainerFromPage"
                                                                                                                                 ,"parms" => array(
-                                                                                                                                               "id" => "tb_docu"
-                                                                                                                                              ,"label" => "documentació"
-                                                                                                                                              ,"page" => ":wiki:navigation"
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_docu"
+                                                                                                                                                        ,"label" => "documentació"
+                                                                                                                                                       )
+                                                                                                                                             ,"PRP" => array(
+                                                                                                                                                         "page" => ":wiki:navigation"
+                                                                                                                                                       )
                                                                                                                                             )
                                                                                                                               )
                                                                                                                            )
@@ -260,16 +329,21 @@ class WikiIocCfg {
                                                                                    ,"zM" => array(
                                                                                                "class" => "WikiIocDivBloc"
                                                                                               ,"parms" => array(
-                                                                                                             "id" => "zonaMetaInfo_DivBloc"
-                                                                                                            ,"label" => "zonaMetaInfo"
-                                                                                                            ,"height" => "60%"
+                                                                                                            "DOM" => array(
+                                                                                                                       "id"=> "zonaMetaInfo_DivBloc"
+                                                                                                                     )
+                                                                                                           ,"CSS" => array(
+                                                                                                                        "height" => "60%"
+                                                                                                                     )
                                                                                                           )
                                                                                               ,"items" => array(
                                                                                                              array(
                                                                                                                 "class" => "WikiIocAccordionContainer"
                                                                                                                ,"parms" => array(
-                                                                                                                              "id" => "zonaMetaInfo"
-                                                                                                                             ,"label" => "ContainerMetaInfo"
+                                                                                                                             "DOM" => array(
+                                                                                                                                        "id" => "zonaMetaInfo"
+                                                                                                                                       ,"label" => "ContainerMetaInfo"
+                                                                                                                                      )
                                                                                                                            )
                                                                                                              )
                                                                                                           )
@@ -277,25 +351,28 @@ class WikiIocCfg {
                                                                                  )
                                                                    )
                                                         ,"center" => array(
-                                                                        "class" => "WikiIocItemsPanel"
+                                                                        "class" => "WikiIocItemsPanelDiv"
                                                                        ,"parms" => array(
-                                                                                      "id" => "content"
-                                                                                     ,"label" => "CentralPanel"
-                                                                                     ,"region" => "center"
-                                                                                     ,"div" => true
-                                                                                     ,"class" => "ioc_content dokuwiki"
-                                                                                     ,"doLayout" => "false"
-                                                                                     ,"splitter" => "false"
+                                                                                     "DOM" => array(
+                                                                                                "id" => "content"
+                                                                                               ,"label" => "CentralPanel"
+                                                                                               ,"region" => "center"
+                                                                                               ,"class" => "ioc_content dokuwiki"
+                                                                                               ,"doLayout" => "false"
+                                                                                               ,"splitter" => "false"
+                                                                                              )
                                                                                    )
                                                                        ,"items" => array(
                                                                                       array(
                                                                                          "class" => "WikiIocTabsContainer"
                                                                                         ,"parms" => array(
-                                                                                                       "id" => "bodyContent"
-                                                                                                      ,"label" => "bodyContent"
-                                                                                                      ,"tabType" => WikiIocTabsContainer::SCROLLING_TAB_TYPE
-                                                                                                      ,"bMenuButton" => true
-                                                                                                      ,"bScrollingButtons" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id" => "bodyContent"
+                                                                                                                ,"label" => "bodyContent"
+                                                                                                                ,"tabType" => WikiIocTabsContainer::SCROLLING_TAB_TYPE
+                                                                                                                ,"useMenu" => true
+                                                                                                                ,"useSlider" => true
+                                                                                                               )
                                                                                                     )
                                                                                       )
                                                                                    )
@@ -303,182 +380,123 @@ class WikiIocCfg {
                                                         ,"right" => array(
                                                                        "class" => "WikiIocItemsPanel"
                                                                       ,"parms" => array(
-                                                                                     "id" => "zonaCanvi"
-                                                                                    ,"region" => "right"
-                                                                                    ,"width" => "65px"
-                                                                                    ,"doLayout" => "true"
-                                                                                    ,"splitter" => "true"
-                                                                                    ,"minSize" => "0px"
-                                                                                    ,"style" => "padding:0px"
-                                                                                    ,"closable" => "true"
+                                                                                    "DOM" => array(
+                                                                                               "id" => "zonaCanvi"
+                                                                                              ,"region" => "right"
+                                                                                              ,"doLayout" => "true"
+                                                                                              ,"splitter" => "true"
+                                                                                              ,"minSize" => "0px"
+                                                                                              ,"closable" => "true"
+                                                                                             )
+                                                                                   ,"CSS" => array(
+                                                                                               "width" => "65px"
+                                                                                              ,"padding" => "0px"
+                                                                                             )
                                                                                   )
                                                                       ,"items" => array(
-                                                                                    /*
-                                                                                     array(
-                                                                                        "class" => "WikiIocDropDownButton"
-                                                                                       ,"parms" => array(
-                                                                                                      "id" => "r_loginButton"
-                                                                                                     ,"label" => "Entrar"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => true
-                                                                                                     ,"displayBlock" => true
-                                                                                                   )
-                                                                                       ,"items" => array(
-                                                                                                      "class" => "WikiIocHiddenDialog"
-                                                                                                     ,"parms" => array(
-                                                                                                                    "id" => "r_loginDialog"
-                                                                                                                   ,"label" => "loginDialog"
-                                                                                                                 )
-                                                                                                     ,"items" => array(
-                                                                                                                    array(
-                                                                                                                       "class" => "WikiIocFormInputField"
-                                                                                                                      ,"parms" => array(
-                                                                                                                                     "id" => "r_name"
-                                                                                                                                    ,"label" => "Usuari:"
-                                                                                                                                    ,"name" => "u"
-                                                                                                                                  )
-                                                                                                                         )
-                                                                                                                   ,array(
-                                                                                                                       "class" => "WikiIocFormInputField"
-                                                                                                                      ,"parms" => array(
-                                                                                                                                     "id" => "r_pass"
-                                                                                                                                    ,"label" => "Contrasenya:"
-                                                                                                                                    ,"name" => "p"
-                                                                                                                                    ,"type" => "password"
-                                                                                                                                  )
-                                                                                                                         )
-                                                                                                                      )
-                                                                                                        )
-                                                                                          )
-
-                                                                                     ,array(
-                                                                                        "class" => "WikiIocDropDownButton"
-                                                                                       ,"parms" => array(
-                                                                                                      "id" => "r_userButton"
-                                                                                                     ,"label" => "Menú User"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => true
-                                                                                                     ,"displayBlock" => true
-                                                                                                   )
-                                                                                       ,"items" => array(
-                                                                                                      "class" => "WikiIocDropDownMenu"
-                                                                                                     ,"parms" => array(
-                                                                                                                    "id" => "r_userDialog"
-                                                                                                                   ,"label" => "userDialog"
-                                                                                                                 )
-                                                                                                     ,"items" => array(
-                                                                                                                    array(
-                                                                                                                       "class" => "WikiIocMenuItem"
-                                                                                                                      ,"parms" => array(
-                                                                                                                                     "id" => "r_userMenuItem"
-                                                                                                                                    ,"label" => "La meva pàgina"
-                                                                                                                                    ,"query" => "do=user"
-                                                                                                                                    ,"autoSize" => true
-                                                                                                                                    ,"display" => false
-                                                                                                                                    ,"displayBlock" => true
-                                                                                                                                  )
-                                                                                                                         )
-                                                                                                                   ,array(
-                                                                                                                       "class" => "WikiIocMenuItem"
-                                                                                                                      ,"parms" => array(
-                                                                                                                                     "id" => "r_talkUserMenuItem"
-                                                                                                                                    ,"label" => "Discussió"
-                                                                                                                                    ,"query" => "do=talkUser"
-                                                                                                                                    ,"autoSize" => true
-                                                                                                                                    ,"display" => false
-                                                                                                                                    ,"displayBlock" => true
-                                                                                                                                  )
-                                                                                                                         )
-                                                                                                                   ,array(
-                                                                                                                       "class" => "WikiIocMenuItem"
-                                                                                                                      ,"parms" => array(
-                                                                                                                                     "id" => "r_logoffMenuItem"
-                                                                                                                                    ,"label" => "Desconnectar"
-                                                                                                                                    ,"query" => "do=logoff"
-                                                                                                                                    ,"autoSize" => true
-                                                                                                                                    ,"display" => false
-                                                                                                                                    ,"displayBlock" => true
-                                                                                                                                  )
-                                                                                                                         )
-                                                                                                                      )
-                                                                                                        )
-                                                                                          )
-                                                                                     */
                                                                                      array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "newButton"
-                                                                                                     ,"label" => "Nou"
-                                                                                                     ,"query" => "do=new"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "newButton"
+                                                                                                                ,"label"=> "Nou"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=new'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "saveButton"
-                                                                                                     ,"label" => "Desar"
-                                                                                                     ,"query" => "do=save"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "saveButton"
+                                                                                                                ,"label"=> "Desar"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=save'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "previewButton"
-                                                                                                     ,"label" => "Previsualitza"
-                                                                                                     ,"query" => "do=preview"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "previewButton"
+                                                                                                                ,"label"=> "Previsualitza"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=preview'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "cancelButton"
-                                                                                                     ,"label" => "Cancel·la"
-                                                                                                     ,"query" => "do=cancel"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "cancelButton"
+                                                                                                                ,"label"=> "Cancel·la"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=cancel'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "editButton"
-                                                                                                     ,"label" => "Edició"
-                                                                                                     ,"query" => "do=edit"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "editButton"
+                                                                                                                ,"label"=> "Edició"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=edit'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "edparcButton"
-                                                                                                     ,"label" => "Ed. Parc."
-                                                                                                     ,"query" => "do=edparc"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "edparcButton"
+                                                                                                                ,"label"=> "Ed. Parc."
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=edparc'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                      ,array(
                                                                                         "class" => "WikiIocButton"
                                                                                        ,"parms" => array(
-                                                                                                      "id" => "exitButton"
-                                                                                                     ,"label" => "Sortir"
-                                                                                                     ,"query" => "do=logoff"
-                                                                                                     ,"autoSize" => true
-                                                                                                     ,"display" => false
-                                                                                                     ,"displayBlock" => true
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "exitButton"
+                                                                                                                ,"label"=> "Sortir"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=logoff'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
                                                                                                    )
                                                                                       )
                                                                                   )
@@ -486,18 +504,26 @@ class WikiIocCfg {
                                                         ,"bottom" => array(
                                                                         "class" => "WikiIocItemsPanel"
                                                                        ,"parms" => array(
-                                                                                      "id" => "id_BottomPanel"
-                                                                                     ,"region" => "bottom"
-                                                                                     ,"height" => "30px"
-                                                                                     ,"doLayout" => "false"
-                                                                                     ,"splitter" => "true"
+                                                                                     "DOM" => array(
+                                                                                                "id" => "id_BottomPanel"
+                                                                                               ,"region" => "bottom"
+                                                                                               ,"doLayout" => "false"
+                                                                                               ,"splitter" => "true"
+                                                                                              )
+                                                                                    ,"CSS" => array(
+                                                                                                "height" => "30px"
+                                                                                              )
                                                                                    )
                                                                        ,"items" => array(
                                                                                       array(
                                                                                          "class" => "WikiIocTextContentPane"
                                                                                         ,"parms" => array(
-                                                                                                       "id" => "zonaMissatges"
-                                                                                                      ,"missatge" => "estoy aquí"
+                                                                                                      "DOM" => array(
+                                                                                                                 "id" => "zonaMissatges"
+                                                                                                               )
+                                                                                                     ,"PRP" => array(
+                                                                                                                 "missatge" => "estoy aquí"
+                                                                                                               )
                                                                                                     )
                                                                                       )
                                                                                    )
@@ -506,7 +532,543 @@ class WikiIocCfg {
                                         )
                             )
     );
-    
+*/
+    private $arrIocCfg = array(
+                 "class" => "WikiIocBody"
+                ,"parms" => array(
+                              "DOM" => array(
+                                         "id" => "main"
+                                       )
+                            )
+                ,"items" => array(
+                              "top" => array(
+                                          "class" => "WikiIocDivBloc"
+                                         ,"parms" => array(
+                                                       "DOM" => array(
+                                                                  "id" => "TopBloc"
+                                                                )
+                                                      ,"CSS" => array(
+                                                                  "height" => "55px"
+                                                                 ,"width" => "100%"
+                                                                )
+                                                     )
+                                         ,"items" => array(
+                                                      "logo" => array(
+                                                                  "class" => "WikiIocImage"
+                                                                 ,"parms" => array(
+                                                                               "CSS" => array(
+                                                                                          "position"=> "absolute"
+                                                                                         ,"top"=> "2px"
+                                                                                         ,"left"=> "0px"
+                                                                                         ,"width"=> "240px"
+                                                                                         ,"height"=> "50px"
+                                                                                         ,"z-index"=> "900"
+                                                                                        )
+                                                                              ,"PRP" => array(
+                                                                                          "src" => "img/logo.png"
+                                                                                        )
+                                                                             )
+                                                                )
+                                                     ,"menu" => array(
+                                                                  "class" => "WikiDojoToolBar"
+                                                                 ,"parms" => array(
+                                                                               "DOM" => array(
+                                                                                          "id"=> "barraMenu"
+                                                                                         ,"label"=> "BarraMenu"
+                                                                                        )
+                                                                              ,"CSS" => array(
+                                                                                          "position" => "fixed"
+                                                                                         ,"top" => "28px"
+                                                                                         ,"left" => "270px"
+                                                                                         ,"z-index" => "900"
+                                                                                        )
+                                                                             )
+                                                                 ,"items" => array(
+                                                                                array(
+                                                                                  "class" => "WikiDojoButton"
+                                                                                 ,"parms" => array(
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_vista"
+                                                                                                         ,"label"=> "VISTA"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('VISTA')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
+                                                                                             )
+                                                                                )
+                                                                               ,array(
+                                                                                  "class" => "WikiDojoButton"
+                                                                                 ,"parms" => array(
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_edicio"
+                                                                                                         ,"label"=> "EDICIÓ"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('EDICIÓ')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
+                                                                                             )
+                                                                                )
+                                                                               ,array(
+                                                                                  "class" => "WikiDojoButton"
+                                                                                 ,"parms" => array(
+                                                                                               "DOM" => array(
+                                                                                                          "id"=> "menu_correccio"
+                                                                                                         ,"label"=> "CORRECCIÓ"
+                                                                                                         ,"class" => "dijitInline"
+                                                                                                        )
+                                                                                              ,"DJO" => array(
+                                                                                                          "onClick" => "function(){alert('CORRECCIÓ')}"
+                                                                                                         ,"visible" => true
+                                                                                                        )
+                                                                                             )
+                                                                                )
+                                                                             )
+                                                                )
+
+                                                     ,"login" => array(
+                                                                   "class" => "WikiIocDivBloc"
+                                                                  ,"parms" => array(
+                                                                                "DOM" => array(
+                                                                                           "id"=> "zonaLogin"
+                                                                                         )
+                                                                               ,"CSS" => array(
+                                                                                           "width" => "80px"
+                                                                                          ,"height" => "60px"
+                                                                                          ,"float" => "right"
+                                                                                         )
+                                                                              )
+                                                                  ,"items" => array(
+                                                                                 array(
+                                                                                    "class" => "WikiIocDropDownButton"
+                                                                                   ,"parms" => array(
+                                                                                                 "DOM" => array(
+                                                                                                            "id" => "loginButton"
+                                                                                                           ,"label" => "Entrar"
+                                                                                                           ,"class" => "iocDisplayBlock"
+                                                                                                          )
+                                                                                                ,"DJO" => array(
+                                                                                                            "autoSize" => true
+                                                                                                           ,"visible" => true
+                                                                                                          )
+                                                                                               )
+                                                                                   ,"items" => array(
+                                                                                                  "class" => "WikiIocHiddenDialog"
+                                                                                                 ,"parms" => array(
+                                                                                                               "DOM" => array(
+                                                                                                                          "id"=> "loginDialog"
+                                                                                                                        )
+                                                                                                             )
+                                                                                                 ,"items" => array(
+                                                                                                                array(
+                                                                                                                   "class" => "WikiIocFormInputField"
+                                                                                                                  ,"parms" => array(
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "name"
+                                                                                                                                          ,"label" => "Usuari:"
+                                                                                                                                          ,"name" => "u"
+                                                                                                                                         )
+                                                                                                                              )
+                                                                                                                )
+                                                                                                               ,array(
+                                                                                                                   "class" => "WikiIocFormInputField"
+                                                                                                                  ,"parms" => array(
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "pass"
+                                                                                                                                          ,"label" => "Contrasenya:"
+                                                                                                                                          ,"name" => "p"
+                                                                                                                                          ,"type" => "password"
+                                                                                                                                         )
+                                                                                                                              )
+                                                                                                                )
+                                                                                                             )
+                                                                                               )
+                                                                                 )
+                                                                                ,array(
+                                                                                    "class" => "WikiIocDropDownButton"
+                                                                                   ,"parms" => array(
+                                                                                                 "DOM" => array(
+                                                                                                            "id" => "userButton"
+                                                                                                           ,"label" => "Menú User"
+                                                                                                           ,"class" => "iocDisplayBlock"
+                                                                                                          )
+                                                                                                ,"DJO" => array(
+                                                                                                            "autoSize" => true
+                                                                                                           ,"visible" => true
+                                                                                                          )
+                                                                                               )
+                                                                                   ,"items" => array(
+                                                                                                  "class" => "WikiIocDropDownMenu"
+                                                                                                 ,"parms" => array(
+                                                                                                               "DOM" => array(
+                                                                                                                           "id" => "userDialog"
+                                                                                                                        )
+                                                                                                             )
+                                                                                                 ,"items" => array(
+                                                                                                                array(
+                                                                                                                   "class" => "WikiIocMenuItem"
+                                                                                                                  ,"parms" => array(
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "userMenuItem"
+                                                                                                                                          ,"label" => "La meva pàgina"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'id=user'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
+                                                                                                                              )
+                                                                                                                )
+                                                                                                               ,array(
+                                                                                                                   "class" => "WikiIocMenuItem"
+                                                                                                                  ,"parms" => array(
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "talkUserMenuItem"
+                                                                                                                                          ,"label" => "Discussió"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'id=talkUser'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
+                                                                                                                              )
+                                                                                                                )
+                                                                                                               ,array(
+                                                                                                                   "class" => "WikiIocMenuItem"
+                                                                                                                  ,"parms" => array(
+                                                                                                                                "DOM" => array(
+                                                                                                                                           "id" => "logoffMenuItem"
+                                                                                                                                          ,"label" => "Desconnectar"
+                                                                                                                                         )
+                                                                                                                               ,"DJO" => array(
+                                                                                                                                           "query" => "'do=logoff'"
+                                                                                                                                          ,"autoSize" => true
+                                                                                                                                          ,"disabled" => false
+                                                                                                                                         )
+                                                                                                                              )
+                                                                                                                )
+                                                                                                             )
+                                                                                               )
+                                                                                 )
+                                                                              )
+                                                                 )
+                                                     )
+                                       )
+                             ,"main" => array(
+                                           "class" => "WikiIocBorderContainer"
+                                          ,"parms" => array(
+                                                        "DOM" => array(
+                                                                   "id" => "mainContent"
+                                                                 )
+                                                      )
+                                          ,"items" => array(
+                                                         "left" => array(
+                                                                      "class" => "WikiIocItemsPanel"
+                                                                     ,"parms" => array(
+                                                                                   "DOM" => array(
+                                                                                              "id" => "id_LeftPanel"
+                                                                                             ,"region" => "left"
+                                                                                             ,"doLayout" => "true"
+                                                                                             ,"splitter" => "true"
+                                                                                             ,"minSize" => "150"
+                                                                                             ,"closable" => "false"
+                                                                                            )
+                                                                                  ,"CSS" => array(
+                                                                                              "width" => "190px"
+                                                                                            )
+                                                                                 )
+                                                                     ,"items" => array(
+                                                                                    "zN" => array(
+                                                                                               "class" => "WikiIocDivBloc"
+                                                                                              ,"parms" => array(
+                                                                                                            "DOM" => array(
+                                                                                                                       "id"=> "tb_container"
+                                                                                                                     )
+                                                                                                           ,"CSS" => array(
+                                                                                                                        "height" => "40%"
+                                                                                                                     )
+                                                                                                          )
+                                                                                              ,"items" => array(
+                                                                                                             array(
+                                                                                                                "class" => "WikiIocTabsContainer"
+                                                                                                               ,"parms" => array(
+                                                                                                                             "DOM" => array(
+                                                                                                                                        "id" => "zonaNavegacio"
+                                                                                                                                       ,"label" => "tabsNavegacio"
+                                                                                                                                       ,"tabType" => WikiIocTabsContainer::RESIZING_TAB_TYPE
+                                                                                                                                       ,"useMenu" => true
+                                                                                                                                      )
+                                                                                                                           )
+                                                                                                               ,"items" => array(
+                                                                                                                              array(
+                                                                                                                                 "class" => "WikiIocTreeContainer"
+                                                                                                                                ,"parms" => array(
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_index"
+                                                                                                                                                        ,"label" => "Índex"
+                                                                                                                                                       )
+                                                                                                                                             ,"DJO" => array(
+                                                                                                                                                         "treeDataSource" => "'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/'"
+                                                                                                                                                       )
+                                                                                                                                            )
+                                                                                                                              )
+                                                                                                                             ,array(
+                                                                                                                                 "class" => "WikiIocContentPane"
+                                                                                                                                ,"parms" => array(
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_perfil"
+                                                                                                                                                        ,"label" => "Perfil"
+                                                                                                                                                       )
+                                                                                                                                            )
+                                                                                                                              )
+                                                                                                                             ,array(
+                                                                                                                                 "class" => "WikiIocContentPane"
+                                                                                                                                ,"parms" => array(
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_admin"
+                                                                                                                                                        ,"label" => "Admin"
+                                                                                                                                                       )
+                                                                                                                                            )
+                                                                                                                              )
+                                                                                                                             ,array(
+                                                                                                                                 "class" => "WikiIocContainerFromPage"
+                                                                                                                                ,"parms" => array(
+                                                                                                                                              "DOM" => array(
+                                                                                                                                                         "id" => "tb_docu"
+                                                                                                                                                        ,"label" => "documentació"
+                                                                                                                                                       )
+                                                                                                                                             ,"PRP" => array(
+                                                                                                                                                         "page" => ":wiki:navigation"
+                                                                                                                                                       )
+                                                                                                                                            )
+                                                                                                                              )
+                                                                                                                           )
+                                                                                                             )
+                                                                                                          )
+                                                                                            )
+                                                                                   ,"zM" => array(
+                                                                                               "class" => "WikiIocDivBloc"
+                                                                                              ,"parms" => array(
+                                                                                                            "DOM" => array(
+                                                                                                                       "id"=> "zonaMetaInfo_DivBloc"
+                                                                                                                     )
+                                                                                                           ,"CSS" => array(
+                                                                                                                        "height" => "60%"
+                                                                                                                     )
+                                                                                                          )
+                                                                                              ,"items" => array(
+                                                                                                             array(
+                                                                                                                "class" => "WikiIocAccordionContainer"
+                                                                                                               ,"parms" => array(
+                                                                                                                             "DOM" => array(
+                                                                                                                                        "id" => "zonaMetaInfo"
+                                                                                                                                       ,"label" => "ContainerMetaInfo"
+                                                                                                                                      )
+                                                                                                                           )
+                                                                                                             )
+                                                                                                          )
+                                                                                            )
+                                                                                 )
+                                                                   )
+                                                        ,"center" => array(
+                                                                        "class" => "WikiIocItemsPanelDiv"
+                                                                       ,"parms" => array(
+                                                                                     "DOM" => array(
+                                                                                                "id" => "content"
+                                                                                               ,"label" => "CentralPanel"
+                                                                                               ,"region" => "center"
+                                                                                               ,"class" => "ioc_content dokuwiki"
+                                                                                               ,"doLayout" => "false"
+                                                                                               ,"splitter" => "false"
+                                                                                              )
+                                                                                   )
+                                                                       ,"items" => array(
+                                                                                      array(
+                                                                                         "class" => "WikiIocTabsContainer"
+                                                                                        ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id" => "bodyContent"
+                                                                                                                ,"label" => "bodyContent"
+                                                                                                                ,"tabType" => WikiIocTabsContainer::SCROLLING_TAB_TYPE
+                                                                                                                ,"useMenu" => true
+                                                                                                                ,"useSlider" => true
+                                                                                                               )
+                                                                                                    )
+                                                                                      )
+                                                                                   )
+                                                                     )
+                                                        ,"right" => array(
+                                                                       "class" => "WikiIocItemsPanel"
+                                                                      ,"parms" => array(
+                                                                                    "DOM" => array(
+                                                                                               "id" => "zonaCanvi"
+                                                                                              ,"region" => "right"
+                                                                                              ,"doLayout" => "true"
+                                                                                              ,"splitter" => "true"
+                                                                                              ,"minSize" => "50"
+                                                                                              ,"closable" => "true"
+                                                                                             )
+                                                                                   ,"CSS" => array(
+                                                                                               "width" => "65px"
+                                                                                              ,"padding" => "0px"
+                                                                                             )
+                                                                                  )
+                                                                      ,"items" => array(
+                                                                                     array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "newButton"
+                                                                                                                ,"label"=> "Nou"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=new'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "saveButton"
+                                                                                                                ,"label"=> "Desar"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=save'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "previewButton"
+                                                                                                                ,"label"=> "Previsualitza"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=preview'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "cancelButton"
+                                                                                                                ,"label"=> "Cancel·la"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=cancel'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "editButton"
+                                                                                                                ,"label"=> "Edició"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=edit'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "edparcButton"
+                                                                                                                ,"label"=> "Ed. Parc."
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=edparc'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                     ,array(
+                                                                                        "class" => "WikiIocButton"
+                                                                                       ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id"=> "exitButton"
+                                                                                                                ,"label"=> "Sortir"
+                                                                                                                ,"class" => "iocDisplayBlock"
+                                                                                                               )
+                                                                                                     ,"DJO" => array(
+                                                                                                                 "query" => "'do=logoff'"
+                                                                                                                ,"autoSize" => true
+                                                                                                                ,"visible" => false
+                                                                                                               )
+                                                                                                   )
+                                                                                      )
+                                                                                  )
+                                                                    )
+                                                        ,"bottom" => array(
+                                                                        "class" => "WikiIocItemsPanel"
+                                                                       ,"parms" => array(
+                                                                                     "DOM" => array(
+                                                                                                "id" => "id_BottomPanel"
+                                                                                               ,"region" => "bottom"
+                                                                                               ,"doLayout" => "false"
+                                                                                               ,"splitter" => "true"
+                                                                                              )
+                                                                                    ,"CSS" => array(
+                                                                                                "height" => "60px"
+                                                                                              )
+                                                                                   )
+                                                                       ,"items" => array(
+                                                                                     array(
+                                                                                         "class" => "WikiIocTextContentPane"
+                                                                                        ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id" => "zonaMissatges"
+                                                                                                               )
+                                                                                                     ,"PRP" => array(
+                                                                                                                 "missatge" => "estoy aquí"
+                                                                                                               )
+                                                                                                    )
+                                                                                      )
+                                                                           /*
+                                                                                     ,array(
+                                                                                         "class" => "WikiIocTextContentPane"
+                                                                                        ,"parms" => array(
+                                                                                                      "DOM" => array(
+                                                                                                                 "id" => "zona_2_Missatges"
+                                                                                                               )
+                                                                                                     ,"PRP" => array(
+                                                                                                                 "missatge" => "estoy aquí en zona 2"
+                                                                                                               )
+                                                                                                    )
+                                                                                      )
+                                                                           */
+                                                                                   )
+                                                                       )
+                                                      )
+                                        )
+                            )
+    );
+
     private $arrIds;
     private $arrTpl;
 
