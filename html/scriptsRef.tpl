@@ -206,21 +206,21 @@ require([
 
         var tab = registry.byId('@@TAB_INDEX@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-            tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tab);
             tab.updateSectok();
         }
 
         tab = registry.byId('@@TAB_DOCU@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-            tab.set("standbyId", wikiIocDispatcher.containerNodeId);
+			//BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+			//BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
         }
 
         tab = registry.byId('@@EXIT_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
             //tab.set("standbyId", "loginDialog_hidden_container");
         }
 
@@ -238,14 +238,16 @@ require([
 
         tab = registry.byId('@@EDIT_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             /** @override */
             tab.getQuery = getQuery;
         }
 
         tab = registry.byId('@@ED_PARC_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
+            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             tab.getQuery = function () {
                 var ret;
                 var q = dwPageUi.getFormQueryToEditSection(
@@ -261,21 +263,22 @@ require([
         
         tab = registry.byId('@@CANCEL_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel");
+            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             /** @override */
             tab.getQuery = getQuery;
         }
         
         tab = registry.byId('@@NEW_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=new_page");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=new_page");
             /** @override */
             tab.getQuery = getQuery;
         }
         
         tab = registry.byId('@@SAVE_BUTTON@@');
         if (tab) {
-            tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");
+            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");
             /** @override */
             tab.getQuery = getQuery;
             /** @override */
@@ -286,8 +289,8 @@ require([
         
         var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
         if (loginDialog) {
-            loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-            loginDialog.set("standbyId", "loginDialog_hidden_container");
+            //BORRAR loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+            //BORRAR loginDialog.set("standbyId", "loginDialog_hidden_container");
 
             loginDialog.on('hide', function () {
                 loginDialog.reset();
@@ -304,12 +307,12 @@ require([
 
         var userDialog = registry.byId('@@USER_DIALOG@@');
         if (userDialog) {
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+           //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
         }
         
         userDialog = registry.byId('@@USER_BUTTON@@');
         if (userDialog) {
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
         }
         
         userDialog = registry.byId('@@USER_MENUITEM@@');
@@ -317,7 +320,7 @@ require([
             var getQueryUser = function(){
                 return "id=wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
+            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
             userDialog.getQuery=getQueryUser;            
             var processorUser = new ErrorMultiFunctionProcessor();
             var requestUser = new Request();
@@ -333,7 +336,7 @@ require([
             var getQueryTalk = function(){
                 return "id=talk:wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
+            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
             userDialog.getQuery=getQueryTalk;
             var processorTalk = new ErrorMultiFunctionProcessor();
             var requestTalk = new Request();
@@ -346,7 +349,7 @@ require([
         
         userDialog = registry.byId('@@LOGOFF_MENUITEM@@');
         if (userDialog) {
-            userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
+            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
         }
         
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);

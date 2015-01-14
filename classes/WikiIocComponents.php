@@ -553,7 +553,9 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "\n<div {$this->getDOM()} data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'"
+			. " {$this->getDJO()}"
+			. ">";
         return $ret;
     }
 
