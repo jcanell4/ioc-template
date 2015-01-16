@@ -34,7 +34,6 @@ class SaveResponseHandler extends PageResponseHandler {
         }else{
             $ajaxCmdResponseGenerator->addError($responseData["code"], 
                                                 $responseData["info"]);
-            $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true, 
                                             "ioc/dokuwiki/processCancellation");        
             parent::response($requestParams, $responseData["page"], 

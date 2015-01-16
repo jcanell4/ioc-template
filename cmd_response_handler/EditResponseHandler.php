@@ -20,6 +20,14 @@ class EditResponseHandler extends WikiIocResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
+
+    /**
+     * @param string[]                 $requestParams
+     * @param mixed                    $responseData
+     * @param AjaxCmdResponseGenerator $ajaxCmdResponseGenerator
+     *
+     * @return void
+     */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         global $conf;
         
@@ -30,11 +38,15 @@ class EditResponseHandler extends WikiIocResponseHandler {
 
         // TODO[Xavi] He suposat que el id amb el que està referida la metadata sempre coincideix amb el del document
         $meta = $responseData['meta'];
-        if($requestParams["reload"]){
-            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
-            $meta = array_merge($meta, $respostaMeta);
-        }
+//        if($requestParams["reload"]){
+//            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
+//            $meta = array_merge($meta, $respostaMeta);
+//        }
         $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
+
+        $info["documentId"] = $responseData['id'];
+        $info["info"] = $responseData['info'];
+        $ajaxCmdResponseGenerator->addInfoDta($info);
 
         $params = array();                
         $this->getToolbarIds($params);

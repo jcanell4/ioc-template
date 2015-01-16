@@ -22,6 +22,7 @@ require([
     "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
         "dojo/on",
         "dojo/query",
+        "ioc/dokuwiki/guiSharedFunctions",
     "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
@@ -48,7 +49,7 @@ require([
 ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry, 
                 ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
                 ReloadStateHandler, unload, JSON, lang, globalState, 
-                 ErrorMultiFunctionProcessor, on, dojoQuery) {
+                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
@@ -201,8 +202,14 @@ require([
         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
         if (tbContainer) {
             tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-                if (newTab.updateRendering)
-                    newTab.updateRendering();
+                    var documentId = globalState.getCurrentId();
+                    var contentCache = wikiIocDispatcher.getContentCache(documentId);
+                    if (contentCache) {
+                        contentCache.setCurrentId("navigationPane", newTab.id);
+                    }
+                    if (newTab.updateRendering) {
+                        newTab.updateRendering();
+                    }
             });
         }
 
@@ -311,55 +318,6 @@ require([
             });
             userDialog.addProcessor(processorTalk.type, processorTalk);
         }
-        
-            /**
-             * Afegeix un watch al panell per controlar quan s'ha clicat i fa persistent el canvi al ContentCache.
-             *
-             * @param {Object} node - Dijit al que s'aplica el watch
-             * @param {string} documentId - id del document al que està enllaçat aquest panell
-             * @param {string} paneId - id del panell seleccionat
-             * @param {Dispatcher} dispatcher
-             * @private
-             * @see MetaInfoProcessor#_addWatchToPane codi duplicat
-             */
-            var _addWatchToPane = function (node, documentId, paneId, dispatcher) {
-                node.watch("selected", function (name, oldValue, newValue) {
-                    if (newValue) {
-                        console.log(dispatcher);
-                        dispatcher.getContentCache(documentId).currentAccordionPaneId = paneId;
-                    }
-                })
-            };
-
-            /**
-             * Afegeix un listener a tots els elements de tipus input del panell que actualitzará les metadades
-             * relacionadas al ContentCache amb els canvis fets.
-             *
-             * Actualitza els valors checked i value, si el tipus del element no es basa en aquests valors (per exemple
-             * radio buttons) no tindrá l'efecte esperat.
-             *
-             * @param {string} paneId - id del panell de metadades
-             * @param {Dispatcher} dispatcher
-             * @private
-             * @see MetaInfoProcessor#_addChangeListenersToPane
-             */
-            var _addChangeListenersToPane = function (paneId, dispatcher) {
-                var nodeList = dojoQuery("#" + paneId + " input");
-
-                nodeList.forEach(function (node) {
-                    on(node, 'change', function (evt) {
-                        var currentTab = globalState.getCurrentId(),
-                                changedNode;
-
-                        node.setAttribute("value", evt.target.value);
-                        node.setAttribute("checked", evt.target.checked);
-                        changedNode = dom.byId(paneId).innerHTML;
-
-                        dispatcher.getContentCache(currentTab).replaceMetaDataContent(paneId, changedNode)
-                    })
-                });
-            };
-
 
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
         if (centralContainer) {
@@ -381,20 +339,44 @@ require([
                         nodeMetaInfo.addChild(cp);
                         nodeMetaInfo.resize();
 
-                            _addWatchToPane(cp, newTab.id, cp.id, wikiIocDispatcher);
-                            _addChangeListenersToPane(cp.id, wikiIocDispatcher);
+                            guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
+                            guiSharedFunctions.addChangeListenersToMetadataPane(cp.id, wikiIocDispatcher);
                         }
 
+                        // Restauració del panell de metadades
+                        var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
 
-                        var currentAccordionPaneId = wikiIocDispatcher.getContentCache(newTab.id).currentAccordionPaneId;
+                        if (currentMetadataPaneId) {
+                            nodeMetaInfo.selectChild(currentMetadataPaneId);
+                        }
 
-                        if (currentAccordionPaneId) {
-                            nodeMetaInfo.selectChild(currentAccordionPaneId);
+                        // Restauració del panell d'informació
+                        var nodeStatusInfo = dom.byId(wikiIocDispatcher.infoNodeId);
+                        var currentStatusInfo = wikiIocDispatcher.getContentCache(newTab.id).getInfo();
+
+                        if (currentStatusInfo.length>0) {
+                            nodeStatusInfo.innerHTML = guiSharedFunctions.formatInfoToHTML(currentStatusInfo);
+
+                        } else {
+
+                            var globalStatusInfo = wikiIocDispatcher.getGlobalState().info || "";
+                            nodeStatusInfo.innerHTML = guiSharedFunctions.formatInfoToHTML(globalStatusInfo);
                         }
 
                     wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
 
-                }
+                        // Restauracio de la pestanya del navegador: Compte! s'ha de fer després de actualitzar el currentTabId
+                        var currentNavigationPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("navigationPane");
+
+                        if (currentNavigationPaneId) {
+                            tbContainer.selectChild(currentNavigationPaneId);
+                        } else {
+                            // Posem com a default la primera pestanya
+                            currentNavigationPaneId = tbContainer.getChildren()[0].id;
+                            tbContainer.selectChild(currentNavigationPaneId)
+                        }
+                    }
+
                 if(oldTab && wikiIocDispatcher.getGlobalState()
                                             .getContentAction(oldTab.id)=="edit"){
                     wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
