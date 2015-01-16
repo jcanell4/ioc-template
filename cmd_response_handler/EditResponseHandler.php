@@ -20,18 +20,33 @@ class EditResponseHandler extends WikiIocResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
+
+    /**
+     * @param string[]                 $requestParams
+     * @param mixed                    $responseData
+     * @param AjaxCmdResponseGenerator $ajaxCmdResponseGenerator
+     *
+     * @return void
+     */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         global $conf;
         
-        $ajaxCmdResponseGenerator->addWikiCodeDoc($responseData['id'], 
-                                    $responseData['ns'], $responseData['title'],
-                                    $responseData['content']);
-        if($requestParams["reload"]){
-            $metaData = $this->getModelWrapper()->getMetaResponse(
-                                                        $responseData['id']);
-            $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
-                                                        $metaData['meta']);
-        }
+        $ajaxCmdResponseGenerator->addWikiCodeDoc(
+            $responseData['id'], $responseData['ns'], 
+            $responseData['title'], $responseData['content']
+        );
+
+        // TODO[Xavi] He suposat que el id amb el que està referida la metadata sempre coincideix amb el del document
+        $meta = $responseData['meta'];
+//        if($requestParams["reload"]){
+//            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
+//            $meta = array_merge($meta, $respostaMeta);
+//        }
+        $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
+
+        $info["documentId"] = $responseData['id'];
+        $info["info"] = $responseData['info'];
+        $ajaxCmdResponseGenerator->addInfoDta($info);
 
         $params = array();                
         $this->getToolbarIds($params);
@@ -39,9 +54,10 @@ class EditResponseHandler extends WikiIocResponseHandler {
         $params['licenseClass'] = "license";
         $params['timeout']= $conf['locktime'] - 60;
         $params['draft']=$conf['usedraft']!=0;
-        $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEditing", 
-                                $params);        
-    }    
-}
+        $ajaxCmdResponseGenerator->addProcessFunction(
+            TRUE, "ioc/dokuwiki/processEditing",
+            $params
+        );
 
-?>
+    }
+}
