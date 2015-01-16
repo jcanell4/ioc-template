@@ -468,7 +468,7 @@ class WikiIocContainerFromPage extends WikiIocContentPane {
         $label = $this->get('DOM','label');
         $title = ($label) ? "title='$label'" : "";
         $tooltip = ($label) ? "tooltip='$label'" : "";
-        $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='ioc.gui.ContentTabDokuwikiPage'"
+        $ret = "<div {$this->getDOM()} {$this->getDJO()} $title $tooltip data-dojo-type='ioc.gui.ContentTabDokuwikiPage'"
             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " closable='false' doLayout='false'>\n";
         return $ret;
@@ -553,7 +553,10 @@ class WikiIocHiddenDialog extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "\n<div {$this->getDOM()} data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'>";
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='ioc.gui.ActionHiddenDialogDokuwiki'"
+			. " {$this->getDJO()}"
+			. ">";
+
         return $ret;
     }
 

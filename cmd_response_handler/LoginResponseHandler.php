@@ -36,6 +36,15 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                     $cfg->getArrIds("userButton"), 
                                                     "label", 
                                                     $responseData["userId"]);
+           $title = "title_login";
+           $content = "content_login";
+           $urlBase = "urlBase_login";
+
+            $ajaxCmdResponseGenerator->addAdminTab($cfg->getArrIds("zonaNavegacio"),
+                                                   $cfg->getArrIds("zN_admin_id"),
+                                                   $title,
+                                                   $content, 
+                                                   $urlBase);
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
