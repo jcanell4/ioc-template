@@ -20,6 +20,9 @@ require([
     "dojo/_base/lang",
     "ioc/wiki30/GlobalState",
     "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
+        "dojo/on",
+        "dojo/query",
+        "ioc/dokuwiki/guiSharedFunctions",
     "dijit/form/Button",
     "dojo/parser",
     "dijit/layout/BorderContainer",
@@ -46,7 +49,7 @@ require([
 ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry, 
                 ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi, 
                 ReloadStateHandler, unload, JSON, lang, globalState, 
-                ErrorMultiFunctionProcessor) {
+                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
     //declaració de funcions
 
     var divMainContent = dom.byId("@@MAIN_CONTENT@@");
@@ -199,29 +202,21 @@ require([
         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
         if (tbContainer) {
             tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-                if (newTab.updateRendering)
-                    newTab.updateRendering();
+                    var documentId = globalState.getCurrentId();
+                    var contentCache = wikiIocDispatcher.getContentCache(documentId);
+                    if (contentCache) {
+                        contentCache.setCurrentId("navigationPane", newTab.id);
+                    }
+                    if (newTab.updateRendering) {
+                        newTab.updateRendering();
+                    }
             });
         }
 
         var tab = registry.byId('@@TAB_INDEX@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             wikiIocDispatcher.toUpdateSectok.push(tab);
             tab.updateSectok();
-        }
-
-        tab = registry.byId('@@TAB_DOCU@@');
-        if (tab) {
-			//BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-			//BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
-        }
-
-        tab = registry.byId('@@EXIT_BUTTON@@');
-        if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-            //tab.set("standbyId", "loginDialog_hidden_container");
         }
 
         var getQuery = function () {
@@ -238,16 +233,12 @@ require([
 
         tab = registry.byId('@@EDIT_BUTTON@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
-            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             /** @override */
             tab.getQuery = getQuery;
         }
 
         tab = registry.byId('@@ED_PARC_BUTTON@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=edit");
-            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             tab.getQuery = function () {
                 var ret;
                 var q = dwPageUi.getFormQueryToEditSection(
@@ -263,22 +254,18 @@ require([
         
         tab = registry.byId('@@CANCEL_BUTTON@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=cancel");
-            //BORRAR tab.set("standbyId", wikiIocDispatcher.containerNodeId);
             /** @override */
             tab.getQuery = getQuery;
         }
         
         tab = registry.byId('@@NEW_BUTTON@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=new_page");
             /** @override */
             tab.getQuery = getQuery;
         }
         
         tab = registry.byId('@@SAVE_BUTTON@@');
         if (tab) {
-            //BORRAR tab.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=save");
             /** @override */
             tab.getQuery = getQuery;
             /** @override */
@@ -289,9 +276,6 @@ require([
         
         var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
         if (loginDialog) {
-            //BORRAR loginDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-            //BORRAR loginDialog.set("standbyId", "loginDialog_hidden_container");
-
             loginDialog.on('hide', function () {
                 loginDialog.reset();
             });
@@ -305,22 +289,11 @@ require([
             });
         }
 
-        var userDialog = registry.byId('@@USER_DIALOG@@');
-        if (userDialog) {
-           //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-        }
-        
-        userDialog = registry.byId('@@USER_BUTTON@@');
-        if (userDialog) {
-            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
-        }
-        
-        userDialog = registry.byId('@@USER_MENUITEM@@');
+        var userDialog = registry.byId('@@USER_MENUITEM@@');
         if (userDialog) {
             var getQueryUser = function(){
                 return "id=wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
-            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");
             userDialog.getQuery=getQueryUser;            
             var processorUser = new ErrorMultiFunctionProcessor();
             var requestUser = new Request();
@@ -336,7 +309,6 @@ require([
             var getQueryTalk = function(){
                 return "id=talk:wiki:user:"+wikiIocDispatcher.getGlobalState().userId;
             };
-            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=page");            
             userDialog.getQuery=getQueryTalk;
             var processorTalk = new ErrorMultiFunctionProcessor();
             var requestTalk = new Request();
@@ -346,15 +318,11 @@ require([
             });
             userDialog.addProcessor(processorTalk.type, processorTalk);
         }
-        
-        userDialog = registry.byId('@@LOGOFF_MENUITEM@@');
-        if (userDialog) {
-            //BORRAR  userDialog.set("urlBase", "lib/plugins/ajaxcommand/ajax.php?call=login");
-        }
-        
+
         var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
         if (centralContainer) {
             centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+                    // Aquest codi es crida només quan canviem de pestanya
                 if (wikiIocDispatcher.getContentCache(newTab.id)) {
                     var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
                     //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
@@ -370,66 +338,52 @@ require([
                         });
                         nodeMetaInfo.addChild(cp);
                         nodeMetaInfo.resize();
-                    }
+
+                            guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
+                            guiSharedFunctions.addChangeListenersToMetadataPane(cp.id, wikiIocDispatcher);
+                        }
+
+                        // Restauració del panell de metadades
+                        var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
+
+                        if (currentMetadataPaneId) {
+                            nodeMetaInfo.selectChild(currentMetadataPaneId);
+                        }
+
+                        // Restauració del panell d'informació
+                        var nodeStatusInfo = dom.byId(wikiIocDispatcher.infoNodeId);
+                        var currentStatusInfo = wikiIocDispatcher.getContentCache(newTab.id).getInfo();
+
+                        if (currentStatusInfo.length>0) {
+                            nodeStatusInfo.innerHTML = guiSharedFunctions.formatInfoToHTML(currentStatusInfo);
+
+                        } else {
+
+                            var globalStatusInfo = wikiIocDispatcher.getGlobalState().info || "";
+                            nodeStatusInfo.innerHTML = guiSharedFunctions.formatInfoToHTML(globalStatusInfo);
+                        }
+
                     wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
-                }
+
+                        // Restauracio de la pestanya del navegador: Compte! s'ha de fer després de actualitzar el currentTabId
+                        var currentNavigationPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("navigationPane");
+
+                        if (currentNavigationPaneId) {
+                            tbContainer.selectChild(currentNavigationPaneId);
+                        } else {
+                            // Posem com a default la primera pestanya
+                            currentNavigationPaneId = tbContainer.getChildren()[0].id;
+                            tbContainer.selectChild(currentNavigationPaneId)
+                        }
+                    }
+
                 if(oldTab && wikiIocDispatcher.getGlobalState()
                                             .getContentAction(oldTab.id)=="edit"){
                     wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
-                    /*                            
-                    var queue = new Array()
-                    var content = dom.byId(oldTab.id);
-                    var children = content.children;
-                    for(var i=0; i<children.length; i++){
-                        queue.push(children[i]);
-                    }
-                    while(queue.length>0){
-                        var elem = queue.shift();
-                        children = elem.children;
-                        for(var i=0; i<children.length; i++){
-                            queue.push(children[i]);
-                        }
-                        if(elem.id){
-                            if(typeof elem.id === "string"){
-                                var newId = oldTab.id
-                                        + "_"
-                                        + elem.id;
-                                domProp.set(elem, "id", newId)
-                            }else{
-                                domProp.set(elem, "id", oldTab.id + "_dw__editform")
-                            }
-                            //console.log(elem.id);
-                        }
-                    }
-                    */
                 }
                 if(wikiIocDispatcher.getGlobalState()
                                             .getContentAction(newTab.id)=="edit"){
                     wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
-                    /*
-                    var queue = new Array()
-                    var content = dom.byId(newTab.id);
-                    var children = content.children;
-                    for(var i=0; i<children.length; i++){
-                        queue.push(children[i]);
-                    }
-                    while(queue.length>0){
-                        var elem = queue.shift();
-                        children = elem.children;
-                        for(var i=0; i<children.length; i++){
-                            queue.push(children[i]);
-                        }
-                        if(elem.id){
-                            if(typeof elem.id === "string"){
-                                var newId = elem.id.substr(newTab.id.length+1);
-                                domProp.set(elem, "id", newId)
-                            }else{
-                                domProp.set(elem, "id", "dw__editform")
-                            }
-//                            console.log(elem.id);
-                        }
-                    }
-                    */
                 }               
                 wikiIocDispatcher.updateFromState();
             });

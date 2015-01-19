@@ -30,6 +30,16 @@ class PageResponseHandler extends WikiIocResponseHandler {
         $metaData = $this->getModelWrapper()->getMetaResponse($responseData['id']);
         $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
                                                 $metaData['meta']);
+
+        //TODO[JOSEP] El missatge hauria de venir amb la resposta. S'ha de generar a DokuModelAdapter
+        $info=Array();
+        $info["documentId"] = $responseData['id'];
+        if(!$responseData["info"]){
+            $responseData["info"] = "Càrrega finalitzada";
+        }
+        $info["info"] = $responseData["info"];
+        $ajaxCmdResponseGenerator->addInfoDta($info);
+
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
             true,
