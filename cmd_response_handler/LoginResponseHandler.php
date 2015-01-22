@@ -23,6 +23,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     }
 
     private function login ($requestParams, $responseData, &$ajaxCmdResponseGenerator){
+
+
         $ajaxCmdResponseGenerator->addLoginInfo($responseData["loginRequest"], 
                                                 $responseData['loginResult'],
                                                 $responseData['userId']);
@@ -56,5 +58,30 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         }
         $ajaxCmdResponseGenerator->addTitle($title);
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/setSignature", $sig);
+
+
+        global $lang;
+
+        $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+
+        if ($responseData['loginRequest'] && !$responseData['loginResult']) {
+            $info['type'] = 'error';
+            //$info['message'] = $lang['auth_error'];
+            $info['message'] = 'Error d\'autenticació';
+
+
+        } else if (!$responseData['loginRequest'] && !$responseData['loginResult']) {
+            $info['type'] = 'info';
+            //$info['message'] = $lang['user_logout'];
+            $info['message'] = 'Usuari desconnectat';
+
+
+        } else  {
+            $info['type']= 'success';
+            // $info['message'] = $lang['user_login'];
+            $info['message'] = 'Usuari connectat';
+        }
+
+        $ajaxCmdResponseGenerator->addInfoDta($info);
     }    
 }

@@ -36,17 +36,13 @@ class EditResponseHandler extends WikiIocResponseHandler {
             $responseData['title'], $responseData['content']
         );
 
-        // TODO[Xavi] He suposat que el id amb el que està referida la metadata sempre coincideix amb el del document
         $meta = $responseData['meta'];
 //        if($requestParams["reload"]){
 //            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
 //            $meta = array_merge($meta, $respostaMeta);
 //        }
         $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
-
-        $info["documentId"] = $responseData['id'];
-        $info["info"] = $responseData['info'];
-        $ajaxCmdResponseGenerator->addInfoDta($info);
+        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
 
         $params = array();                
         $this->getToolbarIds($params);
