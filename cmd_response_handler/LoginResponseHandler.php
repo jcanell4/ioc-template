@@ -40,8 +40,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                     $responseData["userId"]);
 
             $dades = $this->getModelWrapper()->getAdminTaskList();
-
-            $urlBase = "urlBase_login";
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
 
             $ajaxCmdResponseGenerator->addAdminTab($cfg->getArrIds("zonaNavegacio"),
                                                    $cfg->getArrIds("zN_admin_id"),
