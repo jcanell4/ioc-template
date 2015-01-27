@@ -27,7 +27,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['title'], 
                                                 $responseData['content']);*/
         
-        //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
+        $metaData = $this->getModelWrapper()->getMediaMetaResponse();
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
         global $NS;
         $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0 ,TRUE);
