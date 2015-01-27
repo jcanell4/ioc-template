@@ -460,6 +460,21 @@ class WikiIocCfg {
                            )
                         )
                      )
+                     ,array(
+                        "class" => "WikiIocButton"
+                       ,"parms" => array(
+                           "DOM" => array(
+                              "id"=> "mediaDetailButton"
+                             ,"label"=> "Detall"
+                             ,"class" => "iocDisplayBlock"
+                           )
+                          ,"DJO" => array(
+                              "query" => "'lib/plugins/ajaxcommand/ajax.php?call=media'"
+                             ,"autoSize" => true
+                             ,"visible" => false
+                           )
+                        )
+                     )
                     ,array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
@@ -600,6 +615,7 @@ class WikiIocCfg {
         ,"newButton"   => "newButton"
       ,"saveButton"  => "saveButton"
       ,"previewButton" => "previewButton"
+        ,"mediaDetailButton" => "mediaDetailButton"
           ,"cancelButton"  => "cancelButton"
         ,"edparcButton"  => "edparcButton"
       ,"userDialog"   => "userDialog"
@@ -627,6 +643,7 @@ class WikiIocCfg {
           ,'@@NEW_BUTTON@@'  => $this->getArrIds("newButton")
         ,'@@SAVE_BUTTON@@'   => $this->getArrIds("saveButton")
         ,'@@PREVIEW_BUTTON@@'  => $this->getArrIds("previewButton")
+        ,'@@MEDIA_DETAIL_BUTTON@@'  => $this->getArrIds("mediaDetailButton")
       ,'@@CANCEL_BUTTON@@'   => $this->getArrIds("cancelButton")
       ,'@@ED_PARC_BUTTON@@'  => $this->getArrIds("edparcButton")
       ,'@@USER_DIALOG@@'   => $this->getArrIds("userDialog")
