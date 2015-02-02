@@ -6,9 +6,17 @@
 if (!defined('DOKU_INC')) die();  //check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once(DOKU_TPL_INCDIR . 'classes/WikiIocComponents.php');
+require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 
 
 class WikiIocCfg {
+    
+    public function LeeFicheroArray() {
+        include_once(DOKU_TPL_INCDIR . 'conf/cfgArray.php');
+        return $arrIocCfgGUI;
+    }
+    
+/*
   private $arrIocCfg = array(
      "class" => "WikiIocBody"
     ,"parms" => array(
@@ -21,7 +29,7 @@ class WikiIocCfg {
            "class" => "WikiIocDivBloc"
           ,"parms" => array(
               "DOM" => array(
-                 "id" => "TopBloc"
+                 "id" => "topBloc"
               )
              ,"CSS" => array(
                  "height" => "55px"
@@ -49,8 +57,8 @@ class WikiIocCfg {
                  "class" => "WikiDojoToolBar"
                 ,"parms" => array(
                     "DOM" => array(
-                       "id"=> "barraMenu"
-                      ,"label"=> "BarraMenu"
+                       "id" => "barraMenu"
+                      ,"label" => "BarraMenu"
                     )
                    ,"CSS" => array(
                        "position" => "fixed"
@@ -64,8 +72,8 @@ class WikiIocCfg {
                        "class" => "WikiDojoButton"
                       ,"parms" => array(
                           "DOM" => array(
-                             "id"=> "menu_vista"
-                            ,"label"=> "VISTA"
+                             "id" => "menu_vista"
+                            ,"label" => "VISTA"
                             ,"class" => "dijitInline"
                           )
                          ,"DJO" => array(
@@ -78,8 +86,8 @@ class WikiIocCfg {
                       "class" => "WikiDojoButton"
                      ,"parms" => array(
                          "DOM" => array(
-                            "id"=> "menu_edicio"
-                           ,"label"=> "EDICIÓ"
+                            "id" => "menu_edicio"
+                           ,"label" => "EDICIÓ"
                            ,"class" => "dijitInline"
                          )
                         ,"DJO" => array(
@@ -92,8 +100,8 @@ class WikiIocCfg {
                       "class" => "WikiDojoButton"
                      ,"parms" => array(
                          "DOM" => array(
-                            "id"=> "menu_correccio"
-                           ,"label"=> "CORRECCIÓ"
+                            "id" => "menu_correccio"
+                           ,"label" => "CORRECCIÓ"
                            ,"class" => "dijitInline"
                          )
                         ,"DJO" => array(
@@ -108,7 +116,7 @@ class WikiIocCfg {
                    "class" => "WikiIocDivBloc"
                   ,"parms" => array(
                       "DOM" => array(
-                         "id"=> "zonaLogin"
+                         "id" => "zonaLogin"
                       )
                      ,"CSS" => array(
                          "width" => "80px"
@@ -134,7 +142,7 @@ class WikiIocCfg {
                            "class" => "WikiIocHiddenDialog"
                           ,"parms" => array(
                               "DOM" => array(
-                                 "id"=> "loginDialog"
+                                 "id" => "loginDialog"
                               )
                              ,"DJO" => array(
                                 "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=login'"
@@ -305,7 +313,6 @@ class WikiIocCfg {
                                          )
                                       )
                                   )
-                                  /*
                                  ,array(
                                      "class" => "WikiIocContentPane"
                                     ,"parms" => array(
@@ -324,7 +331,6 @@ class WikiIocCfg {
                                         )
                                      )
                                   )
-                                  */
                                  ,array(
                                      "class" => "WikiIocContainerFromPage"
                                     ,"parms" => array(
@@ -349,7 +355,7 @@ class WikiIocCfg {
                          "class" => "WikiIocDivBloc"
                         ,"parms" => array(
                             "DOM" => array(
-                               "id"=> "zonaMetaInfo_DivBloc"
+                               "id"=> "zonaMetaInfoDiv"
                             )
                            ,"CSS" => array(
                               "height" => "60%"
@@ -417,8 +423,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "newButton"
-                             ,"label"=> "Nou"
+                              "id" => "newButton"
+                             ,"label" => "Nou"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -433,8 +439,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "saveButton"
-                             ,"label"=> "Desar"
+                              "id" => "saveButton"
+                             ,"label" => "Desar"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -449,8 +455,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "previewButton"
-                             ,"label"=> "Previsualitza"
+                              "id" => "previewButton"
+                             ,"label" => "Previsualitza"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -464,8 +470,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "cancelButton"
-                             ,"label"=> "Cancel·la"
+                              "id" => "cancelButton"
+                             ,"label" => "Cancel·la"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -481,8 +487,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "editButton"
-                             ,"label"=> "Edició"
+                              "id" => "editButton"
+                             ,"label" => "Edició"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -498,8 +504,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "edparcButton"
-                             ,"label"=> "Ed. Parc."
+                              "id" => "edparcButton"
+                             ,"label" => "Ed. Parc."
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -515,8 +521,8 @@ class WikiIocCfg {
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id"=> "exitButton"
-                             ,"label"=> "Sortir"
+                              "id" => "exitButton"
+                             ,"label" => "Sortir"
                              ,"class" => "iocDisplayBlock"
                            )
                           ,"DJO" => array(
@@ -560,99 +566,101 @@ class WikiIocCfg {
         )
      )
   );
+*/
+    //private $arrIds;
+    private $arrTpl;
 
-  private $arrIds;
-  private $arrTpl;
+    /*SINGLETON CLASS*/
+    public static function Instance($soloArrayIoc){
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new WikiIocCfg($soloArrayIoc);
+        }
+        return $inst;
+    }
 
-  /*SINGLETON CLASS*/
-  public static function Instance($soloArrayIoc){
-  static $inst = null;
-  if ($inst === null) {
-    $inst = new WikiIocCfg($soloArrayIoc);
-  }
-  return $inst;
-  }
+    private function __construct($soloArrayIoc){
+        if ($soloArrayIoc !== "soloArrIocCfg") {
 
-  private function __construct($soloArrayIoc){
-  if ($soloArrayIoc !== "soloArrIocCfg") {
+            /*
+            //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
+            $this->arrIds = array(
+                "mainContent" => "mainContent"
+                ,"bodyContent" => "bodyContent"
+                //id's de les Zones/Contenidors principals
+                ,"zonaAccions"   => "zonaAccions"  
+                ,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
+                ,"zonaMetaInfo"  => "zonaMetaInfo"
+                ,"zonaMissatges" => "zonaMissatges"
+                ,"zonaCanvi"   => "zonaCanvi"
+                ,"barraMenu"   => "barraMenu"
+                //id's de les pestanyes (tabs) de la zona de Navegació
+                ,"zN_index_id"  => "tb_index"  
+                ,"zN_perfil_id" => "tb_perfil"  
+                ,"zN_admin_id"  => "tb_admin"  
+                ,"zN_docum_id"  => "tb_docu"  
+                //id's dels botons de la zona de Canvi
+                ,"loginDialog"   => "loginDialog"
+                ,"loginButton"   => "loginButton"
+                ,"exitButton"  => "exitButton"
+                ,"editButton"  => "editButton"
+                ,"newButton"   => "newButton"
+                ,"saveButton"  => "saveButton"
+                ,"previewButton" => "previewButton"
+                ,"cancelButton"  => "cancelButton"
+                ,"edparcButton"  => "edparcButton"
+                ,"userDialog"   => "userDialog"
+                ,"userButton"   => "userButton"
+                ,"userMenuItem"   => "userMenuItem"
+                ,"talkUserMenuItem" => "talkUserMenuItem"
+                ,"logoffMenuItem"   => "logoffMenuItem"
+            );
+            */
 
-    //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
-    $this->arrIds = array(
-        "mainContent" => "mainContent"
-      ,"bodyContent" => "bodyContent"
-          //id's de les Zones/Contenidors principals
-        ,"zonaAccions"   => "zonaAccions"  
-        ,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
-      ,"zonaMetaInfo"  => "zonaMetaInfo"
-      ,"zonaMissatges" => "zonaMissatges"
-          ,"zonaCanvi"   => "zonaCanvi"
-        ,"barraMenu"   => "barraMenu"
-        //id's de les pestanyes (tabs) de la zona de Navegació
-      ,"zN_index_id"  => "tb_index"  
-      ,"zN_perfil_id" => "tb_perfil"  
-          ,"zN_admin_id"  => "tb_admin"  
-        ,"zN_docum_id"  => "tb_docu"  
-        //id's dels botons de la zona de Canvi
-      ,"loginDialog"   => "loginDialog"
-      ,"loginButton"   => "loginButton"
-          ,"exitButton"  => "exitButton"
-        ,"editButton"  => "editButton"
-        ,"newButton"   => "newButton"
-      ,"saveButton"  => "saveButton"
-      ,"previewButton" => "previewButton"
-          ,"cancelButton"  => "cancelButton"
-        ,"edparcButton"  => "edparcButton"
-      ,"userDialog"   => "userDialog"
-      ,"userButton"   => "userButton"
-      ,"userMenuItem"   => "userMenuItem"
-      ,"talkUserMenuItem" => "talkUserMenuItem"
-      ,"logoffMenuItem"   => "logoffMenuItem"
-      );
+            $this->arrTpl = array(
+                    "%%ID%%" => "ajax"
+                    ,'%%SECTOK%%'    => getSecurityToken()
+                    ,'@@MAIN_CONTENT@@'  => $this->getArrIds("mainContent")
+                    ,'@@BODY_CONTENT@@'  => $this->getArrIds("bodyContent")
+                    ,'@@NAVEGACIO_NODE_ID@@' => $this->getArrIds("zonaNavegacio")
+                    ,'@@METAINFO_NODE_ID@@'  => $this->getArrIds("zonaMetaInfo")
+                    ,'@@INFO_NODE_ID@@'  => $this->getArrIds("zonaMissatges")
+                    ,'@@CANVI_NODE_ID@@'   => $this->getArrIds("zonaCanvi")
+                    ,'@@TAB_INDEX@@'   => $this->getArrIds("zN_index_id")
+                    ,'@@TAB_DOCU@@'    => $this->getArrIds("zN_docum_id")
+                    ,'@@LOGIN_DIALOG@@'  => $this->getArrIds("loginDialog")
+                    ,'@@LOGIN_BUTTON@@'  => $this->getArrIds("loginButton")
+                    ,'@@EXIT_BUTTON@@'   => $this->getArrIds("exitButton")
+                    ,'@@EDIT_BUTTON@@'   => $this->getArrIds("editButton")
+                    ,'@@NEW_BUTTON@@'  => $this->getArrIds("newButton")
+                    ,'@@SAVE_BUTTON@@'   => $this->getArrIds("saveButton")
+                    ,'@@PREVIEW_BUTTON@@'  => $this->getArrIds("previewButton")
+                    ,'@@CANCEL_BUTTON@@'   => $this->getArrIds("cancelButton")
+                    ,'@@ED_PARC_BUTTON@@'  => $this->getArrIds("edparcButton")
+                    ,'@@USER_DIALOG@@'   => $this->getArrIds("userDialog")
+                    ,'@@USER_BUTTON@@'   => $this->getArrIds("userButton")
+                    ,'@@USER_MENUITEM@@'   => $this->getArrIds("userMenuItem")
+                    ,'@@TALKUSER_MENUITEM@@' => $this->getArrIds("talkUserMenuItem")
+                    ,'@@LOGOFF_MENUITEM@@'   => $this->getArrIds("logoffMenuItem")
+                    ,'@@DOJO_SOURCE@@'   => $this->getJsPackage("dojo")
+            );
+        }
+    }
 
-      $this->arrTpl = array(
-        "%%ID%%" => "ajax"
-        ,'%%SECTOK%%'    => getSecurityToken()
-      ,'@@MAIN_CONTENT@@'  => $this->getArrIds("mainContent")
-      ,'@@BODY_CONTENT@@'  => $this->getArrIds("bodyContent")
-          ,'@@NAVEGACIO_NODE_ID@@' => $this->getArrIds("zonaNavegacio")
-        ,'@@METAINFO_NODE_ID@@'  => $this->getArrIds("zonaMetaInfo")
-        ,'@@INFO_NODE_ID@@'  => $this->getArrIds("zonaMissatges")
-      ,'@@CANVI_NODE_ID@@'   => $this->getArrIds("zonaCanvi")
-      ,'@@TAB_INDEX@@'   => $this->getArrIds("zN_index_id")
-          ,'@@TAB_DOCU@@'    => $this->getArrIds("zN_docum_id")
-        ,'@@LOGIN_DIALOG@@'  => $this->getArrIds("loginDialog")
-        ,'@@LOGIN_BUTTON@@'  => $this->getArrIds("loginButton")
-      ,'@@EXIT_BUTTON@@'   => $this->getArrIds("exitButton")
-      ,'@@EDIT_BUTTON@@'   => $this->getArrIds("editButton")
-          ,'@@NEW_BUTTON@@'  => $this->getArrIds("newButton")
-        ,'@@SAVE_BUTTON@@'   => $this->getArrIds("saveButton")
-        ,'@@PREVIEW_BUTTON@@'  => $this->getArrIds("previewButton")
-      ,'@@CANCEL_BUTTON@@'   => $this->getArrIds("cancelButton")
-      ,'@@ED_PARC_BUTTON@@'  => $this->getArrIds("edparcButton")
-      ,'@@USER_DIALOG@@'   => $this->getArrIds("userDialog")
-      ,'@@USER_BUTTON@@'   => $this->getArrIds("userButton")
-      ,'@@USER_MENUITEM@@'   => $this->getArrIds("userMenuItem")
-      ,'@@TALKUSER_MENUITEM@@' => $this->getArrIds("talkUserMenuItem")
-      ,'@@LOGOFF_MENUITEM@@'   => $this->getArrIds("logoffMenuItem")
-      ,'@@DOJO_SOURCE@@'   => $this->getJsPackage("dojo")
-    );
-  }
-  }
-
-  public function getJsPackage($id){
-  global $js_packages;
-  return $js_packages[$id];
-  }
+    public function getJsPackage($id){
+        global $js_packages;
+        return $js_packages[$id];
+    }
   
-  public function getArrIds($key){
-    return $this->arrIds[$key];
-  }
+//    public function getArrIds($key){
+//        return $this->arrIds[$key];
+//    }
 
-  public function getIocCfg(){
-    return $this->arrIocCfg;
-  }
+//    public function getIocCfg(){
+//        return $this->arrIocCfg;
+//    }
 
-  public function getArrayTpl(){
-    return $this->arrTpl;
-  }
+    public function getArrayTpl(){
+        return $this->arrTpl;
+    }
 }
