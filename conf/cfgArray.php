@@ -1,4 +1,5 @@
 <?php
+$needReset = 0;
 $arrIocCfgGUI = array (
   'class' => 'WikiIocBody',
   'parms' => 

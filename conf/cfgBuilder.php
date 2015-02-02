@@ -1,6 +1,4 @@
 <?php
-//if (!defined("DOKU_INC")) die();
-//if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', "../");
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
@@ -74,7 +72,8 @@ class cfgBuilder {
         Escribe el contenido de un array en un fichero de texto php
     **/
 	public function writeArrayToFile($arr, $file) {
-        $sortida = "<?php\r\n\$arrIocCfgGUI = " . var_export($arr, true) . ";";
+        $sortida = "<?php\r\n\$needReset = 0;";
+        $sortida .= "\r\n\$arrIocCfgGUI = " . var_export($arr, true) . ";";
         // Obtiene las constantes definidas en la clase cfgIdConstants
         $oCfgClass = new ReflectionClass ('cfgIdConstants');
         $aConstants = $oCfgClass->getConstants();

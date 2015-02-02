@@ -12,8 +12,26 @@ require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 class WikiIocCfg {
     
     public function LeeFicheroArray() {
-        include_once(DOKU_TPL_INCDIR . 'conf/cfgArray.php');
+        $fichero = DOKU_TPL_INCDIR . 'conf/cfgArray.php';
+        if (!file_exists($fichero)) {
+            $this->GeneraFicheroArray();
+        }
+        include $fichero;
+        if ($needReset == 1) {
+            $this->GeneraFicheroArray();
+            include $fichero;
+        }
         return $arrIocCfgGUI;
+    }
+    
+    private function GeneraFicheroArray() {
+        require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+        require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
+        $ruta = realpath(dirname(__FILE__));
+
+        $inst = new cfgBuilder();
+        $aIocCfg = $inst->getArrayCfg("$ruta/cfg");
+        $inst->writeArrayToFile($aIocCfg, "$ruta/cfgArray.php");
     }
     
     /*
