@@ -4,4 +4,5 @@
 #      The reason for protecting these files is to to keep searchengines/foo
 #      away from indexing files containing version information, names and/or not
 #      necessarily public template parts by default.
-Deny from all
+
+#Deny from all

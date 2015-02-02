@@ -16,22 +16,33 @@ if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(tpl_incdir().'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 
-class PageResponseHandler extends WikiIocResponseHandler {
+class MediaResponseHandler extends WikiIocResponseHandler {
     function __construct() {
-        parent::__construct(WikiIocResponseHandler::PAGE);
+        parent::__construct(WikiIocResponseHandler::MEDIA);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
-        $ajaxCmdResponseGenerator->addHtmlDoc($responseData['id'], 
+        //$ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
+      $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
                                                 $responseData['content']);
         
-        $metaData = $this->getModelWrapper()->getMetaResponse($responseData['id']);
-        $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
-                                                $metaData['meta']);
+        $metaData = $this->getModelWrapper()->getMediaMetaResponse();
+        //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
+        global $NS;
+        $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0 ,TRUE);
+        //$strData = $json->enc($tree);
+        $ajaxCmdResponseGenerator->addMetadata($metaData['id'], 
+                                                $metaData);
 
-        $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
+        //TODO[JOSEP] El missatge hauria de venir amb la resposta. S'ha de generar a DokuModelAdapter
+        $info=Array();
+        $info["documentId"] = $responseData['id'];
+        if(!$responseData["info"]){
+            $responseData["info"] = "Càrrega finalitzada";
+        }
+        $info["info"] = $responseData["info"];
+        $ajaxCmdResponseGenerator->addInfoDta($info);
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
