@@ -5,33 +5,39 @@
  */
 if (!defined('DOKU_INC')) die();  //check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . 'conf/default.php');
 require_once(DOKU_TPL_INCDIR . 'classes/WikiIocComponents.php');
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-
+require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
 
 class WikiIocCfg {
+
+    private $fileArrayCfgGUI;
+    private $arrIds;
+    private $arrTpl;
     
     public function LeeFicheroArray() {
-        $fichero = DOKU_TPL_INCDIR . 'conf/cfgArray.php';
-        if (!file_exists($fichero)) {
+        if (!file_exists($this->fileArrayCfgGUI)) {
             $this->GeneraFicheroArray();
         }
-        include $fichero;
+        include $this->fileArrayCfgGUI;
         if ($needReset == 1) {
             $this->GeneraFicheroArray();
-            include $fichero;
+            include $this->fileArrayCfgGUI;
         }
         return $arrIocCfgGUI;
     }
     
     private function GeneraFicheroArray() {
-        require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-        require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
-        $ruta = realpath(dirname(__FILE__));
+        global $conf;
+//        require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+//        require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
+        //$ruta = realpath(dirname(__FILE__));
+        $ruta = $conf["ioc_path_cfg_gui"];
 
         $inst = new cfgBuilder();
-        $aIocCfg = $inst->getArrayCfg("$ruta/cfg");
-        $inst->writeArrayToFile($aIocCfg, "$ruta/cfgArray.php");
+        $arrIocCfg = $inst->getArrayCfg($ruta);
+        $inst->writeArrayToFile($arrIocCfg, $this->fileArrayCfgGUI);
     }
     
     /*
@@ -601,8 +607,6 @@ class WikiIocCfg {
       );
     */
     
-    private $arrIds;
-    private $arrTpl;
 
     /*SINGLETON CLASS*/
     public static function Instance($soloArrayIoc){
@@ -614,40 +618,43 @@ class WikiIocCfg {
     }
 
     private function __construct($soloArrayIoc){
+
+        $this->fileArrayCfgGUI = DOKU_TPL_INCDIR . 'conf/cfgArray.php';
+        
         if ($soloArrayIoc !== "soloArrIocCfg") {
 
             //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
             $this->arrIds = array(
-                "mainContent" => "mainContent"
-                ,"bodyContent" => "bodyContent"
-                //id's de les Zones/Contenidors principals
-                ,"zonaAccions"   => "zonaAccions"  
-                ,"zonaNavegacio" => "zonaNavegacio" //ojo, ojito, musho cuidadito, antes se llamaba "nav"
-                ,"zonaMetaInfo"  => "zonaMetaInfo"
-                ,"zonaMissatges" => "zonaMissatges"
-                ,"zonaCanvi"   => "zonaCanvi"
-                ,"barraMenu"   => "barraMenu"
-                //id's de les pestanyes (tabs) de la zona de Navegació
-                ,"zN_index_id"  => "tb_index"  
-                ,"zN_perfil_id" => "tb_perfil"  
-                ,"zN_admin_id"  => "tb_admin"  
-                ,"zN_docum_id"  => "tb_docu"  
-                //id's dels botons de la zona de Canvi
-                ,"loginDialog"   => "loginDialog"
-                ,"loginButton"   => "loginButton"
-                ,"exitButton"  => "exitButton"
-                ,"editButton"  => "editButton"
-                ,"newButton"   => "newButton"
-                ,"saveButton"  => "saveButton"
-                ,"previewButton" => "previewButton"
-                ,"mediaDetailButton" => "mediaDetailButton"
-                ,"cancelButton"  => "cancelButton"
-                ,"edparcButton"  => "edparcButton"
-                ,"userDialog"   => "userDialog"
-                ,"userButton"   => "userButton"
-                ,"userMenuItem"   => "userMenuItem"
-                ,"talkUserMenuItem" => "talkUserMenuItem"
-                ,"logoffMenuItem"   => "logoffMenuItem"
+                    "mainContent" => "mainContent"
+                    ,"bodyContent" => "bodyContent"
+                    //id's de les Zones/Contenidors principals
+                    ,"zonaAccions"   => "zonaAccions"  
+                    ,"zonaNavegacio" => "zonaNavegacio"
+                    ,"zonaMetaInfo"  => "zonaMetaInfo"
+                    ,"zonaMissatges" => "zonaMissatges"
+                    ,"zonaCanvi"   => "zonaCanvi"
+                    ,"barraMenu"   => "barraMenu"
+                    //id's de les pestanyes (tabs) de la zona de Navegació
+                    ,"zN_index_id"  => "tb_index"  
+                    ,"zN_perfil_id" => "tb_perfil"  
+                    ,"zN_admin_id"  => "tb_admin"  
+                    ,"zN_docum_id"  => "tb_docu"  
+                    //id's dels botons de la zona de Canvi
+                    ,"loginDialog"   => "loginDialog"
+                    ,"loginButton"   => "loginButton"
+                    ,"exitButton"  => "exitButton"
+                    ,"editButton"  => "editButton"
+                    ,"newButton"   => "newButton"
+                    ,"saveButton"  => "saveButton"
+                    ,"previewButton" => "previewButton"
+                    ,"mediaDetailButton" => "mediaDetailButton"
+                    ,"cancelButton"  => "cancelButton"
+                    ,"edparcButton"  => "edparcButton"
+                    ,"userDialog"   => "userDialog"
+                    ,"userButton"   => "userButton"
+                    ,"userMenuItem"   => "userMenuItem"
+                    ,"talkUserMenuItem" => "talkUserMenuItem"
+                    ,"logoffMenuItem"   => "logoffMenuItem"
             );
 
             $this->arrTpl = array(

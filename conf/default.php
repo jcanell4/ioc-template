@@ -39,4 +39,6 @@ $conf["ioc_template_copyright"]    = true; //TRUE: use/show copyright notice
 $conf["ioc_template_default"]      = true; //TRUE: use default copyright notice (if copyright notice is enabled at all)
 $conf["ioc_template_copyright_ns"] = ":wiki:copyright"; //page/article used to store a custom copyright notice
 
+//array de configuració de la GUI
+$conf["ioc_path_cfg_gui"] = realpath(dirname(__FILE__)) . "/a_CfgGUI"; //ruta de l'arbre directoris de l'array de configuració de la GUI
 

@@ -1,5 +1,5 @@
 <?php
-$needReset = 1;
+$needReset = 0;
 $arrIocCfgGUI = array (
   'class' => 'WikiIocBody',
   'parms' => 
@@ -409,19 +409,6 @@ $arrIocCfgGUI = array (
     ),
     'a_Top' => 
     array (
-      'class' => 'WikiIocDivBloc',
-      'parms' => 
-      array (
-        'DOM' => 
-        array (
-          'id' => 'topBloc',
-        ),
-        'CSS' => 
-        array (
-          'height' => '55px',
-          'width' => '100%',
-        ),
-      ),
       'items' => 
       array (
         'barramenu' => 

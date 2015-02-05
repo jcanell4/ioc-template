@@ -15,8 +15,8 @@ class cfgBuilder {
         Construcción del array
     **/
     private function dirToArray($dir) {
-        include_once ("$dir/arrayCfg.php");
-        $arrCfg = $arrPar;
+        include_once ("$dir/arrayParcialCfg.php");
+        $arrCfg = $arrParcial;
         $arrJS = $this->buscaJS("$dir/js");
         foreach ($arrJS as $k => $v) {
             $arrCfg['parms']['DJO'][$k] = $v;
@@ -79,7 +79,7 @@ class cfgBuilder {
         $aConstants = $oCfgClass->getConstants();
         // Convierte el array de constantes en un array de patrones y otro de sustituciones
         foreach ($aConstants as $k => $v) {
-            $aPatrones[] = "/cfgIdConstants::$k/";
+            $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
             $aSustituciones[] = $v;
         }
         
