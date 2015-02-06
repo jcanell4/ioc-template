@@ -87,6 +87,7 @@ class cfgBuilder {
         $fh = fopen($file, "w");
         fwrite($fh, $sortida);
         fclose($fh);
+        return $arr;
     }
 }
 ?>

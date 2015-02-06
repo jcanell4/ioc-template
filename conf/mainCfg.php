@@ -13,6 +13,7 @@ require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
 class WikiIocCfg {
 
     private $fileArrayCfgGUI;
+    private $arrCfgGUI;
     private $arrIds;
     private $arrTpl;
     
@@ -21,13 +22,14 @@ class WikiIocCfg {
         $this->fileArrayCfgGUI = $conf["ioc_file_cfg_gui"];
         if (!file_exists($this->fileArrayCfgGUI)) {
             $this->GeneraFicheroArray();
-        }
-        include ($this->fileArrayCfgGUI);
-        if ($needReset == 1) {
-            $this->GeneraFicheroArray();
+        }else {
             include ($this->fileArrayCfgGUI);
+            $this->arrCfgGUI = $arrIocCfgGUI;
         }
-        return $arrIocCfgGUI;
+        if (isset($needReset) && $needReset == 1) {
+            $this->GeneraFicheroArray();
+        }
+        return $this->arrCfgGUI;
     }
     
     private function GeneraFicheroArray() {
@@ -37,7 +39,7 @@ class WikiIocCfg {
 
         $inst = new cfgBuilder();
         $arrIocCfg = $inst->getArrayCfg($ruta);
-        $inst->writeArrayToFile($arrIocCfg, $this->fileArrayCfgGUI);
+        $this->arrCfgGUI = $inst->writeArrayToFile($arrIocCfg, $this->fileArrayCfgGUI);
     }
     
     /*
