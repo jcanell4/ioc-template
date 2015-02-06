@@ -18,12 +18,13 @@ echo "<p>M&ograve;dul principal de construcci&oacute; del fitxer <b>cfgArray.php
 
 //$ruta = realpath(dirname(__FILE__)) . "/a_CfgGUI";
 $ruta = $conf["ioc_path_cfg_gui"];
+$fileArrayCfgGUI = $conf["ioc_file_cfg_gui"];
 
 $inst = new cfgBuilder();
 $aIocCfg = $inst->getArrayCfg($ruta);
-$inst->writeArrayToFile($aIocCfg, "cfgArray.php");
+$inst->writeArrayToFile($aIocCfg, $fileArrayCfgGUI);
 
 echo "array generat: <pre>".print_r($aIocCfg, true)."</pre>";
-echo "<p>Fi del proc&eacute;s de generaci&oacute; del fitxer <b>cfgArray.php</b></p>"
+echo "<p>Fi del proc&eacute;s de generaci&oacute; del fitxer <b>$fileArrayCfgGUI</b></p>"
 ?>
 </div></body></html>

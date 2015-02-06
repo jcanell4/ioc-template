@@ -1,5 +1,5 @@
 <?php
-$arrPar = array(
+$arrParcial = array(
              "class" => "WikiIocDivBloc"
             ,"parms" => array(
                            "DOM" => array(

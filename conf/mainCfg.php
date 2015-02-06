@@ -17,21 +17,21 @@ class WikiIocCfg {
     private $arrTpl;
     
     public function LeeFicheroArray() {
+        global $conf;
+        $this->fileArrayCfgGUI = $conf["ioc_file_cfg_gui"];
         if (!file_exists($this->fileArrayCfgGUI)) {
             $this->GeneraFicheroArray();
         }
-        include $this->fileArrayCfgGUI;
+        include ($this->fileArrayCfgGUI);
         if ($needReset == 1) {
             $this->GeneraFicheroArray();
-            include $this->fileArrayCfgGUI;
+            include ($this->fileArrayCfgGUI);
         }
         return $arrIocCfgGUI;
     }
     
     private function GeneraFicheroArray() {
         global $conf;
-//        require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-//        require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
         //$ruta = realpath(dirname(__FILE__));
         $ruta = $conf["ioc_path_cfg_gui"];
 
@@ -619,8 +619,6 @@ class WikiIocCfg {
 
     private function __construct($soloArrayIoc){
 
-        $this->fileArrayCfgGUI = DOKU_TPL_INCDIR . 'conf/cfgArray.php';
-        
         if ($soloArrayIoc !== "soloArrIocCfg") {
 
             //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
