@@ -56,3 +56,6 @@ $meta["ioc_template_copyright"]    = array("onoff");
 $meta["ioc_template_default"]      = array("onoff");
 $meta["ioc_template_copyright_ns"] = array("string", "_pattern" => "/^:.{1,}:$/");
 
+//array de configuració de la GUI
+$meta["ioc_path_cfg_gui"] = array("string");
+

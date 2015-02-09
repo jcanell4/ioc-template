@@ -73,6 +73,7 @@
         wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
         wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
         wikiIocDispatcher.userButtonId = '@@USER_BUTTON@@';
+        wikiIocDispatcher.mediaDetailButtonId = '@@MEDIA_DETAIL_BUTTON@@';
 
 
         // TODO[Xavi] es pot passar la funció següent com el constructor.
@@ -93,6 +94,7 @@
             disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
             disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
+            disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", false);            
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
@@ -113,6 +115,8 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
+                    }else if(page.action==='media'){
+                        disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", true);
                     }
                 }
             }
