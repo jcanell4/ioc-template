@@ -58,4 +58,6 @@ $meta["ioc_template_copyright_ns"] = array("string", "_pattern" => "/^:.{1,}:$/"
 
 //array de configuració de la GUI
 $meta["ioc_path_cfg_gui"] = array("string");
-
+$meta["ioc_file_cfg_gui"] = array("string");
+$meta['ioc_function_array_gui_needReset'] = array("string"); //nombre de la función del archivo cfgArray.php que indica si este archivo debe ser regenerado
+$meta['ioc_function_array_gui'] = array("string"); //nombre de la función del archivo cfgArray.php que retorna el array contructor de la GUI

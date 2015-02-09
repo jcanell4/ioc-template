@@ -74,8 +74,10 @@ class WikiIocBuilderManager {
     function processComponent($component) {
         $packages = $component->getRequiredPackages();
 
-        foreach($packages as $obj) {
-            $this->putRequiredPackage($obj);
+        if ($packages) {
+            foreach($packages as $obj) {
+                $this->putRequiredPackage($obj);
+            }
         }
 
     }
