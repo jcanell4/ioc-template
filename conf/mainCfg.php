@@ -24,10 +24,13 @@ class WikiIocCfg {
             $this->GeneraFicheroArray();
         }else {
             include ($this->fileArrayCfgGUI);
-            $this->arrCfgGUI = $arrIocCfgGUI;
-        }
-        if (isset($needReset) && $needReset == 1) {
-            $this->GeneraFicheroArray();
+            $f_needReset = $conf['ioc_function_array_gui_needReset'];
+            if ($f_needReset() === 0) {
+                $f_loadArray = $conf['ioc_function_array_gui'];
+                $this->arrCfgGUI = $f_loadArray();
+            }else {
+                $this->GeneraFicheroArray();
+            }
         }
         return $this->arrCfgGUI;
     }

@@ -1,6 +1,11 @@
 <?php
-$needReset = 0;
-$arrIocCfgGUI = array (
+function iocNeedResetArrayGUI(){
+  $_needReset = 0;
+  return $_needReset;
+}
+
+function iocArrayGUI(){
+$_arrIocCfgGUI = array (
   'class' => 'WikiIocBody',
   'parms' => 
   array (
@@ -83,7 +88,6 @@ $arrIocCfgGUI = array (
                 array (
                   'visible' => true,
                   'onClick' => 'function(){alert(\'hola soc onclick de menu_edicio\')}',
-                  'onMouseOver' => 'function(){alert(\'hola soc onmouseover.js de menu_edicio\')}',
                 ),
               ),
             ),
@@ -102,7 +106,6 @@ $arrIocCfgGUI = array (
                 array (
                   'visible' => true,
                   'onClick' => 'function(){alert(\'hola soc onclick de menu_vista\')}',
-                  'onMouseOver' => 'function(){alert(\'hola soc onmouseover.js de menu_vista\')}',
                 ),
               ),
             ),
@@ -121,7 +124,6 @@ $arrIocCfgGUI = array (
                 array (
                   'visible' => true,
                   'onClick' => 'function(){alert(\'hola soc onclick de menu_correccio amb la constant topBloc\')}',
-                  'onMouseOver' => 'function(){alert(\'hola soc onmouseover.js de menu_correccio\')}',
                 ),
               ),
             ),
@@ -713,3 +715,6 @@ $arrIocCfgGUI = array (
     ),
   ),
 );
+
+return $_arrIocCfgGUI;
+}

@@ -42,4 +42,5 @@ $conf["ioc_template_copyright_ns"] = ":wiki:copyright"; //page/article used to s
 //array de configuració de la GUI
 $conf["ioc_path_cfg_gui"] = DOKU_TPL_INCDIR . "conf/a_CfgGUI"; //ruta de l'arbre directoris de l'array de configuració de la GUI
 $conf["ioc_file_cfg_gui"] = DOKU_TPL_INCDIR . "conf/cfgArray.php"; //nom del fitxer que conté l'array de configuració de la GUI
-
+$conf['ioc_function_array_gui_needReset'] = 'iocNeedResetArrayGUI'; //nombre de la función del archivo cfgArray.php que indica si este archivo debe ser regenerado
+$conf['ioc_function_array_gui'] = 'iocArrayGUI'; //nombre de la función del archivo cfgArray.php que retorna el array contructor de la GUI

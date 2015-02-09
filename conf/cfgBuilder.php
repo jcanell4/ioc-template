@@ -2,6 +2,7 @@
 
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', "../");
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+require_once(DOKU_TPL_INCDIR . 'conf/default.php');
 
 class cfgBuilder {
 
@@ -16,6 +17,7 @@ class cfgBuilder {
     **/
     private function dirToArray($dir) {
         include_once ("$dir/arrayParcialCfg.php");
+        // $arrParcial es el nombre del array que existe en cada uno de los ficheros arrayParcialCfg.php
         $arrCfg = $arrParcial;
         $arrJS = $this->buscaJS("$dir/js");
         foreach ($arrJS as $k => $v) {
@@ -72,8 +74,10 @@ class cfgBuilder {
         Escribe el contenido de un array en un fichero de texto php
     **/
 	public function writeArrayToFile($arr, $file) {
-        $sortida = "<?php\r\n\$needReset = 0;";
-        $sortida .= "\r\n\$arrIocCfgGUI = " . var_export($arr, true) . ";";
+        global $conf;
+        $sortida = "<?php\r\nfunction " . $conf['ioc_function_array_gui_needReset'] . "(){\r\n  \$_needReset = 0;\r\n  return \$_needReset;\r\n}\r\n";
+        $sortida.= "\r\nfunction " . $conf['ioc_function_array_gui'] . "(){\r\n";
+        $sortida.= "\$_arrIocCfgGUI = " . var_export($arr, true) . ";\r\n\r\nreturn \$_arrIocCfgGUI;\r\n}";
         // Obtiene las constantes definidas en la clase cfgIdConstants
         $oCfgClass = new ReflectionClass ('cfgIdConstants');
         $aConstants = $oCfgClass->getConstants();

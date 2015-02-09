@@ -47,7 +47,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * excepto las de la etiqueta style
      * @return string
      */
-    function getDOM($aKeys) {
+    function getDOM($aKeys = NULL) {
         /*
         if ($aKeys) {
             if (is_array($aKeys)) {
@@ -73,7 +73,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * incorporadas dentro de la etiqueta style
      * @return string
      */
-    function getCSS($aKeys) {
+    function getCSS($aKeys = NULL) {
         /*
         if ($aKeys) {
             if (is_array($aKeys)) {
@@ -100,7 +100,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * incorporadas dentro de la etiqueta data-dojo-props
      * @return string
      */
-    function getDJO($aKeys) {
+    function getDJO($aKeys = NULL) {
         /*
         if ($aKeys) {
             foreach ($aKeys as $key) {
