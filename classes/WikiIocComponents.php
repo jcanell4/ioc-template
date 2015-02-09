@@ -23,14 +23,8 @@ abstract class WikiIocContainer extends WikiIocComponent {
      */
     private $content;
     
-    function __construct($aParms = array(), $objContent = NULL, $reqPackage = array()) {
+    function __construct($aParms = array(), $reqPackage = array()) {
         parent::__construct($aParms, $reqPackage);
-        if (is_array($objContent)) {
-            $classe = $objContent['class'];
-            $this->content = new $classe($objContent['parms'], $objContent['items']);
-        }else {
-            $this->content = $objContent;            
-        }
     }
 
     /**
@@ -116,7 +110,7 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
     protected $items = array();
 
     function __construct($aParms = array(), $aItems = array(), $reqPackage = array()) {
-        parent::__construct($aParms, NULL, $reqPackage);
+        parent::__construct($aParms, $reqPackage);
 
         foreach($aItems as $item) {
             $ioc_class = $item['class'];
@@ -166,7 +160,7 @@ class WikiIocBody extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        return "<body {$this->getDOM()}class='claro'>\n";
+        return "<body {$this->getDOM()} class='claro'>\n";
     }
     protected function getPostContent() {
         return "</body>\n";
@@ -391,7 +385,9 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
  *      Contenidor què, per defecte, no conté res.
  *      És un element intermig de la jerarquia de classes per permetre que d'altres
  *      estenguin el "getContent"
+ *      Concentració de codi
  */
+
 class WikiIocContentPane extends WikiIocContainer {
 
     function __construct($aParms = array(), $reqPackage = array()) {
@@ -636,7 +632,7 @@ class WikiIocDropDownMenu extends WikiIocItemsContainer {
     }
 }
 
-class WikiIocDropDownButton extends WikiIocContainer {
+class WikiIocDropDownButton extends WikiIocItemsContainer {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:
      *        Dibuixa un botó de la classe ioc.gui.IocDropDownButton
@@ -942,7 +938,8 @@ class WikiIocTextContentPane extends WikiIocContainer {
              array("name" => "dojo", "location" => $js_packages["dojo"])
             ,array("name" => "dijit", "location" => $js_packages["dijit"])
         );
-        parent::__construct($aParms, $contingut, $reqPackage);
+        parent::__construct($aParms, $reqPackage);
+        $this->content = $contingut;
     }
 
     public function setMessage($msg) {

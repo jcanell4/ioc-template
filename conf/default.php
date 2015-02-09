@@ -13,9 +13,9 @@
 
 
 //check if we are running within the DokuWiki environment
-if (!defined("DOKU_INC")){
-    die();
-}
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
 $conf['dojo_base'] = "//ajax.googleapis.com/ajax/libs/dojo/1.8/";
 
 //startpage
@@ -39,4 +39,7 @@ $conf["ioc_template_copyright"]    = true; //TRUE: use/show copyright notice
 $conf["ioc_template_default"]      = true; //TRUE: use default copyright notice (if copyright notice is enabled at all)
 $conf["ioc_template_copyright_ns"] = ":wiki:copyright"; //page/article used to store a custom copyright notice
 
+//array de configuració de la GUI
+$conf["ioc_path_cfg_gui"] = DOKU_TPL_INCDIR . "conf/a_CfgGUI"; //ruta de l'arbre directoris de l'array de configuració de la GUI
+$conf["ioc_file_cfg_gui"] = DOKU_TPL_INCDIR . "conf/cfgArray.php"; //nom del fitxer que conté l'array de configuració de la GUI
 

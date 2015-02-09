@@ -14,11 +14,9 @@ require_once (DOKU_TPL_INCDIR . 'classes/WikiIocBuilderManager.php');
 require_once (DOKU_TPL_INCDIR . 'conf/mainCfg.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocTpl.php');
 
-//  $instIoc = WikiIocCfg::Instance(); $aIocCfg = $instIoc->getIocCfg();
-//  print "<pre>"; print_r($aIocCfg); print "</pre>";
-
-$instIoc = WikiIocCfg::Instance();
-$aIocCfg = $instIoc->getIocCfg();
+$instIoc = WikiIocCfg::Instance(null);
+//$aIocCfg = $instIoc->getIocCfg(); versión antigua
+$aIocCfg = $instIoc->LeeFicheroArray();
 $first_class = $aIocCfg['class'];
 
 $tpl = WikiIocTpl::Instance();
