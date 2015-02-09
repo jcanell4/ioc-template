@@ -112,12 +112,14 @@ abstract class WikiIocItemsContainer extends WikiIocContainer {
     function __construct($aParms = array(), $aItems = array(), $reqPackage = array()) {
         parent::__construct($aParms, $reqPackage);
 
-        foreach($aItems as $item) {
-            $ioc_class = $item['class'];
-            $obj = new $ioc_class($item['parms'], $item['items']);
-            $id = $obj->getId();
-            $this->putItem($id, $obj);
-            unset($obj);
+        if ($aItems) {
+            foreach($aItems as $item) {
+                $ioc_class = $item['class'];
+                $obj = new $ioc_class($item['parms'], $item['items']);
+                $id = $obj->getId();
+                $this->putItem($id, $obj);
+                unset($obj);
+            }
         }
     }
 
