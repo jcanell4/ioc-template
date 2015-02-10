@@ -42,7 +42,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $dades = $this->getModelWrapper()->getAdminTaskList();
             $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
 
-            $ajaxCmdResponseGenerator->addAdminTab($cfg->getArrIds("zonaNavegacio"),
+            $ajaxCmdResponseGenerator->addAdminTask($cfg->getArrIds("zonaNavegacio"),
                                                    $cfg->getArrIds("zN_admin_id"),
                                                    $dades['title'],
                                                    $dades['content'],
