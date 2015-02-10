@@ -3,7 +3,7 @@ $arrParcial = array(
                   "class" => "WikiIocItemsPanel"
                  ,"parms" => array(
                      "DOM" => array(
-                        "id" => "id_LeftPanel"
+                        "id" => cfgIdConstants::LEFT_PANEL
                        ,"region" => "left"
                        ,"doLayout" => "true"
                        ,"splitter" => "true"
@@ -19,7 +19,7 @@ $arrParcial = array(
                          "class" => "WikiIocDivBloc"
                         ,"parms" => array(
                             "DOM" => array(
-                               "id"=> "tb_container"
+                               "id"=> cfgIdConstants::TB_CONTAINER
                             )
                            ,"CSS" => array(
                                "height" => "40%"
@@ -30,7 +30,7 @@ $arrParcial = array(
                                 "class" => "WikiIocTabsContainer"
                                ,"parms" => array(
                                    "DOM" => array(
-                                       "id" => "zonaNavegacio"
+                                       "id" => cfgIdConstants::ZONA_NAVEGACIO
                                       ,"label" => "tabsNavegacio"
                                       ,"tabType" => cfgIdConstants::RESIZING_TAB_TYPE
                                       ,"useMenu" => true
@@ -41,7 +41,7 @@ $arrParcial = array(
                                       "class" => "WikiIocTreeContainer"
                                      ,"parms" => array(
                                          "DOM" => array(
-                                             "id" => "tb_index"
+                                             "id" => cfgIdConstants::TB_INDEX
                                             ,"label" => "Índex"
                                          )
                                         ,"DJO" => array(
@@ -55,7 +55,7 @@ $arrParcial = array(
                                      "class" => "WikiIocContainerFromPage"
                                     ,"parms" => array(
                                          "DOM" => array(
-                                             "id" => "tb_docu"
+                                             "id" => cfgIdConstants::TB_DOCU
                                             ,"label" => "documentació"
                                          )
                                         ,"DJO" => array(
@@ -75,7 +75,7 @@ $arrParcial = array(
                          "class" => "WikiIocDivBloc"
                         ,"parms" => array(
                             "DOM" => array(
-                               "id"=> "zonaMetaInfoDiv"
+                               "id"=> cfgIdConstants::ZONA_METAINFO_DIV
                             )
                            ,"CSS" => array(
                               "height" => "60%"
@@ -86,7 +86,7 @@ $arrParcial = array(
                                 "class" => "WikiIocAccordionContainer"
                                ,"parms" => array(
                                    "DOM" => array(
-                                      "id" => "zonaMetaInfo"
+                                      "id" => cfgIdConstants::ZONA_METAINFO
                                      ,"label" => "ContainerMetaInfo"
                                    )
                                 )

@@ -130,11 +130,15 @@ class WikiIocTpl {
         echo "</script>\n";
 
         if(@file_exists($this->scriptTemplateFile)) {
+            // Lee el fichero
             $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
-            foreach($this->replaceInTemplateFile as $key => $value) {
-                $contentTemplateFile = preg_replace('/' . $key . '/', $value, $contentTemplateFile);
+            // Convierte el array de constantes en un array de patrones y otro de sustituciones
+            foreach ($this->replaceInTemplateFile as $k => $v) {
+                $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
+                $aSustituciones[] = $v;
             }
-            echo $contentTemplateFile;
+            $replacedTemplateFile = preg_replace($aPatrones, $aSustituciones, $contentTemplateFile);
+            echo $replacedTemplateFile;
         }
         echo "</head>\n";
     }

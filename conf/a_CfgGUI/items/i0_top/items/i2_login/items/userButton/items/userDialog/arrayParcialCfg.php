@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocDropDownMenu"
             ,"parms" => array(
                            "DOM" => array(
-                      						"id" => "userDialog"
+                      						"id" => cfgIdConstants::USER_DIALOG
                       					)
                           ,"DJO" => array(
                       						"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
