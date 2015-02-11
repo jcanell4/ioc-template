@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocItemsPanel"
             ,"parms" => array(
                      "DOM" => array(
-                         "id" => "id_BottomPanel"
+                         "id" => cfgIdConstants::BOTTOM_PANEL
                          ,"region" => "bottom"
                          ,"doLayout" => "false"
                          ,"splitter" => "true"
@@ -17,7 +17,7 @@ $arrParcial = array(
                           "class" => "WikiIocTextContentPane"
                          ,"parms" => array(
                              "DOM" => array(
-                                "id" => "zonaMissatges"
+                                "id" => cfgIdConstants::ZONA_MISSATGES
                              )
                             ,"PRP" => array(
                                 "missatge" => "estoy aquí"

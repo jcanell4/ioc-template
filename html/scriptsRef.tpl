@@ -1,4 +1,4 @@
-<script type="text/javascript" src="@@DOJO_SOURCE@@/dojo.js"></script>
+<script type="text/javascript" src="cfgIdConstants::DOJO_SOURCE/dojo.js"></script>
 <script type="text/javascript">
     require([
         "dojo/dom",
@@ -52,7 +52,7 @@
                  ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
         //declaració de funcions
 
-        var divMainContent = dom.byId("@@MAIN_CONTENT@@");
+        var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
         if (!divMainContent) {
             return;
         }
@@ -60,20 +60,20 @@
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         domStyle.set(divMainContent, "height", h + "%");
 
-        wikiIocDispatcher.containerNodeId = "@@BODY_CONTENT@@";
-        wikiIocDispatcher.navegacioNodeId = "@@NAVEGACIO_NODE_ID@@";
-        wikiIocDispatcher.metaInfoNodeId = "@@METAINFO_NODE_ID@@";	//dom node de la zona de meta-informació
-        wikiIocDispatcher.infoNodeId = "@@INFO_NODE_ID@@";	//dom node de la zona de missatges
-        wikiIocDispatcher.sectokManager.putSectok("%%ID%%", "%%SECTOK%%");
-        wikiIocDispatcher.loginButtonId = '@@LOGIN_BUTTON@@';
-        wikiIocDispatcher.exitButtonId = '@@EXIT_BUTTON@@';
-        wikiIocDispatcher.editButtonId = '@@EDIT_BUTTON@@';
-        wikiIocDispatcher.saveButtonId = '@@SAVE_BUTTON@@';
-        wikiIocDispatcher.cancelButtonId = '@@CANCEL_BUTTON@@';
-        wikiIocDispatcher.previewButtonId = '@@PREVIEW_BUTTON@@';
-        wikiIocDispatcher.edParcButtonId = '@@ED_PARC_BUTTON@@';
-        wikiIocDispatcher.userButtonId = '@@USER_BUTTON@@';
-        wikiIocDispatcher.mediaDetailButtonId = '@@MEDIA_DETAIL_BUTTON@@';
+        wikiIocDispatcher.containerNodeId     = "cfgIdConstants::BODY_CONTENT";
+        wikiIocDispatcher.navegacioNodeId     = "cfgIdConstants::ZONA_NAVEGACIO";
+        wikiIocDispatcher.metaInfoNodeId      = "cfgIdConstants::ZONA_METAINFO";	//dom node de la zona de meta-informació
+        wikiIocDispatcher.infoNodeId          = "cfgIdConstants::ZONA_MISSATGES";	//dom node de la zona de missatges
+        wikiIocDispatcher.sectokManager.putSectok("cfgIdConstants::SECTOK_ID", "cfgIdConstants::SECTOK");
+        wikiIocDispatcher.loginButtonId       = 'cfgIdConstants::LOGIN_BUTTON';
+        wikiIocDispatcher.exitButtonId        = 'cfgIdConstants::EXIT_BUTTON';
+        wikiIocDispatcher.editButtonId        = 'cfgIdConstants::EDIT_BUTTON';
+        wikiIocDispatcher.saveButtonId        = 'cfgIdConstants::SAVE_BUTTON';
+        wikiIocDispatcher.cancelButtonId      = 'cfgIdConstants::CANCEL_BUTTON';
+        wikiIocDispatcher.previewButtonId     = 'cfgIdConstants::PREVIEW_BUTTON';
+        wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
+        wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
+        wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
 
 
         // TODO[Xavi] es pot passar la funció següent com el constructor.
@@ -85,38 +85,38 @@
             if (cur) {
                 style.set(cur, "overflow", "auto");
             }
-            disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", false);            
+            disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);            
 
             if (!disp.getGlobalState().login) {
-                disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
-                //disp.changeWidgetProperty('@@EXIT_BUTTON@@', "visible", true);
-                disp.changeWidgetProperty('@@NEW_BUTTON@@', "visible", true);
-                disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", true);
+                //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
                 if (disp.getGlobalState().currentTabId) {
                     var page = disp.getGlobalState().pages[disp.getGlobalState().currentTabId];
                     if (page.action === 'view') {
-                        disp.changeWidgetProperty('@@EDIT_BUTTON@@', "visible", true);
-                        disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                     } else if (page.action === 'edit') {
-                        disp.changeWidgetProperty('@@SAVE_BUTTON@@', "visible", true);
-                        disp.changeWidgetProperty('@@CANCEL_BUTTON@@', "visible", true);
-                        disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", true);
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
                     }else if(page.action==='media'){
-                        disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }
             }
@@ -140,7 +140,7 @@
                     "type":    "command"
                     , "value": {
                         "type":            "change_widget_property"
-                        , "id":            '@@USER_BUTTON@@'
+                        , "id":            'cfgIdConstants::USER_BUTTON'
                         , "propertyName":  "label"
                         , "propertyValue": state.userId
                     }
@@ -234,7 +234,7 @@
                 });
             }
 
-            var tab = registry.byId('@@TAB_INDEX@@');
+            var tab = registry.byId('cfgIdConstants::TB_INDEX');
             if (tab) {
                 wikiIocDispatcher.toUpdateSectok.push(tab);
                 tab.updateSectok();
@@ -252,13 +252,13 @@
                 return ret;
             };
 
-            tab = registry.byId('@@EDIT_BUTTON@@');
+            tab = registry.byId('cfgIdConstants::EDIT_BUTTON');
             if (tab) {
                 /** @override */
                 tab.getQuery = getQuery;
             }
 
-            tab = registry.byId('@@ED_PARC_BUTTON@@');
+            tab = registry.byId('cfgIdConstants::ED_PARC_BUTTON');
             if (tab) {
                 tab.getQuery = function () {
                     var ret;
@@ -273,19 +273,19 @@
                 };
             }
 
-            tab = registry.byId('@@CANCEL_BUTTON@@');
+            tab = registry.byId('cfgIdConstants::CANCEL_BUTTON');
             if (tab) {
                 /** @override */
                 tab.getQuery = getQuery;
             }
 
-            tab = registry.byId('@@NEW_BUTTON@@');
+            tab = registry.byId('cfgIdConstants::NEW_BUTTON');
             if (tab) {
                 /** @override */
                 tab.getQuery = getQuery;
             }
 
-            tab = registry.byId('@@SAVE_BUTTON@@');
+            tab = registry.byId('cfgIdConstants::SAVE_BUTTON');
             if (tab) {
                 /** @override */
                 tab.getQuery = getQuery;
@@ -295,22 +295,22 @@
                 };
             }
 
-            var loginDialog = registry.byId('@@LOGIN_DIALOG@@');
+            var loginDialog = registry.byId('cfgIdConstants::LOGIN_DIALOG');
             if (loginDialog) {
                 loginDialog.on('hide', function () {
                     loginDialog.reset();
                 });
             }
 
-            var loginCancelButton = registry.byId('@@LOGIN_DIALOG@@' + '_CancelButton');
+            var loginCancelButton = registry.byId('cfgIdConstants::LOGIN_DIALOG' + '_CancelButton');
             if (loginCancelButton) {
                 loginCancelButton.on('click', function () {
-                    var bt = registry.byId('@@LOGIN_BUTTON@@');
+                    var bt = registry.byId('cfgIdConstants::LOGIN_BUTTON');
                     bt.closeDropDown(false);
                 });
             }
 
-            var userDialog = registry.byId('@@USER_MENUITEM@@');
+            var userDialog = registry.byId('cfgIdConstants::USER_MENU_ITEM');
             if (userDialog) {
                 var getQueryUser = function () {
                     return "id=wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
@@ -325,7 +325,7 @@
                 userDialog.addProcessor(processorUser.type, processorUser);
             }
 
-            userDialog = registry.byId('@@TALKUSER_MENUITEM@@');
+            userDialog = registry.byId('cfgIdConstants::TALK_USER_MENU_ITEM');
             if (userDialog) {
                 var getQueryTalk = function () {
                     return "id=talk:wiki:user:" + wikiIocDispatcher.getGlobalState().userId;

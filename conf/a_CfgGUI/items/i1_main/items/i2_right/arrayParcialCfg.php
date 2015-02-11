@@ -3,7 +3,7 @@ $arrParcial = array(
                   "class" => "WikiIocItemsPanel"
                  ,"parms" => array(
                      "DOM" => array(
-                        "id" => "zonaCanvi"
+                        "id" => cfgIdConstants::ZONA_CANVI
                        ,"region" => "right"
                        ,"doLayout" => "true"
                        ,"splitter" => "true"
@@ -20,7 +20,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "newButton"
+                              "id" => cfgIdConstants::NEW_BUTTON
                              ,"label" => "Nou"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -36,7 +36,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "saveButton"
+                              "id" => cfgIdConstants::SAVE_BUTTON
                              ,"label" => "Desar"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -52,7 +52,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "previewButton"
+                              "id" => cfgIdConstants::PREVIEW_BUTTON
                              ,"label" => "Previsualitza"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -67,7 +67,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "mediaDetailButton"
+                              "id" => cfgIdConstants::MEDIA_DETAIL_BUTTON
                              ,"label" => "Detall"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -82,7 +82,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "cancelButton"
+                              "id" => cfgIdConstants::CANCEL_BUTTON
                              ,"label" => "Cancel·la"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -99,7 +99,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "editButton"
+                              "id" => cfgIdConstants::EDIT_BUTTON
                              ,"label" => "Edició"
                              ,"class" => "iocDisplayBlock"
                            )
@@ -116,7 +116,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "edparcButton"
+                              "id" => cfgIdConstants::ED_PARC_BUTTON
                              ,"label" => "Ed. Parc."
                              ,"class" => "iocDisplayBlock"
                            )
@@ -133,7 +133,7 @@ $arrParcial = array(
                         "class" => "WikiIocButton"
                        ,"parms" => array(
                            "DOM" => array(
-                              "id" => "exitButton"
+                              "id" => cfgIdConstants::EXIT_BUTTON
                              ,"label" => "Sortir"
                              ,"class" => "iocDisplayBlock"
                            )
