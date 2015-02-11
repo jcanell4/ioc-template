@@ -84,5 +84,9 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["editFormId"] = "dw__editform";
 //        $value["summaryId"] = "edit__summary";
     }
+    
+    abstract protected function response($requestParams,
+                                $responseData,
+                                &$ajaxCmdResponseGenerator);
 }
 
