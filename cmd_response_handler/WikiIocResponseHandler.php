@@ -32,9 +32,9 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
         parent::__construct($cmd);
     }
-    
-    private function _getDataEvent(&$ajaxCmdResponseGenerator, 
-                                    $requestParams=NULL, 
+
+    private function _getDataEvent(&$ajaxCmdResponseGenerator,
+                                    $requestParams=NULL,
                                     $responseData=NULL){
         $ret = array(
             "command" => $this->getCommandName(),
@@ -42,15 +42,15 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
             "tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
-        );  
-        return $ret;        
+        );
+        return $ret;
     }
 
-    protected function postResponse($requestParams, 
-                                        $responseData, 
+    protected function postResponse($requestParams,
+                                        $responseData,
                                         &$ajaxCmdResponseGenerator) {
-        $data = $this->_getDataEvent($ajaxCmdResponseGenerator, 
-                                        $requestParams, 
+        $data = $this->_getDataEvent($ajaxCmdResponseGenerator,
+                                        $requestParams,
                                         $responseData);
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $evt->advise_after();
@@ -70,11 +70,11 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
         return $ret;
     }
-    
+
     protected function getJsInfo(){
-        return $this->getModelWrapper()->getJsInfo();                     
-    }  
-    
+        return $this->getModelWrapper()->getJsInfo();
+    }
+
     protected function getToolbarIds(&$value){
         $this->getModelWrapper()->getToolbarIds($value);
 //        $value["varName"] = "toolbar";
@@ -84,9 +84,4 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["editFormId"] = "dw__editform";
 //        $value["summaryId"] = "edit__summary";
     }
-    
-    abstract protected function response($requestParams,
-                                $responseData,
-                                &$ajaxCmdResponseGenerator);
 }
-
