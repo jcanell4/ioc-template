@@ -252,48 +252,48 @@
                 return ret;
             };
 
-            tab = registry.byId('cfgIdConstants::EDIT_BUTTON');
-            if (tab) {
-                /** @override */
-                tab.getQuery = getQuery;
-            }
+//            tab = registry.byId('cfgIdConstants::EDIT_BUTTON');
+//            if (tab) {
+//                /** @override */
+//                tab.getQuery = getQuery;
+//            }
 
-            tab = registry.byId('cfgIdConstants::ED_PARC_BUTTON');
-            if (tab) {
-                tab.getQuery = function () {
-                    var ret;
-                    var q = dwPageUi.getFormQueryToEditSection(
-                            wikiIocDispatcher.getGlobalState().getCurrentSectionId());
-                    if (this.query) {
-                        ret = this.query + "&" + q;
-                    } else {
-                        ret = q;
-                    }
-                    return ret;
-                };
-            }
+//            tab = registry.byId('cfgIdConstants::ED_PARC_BUTTON');
+//            if (tab) {
+//                tab.getQuery = function () {
+//                    var ret;
+//                    var q = dwPageUi.getFormQueryToEditSection(
+//                            wikiIocDispatcher.getGlobalState().getCurrentSectionId());
+//                    if (this.query) {
+//                        ret = this.query + "&" + q;
+//                    } else {
+//                        ret = q;
+//                    }
+//                    return ret;
+//                };
+//            }
 
-            tab = registry.byId('cfgIdConstants::CANCEL_BUTTON');
-            if (tab) {
-                /** @override */
-                tab.getQuery = getQuery;
-            }
+//            tab = registry.byId('cfgIdConstants::CANCEL_BUTTON');
+//            if (tab) {
+//                /** @override */
+//                tab.getQuery = getQuery;
+//            }
 
-            tab = registry.byId('cfgIdConstants::NEW_BUTTON');
-            if (tab) {
-                /** @override */
-                tab.getQuery = getQuery;
-            }
+//            tab = registry.byId('cfgIdConstants::NEW_BUTTON');
+//            if (tab) {
+//                /** @override */
+//                tab.getQuery = getQuery;
+//            }
 
-            tab = registry.byId('cfgIdConstants::SAVE_BUTTON');
-            if (tab) {
-                /** @override */
-                tab.getQuery = getQuery;
-                /** @override */
-                tab.getPostData = function () {
-                    return domForm.toObject("dw__editform");
-                };
-            }
+//            tab = registry.byId('cfgIdConstants::SAVE_BUTTON');
+//            if (tab) {
+//                /** @override */
+//                tab.getQuery = getQuery;
+//                /** @override */
+//                tab.getPostData = function () {
+//                    return domForm.toObject("dw__editform");
+//                };
+//            }
 
             var loginDialog = registry.byId('cfgIdConstants::LOGIN_DIALOG');
             if (loginDialog) {
@@ -312,30 +312,32 @@
 
             var userDialog = registry.byId('cfgIdConstants::USER_MENU_ITEM');
             if (userDialog) {
-                var getQueryUser = function () {
-                    return "id=wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
-                };
-                userDialog.getQuery = getQueryUser;
+//                var getQueryUser = function () {
+//                    return "id=wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
+//                };
+//                userDialog.getQuery = getQueryUser;
                 var processorUser = new ErrorMultiFunctionProcessor();
                 var requestUser = new Request();
                 requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
                 processorUser.addErrorAction("1001", function () {
-                    requestUser.sendRequest(getQueryUser());
+                    //requestUser.sendRequest(getQueryUser());
+                    requestUser.sendRequest(userDialog.getQuery);
                 });
                 userDialog.addProcessor(processorUser.type, processorUser);
             }
 
             userDialog = registry.byId('cfgIdConstants::TALK_USER_MENU_ITEM');
             if (userDialog) {
-                var getQueryTalk = function () {
-                    return "id=talk:wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
-                };
-                userDialog.getQuery = getQueryTalk;
+//                var getQueryTalk = function () {
+//                    return "id=talk:wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
+//                };
+//                userDialog.getQuery = getQueryTalk;
                 var processorTalk = new ErrorMultiFunctionProcessor();
                 var requestTalk = new Request();
                 requestTalk.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
                 processorTalk.addErrorAction("1001", function () {
-                    requestTalk.sendRequest(getQueryTalk());
+                    //requestTalk.sendRequest(getQueryTalk());
+                    requestTalk.sendRequest(userDialog.getQuery);
                 });
                 userDialog.addProcessor(processorTalk.type, processorTalk);
             }

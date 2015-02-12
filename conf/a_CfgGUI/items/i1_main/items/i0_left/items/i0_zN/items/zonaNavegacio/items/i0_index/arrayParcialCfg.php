@@ -9,7 +9,7 @@ $arrParcial = array(
                               ,"DJO" => array(
                                            "treeDataSource" => "'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/'"
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
-                                          ,"standbyId" => "'bodyContent'"        
+                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                         )
                             )
               );

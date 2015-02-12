@@ -41,7 +41,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
-            "tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
+            /*"tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
         );  
         return $ret;        
     }
