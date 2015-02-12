@@ -1,1 +1,1 @@
-return "id=wiki:user:" + wikiIocDispatcher.getGlobalState().userId;
+_ret = "id=wiki:user:" + this.dispatcher.getGlobalState().userId;

@@ -1,1 +1,3 @@
-_ret=domForm.toObject("dw__editform");
+require(["dojo/dom-form"],function(domForm){
+    _ret=domForm.toObject("dw__editform");
+});

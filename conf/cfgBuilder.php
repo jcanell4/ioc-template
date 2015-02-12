@@ -65,7 +65,7 @@ class cfgBuilder {
                 if (!is_dir($arxiu) && substr(strrchr($value, "."), 1) === "js") {
                     $fh = fopen($arxiu, "rb");
                     $nom = substr($value, 0, -3);
-                    $js[$nom] = "function(){var _ret=NULL; ";
+                    $js[$nom] = "function(){var _ret=null; ";
                     $js[$nom].= trim(fread($fh, filesize($arxiu)), " \t\r\n\0\x0B");
                     $js[$nom].= "return _ret;}";
                     $js[$nom] = str_replace('"', "'", $js[$nom]);

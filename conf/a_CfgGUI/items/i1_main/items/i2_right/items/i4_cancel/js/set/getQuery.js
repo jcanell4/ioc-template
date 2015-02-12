@@ -1,4 +1,5 @@
-var ns=wikiIocDispatcher.getGlobalState().pages[wikiIocDispatcher.getGlobalState().currentTabId]["ns"];
+var ns=this.dispatcher.getGlobalState().pages[
+                        this.dispatcher.getGlobalState().currentTabId]["ns"];
 if(this.query){
    _ret=this.query + "&id=" + ns;
 }else{
