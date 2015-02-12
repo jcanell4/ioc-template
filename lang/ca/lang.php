@@ -109,6 +109,7 @@ $lang['img_detail_title'] = 'DETALL IMATGE: ';
 
 $lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
 $lang['document_loaded']   = 'S\'ha carregat el document';
+$lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
 $lang['auth_error']        = 'Error d\'autenticació';
 $lang['user_login']        = 'Usuari connectat';
 $lang['user_logout']       = 'Usuari desconnectat';
