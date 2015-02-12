@@ -21,7 +21,6 @@ $first_class = $aIocCfg['class'];
 
 $instIocConst = new cfgIdConstants();
 $tpl = WikiIocTpl::Instance();
-//$tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", $instIoc->getArrayTpl());
 $tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", $instIocConst->getConstantsIds());
 
 /* TODO: la càrrega del package ACE hauria d'anar al fitxer conf/js_packages.js */

@@ -1,1 +1,1 @@
-alert('hola soc onclick de menu_edicio')
+alert('hola soc onclick de menu_edicio');

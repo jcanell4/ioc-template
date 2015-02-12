@@ -26,7 +26,6 @@ function _tplIncDir(){
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
-//require_once (_tplIncDir().'conf/mainCfg.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
@@ -41,7 +40,6 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
-            /*"tplComponents" => WikiIocCfg::Instance(), //modificar l'objecte WikiIocCfg per TplComponents*/
         );  
         return $ret;        
     }
@@ -85,5 +83,3 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["summaryId"] = "edit__summary";
     }
 }
-  
-

@@ -1,11 +1,6 @@
-var ret;
-var q = dwPageUi.getFormQueryToEditSection(
-           wikiIocDispatcher.getGlobalState().getCurrentSectionId()
-        );
-if (this.query) {
-   ret = this.query + "&" + q;
-}else {
-   ret = q;
+var q=dwPageUi.getFormQueryToEditSection(wikiIocDispatcher.getGlobalState().getCurrentSectionId());
+if(this.query){
+   _ret=this.query + "&" + q;
+}else{
+   _ret=q;
 }
-return ret;
-

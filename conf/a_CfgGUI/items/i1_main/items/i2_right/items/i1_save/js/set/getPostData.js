@@ -1,1 +1,1 @@
-return domForm.toObject("dw__editform");
+_ret=domForm.toObject("dw__editform");

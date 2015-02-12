@@ -12,7 +12,6 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php');
-//require_once(DOKU_TPL_INCDIR . 'conf/mainCfg.php'); // se ha sustituido por el modelo de Constantes de cfgIdConstants.php
 
 class LoginResponseHandler extends WikiIocResponseHandler {
     
@@ -31,15 +30,9 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['loginResult'],
                                                 $responseData['userId']);
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
-		//$cfg = WikiIocCfg::Instance();
 
         if($responseData["loginResult"]){
             $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
-//            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
-//            $ajaxCmdResponseGenerator->addChangeWidgetProperty(
-//                                                    $cfg->getArrIds("userButton"), 
-//                                                    "label", 
-//                                                    $responseData["userId"]);
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(
                                                     cfgIdConstants::USER_BUTTON,
@@ -48,10 +41,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
-//            $ajaxCmdResponseGenerator->addReloadWidgetContent($cfg->getArrIds("zN_index_id"));
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
-//            $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren($cfg->getArrIds("zonaMetaInfo"));
             $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren(cfgIdConstants::ZONA_METAINFO);
             $title = '';
             $sig = '';
