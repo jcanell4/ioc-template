@@ -16,17 +16,17 @@ if (!defined("DOKU_INC")) die();
 function _tplIncDir(){
     global $conf;
     if(is_callable('tpl_incdir')){
-        $ret=  tpl_incdir();
+        $ret = tpl_incdir();
     }else{
-        $ret=DOKU_INC.'lib/tpl/'.$conf['template'].'/';
+        $ret = DOKU_INC.'lib/tpl/'.$conf['template'].'/';
     }
     return $ret;
 }
 
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
-require_once (_tplIncDir().'conf/mainCfg.php');
+//require_once (_tplIncDir().'conf/mainCfg.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
@@ -41,7 +41,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
-            /*"tplComponents" => WikiIocCfg::Instance(), /*modificar l'objecte WikiIocCfg per TplComponents*/
+            /*"tplComponents" => WikiIocCfg::Instance(), //modificar l'objecte WikiIocCfg per TplComponents*/
         );  
         return $ret;        
     }
@@ -84,11 +84,6 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["editFormId"] = "dw__editform";
 //        $value["summaryId"] = "edit__summary";
     }
-    
-    abstract protected function response($requestParams,
-                                $responseData,
-                                &$ajaxCmdResponseGenerator);
-    
 }
   
 

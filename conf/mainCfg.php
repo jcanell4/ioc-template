@@ -14,8 +14,6 @@ class WikiIocCfg {
 
     private $fileArrayCfgGUI;
     private $arrCfgGUI;
-//    private $arrIds;
-//    private $arrTpl;
     
     public function LeeFicheroArray() {
         global $conf;
@@ -54,6 +52,9 @@ class WikiIocCfg {
         return $inst;
     }
 
+//    private $arrIds;
+//    private $arrTpl;
+
     private function __construct(){
             /*
             //LoginResponseHandler utilitza els id's: zN_index_id, zonaMetaInfo
@@ -89,8 +90,6 @@ class WikiIocCfg {
                     ,"talkUserMenuItem" => "talkUserMenuItem"
                     ,"logoffMenuItem"   => "logoffMenuItem"
             );
-            */
-            /*
             $this->arrTpl = array(
                     "%%ID%%" => "ajax"
                     ,'%%SECTOK%%'    => getSecurityToken()
@@ -122,22 +121,18 @@ class WikiIocCfg {
             */
     }
     /*
-    public function getJsPackage($id){
-        global $js_packages;
-        return $js_packages[$id];
-    }
-    */
-    /*
-    public function getArrIds($key){
-        return $this->arrIds[$key];
-    }
-    */
-    /*
     public function getIocCfg(){
         return $this->arrIocCfg;
     }
     */
     /*
+    public function getJsPackage($id){
+        global $js_packages;
+        return $js_packages[$id];
+    }
+    public function getArrIds($key){
+        return $this->arrIds[$key];
+    }
     public function getArrayTpl(){
         return $this->arrTpl;
     }
