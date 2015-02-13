@@ -66,15 +66,15 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
             De moment envia'l acommandReport.
             */
 
-            $ajaxCmdResponseGenerator->addProcessDomFromFunction(
-                $responseData['id'],
-                true,
-                "ioc/dokuwiki/processContentPage",  
-                array(
-                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport",
-                )
-            );
-            break;
+//            $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+//                $responseData['id'],
+//                true,
+//                "ioc/dokuwiki/processContentPage",  
+//                array(
+//                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport",
+//                )
+//            );
+//            break;
           }
       }
     }
