@@ -24,7 +24,6 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
         if($requestParams['page']){
           switch($requestParams['page']) {
             case "acl":
-            error_log("acl\n", 3, "/var/www/php.log");
             //error_log(print_r($info,true), 3, "/var/www/php.log");
               // resposta de tipus admin_task
             // Aquests contindrà la mateixa estructura que la reposta html
@@ -66,15 +65,18 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
             De moment envia'l acommandReport.
             */
 
-//            $ajaxCmdResponseGenerator->addProcessDomFromFunction(
-//                $responseData['id'],
-//                true,
-//                "ioc/dokuwiki/processContentPage",  
-//                array(
-//                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport",
-//                )
-//            );
-//            break;
+            $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+                $responseData['id'],
+                true,
+                "ioc/dokuwiki/processAclTask",
+                array(
+                  "urlBaseSelecciona" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport",
+                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport"
+                )
+            );
+            error_log("After processAclTask\n", 3, "/var/www/php.log");
+
+            break;
           }
       }
     }
