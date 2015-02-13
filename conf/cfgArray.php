@@ -87,7 +87,7 @@ $_arrIocCfgGUI = array (
                 'DJO' => 
                 array (
                   'visible' => true,
-                  'onClick' => 'function(){alert(\'hola soc onclick de menu_edicio\')}',
+                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_edicio\');return _ret;}',
                 ),
               ),
             ),
@@ -105,7 +105,7 @@ $_arrIocCfgGUI = array (
                 'DJO' => 
                 array (
                   'visible' => true,
-                  'onClick' => 'function(){alert(\'hola soc onclick de menu_vista\')}',
+                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_vista\');return _ret;}',
                 ),
               ),
             ),
@@ -123,7 +123,7 @@ $_arrIocCfgGUI = array (
                 'DJO' => 
                 array (
                   'visible' => true,
-                  'onClick' => 'function(){alert(\'hola soc onclick de menu_correccio amb la constant topBloc\')}',
+                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_correccio amb la constant cfgIdConstants::TOPBLOC\');return _ret;}',
                 ),
               ),
             ),
@@ -190,7 +190,7 @@ $_arrIocCfgGUI = array (
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'name',
+                          'id' => 'login_name',
                           'label' => 'Usuari:',
                           'name' => 'u',
                         ),
@@ -203,7 +203,7 @@ $_arrIocCfgGUI = array (
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'pass',
+                          'id' => 'login_pass',
                           'label' => 'Contrasenya:',
                           'name' => 'p',
                           'type' => 'password',
@@ -267,6 +267,7 @@ $_arrIocCfgGUI = array (
                           'disabled' => false,
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                           'standbyId' => '\'bodyContent\'',
+                          'getQuery' => 'function(){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId;return _ret;}',
                         ),
                       ),
                     ),
@@ -287,6 +288,7 @@ $_arrIocCfgGUI = array (
                           'disabled' => false,
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                           'standbyId' => '\'bodyContent\'',
+                          'getQuery' => 'function(){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId;return _ret;}',
                         ),
                       ),
                     ),
@@ -350,7 +352,7 @@ $_arrIocCfgGUI = array (
           ),
           'items' => 
           array (
-            'zN' => 
+            'i0_zN' => 
             array (
               'class' => 'WikiIocDivBloc',
               'parms' => 
@@ -366,7 +368,7 @@ $_arrIocCfgGUI = array (
               ),
               'items' => 
               array (
-                0 => 
+                'zonaNavegacio' => 
                 array (
                   'class' => 'WikiIocTabsContainer',
                   'parms' => 
@@ -381,7 +383,7 @@ $_arrIocCfgGUI = array (
                   ),
                   'items' => 
                   array (
-                    0 => 
+                    'i0_index' => 
                     array (
                       'class' => 'WikiIocTreeContainer',
                       'parms' => 
@@ -399,7 +401,7 @@ $_arrIocCfgGUI = array (
                         ),
                       ),
                     ),
-                    1 => 
+                    'i1_docu' => 
                     array (
                       'class' => 'WikiIocContainerFromPage',
                       'parms' => 
@@ -424,7 +426,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'zM' => 
+            'i1_zM' => 
             array (
               'class' => 'WikiIocDivBloc',
               'parms' => 
@@ -440,7 +442,7 @@ $_arrIocCfgGUI = array (
               ),
               'items' => 
               array (
-                0 => 
+                'zonaMetainfo' => 
                 array (
                   'class' => 'WikiIocAccordionContainer',
                   'parms' => 
@@ -512,7 +514,7 @@ $_arrIocCfgGUI = array (
           ),
           'items' => 
           array (
-            0 => 
+            'i0_new' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -529,10 +531,11 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
                 ),
               ),
             ),
-            1 => 
+            'i1_save' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -549,10 +552,12 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
+                  'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
                 ),
               ),
             ),
-            2 => 
+            'i2_preview' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -571,7 +576,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            3 => 
+            'i3_detail' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -590,7 +595,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            4 => 
+            'i4_cancel' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -608,10 +613,11 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel\'',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
                 ),
               ),
             ),
-            5 => 
+            'i5_edit' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -629,10 +635,11 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
                 ),
               ),
             ),
-            6 => 
+            'i6_edparc' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -650,10 +657,11 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
+                  'getQuery' => 'function(){var _ret=null; var self = this;require([\'ioc/dokuwiki/dwPageUi\'], function(dwPageUi){ var q=dwPageUi.getFormQueryToEditSection( self.dispatcher.getGlobalState().getCurrentSectionId()); if(self.query){ _ret=self.query + \'&\' + q; }else{ _ret=q; }});return _ret;}',
                 ),
               ),
             ),
-            7 => 
+            'i7_exit' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 

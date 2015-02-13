@@ -61,6 +61,7 @@ class cfgIdConstants {
     
     //Otras constantes provenientes de scriptRef.tpl
     const SECTOK_ID           = "ajax";             //antes era %%ID%%
+    /*
     const NAVEGACIO_NODE_ID   = "zonaNavegacio";    //cambiada por ZONA_NAVEGACIO
     const METAINFO_NODE_ID    = "zonaMetaInfo";     //cambiada por ZONA_METAINFO
     const INFO_NODE_ID        = "zonaMissatges";    //cambiada por ZONA_MISSATGES
@@ -70,7 +71,7 @@ class cfgIdConstants {
     const USER_MENUITEM       = "userMenuItem";     //cambiada por USER_MENU_ITEM
     const TALKUSER_MENUITEM   = "talkUserMenuItem"; //cambiada por TALK_USER_MENU_ITEM
     const LOGOFF_MENUITEM     = "logoffMenuItem";   //cambiada por LOGOFF_MENU_ITEM
-    
+    */
     public function getConstantsIds() {
         global $js_packages;
         $oCfgClass = new ReflectionClass ('cfgIdConstants');
@@ -81,8 +82,8 @@ class cfgIdConstants {
         return $arrConstants;
     }
 
-    public function getConstId(&$constante) {
-        return self::$constante;
+    public function getConstantToString($constante) {
+        return "'".$constante."'";
     }
     
     /* private $arrIds; */
@@ -92,7 +93,7 @@ class cfgIdConstants {
         $this->arrIds = array(
              "mainContent"     => "mainContent"
             ,"bodyContent"     => "bodyContent"
-            //id's de les Zones/Contenidors principals
+            //id"s de les Zones/Contenidors principals
             ,"zonaAccions"     => "zonaAccions"  
             ,"zonaNavegacio"   => "zonaNavegacio"
             ,"zonaMetaInfo"    => "zonaMetaInfo"

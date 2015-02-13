@@ -17,11 +17,13 @@ class cfgBuilder {
     **/
     private function dirToArray($dir) {
         include_once ("$dir/arrayParcialCfg.php");
-        // $arrParcial es el nombre del array que existe en cada uno de los ficheros arrayParcialCfg.php
+        // $arrParcial es el nombre del array definido en cada uno de los ficheros arrayParcialCfg.php
         $arrCfg = $arrParcial;
-        $arrJS = $this->buscaJS("$dir/js");
-        foreach ($arrJS as $k => $v) {
-            $arrCfg['parms']['DJO'][$k] = $v;
+        $arrJS = $this->buscaJS("$dir/js/set");
+        if ($arrJS) {
+            foreach ($arrJS as $k => $v) {
+                $arrCfg['parms']['DJO'][$k] = $v;
+            }
         }
 
         $ret = $this->addCfgArray("$dir/items");
@@ -37,11 +39,14 @@ class cfgBuilder {
     private function addCfgArray($dir) {
         $item = array();
         $sdir = scandir($dir);
-        foreach ($sdir as $value) {
-            if (!in_array($value, array(".",".."))) {
-                $ruta_completa = "$dir/$value";
-                if (is_dir($ruta_completa)) {
-                    $item[$value] = $this->dirToArray($ruta_completa);
+        // mira si existe el subdirectorio items
+        if ($sdir) {
+            foreach ($sdir as $value) {
+                if (!in_array($value, array(".",".."))) {
+                    $ruta_completa = "$dir/$value";
+                    if (is_dir($ruta_completa)) {
+                        $item[$value] = $this->dirToArray($ruta_completa);
+                    }
                 }
             }
         }
@@ -57,10 +62,15 @@ class cfgBuilder {
             $sdir = scandir($dir);
             foreach ($sdir as $value) {
                 $arxiu = "$dir/$value";
-                if (!is_dir($arxiu)) {
+                if (!is_dir($arxiu) && substr(strrchr($value, "."), 1) === "js") {
                     $fh = fopen($arxiu, "rb");
                     $nom = substr($value, 0, -3);
-                    $js[$nom] = "function(){".trim(fread($fh, filesize($arxiu)), " \t\n\r\0\x0B")."}";
+                    $js[$nom] = "function(){var _ret=null; ";
+                    $js[$nom].= trim(fread($fh, filesize($arxiu)), " \t\r\n\0\x0B");
+                    $js[$nom].= "return _ret;}";
+                    $js[$nom] = str_replace('"', "'", $js[$nom]);
+                    $js[$nom] = str_replace(array("\r\n", "\r", "\n"), "", $js[$nom]);
+                    $js[$nom] = preg_replace('/\s\s+/', ' ', $js[$nom]);
                     fclose($fh);
                 }
             }

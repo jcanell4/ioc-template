@@ -7,8 +7,8 @@ $arrParcial = array(
                                           ,"label" => "documentació"
                                         )
                               ,"DJO" => array(
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
-                                          ,"standbyId" => "'bodyContent'"        
+                                           "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
+                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                         )
                               ,"PRP" => array(
                                            "page" => ":wiki:navigation"
