@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocDropDownButton"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "loginButton"
+                      						 "id" => cfgIdConstants::LOGIN_BUTTON
                       						,"label" => "Entrar"
                       						,"class" => "iocDisplayBlock"
                       				  )

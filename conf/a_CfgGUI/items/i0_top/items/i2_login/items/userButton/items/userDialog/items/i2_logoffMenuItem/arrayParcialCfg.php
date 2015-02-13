@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocMenuItem"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "logoffMenuItem"
+                      						 "id" => cfgIdConstants::LOGOFF_MENU_ITEM
                       						,"label" => "Desconnectar"
                       					)
                           ,"DJO" => array(

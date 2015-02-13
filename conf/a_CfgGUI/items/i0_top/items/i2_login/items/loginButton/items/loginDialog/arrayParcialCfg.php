@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocHiddenDialog"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "loginDialog"
+                      						 "id" => cfgIdConstants::LOGIN_DIALOG
                       					)
                           ,"DJO" => array(
                       						 "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=login'"

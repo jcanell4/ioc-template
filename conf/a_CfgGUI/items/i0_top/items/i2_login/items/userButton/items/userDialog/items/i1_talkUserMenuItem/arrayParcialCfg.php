@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiIocMenuItem"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "talkUserMenuItem"
+                      						 "id" => cfgIdConstants::TALK_USER_MENU_ITEM
                       						,"label" => "Discussió"
                       					)
                           ,"DJO" => array(

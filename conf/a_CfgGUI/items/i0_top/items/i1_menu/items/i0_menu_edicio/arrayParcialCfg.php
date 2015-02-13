@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiDojoButton"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "menu_edicio"
+                      						 "id" => cfgIdConstants::MENU_EDICIO
                       						,"label" => "EDICIÓ"
                       						,"class" => "dijitInline"
                       					)

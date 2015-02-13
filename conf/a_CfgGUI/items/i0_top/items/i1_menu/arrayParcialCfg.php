@@ -3,7 +3,7 @@ $arrParcial = array(
              "class" => "WikiDojoToolBar"
             ,"parms" => array(
                            "DOM" => array(
-                      						 "id" => "barraMenu"
+                      						 "id" => cfgIdConstants::BARRA_MENU
                       						,"label" => "BarraMenu"
                       					)
                           ,"CSS" => array(
