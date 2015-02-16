@@ -94,7 +94,7 @@
             disp.changeWidgetProperty('@@PREVIEW_BUTTON@@', "visible", false);
             disp.changeWidgetProperty('@@ED_PARC_BUTTON@@', "visible", false);
             disp.changeWidgetProperty('@@USER_BUTTON@@', "visible", false);
-            disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", false);            
+            disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('@@LOGIN_BUTTON@@', "visible", true);
@@ -115,7 +115,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    }else if(page.action==='media'){
+                    } else if (page.action === 'media') {
                         disp.changeWidgetProperty('@@MEDIA_DETAIL_BUTTON@@', "visible", true);
                     }
                 }
@@ -221,13 +221,11 @@
 
         ready(function () {
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+
             if (tbContainer) {
                 tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-                    var documentId = globalState.getCurrentId();
-                    var contentCache = wikiIocDispatcher.getContentCache(documentId);
-                    if (contentCache) {
-                        contentCache.setCurrentId("navigationPane", newTab.id);
-                    }
+                    wikiIocDispatcher.getGlobalState().setCurrentNavigationId(newTab.id);
+
                     if (newTab.updateRendering) {
                         newTab.updateRendering();
                     }
@@ -342,7 +340,9 @@
 
             var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
             if (centralContainer) {
+
                 centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+
                     // Aquest codi es crida només quan canviem de pestanya
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
@@ -375,18 +375,6 @@
                         wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
 
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
-
-
-                        // Restauracio de la pestanya del navegador: Compte! s'ha de fer després de actualitzar el currentTabId
-                        var currentNavigationPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("navigationPane");
-
-                        if (currentNavigationPaneId) {
-                            tbContainer.selectChild(currentNavigationPaneId);
-                        } else {
-                            // Posem com a default la primera pestanya
-                            currentNavigationPaneId = tbContainer.getChildren()[0].id;
-                            tbContainer.selectChild(currentNavigationPaneId)
-                        }
                     }
 
                     if (oldTab && wikiIocDispatcher.getGlobalState()
@@ -407,6 +395,18 @@
                 // var state = JSON.parse(sessionStorage.globalState);
                 wikiIocDispatcher.reloadFromState(state);
             }
+
+
+            // Establim el panell d'informació actiu
+            var currentNavigationPaneId = state.getCurrentNavigationId();
+
+            if (!currentNavigationPaneId) {
+                currentNavigationPaneId = tbContainer.getChildren()[0].id;
+                wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
+            }
+
+            tbContainer.selectChild(currentNavigationPaneId);
+
 
             wikiIocDispatcher.updateFromState();
 
