@@ -15,7 +15,7 @@ class WikiIocCfg {
     private $fileArrayCfgGUI;
     private $arrCfgGUI;
     
-    public function LeeFicheroArray() {
+    public function getArrayIocCfg() {
         global $conf;
         $this->fileArrayCfgGUI = $conf["ioc_file_cfg_gui"];
         if (!file_exists($this->fileArrayCfgGUI)) {

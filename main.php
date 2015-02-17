@@ -16,7 +16,7 @@ require_once (DOKU_TPL_INCDIR . 'conf/mainCfg.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocTpl.php');
 
 $instIoc = WikiIocCfg::Instance();
-$aIocCfg = $instIoc->LeeFicheroArray();
+$aIocCfg = $instIoc->getArrayIocCfg();
 $first_class = $aIocCfg['class'];
 
 $instIocConst = new cfgIdConstants();
