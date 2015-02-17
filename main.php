@@ -15,13 +15,11 @@ require_once (DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once (DOKU_TPL_INCDIR . 'conf/mainCfg.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocTpl.php');
 
-$instIoc = WikiIocCfg::Instance();
-$aIocCfg = $instIoc->getArrayIocCfg();
+$aIocCfg = WikiIocCfg::Instance()->getArrayIocCfg();
 $first_class = $aIocCfg['class'];
 
-$instIocConst = new cfgIdConstants();
 $tpl = WikiIocTpl::Instance();
-$tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", $instIocConst->getConstantsIds());
+$tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", cfgIdConstants::getConstantsIds());
 
 /* TODO: la càrrega del package ACE hauria d'anar al fitxer conf/js_packages.js */
 WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => "/ace-builds/src-noconflict"));
