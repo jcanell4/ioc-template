@@ -398,7 +398,7 @@
 
 
             // Establim el panell d'informació actiu
-            var currentNavigationPaneId = state.getCurrentNavigationId();
+            var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
 
             if (!currentNavigationPaneId) {
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
