@@ -27,24 +27,29 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['title'], 
                                                 $responseData['content']);
         
-        $metaData = $this->getModelWrapper()->getMediaMetaResponse();
+        //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
         global $NS;
         $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0 ,TRUE);
-        //$strData = $json->enc($tree);
-        $ajaxCmdResponseGenerator->addMetadata($metaData['id'], 
-                                                $metaData);
 
-        //TODO[JOSEP] El missatge hauria de venir amb la resposta. S'ha de generar a DokuModelAdapter
+        $ajaxCmdResponseGenerator->addMetadata("media", 
+                                                array($metaData));
+
         $info=Array();
-        $info["documentId"] = $responseData['id'];
+        $info["id"] = "media";
         if(!$responseData["info"]){
-            $responseData["info"] = "Càrrega finalitzada";
+            $info["info"] = $responseData["info"];
+        }else{
+            $info["type"] = "info";
+            $info["message"] = "";
+            $info[""] = "Càrrega del Media Manager finalitzada";
+            $info["duration"] = -1;
+            $info["timestamp"] = "04-02-2015 13:20:18";
         }
-        $info["info"] = $responseData["info"];
+        //$info["info"] = $responseData["info"];
         $ajaxCmdResponseGenerator->addInfoDta($info);
 
-        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+        /*$ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
             true,
             "ioc/dokuwiki/processContentPage",  //TODO configurable
@@ -53,7 +58,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
-        );
+        );*/
     }    
 }
 
