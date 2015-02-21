@@ -20,17 +20,9 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                                 &$ajaxCmdResponseGenerator) {
         //TODO La informació ha de venir de DokuModelAdapter. Cal fer el canvi
         $responseData["info"] = "ADMIN TASK ";
-        //error_log("AAdmin_taskResponseHandler\n", 3, "/var/www/php.log");
         if($requestParams['page']){
           switch($requestParams['page']) {
             case "acl":
-            //error_log(print_r($info,true), 3, "/var/www/php.log");
-              // resposta de tipus admin_task
-            // Aquests contindrà la mateixa estructura que la reposta html
-            // que ja has generat, però el seu tipus serà admin_task,
-            // en comptes de html.
-
-
             $ajaxCmdResponseGenerator->addAdminTask($responseData['id'],
                                                    $responseData['ns'],
                                                    $responseData['title'],
@@ -65,13 +57,19 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
             De moment envia'l acommandReport.
             */
 
+            // Obté els Selectors Css dels forms del pluguin ACL
+            $params = array();
+            $this->getAclSelectors($params);
+
             $ajaxCmdResponseGenerator->addProcessDomFromFunction(
                 $responseData['id'],
                 true,
                 "ioc/dokuwiki/processAclTask",
                 array(
                   "urlBaseDesa" => "lib/plugins/ajaxcommand/ajax.php?call=commandreport",
-                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=commandreport"
+                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=commandreport",
+                  "saveSelector" => $params["saveSelector"],
+                  "updateSelector" => $params["updateSelector"]
                 )
             );
             error_log("After processAclTask\n", 3, "/var/www/php.log");

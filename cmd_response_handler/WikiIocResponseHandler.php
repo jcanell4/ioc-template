@@ -40,8 +40,8 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
-        );  
-        return $ret;        
+        );
+        return $ret;
     }
 
     protected function postResponse($requestParams,
@@ -82,4 +82,17 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["editFormId"] = "dw__editform";
 //        $value["summaryId"] = "edit__summary";
     }
+
+
+  /**
+   * Afegeix al paràmetre els selectors css que es
+   * fan servir per seleccionar els forms al html del pluguin ACL
+   *
+   * @param array $value - array de paràmetres
+   *
+   */
+    protected function getAclSelectors(&$value){
+        $this->getModelWrapper()->getAclSelectors($value);
+    }
+
 }
