@@ -70,8 +70,8 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                 true,
                 "ioc/dokuwiki/processAclTask",
                 array(
-                  "urlBaseSelecciona" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport",
-                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=commandReport"
+                  "urlBaseDesa" => "lib/plugins/ajaxcommand/ajax.php?call=commandreport",
+                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=commandreport"
                 )
             );
             error_log("After processAclTask\n", 3, "/var/www/php.log");
