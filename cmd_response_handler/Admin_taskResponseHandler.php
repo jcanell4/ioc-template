@@ -66,8 +66,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                 true,
                 "ioc/dokuwiki/processAclTask",
                 array(
-                  "urlBaseDesa" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
-                  "urlBaseActualiza" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                  "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
                   "saveSelector" => $params["saveSelector"],
                   "updateSelector" => $params["updateSelector"]
                 )
