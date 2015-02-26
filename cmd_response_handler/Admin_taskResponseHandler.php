@@ -48,5 +48,3 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
       }
     }
 }
-
-?>
