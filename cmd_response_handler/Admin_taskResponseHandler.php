@@ -18,8 +18,6 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
     protected function response($requestParams,
                                 $responseData,
                                 &$ajaxCmdResponseGenerator) {
-        //TODO La informació ha de venir de DokuModelAdapter. Cal fer el canvi
-        $responseData["info"] = "ADMIN TASK ";
         if($requestParams['page']){
           switch($requestParams['page']) {
             case "acl":
@@ -29,33 +27,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                                                    $responseData['content']);
 
             // missatge a mostrar al panell inferior
-            $info=Array();
-            $info["documentId"] = $responseData['id'];
-            $info["info"] = $responseData["info"];
-            $info["message"] = $responseData["info"];
-            $info["timestamp"] = date('d-m-Y H:i:s');
-            $info['type']= 'success';
-            $ajaxCmdResponseGenerator->addInfoDta($info);
-
-            /*
-            //Finalment hauràs de enviar una darrera resposta de tipus
-            command.
-            Estracta del command anomenat addProcessDomFromFunction.
-            Es tracta defer executar codi javascript per tal de fer algun
-            tractament a un node dom.concretament
-            el del contingut que enviïs a la primera resposta.
-            Necessitaràs passar-li com a paràmetre l'identificador del node
-            dom atractar ($responseData['id']),
-            un booleà amb valor true indicant que la funció
-            es carregarà via amd,
-            el complert de la funció a executar
-            (hauras decrear-la) i una array amb paràmetres
-            extres que es necessitin. Crec que només serà necessari
-            passar un únic paràmetre extra contenint un adreça html
-            que podem anomenar urlBase i serà la urlBase de la comanda
-            (nova) que caldrà executar per guardar els canvis de la tasca.
-            De moment envia'l acommandReport.
-            */
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
 
             // Obté els Selectors Css dels forms del pluguin ACL
             $params = array();
@@ -71,8 +43,6 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                   "updateSelector" => $params["updateSelector"]
                 )
             );
-            error_log("After processAclTask\n", 3, "/var/www/php.log");
-
             break;
           }
       }
