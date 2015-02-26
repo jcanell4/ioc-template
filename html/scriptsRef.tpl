@@ -115,7 +115,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    }else if(page.action==='media'){
+                    }else if(page.action==='media' && disp.getGlobalState().getCurrentElementId()!==null){
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }

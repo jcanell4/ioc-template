@@ -35,7 +35,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addMetadata("media", 
                                                 array($metaData));
 
-        $info=Array();
+        /*$info=Array();
         $info["id"] = "media";
         if(!$responseData["info"]){
             $info["info"] = $responseData["info"];
@@ -47,7 +47,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             $info["timestamp"] = "04-02-2015 13:20:18";
         }
         //$info["info"] = $responseData["info"];
-        $ajaxCmdResponseGenerator->addInfoDta($info);
+        $ajaxCmdResponseGenerator->addInfoDta($info);*/
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
