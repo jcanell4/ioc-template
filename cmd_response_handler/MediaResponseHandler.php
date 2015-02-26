@@ -49,16 +49,16 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         //$info["info"] = $responseData["info"];
         $ajaxCmdResponseGenerator->addInfoDta($info);
 
-        /*$ajaxCmdResponseGenerator->addProcessDomFromFunction(
+        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
             true,
-            "ioc/dokuwiki/processContentPage",  //TODO configurable
+            "ioc/dokuwiki/processMediaList",  //TODO configurable
             array(
-                "ns" => $responseData['ns'], 
-                "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+                "ns" => $responseData['ns'] 
+                //"editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                //"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail"
             )
-        );*/
+        );
     }    
 }
 
