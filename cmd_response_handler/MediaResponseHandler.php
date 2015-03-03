@@ -32,7 +32,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         global $NS;
         $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0 ,TRUE);
 
-        $ajaxCmdResponseGenerator->addMetadata("media", 
+        $ajaxCmdResponseGenerator->addMetaMediaData("media", 
                                                 array($metaData));
 
         /*$info=Array();
@@ -53,6 +53,16 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             $responseData['id'],
             true,
             "ioc/dokuwiki/processMediaList",  //TODO configurable
+            array(
+                "ns" => $responseData['ns'] 
+                //"editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                //"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail"
+            )
+        );
+        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+            "media__tree",
+            true,
+            "ioc/dokuwiki/processMetaMedia",  //TODO configurable
             array(
                 "ns" => $responseData['ns'] 
                 //"editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",

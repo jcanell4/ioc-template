@@ -407,6 +407,7 @@ div.dokuwiki a:link,
 div.dokuwiki a:visited {
   color: #436976;
   text-decoration: none;
+  font-size: 1.2em;
 }
 div.dokuwiki a:hover,
 div.dokuwiki a:active {
