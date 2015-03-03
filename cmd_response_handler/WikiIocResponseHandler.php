@@ -95,4 +95,15 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $this->getModelWrapper()->getAclSelectors($value);
     }
 
+  /**
+   * Afegeix al paràmetre els selectors css que es
+   * fan servir per seleccionar els forms al html del pluguin PLUGIN
+   *
+   * @param array $value - array de paràmetres
+   *
+   */
+    protected function getPluginSelectors(&$value){
+        $this->getModelWrapper()->getPluginSelectors($value);
+    }
+
 }
