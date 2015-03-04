@@ -85,7 +85,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
 
   /**
-   * Afegeix al paràmetre els selectors css que es
+   * Afegeix al paràmetre $value els selectors css que es
    * fan servir per seleccionar els forms al html del pluguin ACL
    *
    * @param array $value - array de paràmetres
@@ -96,7 +96,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     }
 
   /**
-   * Afegeix al paràmetre els selectors css que es
+   * Afegeix al paràmetre $value els selectors css que es
    * fan servir per seleccionar els forms al html del pluguin PLUGIN
    *
    * @param array $value - array de paràmetres
@@ -106,4 +106,14 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $this->getModelWrapper()->getPluginSelectors($value);
     }
 
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin PLUGIN
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getConfigSelectors(&$value){
+         $this->getModelWrapper()->getConfigSelectors($value);
+     }
 }
