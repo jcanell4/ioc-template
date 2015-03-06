@@ -59,7 +59,23 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                            "pluginsSelector" => $params["pluginsSelector"]
                         )
                     );
-            break;
+                break;
+                case "config":
+                    // Obté els Selectors Css dels forms del plugin PLUGIN
+                    $params = array();
+                    $this->getConfigSelectors($params);
+
+                    $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+                        $responseData['id'],
+                        true,
+                        "ioc/dokuwiki/processConfigTask",
+                        array(
+                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "configSelector" => $params["configSelector"]
+                        )
+                    );
+                break;
+
           }
       }
     }
