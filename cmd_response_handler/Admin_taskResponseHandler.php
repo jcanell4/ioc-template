@@ -21,8 +21,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
             $params = array(
                 "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
                 "method" => "post",
-                "query" => "page=".$requestParams["page"],                
-                "data" => $responseData["info"],
+                "query" => "page=".$requestParams["page"],                               
             );
             $ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/recallCommand", $params);
         }else if($requestParams['page']){
