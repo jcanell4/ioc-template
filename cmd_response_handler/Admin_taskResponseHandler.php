@@ -17,7 +17,15 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
     protected function response($requestParams,
                                 $responseData,
                                 &$ajaxCmdResponseGenerator) {
-        if($requestParams['page']){
+        if($responseData["needRefresh"]){
+            $params = array(
+                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                "method" => "post",
+                "query" => "page=".$requestParams["page"],                
+                "data" => $responseData["info"],
+            );
+            $ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/recallCommand", $params);
+        }else if($requestParams['page']){
             // afegeix la pestanya al panell central
             $ajaxCmdResponseGenerator->addAdminTask($responseData['id'],
                                                $responseData['ns'],
@@ -75,7 +83,6 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         )
                     );
                 break;
-
           }
       }
     }
