@@ -36,17 +36,12 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(
                                                     cfgIdConstants::USER_BUTTON,
-                                                    "label", 
+                                                    "label",
                                                     $responseData["userId"]);
 
             $dades = $this->getModelWrapper()->getAdminTaskList();
             $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-//            $ajaxCmdResponseGenerator->addAdminTab($cfg->getArrIds("zonaNavegacio"),
-//                                                   $cfg->getArrIds("zN_admin_id"),
-//                                                   $dades['title'],
-//                                                   $dades['content'],
-//                                                   $urlBase);
             $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                    cfgIdConstants::TB_ADMIN,
                                                    $dades['title'],
@@ -77,10 +72,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         } else if (!$responseData['loginRequest'] && !$responseData['loginResult']) {
             $info['type'] = 'info';
-            //$info['message'] = $lang['user_logout'];
+            //$info['message'] = $lang['user_logout'];             
             $info['message'] = 'Usuari desconnectat';
-
-
+             $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
+                                                   cfgIdConstants::TB_ADMIN,
+                                                   $urlBase);
         } else  {
             $info['type']= 'success';
             // $info['message'] = $lang['user_login'];
