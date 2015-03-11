@@ -116,4 +116,38 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
      protected function getConfigSelectors(&$value){
          $this->getModelWrapper()->getConfigSelectors($value);
      }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin USERMANAGER
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getUserManagerSelectors(&$value){
+         $this->getModelWrapper()->getUserManagerSelectors($value);
+     }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin REVERT
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getRevertSelectors(&$value){
+         $this->getModelWrapper()->getRevertSelectors($value);
+     }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin LATEX
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getLatexSelectors(&$value){
+         $this->getModelWrapper()->getLatexSelectors($value);
+     }
+
 }

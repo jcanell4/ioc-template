@@ -21,7 +21,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
             $params = array(
                 "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
                 "method" => "post",
-                "query" => "page=".$requestParams["page"],                               
+                "query" => "page=".$requestParams["page"],
             );
             $ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/recallCommand", $params);
         }else if($requestParams['page']){
@@ -67,7 +67,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         )
                     );
                 break;
-                case "config":
+                case "config":                    
                     // Obté els Selectors Css dels forms del plugin PLUGIN
                     $params = array();
                     $this->getConfigSelectors($params);
@@ -79,6 +79,54 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         array(
                            "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
                            "configSelector" => $params["configSelector"]
+                        )
+                    );
+                break;
+                case "usermanager":
+                    // Obté els Selectors Css dels forms del plugin USERMANAGER
+                    $params = array();
+                    $this->getUserManagerSelectors($params);
+
+                    $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+                        $responseData['id'],
+                        true,
+                        "ioc/dokuwiki/processUserManagerTask",
+                        array(
+                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "listSelector" => $params["listSelector"],
+                           "userSelector" => $params["userSelector"],
+                           "bulkSelector" => $params["bulkSelector"]
+                        )
+                    );
+                break;
+                case "revert":
+                    // Obté els Selectors Css dels forms del plugin REVERT
+                    $params = array();
+                    $this->getRevertSelectors($params);
+
+                    $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+                        $responseData['id'],
+                        true,
+                        "ioc/dokuwiki/processRevertTask",
+                        array(
+                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "revertSelector" => $params["revertSelector"]
+                        )
+                    );
+                break;
+                case "latex":
+                    // Obté els Selectors Css dels forms del plugin LATEX
+                    $params = array();
+                    $this->getLatexSelectors($params);
+
+                    $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+                        $responseData['id'],
+                        true,
+                        "ioc/dokuwiki/processLatexTask",
+                        array(
+                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "purgeSelector" => $params["purgeSelector"],
+                           "testSelector" => $params["testSelector"]
                         )
                     );
                 break;
