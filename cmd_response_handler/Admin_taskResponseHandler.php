@@ -93,9 +93,8 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         "ioc/dokuwiki/processUserManagerTask",
                         array(
                            "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
-                           "listSelector" => $params["listSelector"],
-                           "userSelector" => $params["userSelector"],
-                           "bulkSelector" => $params["bulkSelector"]
+                           "formsSelector" => $params["formsSelector"],
+                           "exportCsvName" => $params["exportCsvName"]
                         )
                     );
                 break;
