@@ -2,7 +2,7 @@
 /**
  * Description of admin_task_response_handler
  *
- * @author Eduard Latorre
+ * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com> 
  */
 
 if (!defined("DOKU_INC")) die();
@@ -108,7 +108,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processRevertTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
                            "revertSelector" => $params["revertSelector"]
                         )
                     );
@@ -124,8 +124,9 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         "ioc/dokuwiki/processLatexTask",
                         array(
                            "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
-                           "purgeSelector" => $params["purgeSelector"],
-                           "testSelector" => $params["testSelector"]
+                           "latexSelector" => $params["latexSelector"],
+                           "latexpurge" => $params["latexpurge"],
+                           "dotest" => $params["dotest"]
                         )
                     );
                 break;
