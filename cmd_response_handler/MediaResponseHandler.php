@@ -15,6 +15,7 @@ if (!defined("DOKU_INC")) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(tpl_incdir().'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
+require_once(tpl_incdir(). 'conf/cfgIdConstants.php');
 
 class MediaResponseHandler extends WikiIocResponseHandler {
     function __construct() {
@@ -31,9 +32,17 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
         global $NS;
         $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0 ,TRUE);
+        $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
+        $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
+        $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+        $metaAgrupa = array(
+                "0"  => $metaData,
+                "1"  => $metaDataFileOptions,
+                "2"  => $metaDataFileSort,
+                "3"  => $metaDataFileUpload
+        );
 
-        $ajaxCmdResponseGenerator->addMetaMediaData("media", 
-                                                array($metaData));
+        $ajaxCmdResponseGenerator->addMetaMediaData("media",$metaAgrupa);
 
         /*$info=Array();
         $info["id"] = "media";
@@ -60,7 +69,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             )
         );
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
-            "media__tree",
+            cfgIdConstants::ZONA_METAINFO_DIV,
             true,
             "ioc/dokuwiki/processMetaMedia",  //TODO configurable
             array(

@@ -322,6 +322,19 @@
                                     .getContentAction(newTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
                     }
+                    //Prova per afegir els listener al metaMediaInfo
+           /*if(newTab.id === "media"){
+                wikiIocDispatcher.processResponse({
+                    "type":    "command"
+                    , "value": {
+                        "type":            "process_dom_from_function"
+                        , "id":            'metamedia__tree'
+                        , "amd":            true
+                        , "processName":    "ioc/dokuwiki/processMetaMedia"
+                        , "params":{"ns":"fp:dam:m03"}
+                    }
+                });
+            }*/
                     wikiIocDispatcher.updateFromState();
                 });
             }
@@ -344,7 +357,7 @@
 
             tbContainer.selectChild(currentNavigationPaneId);
 
-
+            
             wikiIocDispatcher.updateFromState();
 
 
