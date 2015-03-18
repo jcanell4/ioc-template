@@ -115,3 +115,5 @@ $lang['admin_task_perm_update'] = 'Permisos Actualitzats.';
 $lang['auth_error']        = 'Error d\'autenticació';
 $lang['user_login']        = 'Usuari connectat';
 $lang['user_logout']       = 'Usuari desconnectat';
+$lang['button_clicked']    = 'Processat botó ';
+$lang['button_desa']       = 'Desa';
