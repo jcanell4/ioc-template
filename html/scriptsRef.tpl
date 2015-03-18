@@ -284,7 +284,7 @@
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
                         //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
-                        wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
+                        wikiIocDispatcher.hideAllChildrenWidgets(nodeMetaInfo);
                         //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
                         var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
                         var m, cp;
