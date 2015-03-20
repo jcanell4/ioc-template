@@ -216,10 +216,7 @@
 
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
-
-                sessionStorage.globalState = JSON.stringify(
-                        wikiIocDispatcher.getGlobalState());
-
+                sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
             }
         });
 
@@ -281,8 +278,8 @@
             }
 
             var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
-            if (centralContainer) {
 
+            if (centralContainer) {
                 centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
 
                     // Aquest codi es crida només quan canviem de pestanya
@@ -290,8 +287,8 @@
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
                         //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
                         wikiIocDispatcher.hideAllChildrenWidgets(nodeMetaInfo);
-
                         //wikiIocDispatcher.removeAllChildrenWidgets(nodeMetaInfo);
+
                         //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
                         var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
                         var m, cp, selectedMeta;
@@ -299,14 +296,9 @@
                         var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
 
                         for (m in metaContentCache) {
-
-
                             cp = metaContentCache[m];
 
-
-
                             nodeMetaInfo.addChild(cp);
-
                             nodeMetaInfo.resize();
 
                             if (cp.id == currentMetadataPaneId) {
@@ -318,59 +310,26 @@
 
                         }
 
-                        // Restauració del panell de metadades
-
-
-
+                        // Restauració del panell de metadades seleccionat si n'hi ha
                         if (selectedMeta) {
                             nodeMetaInfo.selectChild(selectedMeta);
                         }
 
-                        //nodeMetaInfo.selectChild(cp);
-
-
-                        // TODO[Xavi] Provem a seleccionar sempre el últim
-//                        if (currentMetadataPaneId) {
-//                            nodeMetaInfo.selectChild(currentMetadataPaneId);
-//                        }
-
-
-                        // Restauració del panell de revisions
-
-                        /*
-                         var revs = wikiIocDispatcher.getContentCache(newTab.id).getRevisions();
-                         var revsCount = Object.keys(revs).length;
-
-
-
-                         cp = new ContentPane({
-                         id:      metaContentCache[m].id+"rev", // canviar
-                         title:   'Revisions: ('+ revsCount+')',
-                         content: "<b>Nada que ver aquí para:" + newTab.id+"</b>"
-                         });
-                         nodeMetaInfo.addChild(cp);
-                         */
-
-                        guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
-
-
                         wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
-
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
-
-
                     }
 
                     if (oldTab && wikiIocDispatcher.getGlobalState()
                                     .getContentAction(oldTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
                     }
+
                     if (wikiIocDispatcher.getGlobalState()
                                     .getContentAction(newTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
                     }
-                    wikiIocDispatcher.updateFromState();
 
+                    wikiIocDispatcher.updateFromState();
 
                 });
             }
@@ -382,7 +341,6 @@
                 wikiIocDispatcher.reloadFromState(state);
             }
 
-
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
 
@@ -391,12 +349,9 @@
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
 
-
             tbContainer.selectChild(currentNavigationPaneId);
 
-
             wikiIocDispatcher.updateFromState();
-
 
         });
     });
