@@ -62,7 +62,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         global $lang;
 
-        $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+        //$info = array('id' => null, 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+        $info = array('timestamp' => date('d-m-Y H:i:s'));
 
         if ($responseData['loginRequest'] && !$responseData['loginResult']) {
             $info['type'] = 'error';
