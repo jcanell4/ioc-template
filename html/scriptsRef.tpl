@@ -25,6 +25,8 @@
         "dojo/on",
         "dojo/query",
         "ioc/dokuwiki/guiSharedFunctions",
+        "ioc/wiki30/manager/EventObserver",
+        'dojo/_base/declare',
         "dijit/form/Button",
         "dojo/parser",
         "dijit/layout/BorderContainer",
@@ -51,7 +53,7 @@
     ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry,
                  ready, style, domForm, ContentTool, RenderContentTool, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
+                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions, EventObserver, declare) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -279,8 +281,21 @@
 
             var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
 
+            //TODO[Xavi] Aixó es només per les proves, per implementar el container real!
+
+            var newObserver = new EventObserver({dispatcher: wikiIocDispatcher});
+
+            declare.safeMixin(centralContainer, newObserver);
+
+
+
+
             if (centralContainer) {
-                centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+                centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer,function (name, oldTab, newTab) {
+
+
+                    this.triggerEvent("document_selected", {id: newTab.id});
+
 
                     // Aquest codi es crida només quan canviem de pestanya
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
@@ -291,24 +306,33 @@
 
                         //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
                         var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
-                        var m, cp, selectedMeta;
+                        var m, cp, selectedMeta, first = true;
 
                         var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
 
                         for (m in metaContentCache) {
                             cp = metaContentCache[m];
 
+                            cp.showContent();
+                            /*
+                            console.log("pre-addChild", cp.id);
                             nodeMetaInfo.addChild(cp);
+                            console.log("post-addChild", cp.id);
                             nodeMetaInfo.resize();
+                            */
 
-                            if (cp.id == currentMetadataPaneId) {
+
+
+                            if (cp.id == currentMetadataPaneId || first) {
                                 selectedMeta = cp;
+                                first = false;
                             }
 
-                            guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
+                            //guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
                             guiSharedFunctions.addChangeListenersToMetadataPane(cp.id, wikiIocDispatcher);
 
                         }
+                        nodeMetaInfo.resize();
 
                         // Restauració del panell de metadades seleccionat si n'hi ha
                         if (selectedMeta) {
@@ -331,7 +355,7 @@
 
                     wikiIocDispatcher.updateFromState();
 
-                });
+                }));
             }
 
             //cercar l'estat
@@ -352,6 +376,34 @@
             tbContainer.selectChild(currentNavigationPaneId);
 
             wikiIocDispatcher.updateFromState();
+
+
+
+            // TODO[xavi] NOMES PER LES PROVES, afegim aquí el métode removeAllWidgets()
+//            var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+//
+//            nodeMetaInfo.removeAllWidgets = function (id) {
+//                alert("NO SE USA");
+//                var children = this.getChildren();
+//
+//                for (var child in children) {
+//                    var childId = children[child].id
+//                    if (childId.lastIndexOf(id, 0) === 0) {
+//                        console.log("s'ha de destruir: "+childId);
+//                            this.removeChild(children[child]);
+//                        console.log("eliminat del pare")
+//                        children[child].destroyRecursive()
+//                        console.log("destruit")
+//                    }
+//
+//                }
+//
+//                children = this.getChildren();
+//
+//                console.log("ara: ", children);
+//
+//            }
+
 
         });
     });
