@@ -94,7 +94,7 @@
             disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);            
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -145,6 +145,11 @@
                         , "propertyValue": state.userId
                     }
                 });
+
+                var requestTabContent = new Request();
+                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+                var data_tab = requestTabContent.sendRequest();
+
             }
 
             if (state.sectok) {
@@ -180,6 +185,10 @@
                         queryParams = "call=page&id=";
                     } else if (state.pages[id].action === "edit") {
                         queryParams = "call=edit&reload=1&id=";
+                    } else if (state.pages[id].action === "admin") {
+                        queryParams = "call=admin_task&do=admin&page=";
+                        // fix? ns empty, load with page name
+                        state.pages[id].ns = id.substring(6);
                     } else {
                         queryParams = "call=page&id=";
                     }
