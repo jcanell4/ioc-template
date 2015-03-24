@@ -8,7 +8,7 @@
 /**
  * Description of page_response_handler
  *
- * @author Josep Cañellas <jcanell4@ioc.cat>
+ * @author Miguel Angel Lozano <mlozan54@ioc.cat>
  */
 
 if (!defined("DOKU_INC")) die();
@@ -44,19 +44,14 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addMetaMediaData("media",$metaAgrupa);
 
-        /*$info=Array();
-        $info["id"] = "media";
-        if(!$responseData["info"]){
-            $info["info"] = $responseData["info"];
-        }else{
-            $info["type"] = "info";
-            $info["message"] = "";
-            $info[""] = "Càrrega del Media Manager finalitzada";
-            $info["duration"] = -1;
-            $info["timestamp"] = "04-02-2015 13:20:18";
-        }
-        //$info["info"] = $responseData["info"];
-        $ajaxCmdResponseGenerator->addInfoDta($info);*/
+        //Càrrega de la zona info de missatges
+        
+        //global $lang;
+        $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));       
+        $info['type']= 'success';
+        // $info['message'] = $lang['user_login'];
+        $info['message'] = 'Llista de fitxers de '.$responseData['ns']. ' carregada.';       
+        $ajaxCmdResponseGenerator->addInfoDta($info);
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],

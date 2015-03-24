@@ -328,7 +328,7 @@
                     "type":    "command"
                     , "value": {
                         "type":            "process_dom_from_function"
-                        , "id":            'metamedia__tree'
+                        , "id":            'media__tree'
                         , "amd":            true
                         , "processName":    "ioc/dokuwiki/processMetaMedia"
                         , "params":{"ns":"fp:dam:m03"}
