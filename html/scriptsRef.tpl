@@ -146,10 +146,16 @@
                     }
                 });
 
+                // Add admin_tab to the Navigation container
                 var requestTabContent = new Request();
                 requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-                var data_tab = requestTabContent.sendRequest();
-
+                var data_tab = requestTabContent.sendRequest().always(function () {
+                    var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                    if (currentNavigationPaneId === "tb_admin") {
+                        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                        tbContainer.selectChild(currentNavigationPaneId);
+                    }
+                });
             }
 
             if (state.sectok) {
@@ -350,8 +356,13 @@
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
-
-            tbContainer.selectChild(currentNavigationPaneId);
+            // Seleccionem el tab si està creat
+            var children = tbContainer.getChildren();
+            for(var i=0; i<children.length; i++){
+               if(children[i].id === currentNavigationPaneId){
+                  tbContainer.selectChild(currentNavigationPaneId);
+               }
+            }
 
 
             wikiIocDispatcher.updateFromState();
