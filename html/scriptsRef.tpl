@@ -283,22 +283,21 @@
 
             //TODO[Xavi] Aixó es només per les proves, per implementar el container real!
 
+            /*
             var newObserver = new EventObserver({dispatcher: wikiIocDispatcher});
 
             declare.safeMixin(centralContainer, newObserver);
-
-
+*/
 
 
             if (centralContainer) {
                 centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer,function (name, oldTab, newTab) {
 
-
-                    this.triggerEvent("document_selected", {id: newTab.id});
-
+                    //this.triggerEvent("document_selected", {id: newTab.id});
 
                     // Aquest codi es crida només quan canviem de pestanya
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
+                        /*
                         var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
                         //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
                         wikiIocDispatcher.hideAllChildrenWidgets(nodeMetaInfo);
@@ -319,7 +318,6 @@
                             nodeMetaInfo.addChild(cp);
                             console.log("post-addChild", cp.id);
                             nodeMetaInfo.resize();
-                            */
 
 
 
@@ -339,7 +337,11 @@
                             nodeMetaInfo.selectChild(selectedMeta);
                         }
 
-                        wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
+                        //wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
+*/
+
+                        wikiIocDispatcher.setCurrentDocument(newTab.id);
+
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
                     }
 
