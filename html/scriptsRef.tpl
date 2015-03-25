@@ -352,17 +352,23 @@
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
 
-            if (!currentNavigationPaneId) {
+            if (!currentNavigationPaneId && tbContainer.hasChildren()) {
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
             // Seleccionem el tab si està creat
-            var children = tbContainer.getChildren();
-            for(var i=0; i<children.length; i++){
-               if(children[i].id === currentNavigationPaneId){
-                  tbContainer.selectChild(currentNavigationPaneId);
-               }
+            if(currentNavigationPaneId){
+                var childWidget = registry.byId(currentNavigationPaneId);
+                if(childWidget){
+                    tbContainer.selectChild(currentNavigationPaneId);
+                }
             }
+//            var children = tbContainer.getChildren();
+//            for(var i=0; i<children.length; i++){
+//               if(children[i].id === currentNavigationPaneId){
+//                  tbContainer.selectChild(currentNavigationPaneId);
+//               }
+//            }
 
 
             wikiIocDispatcher.updateFromState();
