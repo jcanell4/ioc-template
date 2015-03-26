@@ -117,3 +117,7 @@ $lang['user_login']        = 'Usuari connectat';
 $lang['user_logout']       = 'Usuari desconnectat';
 $lang['button_clicked']    = 'Processat botó ';
 $lang['button_desa']       = 'Desa';
+$lang['button_edit_user']  = 'Editar Usuari';
+$lang['button_filter_user']= 'Filtrar Usuaris';
+$lang['button_cercar']     = 'Cercar';
+$lang['button_revert']     = 'Reverteix les pàgines seleccionades';
