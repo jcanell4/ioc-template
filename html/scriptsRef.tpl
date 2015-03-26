@@ -55,19 +55,19 @@
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         domStyle.set(divMainContent, "height", h + "%");
 
-        wikiIocDispatcher.containerNodeId = "cfgIdConstants::BODY_CONTENT";
-        wikiIocDispatcher.navegacioNodeId = "cfgIdConstants::ZONA_NAVEGACIO";
-        wikiIocDispatcher.metaInfoNodeId = "cfgIdConstants::ZONA_METAINFO";
-        wikiIocDispatcher.infoNodeId = "cfgIdConstants::ZONA_MISSATGES";
+        wikiIocDispatcher.containerNodeId     = "cfgIdConstants::BODY_CONTENT";
+        wikiIocDispatcher.navegacioNodeId     = "cfgIdConstants::ZONA_NAVEGACIO";
+        wikiIocDispatcher.metaInfoNodeId      = "cfgIdConstants::ZONA_METAINFO";
+        wikiIocDispatcher.infoNodeId          = "cfgIdConstants::ZONA_MISSATGES";
         wikiIocDispatcher.sectokManager.putSectok("cfgIdConstants::SECTOK_ID", "cfgIdConstants::SECTOK");
-        wikiIocDispatcher.loginButtonId = 'cfgIdConstants::LOGIN_BUTTON';
-        wikiIocDispatcher.exitButtonId = 'cfgIdConstants::EXIT_BUTTON';
-        wikiIocDispatcher.editButtonId = 'cfgIdConstants::EDIT_BUTTON';
-        wikiIocDispatcher.saveButtonId = 'cfgIdConstants::SAVE_BUTTON';
-        wikiIocDispatcher.cancelButtonId = 'cfgIdConstants::CANCEL_BUTTON';
-        wikiIocDispatcher.previewButtonId = 'cfgIdConstants::PREVIEW_BUTTON';
-        wikiIocDispatcher.edParcButtonId = 'cfgIdConstants::ED_PARC_BUTTON';
-        wikiIocDispatcher.userButtonId = 'cfgIdConstants::USER_BUTTON';
+        wikiIocDispatcher.loginButtonId       = 'cfgIdConstants::LOGIN_BUTTON';
+        wikiIocDispatcher.exitButtonId        = 'cfgIdConstants::EXIT_BUTTON';
+        wikiIocDispatcher.editButtonId        = 'cfgIdConstants::EDIT_BUTTON';
+        wikiIocDispatcher.saveButtonId        = 'cfgIdConstants::SAVE_BUTTON';
+        wikiIocDispatcher.cancelButtonId      = 'cfgIdConstants::CANCEL_BUTTON';
+        wikiIocDispatcher.previewButtonId     = 'cfgIdConstants::PREVIEW_BUTTON';
+        wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
+        wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
 
 
@@ -110,7 +110,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    } else if (page.action === 'media') {
+                    }else if(page.action==='media'){
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }
@@ -138,6 +138,17 @@
                         , "id":            'cfgIdConstants::USER_BUTTON'
                         , "propertyName":  "label"
                         , "propertyValue": state.userId
+                    }
+                });
+
+                // Add admin_tab to the Navigation container
+                var requestTabContent = new Request();
+                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+                var data_tab = requestTabContent.sendRequest().always(function () {
+                    var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                    if (currentNavigationPaneId === "tb_admin") {
+                        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                        tbContainer.selectChild(currentNavigationPaneId);
                     }
                 });
             }
@@ -175,6 +186,10 @@
                         queryParams = "call=page&id=";
                     } else if (state.pages[id].action === "edit") {
                         queryParams = "call=edit&reload=1&id=";
+                    } else if (state.pages[id].action === "admin") {
+                        queryParams = "call=admin_task&do=admin&page=";
+                        // fix? ns empty, load with page name
+                        state.pages[id].ns = id.substring(6);
                     } else {
                         queryParams = "call=page&id=";
                     }
@@ -231,7 +246,6 @@
                 wikiIocDispatcher.toUpdateSectok.push(tab);
                 tab.updateSectok();
             }
-
 
             var loginDialog = registry.byId('cfgIdConstants::LOGIN_DIALOG');
             if (loginDialog) {
@@ -307,12 +321,27 @@
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
 
-            if (!currentNavigationPaneId) {
+            if (!currentNavigationPaneId && tbContainer.hasChildren()) {
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
 
             tbContainer.selectChild(currentNavigationPaneId);
+            // Seleccionem el tab si està creat
+            if(currentNavigationPaneId){
+                var childWidget = registry.byId(currentNavigationPaneId);
+                if(childWidget){
+                    tbContainer.selectChild(currentNavigationPaneId);
+                }
+            }
+//            var children = tbContainer.getChildren();
+//            for(var i=0; i<children.length; i++){
+//               if(children[i].id === currentNavigationPaneId){
+//                  tbContainer.selectChild(currentNavigationPaneId);
+//               }
+//            }
+
+
             wikiIocDispatcher.updateFromState();
         });
     });
