@@ -43,6 +43,13 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 $info['message'] = "El fitxer no s'ha pogut carregar. El motiu és a Índex Media.";
             }
         }
+        if (isset($_REQUEST['mediado'])) {
+            if ($_REQUEST['mediado'] == 'searchlist') {                
+                $info['type'] = 'success';
+                $info['message'] = 'Fitxers de carpeta "' . $responseData['ns'] . '" i subcarpetes, que es corresponen amb la cerca: "'.$_REQUEST['q'].'"';
+            }
+        }
+        
         $ajaxCmdResponseGenerator->addInfoDta($info);
         
 
@@ -50,11 +57,13 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
         $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
         $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+        $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
         $metaAgrupa = array(
             "0" => $metaData,
             "1" => $metaDataFileOptions,
             "2" => $metaDataFileSort,
-            "3" => $metaDataFileUpload
+            "3" => $metaDataFileUpload,
+            "4" => $metaDataSearch
         );
 
         $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
