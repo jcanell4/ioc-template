@@ -94,7 +94,7 @@
             disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);            
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -145,6 +145,17 @@
                         , "propertyValue": state.userId
                     }
                 });
+
+                // Add admin_tab to the Navigation container
+                var requestTabContent = new Request();
+                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+                var data_tab = requestTabContent.sendRequest().always(function () {
+                    var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                    if (currentNavigationPaneId === "tb_admin") {
+                        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                        tbContainer.selectChild(currentNavigationPaneId);
+                    }
+                });
             }
 
             if (state.sectok) {
@@ -180,6 +191,10 @@
                         queryParams = "call=page&id=";
                     } else if (state.pages[id].action === "edit") {
                         queryParams = "call=edit&reload=1&id=";
+                    } else if (state.pages[id].action === "admin") {
+                        queryParams = "call=admin_task&do=admin&page=";
+                        // fix? ns empty, load with page name
+                        state.pages[id].ns = id.substring(6);
                     } else {
                         queryParams = "call=page&id=";
                     }
@@ -350,12 +365,23 @@
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
 
-            if (!currentNavigationPaneId) {
+            if (!currentNavigationPaneId && tbContainer.hasChildren()) {
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
-
-            tbContainer.selectChild(currentNavigationPaneId);
+            // Seleccionem el tab si està creat
+            if(currentNavigationPaneId){
+                var childWidget = registry.byId(currentNavigationPaneId);
+                if(childWidget){
+                    tbContainer.selectChild(currentNavigationPaneId);
+                }
+            }
+//            var children = tbContainer.getChildren();
+//            for(var i=0; i<children.length; i++){
+//               if(children[i].id === currentNavigationPaneId){
+//                  tbContainer.selectChild(currentNavigationPaneId);
+//               }
+//            }
 
             
             wikiIocDispatcher.updateFromState();
