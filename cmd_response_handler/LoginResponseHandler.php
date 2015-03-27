@@ -50,6 +50,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
+            $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
             $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren(cfgIdConstants::ZONA_METAINFO);
