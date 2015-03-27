@@ -100,7 +100,9 @@
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
-                disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", true);
+                // user is admin or manager => NEW_BUTTON visible
+                var new_button_visible =  (window.JSINFO['isadmin'] | window.JSINFO['ismanager']);
+                disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
                 if (disp.getGlobalState().currentTabId) {
