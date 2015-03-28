@@ -3,7 +3,6 @@
     require([
         "dojo/dom",
         "dojo/dom-style",
-        "dojo/dom-prop",
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "ioc/wiki30/Request",
@@ -11,7 +10,6 @@
         "dojo/ready",
         "dojo/dom-style",
         "dojo/dom-form",
-        "dijit/layout/ContentPane",
         "ioc/wiki30/UpdateViewHandler",
         "ioc/dokuwiki/dwPageUi",
         "ioc/wiki30/ReloadStateHandler",
@@ -20,9 +18,6 @@
         "dojo/_base/lang",
         "ioc/wiki30/GlobalState",
         "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
-        "dojo/on",
-        "dojo/query",
-        "ioc/dokuwiki/guiSharedFunctions",
         "dijit/form/Button",
         "dojo/parser",
         "dijit/layout/BorderContainer",
@@ -46,10 +41,10 @@
         "ioc/gui/ContentTabDokuwikiNsTree",
         "ioc/gui/ActionHiddenDialogDokuwiki",
         "dojo/domReady!"
-    ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry,
-                 ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
+    ], function (dom, domStyle, win, wikiIocDispatcher, Request, registry,
+                 ready, style, domForm, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
+                 ErrorMultiFunctionProcessor) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -231,8 +226,7 @@
 
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
-                sessionStorage.globalState = JSON.stringify(
-                        wikiIocDispatcher.getGlobalState());
+                sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
             }
         });
 
@@ -293,41 +287,14 @@
             }
 
             var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
+
+
             if (centralContainer) {
-
-                centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-
+                centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
                     // Aquest codi es crida només quan canviem de pestanya
+
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
-                        var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-                        //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
-                        wikiIocDispatcher.hideAllChildrenWidgets(nodeMetaInfo);
-                        //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
-                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
-                        var m, cp;
-                        for (m in metaContentCache) {
-                            cp = new ContentPane({
-                                id:      metaContentCache[m].id,
-                                title:   metaContentCache[m].title,
-                                content: metaContentCache[m].content
-                            });
-                            nodeMetaInfo.addChild(cp);
-                            nodeMetaInfo.resize();
-
-                            guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
-                            guiSharedFunctions.addChangeListenersToMetadataPane(cp.id, wikiIocDispatcher);
-                        }
-
-                        // Restauració del panell de metadades
-                        var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
-
-                        if (currentMetadataPaneId) {
-                            nodeMetaInfo.selectChild(currentMetadataPaneId);
-                        }
-
-
-                        wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
-
+                        wikiIocDispatcher.setCurrentDocument(newTab.id);
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
                     }
 
@@ -335,21 +302,23 @@
                                     .getContentAction(oldTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
                     }
+
                     if (wikiIocDispatcher.getGlobalState()
                                     .getContentAction(newTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
                     }
+
                     wikiIocDispatcher.updateFromState();
-                });
+
+                }));
             }
 
             //cercar l'estat
             if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
                 var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
-                // var state = JSON.parse(sessionStorage.globalState);
+
                 wikiIocDispatcher.reloadFromState(state);
             }
-
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
@@ -358,6 +327,8 @@
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
+
+            tbContainer.selectChild(currentNavigationPaneId);
             // Seleccionem el tab si està creat
             if(currentNavigationPaneId){
                 var childWidget = registry.byId(currentNavigationPaneId);
@@ -374,8 +345,6 @@
 
 
             wikiIocDispatcher.updateFromState();
-
-
         });
     });
 </script>
