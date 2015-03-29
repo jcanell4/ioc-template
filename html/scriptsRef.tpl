@@ -101,7 +101,10 @@
             } else {
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 // user is admin or manager => NEW_BUTTON visible
-                var new_button_visible =  (window.JSINFO['isadmin'] | window.JSINFO['ismanager']);
+                var new_button_visible =  false;
+                if (Object.keys(disp.getGlobalState().permissions).length>0) {
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] | disp.getGlobalState().permissions['ismanager']);
+                }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
