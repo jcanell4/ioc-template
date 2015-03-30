@@ -163,6 +163,13 @@
                 });
             }
 
+            if (state.permissions) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "jsinfo"
+                    , "value": state.permissions
+                });
+            }
+
             if (state.sectok) {
                 wikiIocDispatcher.processResponse({
                     "type":    "sectok"
