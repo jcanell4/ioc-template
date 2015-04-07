@@ -38,14 +38,17 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                     "label",
                                                     $responseData["userId"]);
 
-            $dades = $this->getModelWrapper()->getAdminTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
+            if($this->getModelWrapper()->isAdminOrManager()){
+                $dades = $this->getModelWrapper()->getAdminTaskList();
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-            $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
+                $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                    cfgIdConstants::TB_ADMIN,
                                                    $dades['title'],
                                                    $dades['content'],
                                                    $urlBase);
+            }
+
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
