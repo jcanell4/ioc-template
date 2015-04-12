@@ -259,6 +259,12 @@
                 });
             }
 
+            var newButtonDialog = registry.byId('cfgIdConstants::NEW_BUTTON_DIALOG');
+            if (newButtonDialog) {
+                wikiIocDispatcher.toUpdateSectok.push(newButtonDialog);
+                newButtonDialog.updateSectok();
+            }
+
             var tab = registry.byId('cfgIdConstants::TB_INDEX');
             if (tab) {
                 wikiIocDispatcher.toUpdateSectok.push(tab);

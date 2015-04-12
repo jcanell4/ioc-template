@@ -43,6 +43,7 @@ class cfgIdConstants {
 
     const ZONA_CANVI          = "zonaCanvi";
     const NEW_BUTTON          = "newButton";
+    const NEW_BUTTON_DIALOG   = "newButtonDialog";
     const SAVE_BUTTON         = "saveButton";
     const PREVIEW_BUTTON      = "previewButton";
     const CANCEL_BUTTON       = "cancelButton";
@@ -53,12 +54,12 @@ class cfgIdConstants {
 
     const BOTTOM_PANEL        = "id_BottomPanel";
     const ZONA_MISSATGES      = "zonaMissatges";
-    
+
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE    = 0;
     const RESIZING_TAB_TYPE   = 1;
     const SCROLLING_TAB_TYPE  = 2;
-    
+
     //Otras constantes provenientes de scriptRef.tpl
     const SECTOK_ID           = "ajax";             //antes era %%ID%%
     /*
@@ -85,7 +86,7 @@ class cfgIdConstants {
     public function getConstantToString($constante) {
         return "'".$constante."'";
     }
-    
+
     /* private $arrIds; */
 
     function __construct() {
@@ -94,7 +95,7 @@ class cfgIdConstants {
              "mainContent"     => "mainContent"
             ,"bodyContent"     => "bodyContent"
             //id"s de les Zones/Contenidors principals
-            ,"zonaAccions"     => "zonaAccions"  
+            ,"zonaAccions"     => "zonaAccions"
             ,"zonaNavegacio"   => "zonaNavegacio"
             ,"zonaMetaInfo"    => "zonaMetaInfo"
             ,"zonaMissatges"   => "zonaMissatges"
