@@ -4,6 +4,7 @@
         "dojo/dom",
         "dojo/dom-style",
         "dojo/dom-prop",
+        "dojo/dom-construct",
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "ioc/wiki30/Request",
@@ -23,7 +24,13 @@
         "dojo/on",
         "dojo/query",
         "ioc/dokuwiki/guiSharedFunctions",
+        "dijit/Dialog",
+        "dijit/form/Form",
+        "dijit/form/TextBox",
         "dijit/form/Button",
+        "ioc/gui/IocForm",
+        "ioc/gui/IocButton",
+
         "dojo/parser",
         "dijit/layout/BorderContainer",
         "dijit/MenuBar",
@@ -32,7 +39,6 @@
         "dijit/Menu",
         "dijit/TitlePane",
         "ioc/gui/ResizingTabController",
-        "ioc/gui/IocButton",
         "ioc/gui/IocDropDownButton",
         "ioc/gui/IocMenuItem",
         "dijit/layout/TabContainer",
@@ -41,15 +47,15 @@
         "dijit/layout/SplitContainer",
         "dijit/TooltipDialog",
         "dijit/form/TextBox",
-        "ioc/gui/IocForm",
         "ioc/gui/ContentTabDokuwikiPage",
         "ioc/gui/ContentTabDokuwikiNsTree",
         "ioc/gui/ActionHiddenDialogDokuwiki",
         "dojo/domReady!"
-    ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry,
+    ], function (dom, domStyle, domProp, domConstruct, win, wikiIocDispatcher, Request, registry,
                  ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
+                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions,
+                 Dialog, Form, TextBox, Button, IocForm, IocButton) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -259,10 +265,91 @@
                 });
             }
 
-            var newButtonDialog = registry.byId('cfgIdConstants::NEW_BUTTON_DIALOG');
-            if (newButtonDialog) {
-                wikiIocDispatcher.toUpdateSectok.push(newButtonDialog);
-                newButtonDialog.updateSectok();
+            var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
+            if (newButton) {
+                newButton.on('click', function () {
+
+                    var dialog = new Dialog({
+                        title: "Dialog with form",
+                        style: "width: 400px; height: 300px;"
+                    }); //.placeAt(dojo.body());
+
+                    var div = domConstruct.create('div', {
+                        className: 'dialeg'
+                    }, dialog.containerNode);
+
+                    //L'arbre de navegació a la banda dreta del quadre.
+                    var divdreta = domConstruct.create('div', {
+                        className: 'dreta'
+                    },div);
+
+                    /*
+                    var dialogTree = new IocTree({
+                        treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                        placeHolder: "Espai de noms"
+                    }).placeAt(divdreta);
+                    */
+
+                    // Un formulari a la banda esquerre contenint:
+                    var divesquerra = domConstruct.create('div', {
+                        className: 'esquerra'
+                    },div);
+
+                    var form = new IocForm().placeAt(divesquerra);
+
+                    // Un camp de text per poder escriure l'espai de noms
+                    var divEspaiNoms = domConstruct.create('div', {
+                        className: 'divEspaiNoms'
+                    },form.containerNode);
+
+                    domConstruct.create('label', {
+                        innerHTML: 'Espai de Noms' + '<br>'
+                    },divEspaiNoms);
+
+                    var EspaiNoms = new TextBox({
+                        placeHolder: "Espai de noms"
+                    }).placeAt(divEspaiNoms);
+
+                    // Un camp de text per poder escriure el nom del nou document
+                    var divNouDocument = domConstruct.create('div', {
+                        className: 'divNouDocument'
+                    },form.containerNode);
+
+                    domConstruct.create('label', {
+                        innerHTML: 'Nou Document' + '<br>'
+                    }, divNouDocument);
+
+                    var NouDocument = new TextBox({
+                        placeHolder: "NouDocument"
+                    }).placeAt(divNouDocument);
+
+                    // botons
+                    var botons = domConstruct.create('div', {
+                        className: 'botons'
+                    },form.containerNode);
+
+                    new IocButton({
+                      label: "Acceptar",
+                      urlBase: 'lib/plugins/ajaxcommand/ajax.php?call=new_page',
+                      getQuery: function(){
+                        var separacio = '';
+                        if (EspaiNoms.value !== '') {
+                            separacio = ':';
+                        }
+                        return 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                      }
+                    }).placeAt(botons);
+
+                    // El botó de cancel·lar
+                    new IocButton({
+                      label: "Cancel·lar",
+                      onClick: function(){ dialog.hide();}
+                    }).placeAt(botons);
+
+                    form.startup();
+                    dialog.show();
+                    return false;
+                });
             }
 
             var tab = registry.byId('cfgIdConstants::TB_INDEX');

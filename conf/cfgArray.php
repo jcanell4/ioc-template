@@ -527,64 +527,10 @@ $_arrIocCfgGUI = array (
                 ),
                'DJO' =>
                 array (
-                  'query' => '\'do=new\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
-                ),
+                 ),
               ),
-// INICI
-              'items' =>
-              array (
-                'newButtonDialog' =>
-                array (
-                  'class' => 'WikiIocHiddenDialog',
-                  'parms' =>
-                  array (
-                    'DOM' =>
-                    array (
-                      'id' => 'newButtonDialog',
-                    ),
-                    'DJO' =>
-                    array (
-                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
-                      'standbyId' => '\'newButtonDialog_hidden_container\'',
-                    ),
-                  ),
-                 'items' =>
-                  array (
-                    'name' =>
-                    array (
-                      'class' => 'WikiIocFormInputField',
-                      'parms' =>
-                      array (
-                        'DOM' =>
-                        array (
-                          'id' => 'login_name',
-                          'label' => 'Usuari:',
-                          'name' => 'u',
-                        ),
-                      ),
-                    ),
-                    'pass' =>
-                    array (
-                      'class' => 'WikiIocFormInputField',
-                      'parms' =>
-                      array (
-                        'DOM' =>
-                        array (
-                          'id' => 'login_pass',
-                          'label' => 'Contrasenya:',
-                          'name' => 'p',
-                          'type' => 'password',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            /*FI*/
             ),
             'i1_save' =>
             array (
