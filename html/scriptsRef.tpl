@@ -269,97 +269,111 @@
             if (newButton) {
                 newButton.on('click', function () {
 
-                    var dialog = new Dialog({
-                        title: "Dialog with form",
-                        style: "width: 400px; height: 300px;"
-                    }); //.placeAt(dojo.body());
+                    var dialog = registry.byId("newDocumentDlg");
+                    if(!dialog){
+                        dialog = new Dialog({
+                            id:"newDocumentDlg",
+                            title: "Dialog with form",
+                            style: "width: 400px; height: 300px;"
+                        }); //.placeAt(dojo.body());
 
-                    var div = domConstruct.create('div', {
-                        className: 'dialeg'
-                    }, dialog.containerNode);
+                        var div = domConstruct.create('div', {
+                            className: 'dialeg'
+                        }, dialog.containerNode);
 
-                    //L'arbre de navegació a la banda dreta del quadre.
-                    var divdreta = domConstruct.create('div', {
-                        className: 'dreta'
-                    },div);
+                        //L'arbre de navegació a la banda dreta del quadre.
+                        var divdreta = domConstruct.create('div', {
+                            className: 'dreta'
+                        },div);
 
-                    /*
-                    var dialogTree = new IocTree({
-                        treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
-                        placeHolder: "Espai de noms"
-                    }).placeAt(divdreta);
-                    */
+                        /*
+                        var dialogTree = new IocTree({
+                            treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                            placeHolder: "Espai de noms"
+                        }).placeAt(divdreta);
+                        */
 
-                    // Un formulari a la banda esquerre contenint:
-                    var divesquerra = domConstruct.create('div', {
-                        className: 'esquerra'
-                    },div);
+                        // Un formulari a la banda esquerre contenint:
+                        var divesquerra = domConstruct.create('div', {
+                            className: 'esquerra'
+                        },div);
 
-                    var form = new IocForm().placeAt(divesquerra);
+                        var form = new IocForm().placeAt(divesquerra);
 
-                    // Un camp de text per poder escriure l'espai de noms
-                    var divEspaiNoms = domConstruct.create('div', {
-                        className: 'divEspaiNoms'
-                    },form.containerNode);
+                        // Un camp de text per poder escriure l'espai de noms
+                        var divEspaiNoms = domConstruct.create('div', {
+                            className: 'divEspaiNoms'
+                        },form.containerNode);
 
-                    domConstruct.create('label', {
-                        innerHTML: 'Espai de Noms' + '<br>'
-                    },divEspaiNoms);
+                        domConstruct.create('label', {
+                            innerHTML: 'Espai de Noms' + '<br>'
+                        },divEspaiNoms);
 
-                    var nsActivePageText = '';
-                    if (this.dispatcher.getGlobalState().currentTabId != null) {
-                        var nsActivePage=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId]['ns'];
-                        nsActivePage = nsActivePage.split(':')
-                        nsActivePage.pop();
-                        var len = nsActivePage.length;
-                        nsActivePage = nsActivePage.join(':');
-                        if (len>1) {
-                            nsActivePage = nsActivePage.concat(':');
+                        var nsActivePageText = '';
+                        if (this.dispatcher.getGlobalState().currentTabId != null) {
+                            var nsActivePage=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId]['ns'];
+                            nsActivePage = nsActivePage.split(':')
+                            nsActivePage.pop();
+                            var len = nsActivePage.length;
+                            nsActivePage = nsActivePage.join(':');
+                            if (len>1) {
+                                nsActivePage = nsActivePage.concat(':');
+                            }
                         }
+
+                        var EspaiNoms = new TextBox({
+                            value: nsActivePage,
+                            placeHolder: 'Espai de noms'
+                        }).placeAt(divEspaiNoms);
+
+                        // Un camp de text per poder escriure el nom del nou document
+                        var divNouDocument = domConstruct.create('div', {
+                            className: 'divNouDocument'
+                        },form.containerNode);
+
+                        domConstruct.create('label', {
+                            innerHTML: 'Nou Document' + '<br>'
+                        }, divNouDocument);
+
+                        var NouDocument = new TextBox({
+                            placeHolder: "NouDocument"
+                        }).placeAt(divNouDocument);
+
+                        // botons
+                        var botons = domConstruct.create('div', {
+                            className: 'botons'
+                        },form.containerNode);
+
+                        new Button({
+                          label: "Acceptar",
+                          onClick: function(){
+                                var separacio = '';
+                                if (EspaiNoms.value !== '') {
+                                    separacio = ':';
+                                }
+                                var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                                newButton.sendRequest(query);
+                                dialog.hide();
+                          }
+                          /*
+                          urlBase: 'lib/plugins/ajaxcommand/ajax.php?call=new_page',
+                          getQuery: function(){
+                            var separacio = '';
+                            if (EspaiNoms.value !== '') {
+                                separacio = ':';
+                            }
+                            return 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                          }*/
+                        }).placeAt(botons);
+
+                        // El botó de cancel·lar
+                        new Button({
+                          label: "Cancel·lar",
+                          onClick: function(){ dialog.hide();}
+                        }).placeAt(botons);
+
+                        form.startup();
                     }
-
-                    var EspaiNoms = new TextBox({
-                        value: nsActivePage,
-                        placeHolder: 'Espai de noms'
-                    }).placeAt(divEspaiNoms);
-
-                    // Un camp de text per poder escriure el nom del nou document
-                    var divNouDocument = domConstruct.create('div', {
-                        className: 'divNouDocument'
-                    },form.containerNode);
-
-                    domConstruct.create('label', {
-                        innerHTML: 'Nou Document' + '<br>'
-                    }, divNouDocument);
-
-                    var NouDocument = new TextBox({
-                        placeHolder: "NouDocument"
-                    }).placeAt(divNouDocument);
-
-                    // botons
-                    var botons = domConstruct.create('div', {
-                        className: 'botons'
-                    },form.containerNode);
-
-                    new IocButton({
-                      label: "Acceptar",
-                      urlBase: 'lib/plugins/ajaxcommand/ajax.php?call=new_page',
-                      getQuery: function(){
-                        var separacio = '';
-                        if (EspaiNoms.value !== '') {
-                            separacio = ':';
-                        }
-                        return 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
-                      }
-                    }).placeAt(botons);
-
-                    // El botó de cancel·lar
-                    new IocButton({
-                      label: "Cancel·lar",
-                      onClick: function(){ dialog.hide();}
-                    }).placeAt(botons);
-
-                    form.startup();
                     dialog.show();
                     return false;
                 });
