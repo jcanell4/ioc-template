@@ -306,8 +306,21 @@
                         innerHTML: 'Espai de Noms' + '<br>'
                     },divEspaiNoms);
 
+                    var nsActivePageText = '';
+                    if (this.dispatcher.getGlobalState().currentTabId != null) {
+                        var nsActivePage=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId]['ns'];
+                        nsActivePage = nsActivePage.split(':')
+                        nsActivePage.pop();
+                        var len = nsActivePage.length;
+                        nsActivePage = nsActivePage.join(':');
+                        if (len>1) {
+                            nsActivePage = nsActivePage.concat(':');
+                        }
+                    }
+
                     var EspaiNoms = new TextBox({
-                        placeHolder: "Espai de noms"
+                        value: nsActivePage,
+                        placeHolder: 'Espai de noms'
                     }).placeAt(divEspaiNoms);
 
                     // Un camp de text per poder escriure el nom del nou document
