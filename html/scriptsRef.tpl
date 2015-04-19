@@ -30,9 +30,10 @@
         "dijit/form/Button",
         "ioc/gui/IocForm",
         "ioc/gui/IocButton",
+        "dijit/layout/BorderContainer",
+        "dijit/Tree",
 
         "dojo/parser",
-        "dijit/layout/BorderContainer",
         "dijit/MenuBar",
         "dijit/PopupMenuBarItem",
         "dijit/MenuItem",
@@ -55,7 +56,8 @@
                  ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
                  ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions,
-                 Dialog, Form, TextBox, Button, IocForm, IocButton) {
+                 Dialog, Form, TextBox, Button, IocForm, IocButton, BorderContainer, Tree
+    ) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -252,6 +254,7 @@
             }
         });
 
+
         ready(function () {
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 
@@ -267,36 +270,76 @@
 
             var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
             if (newButton) {
+
                 newButton.on('click', function () {
 
                     var dialog = registry.byId("newDocumentDlg");
+
                     if(!dialog){
                         dialog = new Dialog({
                             id:"newDocumentDlg",
                             title: "Dialog with form",
-                            style: "width: 400px; height: 300px;"
-                        }); //.placeAt(dojo.body());
+                            style: "width: 470px; height: 300px;",
+                            newButton: newButton
+                        });
 
-                        var div = domConstruct.create('div', {
-                            className: 'dialeg'
-                        }, dialog.containerNode);
+                        dialog.on('show', function () {
+                            dom.byId('textBoxEspaiNoms').value =this.nsActivePageText();
+                        });
+
+                        dialog.nsActivePageText = function () {
+                            var nsActivePage = '';
+                            if (this.newButton.dispatcher.getGlobalState().currentTabId != null) {
+                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'];
+                                nsActivePage = nsActivePage.split(':')
+                                nsActivePage.pop();
+                                var len = nsActivePage.length;
+                                nsActivePage = nsActivePage.join(':');
+                                if (len > 0) {
+                                    nsActivePage = nsActivePage.concat(':');
+                                }
+                            }
+                            return nsActivePage;
+                        }
+
+
+                        var bc = new BorderContainer({
+                            style: "height: 200px; width: 450px;"
+                        });
+
+                        // create a ContentPane as the left pane in the BorderContainer
+                        var cpEsquerra = new ContentPane({
+                            region: "left",
+                            style: "width: 170px"
+                        });
+                        bc.addChild(cpEsquerra);
+
+                        // create a ContentPane as the center pane in the BorderContainer
+                        var cpDreta = new ContentPane({
+                            region: "center"
+                        });
+                        bc.addChild(cpDreta);
+
+                        // put the top level widget into the document, and then call startup()
+                        bc.placeAt(dialog.containerNode);
 
                         //L'arbre de navegació a la banda dreta del quadre.
                         var divdreta = domConstruct.create('div', {
                             className: 'dreta'
-                        },div);
+                        },cpDreta.containerNode);
 
-                        /*
-                        var dialogTree = new IocTree({
+
+                        /*var dialogTree = new Tree({
                             treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
                             placeHolder: "Espai de noms"
                         }).placeAt(divdreta);
+                        dialogTree.startup();
                         */
 
                         // Un formulari a la banda esquerre contenint:
                         var divesquerra = domConstruct.create('div', {
                             className: 'esquerra'
-                        },div);
+                        },cpEsquerra.containerNode);
 
                         var form = new IocForm().placeAt(divesquerra);
 
@@ -309,22 +352,12 @@
                             innerHTML: 'Espai de Noms' + '<br>'
                         },divEspaiNoms);
 
-                        var nsActivePageText = '';
-                        if (this.dispatcher.getGlobalState().currentTabId != null) {
-                            var nsActivePage=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId]['ns'];
-                            nsActivePage = nsActivePage.split(':')
-                            nsActivePage.pop();
-                            var len = nsActivePage.length;
-                            nsActivePage = nsActivePage.join(':');
-                            if (len>1) {
-                                nsActivePage = nsActivePage.concat(':');
-                            }
-                        }
-
                         var EspaiNoms = new TextBox({
-                            value: nsActivePage,
+                            id: 'textBoxEspaiNoms',
+                            value: dialog.nsActivePageText(),
                             placeHolder: 'Espai de noms'
                         }).placeAt(divEspaiNoms);
+                        dialog.textBoxEspaiNoms = EspaiNoms;
 
                         // Un camp de text per poder escriure el nom del nou document
                         var divNouDocument = domConstruct.create('div', {
@@ -355,15 +388,6 @@
                                 newButton.sendRequest(query);
                                 dialog.hide();
                           }
-                          /*
-                          urlBase: 'lib/plugins/ajaxcommand/ajax.php?call=new_page',
-                          getQuery: function(){
-                            var separacio = '';
-                            if (EspaiNoms.value !== '') {
-                                separacio = ':';
-                            }
-                            return 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
-                          }*/
                         }).placeAt(botons);
 
                         // El botó de cancel·lar
