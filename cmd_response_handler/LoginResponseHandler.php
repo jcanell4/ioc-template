@@ -32,21 +32,23 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
         if($responseData["loginResult"]){
-            $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(
                                                     cfgIdConstants::USER_BUTTON,
                                                     "label",
                                                     $responseData["userId"]);
 
-            $dades = $this->getModelWrapper()->getAdminTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
+            if($this->getModelWrapper()->isAdminOrManager()){
+                $dades = $this->getModelWrapper()->getAdminTaskList();
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-            $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
+                $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                    cfgIdConstants::TB_ADMIN,
                                                    $dades['title'],
                                                    $dades['content'],
                                                    $urlBase);
+            }
+
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
