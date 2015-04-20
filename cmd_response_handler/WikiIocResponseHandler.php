@@ -56,6 +56,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE_".$this->getCommandName(), $data);
         $evt->advise_after();
         unset($evt);
+        $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {

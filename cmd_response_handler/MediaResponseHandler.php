@@ -21,7 +21,6 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::MEDIA);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        //$ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
       $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
