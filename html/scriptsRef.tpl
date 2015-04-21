@@ -18,6 +18,11 @@
         "dojo/_base/lang",
         "ioc/wiki30/GlobalState",
         "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
+        "ioc/gui/containerContentToolFactory",
+//        "ioc/gui/ContainerContentTool",
+//        "dojo/dom-construct",
+//        "dojo/_base/declare",
+
         "dijit/form/Button",
         "dojo/parser",
         "dijit/layout/BorderContainer",
@@ -44,7 +49,7 @@
     ], function (dom, domStyle, win, wikiIocDispatcher, Request, registry,
                  ready, style, domForm, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor) {
+                 ErrorMultiFunctionProcessor, containerContentToolFactory) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -55,23 +60,22 @@
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         domStyle.set(divMainContent, "height", h + "%");
 
-        wikiIocDispatcher.containerNodeId     = "cfgIdConstants::BODY_CONTENT";
-        wikiIocDispatcher.navegacioNodeId     = "cfgIdConstants::ZONA_NAVEGACIO";
-        wikiIocDispatcher.metaInfoNodeId      = "cfgIdConstants::ZONA_METAINFO";
-        wikiIocDispatcher.infoNodeId          = "cfgIdConstants::ZONA_MISSATGES";
+        wikiIocDispatcher.containerNodeId = "cfgIdConstants::BODY_CONTENT";
+        wikiIocDispatcher.navegacioNodeId = "cfgIdConstants::ZONA_NAVEGACIO";
+        wikiIocDispatcher.metaInfoNodeId = "cfgIdConstants::ZONA_METAINFO";
+        wikiIocDispatcher.infoNodeId = "cfgIdConstants::ZONA_MISSATGES";
         wikiIocDispatcher.sectokManager.putSectok("cfgIdConstants::SECTOK_ID", "cfgIdConstants::SECTOK");
-        wikiIocDispatcher.loginButtonId       = 'cfgIdConstants::LOGIN_BUTTON';
-        wikiIocDispatcher.exitButtonId        = 'cfgIdConstants::EXIT_BUTTON';
-        wikiIocDispatcher.editButtonId        = 'cfgIdConstants::EDIT_BUTTON';
-        wikiIocDispatcher.saveButtonId        = 'cfgIdConstants::SAVE_BUTTON';
-        wikiIocDispatcher.cancelButtonId      = 'cfgIdConstants::CANCEL_BUTTON';
-        wikiIocDispatcher.previewButtonId     = 'cfgIdConstants::PREVIEW_BUTTON';
-        wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
-        wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
+        wikiIocDispatcher.loginButtonId = 'cfgIdConstants::LOGIN_BUTTON';
+        wikiIocDispatcher.exitButtonId = 'cfgIdConstants::EXIT_BUTTON';
+        wikiIocDispatcher.editButtonId = 'cfgIdConstants::EDIT_BUTTON';
+        wikiIocDispatcher.saveButtonId = 'cfgIdConstants::SAVE_BUTTON';
+        wikiIocDispatcher.cancelButtonId = 'cfgIdConstants::CANCEL_BUTTON';
+        wikiIocDispatcher.previewButtonId = 'cfgIdConstants::PREVIEW_BUTTON';
+        wikiIocDispatcher.edParcButtonId = 'cfgIdConstants::ED_PARC_BUTTON';
+        wikiIocDispatcher.userButtonId = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
 
 
-        // TODO[Xavi] es pot passar la funció següent com el constructor.
         var updateHandler = new UpdateViewHandler();
 
         updateHandler.update = function () {
@@ -96,7 +100,10 @@
             } else {
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 // user is admin or manager => NEW_BUTTON visible
-                var new_button_visible =  (window.JSINFO['isadmin'] | window.JSINFO['ismanager']);
+                var new_button_visible =  false;
+                if (Object.keys(disp.getGlobalState().permissions).length>0) {
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] | disp.getGlobalState().permissions['ismanager']);
+                }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
@@ -112,7 +119,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    }else if(page.action==='media'){
+                    } else if (page.action === 'media') {
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }
@@ -152,6 +159,13 @@
                         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
                         tbContainer.selectChild(currentNavigationPaneId);
                     }
+                });
+            }
+
+            if (state.permissions) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "jsinfo"
+                    , "value": state.permissions
                 });
             }
 
@@ -231,6 +245,9 @@
         });
 
         ready(function () {
+
+
+
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 
             if (tbContainer) {
@@ -290,11 +307,15 @@
 
 
             if (centralContainer) {
+
+                //TODO[Xavi] mirar si aquest bloc es pot moure al ContainerContentTool o EditorContentTool
+
                 centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
                     // Aquest codi es crida només quan canviem de pestanya
 
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
-                        wikiIocDispatcher.setCurrentDocument(newTab.id);
+                        //wikiIocDispatcher.setCurrentDocument(newTab.id);
+                        newTab.setCurrentDocument(newTab.id);
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
                     }
 
@@ -330,21 +351,30 @@
 
             tbContainer.selectChild(currentNavigationPaneId);
             // Seleccionem el tab si està creat
-            if(currentNavigationPaneId){
+            if (currentNavigationPaneId) {
                 var childWidget = registry.byId(currentNavigationPaneId);
-                if(childWidget){
+                if (childWidget) {
                     tbContainer.selectChild(currentNavigationPaneId);
                 }
             }
-//            var children = tbContainer.getChildren();
-//            for(var i=0; i<children.length; i++){
-//               if(children[i].id === currentNavigationPaneId){
-//                  tbContainer.selectChild(currentNavigationPaneId);
-//               }
-//            }
 
 
             wikiIocDispatcher.updateFromState();
+
+
+
+            var container = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+
+            container = registry.byId(wikiIocDispatcher.containerNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+            container = registry.byId(wikiIocDispatcher.navegacioNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+
         });
+
     });
 </script>
