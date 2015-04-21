@@ -4,6 +4,7 @@
         "dojo/dom",
         "dojo/dom-style",
         "dojo/dom-prop",
+        "dojo/dom-construct",
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "ioc/wiki30/Request",
@@ -23,16 +24,22 @@
         "dojo/on",
         "dojo/query",
         "ioc/dokuwiki/guiSharedFunctions",
+        "dijit/Dialog",
+        "dijit/form/Form",
+        "dijit/form/TextBox",
         "dijit/form/Button",
-        "dojo/parser",
+        "ioc/gui/IocForm",
+        "ioc/gui/IocButton",
         "dijit/layout/BorderContainer",
+        "dijit/Tree",
+
+        "dojo/parser",
         "dijit/MenuBar",
         "dijit/PopupMenuBarItem",
         "dijit/MenuItem",
         "dijit/Menu",
         "dijit/TitlePane",
         "ioc/gui/ResizingTabController",
-        "ioc/gui/IocButton",
         "ioc/gui/IocDropDownButton",
         "ioc/gui/IocMenuItem",
         "dijit/layout/TabContainer",
@@ -41,15 +48,16 @@
         "dijit/layout/SplitContainer",
         "dijit/TooltipDialog",
         "dijit/form/TextBox",
-        "ioc/gui/IocForm",
         "ioc/gui/ContentTabDokuwikiPage",
         "ioc/gui/ContentTabDokuwikiNsTree",
         "ioc/gui/ActionHiddenDialogDokuwiki",
         "dojo/domReady!"
-    ], function (dom, domStyle, domProp, win, wikiIocDispatcher, Request, registry,
+    ], function (dom, domStyle, domProp, domConstruct, win, wikiIocDispatcher, Request, registry,
                  ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions) {
+                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions,
+                 Dialog, Form, TextBox, Button, IocForm, IocButton, BorderContainer, Tree
+    ) {
         //declaració de funcions
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
@@ -246,6 +254,7 @@
             }
         });
 
+
         ready(function () {
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 
@@ -256,6 +265,141 @@
                     if (newTab.updateRendering) {
                         newTab.updateRendering();
                     }
+                });
+            }
+
+            var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
+            if (newButton) {
+
+                newButton.on('click', function () {
+
+                    var dialog = registry.byId("newDocumentDlg");
+
+                    if(!dialog){
+                        dialog = new Dialog({
+                            id:"newDocumentDlg",
+                            title: "Dialog with form",
+                            style: "width: 470px; height: 300px;",
+                            newButton: newButton
+                        });
+
+                        dialog.on('show', function () {
+                            dom.byId('textBoxEspaiNoms').value =this.nsActivePageText();
+                        });
+
+                        dialog.nsActivePageText = function () {
+                            var nsActivePage = '';
+                            if (this.newButton.dispatcher.getGlobalState().currentTabId != null) {
+                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'];
+                                nsActivePage = nsActivePage.split(':')
+                                nsActivePage.pop();
+                                var len = nsActivePage.length;
+                                nsActivePage = nsActivePage.join(':');
+                                if (len > 0) {
+                                    nsActivePage = nsActivePage.concat(':');
+                                }
+                            }
+                            return nsActivePage;
+                        }
+
+
+                        var bc = new BorderContainer({
+                            style: "height: 200px; width: 450px;"
+                        });
+
+                        // create a ContentPane as the left pane in the BorderContainer
+                        var cpEsquerra = new ContentPane({
+                            region: "left",
+                            style: "width: 170px"
+                        });
+                        bc.addChild(cpEsquerra);
+
+                        // create a ContentPane as the center pane in the BorderContainer
+                        var cpDreta = new ContentPane({
+                            region: "center"
+                        });
+                        bc.addChild(cpDreta);
+
+                        // put the top level widget into the document, and then call startup()
+                        bc.placeAt(dialog.containerNode);
+
+                        //L'arbre de navegació a la banda dreta del quadre.
+                        var divdreta = domConstruct.create('div', {
+                            className: 'dreta'
+                        },cpDreta.containerNode);
+
+
+                        /*var dialogTree = new Tree({
+                            treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                            placeHolder: "Espai de noms"
+                        }).placeAt(divdreta);
+                        dialogTree.startup();
+                        */
+
+                        // Un formulari a la banda esquerre contenint:
+                        var divesquerra = domConstruct.create('div', {
+                            className: 'esquerra'
+                        },cpEsquerra.containerNode);
+
+                        var form = new IocForm().placeAt(divesquerra);
+
+                        // Un camp de text per poder escriure l'espai de noms
+                        var divEspaiNoms = domConstruct.create('div', {
+                            className: 'divEspaiNoms'
+                        },form.containerNode);
+
+                        domConstruct.create('label', {
+                            innerHTML: 'Espai de Noms' + '<br>'
+                        },divEspaiNoms);
+
+                        var EspaiNoms = new TextBox({
+                            id: 'textBoxEspaiNoms',
+                            value: dialog.nsActivePageText(),
+                            placeHolder: 'Espai de noms'
+                        }).placeAt(divEspaiNoms);
+                        dialog.textBoxEspaiNoms = EspaiNoms;
+
+                        // Un camp de text per poder escriure el nom del nou document
+                        var divNouDocument = domConstruct.create('div', {
+                            className: 'divNouDocument'
+                        },form.containerNode);
+
+                        domConstruct.create('label', {
+                            innerHTML: 'Nou Document' + '<br>'
+                        }, divNouDocument);
+
+                        var NouDocument = new TextBox({
+                            placeHolder: "NouDocument"
+                        }).placeAt(divNouDocument);
+
+                        // botons
+                        var botons = domConstruct.create('div', {
+                            className: 'botons'
+                        },form.containerNode);
+
+                        new Button({
+                          label: "Acceptar",
+                          onClick: function(){
+                                var separacio = '';
+                                if (EspaiNoms.value !== '') {
+                                    separacio = ':';
+                                }
+                                var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                                newButton.sendRequest(query);
+                                dialog.hide();
+                          }
+                        }).placeAt(botons);
+
+                        // El botó de cancel·lar
+                        new Button({
+                          label: "Cancel·lar",
+                          onClick: function(){ dialog.hide();}
+                        }).placeAt(botons);
+
+                        form.startup();
+                    }
+                    dialog.show();
+                    return false;
                 });
             }
 
