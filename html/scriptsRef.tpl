@@ -279,8 +279,8 @@
                     if(!dialog){
                         dialog = new Dialog({
                             id:"newDocumentDlg",
-                            title: "Dialog with form",
-                            style: "width: 470px; height: 300px;",
+                            title: "Nou Document",
+                            style: "width: 470px; height: 250px;",
                             newButton: newButton
                         });
 
@@ -353,7 +353,7 @@
                         },form.containerNode);
 
                         domConstruct.create('label', {
-                            innerHTML: 'Nou Document' + '<br>'
+                            innerHTML: '<br>' + 'Nou Document' + '<br>'
                         }, divNouDocument);
 
                         var NouDocument = new TextBox({
@@ -388,16 +388,22 @@
                             className: 'botons'
                         },form.containerNode);
 
+                        domConstruct.create('label', {
+                            innerHTML: '<br><br>'
+                        }, botons);
+
                         new Button({
                           label: "Acceptar",
                           onClick: function(){
-                                var separacio = '';
-                                if (EspaiNoms.value !== '') {
-                                    separacio = ':';
+                                if (NouDocument.value !== '') {
+                                    var separacio = '';
+                                    if (EspaiNoms.value !== '') {
+                                        separacio = ':';
+                                    }
+                                    var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                                    newButton.sendRequest(query);
+                                    dialog.hide();
                                 }
-                                var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
-                                newButton.sendRequest(query);
-                                dialog.hide();
                           }
                         }).placeAt(botons);
 
