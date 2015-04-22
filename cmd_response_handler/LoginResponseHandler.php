@@ -54,7 +54,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         }else{
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
-            $ajaxCmdResponseGenerator->addRemoveAllWidgetChildren(cfgIdConstants::ZONA_METAINFO);
+            //$ajaxCmdResponseGenerator->addRemoveAllWidgetChildren(cfgIdConstants::ZONA_METAINFO);
             $title = '';
             $sig = '';
         }
