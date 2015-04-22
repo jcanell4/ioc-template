@@ -30,6 +30,7 @@
         "dijit/form/Button",
         "ioc/gui/IocForm",
         "ioc/gui/IocButton",
+        "ioc/gui/NsTreeContainer",
         "dijit/layout/BorderContainer",
         "dijit/Tree",
 
@@ -56,7 +57,7 @@
                  ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
                  ReloadStateHandler, unload, JSON, lang, globalState,
                  ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions,
-                 Dialog, Form, TextBox, Button, IocForm, IocButton, BorderContainer, Tree
+                 Dialog, Form, TextBox, Button, IocForm, IocButton, NsTreeContainer, BorderContainer, Tree
     ) {
         //declaració de funcions
 
@@ -284,7 +285,7 @@
                         });
 
                         dialog.on('show', function () {
-                            dom.byId('textBoxEspaiNoms').value =this.nsActivePageText();
+                            dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
                         });
 
                         dialog.nsActivePageText = function () {
@@ -294,9 +295,9 @@
                                 nsActivePage = nsActivePage.split(':')
                                 nsActivePage.pop();
                                 var len = nsActivePage.length;
-                                nsActivePage = nsActivePage.join(':');
-                                if (len > 0) {
-                                    nsActivePage = nsActivePage.concat(':');
+                                if (len > 1) {
+                                    nsActivePage = nsActivePage.join(':');
+//                                    nsActivePage = nsActivePage.concat(':');
                                 }
                             }
                             return nsActivePage;
@@ -322,19 +323,6 @@
 
                         // put the top level widget into the document, and then call startup()
                         bc.placeAt(dialog.containerNode);
-
-                        //L'arbre de navegació a la banda dreta del quadre.
-                        var divdreta = domConstruct.create('div', {
-                            className: 'dreta'
-                        },cpDreta.containerNode);
-
-
-                        /*var dialogTree = new Tree({
-                            treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
-                            placeHolder: "Espai de noms"
-                        }).placeAt(divdreta);
-                        dialogTree.startup();
-                        */
 
                         // Un formulari a la banda esquerre contenint:
                         var divesquerra = domConstruct.create('div', {
@@ -371,6 +359,29 @@
                         var NouDocument = new TextBox({
                             placeHolder: "NouDocument"
                         }).placeAt(divNouDocument);
+
+                        //L'arbre de navegació a la banda dreta del quadre.
+                        var divdreta = domConstruct.create('div', {
+                            className: 'dreta'
+                        },cpDreta.containerNode);
+
+                        var dialogTree = new NsTreeContainer({
+                            treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                        }).placeAt(divdreta);
+                        dialogTree.startup();
+
+                        dialogTree.tree.onClick=function(item) {
+                            if (!this.model.mayHaveChildren(item)) {
+                                var espai = item.id.split(':')
+                                espai.pop();
+                                var len = espai.length;
+                                if (len > 0) {
+                                    espai = espai.join(':');
+                                }
+                                dom.byId('textBoxEspaiNoms').value= espai;
+                                dom.byId('textBoxEspaiNoms').focus();
+                            }
+                        }
 
                         // botons
                         var botons = domConstruct.create('div', {
