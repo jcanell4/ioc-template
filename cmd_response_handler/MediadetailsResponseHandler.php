@@ -44,7 +44,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
         
         //Càrrega de la zona info de missatges
         global $JUMPTO;
-        $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+        $info = array('id' => $responseData['id'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
         $info['type'] = 'success';
         $info['message'] = 'Imatge ' . $responseData['id'] . ' carregada.';
         if (isset($JUMPTO)) {
