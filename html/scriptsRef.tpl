@@ -329,7 +329,7 @@
                             className: 'esquerra'
                         },cpEsquerra.containerNode);
 
-                        var form = new IocForm().placeAt(divesquerra);
+                        var form = new Form().placeAt(divesquerra);
 
                         // Un camp de text per poder escriure l'espai de noms
                         var divEspaiNoms = domConstruct.create('div', {
@@ -367,20 +367,13 @@
 
                         var dialogTree = new NsTreeContainer({
                             treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                            onlyDirs:true
                         }).placeAt(divdreta);
                         dialogTree.startup();
 
                         dialogTree.tree.onClick=function(item) {
-                            if (!this.model.mayHaveChildren(item)) {
-                                var espai = item.id.split(':')
-                                espai.pop();
-                                var len = espai.length;
-                                if (len > 0) {
-                                    espai = espai.join(':');
-                                }
-                                dom.byId('textBoxEspaiNoms').value= espai;
-                                dom.byId('textBoxEspaiNoms').focus();
-                            }
+                            dom.byId('textBoxEspaiNoms').value= item.id;
+                            dom.byId('textBoxEspaiNoms').focus();
                         }
 
                         // botons
