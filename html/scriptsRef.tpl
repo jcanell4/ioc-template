@@ -121,7 +121,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    }else if(page.action==='media' && disp.getGlobalState().getCurrentElementId()!==null){
+                    } else if (page.action === 'media' && disp.getGlobalState().getCurrentElementId()!==null){
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }
@@ -468,19 +468,7 @@
                                     .getContentAction(newTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
                     }
-                    //Prova per afegir els listener al metaMediaInfo
-           /*if(newTab.id === "media"){
-                wikiIocDispatcher.processResponse({
-                    "type":    "command"
-                    , "value": {
-                        "type":            "process_dom_from_function"
-                        , "id":            'media__tree'
-                        , "amd":            true
-                        , "processName":    "ioc/dokuwiki/processMetaMedia"
-                        , "params":{"ns":"fp:dam:m03"}
-                    }
-                });
-            }*/
+
                     wikiIocDispatcher.updateFromState();
 
                 }));
@@ -509,6 +497,7 @@
                     tbContainer.selectChild(currentNavigationPaneId);
                 }
             }
+
 
             
             wikiIocDispatcher.updateFromState();
