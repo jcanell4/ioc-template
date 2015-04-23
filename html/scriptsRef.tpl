@@ -3,37 +3,32 @@
     require([
         "dojo/dom",
         "dojo/dom-style",
-        "dojo/dom-prop",
-        "dojo/dom-construct",
+        "dojo/dom-construct", //edu
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "ioc/wiki30/Request",
         "dijit/registry",
         "dojo/ready",
         "dojo/dom-style",
-        "dojo/dom-form",
-        "dijit/layout/ContentPane",
+        "dijit/layout/ContentPane", //edu
         "ioc/wiki30/UpdateViewHandler",
-        "ioc/dokuwiki/dwPageUi",
         "ioc/wiki30/ReloadStateHandler",
         'dojo/_base/unload',
         "dojo/json",
         "dojo/_base/lang",
         "ioc/wiki30/GlobalState",
         "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
-        "dojo/on",
-        "dojo/query",
-        "ioc/dokuwiki/guiSharedFunctions",
-        "dijit/Dialog",
-        "dijit/form/Form",
-        "dijit/form/TextBox",
-        "dijit/form/Button",
+        "ioc/gui/containerContentToolFactory",
+        "dijit/Dialog", //edu
+        "dijit/form/Form",//edu
+        "dijit/form/TextBox",//edu
+        "dijit/form/Button",//edu
+        "dijit/layout/BorderContainer",//edu
+        "ioc/gui/NsTreeContainer",//edu
+        
+
         "ioc/gui/IocForm",
         "ioc/gui/IocButton",
-        "ioc/gui/NsTreeContainer",
-        "dijit/layout/BorderContainer",
-        "dijit/Tree",
-
         "dojo/parser",
         "dijit/MenuBar",
         "dijit/PopupMenuBarItem",
@@ -53,11 +48,11 @@
         "ioc/gui/ContentTabDokuwikiNsTree",
         "ioc/gui/ActionHiddenDialogDokuwiki",
         "dojo/domReady!"
-    ], function (dom, domStyle, domProp, domConstruct, win, wikiIocDispatcher, Request, registry,
-                 ready, style, domForm, ContentPane, UpdateViewHandler, dwPageUi,
+    ], function (dom, domStyle, domConstruct, win, wikiIocDispatcher, Request, registry,
+                 ready, style, ContentPane, UpdateViewHandler,
                  ReloadStateHandler, unload, JSON, lang, globalState,
-                 ErrorMultiFunctionProcessor, on, dojoQuery, guiSharedFunctions,
-                 Dialog, Form, TextBox, Button, IocForm, IocButton, NsTreeContainer, BorderContainer, Tree
+                 ErrorMultiFunctionProcessor, containerContentToolFactory,
+                 Dialog, Form, TextBox, Button, BorderContainer, NsTreeContainer
     ) {
         //declaració de funcions
 
@@ -69,23 +64,22 @@
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         domStyle.set(divMainContent, "height", h + "%");
 
-        wikiIocDispatcher.containerNodeId     = "cfgIdConstants::BODY_CONTENT";
-        wikiIocDispatcher.navegacioNodeId     = "cfgIdConstants::ZONA_NAVEGACIO";
-        wikiIocDispatcher.metaInfoNodeId      = "cfgIdConstants::ZONA_METAINFO";
-        wikiIocDispatcher.infoNodeId          = "cfgIdConstants::ZONA_MISSATGES";
+        wikiIocDispatcher.containerNodeId = "cfgIdConstants::BODY_CONTENT";
+        wikiIocDispatcher.navegacioNodeId = "cfgIdConstants::ZONA_NAVEGACIO";
+        wikiIocDispatcher.metaInfoNodeId = "cfgIdConstants::ZONA_METAINFO";
+        wikiIocDispatcher.infoNodeId = "cfgIdConstants::ZONA_MISSATGES";
         wikiIocDispatcher.sectokManager.putSectok("cfgIdConstants::SECTOK_ID", "cfgIdConstants::SECTOK");
-        wikiIocDispatcher.loginButtonId       = 'cfgIdConstants::LOGIN_BUTTON';
-        wikiIocDispatcher.exitButtonId        = 'cfgIdConstants::EXIT_BUTTON';
-        wikiIocDispatcher.editButtonId        = 'cfgIdConstants::EDIT_BUTTON';
-        wikiIocDispatcher.saveButtonId        = 'cfgIdConstants::SAVE_BUTTON';
-        wikiIocDispatcher.cancelButtonId      = 'cfgIdConstants::CANCEL_BUTTON';
-        wikiIocDispatcher.previewButtonId     = 'cfgIdConstants::PREVIEW_BUTTON';
-        wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
-        wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
+        wikiIocDispatcher.loginButtonId = 'cfgIdConstants::LOGIN_BUTTON';
+        wikiIocDispatcher.exitButtonId = 'cfgIdConstants::EXIT_BUTTON';
+        wikiIocDispatcher.editButtonId = 'cfgIdConstants::EDIT_BUTTON';
+        wikiIocDispatcher.saveButtonId = 'cfgIdConstants::SAVE_BUTTON';
+        wikiIocDispatcher.cancelButtonId = 'cfgIdConstants::CANCEL_BUTTON';
+        wikiIocDispatcher.previewButtonId = 'cfgIdConstants::PREVIEW_BUTTON';
+        wikiIocDispatcher.edParcButtonId = 'cfgIdConstants::ED_PARC_BUTTON';
+        wikiIocDispatcher.userButtonId = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
 
 
-        // TODO[Xavi] es pot passar la funció següent com el constructor.
         var updateHandler = new UpdateViewHandler();
 
         updateHandler.update = function () {
@@ -129,7 +123,7 @@
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                    }else if(page.action==='media'){
+                    } else if (page.action === 'media') {
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     }
                 }
@@ -250,13 +244,15 @@
 
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
-                sessionStorage.globalState = JSON.stringify(
-                        wikiIocDispatcher.getGlobalState());
+                sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
             }
         });
 
 
         ready(function () {
+
+
+
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 
             if (tbContainer) {
@@ -269,6 +265,8 @@
                 });
             }
 
+            //Revisar afegit al fer el merge des del master. Afegeix la creació 
+            //d'un quadre de diàleg en clicar el botó nou
             var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
             if (newButton) {
 
@@ -457,41 +455,18 @@
             }
 
             var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
+
+
             if (centralContainer) {
 
-                centralContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
+                //TODO[Xavi] mirar si aquest bloc es pot moure al ContainerContentTool o EditorContentTool
 
+                centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
                     // Aquest codi es crida només quan canviem de pestanya
+
                     if (wikiIocDispatcher.getContentCache(newTab.id)) {
-                        var nodeMetaInfo = registry.byId(wikiIocDispatcher.metaInfoNodeId);
-                        //1. elimina els widgets corresponents a les metaInfo de l'antiga pestanya
-                        wikiIocDispatcher.hideAllChildrenWidgets(nodeMetaInfo);
-                        //2. crea els widgets corresponents a les MetaInfo de la nova pestanya seleccionada
-                        var metaContentCache = wikiIocDispatcher.getContentCache(newTab.id).getMetaData();
-                        var m, cp;
-                        for (m in metaContentCache) {
-                            cp = new ContentPane({
-                                id:      metaContentCache[m].id,
-                                title:   metaContentCache[m].title,
-                                content: metaContentCache[m].content
-                            });
-                            nodeMetaInfo.addChild(cp);
-                            nodeMetaInfo.resize();
-
-                            guiSharedFunctions.addWatchToMetadataPane(cp, newTab.id, cp.id, wikiIocDispatcher);
-                            guiSharedFunctions.addChangeListenersToMetadataPane(cp.id, wikiIocDispatcher);
-                        }
-
-                        // Restauració del panell de metadades
-                        var currentMetadataPaneId = wikiIocDispatcher.getContentCache(newTab.id).getCurrentId("metadataPane");
-
-                        if (currentMetadataPaneId) {
-                            nodeMetaInfo.selectChild(currentMetadataPaneId);
-                        }
-
-
-                        wikiIocDispatcher.getGlobalState().currentTabId = newTab.id;
-
+                        //wikiIocDispatcher.setCurrentDocument(newTab.id);
+                        newTab.setCurrentDocument(newTab.id);
                         wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
                     }
 
@@ -499,21 +474,23 @@
                                     .getContentAction(oldTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
                     }
+
                     if (wikiIocDispatcher.getGlobalState()
                                     .getContentAction(newTab.id) == "edit") {
                         wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
                     }
+
                     wikiIocDispatcher.updateFromState();
-                });
+
+                }));
             }
 
             //cercar l'estat
             if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
                 var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
-                // var state = JSON.parse(sessionStorage.globalState);
+
                 wikiIocDispatcher.reloadFromState(state);
             }
-
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
@@ -522,24 +499,33 @@
                 currentNavigationPaneId = tbContainer.getChildren()[0].id;
                 wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
             }
+
+            tbContainer.selectChild(currentNavigationPaneId);
             // Seleccionem el tab si està creat
-            if(currentNavigationPaneId){
+            if (currentNavigationPaneId) {
                 var childWidget = registry.byId(currentNavigationPaneId);
-                if(childWidget){
+                if (childWidget) {
                     tbContainer.selectChild(currentNavigationPaneId);
                 }
             }
-//            var children = tbContainer.getChildren();
-//            for(var i=0; i<children.length; i++){
-//               if(children[i].id === currentNavigationPaneId){
-//                  tbContainer.selectChild(currentNavigationPaneId);
-//               }
-//            }
 
 
             wikiIocDispatcher.updateFromState();
 
 
+
+            var container = registry.byId(wikiIocDispatcher.metaInfoNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+
+            container = registry.byId(wikiIocDispatcher.containerNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+            container = registry.byId(wikiIocDispatcher.navegacioNodeId);
+            containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
+
+
         });
+
     });
 </script>
