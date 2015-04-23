@@ -277,7 +277,7 @@
                     if(!dialog){
                         dialog = new Dialog({
                             id:"newDocumentDlg",
-                            title: "Nou Document",
+                            title: newButton.dialogTitle,
                             style: "width: 470px; height: 250px;",
                             newButton: newButton
                         });
@@ -295,7 +295,6 @@
                                 var len = nsActivePage.length;
                                 if (len > 1) {
                                     nsActivePage = nsActivePage.join(':');
-//                                    nsActivePage = nsActivePage.concat(':');
                                 }
                             }
                             return nsActivePage;
@@ -335,13 +334,13 @@
                         },form.containerNode);
 
                         domConstruct.create('label', {
-                            innerHTML: 'Espai de Noms' + '<br>'
+                            innerHTML: newButton.EspaideNomslabel + '<br>'
                         },divEspaiNoms);
 
                         var EspaiNoms = new TextBox({
                             id: 'textBoxEspaiNoms',
                             value: dialog.nsActivePageText(),
-                            placeHolder: 'Espai de noms'
+                            placeHolder: newButton.EspaideNomsplaceHolder
                         }).placeAt(divEspaiNoms);
                         dialog.textBoxEspaiNoms = EspaiNoms;
 
@@ -351,11 +350,11 @@
                         },form.containerNode);
 
                         domConstruct.create('label', {
-                            innerHTML: '<br>' + 'Nou Document' + '<br>'
+                            innerHTML: '<br>' + newButton.NouDocumentlabel + '<br>'
                         }, divNouDocument);
 
                         var NouDocument = new TextBox({
-                            placeHolder: "NouDocument"
+                            placeHolder: newButton.NouDocumentplaceHolder
                         }).placeAt(divNouDocument);
 
                         //L'arbre de navegació a la banda dreta del quadre.
@@ -384,7 +383,7 @@
                         }, botons);
 
                         new Button({
-                          label: "Acceptar",
+                          label: newButton.labelButtonAcceptar,
                           onClick: function(){
                                 if (NouDocument.value !== '') {
                                     var separacio = '';
@@ -400,7 +399,7 @@
 
                         // El botó de cancel·lar
                         new Button({
-                          label: "Cancel·lar",
+                          label: newButton.labelButtonCancellar,
                           onClick: function(){ dialog.hide();}
                         }).placeAt(botons);
 
