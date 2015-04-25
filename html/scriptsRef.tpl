@@ -18,7 +18,7 @@
         "dojo/_base/lang",
         "ioc/wiki30/GlobalState",
         "ioc/wiki30/processor/ErrorMultiFunctionProcessor",
-        "ioc/gui/containerContentToolFactory",
+        "ioc/gui/content/containerContentToolFactory",
         "dijit/Dialog", //edu
         "dijit/form/Form",//edu
         "dijit/form/TextBox",//edu
