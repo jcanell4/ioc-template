@@ -635,7 +635,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];var rev = this.dispatcher.getGlobalState().getCurrentContent().rev;if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}if (rev) { _ret+=\'&rev=\' + rev;}return _ret;}',
                 ),
               ),
             ),
