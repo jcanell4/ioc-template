@@ -12,13 +12,6 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=new_page'"
-                                          ,"dialogTitle" => "'Nou Document'"
-                                          ,"EspaideNomslabel" => "'Espai de Noms'"
-                                          ,"EspaideNomsplaceHolder" => "'Espai de Noms'"
-                                          ,"NouDocumentlabel" => "'Nou Document'"
-                                          ,"NouDocumentplaceHolder" => "'Nou Document'"
-                                          ,"labelButtonAcceptar" => "'Acceptar'"
-                                          ,"labelButtonCancellar" => "'Cancel·lar'"
                                         )
                             )
               );
