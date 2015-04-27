@@ -21,17 +21,23 @@ class PageResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::PAGE);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
         $ajaxCmdResponseGenerator->addHtmlDoc($responseData['id'], 
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
                                                 $responseData['content']);
         
         $metaData = $this->getModelWrapper()->getMetaResponse($responseData['id']);
-        $ajaxCmdResponseGenerator->addMetadata($metaData['docId'], 
+        $ajaxCmdResponseGenerator->addMetadata($metaData['id'],
                                                 $metaData['meta']);
 
+
         $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
+
+
+        $id = $metaData['id'];
+        $revs = $this->getModelWrapper()->getRevisions($id);
+        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($id, $revs);
+
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
@@ -43,6 +49,7 @@ class PageResponseHandler extends WikiIocResponseHandler {
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
+
     }    
 }
 

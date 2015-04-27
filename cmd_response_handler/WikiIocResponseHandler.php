@@ -31,24 +31,24 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     function __construct($cmd) {
         parent::__construct($cmd);
     }
-    
-    private function _getDataEvent(&$ajaxCmdResponseGenerator, 
-                                    $requestParams=NULL, 
+
+    private function _getDataEvent(&$ajaxCmdResponseGenerator,
+                                    $requestParams=NULL,
                                     $responseData=NULL){
         $ret = array(
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,
             "responseData" => $responseData,
             "ajaxCmdResponseGenerator" => $ajaxCmdResponseGenerator,
-        );  
-        return $ret;        
+        );
+        return $ret;
     }
 
-    protected function postResponse($requestParams, 
-                                        $responseData, 
+    protected function postResponse($requestParams,
+                                        $responseData,
                                         &$ajaxCmdResponseGenerator) {
-        $data = $this->_getDataEvent($ajaxCmdResponseGenerator, 
-                                        $requestParams, 
+        $data = $this->_getDataEvent($ajaxCmdResponseGenerator,
+                                        $requestParams,
                                         $responseData);
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $evt->advise_after();
@@ -56,6 +56,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE_".$this->getCommandName(), $data);
         $evt->advise_after();
         unset($evt);
+        $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
@@ -68,11 +69,11 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
         return $ret;
     }
-    
+
     protected function getJsInfo(){
-        return $this->getModelWrapper()->getJsInfo();                     
-    }  
-    
+        return $this->getModelWrapper()->getJsInfo();
+    }
+
     protected function getToolbarIds(&$value){
         $this->getModelWrapper()->getToolbarIds($value);
 //        $value["varName"] = "toolbar";
@@ -82,4 +83,72 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["editFormId"] = "dw__editform";
 //        $value["summaryId"] = "edit__summary";
     }
+
+
+  /**
+   * Afegeix al paràmetre $value els selectors css que es
+   * fan servir per seleccionar els forms al html del pluguin ACL
+   *
+   * @param array $value - array de paràmetres
+   *
+   */
+    protected function getAclSelectors(&$value){
+        $this->getModelWrapper()->getAclSelectors($value);
+    }
+
+  /**
+   * Afegeix al paràmetre $value els selectors css que es
+   * fan servir per seleccionar els forms al html del pluguin PLUGIN
+   *
+   * @param array $value - array de paràmetres
+   *
+   */
+    protected function getPluginSelectors(&$value){
+        $this->getModelWrapper()->getPluginSelectors($value);
+    }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin PLUGIN
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getConfigSelectors(&$value){
+         $this->getModelWrapper()->getConfigSelectors($value);
+     }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin USERMANAGER
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getUserManagerSelectors(&$value){
+         $this->getModelWrapper()->getUserManagerSelectors($value);
+     }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin REVERT
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getRevertSelectors(&$value){
+         $this->getModelWrapper()->getRevertSelectors($value);
+     }
+
+   /**
+    * Afegeix al paràmetre $value els selectors css que es
+    * fan servir per seleccionar els forms al html del pluguin LATEX
+    *
+    * @param array $value - array de paràmetres
+    *
+    */
+     protected function getLatexSelectors(&$value){
+         $this->getModelWrapper()->getLatexSelectors($value);
+     }
+
 }

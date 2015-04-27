@@ -109,6 +109,15 @@ $lang['img_detail_title'] = 'DETALL IMATGE: ';
 
 $lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
 $lang['document_loaded']   = 'S\'ha carregat el document';
+$lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
+$lang['admin_task_perm_delete'] = 'Permisos Eliminats.';
+$lang['admin_task_perm_update'] = 'Permisos Actualitzats.';
 $lang['auth_error']        = 'Error d\'autenticació';
 $lang['user_login']        = 'Usuari connectat';
 $lang['user_logout']       = 'Usuari desconnectat';
+$lang['button_clicked']    = 'Processat botó ';
+$lang['button_desa']       = 'Desa';
+$lang['button_edit_user']  = 'Editar Usuari';
+$lang['button_filter_user']= 'Filtrar Usuaris';
+$lang['button_cercar']     = 'Cercar';
+$lang['button_revert']     = 'Reverteix les pàgines seleccionades';
