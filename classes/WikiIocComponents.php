@@ -771,7 +771,45 @@ class WikiIocButton extends WikiIocComponent {
     }
 }
 
-class WikiIocMenuItem extends WikiIocComponent {
+class WikiDojoMenu extends WikiIocItemsContainer {
+    
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        parent::__construct($aParms, $aItems, $reqPackage);
+    }
+
+    protected function getPreContent() {
+        $ret .= "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()}>\n";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n";
+    }
+}
+
+class WikiDojoMenuItem extends WikiIocComponent {
+    function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        parent::__construct($aParms, $reqPackage);
+    }
+
+    public function getRenderingCode() {
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='dijit.MenuItem'"
+             . " {$this->getDJO()}>{$this->get('DOM','label')}</div>";
+        return $ret;
+    }
+}
+
+class WikiIocMenuItemButton extends WikiIocComponent {
     function __construct($aParms = array()) {
         global $js_packages;
         $reqPackage = array(

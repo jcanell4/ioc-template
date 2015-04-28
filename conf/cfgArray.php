@@ -252,7 +252,7 @@ $_arrIocCfgGUI = array (
                   array (
                     'i0_userMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -273,7 +273,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i1_talkUserMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -294,7 +294,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i2_logoffMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -419,6 +419,73 @@ $_arrIocCfgGUI = array (
                         'PRP' => 
                         array (
                           'page' => ':wiki:navigation',
+                        ),
+                      ),
+                    ),
+                    'i2_menu' => 
+                    array (
+                      'class' => 'WikiDojoMenu',
+                      'parms' => 
+                      array (
+                        'DOM' => 
+                        array (
+                          'id' => 'tb_menu',
+                          'label' => 'menú',
+                        ),
+                        'DJO' => 
+                        array (
+                          'contextMenuForWindow' => 'true',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'i0_menu0' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu0',
+                              'label' => 'menú 0',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                            ),
+                          ),
+                        ),
+                        'i1_menu1' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu1',
+                              'label' => 'menú 1',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCopy\'',
+                            ),
+                          ),
+                        ),
+                        'i2_menu2' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu2',
+                              'label' => 'menú 2',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconPaste\'',
+                            ),
+                          ),
                         ),
                       ),
                     ),
