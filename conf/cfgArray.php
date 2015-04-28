@@ -452,6 +452,7 @@ $_arrIocCfgGUI = array (
                             'DJO' => 
                             array (
                               'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 0\');return _ret;}',
                             ),
                           ),
                         ),
@@ -468,6 +469,7 @@ $_arrIocCfgGUI = array (
                             'DJO' => 
                             array (
                               'iconClass' => '\'dijitEditorIcon dijitEditorIconCopy\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 1\');return _ret;}',
                             ),
                           ),
                         ),
@@ -484,6 +486,7 @@ $_arrIocCfgGUI = array (
                             'DJO' => 
                             array (
                               'iconClass' => '\'dijitEditorIcon dijitEditorIconPaste\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 2\');return _ret;}',
                             ),
                           ),
                         ),
