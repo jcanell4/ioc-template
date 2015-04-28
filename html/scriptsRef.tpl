@@ -289,7 +289,7 @@
                         dialog.nsActivePageText = function () {
                             var nsActivePage = '';
                             if (this.newButton.dispatcher.getGlobalState().currentTabId != null) {
-                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'];
+                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
                                 nsActivePage = nsActivePage.split(':')
                                 nsActivePage.pop();
                                 var len = nsActivePage.length;
@@ -509,7 +509,6 @@
             }
 
 
-            
             wikiIocDispatcher.updateFromState();
 
 
