@@ -483,6 +483,36 @@
 
                 }));
             }
+            
+            
+            
+            
+            
+            /* 
+             * Botó Media Detail
+             */
+            var mediaDetailButton = registry.byId('cfgIdConstants::MEDIA_DETAIL_BUTTON');
+            if (mediaDetailButton) {
+                mediaDetailButton.on('click', function () {
+                    var requestState = new Request();
+                    requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=mediadetails";
+                    var node = wikiIocDispatcher.getGlobalState().getDwPageUi().getElementParentNodeId(wikiIocDispatcher.getGlobalState().getCurrentElementId(),"DL");
+                    if(node){
+                        var elid = "";
+                        if (typeof node === "string") {
+                                elid = node;
+                        } else {
+                                elid = node.title;
+                        }
+                        var query = 'id='+elid +'&image=' + elid+'&img='+elid+'&do=media';
+                        requestState.sendRequest(query);
+                    }                    
+                });
+            }
+            
+            
+            
+            
 
             //cercar l'estat
             if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
