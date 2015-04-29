@@ -3,11 +3,11 @@ $arrParcial = array(
                  "class" => "WikiDojoMenuItem"
                 ,"parms" => array(
                                "DOM" => array(
-                                           "id"=> "menu2"
-                                          ,"label" => "menú 2"
+                                           "id"=> "submenu_menu0"
+                                          ,"label" => "submenú-menú-0"
                                         )
                               ,"DJO" => array(
-                                           "iconClass" => "'dijitEditorIcon dijitEditorIconPaste'"
+                                           "iconClass" => "'dijitEditorIcon dijitEditorIconCut'"
                                         )
                             )
               );

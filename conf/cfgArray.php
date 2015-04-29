@@ -430,11 +430,12 @@ $_arrIocCfgGUI = array (
                         'DOM' => 
                         array (
                           'id' => 'tb_menu',
-                          'label' => 'menú',
+                          'title' => 'menú',
                         ),
                         'DJO' => 
                         array (
-                          'contextMenuForWindow' => 'true',
+                          'contextMenuForWindow' => 'false',
+                          'activated' => 'true',
                         ),
                       ),
                       'items' => 
@@ -447,7 +448,7 @@ $_arrIocCfgGUI = array (
                             'DOM' => 
                             array (
                               'id' => 'menu0',
-                              'label' => 'menú 0',
+                              'label' => 'menú-0',
                             ),
                             'DJO' => 
                             array (
@@ -464,16 +465,23 @@ $_arrIocCfgGUI = array (
                             'DOM' => 
                             array (
                               'id' => 'menu1',
-                              'label' => 'menú 1',
+                              'label' => 'menú-1 sin-Icono',
                             ),
                             'DJO' => 
                             array (
-                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCopy\'',
+                              'iconClass' => '\'dijitNoIcon\'',
                               'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 1\');return _ret;}',
                             ),
                           ),
                         ),
-                        'i2_menu2' => 
+                        'i2_sparador' => 
+                        array (
+                          'class' => 'WikiDojoMenuSeparator',
+                          'parms' => 
+                          array (
+                          ),
+                        ),
+                        'i3_menu2' => 
                         array (
                           'class' => 'WikiDojoMenuItem',
                           'parms' => 
@@ -481,12 +489,48 @@ $_arrIocCfgGUI = array (
                             'DOM' => 
                             array (
                               'id' => 'menu2',
-                              'label' => 'menú 2',
+                              'label' => 'menú-2',
                             ),
                             'DJO' => 
                             array (
                               'iconClass' => '\'dijitEditorIcon dijitEditorIconPaste\'',
                               'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 2\');return _ret;}',
+                            ),
+                            'PRP' => 
+                            array (
+                              'MenuSeparator' => 1,
+                            ),
+                          ),
+                        ),
+                        'i4_submenu' => 
+                        array (
+                          'class' => 'WikiDojoSubMenu',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'submenu',
+                              'label' => 'SubMenú',
+                            ),
+                          ),
+                          'items' => 
+                          array (
+                            'i0_menu0' => 
+                            array (
+                              'class' => 'WikiDojoMenuItem',
+                              'parms' => 
+                              array (
+                                'DOM' => 
+                                array (
+                                  'id' => 'submenu_menu0',
+                                  'label' => 'submenú-menú-0',
+                                ),
+                                'DJO' => 
+                                array (
+                                  'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onClick del menú 0 del submenú\');return _ret;}',
+                                ),
+                              ),
                             ),
                           ),
                         ),

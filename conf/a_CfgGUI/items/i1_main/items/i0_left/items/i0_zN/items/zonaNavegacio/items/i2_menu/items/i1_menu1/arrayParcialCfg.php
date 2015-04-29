@@ -4,10 +4,10 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id"=> "menu1"
-                                          ,"label" => "menú 1"
+                                          ,"label" => "menú-1 sin-Icono"
                                         )
                               ,"DJO" => array(
-                                           "iconClass" => "'dijitEditorIcon dijitEditorIconCopy'"
+                                           "iconClass" => "'dijitNoIcon'"
                                         )
                             )
               );

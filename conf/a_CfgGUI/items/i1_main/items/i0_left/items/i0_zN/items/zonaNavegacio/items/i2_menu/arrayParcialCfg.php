@@ -4,10 +4,11 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id"=> cfgIdConstants::TB_MENU
-                                          ,"label" => "menú"
+                                          ,"title" => "menú"
                                         )
                               ,"DJO" => array(
-                                           "contextMenuForWindow" => "true"
+                                           "contextMenuForWindow" => "false"
+                                          ,"activated" => "true"
                                         )
                             )
               );
