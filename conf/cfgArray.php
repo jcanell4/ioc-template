@@ -252,7 +252,7 @@ $_arrIocCfgGUI = array (
                   array (
                     'i0_userMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -273,7 +273,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i1_talkUserMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -294,7 +294,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i2_logoffMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocMenuItemButton',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -419,6 +419,120 @@ $_arrIocCfgGUI = array (
                         'PRP' => 
                         array (
                           'page' => ':wiki:navigation',
+                        ),
+                      ),
+                    ),
+                    'i2_menu' => 
+                    array (
+                      'class' => 'WikiDojoMenu',
+                      'parms' => 
+                      array (
+                        'DOM' => 
+                        array (
+                          'id' => 'tb_menu',
+                          'title' => 'menú',
+                        ),
+                        'DJO' => 
+                        array (
+                          'contextMenuForWindow' => 'false',
+                          'activated' => 'true',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'i0_menu0' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu0',
+                              'label' => 'menú-0',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 0\');return _ret;}',
+                            ),
+                          ),
+                        ),
+                        'i1_menu1' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu1',
+                              'label' => 'menú-1 sin-Icono',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 1\');return _ret;}',
+                            ),
+                          ),
+                        ),
+                        'i2_sparador' => 
+                        array (
+                          'class' => 'WikiDojoMenuSeparator',
+                          'parms' => 
+                          array (
+                          ),
+                        ),
+                        'i3_menu2' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'menu2',
+                              'label' => 'menú-2',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconPaste\'',
+                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 2\');return _ret;}',
+                            ),
+                            'PRP' => 
+                            array (
+                              'MenuSeparator' => 1,
+                            ),
+                          ),
+                        ),
+                        'i4_submenu' => 
+                        array (
+                          'class' => 'WikiDojoSubMenu',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'submenu',
+                              'label' => 'SubMenú',
+                            ),
+                          ),
+                          'items' => 
+                          array (
+                            'i0_menu0' => 
+                            array (
+                              'class' => 'WikiDojoMenuItem',
+                              'parms' => 
+                              array (
+                                'DOM' => 
+                                array (
+                                  'id' => 'submenu_menu0',
+                                  'label' => 'submenú-menú-0',
+                                ),
+                                'DJO' => 
+                                array (
+                                  'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onClick del menú 0 del submenú\');return _ret;}',
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

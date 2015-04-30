@@ -34,6 +34,7 @@ class cfgIdConstants {
     const TB_PERFIL           = "tb_perfil";
     const TB_ADMIN            = "tb_admin";
     const TB_DOCU             = "tb_docu";
+    const TB_MENU             = "tb_menu";
 
     const ZONA_METAINFO_DIV   = "zonaMetaInfoDiv";
     const ZONA_METAINFO       = "zonaMetaInfo";

@@ -34,6 +34,8 @@
         "dijit/PopupMenuBarItem",
         "dijit/MenuItem",
         "dijit/Menu",
+        "dijit/PopupMenuItem", //rafa
+        "dijit/MenuSeparator", //rafa
         "dijit/TitlePane",
         "ioc/gui/ResizingTabController",
         "ioc/gui/IocDropDownButton",
@@ -251,8 +253,6 @@
 
         ready(function () {
 
-
-
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 
             if (tbContainer) {
@@ -288,7 +288,7 @@
 
                         dialog.nsActivePageText = function () {
                             var nsActivePage = '';
-                            if (this.newButton.dispatcher.getGlobalState().currentTabId != null) {
+                            if (this.newButton.dispatcher.getGlobalState().currentTabId !== null) {
                                 var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
                                 nsActivePage = nsActivePage.split(':')
                                 nsActivePage.pop();
@@ -298,7 +298,7 @@
                                 }
                             }
                             return nsActivePage;
-                        }
+                        };
 
 
                         var bc = new BorderContainer({
