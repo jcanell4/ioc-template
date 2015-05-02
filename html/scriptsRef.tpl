@@ -284,6 +284,59 @@
 
                         dialog.on('show', function () {
                             dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
+                            if (this.newButton.dispatcher.getGlobalState().currentTabId) {
+                                dom.byId('textBoxEspaiNoms').focus();
+                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
+                                nsActivePage = nsActivePage.split(':');
+                                nsActivePage.pop();
+                                nsActivePage.unshift("");
+                                var path = new Object();
+                                path.id = "";
+                                path.name = "";
+                                path.type = "d";
+                                for (var i=0;i<nsActivePage.length;i++) {
+                                    if (i > 1) {
+                                        path.id = path.id + ":";
+                                        path.name = path.name + ":";
+                                    }
+                                    path.id = path.id + nsActivePage[i];
+                                    var dtreeStore = dialogTree.tree.model.store;
+                                    var dtreeroot = dialogTree.root;
+                                    var nodes = this.dialogTree.tree.model.store.get(path.id).then(function(selectedObjects){
+                                        console.log(selectedObjects);
+                                        //path.children.push.(selectedObjects);
+                                        // add a new child item
+                                        /*var childItem = {
+                                            name: "New child",
+                                            id: Math.random()
+                                        };
+                                        dtreeStore.put(childItem, {
+                                            overwrite: true,
+                                            parent: ""
+                                        });
+                                        dtreeStore.put(selectedObjects).then(function(as){
+                                            console.log(as);
+                                        })*/;
+                                        //console.log(selectedObjects);
+                                    });
+                                }
+                                this.dialogTree.tree.set('path',nsActivePage)
+                            }
+
+                            //var len = nsActivePage.length;
+                            //if (len > 1) {
+                            //    nsActivePage = nsActivePage.join(':');
+                            //}
+
+                            // var nodes = this.dialogTree.tree.model.store.get(nsActivePage);
+
+                            // this.set('paths',nsActivePage);
+                            //this.dialogTree.tree.expandAll();
+                            //this.dialogTree.tree.collapseAll();
+                            //this.dialogTree.tree.set('paths',nsActivePage);
+                            //.then(
+                            //        function(val){console.log("resolved promise: " + this.dialogTree.tree.get('path'));
+                            // });
                         });
 
                         dialog.nsActivePageText = function () {
@@ -308,7 +361,7 @@
                         // create a ContentPane as the left pane in the BorderContainer
                         var cpEsquerra = new ContentPane({
                             region: "left",
-                            style: "width: 170px"
+                            style: "width: 220px"
                         });
                         bc.addChild(cpEsquerra);
 
@@ -321,10 +374,10 @@
                         // put the top level widget into the document, and then call startup()
                         bc.placeAt(dialog.containerNode);
 
-                        // Un formulari a la banda esquerre contenint:
+                        // Un formulari a la banda dreta contenint:
                         var divesquerra = domConstruct.create('div', {
-                            className: 'esquerra'
-                        },cpEsquerra.containerNode);
+                            className: 'dreta'
+                        },cpDreta.containerNode);
 
                         var form = new Form().placeAt(divesquerra);
 
@@ -360,13 +413,15 @@
                         //L'arbre de navegació a la banda dreta del quadre.
                         var divdreta = domConstruct.create('div', {
                             className: 'dreta'
-                        },cpDreta.containerNode);
+                        },cpEsquerra.containerNode);
 
                         var dialogTree = new NsTreeContainer({
                             treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
                             onlyDirs:true
                         }).placeAt(divdreta);
                         dialogTree.startup();
+
+                        dialog.dialogTree = dialogTree;
 
                         dialogTree.tree.onClick=function(item) {
                             dom.byId('textBoxEspaiNoms').value= item.id;
