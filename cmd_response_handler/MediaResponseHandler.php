@@ -54,8 +54,30 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         
         $ajaxCmdResponseGenerator->addInfoDta($info);
         
+        /*
+         * 20150430 Miguel Angel Lozano
+         * Canvi per fer servir ContentTabDokuWikiNsTree
+         * En comptes de cridar a getModelWrapper()->getNsMediaTree, es construeix la resposta
+         * necessària per tal de que al fer clic a ContentTabDokuWikiNsTree es pugui fer la crida
+         * amb els paràmetres necessaris (que aniran directament a la urlBase)
+         */
 
-        $metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0, TRUE);
+        //$metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0, TRUE);
+        global $INPUT;
+        $sort = "name";
+        if($INPUT->str('sort')){
+            $sort = $INPUT->str('sort');
+        }
+        $list = "thumbs";
+        if($INPUT->str('list')){
+            $list = $INPUT->str('list');
+        }
+        $metaData = array(
+            'id' => 'metaMedia', 
+            'sort' => $sort,
+            'list' => $list
+        );
+
         $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
         $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
         $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
