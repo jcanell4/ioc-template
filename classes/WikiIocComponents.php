@@ -784,13 +784,11 @@ class WikiDojoMenu extends WikiIocItemsContainer {
         $ret = "<div data-dojo-type='dijit.layout.ContentPane' {$this->getDOM('title')}"
              . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n"
              . "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()} style='border:0px;width:100%;'>";
-        //$ret = "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()} style='width:100%;padding:0px 2px 0px 2px;'>";
         return $ret;
     }
 
     protected function getPostContent() {
         $ret = "\n</div>\n</div>\n\n";
-        //$ret = "\n</div>\n\n";
         return $ret;
     }
 }
