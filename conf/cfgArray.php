@@ -474,7 +474,7 @@ $_arrIocCfgGUI = array (
                             ),
                           ),
                         ),
-                        'i2_sparador' => 
+                        'i2_separador' => 
                         array (
                           'class' => 'WikiDojoMenuSeparator',
                           'parms' => 
@@ -531,6 +531,50 @@ $_arrIocCfgGUI = array (
                                   'onClick' => 'function(){var _ret=null; alert(\'hola soc onClick del menú 0 del submenú\');return _ret;}',
                                 ),
                               ),
+                            ),
+                          ),
+                        ),
+                        'i5_separador' => 
+                        array (
+                          'class' => 'WikiDojoMenuSeparator',
+                          'parms' => 
+                          array (
+                          ),
+                        ),
+                        'i6_iocmenuitem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'ioc_menu6',
+                              'label' => 'IocMenuItem = page',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                            ),
+                          ),
+                        ),
+                        'i7_iocmenuitem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'ioc_menu7',
+                              'label' => 'IocMenuItem = logoff',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'disabled' => false,
+                              'query' => '\'do=logoff\'',
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
                             ),
                           ),
                         ),
@@ -756,7 +800,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];var rev = this.dispatcher.getGlobalState().getCurrentContent().rev;if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}if (rev) { _ret+=\'&rev=\' + rev;}return _ret;}',
                 ),
               ),
             ),
