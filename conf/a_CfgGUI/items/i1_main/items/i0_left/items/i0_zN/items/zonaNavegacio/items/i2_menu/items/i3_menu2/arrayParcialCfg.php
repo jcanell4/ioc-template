@@ -7,7 +7,7 @@ $arrParcial = array(
                                           ,"label" => "menú-2"
                                         )
                               ,"DJO" => array(
-                                           "iconClass" => "'dijitEditorIcon dijitEditorIconPaste'"
+                                           "iconClass" => "'dijitEditorIcon dijitEditorIconCut'"
                                         )
                               ,"PRP" => array(
                                            "MenuSeparator" => 1

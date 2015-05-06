@@ -524,7 +524,7 @@ class WikiIocTreeContainer extends WikiIocContentPane {
         $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " {$this->getDJO()}"
-            . " style='overflow:auto;' closable='false' doLayout='false'>\n";
+            . " style='overflow:auto;' closable='false' doLayout='false'>";
         return $ret;
     }
 
@@ -781,12 +781,17 @@ class WikiDojoMenu extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()}>";
+        $ret = "<div data-dojo-type='dijit.layout.ContentPane' {$this->getDOM('title')}"
+             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n"
+             . "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()} style='border:0px;width:100%;'>";
+        //$ret = "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()} style='width:100%;padding:0px 2px 0px 2px;'>";
         return $ret;
     }
 
     protected function getPostContent() {
-        return "\n</div>\n\n";
+        $ret = "\n</div>\n</div>\n\n";
+        //$ret = "\n</div>\n\n";
+        return $ret;
     }
 }
 
@@ -1022,7 +1027,7 @@ class WikiIocProperty extends WikiIocComponent {
     */
     public function getRenderingCode() {
         $selected = ($this->get('DOM','selected')) ? "selected='true'" : "";
-        $ret = "<div data-dojo-type='dijit.layout.ContentPane' title='{$this->get('DOM','title')}' extractContent='false'"
+        $ret = "<div data-dojo-type='dijit.layout.ContentPane' {$this->getDOM('title')} extractContent='false'"
              . " preventCache='false' preload='false' refreshOnShow='false' $selected closable='false' doLayout='false'></div>\n";
         return $ret;
     }
