@@ -1,13 +1,15 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiDojoMenuItem"
+                 "class" => "WikiIocMenuItem"
                 ,"parms" => array(
                                "DOM" => array(
-                                           "id"=> "menu0"
-                                          ,"label" => "menú-0"
+                                           "id"=> cfgIdConstants::EINES_CANVIS_RECENTS
+                                          ,"label" => "Canvis recents"
                                         )
                               ,"DJO" => array(
-                                           "iconClass" => "'dijitEditorIcon dijitEditorIconCut'"
+                                           "iconClass" => "'dijitNoIcon'"
+                                          ,"disabled" => false
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=recent'"
                                         )
                             )
               );

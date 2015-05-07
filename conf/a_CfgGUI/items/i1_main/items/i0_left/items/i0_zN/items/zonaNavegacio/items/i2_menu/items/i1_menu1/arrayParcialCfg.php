@@ -1,14 +1,15 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiDojoMenuItem"
+ "class" => "WikiIocMenuItem"
                 ,"parms" => array(
                                "DOM" => array(
-                                           "id"=> "menu1"
-                                          ,"label" => "menú-1 sin-Icono"
+                                           "id"=> cfgIdConstants::EINES_MEDIAMANGER
+                                          ,"label" => "Media manager"
                                         )
                               ,"DJO" => array(
                                            "iconClass" => "'dijitNoIcon'"
+                                          ,"disabled" => false
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=media'"
                                         )
                             )
               );
-

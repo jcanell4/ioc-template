@@ -36,9 +36,12 @@ class cfgIdConstants {
     const TB_DOCU             = "tb_docu";
     const TB_MENU             = "tb_menu";
 
+    const EINES_CANVIS_RECENTS = "canvisRecents";
+    const EINES_MEDIAMANGER = "mediaManager";
+    
     const ZONA_METAINFO_DIV   = "zonaMetaInfoDiv";
     const ZONA_METAINFO       = "zonaMetaInfo";
-
+    
     const CONTENT             = "content";
     const BODY_CONTENT        = "bodyContent";
 
@@ -88,52 +91,5 @@ class cfgIdConstants {
         return "'".$constante."'";
     }
 
-    /* private $arrIds; */
-
-    function __construct() {
-        /*
-        $this->arrIds = array(
-             "mainContent"     => "mainContent"
-            ,"bodyContent"     => "bodyContent"
-            //id"s de les Zones/Contenidors principals
-            ,"zonaAccions"     => "zonaAccions"
-            ,"zonaNavegacio"   => "zonaNavegacio"
-            ,"zonaMetaInfo"    => "zonaMetaInfo"
-            ,"zonaMissatges"   => "zonaMissatges"
-            ,"zonaCanvi"       => "zonaCanvi"
-            ,"barraMenu"       => "barraMenu"
-            //id's de les pestanyes (tabs) de la zona de Navegació
-            ,"zN_index_id"     => "tb_index"
-            ,"zN_perfil_id"    => "tb_perfil"
-            ,"zN_admin_id"     => "tb_admin"
-            ,"zN_docum_id"     => "tb_docu"
-            //id's dels botons de la zona de Canvi
-            ,"loginDialog"     => "loginDialog"
-            ,"loginButton"     => "loginButton"
-            ,"exitButton"      => "exitButton"
-            ,"editButton"      => "editButton"
-            ,"newButton"       => "newButton"
-            ,"saveButton"      => "saveButton"
-            ,"previewButton"   => "previewButton"
-            ,"cancelButton"    => "cancelButton"
-            ,"edparcButton"    => "edparcButton"
-            ,"userDialog"      => "userDialog"
-            ,"userButton"      => "userButton"
-            ,"userMenuItem"    => "userMenuItem"
-            ,"talkUserMenuItem"=> "talkUserMenuItem"
-            ,"logoffMenuItem"  => "logoffMenuItem"
-        );
-        */
-    }
-    /*
-    public function getarrId() {
-        return $this->arrIds;
-    }
-    */
-    /*
-    private function getJsPackage($id){
-        global $js_packages;
-        return $js_packages[$id];
-    }
-    */
+    function __construct() {}
 }
