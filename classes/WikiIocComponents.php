@@ -481,7 +481,7 @@ class WikiIocTreeContainer extends WikiIocContentPane {
         $ret = "<div {$this->getDOM()} $title $tooltip data-dojo-type='{$this->getReqJsModule('ContentTabDokuwikiNsTree')}'"
             . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
             . " {$this->getDJO()}"
-            . " style='overflow:auto;' closable='false' doLayout='false'>\n";
+            . " style='overflow:auto;' closable='false' doLayout='false'>";
         return $ret;
     }
 
