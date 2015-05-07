@@ -28,3 +28,4 @@ echo "array generat: <pre>".print_r($aIocCfg, true)."</pre>";
 echo "<p>Fi del proc&eacute;s de generaci&oacute; del fitxer <b>$fileArrayCfgGUI</b></p>"
 ?>
 </div></body></html>
+

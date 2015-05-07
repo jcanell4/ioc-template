@@ -1,6 +1,6 @@
 <?php
 $arrParcial = array(
-             "class" => "WikiIocMenuItemButton"
+             "class" => "WikiIocMenuItem"
             ,"parms" => array(
                            "DOM" => array(
                       						 "id" => cfgIdConstants::TALK_USER_MENU_ITEM

@@ -4,7 +4,7 @@
  * Description of WikiIocBuilderManager.
  * Aquesta classe es un Singleton, s'obté la instància amb WikiIocBuiderManager::Instance().
  *
- * @author Josep Cañellas <jcanell4@ioc.cat>
+ * @author Josep Cañellas <jcanell4@ioc.cat> i Rafael Claver <rclaver@xtec.cat>
  */
 class WikiIocBuilderManager {
     public static $MESSAGES = array(
@@ -15,6 +15,7 @@ class WikiIocBuilderManager {
     public static $REPEATED_PACKAGE_LOC = 1;
     private $resourcePackages;
     private $locationController;
+    private $jsModules;
 
     /**
      * Crea una nova instància o si ja existeix la retorna.
@@ -33,8 +34,30 @@ class WikiIocBuilderManager {
      * El constructor es privat perquè es un Singleton, s'ha de fer servir WikiIocBuilderManager::Instance()
      */
     private function __construct() {
-        $this->locationController = array();
         $this->resourcePackages   = array();
+        $this->locationController = array();
+        $this->jsModules          = array();
+    }
+
+    /**
+     * Processa els components passats com argument.
+     * @param WikiIocBuilder $component
+     */
+    function processComponent($component) {
+    
+        $packages = $component->getRequiredPackages();
+        if ($packages) {
+            foreach($packages as $obj) {
+                $this->putRequiredPackage($obj);
+            }
+        }
+
+        $modules = $component->getRequiredJsModules();
+        if ($modules) {
+            foreach($modules as $mod) {
+                $this->putRequiredJsModules($mod);
+            }
+        }
     }
 
     /**
@@ -57,7 +80,7 @@ class WikiIocBuilderManager {
                 $this->getErrorMessage(
                      WikiIocBuilderManager::$REPEATED_PACKAGE_NAME
                 ));
-        } else if($existName && !$existLocation) {
+        } else if(!$existName && $existLocation) {
             //error locallització repetida /*TO DO Multilanguage */
             throw new Exception(
                 $this->getErrorMessage(
@@ -67,19 +90,22 @@ class WikiIocBuilderManager {
     }
 
     /**
-     * Processa el component passat com argument.
-     *
-     * @param WikiIocBuilder $component
+     * Crea un array con la lista de modulos javascript a incluir en el require
      */
-    function processComponent($component) {
-        $packages = $component->getRequiredPackages();
-
-        if ($packages) {
-            foreach($packages as $obj) {
-                $this->putRequiredPackage($obj);
-            }
+    function putRequiredJsModules($mod) {
+        if (!in_array($mod, $this->jsModules, TRUE)) {
+            $this->jsModules[] = $mod;
         }
-
+    }
+    
+    /**
+     * @return string con la lista de módulos javascript para el require de javascript
+     */
+    public function getListModRequires() {
+        foreach($this->jsModules as $mod) {
+            $ret .= ",\"$mod\"\n";
+        }
+        return $ret;
     }
 
     /**

@@ -6,10 +6,13 @@ require_once(DOKU_TPL_INCDIR . 'conf/default.php');
 
 class cfgBuilder {
 
-	function __construct() {}
+    private $arrJS_AMD = array();
+    
+    function __construct() {}
 
     public function getArrayCfg($dir) {
-        return $this->dirToArray($dir);
+        $ret = $this->dirToArray($dir);
+        return array("arrCfg" => $ret, "amd" => $this->arrJS_AMD);
     }
 
     /**
@@ -19,9 +22,17 @@ class cfgBuilder {
         include_once ("$dir/arrayParcialCfg.php");
         // $arrParcial es el nombre del array definido en cada uno de los ficheros arrayParcialCfg.php
         $arrCfg = $arrParcial;
-        $arrJS = $this->buscaJS("$dir/js/set");
-        if ($arrJS) {
-            foreach ($arrJS as $k => $v) {
+        
+        $arrJS_AMD_tmp = $this->buscaJS_AMD("$dir/js/amd");
+        if ($arrJS_AMD_tmp) {
+            foreach ($arrJS_AMD_tmp as $v) {
+                $this->arrJS_AMD[] = $v;
+            }
+        }
+
+        $arrJS_SET = $this->buscaJS_SET("$dir/js/set");
+        if ($arrJS_SET) {
+            foreach ($arrJS_SET as $k => $v) {
                 $arrCfg['parms']['DJO'][$k] = $v;
             }
         }
@@ -30,6 +41,7 @@ class cfgBuilder {
         if ($ret) {
             $arrCfg['items'] = $ret;
         }
+
         return $arrCfg;
     }
 
@@ -38,7 +50,7 @@ class cfgBuilder {
     **/
     private function addCfgArray($dir) {
         $item = array();
-        $sdir = scandir($dir);
+        $sdir = @scandir($dir);
         // mira si existe el subdirectorio items
         if ($sdir) {
             foreach ($sdir as $value) {
@@ -54,12 +66,12 @@ class cfgBuilder {
     }
 
     /**
-        Devuelve el contenido de cada archivo JS en un elemento del array de retorno
+        Devuelve el contenido de cada archivo JS/SET en un elemento del array de retorno
     **/
-    private function buscaJS($dir) {
+    private function buscaJS_SET($dir) {
         if (is_dir($dir)) {
             $js = array();
-            $sdir = scandir($dir);
+            $sdir = @scandir($dir);
             foreach ($sdir as $value) {
                 $arxiu = "$dir/$value";
                 if (!is_dir($arxiu) && substr(strrchr($value, "."), 1) === "js") {
@@ -81,13 +93,64 @@ class cfgBuilder {
     }
 
     /**
+        Devuelve el contenido de cada archivo JS/AMD en un elemento del array de retorno
+    **/
+    private function buscaJS_AMD($dir) {
+        if (is_dir($dir)) {
+            $amd = array();
+            $sdir = @scandir($dir);
+            foreach ($sdir as $value) {
+                $arxiu = "$dir/$value";
+                if (!is_dir($arxiu) && substr(strrchr($value, "."), 1) === "js") {
+                    $fh = fopen($arxiu, "rb");
+                    if ($fh) {
+                        $contingut = array();
+                        //Para todas las líneas del fichero
+                        while (($buffer = fgets($fh)) !== false) {
+                            //Lee una línea del fichero
+                            $buffer = trim($buffer, " \t\r\n\0\x0B");
+                            if (preg_match('/\/{2}[\s]*include/i', $buffer) == 1) {
+                                $buffer = str_replace(array('"', "'"), "", $buffer);
+                                $r = explode(":", preg_replace(array("/(?:\/+\s*include)\s*(.*)/i", "/(?:;\s*alias)\s*(.*)/i"), array("$1",":$1"), $buffer));
+                                $contingut['require'][] = trim($r[0]);
+                                $contingut['alias'][] = ($r[1]) ? trim($r[1]) : trim(substr(strrchr($r[0], "/"), 1));
+                            }
+                            elseif (substr($buffer, 0, 2) !== "//") {   //Elimina las líneas de comentario
+                                $contingut['codi'] .= ($buffer == "") ? "" : "$buffer\n";
+                            }
+                        }
+                        fclose($fh);
+                        $sortida = null;
+                        //Construye la función require. En primer lugar la "cabecera"
+                        if ($contingut['require']) {
+                            foreach ($contingut['require'] as $v) {
+                                $sortida .= ",\"$v\"\n";
+                            }
+                            $sortida = "require([\n" . substr($sortida, 1) . "], function (";
+                            //Añade los punteros de la función  
+                            foreach ($contingut['alias'] as $v) {
+                                $sortida .= "$v,";
+                            }
+                            $amd[] = substr($sortida, 0, -1) . ") {\n" . $contingut['codi'] . "});";
+                        }
+                    }
+                }
+            }
+            //return array("require" => $require, "codi" => $codi);
+            return $amd;
+        }
+        else
+            return NULL;
+    }
+
+    /**
         Escribe el contenido de un array en un fichero de texto php
     **/
 	public function writeArrayToFile($arr, $file) {
         global $conf;
-        $sortida = "<?php\r\nfunction " . $conf['ioc_function_array_gui_needReset'] . "(){\r\n  \$_needReset = 0;\r\n  return \$_needReset;\r\n}\r\n";
-        $sortida.= "\r\nfunction " . $conf['ioc_function_array_gui'] . "(){\r\n";
-        $sortida.= "\$_arrIocCfgGUI = " . var_export($arr, true) . ";\r\n\r\nreturn \$_arrIocCfgGUI;\r\n}";
+        $sortida = "<?php\nfunction " . $conf['ioc_function_array_gui_needReset'] . "(){\n  \$_needReset = 0;\n  return \$_needReset;\n}\n";
+        $sortida.= "\nfunction " . $conf['ioc_function_array_gui'] . "(){\n";
+        $sortida.= "\$_arrIocCfgGUI = " . var_export($arr, true) . ";\n\nreturn \$_arrIocCfgGUI;\n}";
         // Obtiene las constantes definidas en la clase cfgIdConstants
         $oCfgClass = new ReflectionClass ('cfgIdConstants');
         $aConstants = $oCfgClass->getConstants();
@@ -102,6 +165,30 @@ class cfgBuilder {
         fwrite($fh, $sortida);
         fclose($fh);
         return $arr;
+    }
+
+    /**
+        Escribe el contenido de un array en un fichero de texto .js
+    **/
+	public function writeAMDToFile($arr, $file) {
+        //Concatena todos los módulos javascript en un único string
+        foreach ($arr as $v) {
+            $sortida .= "$v\n";
+        }
+        // Obtiene las constantes definidas en la clase cfgIdConstants
+        $oCfgClass = new ReflectionClass ('cfgIdConstants');
+        $aConstants = $oCfgClass->getConstants();
+        // Convierte el array de constantes en un array de patrones y otro de sustituciones
+        foreach ($aConstants as $k => $v) {
+            $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
+            $aSustituciones[] = $v;
+        }
+        
+        $sortida = preg_replace($aPatrones, $aSustituciones, $sortida);
+        $fh = fopen($file, "w");
+        fwrite($fh, $sortida);
+        fclose($fh);
+        return $sortida;
     }
 }
 ?>

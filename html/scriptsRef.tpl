@@ -553,7 +553,15 @@
             container = registry.byId(wikiIocDispatcher.navegacioNodeId);
             containerContentToolFactory.generate(container, {dispatcher:wikiIocDispatcher});
 
+        });
 
+        // TODO[Xavi] Això hauria de activarse globalment, no només per un tipus concret de document
+        window.addEventListener("beforeunload", function (event) {
+            if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
+                event.returnValue = LANG.notsavedyet;
+            }
+
+            deleteDraft();
         });
 
     });
