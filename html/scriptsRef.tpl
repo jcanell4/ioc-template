@@ -291,18 +291,19 @@
                                 nsActivePage.pop();
                                 nsActivePage.unshift("");
                                 var self = this;
-                                this.dialogTree.tree.collapseAll().then(function(){
-                                    var path = "";
-                                    for (var i=0;i<nsActivePage.length;i++) {
-                                        if (i > 1) {
-                                            path = path + ":";
-                                        }
-                                        path = path + nsActivePage[i];
-                                        nsActivePage[i]=path;
-                                        self.dialogTree.tree.model.store.get(path);
+//                                this.dialogTree.tree.collapseAll().then(function(){
+//                                });
+                                var path = "";
+                                for (var i=0;i<nsActivePage.length;i++) {
+                                    if (i > 1) {
+                                        path = path + ":";
                                     }
-                                    self.dialogTree.tree.set('path',nsActivePage);
-                                });
+                                    path = path + nsActivePage[i];
+                                    nsActivePage[i]=path;
+                                    self.dialogTree.tree.model.store.get(path);
+                                }
+                                self.dialogTree.tree.set('path',nsActivePage);
+
                             }
                         });
 
