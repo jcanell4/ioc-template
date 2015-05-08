@@ -290,53 +290,20 @@
                                 nsActivePage = nsActivePage.split(':');
                                 nsActivePage.pop();
                                 nsActivePage.unshift("");
-                                var path = new Object();
-                                path.id = "";
-                                path.name = "";
-                                path.type = "d";
-                                for (var i=0;i<nsActivePage.length;i++) {
-                                    if (i > 1) {
-                                        path.id = path.id + ":";
-                                        path.name = path.name + ":";
+                                var self = this;
+                                this.dialogTree.tree.collapseAll().then(function(){
+                                    var path = "";
+                                    for (var i=0;i<nsActivePage.length;i++) {
+                                        if (i > 1) {
+                                            path = path + ":";
+                                        }
+                                        path = path + nsActivePage[i];
+                                        nsActivePage[i]=path;
+                                        self.dialogTree.tree.model.store.get(path);
                                     }
-                                    path.id = path.id + nsActivePage[i];
-                                    var dtreeStore = dialogTree.tree.model.store;
-                                    var dtreeroot = dialogTree.root;
-                                    var nodes = this.dialogTree.tree.model.store.get(path.id).then(function(selectedObjects){
-                                        console.log(selectedObjects);
-                                        //path.children.push.(selectedObjects);
-                                        // add a new child item
-                                        /*var childItem = {
-                                            name: "New child",
-                                            id: Math.random()
-                                        };
-                                        dtreeStore.put(childItem, {
-                                            overwrite: true,
-                                            parent: ""
-                                        });
-                                        dtreeStore.put(selectedObjects).then(function(as){
-                                            console.log(as);
-                                        })*/;
-                                        //console.log(selectedObjects);
-                                    });
-                                }
-                                this.dialogTree.tree.set('path',nsActivePage)
+                                    self.dialogTree.tree.set('path',nsActivePage);
+                                });
                             }
-
-                            //var len = nsActivePage.length;
-                            //if (len > 1) {
-                            //    nsActivePage = nsActivePage.join(':');
-                            //}
-
-                            // var nodes = this.dialogTree.tree.model.store.get(nsActivePage);
-
-                            // this.set('paths',nsActivePage);
-                            //this.dialogTree.tree.expandAll();
-                            //this.dialogTree.tree.collapseAll();
-                            //this.dialogTree.tree.set('paths',nsActivePage);
-                            //.then(
-                            //        function(val){console.log("resolved promise: " + this.dialogTree.tree.get('path'));
-                            // });
                         });
 
                         dialog.nsActivePageText = function () {
