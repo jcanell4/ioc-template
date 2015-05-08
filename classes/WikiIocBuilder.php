@@ -10,17 +10,19 @@ require_once(DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php');
  * Aquesta classe es la superclasse de WikiIocComponent, que es superclasse de WikiDojoButton, WikiIocContainer,
  * WikiIocFormInputField i WikiIocProperty->(eliminat).
  *
- * @author Josep Cañellas <jcanell4@ioc.cat>
+ * @author Josep Cañellas <jcanell4@ioc.cat>  i Rafael Claver <rclaver@xtec.cat>
  */
 abstract class WikiIocBuilder {
     protected $requiredPakages; //WE MUST CONTROL PAKAGE LEVEL ONLY
+    protected $requiredJsModules;   //array de moduls AMD requerits en els atributs dojo
 
     /**
      * @param array[] $requiredPakages array amb un hash que conté els packages requerits amb el format:
      *                                 "array("name" => "ioc", "location" => $js_packages["ioc"])
      */
-    public function __construct($requiredPakages = array()) {
+    public function __construct($requiredPakages = array(), $reqJsModules = array()) {
         $this->requiredPakages = $requiredPakages;
+        $this->requiredJsModules = $reqJsModules;
         WikiIocBuilderManager::Instance()->processComponent($this);
     }
 
@@ -37,5 +39,11 @@ abstract class WikiIocBuilder {
      */
     public function getRequiredPackages() {
         return $this->requiredPakages;
+    }
+    /**
+     * @return array[] hash que conté els mòduls javascript requerits.
+     */
+    public function getRequiredJsModules() {
+        return $this->requiredJsModules;
     }
 }

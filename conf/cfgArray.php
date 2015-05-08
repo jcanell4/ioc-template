@@ -252,7 +252,7 @@ $_arrIocCfgGUI = array (
                   array (
                     'i0_userMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItemButton',
+                      'class' => 'WikiIocMenuItem',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -273,7 +273,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i1_talkUserMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItemButton',
+                      'class' => 'WikiIocMenuItem',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -294,7 +294,7 @@ $_arrIocCfgGUI = array (
                     ),
                     'i2_logoffMenuItem' => 
                     array (
-                      'class' => 'WikiIocMenuItemButton',
+                      'class' => 'WikiIocMenuItem',
                       'parms' => 
                       array (
                         'DOM' => 
@@ -442,139 +442,37 @@ $_arrIocCfgGUI = array (
                       array (
                         'i0_menu0' => 
                         array (
-                          'class' => 'WikiDojoMenuItem',
+                          'class' => 'WikiIocMenuItem',
                           'parms' => 
                           array (
                             'DOM' => 
                             array (
-                              'id' => 'menu0',
-                              'label' => 'menú-0',
+                              'id' => 'canvisRecents',
+                              'label' => 'Canvis recents',
                             ),
                             'DJO' => 
                             array (
-                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
-                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 0\');return _ret;}',
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=recent\'',
                             ),
                           ),
                         ),
                         'i1_menu1' => 
                         array (
-                          'class' => 'WikiDojoMenuItem',
-                          'parms' => 
-                          array (
-                            'DOM' => 
-                            array (
-                              'id' => 'menu1',
-                              'label' => 'menú-1 sin-Icono',
-                            ),
-                            'DJO' => 
-                            array (
-                              'iconClass' => '\'dijitNoIcon\'',
-                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 1\');return _ret;}',
-                            ),
-                          ),
-                        ),
-                        'i2_separador' => 
-                        array (
-                          'class' => 'WikiDojoMenuSeparator',
-                          'parms' => 
-                          array (
-                          ),
-                        ),
-                        'i3_menu2' => 
-                        array (
-                          'class' => 'WikiDojoMenuItem',
-                          'parms' => 
-                          array (
-                            'DOM' => 
-                            array (
-                              'id' => 'menu2',
-                              'label' => 'menú-2',
-                            ),
-                            'DJO' => 
-                            array (
-                              'iconClass' => '\'dijitEditorIcon dijitEditorIconPaste\'',
-                              'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu 2\');return _ret;}',
-                            ),
-                            'PRP' => 
-                            array (
-                              'MenuSeparator' => 1,
-                            ),
-                          ),
-                        ),
-                        'i4_submenu' => 
-                        array (
-                          'class' => 'WikiDojoSubMenu',
-                          'parms' => 
-                          array (
-                            'DOM' => 
-                            array (
-                              'id' => 'submenu',
-                              'label' => 'SubMenú',
-                            ),
-                          ),
-                          'items' => 
-                          array (
-                            'i0_menu0' => 
-                            array (
-                              'class' => 'WikiDojoMenuItem',
-                              'parms' => 
-                              array (
-                                'DOM' => 
-                                array (
-                                  'id' => 'submenu_menu0',
-                                  'label' => 'submenú-menú-0',
-                                ),
-                                'DJO' => 
-                                array (
-                                  'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
-                                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onClick del menú 0 del submenú\');return _ret;}',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        'i5_separador' => 
-                        array (
-                          'class' => 'WikiDojoMenuSeparator',
-                          'parms' => 
-                          array (
-                          ),
-                        ),
-                        'i6_iocmenuitem' => 
-                        array (
                           'class' => 'WikiIocMenuItem',
                           'parms' => 
                           array (
                             'DOM' => 
                             array (
-                              'id' => 'ioc_menu6',
-                              'label' => 'IocMenuItem = page',
+                              'id' => 'mediaManager',
+                              'label' => 'Media manager',
                             ),
                             'DJO' => 
                             array (
                               'iconClass' => '\'dijitNoIcon\'',
                               'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                            ),
-                          ),
-                        ),
-                        'i7_iocmenuitem' => 
-                        array (
-                          'class' => 'WikiIocMenuItem',
-                          'parms' => 
-                          array (
-                            'DOM' => 
-                            array (
-                              'id' => 'ioc_menu7',
-                              'label' => 'IocMenuItem = logoff',
-                            ),
-                            'DJO' => 
-                            array (
-                              'iconClass' => '\'dijitNoIcon\'',
-                              'disabled' => false,
-                              'query' => '\'do=logoff\'',
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
                             ),
                           ),
                         ),
@@ -696,7 +594,7 @@ $_arrIocCfgGUI = array (
                   'NouDocumentplaceHolder' => '\'Nou Document\'',
                   'labelButtonAcceptar' => '\'Acceptar\'',
                   'labelButtonCancellar' => '\'Cancel·lar\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -718,7 +616,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
                   'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -778,7 +676,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -800,7 +698,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];var rev = this.dispatcher.getGlobalState().getCurrentContent().rev;if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}if (rev) { _ret+=\'&rev=\' + rev;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; }}return _ret;}',
                 ),
               ),
             ),
@@ -823,26 +721,6 @@ $_arrIocCfgGUI = array (
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
                   'getQuery' => 'function(){var _ret=null; var self = this;require([\'ioc/dokuwiki/dwPageUi\'], function(dwPageUi){ var q=dwPageUi.getFormQueryToEditSection( self.dispatcher.getGlobalState().getCurrentSectionId()); if(self.query){ _ret=self.query + \'&\' + q; }else{ _ret=q; }});return _ret;}',
-                ),
-              ),
-            ),
-            'i7_exit' => 
-            array (
-              'class' => 'WikiIocButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'exitButton',
-                  'label' => 'Sortir',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=logoff\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
                 ),
               ),
             ),
