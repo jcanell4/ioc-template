@@ -270,8 +270,8 @@
             var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
             if (newButton) {
 
-                newButton.on('click', function () {
-
+                newButton.on('click', function () {                    
+                    var path=[];
                     var dialog = registry.byId("newDocumentDlg");
 
                     if(!dialog){
@@ -329,7 +329,27 @@
                                 }
                             }
                             return nsActivePage;
-                        }
+                        };
+                        
+                        dialog.nsActivePage = function (){
+                            path.length=0;
+                            if (this.newButton.dispatcher.getGlobalState().currentTabId) {
+                                var stPath = "";
+                                var aPath = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
+                                aPath = aPath.split(':');
+                                aPath.pop();
+                                aPath.unshift("");
+                                for (var i=0;i<aPath.length;i++) {
+                                    if (i > 1) {
+                                        stPath = stPath + ":";
+                                    }
+                                    stPath = stPath + aPath[i];
+                                    path[i]=stPath;
+                                    this.dialogTree.tree.model.store.get(stPath);
+                                }
+                            }    
+                            //return path;
+                        };
 
 
                         var bc = new BorderContainer({
@@ -439,7 +459,12 @@
 
                         form.startup();
                     }
-                    dialog.show();
+                    dialog.nsActivePage();
+                    dialog.dialogTree.tree.collapseAll().then(function(){
+                                    console.log("fi col·lapse");
+                                    dialog.show();
+                    });
+                    //dialog.show();
                     return false;
                 });
             }
