@@ -282,28 +282,38 @@
                             newButton: newButton
                         });
 
+                        dialog.on('hide', function () {
+                            var newDialog_nTree = dijit.byId('newDialog_nTree');
+                            newDialog_nTree.collapseAll();
+                            newDialog_nTree._expandNode(newDialog_nTree.rootNode);
+                        });
+
                         dialog.on('show', function () {
                             dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
                             if (this.newButton.dispatcher.getGlobalState().currentTabId) {
+
                                 dom.byId('textBoxEspaiNoms').focus();
                                 var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
                                 nsActivePage = nsActivePage.split(':');
                                 nsActivePage.pop();
                                 nsActivePage.unshift("");
                                 var self = this;
-//                                this.dialogTree.tree.collapseAll().then(function(){
-//                                });
                                 var path = "";
-                                for (var i=0;i<nsActivePage.length;i++) {
-                                    if (i > 1) {
-                                        path = path + ":";
+                                if (nsActivePage.length>1) {
+                                    for (var i = 0; i < nsActivePage.length; i++) {
+                                        if (i > 1) {
+                                            path = path + ":";
+                                        }
+                                        path = path + nsActivePage[i];
+                                        nsActivePage[i] = path;
+                                        self.dialogTree.tree.model.store.get(path);
                                     }
-                                    path = path + nsActivePage[i];
-                                    nsActivePage[i]=path;
-                                    self.dialogTree.tree.model.store.get(path);
+                                    self.dialogTree.tree.set('path', nsActivePage);
+                                } else {
+                                    self.dialogTree.tree.model.store.get(path).then(function(){
+                                        self.dialogTree.tree._expandNode(self.dialogTree.tree.rootNode);
+                                    });
                                 }
-                                self.dialogTree.tree.set('path',nsActivePage);
-
                             }
                         });
 
@@ -384,6 +394,7 @@
                         },cpEsquerra.containerNode);
 
                         var dialogTree = new NsTreeContainer({
+                            id: 'newDialog',
                             treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
                             onlyDirs:true
                         }).placeAt(divdreta);
@@ -423,7 +434,7 @@
                         // El botó de cancel·lar
                         new Button({
                           label: newButton.labelButtonCancellar,
-                          onClick: function(){ dialog.hide();}
+                          onClick: function(){dialog.hide();}
                         }).placeAt(botons);
 
                         form.startup();
