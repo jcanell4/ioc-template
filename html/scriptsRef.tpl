@@ -265,8 +265,6 @@
                 });
             }
 
-            //Revisar afegit al fer el merge des del master. Afegeix la creació 
-            //d'un quadre de diàleg en clicar el botó nou
             var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
             if (newButton) {
 
@@ -283,54 +281,17 @@
                         });
 
                         dialog.on('hide', function () {
-                            var newDialog_nTree = dijit.byId('newDialog_nTree');
-                            newDialog_nTree.collapseAll();
-                            newDialog_nTree._expandNode(newDialog_nTree.rootNode);
+                            dialog.dialogTree.tree.collapseAll();
+                            dom.byId('textBoxNouDocument').value="";
                         });
-
                         dialog.on('show', function () {
-                            dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
-                            if (this.newButton.dispatcher.getGlobalState().currentTabId) {
-
-                                dom.byId('textBoxEspaiNoms').focus();
-                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
-                                nsActivePage = nsActivePage.split(':');
-                                nsActivePage.pop();
-                                nsActivePage.unshift("");
-                                var self = this;
-                                var path = "";
-                                if (nsActivePage.length>1) {
-                                    for (var i = 0; i < nsActivePage.length; i++) {
-                                        if (i > 1) {
-                                            path = path + ":";
-                                        }
-                                        path = path + nsActivePage[i];
-                                        nsActivePage[i] = path;
-                                        self.dialogTree.tree.model.store.get(path);
-                                    }
-                                    self.dialogTree.tree.set('path', nsActivePage);
-                                } else {
-                                    self.dialogTree.tree.model.store.get(path).then(function(){
-                                        self.dialogTree.tree._expandNode(self.dialogTree.tree.rootNode);
-                                    });
-                                }
-                            }
+                            dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+                            dom.byId('textBoxEspaiNoms').focus();
+                            dialog.dialogTree.tree.set('path',path).then(function(){
+                                dom.byId('textBoxNouDocument').focus();
+                            });
                         });
 
-                        dialog.nsActivePageText = function () {
-                            var nsActivePage = '';
-                            if (this.newButton.dispatcher.getGlobalState().currentTabId != null) {
-                                var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
-                                nsActivePage = nsActivePage.split(':')
-                                nsActivePage.pop();
-                                var len = nsActivePage.length;
-                                if (len > 1) {
-                                    nsActivePage = nsActivePage.join(':');
-                                }
-                            }
-                            return nsActivePage;
-                        };
-                        
                         dialog.nsActivePage = function (){
                             path.length=0;
                             if (this.newButton.dispatcher.getGlobalState().currentTabId) {
@@ -345,10 +306,8 @@
                                     }
                                     stPath = stPath + aPath[i];
                                     path[i]=stPath;
-                                    this.dialogTree.tree.model.store.get(stPath);
                                 }
                             }    
-                            //return path;
                         };
 
 
@@ -390,7 +349,6 @@
 
                         var EspaiNoms = new TextBox({
                             id: 'textBoxEspaiNoms',
-                            value: dialog.nsActivePageText(),
                             placeHolder: newButton.EspaideNomsplaceHolder
                         }).placeAt(divEspaiNoms);
                         dialog.textBoxEspaiNoms = EspaiNoms;
@@ -405,6 +363,7 @@
                         }, divNouDocument);
 
                         var NouDocument = new TextBox({
+                            id: "textBoxNouDocument",
                             placeHolder: newButton.NouDocumentplaceHolder
                         }).placeAt(divNouDocument);
 
@@ -414,7 +373,6 @@
                         },cpEsquerra.containerNode);
 
                         var dialogTree = new NsTreeContainer({
-                            id: 'newDialog',
                             treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
                             onlyDirs:true
                         }).placeAt(divdreta);
@@ -460,11 +418,7 @@
                         form.startup();
                     }
                     dialog.nsActivePage();
-                    dialog.dialogTree.tree.collapseAll().then(function(){
-                                    console.log("fi col·lapse");
-                                    dialog.show();
-                    });
-                    //dialog.show();
+                    dialog.show();
                     return false;
                 });
             }
