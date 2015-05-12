@@ -7,34 +7,37 @@ require_once(DOKU_TPL_INCDIR . 'classes/WikiIocBuilder.php');
 require_once(DOKU_TPL_INCDIR . 'conf/js_packages.php');
 
 /**
- * Description of WikiIocComponent
+ * class WikiIocComponent
+ *		és la superclasse de les classes definides a WikiIocComponents.php
  *
- * @author Josep Cañellas <jcanell4@ioc.cat>
+ * @author Josep Cañellas <jcanell4@ioc.cat> i Rafael Claver <rclaver@xtec.cat>
  */
 abstract class WikiIocComponent extends WikiIocBuilder {
     private $aParams;   //array de paràmetres
+    private $reqJsModules;
 
     /**
      * @param array[] $aParms      hash amb els paràmetres del component
      * @param array[] $reqPackage  hash amb els packages requerit amb el format:
      *                             array("name" => "ioc", "location" => $js_packages["ioc"])
+     * @param array[] $reqJsModuls  hash de mòduls javascript necessaris
+     *                              pels atributs dojo de la classe
      */
-    function __construct($aParms = array(), $reqPackage = array()) {
-        parent::__construct($reqPackage);
+    function __construct($aParms = array(), $reqPackage = array(), $reqJsModuls = array()) {
+        parent::__construct($reqPackage, $reqJsModuls);
         
         $this->aParams = $aParms;
-        /*
-        if (!$this->aParams['DOM']['selected']) {
-            $this->aParams['DOM']['selected'] = FALSE;
+
+        foreach ($reqJsModuls as $k => $v) {
+            $this->reqJsModules[$k] = str_replace("/", ".", $v);
         }
-        if ($this->aParams['DOM']['label'] && !$this->aParams['DOM']['toolTip']) {
-            $this->aParams['DOM']['toolTip'] = $this->aParams['DOM']['label'];
-        }
-        */
     }
 
     public abstract function getRenderingCode();
 
+    function getReqJsModule($mod) {
+        return $this->reqJsModules[$mod];
+    }
     function get($class, $key) {
         return $this->aParams[$class][$key];
     }
@@ -43,77 +46,28 @@ abstract class WikiIocComponent extends WikiIocBuilder {
     }
 
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades HTML
+     * Devuelve un string en el que se han concatenado las propiedades HTML
      * excepto las de la etiqueta style
      * @return string
      */
     function getDOM($aKeys = NULL) {
-        /*
-        if ($aKeys) {
-            if (is_array($aKeys)) {
-                foreach ($aKeys as $key) {
-                    if ($this->aParams['DOM'][$key])
-                        $dom .= "$key='$this->aParams['DOM'][$key]' ";
-                }
-            }else{
-                if ($this->aParams['DOM'][$aKeys])
-                        $dom .= "$key='$this->aParams['DOM'][$aKeys]' ";
-            }
-        }else{
-            foreach ($this->aParams['DOM'] as $key => $value) {
-                $dom .= "$key='$value' ";
-            }
-        }
-        return $dom;
-        */
         return $this->getDOMCSSDJO('DOM', $aKeys, '=', ' ');
     }
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades CSS
+     * Devuelve un string en el que se han concatenado las propiedades CSS
      * incorporadas dentro de la etiqueta style
      * @return string
      */
     function getCSS($aKeys = NULL) {
-        /*
-        if ($aKeys) {
-            if (is_array($aKeys)) {
-                foreach ($aKeys as $key) {
-                    if ($this->aParams['CSS'][$key]) 
-                        $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
-                }
-            }else{
-                if ($this->aParams['CSS'][$aKeys])
-                        $style .= $this->parejaKeyValue($aKeys, $this->aParams['CSS'][$aKeys], ";");
-            }
-        }else{
-            foreach ($this->aParams['CSS'] as $key => $value) {
-                $style .= $this->parejaKeyValue($key, $value, ";");
-            }
-        }
-        return "style='$style'";
-        */
         $style = $this->getDOMCSSDJO('CSS', $aKeys, ':', ';');
         return "style='$style'";
     }
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades DOJO
+     * Devuelve un string en el que se han concatenado las propiedades DOJO
      * incorporadas dentro de la etiqueta data-dojo-props
      * @return string
      */
     function getDJO($aKeys = NULL) {
-        /*
-        if ($aKeys) {
-            foreach ($aKeys as $key) {
-                if ($this->aParams['DJO'][$key])
-                    $djprp .= $this->parejaKeyValue($key, $this->aParams['DJO'][$key], ",");
-            }
-        }else{
-            foreach ($this->aParams['DJO'] as $key => $value) {
-                $djprp .= $this->parejaKeyValue($key, $value, ",");
-            }
-        }
-        return "data-dojo-props=\"$djprp\"";
-        */
         $djprp = $this->getDOMCSSDJO('DJO', $aKeys, ':', ',');
         return "data-dojo-props=\"$djprp\"";
     }
@@ -124,78 +78,29 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * @return string
      */
     function getNoDOM($aKeys) {
-        /*
-        if ($aKeys) {
-            if (is_array($aKeys)) {
-                foreach ($aKeys as $key) {
-                    if ($this->aParams['DOM'][$key])
-                        $dom .= "$key='$this->aParams['DOM'][$key]' ";
-                }
-            }else{
-                if ($this->aParams['DOM'][$aKeys])
-                        $dom .= "$key='$this->aParams['DOM'][$aKeys]' ";
-            }
-        }else{
-            foreach ($this->aParams['DOM'] as $key => $value) {
-                $dom .= "$key='$value' ";
-            }
-        }
-        return $dom;
-        */
         return $this->getNoDOMCSSDJO('DOM', $aKeys, '=', ' ');
     }
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades CSS
+     * Devuelve un string en el que se han concatenado las propiedades CSS
      * incorporadas dentro de la etiqueta style
      * @return string
      */
     function getNoCSS($aKeys) {
-        /*
-        if ($aKeys) {
-            if (is_array($aKeys)) {
-                foreach ($aKeys as $key) {
-                    if ($this->aParams['CSS'][$key]) 
-                        $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
-                }
-            }else{
-                if ($this->aParams['CSS'][$aKeys])
-                        $style .= $this->parejaKeyValue($aKeys, $this->aParams['CSS'][$aKeys], ";");
-            }
-        }else{
-            foreach ($this->aParams['CSS'] as $key => $value) {
-                $style .= $this->parejaKeyValue($key, $value, ";");
-            }
-        }
-        return "style='$style'";
-        */
         $style = $this->getNoDOMCSSDJO('CSS', $aKeys, ':', ';');
         return "style='$style'";
     }
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades DOJO
+     * Devuelve un string en el que se han concatenado las propiedades DOJO
      * incorporadas dentro de la etiqueta data-dojo-props
      * @return string
      */
     function getNoDJO($aKeys) {
-        /*
-        if ($aKeys) {
-            foreach ($aKeys as $key) {
-                if ($this->aParams['DJO'][$key])
-                    $djprp .= $this->parejaKeyValue($key, $this->aParams['DJO'][$key], ",");
-            }
-        }else{
-            foreach ($this->aParams['DJO'] as $key => $value) {
-                $djprp .= $this->parejaKeyValue($key, $value, ",");
-            }
-        }
-        return "data-dojo-props=\"$djprp\"";
-        */
         $djprp = $this->getNoDOMCSSDJO('DJO', $aKeys, ':', ',');
         return "data-dojo-props=\'$djprp\'";
     }
 
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades 
+     * Devuelve un string en el que se han concatenado las propiedades 
      * en el formato requerido
      * @return string
      */
@@ -228,7 +133,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
         return ($g==':') ? "$k:$v$s" : "$k='$v'$s";
     }
     /**
-     * Devuelve un strig en el que se han concatenado las propiedades 
+     * Devuelve un string en el que se han concatenado las propiedades 
      * en el formato requerido, excluyendo las claves indicadas
      * @return string
      */
@@ -320,4 +225,121 @@ abstract class WikiIocComponent extends WikiIocBuilder {
     function setSelected($v) {
         $this->set('DOM','selected', $v);
     }
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Versiones con código propio que ha sido substituido por un código
+	incluido en método getDOMCSSDJO(tipo, array_de_claves, signo, separador)
+	
+    // Devuelve un string en el que se han concatenado las propiedades HTML excepto las de la etiqueta style
+    function getDOM($aKeys = NULL) {
+        if ($aKeys) {
+            if (is_array($aKeys)) {
+                foreach ($aKeys as $key) {
+                    if ($this->aParams['DOM'][$key])
+                        $dom .= "$key='$this->aParams['DOM'][$key]' ";
+                }
+            }else{
+                if ($this->aParams['DOM'][$aKeys])
+                        $dom .= "$key='$this->aParams['DOM'][$aKeys]' ";
+            }
+        }else{
+            foreach ($this->aParams['DOM'] as $key => $value) {
+                $dom .= "$key='$value' ";
+            }
+        }
+        return $dom;
+    }
+
+    // Devuelve un string en el que se han concatenado las propiedades CSS incorporadas dentro de la etiqueta style
+    function getCSS($aKeys = NULL) {
+        if ($aKeys) {
+            if (is_array($aKeys)) {
+                foreach ($aKeys as $key) {
+                    if ($this->aParams['CSS'][$key]) 
+                        $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
+                }
+            }else{
+                if ($this->aParams['CSS'][$aKeys])
+                        $style .= $this->parejaKeyValue($aKeys, $this->aParams['CSS'][$aKeys], ";");
+            }
+        }else{
+            foreach ($this->aParams['CSS'] as $key => $value) {
+                $style .= $this->parejaKeyValue($key, $value, ";");
+            }
+        }
+        return "style='$style'";
+    }
+
+    // Devuelve un string en el que se han concatenado las propiedades DOJO incorporadas dentro de la etiqueta data-dojo-props
+    function getDJO($aKeys = NULL) {
+        if ($aKeys) {
+            foreach ($aKeys as $key) {
+                if ($this->aParams['DJO'][$key])
+                    $djprp .= $this->parejaKeyValue($key, $this->aParams['DJO'][$key], ",");
+            }
+        }else{
+            foreach ($this->aParams['DJO'] as $key => $value) {
+                $djprp .= $this->parejaKeyValue($key, $value, ",");
+            }
+        }
+        return "data-dojo-props=\"$djprp\"";
+    }
+
+    Versiones con código propio que ha sido substituido por un código
+    incluido en método getNoDOMCSSDJO(tipo, array_de_claves, signo, separador)
+	
+    // Devuelve un string en el que se han concatenado las propiedades HTML excepto las de la etiqueta style
+    function getNoDOM($aKeys) {
+        if ($aKeys) {
+            if (is_array($aKeys)) {
+                foreach ($aKeys as $key) {
+                    if ($this->aParams['DOM'][$key])
+                        $dom .= "$key='$this->aParams['DOM'][$key]' ";
+                }
+            }else{
+                if ($this->aParams['DOM'][$aKeys])
+                        $dom .= "$key='$this->aParams['DOM'][$aKeys]' ";
+            }
+        }else{
+            foreach ($this->aParams['DOM'] as $key => $value) {
+                $dom .= "$key='$value' ";
+            }
+        }
+        return $dom;
+    }
+
+    // Devuelve un string en el que se han concatenado las propiedades CSS incorporadas dentro de la etiqueta style
+    function getNoCSS($aKeys) {
+        if ($aKeys) {
+            if (is_array($aKeys)) {
+                foreach ($aKeys as $key) {
+                    if ($this->aParams['CSS'][$key]) 
+                        $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
+                }
+            }else{
+                if ($this->aParams['CSS'][$aKeys])
+                        $style .= $this->parejaKeyValue($aKeys, $this->aParams['CSS'][$aKeys], ";");
+            }
+        }else{
+            foreach ($this->aParams['CSS'] as $key => $value) {
+                $style .= $this->parejaKeyValue($key, $value, ";");
+            }
+        }
+        return "style='$style'";
+    }
+
+    // Devuelve un string en el que se han concatenado las propiedades DOJO incorporadas dentro de la etiqueta data-dojo-props
+    function getNoDJO($aKeys) {
+        if ($aKeys) {
+            foreach ($aKeys as $key) {
+                if ($this->aParams['DJO'][$key])
+                    $djprp .= $this->parejaKeyValue($key, $this->aParams['DJO'][$key], ",");
+            }
+        }else{
+            foreach ($this->aParams['DJO'] as $key => $value) {
+                $djprp .= $this->parejaKeyValue($key, $value, ",");
+            }
+        }
+        return "data-dojo-props=\"$djprp\"";
+    }
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 }

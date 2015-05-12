@@ -1,7 +1,10 @@
-var ns=this.dispatcher.getGlobalState().pages[
+_ret="";
+if (this.dispatcher.getGlobalState().currentTabId) {
+   var ns=this.dispatcher.getGlobalState().pages[
                         this.dispatcher.getGlobalState().currentTabId]["ns"];
-if(this.query){
-   _ret=this.query + "&id=" + ns;
-}else{
-   _ret="id=" + ns;
+   if(this.query){
+      _ret=this.query + "&id=" + ns;
+   }else{
+      _ret="id=" + ns;
+   }
 }

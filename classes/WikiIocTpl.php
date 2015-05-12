@@ -5,6 +5,7 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once (DOKU_INC . 'inc/common.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocContentPage.php');
+require_once (DOKU_TPL_INCDIR . 'classes/WikiIocComponents.php');
 require_once (DOKU_TPL_INCDIR . 'conf/js_packages.php');
 
 /**
@@ -20,8 +21,10 @@ class WikiIocTpl {
     private $rev;
     /** @var WikiIocContentPage */
     private $contentComponent;
-    private $scriptTemplateFile;
-    private $replaceInTemplateFile;
+    private $scriptPreInitJsFile;
+    private $scriptPostInitJsFile;
+    private $contentGeneratedAmd;
+    private $constantsForInitJsFile;
 
     public static function Instance() {
         static $inst = NULL;
@@ -57,23 +60,18 @@ class WikiIocTpl {
         return tpl_pagetitle($this->contentComponent->getId(), TRUE) . " - " . hsc($conf["title"]);
     }
 
-    public function setScriptTemplateFile($fileName, $replace) {
-        $this->scriptTemplateFile    = $fileName;
-        $this->replaceInTemplateFile = $replace;
-        /*
-         * Para incluir este trozo de código aquí y quitarlo de printHeaderTags()
-         * hay que declarar la variable privada $contentTemplateFile
-         * 
-        if(@file_exists($this->scriptTemplateFile)) {
-            $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
-            foreach($this->replaceInTemplateFile as $key => $value) {
-                $contentTemplateFile = preg_replace('/' . $key . '/', $value, $contentTemplateFile);
-            }
-        }
-        */
+    public function setScriptTemplateFile($preJsfile, $postJsfile, $scriptsJs, $constants) {
+        $this->scriptPreInitJsFile    = $preJsfile;
+        $this->scriptPostInitJsFile   = $postJsfile;
+        $this->contentGeneratedAmd    = $scriptsJs;
+        $this->constantsForInitJsFile = $constants;
     }
 
     public function setBody($obj, $parms, $items) {
+        global $js_packages;
+        //[TODO Josep] Cal passar això al plugin aceeditor
+        WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => $js_packages["ace-builds"]));
+        //[END TODO Josep]
         $this->aIocCfg = new $obj($parms, $items);
     }
 
@@ -128,19 +126,46 @@ class WikiIocTpl {
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
         echo "};\n";
         echo "</script>\n";
+        echo $this->fillJsCode(); //replacedContentJsFile;
+        echo "</head>\n";
+    }
 
-        if(@file_exists($this->scriptTemplateFile)) {
-            // Lee el fichero
-            $contentTemplateFile = file_get_contents($this->scriptTemplateFile);
+    private function fillJsCode() {
+        if (@file_exists($this->scriptPreInitJsFile)) {
+            $contentJsFile = "<script type='text/javascript' src='cfgIdConstants::DOJO_SOURCE/dojo.js'></script>\n";
+            $contentJsFile.= "<script type='text/javascript'>\n";
+            // Incorpora el código javascript recogido en los directorios AMD
+            $contentJsFile.= "require([\n";
+            $contentJsFile.= "\"dojo/domReady!\"\n";
+            $contentJsFile.= WikiIocBuilderManager::Instance()->getListModRequires();
+            $contentJsFile.= "], function(){}\n);\n\n";
+
+            // Lee el fichero con el pre-código javascript estático
+            $contentJsFile.= file_get_contents($this->scriptPreInitJsFile);
+
+            // Incorpora el código javascript recogido en los directorios AMD
+            $contentJsFile.= "\nrequire([\n";
+            $contentJsFile.= "\t\"dojo/ready\"\n";
+            $contentJsFile.= "], function (ready) {\n";
+            $contentJsFile.= "ready(function () {\n";
+            $contentJsFile.= $this->contentGeneratedAmd;
+            $contentJsFile.= "});\n";  //fin ready
+            $contentJsFile.= "});\n";  //fin require
+
+            // Lee el fichero con el post-código javascript estático
+            if(@file_exists($this->scriptPostInitJsFile)) {
+                $contentJsFile.= file_get_contents($this->scriptPostInitJsFile);
+            }
+            $contentJsFile.= "</script>";
+
             // Convierte el array de constantes en un array de patrones y otro de sustituciones
-            foreach ($this->replaceInTemplateFile as $k => $v) {
+            foreach ($this->constantsForInitJsFile as $k => $v) {
                 $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
                 $aSustituciones[] = $v;
             }
-            $replacedTemplateFile = preg_replace($aPatrones, $aSustituciones, $contentTemplateFile);
-            echo $replacedTemplateFile;
+            return preg_replace($aPatrones, $aSustituciones, $contentJsFile);
         }
-        echo "</head>\n";
+        
     }
 
     /**

@@ -422,6 +422,62 @@ $_arrIocCfgGUI = array (
                         ),
                       ),
                     ),
+                    'i2_menu' => 
+                    array (
+                      'class' => 'WikiDojoMenu',
+                      'parms' => 
+                      array (
+                        'DOM' => 
+                        array (
+                          'id' => 'tb_menu',
+                          'title' => 'menú',
+                        ),
+                        'DJO' => 
+                        array (
+                          'contextMenuForWindow' => 'false',
+                          'activated' => 'true',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'i0_menu0' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'canvisRecents',
+                              'label' => 'Canvis recents',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=recent\'',
+                            ),
+                          ),
+                        ),
+                        'i1_menu1' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'mediaManager',
+                              'label' => 'Media manager',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitNoIcon\'',
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -538,7 +594,7 @@ $_arrIocCfgGUI = array (
                   'NouDocumentplaceHolder' => '\'Nou Document\'',
                   'labelButtonAcceptar' => '\'Acceptar\'',
                   'labelButtonCancellar' => '\'Cancel·lar\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -560,7 +616,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
                   'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -620,7 +676,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -642,7 +698,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
-                  'getQuery' => 'function(){var _ret=null; var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\'];if(this.query){ _ret=this.query + \'&id=\' + ns;}else{ _ret=\'id=\' + ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().pages[ this.dispatcher.getGlobalState().currentTabId][\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; }}return _ret;}',
                 ),
               ),
             ),
@@ -665,26 +721,6 @@ $_arrIocCfgGUI = array (
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
                   'getQuery' => 'function(){var _ret=null; var self = this;require([\'ioc/dokuwiki/dwPageUi\'], function(dwPageUi){ var q=dwPageUi.getFormQueryToEditSection( self.dispatcher.getGlobalState().getCurrentSectionId()); if(self.query){ _ret=self.query + \'&\' + q; }else{ _ret=q; }});return _ret;}',
-                ),
-              ),
-            ),
-            'i7_exit' => 
-            array (
-              'class' => 'WikiIocButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'exitButton',
-                  'label' => 'Sortir',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=logoff\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
                 ),
               ),
             ),

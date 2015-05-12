@@ -9,21 +9,15 @@
 if (!defined("DOKU_INC")) die(); //check if we are running within the DokuWiki environment
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
-require_once (DOKU_INC . 'inc/common.php');
-require_once (DOKU_TPL_INCDIR . 'classes/WikiIocBuilderManager.php');
+require_once (DOKU_TPL_INCDIR . 'conf/default.php');
 require_once (DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once (DOKU_TPL_INCDIR . 'conf/mainCfg.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocTpl.php');
 
 $aIocCfg = WikiIocCfg::Instance()->getArrayIocCfg();
-$first_class = $aIocCfg['class'];
 
 $tpl = WikiIocTpl::Instance();
-$tpl->setScriptTemplateFile(DOKU_TPL_INCDIR . "html/scriptsRef.tpl", cfgIdConstants::getConstantsIds());
-
-/* TODO: la càrrega del package ACE hauria d'anar al fitxer conf/js_packages.js */
-WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => "/ace-builds/src-noconflict"));
-
-$tpl->setBody($first_class, $aIocCfg['parms'], $aIocCfg['items']);
+$tpl->setScriptTemplateFile($conf["ioc_pre-init-js_file"], $conf["ioc_post-init-js_file"], $aIocCfg['amd'], cfgIdConstants::getConstantsIds());
+$tpl->setBody($aIocCfg['arrCfg']['class'], $aIocCfg['arrCfg']['parms'], $aIocCfg['arrCfg']['items']);
 $tpl->printPage();
 ?>

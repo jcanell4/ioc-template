@@ -42,5 +42,8 @@ $conf["ioc_template_copyright_ns"] = ":wiki:copyright"; //page/article used to s
 //array de configuració de la GUI
 $conf["ioc_path_cfg_gui"] = DOKU_TPL_INCDIR . "conf/a_CfgGUI"; //ruta de l'arbre directoris de l'array de configuració de la GUI
 $conf["ioc_file_cfg_gui"] = DOKU_TPL_INCDIR . "conf/cfgArray.php"; //nom del fitxer que conté l'array de configuració de la GUI
+$conf["ioc_file_amd_gui"] = DOKU_TPL_INCDIR . "conf/amdFile.js";   //nom del fitxer que conté el codi de les sentències AMD javascript
+$conf["ioc_pre-init-js_file"]  = DOKU_TPL_INCDIR . "html/pre-init.js";     //nom del fitxer que conté el pre-codi estàtic de les sentències javascript
+$conf["ioc_post-init-js_file"] = DOKU_TPL_INCDIR . "html/post-init.js";    //nom del fitxer que conté el post-codi estàtic de les sentències javascript
 $conf['ioc_function_array_gui_needReset'] = 'iocNeedResetArrayGUI'; //nombre de la función del archivo cfgArray.php que indica si este archivo debe ser regenerado
 $conf['ioc_function_array_gui'] = 'iocArrayGUI'; //nombre de la función del archivo cfgArray.php que retorna el array contructor de la GUI
