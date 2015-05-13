@@ -1,6 +1,6 @@
 <?php
 function iocNeedResetArrayGUI(){
-  $_needReset = 1;
+  $_needReset = 0;
   return $_needReset;
 }
 
