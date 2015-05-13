@@ -265,7 +265,7 @@ $_arrIocCfgGUI = array (
                           'query' => '\'id=user\'',
                           'autoSize' => true,
                           'disabled' => false,
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
                           'standbyId' => '\'bodyContent\'',
                           'getQuery' => 'function(){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId;return _ret;}',
                         ),
@@ -652,9 +652,10 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';var node = this.dispatcher.getGlobalState().getDwPageUi().getElementParentNodeId(this.dispatcher.getGlobalState().getCurrentElementId(), \'DL\');if (node) { var elid = \'\'; if (typeof node === \'string\') { elid = node; } else { elid = node.title; } _ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';}return _ret;}',
                 ),
               ),
             ),
