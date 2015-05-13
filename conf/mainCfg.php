@@ -7,6 +7,8 @@ if (!defined('DOKU_INC')) die();  //check if we are running within the DokuWiki 
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once(DOKU_TPL_INCDIR . 'conf/default.php');
 require_once(DOKU_TPL_INCDIR . 'conf/cfgBuilder.php');
+require_once(DOKU_TPL_INCDIR . 'conf/generator/ControlTplGenerator.php');
+require_once(DOKU_INC . 'inc/events.php');
 
 class WikiIocCfg {
 
@@ -14,6 +16,7 @@ class WikiIocCfg {
     private $fileArrayAmdGUI;
     private $arrCfgGUI;
     private $strAmdGUI;
+    private $generator;
     
     public function getArrayIocCfg() {
         global $conf;
@@ -32,9 +35,54 @@ class WikiIocCfg {
                 $this->GeneraFicheroArray();
             }
         }
+        $this->generator  = new ControlTplGenerator();
+        $this->processAddTplControls();
+        $this->processAddScripts();
+        unset($this->generator);
         return array('arrCfg' => $this->arrCfgGUI, 'amd' => $this->strAmdGUI);
     }
     
+    private function processAddScripts(){
+        $evt = new Doku_Event("ADD_TPL_CONTROL_SCRIPTS", $this->generator);
+        $evt->trigger();
+        unset($evt);
+        $this->addScripts();        
+    }
+    
+    private function processAddTplControls(){
+        $evt = new Doku_Event("ADD_TPL_CONTROLS", $this->generator);
+        $evt->trigger();
+        unset($evt);
+        $this->addControls();        
+    }
+    
+    
+    private function addScripts(){
+        $toAdd = $this->generator->getControlScripts();
+        foreach ($toAdd as $value) {
+            $this->strAmdGUI .= "\n";
+            $this->strAmdGUI .= $value;
+        }
+    }
+    
+    private function addControls(){
+        $path = split("/", cfgIdConstants::WIKI_IOC_BUTTON_PATH);
+        $root = &$this->arrCfgGUI;
+        foreach ($path as $dir) {
+            if(empty($dir)){
+                $root=&$root["items"];
+            }else{
+                $root=&$root[$dir]["items"];
+            }
+        }
+        
+        $toAdd = $this->generator->getWikiIocButtonControls();
+        foreach ($toAdd as $value) {
+            $root[$value["name"]]["class"] = "WikiIocButton";
+            $root[$value["name"]]["parms"] = $value["parms"];
+        }
+    }
+
     private function GeneraFicheroArray() {
         global $conf;
         $ruta = $conf["ioc_path_cfg_gui"];

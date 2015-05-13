@@ -142,7 +142,7 @@ class cfgBuilder {
         else
             return NULL;
     }
-
+    
     /**
         Escribe el contenido de un array en un fichero de texto php
     **/
