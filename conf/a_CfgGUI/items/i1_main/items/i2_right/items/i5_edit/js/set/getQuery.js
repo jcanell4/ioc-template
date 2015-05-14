@@ -1,7 +1,7 @@
 _ret="";
 if (this.dispatcher.getGlobalState().currentTabId) {
-   var ns=this.dispatcher.getGlobalState().pages[
-                            this.dispatcher.getGlobalState().currentTabId]["ns"];
+   var ns=this.dispatcher.getGlobalState().getContent(
+                            this.dispatcher.getGlobalState().currentTabId)["ns"];
 
     var rev = this.dispatcher.getGlobalState().getCurrentContent().rev;
 

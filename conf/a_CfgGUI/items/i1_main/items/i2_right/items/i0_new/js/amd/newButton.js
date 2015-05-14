@@ -41,7 +41,7 @@ if (newButton) {
                 path.length=0;
                 if (this.newButton.dispatcher.getGlobalState().currentTabId) {
                     var stPath = "";
-                    var aPath = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
+                    var aPath = this.newButton.dispatcher.getGlobalState().getContent(this.newButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
                     aPath = aPath.split(':');
                     aPath.pop();
                     aPath.unshift("");
