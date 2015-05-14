@@ -69,7 +69,9 @@ class WikiIocTpl {
 
     public function setBody($obj, $parms, $items) {
         global $js_packages;
+        //[TODO Josep] Cal passar això al plugin aceeditor
         WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => $js_packages["ace-builds"]));
+        //[END TODO Josep]
         $this->aIocCfg = new $obj($parms, $items);
     }
 

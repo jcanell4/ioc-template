@@ -54,7 +54,7 @@ require([
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
                 if (disp.getGlobalState().currentTabId) {
-                    var page = disp.getGlobalState().pages[disp.getGlobalState().currentTabId];
+                    var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
                     if (page.action === 'view') {
                         disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
@@ -143,18 +143,18 @@ require([
 
                 for (var id in state.pages) {
                     var queryParams;
-                    if (state.pages[id].action === "view") {
+                    if (state.getContent(id).action === "view") {
                         queryParams = "call=page&id=";
-                    } else if (state.pages[id].action === "edit") {
+                    } else if (state.getContent(id).action === "edit") {
                         queryParams = "call=edit&reload=1&id=";
-                    } else if (state.pages[id].action === "admin") {
+                    } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
                         // fix? ns empty, load with page name
-                        state.pages[id].ns = id.substring(6);
+                        state.getContent(id).ns = id.substring(6);
                     } else {
                         queryParams = "call=page&id=";
                     }
-                    requestState.sendRequest(queryParams + state.pages[id].ns).always(function () {
+                    requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
                         np++;
 
                         if (np === length) {
