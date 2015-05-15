@@ -66,6 +66,9 @@ class cfgIdConstants {
 
     //Otras constantes provenientes de scriptRef.tpl
     const SECTOK_ID           = "ajax";             //antes era %%ID%%
+    
+    //Constant necessaria per a la generació dinàmica de controls
+    const WIKI_IOC_BUTTON_PATH= "/i1_main/i2_right";
     /*
     const NAVEGACIO_NODE_ID   = "zonaNavegacio";    //cambiada por ZONA_NAVEGACIO
     const METAINFO_NODE_ID    = "zonaMetaInfo";     //cambiada por ZONA_METAINFO

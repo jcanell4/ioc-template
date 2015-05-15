@@ -30,7 +30,7 @@ var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
 requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
 processorUser.addErrorAction("1001", function () {
-requestUser.sendRequest(userDialog.getQuery);
+requestUser.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorUser.type, processorUser);
 }
@@ -46,7 +46,7 @@ var processorTalk = new ErrorMultiFunctionProcessor();
 var requestTalk = new Request();
 requestTalk.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
 processorTalk.addErrorAction("1001", function () {
-requestTalk.sendRequest(userDialog.getQuery);
+requestTalk.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorTalk.type, processorTalk);
 }
@@ -88,10 +88,6 @@ require([
 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
 if (centralContainer) {
 centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
-if (wikiIocDispatcher.getContentCache(newTab.id)) {
-newTab.setCurrentDocument(newTab.id);
-wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
-}
 if (oldTab && wikiIocDispatcher.getGlobalState()
 .getContentAction(oldTab.id) == "edit") {
 wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
@@ -100,7 +96,6 @@ if (wikiIocDispatcher.getGlobalState()
 .getContentAction(newTab.id) == "edit") {
 wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
 }
-wikiIocDispatcher.updateFromState();
 }));
 }
 });
@@ -119,6 +114,7 @@ require([
 var newButton = registry.byId('newButton');
 if (newButton) {
 newButton.on('click', function () {
+var path=[];
 var dialog = registry.byId("newDocumentDlg");
 if(!dialog){
 dialog = new Dialog({
@@ -127,28 +123,40 @@ title: newButton.dialogTitle,
 style: "width: 470px; height: 250px;",
 newButton: newButton
 });
-dialog.on('show', function () {
-dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
+dialog.on('hide', function () {
+dialog.dialogTree.tree.collapseAll();
+dom.byId('textBoxNouDocument').value="";
 });
-dialog.nsActivePageText = function () {
-var nsActivePage = '';
-if (this.newButton.dispatcher.getGlobalState().currentTabId !== null) {
-var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
-nsActivePage = nsActivePage.split(':')
-nsActivePage.pop();
-var len = nsActivePage.length;
-if (len > 1) {
-nsActivePage = nsActivePage.join(':');
+dialog.on('show', function () {
+dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+dom.byId('textBoxEspaiNoms').focus();
+dialog.dialogTree.tree.set('path',path).then(function(){
+dom.byId('textBoxNouDocument').focus();
+});
+});
+dialog.nsActivePage = function (){
+path.length=0;
+if (this.newButton.dispatcher.getGlobalState().currentTabId) {
+var stPath = "";
+var aPath = this.newButton.dispatcher.getGlobalState().getContent(this.newButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+aPath = aPath.split(':');
+aPath.pop();
+aPath.unshift("");
+for (var i=0;i<aPath.length;i++) {
+if (i > 1) {
+stPath = stPath + ":";
+}
+stPath = stPath + aPath[i];
+path[i]=stPath;
 }
 }
-return nsActivePage;
 };
 var bc = new BorderContainer({
 style: "height: 200px; width: 450px;"
 });
 var cpEsquerra = new ContentPane({
 region: "left",
-style: "width: 170px"
+style: "width: 220px"
 });
 bc.addChild(cpEsquerra);
 var cpDreta = new ContentPane({
@@ -157,8 +165,8 @@ region: "center"
 bc.addChild(cpDreta);
 bc.placeAt(dialog.containerNode);
 var divesquerra = domConstruct.create('div', {
-className: 'esquerra'
-},cpEsquerra.containerNode);
+className: 'dreta'
+},cpDreta.containerNode);
 var form = new Form().placeAt(divesquerra);
 var divEspaiNoms = domConstruct.create('div', {
 className: 'divEspaiNoms'
@@ -168,7 +176,6 @@ innerHTML: newButton.EspaideNomslabel + '<br>'
 },divEspaiNoms);
 var EspaiNoms = new TextBox({
 id: 'textBoxEspaiNoms',
-value: dialog.nsActivePageText(),
 placeHolder: newButton.EspaideNomsplaceHolder
 }).placeAt(divEspaiNoms);
 dialog.textBoxEspaiNoms = EspaiNoms;
@@ -179,16 +186,18 @@ domConstruct.create('label', {
 innerHTML: '<br>' + newButton.NouDocumentlabel + '<br>'
 }, divNouDocument);
 var NouDocument = new TextBox({
+id: "textBoxNouDocument",
 placeHolder: newButton.NouDocumentplaceHolder
 }).placeAt(divNouDocument);
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
-},cpDreta.containerNode);
+},cpEsquerra.containerNode);
 var dialogTree = new NsTreeContainer({
 treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
 onlyDirs:true
 }).placeAt(divdreta);
 dialogTree.startup();
+dialog.dialogTree = dialogTree;
 dialogTree.tree.onClick=function(item) {
 dom.byId('textBoxEspaiNoms').value= item.id;
 dom.byId('textBoxEspaiNoms').focus();
@@ -215,10 +224,11 @@ dialog.hide();
 }).placeAt(botons);
 new Button({
 label: newButton.labelButtonCancellar,
-onClick: function(){ dialog.hide();}
+onClick: function(){dialog.hide();}
 }).placeAt(botons);
 form.startup();
 }
+dialog.nsActivePage();
 dialog.show();
 return false;
 });
