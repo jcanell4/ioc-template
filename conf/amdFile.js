@@ -30,7 +30,7 @@ var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
 requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
 processorUser.addErrorAction("1001", function () {
-requestUser.sendRequest(userDialog.getQuery);
+requestUser.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorUser.type, processorUser);
 }
@@ -46,7 +46,7 @@ var processorTalk = new ErrorMultiFunctionProcessor();
 var requestTalk = new Request();
 requestTalk.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
 processorTalk.addErrorAction("1001", function () {
-requestTalk.sendRequest(userDialog.getQuery);
+requestTalk.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorTalk.type, processorTalk);
 }
