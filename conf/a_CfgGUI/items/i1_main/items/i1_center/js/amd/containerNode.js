@@ -11,13 +11,7 @@ if (centralContainer) {
 
     centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
         // Aquest codi es crida només quan canviem de pestanya
-
-        if (wikiIocDispatcher.getContentCache(newTab.id)) {
-            //wikiIocDispatcher.setCurrentDocument(newTab.id);
-            newTab.setCurrentDocument(newTab.id);
-            wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
-        }
-
+        //TODO [JOSEP] Diria que cal passar això al AbstractChangesManagerDecoration. Pots mirar-ho Xavi?
         if (oldTab && wikiIocDispatcher.getGlobalState()
                         .getContentAction(oldTab.id) == "edit") {
             wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
@@ -28,7 +22,7 @@ if (centralContainer) {
             wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
         }
 
-        wikiIocDispatcher.updateFromState();
+        //wikiIocDispatcher.updateFromState();
 
     }));
 }

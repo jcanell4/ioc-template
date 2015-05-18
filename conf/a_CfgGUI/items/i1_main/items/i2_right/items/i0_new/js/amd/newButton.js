@@ -10,13 +10,11 @@
 //include  "ioc/gui/NsTreeContainer"
 
 
-//Revisar afegit al fer el merge des del master. Afegeix la creació 
-//d'un quadre de diàleg en clicar el botó nou
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
 
-    newButton.on('click', function () {
-
+    newButton.on('click', function () {                    
+        var path=[];
         var dialog = registry.byId("newDocumentDlg");
 
         if(!dialog){
@@ -27,22 +25,34 @@ if (newButton) {
                 newButton: newButton
             });
 
+            dialog.on('hide', function () {
+                dialog.dialogTree.tree.collapseAll();
+                dom.byId('textBoxNouDocument').value="";
+            });
             dialog.on('show', function () {
-                dom.byId('textBoxEspaiNoms').value=this.nsActivePageText();
+                dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+                dom.byId('textBoxEspaiNoms').focus();
+                dialog.dialogTree.tree.set('path',path).then(function(){
+                    dom.byId('textBoxNouDocument').focus();
+                });
             });
 
-            dialog.nsActivePageText = function () {
-                var nsActivePage = '';
-                if (this.newButton.dispatcher.getGlobalState().currentTabId !== null) {
-                    var nsActivePage = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
-                    nsActivePage = nsActivePage.split(':')
-                    nsActivePage.pop();
-                    var len = nsActivePage.length;
-                    if (len > 1) {
-                        nsActivePage = nsActivePage.join(':');
+            dialog.nsActivePage = function (){
+                path.length=0;
+                if (this.newButton.dispatcher.getGlobalState().currentTabId) {
+                    var stPath = "";
+                    var aPath = this.newButton.dispatcher.getGlobalState().getContent(this.newButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+                    aPath = aPath.split(':');
+                    aPath.pop();
+                    aPath.unshift("");
+                    for (var i=0;i<aPath.length;i++) {
+                        if (i > 1) {
+                            stPath = stPath + ":";
+                        }
+                        stPath = stPath + aPath[i];
+                        path[i]=stPath;
                     }
-                }
-                return nsActivePage;
+                }    
             };
 
 
@@ -53,7 +63,7 @@ if (newButton) {
             // create a ContentPane as the left pane in the BorderContainer
             var cpEsquerra = new ContentPane({
                 region: "left",
-                style: "width: 170px"
+                style: "width: 220px"
             });
             bc.addChild(cpEsquerra);
 
@@ -66,10 +76,10 @@ if (newButton) {
             // put the top level widget into the document, and then call startup()
             bc.placeAt(dialog.containerNode);
 
-            // Un formulari a la banda esquerre contenint:
+            // Un formulari a la banda dreta contenint:
             var divesquerra = domConstruct.create('div', {
-                className: 'esquerra'
-            },cpEsquerra.containerNode);
+                className: 'dreta'
+            },cpDreta.containerNode);
 
             var form = new Form().placeAt(divesquerra);
 
@@ -84,7 +94,6 @@ if (newButton) {
 
             var EspaiNoms = new TextBox({
                 id: 'textBoxEspaiNoms',
-                value: dialog.nsActivePageText(),
                 placeHolder: newButton.EspaideNomsplaceHolder
             }).placeAt(divEspaiNoms);
             dialog.textBoxEspaiNoms = EspaiNoms;
@@ -99,19 +108,22 @@ if (newButton) {
             }, divNouDocument);
 
             var NouDocument = new TextBox({
+                id: "textBoxNouDocument",
                 placeHolder: newButton.NouDocumentplaceHolder
             }).placeAt(divNouDocument);
 
             //L'arbre de navegació a la banda dreta del quadre.
             var divdreta = domConstruct.create('div', {
                 className: 'dreta'
-            },cpDreta.containerNode);
+            },cpEsquerra.containerNode);
 
             var dialogTree = new NsTreeContainer({
                 treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
                 onlyDirs:true
             }).placeAt(divdreta);
             dialogTree.startup();
+
+            dialog.dialogTree = dialogTree;
 
             dialogTree.tree.onClick=function(item) {
                 dom.byId('textBoxEspaiNoms').value= item.id;
@@ -145,14 +157,13 @@ if (newButton) {
             // El botó de cancel·lar
             new Button({
               label: newButton.labelButtonCancellar,
-              onClick: function(){ dialog.hide();}
+              onClick: function(){dialog.hide();}
             }).placeAt(botons);
 
             form.startup();
         }
+        dialog.nsActivePage();
         dialog.show();
         return false;
     });
 }
-
-
