@@ -63,34 +63,37 @@ class MediaResponseHandler extends WikiIocResponseHandler {
          */
 
         //$metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0, TRUE);
-        global $INPUT;
-        $sort = "name";
-        if($INPUT->str('sort')){
-            $sort = $INPUT->str('sort');
-        }
-        $list = "thumbs";
-        if($INPUT->str('list')){
-            $list = $INPUT->str('list');
-        }
-        $metaData = array(
-            'id' => 'metaMedia', 
-            'sort' => $sort,
-            'list' => $list
-        );
+        if(!$requestParams["preserveMetaData"]){
+            global $INPUT;
+            $sort = "name";
+            if($INPUT->str('sort')){
+                $sort = $INPUT->str('sort');
+            }
+            $list = "thumbs";
+            if($INPUT->str('list')){
+                $list = $INPUT->str('list');
+            }
+            $metaData = array(
+                'id' => 'metaMedia', 
+                'sort' => $sort,
+                'list' => $list
+            );
 
-        $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
-        $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
-        $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
-        $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
-        $metaAgrupa = array(
-            "0" => $metaData,
-            "1" => $metaDataFileOptions,
-            "2" => $metaDataFileSort,
-            "3" => $metaDataFileUpload,
-            "4" => $metaDataSearch
-        );
+            $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
+            $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
+            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
+            $metaAgrupa = array(
+                "0" => $metaData,
+                "1" => $metaDataFileOptions,
+                "2" => $metaDataFileSort,
+                "3" => $metaDataFileUpload,
+                "4" => $metaDataSearch
+            );
 
-        $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
+            $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
+        }
+        
 
         
 
