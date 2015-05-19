@@ -88,10 +88,6 @@ require([
 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
 if (centralContainer) {
 centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
-if (wikiIocDispatcher.getContentCache(newTab.id)) {
-newTab.setCurrentDocument(newTab.id);
-wikiIocDispatcher.getInfoManager().refreshInfo(newTab.id);
-}
 if (oldTab && wikiIocDispatcher.getGlobalState()
 .getContentAction(oldTab.id) == "edit") {
 wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
@@ -100,7 +96,6 @@ if (wikiIocDispatcher.getGlobalState()
 .getContentAction(newTab.id) == "edit") {
 wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
 }
-wikiIocDispatcher.updateFromState();
 }));
 }
 });
@@ -143,7 +138,7 @@ dialog.nsActivePage = function (){
 path.length=0;
 if (this.newButton.dispatcher.getGlobalState().currentTabId) {
 var stPath = "";
-var aPath = this.newButton.dispatcher.getGlobalState().pages[this.newButton.dispatcher.getGlobalState().currentTabId]['ns'] || '';
+var aPath = this.newButton.dispatcher.getGlobalState().getContent(this.newButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
 aPath = aPath.split(':');
 aPath.pop();
 aPath.unshift("");

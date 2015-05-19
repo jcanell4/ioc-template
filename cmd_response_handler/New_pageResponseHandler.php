@@ -24,4 +24,3 @@ class New_pageResponseHandler extends pageResponseHandler
     }
 
 }
-?>
