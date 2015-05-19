@@ -149,7 +149,6 @@ require([
 
                     if (state.getContent(id).rev) {
                         queryParams += "rev=" + state.getContent(id).rev + "&";
-                        //alert("hi ha revisió");
                     }
 
                     queryParams += "call=page&id=";
