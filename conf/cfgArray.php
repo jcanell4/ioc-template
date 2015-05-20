@@ -265,7 +265,7 @@ $_arrIocCfgGUI = array (
                           'query' => '\'id=user\'',
                           'autoSize' => true,
                           'disabled' => false,
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
+                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                           'standbyId' => '\'bodyContent\'',
                           'getQuery' => 'function(){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId;return _ret;}',
                         ),
