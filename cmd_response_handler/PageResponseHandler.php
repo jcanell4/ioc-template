@@ -37,10 +37,10 @@ class PageResponseHandler extends WikiIocResponseHandler {
 		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
 
 
-		if ($metaData['id']) {
+//		if ($metaData['id']) {
 			$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
 			                                        $metaData['meta'] );
-		}
+//		}
 
 		$ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
 
