@@ -22,21 +22,21 @@ $conf['dojo_base'] = "//ajax.googleapis.com/ajax/libs/dojo/1.8/";
 $conf["ioc_template_startpage"] = "start"; //namespace to use for user page storage
 
 //user pages
-$conf["ioc_template_userpage"]    = true; //TRUE: use/show user pages
+$conf["ioc_template_userpage"]    = 1; //TRUE: use/show user pages
 $conf["ioc_template_userpage_ns"] = ":wiki:user:"; //namespace to use for user page storage
 
 //discussion pages
-$conf["ioc_template_discuss"]    = true; //TRUE: use/show discussion pages
+$conf["ioc_template_discuss"]    = 1; //TRUE: use/show discussion pages
 $conf["ioc_template_discuss_ns"] = ":talk:"; //namespace to use for discussion page storage
 
 //documentation
-$conf["ioc_template_documentation"]  = true; //TRUE: use/show navigation
+$conf["ioc_template_documentation"]  = 1; //TRUE: use/show navigation
 $conf["ioc_template_documentation_ns"]  = ":wiki:navigation"; //page/article used to store the navigation
-$conf["ioc_template_documentation_translate"] = true; //TRUE: load translated navigation if translation plugin is available (see <http://www.dokuwiki.org/
+$conf["ioc_template_documentation_translate"] = 1; //TRUE: load translated navigation if translation plugin is available (see <http://www.dokuwiki.org/
 
 //custom copyright notice
-$conf["ioc_template_copyright"]    = true; //TRUE: use/show copyright notice
-$conf["ioc_template_default"]      = true; //TRUE: use default copyright notice (if copyright notice is enabled at all)
+$conf["ioc_template_copyright"]    = 1; //TRUE: use/show copyright notice
+$conf["ioc_template_default"]      = 1; //TRUE: use default copyright notice (if copyright notice is enabled at all)
 $conf["ioc_template_copyright_ns"] = ":wiki:copyright"; //page/article used to store a custom copyright notice
 
 //array de configuració de la GUI
