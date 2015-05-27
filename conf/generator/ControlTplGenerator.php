@@ -20,11 +20,14 @@ require_once (DOKU_TPL_INCDIR . 'conf/generator/WikiIocTplGeneratorExceptions.ph
 class ControlTplGenerator {
     private $controls;
     
-    public function addControlScript($scriptPath){
+    public function addControlScript($scriptPath, $aReplacements=NULL){
         if(!file_exists($scriptPath)){
             throw new FileScriptNotFoundException($scriptPath);
         }
         $textScript = file_get_contents($scriptPath);
+        if($aReplacements){
+            $textScript = str_replace($aReplacements["search"], $aReplacements["search"], $textScript);
+        }
         $this->controls["controlScript"][]=$textScript;        
     }
     
