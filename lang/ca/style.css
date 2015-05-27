@@ -21,19 +21,19 @@ Overriding style elements from vector template
 
 /* afegit pels diff */
 /* --------------- diff view ----------------- */
-.dokuwiki table.diff td {
-    font-size: 12px;
-    line-height: 17px;
-}
-.dokuwiki table.diff th {
-    font-size: 12px;
-}
-.dokuwiki table.diff td.diff-addedline,
-.dokuwiki table.diff td.diff-deletedline,
-.dokuwiki table.diff td.diff-context {
-    padding-left: 2px;
-    padding-right: 2px;
-}
+/*.dokuwiki table.diff td {*/
+    /*font-size: 12px;*/
+    /*line-height: 17px;*/
+/*}*/
+/*.dokuwiki table.diff th {*/
+    /*font-size: 12px;*/
+/*}*/
+/*.dokuwiki table.diff td.diff-addedline,*/
+/*.dokuwiki table.diff td.diff-deletedline,*/
+/*.dokuwiki table.diff td.diff-context {*/
+    /*padding-left: 2px;*/
+    /*padding-right: 2px;*/
+/*}*/
 
 /**
  * This file provides styles for the diff view, which shows you

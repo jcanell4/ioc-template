@@ -30,17 +30,25 @@ class PageResponseHandler extends WikiIocResponseHandler {
 		                                       $responseData['ns'],
 		                                       $responseData['title'],
 		                                       $responseData['content'],
-		                                       $responseData['rev']
+		                                       $responseData['rev'],
+		                                       $responseData['type']
 		);
 
 		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
-		$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
-		                                        $metaData['meta'] );
+
+
+		if ($metaData['id']) {
+			$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
+			                                        $metaData['meta'] );
+		}
 
 		$ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
 
-		$id   = $metaData['id'];
+//		$id   = $metaData['id'];
+		$id = $responseData['id'];
+
 		$revs = $this->getModelWrapper()->getRevisions( $id );
+
 		$ajaxCmdResponseGenerator->addRevisionsTypeResponse( $id, $revs );
 
 		$ajaxCmdResponseGenerator->addProcessDomFromFunction(

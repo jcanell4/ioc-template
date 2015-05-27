@@ -1079,8 +1079,8 @@ div.dokuwiki div.toc a.toc {
 
 /* --------------- Table of contents (TOC) new, since 2012-09-10 ---------------  */
 div.dokuwiki #dw__toc {
-  margin: 0 0 0 2em;
-  width: 200px;
+  /*margin: 0 0 0 2em;*/
+  /*width: 200px;*/
   font-size: 90%;
   clear: both;
   background-color: __background__;
