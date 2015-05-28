@@ -25,10 +25,14 @@ class MediaResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-      $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
+        $preserveMetaData = true;
+        if(!$requestParams["preserveMetaData"]){
+            $preserveMetaData = false;
+        }
+        $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
-                                                $responseData['content']);
+                                                $responseData['content'],$preserveMetaData);
         
         //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
