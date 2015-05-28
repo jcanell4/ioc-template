@@ -7,7 +7,7 @@ var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
 
 if (centralContainer) {
 
-    //TODO[Xavi] mirar si aquest bloc es pot moure al ContainerContentTool o EditorContentTool
+    //TODO[Xavi] mirar si aquest bloc es pot moure al ContainerContentTool o EditorContentTool <--
 
     centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
         // Aquest codi es crida només quan canviem de pestanya
