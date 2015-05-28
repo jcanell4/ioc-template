@@ -31,15 +31,17 @@ class PageResponseHandler extends WikiIocResponseHandler {
 		                                       $responseData['title'],
 		                                       $responseData['content'],
 		                                       $responseData['rev'],
-		                                       $responseData['type']
+		                                       $responseData['type'],
+		                                       $responseData['action']
+
 		);
 
+		// TODO[Xavi] Les metadatas son un array i s'han de comprovar totes, no te gaire sentit fer-ho aqui. això ha de anar al DokuModelAdapter
 		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
 
-
 //		if ($metaData['id']) {
-			$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
-			                                        $metaData['meta'] );
+		$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
+		                                        $metaData['meta']);
 //		}
 
 		$ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
