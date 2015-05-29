@@ -36,9 +36,9 @@ class DiffResponseHandler extends WikiIocResponseHandler {
 //		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
 
 //		if ($metaData['id']) {
-		$ajaxCmdResponseGenerator->addMetadata( $responseData['meta']['id'],
-		                                        $responseData['meta']['meta']);
-//		}
+//		$ajaxCmdResponseGenerator->addMetadata( $responseData['meta']['id'],
+//		                                        $responseData['meta']['meta']);
+////		}
 
 		$ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
 
@@ -46,6 +46,10 @@ class DiffResponseHandler extends WikiIocResponseHandler {
 		$id = $responseData['id'];
 
 		$revs = $this->getModelWrapper()->getRevisions( $id );
+
+
+		$ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'],
+		                                                $responseData['meta']['meta'] );
 
 		$ajaxCmdResponseGenerator->addRevisionsTypeResponse( $id, $revs );
 

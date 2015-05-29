@@ -26,8 +26,8 @@
  */
 
 //check if we are running within the DokuWiki environment
-if(!defined("DOKU_INC")) {
-    die();
+if ( ! defined( "DOKU_INC" ) ) {
+	die();
 }
 
 //tabs, personal tools and special links
@@ -107,19 +107,21 @@ $lang['img_manager']      = 'Gestor de medis';
 $lang['img_backto']       = 'Tancar';
 $lang['img_detail_title'] = 'DETALL IMATGE: ';
 
-$lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
-$lang['document_loaded']   = 'S\'ha carregat el document';
-$lang['document_revision_loaded']   = 'Aquesta es una revisió antiga del document feta el ';
-$lang['diff_loaded']   = 'S\'ha carregat la comparació de revisions';
-$lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
+$lang['edition_cancelled']        = 'S\'ha cancel·lat la edició';
+$lang['document_loaded']          = 'S\'ha carregat el document';
+$lang['document_revision_loaded'] = 'Aquesta es una revisió antiga del document feta el ';
+$lang['diff_loaded']              = 'Ací es mostren les diferències entre la revisió seleccionada i la versió actual de la pàgina.';
+$lang['switch_diff_mode']         = 'Canvia mode';
+
+$lang['admin_task_loaded']      = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
 $lang['admin_task_perm_delete'] = 'Permisos Eliminats.';
 $lang['admin_task_perm_update'] = 'Permisos Actualitzats.';
-$lang['auth_error']        = 'Error d\'autenticació';
-$lang['user_login']        = 'Usuari connectat';
-$lang['user_logout']       = 'Usuari desconnectat';
-$lang['button_clicked']    = 'Processat botó ';
-$lang['button_desa']       = 'Desa';
-$lang['button_edit_user']  = 'Editar Usuari';
-$lang['button_filter_user']= 'Filtrar Usuaris';
-$lang['button_cercar']     = 'Cercar';
-$lang['button_revert']     = 'Reverteix les pàgines seleccionades';
+$lang['auth_error']             = 'Error d\'autenticació';
+$lang['user_login']             = 'Usuari connectat';
+$lang['user_logout']            = 'Usuari desconnectat';
+$lang['button_clicked']         = 'Processat botó ';
+$lang['button_desa']            = 'Desa';
+$lang['button_edit_user']       = 'Editar Usuari';
+$lang['button_filter_user']     = 'Filtrar Usuaris';
+$lang['button_cercar']          = 'Cercar';
+$lang['button_revert']          = 'Reverteix les pàgines seleccionades';
