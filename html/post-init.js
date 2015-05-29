@@ -140,8 +140,6 @@ require([
                 infoManager.refreshInfo();
             }
 
-            // TODO[Xavi] afegir la revisió
-
             for (var id in state.pages) {
                 var queryParams ='';
 

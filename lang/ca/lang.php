@@ -110,6 +110,7 @@ $lang['img_detail_title'] = 'DETALL IMATGE: ';
 $lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
 $lang['document_loaded']   = 'S\'ha carregat el document';
 $lang['document_revision_loaded']   = 'Aquesta es una revisió antiga del document feta el ';
+$lang['diff_loaded']   = 'S\'ha carregat la comparació de revisions';
 $lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
 $lang['admin_task_perm_delete'] = 'Permisos Eliminats.';
 $lang['admin_task_perm_update'] = 'Permisos Actualitzats.';

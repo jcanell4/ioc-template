@@ -6,9 +6,9 @@
  */
 
 /**
- * Description of page_response_handler
+ * Description of diff_response_handler
  *
- * @author Josep Cañellas <jcanell4@ioc.cat>
+ * @author Xavier García<xaviergaro.dev@gmail.com>
  */
 
 if ( ! defined( "DOKU_INC" ) ) {
@@ -20,28 +20,24 @@ if ( ! defined( 'DOKU_PLUGIN' ) ) {
 require_once( tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php' );
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
-class PageResponseHandler extends WikiIocResponseHandler {
+class DiffResponseHandler extends WikiIocResponseHandler {
 	function __construct() {
 		parent::__construct( WikiIocResponseHandler::PAGE );
 	}
 
 	protected function response( $requestParams, $responseData, &$ajaxCmdResponseGenerator ) {
-		$ajaxCmdResponseGenerator->addHtmlDoc( $responseData['id'],
+		$ajaxCmdResponseGenerator->addDiffDoc( $responseData['id'],
 		                                       $responseData['ns'],
 		                                       $responseData['title'],
 		                                       $responseData['content'],
-		                                       $responseData['rev'],
 		                                       $responseData['type']
-//		                                       $responseData['action']
-
 		);
 
-		// TODO[Xavi] Les metadatas son un array i s'han de comprovar totes, no te gaire sentit fer-ho aqui. això ha de anar al DokuModelAdapter
-		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
+//		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
 
 //		if ($metaData['id']) {
-		$ajaxCmdResponseGenerator->addMetadata( $metaData['id'],
-		                                        $metaData['meta']);
+		$ajaxCmdResponseGenerator->addMetadata( $responseData['meta']['id'],
+		                                        $responseData['meta']['meta']);
 //		}
 
 		$ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
