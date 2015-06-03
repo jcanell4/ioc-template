@@ -1335,3 +1335,24 @@ div.dokuwiki .section_highlight {
   padding-right: 2px;
 }
 
+/* --------------- meta revisions ------------ */
+table.meta-revisions td, table.meta-revisions th{
+    padding: 2px;
+}
+
+table.meta-revisions tr:hover{
+    background-color: #d3d3d3;
+}
+
+td.ellipsed, th.ellipsed {
+    overflow: hidden;
+    max-width: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width:100%;
+    cursor: help;
+}
+
+table.meta-revisions a {
+    text-decoration: none;
+}
