@@ -52,8 +52,10 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
+            console.log("post-init:currentTabId="+disp.getGlobalState().currentTabId);
             if (disp.getGlobalState().currentTabId) {
                 var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
+                console.log("post-init:page.action="+page.action);
                 if (page.action === 'view') {
                     disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
                     disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
