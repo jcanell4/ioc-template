@@ -110,7 +110,7 @@ $lang['img_detail_title'] = 'DETALL IMATGE: ';
 $lang['edition_cancelled']        = 'S\'ha cancel·lat la edició';
 $lang['document_loaded']          = 'S\'ha carregat el document';
 $lang['document_revision_loaded'] = 'Aquesta es una revisió antiga del document feta el ';
-$lang['diff_loaded']              = 'Ací es mostren les diferències entre la revisió seleccionada i la versió actual de la pàgina.';
+$lang['diff_loaded']              = 'Ací es mostren les diferències entre les revisions.';
 $lang['switch_diff_mode']         = 'Canvia mode';
 
 $lang['admin_task_loaded']      = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
