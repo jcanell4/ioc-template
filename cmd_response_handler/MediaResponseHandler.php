@@ -40,13 +40,14 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         
         //Càrrega de la zona info de missatges
         global $JUMPTO;
+        global $MSG;
         $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
         $info['type'] = 'success';
         $info['message'] = 'Llista de fitxers de ' . $responseData['ns'] . ' carregada.';
         if (isset($JUMPTO)) {
             if ($JUMPTO == false) {                
                 $info['type'] = 'error';
-                $info['message'] = "El fitxer no s'ha pogut carregar. El motiu és a Índex Media.";
+                $info['message'] = $MSG[0]["msg"];
             }
         }
         if (isset($_REQUEST['mediado'])) {
@@ -85,14 +86,23 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
             $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
             $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
             $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
+            
+            /*
+             * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
+             */
+            
+            $propLlista = array(
+			'id'      => 'metaMediaProperties',
+			'title'   => "Propietats de la llista",
+			'content' => $metaDataFileOptions.$metaDataFileSort.$metaDataSearch
+		);
+            
+            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
             $metaAgrupa = array(
                 "0" => $metaData,
-                "1" => $metaDataFileOptions,
-                "2" => $metaDataFileSort,
-                "3" => $metaDataFileUpload,
-                "4" => $metaDataSearch
+                "1" => $propLlista,
+                "2" => $metaDataFileUpload
             );
 
             $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
