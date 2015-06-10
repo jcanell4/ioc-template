@@ -96,17 +96,6 @@ require([
                     , "propertyValue": state.userId
                 }
             });
-
-            // Add admin_tab to the Navigation container
-            var requestTabContent = new Request();
-            requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-            var data_tab = requestTabContent.sendRequest().always(function () {
-                var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-                if (currentNavigationPaneId === "tb_admin") {
-                    var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                    tbContainer.selectChild(currentNavigationPaneId);
-                }
-            });
         }
 
         if (state.permissions) {
@@ -114,6 +103,18 @@ require([
                 "type":    "jsinfo"
                 , "value": state.permissions
             });
+            // Add admin_tab to the Navigation container
+            if(state.permissions['isadmin'] | state.permissions['ismanager']){
+                var requestTabContent = new Request();
+                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+                var data_tab = requestTabContent.sendRequest().always(function () {
+                    var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                    if (currentNavigationPaneId === "tb_admin") {
+                        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                        tbContainer.selectChild(currentNavigationPaneId);
+                    }
+                });
+            }            
         }
 
         if (state.sectok) {
@@ -141,8 +142,6 @@ require([
                 infoManager.loadInfoStorage(state.infoStorage);
                 infoManager.refreshInfo();
             }
-
-            // TODO[Xavi] afegir la revisió
 
             for (var id in state.pages) {
                 var queryParams ='';

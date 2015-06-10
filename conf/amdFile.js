@@ -86,18 +86,6 @@ require([
 ,"dojo/_base/lang"
 ], function (registry,wikiIocDispatcher,lang) {
 var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
-if (centralContainer) {
-centralContainer.watch("selectedChildWidget", lang.hitch(centralContainer, function (name, oldTab, newTab) {
-if (oldTab && wikiIocDispatcher.getGlobalState()
-.getContentAction(oldTab.id) == "edit") {
-wikiIocDispatcher.getContentCache(oldTab.id).getEditor().unselect();
-}
-if (wikiIocDispatcher.getGlobalState()
-.getContentAction(newTab.id) == "edit") {
-wikiIocDispatcher.getContentCache(newTab.id).getEditor().select();
-}
-}));
-}
 });
 require([
 "dijit/registry"
