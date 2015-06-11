@@ -85,7 +85,6 @@ require([
 ,"ioc/wiki30/dispatcherSingleton"
 ,"dojo/_base/lang"
 ], function (registry,wikiIocDispatcher,lang) {
-var centralContainer = registry.byId(wikiIocDispatcher.containerNodeId);
 });
 require([
 "dijit/registry"
