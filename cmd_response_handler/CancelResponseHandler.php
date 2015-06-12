@@ -17,8 +17,7 @@ class CancelResponseHandler extends PageResponseHandler {
     protected function response($requestParams, 
                                 $responseData, 
                                 &$ajaxCmdResponseGenerator) {
--        //TODO La informació ha de venir de DokuModelAdapter. Cal fer el canvi
--        //$responseData["info"] = " "; // aixo ha de sortir el
+
         parent::response($requestParams, 
                         $responseData, 
                         $ajaxCmdResponseGenerator);
