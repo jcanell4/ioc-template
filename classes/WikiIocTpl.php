@@ -72,6 +72,9 @@ class WikiIocTpl {
         //[TODO Josep] Cal passar això al plugin aceeditor
         WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "ace-builds", "location" => $js_packages["ace-builds"]));
         //[END TODO Josep]
+        //dojox és necessari al Request del jslib
+        WikiIocBuilderManager::Instance()->putRequiredPackage(array("name" => "dojox", "location" => $js_packages["dojox"]));
+        $this->handleDojoMetaHeaders();
         $this->aIocCfg = new $obj($parms, $items);
     }
 
@@ -83,6 +86,50 @@ class WikiIocTpl {
         echo $this->aIocCfg->getRenderingCode();
         echo "</html>";
     }
+    
+    public function handleDojoMetaHeaders(){
+        global $EVENT_HANDLER;
+        
+        $EVENT_HANDLER->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'setDojoMetaHeaders');
+    }
+    
+    public function setDojoMetaHeaders(Doku_Event &$event, $param) {
+        global $js_packages;
+        
+        $event->data["link"][] = array ("rel" => "stylesheet",
+                                    "href" => $js_packages["dijit"] 
+                                                . "/themes/claro/claro.css",
+                                    "media" => "screen");
+        $event->data["link"][] = array ("rel" => "stylesheet",
+                                    "href" => $js_packages["dijit"] 
+                                                . "/themes/claro/document.css",
+                                    "media" => "screen");
+        $item0 = $event->data["script"][0];
+        $item1 = $event->data["script"][1];
+        
+        
+        $event->data["script"][0] = array( 
+                "type" => "text/javascript",
+                "charset" => "utf-8",
+                "_data" => "var dojoConfig = {\n".
+                        "   parseOnLoad:true,\n".
+                        "   async:true,\n".
+                        "   baseUrl: '/',\n".
+                        "   tlmSiblingOfDojo: false,\n".
+                        "   locale: \"".hsc($conf["lang"])."\",\n". 
+                        WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages().
+                        "};\n",
+        );             
+
+        $event->data["script"][1] = array (
+                "type" => "text/javascript",
+                "charset" => "utf-8",
+                "_data" => "",
+                "src" => $js_packages["dojo"].'/dojo.js',
+        );
+        array_unshift($event->data["script"], $item1);
+        array_unshift($event->data["script"], $item0);
+    }
 
     public function printHeaderTags() {
         global $conf, $lang, $js_packages;
@@ -90,8 +137,8 @@ class WikiIocTpl {
         echo "<meta charset='utf-8'/>\n";
         echo "<meta http-equiv='X-UA-Compatible' content='IE=edge'/>\n";
         echo "<title>::" . $this->getTitle() . "::</title>\n";
-        echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/claro.css' />\n";
-        echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/document.css'/>\n";
+        //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/claro.css' />\n";
+        //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/document.css'/>\n";
         tpl_metaheaders();
         echo "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n";
 
@@ -115,25 +162,13 @@ class WikiIocTpl {
 
 
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
-        echo "<script>\n";
-        echo "var dojoConfig = {\n";
-        echo "    parseOnLoad:true,\n";
-        echo "    async:true,\n";
-        //echo "    baseUrl: '/iocjslib/',\n";
-        echo "    baseUrl: '/',\n";
-        echo "    tlmSiblingOfDojo: false,\n";
-        echo "    locale: \"".hsc($conf["lang"])."\",\n";
-        echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages();
-        echo "};\n";
-        echo "</script>\n";
         echo $this->fillJsCode(); //replacedContentJsFile;
         echo "</head>\n";
     }
 
     private function fillJsCode() {
         if (@file_exists($this->scriptPreInitJsFile)) {
-            $contentJsFile = "<script type='text/javascript' src='cfgIdConstants::DOJO_SOURCE/dojo.js'></script>\n";
-            $contentJsFile.= "<script type='text/javascript'>\n";
+            $contentJsFile= "<script type='text/javascript'>\n";
             // Incorpora el código javascript recogido en los directorios AMD
             $contentJsFile.= "require([\n";
             $contentJsFile.= "\"dojo/domReady!\"\n";

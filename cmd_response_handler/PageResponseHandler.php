@@ -51,7 +51,16 @@ class PageResponseHandler extends WikiIocResponseHandler {
 
 		$revs = $this->getModelWrapper()->getRevisions( $id );
 
-		$ajaxCmdResponseGenerator->addRevisionsTypeResponse( $id, $revs );
+                if(count($revs)>0){
+                    $ajaxCmdResponseGenerator->addRevisionsTypeResponse( $id, $revs );
+                }else{
+                    $pageId = str_replace( ":", "_", $id );
+                    $ajaxCmdResponseGenerator->addExtraMetadata($pageId, 
+                            $pageId."_revisions", 
+                            "revisions", 
+                            "<h2> aquest document no té revisions </h2>"
+                            );
+                }
 
 		$ajaxCmdResponseGenerator->addProcessDomFromFunction(
 			$responseData['id'],
