@@ -39,6 +39,7 @@ require([
         disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
+        disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
 
         if (!disp.getGlobalState().login) {
             disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -66,6 +67,8 @@ require([
                     }
                 } else if (page.action === 'media') {
                     disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
+                }else if (page.action === 'mediadetails') {
+                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
                 }
             }
         }

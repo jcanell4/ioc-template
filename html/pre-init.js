@@ -28,5 +28,6 @@ require([
         wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
         wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
+        wikiIocDispatcher.mediaSupressioButtonId = 'cfgIdConstants::MEDIA_SUPRESSIO_BUTTON';
 });
 

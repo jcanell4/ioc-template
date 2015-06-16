@@ -725,6 +725,26 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i7_supressio' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'mediaSupressioButton',
+                  'label' => 'Suprimeix',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var eldelete = this.dispatcher.getGlobalState().currentTabId; var ns =this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; _ret=\'call=mediadetails&delete=\'+eldelete+\'&do=media&ns=\'+ns;}return _ret;}',
+                ),
+              ),
+            ),
           ),
         ),
         'i3_bottom' => 

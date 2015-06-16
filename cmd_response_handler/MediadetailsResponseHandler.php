@@ -38,6 +38,22 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['title'], 
                                                 $responseData['content']);
         
+      /*
+       * UNA PROVA AMB META INFO I DECORATOR PER AL MEDIA DETAILS
+       */
+      $propLlista = array(
+			'id'      => $responseData['id'].'_metaMediaDetailsProva',
+			'title'   => "PROVA DE MEDIA DETAIL",
+			'content' => "<div class='provadetail' id='".$responseData['id']."_provaMediaDetails'><span>Hola Touch Me</span></div>"
+		);
+            
+            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaAgrupa = array(
+                "0" => $propLlista
+            );
+
+            $ajaxCmdResponseGenerator->addMetaMediaDetailsData($responseData['id'], $metaAgrupa);
+      
         //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
         global $NS;

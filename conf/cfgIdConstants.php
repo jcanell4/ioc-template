@@ -54,6 +54,7 @@ class cfgIdConstants {
     const EDIT_BUTTON         = "editButton";
     const ED_PARC_BUTTON      = "edparcButton";
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
+    const MEDIA_SUPRESSIO_BUTTON = "mediaSupressioButton";
     const EXIT_BUTTON         = "exitButton";
 
     const BOTTOM_PANEL        = "id_BottomPanel";
