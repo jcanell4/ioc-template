@@ -1,1 +1,1 @@
-_ret = "id=talk:wiki:user:" + this.dispatcher.getGlobalState().userId;
+_ret = "id=talk:wiki:user:" + this.dispatcher.getGlobalState().userId + ":index";

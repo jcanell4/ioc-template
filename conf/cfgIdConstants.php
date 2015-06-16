@@ -65,6 +65,14 @@ class cfgIdConstants {
     const RESIZING_TAB_TYPE   = 1;
     const SCROLLING_TAB_TYPE  = 2;
 
+    # Access Control Lists
+    const ACL_NONE = AUTH_NONE;
+    const ACL_READ = AUTH_READ;
+    const ACL_EDIT = AUTH_EDIT;
+    const ACL_CREATE = AUTH_CREATE;
+    const ACL_UPLOAD = AUTH_UPLOAD;
+    const ACL_DELETE = AUTH_DELETE;
+
     //Otras constantes provenientes de scriptRef.tpl
     const SECTOK_ID           = "ajax";             //antes era %%ID%%
     
