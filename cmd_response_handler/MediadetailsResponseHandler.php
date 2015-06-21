@@ -25,55 +25,52 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-    /*$ret = array(
-            "content" => $this->doMediaDetailsPreProcess(),
-            "id" => "mediadetails",
-            "title" => $image,
-            "ns" => $NS,
-            "imageTitle" => $image,
-            "image" => $image
-        );*/
-      $ajaxCmdResponseGenerator->addMediaDetails($responseData['id'], 
-                                                $responseData['ns'], 
-                                                $responseData['title'], 
-                                                $responseData['content']);
+
+        /*
+         * Aquest handler ha de controlar diverses crides
+         * - Petició del detall d'un media
+         * - Eliminació d'un media --> existeix $requestParams['delete'] amb l'ns i l'id del media
+         * 
+         */
         
-      /*
-       * UNA PROVA AMB META INFO I DECORATOR PER AL MEDIA DETAILS
-       */
-      $propLlista = array(
-			'id'      => $responseData['id'].'_metaMediaDetailsProva',
-			'title'   => "PROVA DE MEDIA DETAIL",
-			'content' => "<div class='provadetail' id='".$responseData['id']."_provaMediaDetails'><span>Hola Touch Me</span></div>"
-		);
-            
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+        if ($requestParams['delete']) {
+            $ajaxCmdResponseGenerator->addMediaDetails("delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+        } else {
+            $ajaxCmdResponseGenerator->addMediaDetails("details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
+            /*
+             * UNA PROVA AMB META INFO I DECORATOR PER AL MEDIA DETAILS
+             */
+            $propLlista = array(
+                'id' => $responseData['id'] . '_metaMediaDetailsProva',
+                'title' => "PROVA DE MEDIA DETAIL",
+                'content' => "<div class='provadetail' id='" . $responseData['id'] . "_provaMediaDetails'><span>Hola Touch Me</span></div>"
+            );
+
             $metaAgrupa = array(
                 "0" => $propLlista
             );
 
             $ajaxCmdResponseGenerator->addMetaMediaDetailsData($responseData['id'], $metaAgrupa);
-      
-        //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
-        //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
-        global $NS;
-        
-        //Càrrega de la zona info de missatges
-        global $JUMPTO;
-        $info = array('id' => $responseData['id'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
-        $info['type'] = 'success';
-        $info['message'] = 'Imatge ' . $responseData['id'] . ' carregada.';
-        if (isset($JUMPTO)) {
-            if ($JUMPTO == false) {                
-                $info['type'] = 'error';
-                $info['message'] = "El fitxer no s'ha pogut carregar.";
-            }
-        }
-        
-        
-        $ajaxCmdResponseGenerator->addInfoDta($info);
-        
 
+            //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
+            //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
+            global $NS;
+
+            //Càrrega de la zona info de missatges
+            global $JUMPTO;
+            $info = array('id' => $responseData['id'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info['type'] = 'success';
+            $info['message'] = 'Imatge ' . $responseData['id'] . ' carregada.';
+            if (isset($JUMPTO)) {
+                if ($JUMPTO == false) {
+                    $info['type'] = 'error';
+                    $info['message'] = "El fitxer no s'ha pogut carregar.";
+                }
+            }
+
+
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }
     }
 
 }

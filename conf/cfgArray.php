@@ -738,10 +738,50 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var eldelete = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; var confirmar=confirm(\'Suprimiu aquesta entrada?\'); if (confirmar){ _ret=\'call=mediadetails&delete=\'+eldelete+\'&do=media&ns=\'+ns; }else{ _ret=\'call=mediadetails&id=\'+eldelete+\'&image=\'+eldelete+\'&img=\'+eldelete+\'&do=media\'; }}return _ret;}',
+                ),
+              ),
+            ),
+            'i8_upload' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'mediaUploadButton',
+                  'label' => 'Upload',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; var list = dojo.query(\'input[type=radio][name=fileoptions]:checked\')[0].value; var sort = dojo.query(\'input[type=radio][name=filesort]:checked\')[0].value; _ret=\'id=\' + elid + \'&ns=\' + ns + \'&do=media&list=\'+list+\'&sort=\'+sort+\'&versioupload=true\';}return _ret;}',
+                ),
+              ),
+            ),
+            'i9_editmedia' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'mediaEditButton',
+                  'label' => 'Edició',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var eldelete = this.dispatcher.getGlobalState().currentTabId; var ns =this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; _ret=\'call=mediadetails&delete=\'+eldelete+\'&do=media&ns=\'+ns;}return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; _ret=\'image=\' + elid + \'&ns=\' + ns + \'&do=media&tab_details=edit&tab_files=files\';}return _ret;}',
                 ),
               ),
             ),

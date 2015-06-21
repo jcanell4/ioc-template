@@ -82,12 +82,6 @@ tab.updateSectok();
 });
 require([
 "dijit/registry"
-,"ioc/wiki30/dispatcherSingleton"
-,"dojo/_base/lang"
-], function (registry,wikiIocDispatcher,lang) {
-});
-require([
-"dijit/registry"
 ,"dojo/dom"
 ,"dojo/dom-construct"
 ,"dijit/layout/BorderContainer"

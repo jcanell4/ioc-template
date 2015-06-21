@@ -99,6 +99,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 		);
             
             $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            if($requestParams["versioupload"]){
+                $metaDataFileUpload['versioupload'] = $requestParams["id"];
+            }
             $metaAgrupa = array(
                 "0" => $metaData,
                 "1" => $propLlista,
