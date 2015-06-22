@@ -73,7 +73,14 @@ require([
                     disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
                     disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
                     if(disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]){
-                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);  
+                        if(page.mediado){
+                            if(page.mediado != "diff"){
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true); 
+                            }
+                        }else{
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
+                        }
+
                     }
                   
                 }

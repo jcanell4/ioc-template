@@ -32,18 +32,24 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
          * - Eliminació d'un media --> existeix $requestParams['delete'] amb l'ns i l'id del media
          * 
          */
+        $mediado = "";
+        if($requestParams['mediado']){
+            $mediado = $requestParams['mediado'];
+        }
         
         if ($requestParams['delete']) {
-            $ajaxCmdResponseGenerator->addMediaDetails("delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails($mediado,"delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
         } else {
-            $ajaxCmdResponseGenerator->addMediaDetails("details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails($mediado,"details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
             /*
-             * UNA PROVA AMB META INFO I DECORATOR PER AL MEDIA DETAILS
+             * HISTÒRIC DE VERSIONS
              */
+            
             $propLlista = array(
                 'id' => $responseData['id'] . '_metaMediaDetailsProva',
-                'title' => "PROVA DE MEDIA DETAIL",
-                'content' => "<div class='provadetail' id='" . $responseData['id'] . "_provaMediaDetails'><span>Hola Touch Me</span></div>"
+                'title' => "Històric de versions",
+                'ns' => $responseData['ns'],
+                'content' => $this->getModelWrapper()->mediaDetailsHistory()
             );
 
             $metaAgrupa = array(
