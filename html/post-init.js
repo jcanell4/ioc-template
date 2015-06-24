@@ -39,6 +39,7 @@ require([
         disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
+        disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);        
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);        
@@ -70,19 +71,21 @@ require([
                 } else if (page.action === 'media') {
                     disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                 }else if (page.action === 'mediadetails') {
-                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
-                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                    if(disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]){
-                        if(page.mediado){
-                            if(page.mediado != "diff"){
-                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true); 
-                            }
-                        }else{
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
+                    var pageDif = false;
+                    if(page.mediado){
+                        if(page.mediado == "diff"){
+                            pageDif = true;
                         }
-
                     }
-                  
+                    if(!pageDif){
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
+                        if(disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]){
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true); 
+                        }
+                    }else{
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
+                    }                  
                 }
             }
         }

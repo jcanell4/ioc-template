@@ -28,6 +28,7 @@ require([
         wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
         wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
+        wikiIocDispatcher.mediaTornarButtonId = 'cfgIdConstants::MEDIA_TORNAR_BUTTON';
         wikiIocDispatcher.mediaSupressioButtonId = 'cfgIdConstants::MEDIA_SUPRESSIO_BUTTON';
         wikiIocDispatcher.mediaUploadButtonId = 'cfgIdConstants::MEDIA_UPLOAD_BUTTON';
         wikiIocDispatcher.mediaEditButtonId = 'cfgIdConstants::MEDIA_EDIT_BUTTON';        

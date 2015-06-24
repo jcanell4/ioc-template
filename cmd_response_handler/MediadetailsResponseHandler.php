@@ -66,7 +66,12 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             global $JUMPTO;
             $info = array('id' => $responseData['id'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'success';
-            $info['message'] = 'Imatge ' . $responseData['id'] . ' carregada.';
+            if($mediado == "diff"){
+                $info['message'] = ' &nbsp;Es mostren les versions a comparar.';
+            }else{
+                $info['message'] = ' &nbsp;Imatge ' . $responseData['id'] . ' carregada.';
+            }
+
             if (isset($JUMPTO)) {
                 if ($JUMPTO == false) {
                     $info['type'] = 'error';

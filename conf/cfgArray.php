@@ -785,8 +785,28 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-          ),
-        ),
+            'i9a_tornar' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'mediaTornarButton',
+                  'label' => 'Tornar',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';var elid = this.dispatcher.getGlobalState().currentTabId;_ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';return _ret;}'
+                ),
+              ),
+            ),
+              ),
+            ),
         'i3_bottom' => 
         array (
           'class' => 'WikiIocItemsPanel',
