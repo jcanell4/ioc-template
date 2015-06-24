@@ -1,8 +1,6 @@
 _ret="";
-alert(this.dispatcher.getGlobalState().currentTabId);
 if (this.dispatcher.getGlobalState().currentTabId) {
     var elid = this.dispatcher.getGlobalState().currentTabId;
-    alert(elid);
     var ns = this.dispatcher.getGlobalState().getContent(
                     this.dispatcher.getGlobalState().currentTabId)["ns"];
     if(dojo.query('input[type=radio][name=fileoptions]:checked')[0] === undefined){
@@ -13,10 +11,6 @@ if (this.dispatcher.getGlobalState().currentTabId) {
         _ret='id=' + elid + '&ns=' + ns + '&do=media&list='+list+'&sort='+sort+"&versioupload=true";
 
     }        
-    alert(_ret);
-                
-    
-
 }
 
 
