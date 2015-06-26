@@ -36,11 +36,14 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
         if($requestParams['mediado']){
             $mediado = $requestParams['mediado'];
         }
-        
+        $difftype = "";
+        if($requestParams['difftype']){
+            $difftype = $requestParams['difftype'];
+        }
         if ($requestParams['delete']) {
-            $ajaxCmdResponseGenerator->addMediaDetails($mediado,"delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails($difftype,$mediado,"delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
         } else {
-            $ajaxCmdResponseGenerator->addMediaDetails($mediado,"details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails($difftype,$mediado,"details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
             /*
              * HISTÒRIC DE VERSIONS
              */

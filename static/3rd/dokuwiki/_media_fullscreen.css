@@ -515,3 +515,81 @@
     max-width: none;
 }
 
+
+
+/* file diff view WITH ID IMAGE*/
+
+.mediadetailswithid table {
+    table-layout: fixed;
+    border-width: 0;
+}
+
+.mediadetailswithid td,
+.mediadetailswithid th {
+    width: 48%;
+    margin: 0 5px 10px 0;
+    padding: 0;
+    vertical-align: top;
+    text-align: left;
+    border-color: __background__;
+}
+[dir=rtl] .mediadetailswithid td,
+[dir=rtl] .mediadetailswithid th {
+    text-align: right;
+}
+
+.mediadetailswithid th {
+    font-weight: normal;
+    background-color: __background__;
+    line-height: 1.2;
+}
+.mediadetailswithid th a {
+    font-weight: bold;
+}
+.mediadetailswithid th span {
+    font-size: 90%;
+}
+
+.mediadetailswithid dl dd strong{
+    background-color: __highlight__;
+    color: __text__;
+    font-weight: normal;
+}
+
+/* image diff views */
+
+
+
+.mediadetailswithid div.slider {
+    margin: 10px;
+    width: 95%;
+}
+
+.mediadetailswithid .imageDiff {
+    position: relative;
+}
+.mediadetailswithid .imageDiff .image2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.mediadetailswithid .imageDiff.opacity .image2 {
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.mediadetailswithid .imageDiff.portions .image2 {
+    border-right: 1px solid red;
+    overflow: hidden;
+}
+
+.mediadetailswithid .imageDiff.portions img {
+    float: left;
+}
+
+.mediadetailswithid .imageDiff img {
+    width: 100%;
+    max-width: none;
+}
