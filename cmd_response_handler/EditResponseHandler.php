@@ -34,6 +34,10 @@ class EditResponseHandler extends WikiIocResponseHandler {
 	 */
 	protected function response( $requestParams, $responseData, &$ajaxCmdResponseGenerator ) {
 		global $conf;
+		global $INFO;
+
+		// TODO[Xavi] Aquest valor només està per comprovar que arriba correctament el $responseData['locked']. Es pot eliminar
+		$locked = $INFO['locked'];
 
 		$params = array();
 		$this->getToolbarIds( $params );
@@ -41,6 +45,7 @@ class EditResponseHandler extends WikiIocResponseHandler {
 		$params['licenseClass'] = "license";
 		$params['timeout']      = $conf['locktime'] - 60;
 		$params['draft']        = $conf['usedraft'] != 0;
+		$params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
 
 		$ajaxCmdResponseGenerator->addWikiCodeDoc(
 			$responseData['id'], $responseData['ns'],

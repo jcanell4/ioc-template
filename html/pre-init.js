@@ -24,7 +24,6 @@ require([
         wikiIocDispatcher.editButtonId        = 'cfgIdConstants::EDIT_BUTTON';
         wikiIocDispatcher.saveButtonId        = 'cfgIdConstants::SAVE_BUTTON';
         wikiIocDispatcher.cancelButtonId      = 'cfgIdConstants::CANCEL_BUTTON';
-        wikiIocDispatcher.previewButtonId     = 'cfgIdConstants::PREVIEW_BUTTON';
         wikiIocDispatcher.edParcButtonId      = 'cfgIdConstants::ED_PARC_BUTTON';
         wikiIocDispatcher.userButtonId        = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
