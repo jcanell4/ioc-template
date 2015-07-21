@@ -44,12 +44,12 @@ class EditResponseHandler extends WikiIocResponseHandler {
 		$params['id']           = $responseData['id'];
 		$params['licenseClass'] = "license";
 		$params['timeout']      = $conf['locktime'] - 60;
-		$params['draft']        = $conf['usedraft'] != 0;
+		$params['draft']        = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
 		$params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
 
 		$ajaxCmdResponseGenerator->addWikiCodeDoc(
 			$responseData['id'], $responseData['ns'],
-			$responseData['title'], $responseData['content'],
+			$responseData['title'], $responseData['content'], $responseData['draft'],
 			$params
 		);
 
