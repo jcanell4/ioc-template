@@ -36,8 +36,6 @@ class EditResponseHandler extends WikiIocResponseHandler {
 		global $conf;
 		global $INFO;
 
-		// TODO[Xavi] Aquest valor només està per comprovar que arriba correctament el $responseData['locked']. Es pot eliminar
-		$locked = $INFO['locked'];
 
 		if ( $responseData['show_draft_dialog'] ) {
 
