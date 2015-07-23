@@ -174,5 +174,12 @@ table.diff .insert {
 table.diff th.author {
 	text-align:right;
 	border-top:1px solid #BBC;
-	background:#EFEFEF
+	background:#EFEFEF;
+}
+
+/* CUSTOM STYLE */
+.diff-dialog-diff {
+	height: 200px;
+	width: auto;
+	overflow: scroll;
 }

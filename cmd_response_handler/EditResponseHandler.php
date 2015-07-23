@@ -46,7 +46,7 @@ class EditResponseHandler extends WikiIocResponseHandler {
 			$ajaxCmdResponseGenerator->addDraftDialog(
 				$responseData['id'], $responseData['ns'],
 				$responseData['title'], $responseData['content'], $responseData['draft'],
-				$conf['locktime'] - 60
+				$conf['locktime'] - 60, $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod'])
 			);
 
 		} else {
