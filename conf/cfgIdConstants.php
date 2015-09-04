@@ -9,9 +9,7 @@ class cfgIdConstants {
     const TOP_BLOC            = "topBloc";
     //elemento Barramenu del elemento topBloc de MAIN
     const BARRA_MENU          = "barraMenu";
-    const MENU_VISTA          = "menu_vista";
-    const MENU_EDICIO         = "menu_edicio";
-    const MENU_CORRECCIO      = "menu_correccio";
+
     //elemento zonaLogin del elemento topBloc de MAIN
     const ZONA_LOGIN          = "zonaLogin";
     const LOGIN_BUTTON        = "loginButton";
@@ -49,7 +47,6 @@ class cfgIdConstants {
     const NEW_BUTTON          = "newButton";
     const NEW_BUTTON_DIALOG   = "newButtonDialog";
     const SAVE_BUTTON         = "saveButton";
-    const PREVIEW_BUTTON      = "previewButton";
     const CANCEL_BUTTON       = "cancelButton";
     const EDIT_BUTTON         = "editButton";
     const ED_PARC_BUTTON      = "edparcButton";

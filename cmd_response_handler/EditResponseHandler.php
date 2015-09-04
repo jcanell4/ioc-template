@@ -34,27 +34,44 @@ class EditResponseHandler extends WikiIocResponseHandler {
 	 */
 	protected function response( $requestParams, $responseData, &$ajaxCmdResponseGenerator ) {
 		global $conf;
+		global $INFO;
 
-		$params = array();
-		$this->getToolbarIds( $params );
-		$params['id']           = $responseData['id'];
-		$params['licenseClass'] = "license";
-		$params['timeout']      = $conf['locktime'] - 60;
-		$params['draft']        = $conf['usedraft'] != 0;
 
-		$ajaxCmdResponseGenerator->addWikiCodeDoc(
-			$responseData['id'], $responseData['ns'],
-			$responseData['title'], $responseData['content'],
-			$params
-		);
+		if ( $responseData['show_draft_dialog'] ) {
 
-		$meta = $responseData['meta'];
+			// No s'envien les respostes convencionals
+
+			$ajaxCmdResponseGenerator->addDraftDialog(
+				$responseData['id'], $responseData['ns'],
+				$responseData['title'], $responseData['content'], $responseData['draft'],
+				$conf['locktime'] - 60, $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod'])
+			);
+
+		} else {
+
+			$params = [ ];
+			$this->getToolbarIds( $params );
+			$params['id']           = $responseData['id'];
+			$params['licenseClass'] = "license";
+			$params['timeout']      = $conf['locktime'] - 60;
+			$params['draft']        = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
+			$params['locked']       = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
+
+			$ajaxCmdResponseGenerator->addWikiCodeDoc(
+				$responseData['id'], $responseData['ns'],
+				$responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
+				$params
+			);
+
+			$meta = $responseData['meta'];
 //        if($requestParams["reload"]){
 //            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
 //            $meta = array_merge($meta, $respostaMeta);
 //        }
-		$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
-		$ajaxCmdResponseGenerator->addInfoDta( $responseData['info'] );
+			$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
+			$ajaxCmdResponseGenerator->addInfoDta( $responseData['info'] );
+
+		}
 
 //		$params = array();
 //		$this->getToolbarIds( $params );
