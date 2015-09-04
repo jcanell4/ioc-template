@@ -53,82 +53,6 @@ $_arrIocCfgGUI = array (
             ),
           ),
         ),
-        'i1_menu' => 
-        array (
-          'class' => 'WikiDojoToolBar',
-          'parms' => 
-          array (
-            'DOM' => 
-            array (
-              'id' => 'barraMenu',
-              'label' => 'BarraMenu',
-            ),
-            'CSS' => 
-            array (
-              'position' => 'fixed',
-              'top' => '28px',
-              'left' => '270px',
-              'z-index' => '900',
-            ),
-          ),
-          'items' => 
-          array (
-            'i0_menu_edicio' => 
-            array (
-              'class' => 'WikiDojoButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'menu_edicio',
-                  'label' => 'EDICIÓ',
-                  'class' => 'dijitInline',
-                ),
-                'DJO' => 
-                array (
-                  'visible' => true,
-                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_edicio\');return _ret;}',
-                ),
-              ),
-            ),
-            'i1_menu_vista' => 
-            array (
-              'class' => 'WikiDojoButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'menu_vista',
-                  'label' => 'VISTA',
-                  'class' => 'dijitInline',
-                ),
-                'DJO' => 
-                array (
-                  'visible' => true,
-                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_vista\');return _ret;}',
-                ),
-              ),
-            ),
-            'i2_menu_correccio' => 
-            array (
-              'class' => 'WikiDojoButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'menu_correccio',
-                  'label' => 'CORRECCIÓ',
-                  'class' => 'dijitInline',
-                ),
-                'DJO' => 
-                array (
-                  'visible' => true,
-                  'onClick' => 'function(){var _ret=null; alert(\'hola soc onclick de menu_correccio amb la constant cfgIdConstants::TOPBLOC\');return _ret;}',
-                ),
-              ),
-            ),
-          ),
-        ),
         'i2_login' => 
         array (
           'class' => 'WikiIocDivBloc',
@@ -620,26 +544,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i2_preview' => 
-            array (
-              'class' => 'WikiIocButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'previewButton',
-                  'label' => 'Previsualitza',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=preview\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                ),
-              ),
-            ),
-            'i3_detail' => 
+            'i2_detail' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -659,7 +564,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i4_cancel' => 
+            'i3_cancel' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -667,7 +572,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'cancelButton',
-                  'label' => 'Cancel·la',
+                  'label' => 'Tornar',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -681,7 +586,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i5_edit' => 
+            'i4_edit' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -703,7 +608,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i6_edparc' => 
+            'i5_edparc' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 

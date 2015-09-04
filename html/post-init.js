@@ -35,7 +35,7 @@ require([
         disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);
+        /*disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
         disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
@@ -62,9 +62,15 @@ require([
                     disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
                     disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                 } else if (page.action === 'edit') {
-                    disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
+
+                    var locked = disp.getContentCache(cur).getMainContentTool().locked;
+
+                    //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
+                    disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !locked);
+
                     disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
-                    disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", true);
+
+
                     if (cur) {
                         style.set(cur, "overflow", "hidden");
                     }
@@ -201,7 +207,10 @@ require([
                             tc.selectChild(widget);
                         }
 
-                        if (state.infoStorage) {
+                        // TODO[Xavi] Desactivat per poder fer les proves del bloqueig
+                        var debug = true;
+
+                        if (state.infoStorage && !debug) {
                             infoManager.loadInfoStorage(state.infoStorage);
                             infoManager.refreshInfo(state.currentTabId);
                         }
