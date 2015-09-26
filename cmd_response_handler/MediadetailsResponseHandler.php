@@ -55,8 +55,32 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
                 'content' => $this->getModelWrapper()->mediaDetailsHistory()
             );
 
+                        
+            /*
+             * File Upload
+             */
+            
+            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload['ns'] = $responseData['ns'];
+            $metaDataFileUpload['id'] = $responseData['id'] . '_metaMediafileupload';
+            if($requestParams["versioupload"]){
+                $metaDataFileUpload['versioupload'] = $responseData['id'];
+            }
+            $patrones = array();
+            $patrones[0] = '/dw__upload/';
+            $patrones[1] = '/upload__file/';
+            $patrones[2] = '/upload__name/';
+            $patrones[3] = '/dw__ow/';                  
+            $sustituciones = array();
+            $sustituciones[0] = 'dw__upload_'.$responseData['id'];         
+            $sustituciones[1] = 'upload__file_'.$responseData['id'];         
+            $sustituciones[2] = 'upload__name_'.$responseData['id'];         
+            $sustituciones[3] = 'dw__ow_'.$responseData['id'];                              
+            $metaDataFileUpload['content'] = preg_replace($patrones, $sustituciones, $metaDataFileUpload['content']);  
+            
             $metaAgrupa = array(
-                "0" => $propLlista
+                "0" => $propLlista,
+                "1" => $metaDataFileUpload
             );
 
             $ajaxCmdResponseGenerator->addMetaMediaDetailsData($responseData['id'], $metaAgrupa);
