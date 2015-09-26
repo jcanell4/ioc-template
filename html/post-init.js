@@ -186,20 +186,14 @@ require([
                     // fix? ns empty, load with page name
                     state.getContent(id).ns = id.substring(6);
                 } else if (state.getContent(id).action === "media") {
-                    alert("media");
-                    alert(state.getContent(id).ns);
                     queryParams = "call=media";
                     var elid = state.getContent(id).ns;
                     queryParams += '&ns=' + elid + '&do=media&id=';
-                    alert(queryParams);
                 } else if (state.getContent(id).action === "mediadetails") {
-                    alert("mediadetails");
-                    alert(state.getContent(id).myid);
                     queryParams = "call=mediadetails";
                     var elid = state.getContent(id).myid;
                     //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
                     queryParams += '&id=' + elid +'&image=' + elid+'&img=' + elid+ '&do=media&id=';
-                    alert(queryParams);
                 } else {
                     queryParams = "call=page&id=";
                 }
