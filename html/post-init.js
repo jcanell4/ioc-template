@@ -60,7 +60,8 @@ require([
                 var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
                 if (page.action === 'view') {
                     disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
-                    disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
+                    var edparc_visible = (disp.getGlobalState().getCurrentSectionId());
+                    disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", edparc_visible);
                 } else if (page.action === 'edit') {
 
                     var locked = disp.getContentCache(cur).getMainContentTool().locked;
