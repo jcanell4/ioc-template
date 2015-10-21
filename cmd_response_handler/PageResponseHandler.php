@@ -31,8 +31,7 @@ class PageResponseHandler extends WikiIocResponseHandler {
 		                                       $responseData['title'],
 		                                       $responseData['content'],
 		                                       $responseData['rev'],
-		                                       $responseData['type'],
-												$responseData['structured'] // per revisar, això reemplaça gairabé tots els altres paràmetres
+		                                       $responseData['type']
 //		                                       $responseData['action']
 
 		);
