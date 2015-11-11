@@ -41,7 +41,7 @@ class Save_partialResponseHandler extends PageResponseHandler
                 $params);
 
             $ajaxCmdResponseGenerator->addProcessFunction(true,
-                "ioc/dokuwiki/processSetFormInputValueForPartials",
+                "ioc/dokuwiki/processSetFormsDate",
                 $params);
 
 
@@ -55,5 +55,3 @@ class Save_partialResponseHandler extends PageResponseHandler
         }
     }
 }
-
-?>
