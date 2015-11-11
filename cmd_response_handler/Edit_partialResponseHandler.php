@@ -36,37 +36,19 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-        global $conf;
-
-        // TODO[Xavi] tot això no s'està fent servir per el moment. Pendent d'esborrar
-
-//        $params = [];
-//        $this->getToolbarIds($params);
-//        $params['id'] = $responseData['id'];
-//        $params['licenseClass'] = "license";
-//        $params['timeout'] = $conf['locktime'] - 60;
-//        $params['draft'] = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
-//        $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
-
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['id'],
-            $responseData['ns'],
-            $responseData['title'],
             $responseData['structure'],
             true
         );
 
-//        $meta = $responseData['meta']; // TODO[Xavi] en aquest cas no sembla que faci falta, al save_partial si que pots ser interessant
-
-
 
         // TODO: Que fem amb les metadades?
-//			$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
+//        $meta = $responseData['meta']; // TODO[Xavi] en aquest cas no sembla que faci falta, al save_partial si que pots ser interessant
+//        $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
 
         // TODO: Mantenim la info? afegim una diferent?
-        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+//        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
 
-//		}
 
     }
 }

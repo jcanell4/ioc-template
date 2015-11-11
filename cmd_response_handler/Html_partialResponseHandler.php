@@ -54,6 +54,7 @@ class Html_partialResponseHandler extends WikiIocResponseHandler
 //
 //		} else {
 
+        // TODO: això no es fa servir actualment, i quan ho fem servir serà different
         $params = [];
         $this->getToolbarIds($params);
         $params['id'] = $responseData['id'];
@@ -69,13 +70,13 @@ class Html_partialResponseHandler extends WikiIocResponseHandler
 //        );
 
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['id'],
-            $responseData['ns'],
-            $responseData['title'],
+//            $responseData['id'],
+//            $responseData['ns'],
+//            $responseData['title'],
             $responseData['structure']
         );
 
-        $meta = $responseData['meta'];
+//        $meta = $responseData['meta'];
 //        if($requestParams["reload"]){
 //            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
 //            $meta = array_merge($meta, $respostaMeta);
@@ -85,8 +86,10 @@ class Html_partialResponseHandler extends WikiIocResponseHandler
         // TODO: Que fem amb les metadades?
 //			$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
 
-        // TODO: Mantenim la info? afegim una diferent?
-        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        // TODO: Mantenim la info? afegim una diferent? <-- la info ha de venir del dokumodeladapter
+//        $ajaxCmdResponseGenerator->addInfoDta(
+//            'info', 'Activada edició parcial', $responseData['id']
+//        );
 
 //		}
 

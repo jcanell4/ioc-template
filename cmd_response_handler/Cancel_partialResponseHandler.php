@@ -22,58 +22,13 @@ class Cancel_partialResponseHandler extends PageResponseHandler
                                 $responseData,
                                 &$ajaxCmdResponseGenerator)
     {
-//        if ($responseData["code"] == 0) {
-//            $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
-//            $ajaxCmdResponseGenerator->addProcessFunction(true,
-//                "ioc/dokuwiki/processSaving");
 
-
-        $params = array(
-//                "formId" => strtolower("form_" . str_replace(':', '_', $requestParams['id']) . "_" . $requestParams['section_id']), // TODO[Xavi] cercar una manera més adequada de processar el form
-//                "docId" => str_replace(':', '_', $requestParams['id']),
-//                "inputs" => $responseData["inputs"],
-//                "date" => $responseData["inputs"]["date"],
-            "structure" => $responseData["structure"]
+        // Cancelació parcial
+        $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
+            $responseData['structure'],
+            true
         );
 
 
-//        if (!$params["structure"]["selected"]) {
-//            // Cancelació completa
-//            $ajaxCmdResponseGenerator->addProcessFunction(true,
-//                "ioc/dokuwiki/processCancellation");
-//            parent::response($requestParams, $responseData['ns'],
-//                $ajaxCmdResponseGenerator);
-//
-//        } else {
-            // Cancelació parcial
-            $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-                str_replace(':', '_', $responseData['id']),
-                $responseData['ns'],
-                $responseData['title'],
-                $responseData['structure'],
-                true
-            );
-
-//        }
-
-//            $ajaxCmdResponseGenerator->addProcessFunction(true,
-//                "ioc/dokuwiki/processSetFormInputValue",
-//                $params);
-//
-//            $ajaxCmdResponseGenerator->addProcessFunction(true,
-//                "ioc/dokuwiki/processSetFormInputValueForPartials",
-//                $params);
-
-//
-//        } else {
-//            $ajaxCmdResponseGenerator->addError($responseData["code"],
-//                $responseData["info"]);
-//            $ajaxCmdResponseGenerator->addProcessFunction(true,
-//                "ioc/dokuwiki/processCancellation");
-//            parent::response($requestParams, $responseData["page"],
-//                $ajaxCmdResponseGenerator);
-//        }
     }
 }
-
-?>
