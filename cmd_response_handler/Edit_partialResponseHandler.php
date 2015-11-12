@@ -38,8 +38,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
 
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['structure'],
-            true
+            $responseData['structure']
         );
 
         // TODO[Xavi] Això es exactament el mateix que he posat al PageResponseHandler

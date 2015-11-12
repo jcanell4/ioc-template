@@ -25,8 +25,7 @@ class Cancel_partialResponseHandler extends PageResponseHandler
 
         // Cancelació parcial
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['structure'],
-            true
+            $responseData['structure']
         );
 
         // TODO[Xavi] Això es exactament el mateix que he posat al PageResponseHandler
