@@ -20,6 +20,7 @@ if (!defined('DOKU_PLUGIN')) {
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
+/** @deprecated aquesta classe ha de ser completament substituida pel PageResponseHanlder*/
 class Html_partialResponseHandler extends WikiIocResponseHandler
 {
     function __construct()
@@ -55,33 +56,18 @@ class Html_partialResponseHandler extends WikiIocResponseHandler
 //		} else {
 
         // TODO: això no es fa servir actualment, i quan ho fem servir serà different
-        $params = [];
-        $this->getToolbarIds($params);
-        $params['id'] = $responseData['id'];
-        $params['licenseClass'] = "license";
-        $params['timeout'] = $conf['locktime'] - 60;
-        $params['draft'] = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
-        $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
+//        $params = [];
+//        $this->getToolbarIds($params);
+//        $params['id'] = $responseData['id'];
+//        $params['licenseClass'] = "license";
+//        $params['timeout'] = $conf['locktime'] - 60;
+//        $params['draft'] = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
+//        $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
 
-//        $ajaxCmdResponseGenerator->addWikiCodeDoc(
-//            $responseData['id'], $responseData['ns'],
-//            $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
-//            $params
+//
+//        $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
+//            $responseData['structure']
 //        );
-
-        $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-//            $responseData['id'],
-//            $responseData['ns'],
-//            $responseData['title'],
-            $responseData['structure']
-        );
-
-//        $meta = $responseData['meta'];
-//        if($requestParams["reload"]){
-//            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
-//            $meta = array_merge($meta, $respostaMeta);
-//        }
-
 
         // TODO: Que fem amb les metadades?
 //			$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
@@ -92,18 +78,6 @@ class Html_partialResponseHandler extends WikiIocResponseHandler
 //        );
 
 //		}
-
-//		$params = array();
-//		$this->getToolbarIds( $params );
-//		$params['id']           = $responseData['id'];
-//		$params['licenseClass'] = "license";
-//		$params['timeout']      = $conf['locktime'] - 60;
-//		$params['draft']        = $conf['usedraft'] != 0;
-//
-//		$ajaxCmdResponseGenerator->addProcessFunction(
-//			TRUE, "ioc/dokuwiki/processEditing",
-//			$params
-//		);
 
     }
 }

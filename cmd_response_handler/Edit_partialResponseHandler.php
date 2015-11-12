@@ -36,18 +36,17 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
+
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
             $responseData['structure'],
             true
         );
 
+        // TODO[Xavi] Això es exactament el mateix que he posat al PageResponseHandler
 
-        // TODO: Que fem amb les metadades?
-//        $meta = $responseData['meta']; // TODO[Xavi] en aquest cas no sembla que faci falta, al save_partial si que pots ser interessant
-//        $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
-
-        // TODO: Mantenim la info? afegim una diferent?
-//        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        if (isset($responseData['info'])) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        }
 
 
     }

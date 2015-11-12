@@ -29,6 +29,28 @@ class Cancel_partialResponseHandler extends PageResponseHandler
             true
         );
 
+        // TODO[Xavi] Això es exactament el mateix que he posat al PageResponseHandler
+        if (isset($responseData['meta'])) {
+            $ajaxCmdResponseGenerator->addMetadata( $responseData['meta']['id'], $responseData['meta']['meta']);
+        }
+
+        if (isset($responseData['info'])) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        }
+
+        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+        } else {
+
+            $ajaxCmdResponseGenerator->addExtraMetadata(
+                $responseData['structure']['ns'],
+                $responseData['structure']['ns'] . '_revisions',
+                'No hi ha revisions',
+                "<h2> Aquest document no té revisions </h2>" //TODO[Xavi] localització
+            );
+
+        }
+
 
     }
 }

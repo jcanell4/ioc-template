@@ -53,5 +53,20 @@ class Save_partialResponseHandler extends PageResponseHandler
             parent::response($requestParams, $responseData["page"],
                 $ajaxCmdResponseGenerator);
         }
+
+
+        // Actualització de les metas, info i les revisions
+        if (isset($responseData['meta'])) {
+            $ajaxCmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
+        }
+
+        if (isset($responseData['info'])) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        }
+
+        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+            // No ha de ser possible cap altre cas perquè hem desat així que com a minim hi ha una
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+        }
     }
 }
