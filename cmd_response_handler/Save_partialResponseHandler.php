@@ -27,6 +27,10 @@ class Save_partialResponseHandler extends PageResponseHandler
             $ajaxCmdResponseGenerator->addProcessFunction(true,
                 "ioc/dokuwiki/processSaving");
 
+//            $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
+//                $responseData['structure']
+//            );
+
 
             $params = array(
                 "formId" => strtolower("form_" . str_replace(':', '_', $requestParams['id']) . "_" . $requestParams['section_id']), // TODO[Xavi] cercar una manera més adequada de processar el form
@@ -36,13 +40,17 @@ class Save_partialResponseHandler extends PageResponseHandler
                 "structure" => $responseData["structure"]
             );
 
+            // TODO[Xavi] aquest es el que es fa servir pel guardar normal
             $ajaxCmdResponseGenerator->addProcessFunction(true,
                 "ioc/dokuwiki/processSetFormInputValue",
                 $params);
 
+
             $ajaxCmdResponseGenerator->addProcessFunction(true,
                 "ioc/dokuwiki/processSetFormsDate",
                 $params);
+
+
 
 
         } else {
