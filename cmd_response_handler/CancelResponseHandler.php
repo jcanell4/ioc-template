@@ -25,5 +25,3 @@ class CancelResponseHandler extends PageResponseHandler {
                                             "ioc/dokuwiki/processCancellation");
     }
 }
-
-?>
