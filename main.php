@@ -20,4 +20,3 @@ $tpl = WikiIocTpl::Instance();
 $tpl->setScriptTemplateFile($conf["ioc_pre-init-js_file"], $conf["ioc_post-init-js_file"], $aIocCfg['amd'], cfgIdConstants::getConstantsIds());
 $tpl->setBody($aIocCfg['arrCfg']['class'], $aIocCfg['arrCfg']['parms'], $aIocCfg['arrCfg']['items']);
 $tpl->printPage();
-?>
