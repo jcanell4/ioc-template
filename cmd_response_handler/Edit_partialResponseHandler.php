@@ -41,12 +41,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $responseData['structure']
         );
 
-        // TODO[Xavi] Això es exactament el mateix que he posat al PageResponseHandler
-
         if (isset($responseData['info'])) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
-
 
     }
 }
