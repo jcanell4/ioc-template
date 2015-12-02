@@ -42,8 +42,8 @@ class Cancel_partialResponseHandler extends PageResponseHandler
         } else {
 
             $ajaxCmdResponseGenerator->addExtraMetadata(
-                $responseData['structure']['ns'],
-                $responseData['structure']['ns'] . '_revisions',
+                $responseData['structure']['id'],
+                $responseData['structure']['id'] . '_revisions',
                 'No hi ha revisions',
                 "<h2> Aquest document no té revisions </h2>" //TODO[Xavi] localització
             );

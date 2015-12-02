@@ -107,6 +107,8 @@ $lang['img_manager'] = 'Gestor de medis';
 $lang['img_backto'] = 'Tancar';
 $lang['img_detail_title'] = 'DETALL IMATGE: ';
 
+$lang['chunk_editing'] = 'S\'ha iniciat una edició parcial per ';
+$lang['chunk_closed'] = 'S\'ha tancat la edició parcial';
 $lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
 $lang['document_loaded'] = 'S\'ha carregat el document';
 $lang['document_created'] = 'S\'ha creat el document';
