@@ -37,7 +37,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                     "label",
                                                     $responseData["userId"]);
 
-            if($this->getAuthorization()->isAdminOrManager()){
+            if($this->getPermission()->isAdminOrManager()){
                 $dades = $this->getModelWrapper()->getAdminTaskList();
                 $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
