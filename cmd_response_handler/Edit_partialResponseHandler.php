@@ -37,9 +37,20 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
 
-        $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['structure']
-        );
+        if (isset($responseData['full_draft'])) {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
+                [
+                    'id' => $responseData['id'],
+                    'original_call' =>$responseData['original_call']
+                ]);
+        } else if (isset($responseData['show_draft_dialog'])) {
+
+            // TODO Xavi, refactoritzar per fer servir un array de params?
+            $ajaxCmdResponseGenerator->addDraftDialog();
+        } else {
+
+            $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
+        }
 
         if (isset($responseData['info'])) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);

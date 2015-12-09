@@ -125,7 +125,8 @@ or implied, of Chas Emerick.
 table.diff {
 	border-collapse:collapse;
 	border:1px solid darkgray;
-	white-space:pre-wrap
+	white-space:pre-wrap;
+	width: 100%;
 }
 table.diff tbody {
 	font-family:Courier, monospace
@@ -144,16 +145,28 @@ table.diff tbody th {
 table.diff thead {
 	border-bottom:1px solid #BBC;
 	background:#EFEFEF;
-	font-family:Verdana
+	font-family: Verdana, serif;
 }
 table.diff thead th.texttitle {
 	text-align:left
 }
 table.diff tbody td {
-	padding:0px .4em;
-	padding-top:.4em;
+	padding: .4em .4em 0;
 	vertical-align:top;
 }
+
+table.diff th {
+	width: 5%;
+}
+
+table.diff th {
+	width: 5%;
+}
+
+table.diff td {
+	width: 45%;
+}
+
 table.diff .empty {
 	background-color:#DDD;
 }

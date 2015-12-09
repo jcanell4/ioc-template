@@ -11,79 +11,77 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
-if ( ! defined( "DOKU_INC" ) ) {
-	die();
+if (!defined("DOKU_INC")) {
+    die();
 }
-if ( ! defined( 'DOKU_PLUGIN' ) ) {
-	define( 'DOKU_PLUGIN', DOKU_INC . 'lib/plugins/' );
+if (!defined('DOKU_PLUGIN')) {
+    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 }
-require_once( tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php' );
+require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
-class EditResponseHandler extends WikiIocResponseHandler {
-	function __construct() {
-		parent::__construct( WikiIocResponseHandler::EDIT );
-	}
+class EditResponseHandler extends WikiIocResponseHandler
+{
+    function __construct()
+    {
+        parent::__construct(WikiIocResponseHandler::EDIT);
+    }
 
-	/**
-	 * @param string[]                 $requestParams
-	 * @param mixed                    $responseData
-	 * @param AjaxCmdResponseGenerator $ajaxCmdResponseGenerator
-	 *
-	 * @return void
-	 */
-	protected function response( $requestParams, $responseData, &$ajaxCmdResponseGenerator ) {
-		global $conf;
-		global $INFO;
+    /**
+     * @param string[] $requestParams
+     * @param mixed $responseData
+     * @param AjaxCmdResponseGenerator $ajaxCmdResponseGenerator
+     *
+     * @return void
+     */
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
+        global $conf;
+        global $INFO;
 
 
-		if ( $responseData['show_draft_dialog'] ) {
+        if ($responseData['show_draft_dialog']) {
 
-			// No s'envien les respostes convencionals
+            // No s'envien les respostes convencionals
 
-			$ajaxCmdResponseGenerator->addDraftDialog(
-				$responseData['id'], $responseData['ns'],
-				$responseData['title'], $responseData['content'], $responseData['draft'],
-				$conf['locktime'] - 60, $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod'])
-			);
+            $params = [
+                'title' => $responseData['title'],
+                'content' => $responseData['content'],
+                'draft' => $responseData['draft'],
+                'lastmod' => $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod']),
+                'type' => 'full_document'
+            ];
 
-		} else {
+            $ajaxCmdResponseGenerator->addDraftDialog(
+                $responseData['id'],
+                $responseData['ns'],
+                $responseData['rev'],
+                $params
 
-			$params = [ ];
-			$this->getToolbarIds( $params );
-			$params['id']           = $responseData['id'];
-			$params['licenseClass'] = "license";
-			$params['timeout']      = $conf['locktime'] - 60;
-			$params['draft']        = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
-			$params['locked']       = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
+            );
 
-			$ajaxCmdResponseGenerator->addWikiCodeDoc(
-				$responseData['id'], $responseData['ns'],
-				$responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
-				$params
-			);
+        } else {
 
-			$meta = $responseData['meta'];
-//        if($requestParams["reload"]){
-//            $respostaMeta = $this->getModelWrapper()->getMetaResponse($responseData['id'])['meta'];
-//            $meta = array_merge($meta, $respostaMeta);
-//        }
-			$ajaxCmdResponseGenerator->addMetadata( $responseData['id'], $meta );
-			$ajaxCmdResponseGenerator->addInfoDta( $responseData['info'] );
+            $params = [];
+            $this->getToolbarIds($params);
+            $params['id'] = $responseData['id'];
+            $params['licenseClass'] = "license";
+            $params['timeout'] = $conf['locktime'] - 60;
+            $params['draft'] = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
+            $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
 
-		}
+            $ajaxCmdResponseGenerator->addWikiCodeDoc(
+                $responseData['id'], $responseData['ns'],
+                $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
+                $params
+            );
 
-//		$params = array();
-//		$this->getToolbarIds( $params );
-//		$params['id']           = $responseData['id'];
-//		$params['licenseClass'] = "license";
-//		$params['timeout']      = $conf['locktime'] - 60;
-//		$params['draft']        = $conf['usedraft'] != 0;
-//
-//		$ajaxCmdResponseGenerator->addProcessFunction(
-//			TRUE, "ioc/dokuwiki/processEditing",
-//			$params
-//		);
+            $meta = $responseData['meta'];
+            $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
 
-	}
+        }
+
+
+    }
 }
