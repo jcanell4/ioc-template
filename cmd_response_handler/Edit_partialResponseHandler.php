@@ -45,8 +45,30 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 ]);
         } else if (isset($responseData['show_draft_dialog'])) {
 
-            // TODO Xavi, refactoritzar per fer servir un array de params?
-            $ajaxCmdResponseGenerator->addDraftDialog();
+
+            $params = [
+                'title' => $responseData['title'],
+                'content' => $responseData['content'],
+                'draft' => $responseData['draft'],
+                'lastmod' => $responseData['structure']['date'],
+                'type' => 'partial_document',
+                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
+                'original_call' => $responseData['original_call']// TODO[Xavi] Això es podria substituir pel query
+            ];
+
+            $ajaxCmdResponseGenerator->addDraftDialog(
+                $responseData['structure']['id'],
+                $responseData['structure']['ns'],
+                $responseData['structure']['rev'],
+                $params
+
+            );
+
+
+
+
+
+
         } else {
 
             $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
