@@ -53,13 +53,17 @@ class EditResponseHandler extends WikiIocResponseHandler
                 'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit'
             ];
 
-            $ajaxCmdResponseGenerator->addDraftDialog(
-                $responseData['id'],
-                $responseData['ns'],
-                $responseData['rev'],
-                $params
 
-            );
+            // TODO[Xavi] si està bloquejat no s'ha de mostrar el dialog
+            if (!$INFO['locked']) {
+                $ajaxCmdResponseGenerator->addDraftDialog(
+                    $responseData['id'],
+                    $responseData['ns'],
+                    $responseData['rev'],
+                    $params
+
+                );
+            }
 
         } else {
 

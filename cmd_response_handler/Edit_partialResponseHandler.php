@@ -37,12 +37,17 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
 
+        if ($responseData['locked']) {
+            unset($responseData['show_draft_dialog']);
+        }
+
         if (isset($responseData['full_draft'])) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
                 [
                     'id' => $responseData['id'],
                     'original_call' =>$responseData['original_call']
                 ]);
+
         } else if (isset($responseData['show_draft_dialog'])) {
 
 
@@ -63,11 +68,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 $params
 
             );
-
-
-
-
-
 
         } else {
 

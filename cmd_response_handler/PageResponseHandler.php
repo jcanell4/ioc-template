@@ -29,25 +29,13 @@ class PageResponseHandler extends WikiIocResponseHandler
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-//		$ajaxCmdResponseGenerator->addHtmlDoc( $responseData['id'],
-//		                                       $responseData['ns'],
-//		                                       $responseData['title'],
-//		                                       $responseData['content'],
-//		                                       $responseData['rev'],
-//		                                       $responseData['type']
-////		                                       $responseData['action']
-//
-//		);
-//
-//
+
 
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
             $responseData['structure']
         );
 
         // TODO[Xavi] Reactivar les metas i la info
-//
-//
 
 
         if (isset($responseData['meta'])) {
@@ -59,7 +47,9 @@ class PageResponseHandler extends WikiIocResponseHandler
         }
 
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+
         } else {
             $ajaxCmdResponseGenerator->addExtraMetadata(
                 $responseData['structure']['id'],
