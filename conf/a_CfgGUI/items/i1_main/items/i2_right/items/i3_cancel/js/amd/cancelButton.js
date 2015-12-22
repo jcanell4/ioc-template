@@ -9,16 +9,16 @@
 //include  "dijit/form/Button"
 //include  "ioc/gui/NsTreeContainer"
 //include  "ioc/gui/NsTreeContainer"
+//include  "ioc/wiki30/dispatcherSingleton"; alias "getDispatcher"
 
 
+var dispatcher = getDispatcher();
 var cancelButton = registry.byId('cfgIdConstants::CANCEL_BUTTON'),
-    docId = this.dispatcher.getGlobalState().currentTabId,
-    changesManager = this.dispatcher.getChangesManager();
+    changesManager = dispatcher.getChangesManager();
 
 if (cancelButton) {
-
     cancelButton.on('click', function () {
-
+        var docId = dispatcher.getGlobalState().getCurrentId();
         if (changesManager.isContentChanged(docId) === false) {
             cancelButton.query = cancelButton.query.replace('cancel', 'page');
             cancelButton.urlBase = cancelButton.urlBase.replace('cancel', 'page');

@@ -1,7 +1,8 @@
 //include "dijit/registry"
 //include "ioc/wiki30/GlobalState"; alias globalState
-//include "ioc/wiki30/dispatcherSingleton"; alias wikiIocDispatcher
+//include "ioc/wiki30/dispatcherSingleton"; alias getDispatcher
 
+var wikiIocDispatcher = getDispatcher();
 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 if (tbContainer) {
    tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
