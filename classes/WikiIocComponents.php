@@ -658,6 +658,50 @@ class WikiDojoButton extends WikiIocComponent {
     }
 }
 
+class WikiEventButton extends WikiIocComponent {
+    function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "ioc", "location" => $js_packages["ioc"])
+                      );
+        $reqJsModule = array(
+            "EventButton" => "ioc/gui/EventButton"
+        );
+        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    }
+
+    public function getRenderingCode() {
+        $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('EventButton')}'"
+            . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
+            . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+        return $ret;
+    }
+}
+
+class WikiButtonToListen extends WikiIocComponent {
+    function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "ioc", "location" => $js_packages["ioc"])
+                      );
+        $reqJsModule = array(
+            "ButtonToListen" => "ioc/gui/ButtonToListen"
+        );
+        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    }
+
+    public function getRenderingCode() {
+        $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('ButtonToListen')}'"
+            . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
+            . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+        return $ret;
+    }
+}
+
 class WikiIocButton extends WikiIocComponent {
     /* @author Rafael Claver <rclaver@xtec.cat>
      * Descripció:

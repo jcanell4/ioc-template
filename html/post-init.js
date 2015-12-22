@@ -12,235 +12,235 @@ require([
     "ioc/wiki30/GlobalState",
     "ioc/gui/content/containerContentToolFactory",
     "dojo/domReady!"
-], function (dom, wikiIocDispatcher, Request, registry,
+], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory) {
+    
+    var wikiIocDispatcher = getDispatcher();
     //declaració de funcions
+    ready(function(){
 
-    var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
-    if (!divMainContent) {
-        return;
-    }
-    var updateHandler = new UpdateViewHandler();
-
-    updateHandler.update = function () {
-        var disp = wikiIocDispatcher;
-        var cur = disp.getGlobalState().currentTabId;
-        if (cur) {
-            style.set(cur, "overflow", "auto");
+        var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
+        if (!divMainContent) {
+            return;
         }
-        disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
-        /*disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
-        disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);        
-        disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
-        disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);        
+        var updateHandler = new UpdateViewHandler();
 
-        if (!disp.getGlobalState().login) {
-            disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
-        } else {
-            //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
-            // user is admin or manager => NEW_BUTTON visible
-            var new_button_visible = false;
-            if (Object.keys(disp.getGlobalState().permissions).length > 0) {
-                new_button_visible = (disp.getGlobalState().permissions['isadmin'] | disp.getGlobalState().permissions['ismanager']);
+        updateHandler.update = function () {
+            var disp = wikiIocDispatcher;
+            var cur = disp.getGlobalState().currentTabId;
+            if (cur) {
+                style.set(cur, "overflow", "auto");
             }
-            disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
-            disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
+            disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
+            /*disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
+            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);        
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);        
 
-            if (disp.getGlobalState().currentTabId) {
-                var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
-                if (page.action === 'view') {
-                    disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
-                    var edparc_visible = (disp.getGlobalState().getCurrentSectionId());
-                    disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", edparc_visible);
-                } else if (page.action === 'edit') {
+            if (!disp.getGlobalState().login) {
+                disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
+            } else {
+                //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
+                // user is admin or manager => NEW_BUTTON visible
+                var new_button_visible = false;
+                if (Object.keys(disp.getGlobalState().permissions).length > 0) {
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] | disp.getGlobalState().permissions['ismanager']);
+                }
+                disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
 
-                    var locked = disp.getContentCache(cur).getMainContentTool().locked;
+                if (disp.getGlobalState().currentTabId) {
+                    var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
+                    if (page.action === 'view') {
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
+                        var edparc_visible = (disp.getGlobalState().getCurrentSectionId());
+                        disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", edparc_visible);
+                    } else if (page.action === 'edit') {
 
-                    //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
-                    disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !locked);
+                        var locked = disp.getContentCache(cur).getMainContentTool().locked;
 
-                    disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
+                        //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !locked);
+
+                        disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
 
 
-                    if (cur) {
-                        style.set(cur, "overflow", "hidden");
-                    }
-                } else if (page.action === 'media') {
-                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
-                }else if (page.action === 'mediadetails') {
-                    var pageDif = false;
-                    if(page.mediado){
-                        if(page.mediado == "diff"){
-                            pageDif = true;
+                        if (cur) {
+                            style.set(cur, "overflow", "hidden");
                         }
-                    }
-                    if(!pageDif){
-                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
-                        //disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                        if(disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]){
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true); 
+                    } else if (page.action === 'media') {
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
+                    }else if (page.action === 'mediadetails') {
+                        var pageDif = false;
+                        if(page.mediado){
+                            if(page.mediado == "diff"){
+                                pageDif = true;
+                            }
                         }
-                    }else{
-                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
-                    }                  
+                        if(!pageDif){
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
+                            //disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
+                            if(disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]){
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true); 
+                            }
+                        }else{
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
+                        }                  
+                    }
                 }
             }
-        }
-    };
-    wikiIocDispatcher.addUpdateView(updateHandler);
+        };
+        wikiIocDispatcher.addUpdateView(updateHandler);
 
-    // Objecte que gestiona el refresc de la pàgina
-    var reloadStateHandler = new ReloadStateHandler(function (state) {
+        // Objecte que gestiona el refresc de la pàgina
+        var reloadStateHandler = new ReloadStateHandler(function (state) {
 
-        //actualitza l'estat a partir de les dades emmagatzemades en local
-        if (state.login) {
-            wikiIocDispatcher.processResponse({
-                "type":    "login"
-                , "value": {
-                    "loginRequest":  true
-                    , "loginResult": true
-                    , "userId":      state.userId
-                }
-            });
-            wikiIocDispatcher.processResponse({
-                "type":    "command"
-                , "value": {
-                    "type":            "change_widget_property"
-                    , "id":            'cfgIdConstants::USER_BUTTON'
-                    , "propertyName":  "label"
-                    , "propertyValue": state.userId
-                }
-            });
-        }
-
-        if (state.permissions) {
-            wikiIocDispatcher.processResponse({
-                "type":    "jsinfo"
-                , "value": state.permissions
-            });
-            // Add admin_tab to the Navigation container
-            if(state.permissions['isadmin'] | state.permissions['ismanager']){
-                var requestTabContent = new Request();
-                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-                var data_tab = requestTabContent.sendRequest().always(function () {
-                    var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-                    if (currentNavigationPaneId === "tb_admin") {
-                        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                        tbContainer.selectChild(currentNavigationPaneId);
+            //actualitza l'estat a partir de les dades emmagatzemades en local
+            if (state.login) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "login"
+                    , "value": {
+                        "loginRequest":  true
+                        , "loginResult": true
+                        , "userId":      state.userId
                     }
                 });
-            }            
-        }
-
-        if (state.sectok) {
-            wikiIocDispatcher.processResponse({
-                "type":    "sectok"
-                , "value": state.sectok
-            });
-        }
-
-        if (state.title) {
-            wikiIocDispatcher.processResponse({
-                "type":    "title"
-                , "value": state.title
-            });
-        }
-
-        if (state.pages) {
-            var np = 0;
-            var length = state.pagesLength();
-            var requestState = new Request();
-            requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php";
-
-            var infoManager = wikiIocDispatcher.getInfoManager();
-            if (length === 0) {
-                infoManager.loadInfoStorage(state.infoStorage);
-                infoManager.refreshInfo();
-            }
-
-            for (var id in state.pages) {
-                var queryParams ='';
-
-                if (state.getContent(id).action === "view") {
-
-                    if (state.getContent(id).rev) {
-                        queryParams += "rev=" + state.getContent(id).rev + "&";
+                wikiIocDispatcher.processResponse({
+                    "type":    "command"
+                    , "value": {
+                        "type":            "change_widget_property"
+                        , "id":            'cfgIdConstants::USER_BUTTON'
+                        , "propertyName":  "label"
+                        , "propertyValue": state.userId
                     }
-
-                    queryParams += "call=page&id=";
-
-
-                } else if (state.getContent(id).action === "edit") {
-                    queryParams = "call=edit&reload=1&id=";
-                } else if (state.getContent(id).action === "admin") {
-                    queryParams = "call=admin_task&do=admin&page=";
-                    // fix? ns empty, load with page name
-                    state.getContent(id).ns = id.substring(6);
-                } else if (state.getContent(id).action === "media") {
-                    queryParams = "call=media";
-                    var elid = state.getContent(id).ns;
-                    queryParams += '&ns=' + elid + '&do=media&id=';
-                } else if (state.getContent(id).action === "mediadetails") {
-                    queryParams = "call=mediadetails";
-                    var elid = state.getContent(id).myid;
-                    //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
-                    queryParams += '&id=' + elid +'&image=' + elid+'&img=' + elid+ '&do=media&id=';
-                } else {
-                    queryParams = "call=page&id=";
-                }
-
-
-                requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
-                    np++;
-
-                    if (np === length) {
-                        if (state.info) {
-                            wikiIocDispatcher.processResponse({
-                                "type":    "info"
-                                , "value": state.info
-                            });
-                        }
-
-                        if (state.currentTabId) {
-                            var tc = registry.byId(wikiIocDispatcher.containerNodeId);
-                            var widget = registry.byId(state.currentTabId);
-                            tc.selectChild(widget);
-                        }
-
-                        // TODO[Xavi] Desactivat per poder fer les proves del bloqueig
-                        var debug = true;
-
-                        if (state.infoStorage && !debug) {
-                            infoManager.loadInfoStorage(state.infoStorage);
-                            infoManager.refreshInfo(state.currentTabId);
-                        }
-                    }
-
                 });
             }
-        }
 
-    });
-    wikiIocDispatcher.addReloadState(reloadStateHandler);
+            if (state.permissions) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "jsinfo"
+                    , "value": state.permissions
+                });
+                // Add admin_tab to the Navigation container
+                if(state.permissions['isadmin'] | state.permissions['ismanager']){
+                    var requestTabContent = new Request();
+                    requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+                    var data_tab = requestTabContent.sendRequest().always(function () {
+                        var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                        if (currentNavigationPaneId === "tb_admin") {
+                            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                            tbContainer.selectChild(currentNavigationPaneId);
+                        }
+                    });
+                }            
+            }
 
-    unload.addOnWindowUnload(function () {
-        if (typeof(Storage) !== "undefined") {
-            sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
-        }
-    });
+            if (state.sectok) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "sectok"
+                    , "value": state.sectok
+                });
+            }
 
-    ready(function () {
+            if (state.title) {
+                wikiIocDispatcher.processResponse({
+                    "type":    "title"
+                    , "value": state.title
+                });
+            }
 
+            if (state.pages) {
+                var np = 0;
+                var length = state.pagesLength();
+                var requestState = new Request();
+                requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php";
+
+                var infoManager = wikiIocDispatcher.getInfoManager();
+                if (length === 0) {
+                    infoManager.loadInfoStorage(state.infoStorage);
+                    infoManager.refreshInfo();
+                }
+
+                for (var id in state.pages) {
+                    var queryParams ='';
+
+                    if (state.getContent(id).action === "view") {
+
+                        if (state.getContent(id).rev) {
+                            queryParams += "rev=" + state.getContent(id).rev + "&";
+                        }
+
+                        queryParams += "call=page&id=";
+
+
+                    } else if (state.getContent(id).action === "edit") {
+                        queryParams = "call=edit&reload=1&id=";
+                    } else if (state.getContent(id).action === "admin") {
+                        queryParams = "call=admin_task&do=admin&page=";
+                        // fix? ns empty, load with page name
+                        state.getContent(id).ns = id.substring(6);
+                    } else if (state.getContent(id).action === "media") {
+                        queryParams = "call=media";
+                        var elid = state.getContent(id).ns;
+                        queryParams += '&ns=' + elid + '&do=media&id=';
+                    } else if (state.getContent(id).action === "mediadetails") {
+                        queryParams = "call=mediadetails";
+                        var elid = state.getContent(id).myid;
+                        //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
+                        queryParams += '&id=' + elid +'&image=' + elid+'&img=' + elid+ '&do=media&id=';
+                    } else {
+                        queryParams = "call=page&id=";
+                    }
+
+
+                    requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
+                        np++;
+
+                        if (np === length) {
+                            if (state.info) {
+                                wikiIocDispatcher.processResponse({
+                                    "type":    "info"
+                                    , "value": state.info
+                                });
+                            }
+
+                            if (state.currentTabId) {
+                                var tc = registry.byId(wikiIocDispatcher.containerNodeId);
+                                var widget = registry.byId(state.currentTabId);
+                                tc.selectChild(widget);
+                            }
+
+                            // TODO[Xavi] Desactivat per poder fer les proves del bloqueig
+                            var debug = true;
+
+                            if (state.infoStorage && !debug) {
+                                infoManager.loadInfoStorage(state.infoStorage);
+                                infoManager.refreshInfo(state.currentTabId);
+                            }
+                        }
+
+                    });
+                }
+            }
+
+        });
+        wikiIocDispatcher.addReloadState(reloadStateHandler);
+
+        unload.addOnWindowUnload(function () {
+            if (typeof(Storage) !== "undefined") {
+                sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
+            }
+        });
 
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
@@ -278,14 +278,13 @@ require([
         container = registry.byId(wikiIocDispatcher.navegacioNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
-    });
+        window.addEventListener("beforeunload", function (event) {
+            if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
+                event.returnValue = LANG.notsavedyet;
+            }
 
-    window.addEventListener("beforeunload", function (event) {
-        if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
-            event.returnValue = LANG.notsavedyet;
-        }
-
-        deleteDraft();
+            deleteDraft();
+        });
     });
 });
 

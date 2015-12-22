@@ -13,7 +13,7 @@ $arrParcial = array(
                                           ,"visible" => false
                                           /*,"standbyId" => "'bodyContent'"*/
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit'"
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit_partial'"
                                         )
                             )
               );

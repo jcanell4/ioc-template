@@ -55,7 +55,8 @@ require([
 "dijit/registry"
 ,"ioc/wiki30/GlobalState"
 ,"ioc/wiki30/dispatcherSingleton"
-], function (registry,globalState,wikiIocDispatcher) {
+], function (registry,globalState,getDispatcher) {
+var wikiIocDispatcher = getDispatcher();
 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 if (tbContainer) {
 tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
@@ -73,7 +74,8 @@ newTab.updateRendering();
 require([
 "dijit/registry"
 ,"ioc/wiki30/dispatcherSingleton"
-], function (registry,wikiIocDispatcher) {
+], function (registry,getDispatcher) {
+var wikiIocDispatcher = getDispatcher();
 var tab = registry.byId('tb_index');
 if (tab) {
 wikiIocDispatcher.toUpdateSectok.push(tab);
@@ -227,12 +229,14 @@ require([
 ,"dijit/form/Button"
 ,"ioc/gui/NsTreeContainer"
 ,"ioc/gui/NsTreeContainer"
-], function (registry,dom,domConstruct,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,NsTreeContainer,NsTreeContainer) {
-var cancelButton = registry.byId('cancelButton');
+,"ioc/wiki30/dispatcherSingleton"
+], function (registry,dom,domConstruct,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,NsTreeContainer,NsTreeContainer,getDispatcher) {
+var dispatcher = getDispatcher();
+var cancelButton = registry.byId('cancelButton'),
+changesManager = dispatcher.getChangesManager();
 if (cancelButton) {
 cancelButton.on('click', function () {
-var docId = this.dispatcher.getGlobalState().currentTabId,
-changesManager = this.dispatcher.getChangesManager();
+var docId = dispatcher.getGlobalState().getCurrentId();
 if (changesManager.isContentChanged(docId) === false) {
 cancelButton.query = cancelButton.query.replace('cancel', 'page');
 cancelButton.urlBase = cancelButton.urlBase.replace('cancel', 'page');
@@ -240,7 +244,6 @@ cancelButton.urlBase = cancelButton.urlBase.replace('cancel', 'page');
 cancelButton.query = cancelButton.query.replace('page', 'cancel');
 cancelButton.urlBase = cancelButton.urlBase.replace('page', 'cancel');
 }
-console.log(cancelButton.query, cancelButton.urlBase);
 });
 }
 });

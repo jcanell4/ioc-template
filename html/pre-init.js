@@ -4,8 +4,9 @@ require([
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "dojo/domReady!"
-], function (dom, style, win, wikiIocDispatcher) {
+], function (dom, style, win, getDispatcher) {
 
+        var wikiIocDispatcher = getDispatcher();
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
         if (!divMainContent) {
             return;
