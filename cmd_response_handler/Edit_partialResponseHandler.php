@@ -78,5 +78,17 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
 
+        // TODO[Xavi] Això ha de ser reemplaçat per les funcionalitats dels ContenTools
+        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+            $responseData['structure']['id'],
+            TRUE,
+            "ioc/dokuwiki/processContentPage",  //TODO configurable
+            array(
+                "ns"            => $responseData['structure']['ns'],
+                "editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+            )
+        );
+
     }
 }
