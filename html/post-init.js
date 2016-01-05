@@ -39,7 +39,9 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
             /*disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
-            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false); // TODO[Xavi] Ajustar visibilitat
+            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true); // TODO[Xavi] Ajustar visibilitat
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", true); // TODO[Xavi] Ajustar visibilitat
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);        

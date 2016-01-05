@@ -31,6 +31,8 @@ require([
         wikiIocDispatcher.mediaTornarButtonId = 'cfgIdConstants::MEDIA_TORNAR_BUTTON';
         wikiIocDispatcher.mediaSupressioButtonId = 'cfgIdConstants::MEDIA_SUPRESSIO_BUTTON';
         wikiIocDispatcher.mediaUploadButtonId = 'cfgIdConstants::MEDIA_UPLOAD_BUTTON';
-        wikiIocDispatcher.mediaEditButtonId = 'cfgIdConstants::MEDIA_EDIT_BUTTON';        
+        wikiIocDispatcher.mediaEditButtonId = 'cfgIdConstants::MEDIA_EDIT_BUTTON';
+        wikiIocDispatcher.cancelParcButtonId      = 'cfgIdConstants::CANCEL_PARC_BUTTON';
+        wikiIocDispatcher.saveParcButtonId      = 'cfgIdConstants::CANCEL_PARC_BUTTON';
 });
 
