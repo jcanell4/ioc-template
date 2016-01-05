@@ -8,12 +8,13 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                           "query" => "'do=edparc'"
+                                           "query" => "'do=edit_partial'"
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           /*,"standbyId" => "'bodyContent'"*/
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit_partial'"
+                                          ,"eventId" => "'edit_partial'"
                                         )
                             )
               );

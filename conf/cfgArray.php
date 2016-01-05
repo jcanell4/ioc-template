@@ -621,12 +621,13 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=edparc\'',
+                  'query' => '\'do=edit_partial\'',
                   'autoSize' => true,
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};alert(\'test edparc triggered\');var eventManager = this.dispatcher.getEventManager(), id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');eventManager.dispatchEvent(\'edit_partial\', {id: id, chunk: chunk});return _ret;}',
+                  'eventId' => '\'edit_partial\'',
+                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};alert(\'test edparc triggered\');var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
                   'getQuery' => 'function(){var _ret=null; var self = this;require([\'ioc/dokuwiki/dwPageUi\'], function(dwPageUi){ var q=dwPageUi.getFormQueryToEditSection( self.dispatcher.getGlobalState().getCurrentSectionId()); if(self.query){ _ret=self.query + \'&\' + q; }else{ _ret=q; }});return _ret;}',
                 ),
               ),
