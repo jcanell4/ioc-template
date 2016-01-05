@@ -1,6 +1,6 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiIocButton"
+                 "class" => "WikiEventButton"
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::ED_PARC_BUTTON
