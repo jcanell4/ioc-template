@@ -4,13 +4,15 @@ require([
         "dojo/window",
         "ioc/wiki30/dispatcherSingleton",
         "dojo/domReady!"
-], function (dom, style, win, wikiIocDispatcher) {
+], function (dom, style, win, getDispatcher) {
 
         var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
         if (!divMainContent) {
             return;
         }
 
+        var wikiIocDispatcher = getDispatcher();
+    
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         style.set(divMainContent, "height", h + "%");
 

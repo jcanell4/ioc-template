@@ -11,13 +11,13 @@
 //include  "ioc/gui/NsTreeContainer"
 
 
-var cancelButton = registry.byId('cfgIdConstants::CANCEL_BUTTON'),
-    docId = this.dispatcher.getGlobalState().currentTabId,
-    changesManager = this.dispatcher.getChangesManager();
+var cancelButton = registry.byId('cfgIdConstants::CANCEL_BUTTON');
 
 if (cancelButton) {
 
     cancelButton.on('click', function () {
+        var docId = this.dispatcher.getGlobalState().currentTabId,
+            changesManager = this.dispatcher.getChangesManager();
 
         if (changesManager.isContentChanged(docId) === false) {
             cancelButton.query = cancelButton.query.replace('cancel', 'page');

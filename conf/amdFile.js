@@ -55,7 +55,8 @@ require([
 "dijit/registry"
 ,"ioc/wiki30/GlobalState"
 ,"ioc/wiki30/dispatcherSingleton"
-], function (registry,globalState,wikiIocDispatcher) {
+], function (registry,globalState,getDispatcher) {
+var wikiIocDispatcher = getDispatcher();
 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 if (tbContainer) {
 tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
@@ -73,8 +74,9 @@ newTab.updateRendering();
 require([
 "dijit/registry"
 ,"ioc/wiki30/dispatcherSingleton"
-], function (registry,wikiIocDispatcher) {
+], function (registry,getDispatcher) {
 var tab = registry.byId('tb_index');
+var wikiIocDispatcher = getDispatcher();
 if (tab) {
 wikiIocDispatcher.toUpdateSectok.push(tab);
 tab.updateSectok();
@@ -240,7 +242,6 @@ cancelButton.urlBase = cancelButton.urlBase.replace('cancel', 'page');
 cancelButton.query = cancelButton.query.replace('page', 'cancel');
 cancelButton.urlBase = cancelButton.urlBase.replace('page', 'cancel');
 }
-console.log(cancelButton.query, cancelButton.urlBase);
 });
 }
 });

@@ -12,7 +12,7 @@ require([
     "ioc/wiki30/GlobalState",
     "ioc/gui/content/containerContentToolFactory",
     "dojo/domReady!"
-], function (dom, wikiIocDispatcher, Request, registry,
+], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory) {
@@ -22,6 +22,9 @@ require([
     if (!divMainContent) {
         return;
     }
+
+    var wikiIocDispatcher = getDispatcher();
+    
     var updateHandler = new UpdateViewHandler();
 
     updateHandler.update = function () {
