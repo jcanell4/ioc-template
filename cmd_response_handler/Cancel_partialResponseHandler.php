@@ -51,5 +51,17 @@ class Cancel_partialResponseHandler extends PageResponseHandler
         }
 
 
+        // TODO[Xavi] Això ha de ser reemplaçat per les funcionalitats dels ContenTools. Això es necessari per reactivar la numeració
+        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+            $responseData['structure']['id'],
+            TRUE,
+            "ioc/dokuwiki/processContentPage",  //TODO configurable
+            array(
+                "ns"            => $responseData['structure']['ns'],
+                "editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+            )
+        );
+
     }
 }

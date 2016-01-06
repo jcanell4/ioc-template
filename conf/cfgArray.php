@@ -522,52 +522,6 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i10_cancelparc' => 
-            array (
-              'class' => 'WikiEventButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'cancelparcButton',
-                  'label' => 'Tornar Parc.',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=cancel_partial\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial\'',
-                  'eventId' => '\'cancel_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
-                ),
-              ),
-            ),
-            'i11_saveparc' => 
-            array (
-              'class' => 'WikiEventButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'saveparcButton',
-                  'label' => 'Desar Parc.',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=save_partial\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
-                  'eventId' => '\'save_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
-                ),
-              ),
-            ),
             'i1_save' => 
             array (
               'class' => 'WikiEventButton',
@@ -675,6 +629,52 @@ $_arrIocCfgGUI = array (
                   'eventId' => '\'edit_partial\'',
                   'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
                   'getQuery' => 'function(){var _ret=null; var self = this;require([\'ioc/dokuwiki/dwPageUi\'], function(dwPageUi){ var q=dwPageUi.getFormQueryToEditSection( self.dispatcher.getGlobalState().getCurrentSectionId()); if(self.query){ _ret=self.query + \'&\' + q; }else{ _ret=q; }});return _ret;}',
+                ),
+              ),
+            ),
+            'i5a_saveparc' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'saveparcButton',
+                  'label' => 'Desar Parc.',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=save_partial\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
+                  'eventId' => '\'save_partial\'',
+                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
+                ),
+              ),
+            ),
+            'i5b_cancelparc' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'cancelparcButton',
+                  'label' => 'Tornar Parc.',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=cancel_partial\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial\'',
+                  'eventId' => '\'cancel_partial\'',
+                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentSectionId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk};return _ret;}',
                 ),
               ),
             ),
