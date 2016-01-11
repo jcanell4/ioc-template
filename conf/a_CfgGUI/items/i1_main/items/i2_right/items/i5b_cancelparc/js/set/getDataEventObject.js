@@ -5,5 +5,6 @@ chunk = chunk.replace(id + "_", "");
 chunk = chunk.replace("container_", "");
 _ret = {
     id: id,
-    chunk: chunk
+    chunk: chunk,
+    name: 'cancel_partial_' + id
 };

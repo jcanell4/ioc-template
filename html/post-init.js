@@ -63,6 +63,7 @@ require([
 
                 if (disp.getGlobalState().currentTabId) {
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
+
                     if (page.action === 'view') {
                         disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
                         var edparc_visible = (disp.getGlobalState().getCurrentSectionId());
