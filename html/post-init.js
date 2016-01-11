@@ -12,11 +12,14 @@ require([
     "ioc/wiki30/GlobalState",
     "ioc/gui/content/containerContentToolFactory",
     "dojo/domReady!"
-], function (dom, wikiIocDispatcher, Request, registry,
+], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory) {
+    
+    var wikiIocDispatcher = getDispatcher();
     //declaració de funcions
+    ready(function(){
 
     var divMainContent = dom.byId("cfgIdConstants::MAIN_CONTENT");
     if (!divMainContent) {
@@ -239,9 +242,6 @@ require([
         }
     });
 
-    ready(function () {
-
-
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
@@ -278,14 +278,13 @@ require([
         container = registry.byId(wikiIocDispatcher.navegacioNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
-    });
+        window.addEventListener("beforeunload", function (event) {
+            if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
+                event.returnValue = LANG.notsavedyet;
+            }
 
-    window.addEventListener("beforeunload", function (event) {
-        if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
-            event.returnValue = LANG.notsavedyet;
-        }
-
-        deleteDraft();
+            deleteDraft();
+        });
     });
 });
 
