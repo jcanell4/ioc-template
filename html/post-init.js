@@ -25,6 +25,9 @@ require([
     if (!divMainContent) {
         return;
     }
+
+    var wikiIocDispatcher = getDispatcher();
+    
     var updateHandler = new UpdateViewHandler();
 
     updateHandler.update = function () {

@@ -3,6 +3,7 @@
 
 var wikiIocDispatcher = getDispatcher();
 var tab = registry.byId('cfgIdConstants::TB_INDEX');
+var wikiIocDispatcher = getDispatcher();
 if (tab) {
    wikiIocDispatcher.toUpdateSectok.push(tab);
    tab.updateSectok();
