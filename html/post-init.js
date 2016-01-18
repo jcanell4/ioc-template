@@ -1,21 +1,22 @@
 require([
-    "dojo/dom",
-    "ioc/wiki30/dispatcherSingleton",
-    "ioc/wiki30/Request",
-    "dijit/registry",
-    "dojo/ready",
-    "dojo/dom-style",
-    "ioc/wiki30/UpdateViewHandler",
-    "ioc/wiki30/ReloadStateHandler",
+    'dojo/dom',
+    'ioc/wiki30/dispatcherSingleton',
+    'ioc/wiki30/Request',
+    'dijit/registry',
+    'dojo/ready',
+    'dojo/dom-style',
+    'ioc/wiki30/UpdateViewHandler',
+    'ioc/wiki30/ReloadStateHandler',
     'dojo/_base/unload',
-    "dojo/json",
-    "ioc/wiki30/GlobalState",
-    "ioc/gui/content/containerContentToolFactory",
-    "dojo/domReady!"
+    'dojo/json',
+    'ioc/wiki30/GlobalState',
+    'ioc/gui/content/containerContentToolFactory',
+    'ioc/wiki30/RequestControl',
+    'dojo/domReady!'
 ], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
-             containerContentToolFactory) {
+             containerContentToolFactory, RequestControl) {
 
     var wikiIocDispatcher = getDispatcher();
     //declaració de funcions
@@ -302,6 +303,8 @@ require([
         container = registry.byId(wikiIocDispatcher.navegacioNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
+
+
         window.addEventListener("beforeunload", function (event) {
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
@@ -309,6 +312,16 @@ require([
 
             deleteDraft();
         });
+
+        // TODO[Xavi] Aquí es on es creen i es configuren els controladors de request
+        new RequestControl('lock_document', 'lib/plugins/ajaxcommand/ajax.php?call=lock', true);
+        new RequestControl('unlock_document', 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
+        new RequestControl('cancel_document', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
+
+        new RequestControl('cancel_partial', 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false);
+        new RequestControl('edit_partial', 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false);
+        new RequestControl('save_partial', 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true);
+
     });
 });
 
