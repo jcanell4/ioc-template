@@ -66,20 +66,23 @@ require([
                 if (disp.getGlobalState().currentTabId) {
 
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
-                        selectedSection = (disp.getGlobalState().getCurrentSectionId()),
-                        cache = disp.getContentCache(disp.getGlobalState().currentTabId),
-                        counter = 0;
-
-                    if (cache && cache.mainContentTool) {
-                        counter =  cache.mainContentTool.editingChunksCounter; // TODO[Xavi] Afegir un mètode generic per tots els contentTools que retorni aquest nombre
-                    }
+                        selectedSection = disp.getGlobalState().getCurrentSection();
 
                     if (page.action === 'view') {
 
-                        if (selectedSection) {
-                            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
-                            disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", counter >0);
-                            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", counter >0);
+                        if (selectedSection.id) {
+
+                            if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
+                                // La edició seleccionada està en edició
+                                disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
+                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
+                            } else {
+                                // La edició seleccionada no està en edició
+                                disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
+                                disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
+                            }
 
                         } else {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
