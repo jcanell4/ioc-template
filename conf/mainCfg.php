@@ -59,9 +59,11 @@ class WikiIocCfg {
     
     private function addScripts(){
         $toAdd = $this->generator->getControlScripts();
-        foreach ($toAdd as $value) {
-            $this->strAmdGUI .= "\n";
-            $this->strAmdGUI .= $value;
+        if ($toAdd) {
+            foreach ($toAdd as $value) {
+                $this->strAmdGUI .= "\n";
+                $this->strAmdGUI .= $value;
+            }
         }
     }
     
@@ -77,9 +79,11 @@ class WikiIocCfg {
         }
         
         $toAdd = $this->generator->getWikiIocButtonControls();
-        foreach ($toAdd as $value) {
-            $root[$value["name"]]["class"] = "WikiIocButton";
-            $root[$value["name"]]["parms"] = $value["parms"];
+        if ($toAdd) {
+            foreach ($toAdd as $value) {
+                $root[$value["name"]]["class"] = "WikiIocButton";
+                $root[$value["name"]]["parms"] = $value["parms"];
+            }
         }
     }
 

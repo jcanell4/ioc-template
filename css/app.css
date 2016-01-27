@@ -47,6 +47,13 @@ html,body {
 	position: relative;
 }
 
+#p-navigation ul{
+    display: block;
+	list-style-type: disc;
+	list-style-type: disc;
+	list-style-position: outside;
+}
+
 #navigation ul{
 	display: block;
 	list-style-type: disc;
@@ -64,7 +71,7 @@ div.tb_container ul{
     padding: 0;
     padding-bottom: 0.5em;
     margin: 0;
-    font-size: 0.75em;
+/*    font-size: 0.75em;*/
 }
 
 .claro .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabContent{

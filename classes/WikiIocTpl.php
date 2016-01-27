@@ -94,7 +94,8 @@ class WikiIocTpl {
     }
     
     public function setDojoMetaHeaders(Doku_Event &$event, $param) {
-        global $conf, $js_packages;
+        global $conf;
+        global $js_packages;
         
         $event->data["link"][] = array ("rel" => "stylesheet",
                                     "href" => $js_packages["dijit"] 

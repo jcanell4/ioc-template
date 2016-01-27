@@ -524,7 +524,7 @@ $_arrIocCfgGUI = array (
             ),
             'i1_save' => 
             array (
-              'class' => 'WikiEventButton',
+              'class' => 'WikiIocButton',
               'parms' => 
               array (
                 'DOM' => 
@@ -539,8 +539,8 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
-                  'eventId' => '\'saveAction\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret={};if (this.dispatcher.getGlobalState().getCurrentId()) { _ret.urlBase = this.urlBase; _ret.currentId = this.dispatcher.getGlobalState().getCurrentId(); _ret.editFormId = \'dw__editform\'; var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().getCurrentId())[\'ns\']; if(this.query){ _ret.query = this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                  'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
+                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),

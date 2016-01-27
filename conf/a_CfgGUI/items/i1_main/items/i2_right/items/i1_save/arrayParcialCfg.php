@@ -1,6 +1,6 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiEventButton"
+                 "class" => "WikiIocButton"
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::SAVE_BUTTON
@@ -12,7 +12,6 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=save'"
-                                          ,"eventId" => "'saveAction'"
                                         )
                             )
               );

@@ -71,28 +71,22 @@ require([
                     if (page.action === 'view') {
 
                         if (selectedSection.id) {
+                            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
+                        }
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);                            
+                    
+                    } else if (page.action === 'sec_edit') {
+                        if (selectedSection.id) {
 
                             if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
                                 // La edició seleccionada està en edició
-                                disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
                                 disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", true);
                                 disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
                             } else {
                                 // La edició seleccionada no està en edició
                                 disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
-                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
-                                disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
                             }
-
-                        } else {
-                            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
-                            disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
-                            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
                         }
-
-                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
-
-
                     } else if (page.action === 'edit') {
 
                         var locked = disp.getContentCache(cur).getMainContentTool().locked;

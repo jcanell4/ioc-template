@@ -12,6 +12,8 @@ require([
             return;
         }
 
+        var wikiIocDispatcher = getDispatcher();
+    
         var h = 100 * (win.getBox().h - 55) / win.getBox().h;
         style.set(divMainContent, "height", h + "%");
 
