@@ -66,7 +66,7 @@ require([
                 if (disp.getGlobalState().currentTabId) {
 
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
-                        selectedSection = disp.getGlobalState().getCurrentSection();
+                        selectedSection = disp.getGlobalState().getCurrentElement();
 
                     if (page.action === 'view') {
 
