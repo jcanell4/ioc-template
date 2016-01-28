@@ -78,7 +78,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
                 $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
-                $params
+                $params, $responseData['rev']
             );
 
             $meta = $responseData['meta'];
