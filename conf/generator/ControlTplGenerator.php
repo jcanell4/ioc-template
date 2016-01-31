@@ -26,7 +26,7 @@ class ControlTplGenerator {
         }
         $textScript = file_get_contents($scriptPath);
         if($aReplacements){
-            $textScript = str_replace($aReplacements["search"], $aReplacements["search"], $textScript);
+            $textScript = str_replace($aReplacements["search"], $aReplacements["replace"], $textScript);
         }
         $this->controls["controlScript"][]=$textScript;        
     }
