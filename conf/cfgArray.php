@@ -522,7 +522,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i1_save' => 
+            'i1_save.old' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -541,6 +541,28 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
                   'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
                   'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
+            'i1save' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'saveButton',
+                  'label' => 'Desar',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=save\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
+                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_\' + id};return _ret;}',
                 ),
               ),
             ),
@@ -648,7 +670,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial_\' + id};return _ret;}',
+                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial_\' + id};return _ret;}',
                 ),
               ),
             ),

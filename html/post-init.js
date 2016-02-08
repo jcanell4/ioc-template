@@ -319,6 +319,9 @@ require([
         new RequestControl('edit_partial', 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false);
         new RequestControl('save_partial', 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true);
 
+        new RequestControl('cancel', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
+        new RequestControl('save', 'lib/plugins/ajaxcommand/ajax.php?call=save', true);
+
     });
 });
 
