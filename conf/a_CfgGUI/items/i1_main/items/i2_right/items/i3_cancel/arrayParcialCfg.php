@@ -1,6 +1,6 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiIocButton"
+                 "class" => "WikiEventButton"
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::CANCEL_BUTTON
@@ -13,7 +13,8 @@ $arrParcial = array(
                                           ,"visible" => false
                                           /*,"standbyId" => "'bodyContent'"*/
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel'"
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel_'"
+//                                          ,"eventId" => "'cancel_partial'" // S'ha d'afegir el id del document que correspongui
                                         )
                             )
               );
