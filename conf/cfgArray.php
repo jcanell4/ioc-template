@@ -1,6 +1,6 @@
 <?php
 function iocNeedResetArrayGUI(){
-  $_needReset = 0;
+  $_needReset = 1;
   return $_needReset;
 }
 
@@ -123,13 +123,67 @@ $_arrIocCfgGUI = array (
                   array (
                     'chuches' => 
                     array (
-                      'class' => 'WikiDojoMenuBarItem',
+                      'class' => 'WikiIocDropDownMenu',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'chuches',
+                          'id' => 'popup_chuches',
                           'title' => 'Chuches',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'nube' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'nube',
+                              'label' => 'nube',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'¿Cuántas nubes quieres?\')}',
+                            ),
+                          ),
+                        ),
+                        'osito' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'osito',
+                              'label' => 'osito',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'¿osito o coca-cola?\')}',
+                            ),
+                          ),
+                        ),
+                        'regaliz' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'regaliz',
+                              'label' => 'regaliz',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'Sólo tenemos regaliz de palo\')}',
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -150,15 +204,89 @@ $_arrIocCfgGUI = array (
                   array (
                     'pitufos' => 
                     array (
-                      'class' => 'WikiDojoMenuBarItem',
+                      'class' => 'WikiIocDropDownMenu',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'pitufos',
+                          'id' => 'popup_pitufos',
                           'title' => 'Pitufos',
                         ),
                       ),
+                      'items' => 
+                      array (
+                        'dormilon' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'dormilon',
+                              'label' => 'dormilón',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'¿Estás dormido?\')}',
+                            ),
+                          ),
+                        ),
+                        'gruñón' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'gruñón',
+                              'label' => 'gruñón',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'¿osito o coca-cola?\')}',
+                            ),
+                            'PRP' => 
+                            array (
+                              'MenuSeparator' => true,
+                            ),
+                          ),
+                        ),
+                        'pitufina' => 
+                        array (
+                          'class' => 'WikiDojoMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'pitufina',
+                              'label' => 'pitufina',
+                            ),
+                            'DJO' => 
+                            array (
+                              'iconClass' => '\'dijitEditorIcon dijitEditorIconCut\'',
+                              'onClick' => 'function(){alert(\'Sólo tenemos regaliz de palo\')}',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                'i2_menu_destroy' => 
+                array (
+                  'class' => 'WikiDojoMenuBarItem',
+                  'parms' => 
+                  array (
+                    'DOM' => 
+                    array (
+                      'id' => 'menu_destroy',
+                      'label' => 'Destroy',
+                    ),
+                    'DJO' => 
+                    array (
+                      'onClick' => 'function(){alert(\'Fes clic per a la destrucció completa del projecte\')}',
                     ),
                   ),
                 ),

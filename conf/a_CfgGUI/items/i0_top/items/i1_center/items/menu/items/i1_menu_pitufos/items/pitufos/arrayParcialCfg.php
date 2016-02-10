@@ -1,11 +1,10 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiDojoMenuBarItem"
+                 "class" => "WikiIocDropDownMenu"
                 ,"parms" => array(
                                "DOM" => array(
-                                           "id"=> "pitufos"
+                                           "id"=> "popup_pitufos"
                                           ,"title" => "Pitufos"
                                         )
                             )
               );
-
