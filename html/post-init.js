@@ -207,7 +207,7 @@ require([
 
 
                     } else if (state.getContent(id).action === "edit") {
-                        queryParams = "call=edit&reload=1&do=edit&id=";
+                        queryParams = "call=edit&reload=1&id=";
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
