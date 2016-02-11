@@ -68,9 +68,9 @@ class EditResponseHandler extends WikiIocResponseHandler
         } else {
 
             $params = [];
-            $this->getToolbarIds($params);
+            $this->getToolbarIds($params); // TODO[Xavi] Això no cal
             $params['id'] = $responseData['id'];
-            $params['licenseClass'] = "license";
+            $params['licenseClass'] = "license"; // TODO[Xavi] Això no cal
             $params['timeout'] = $conf['locktime'] - 60;
             $params['draft'] = $conf['usedraft'] != 0; // TODO[Xavi] per evitar confusions caldria canviar-lo per usedraft aqui i al frontend
             $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat

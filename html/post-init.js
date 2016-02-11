@@ -182,6 +182,7 @@ require([
             }
 
             if (state.pages) {
+                console.log("Trobades pàgines:", state.pages);
                 var np = 0;
                 var length = state.pagesLength();
                 var requestState = new Request();
@@ -196,6 +197,8 @@ require([
                 for (var id in state.pages) {
                     var queryParams = '';
 
+                    console.log("Recarregant page:",id,"action:",state.getContent(id).action);
+
                     if (state.getContent(id).action === "view") {
 
                         if (state.getContent(id).rev) {
@@ -206,7 +209,8 @@ require([
 
 
                     } else if (state.getContent(id).action === "edit") {
-                        queryParams = "call=edit&reload=1&id=";
+                        queryParams = "call=edit&reload=1&do=edit&id=";
+
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
                         // fix? ns empty, load with page name
@@ -242,7 +246,6 @@ require([
                                 tc.selectChild(widget);
                             }
 
-                            // TODO[Xavi] Desactivat per poder fer les proves del bloqueig
                             var debug = true;
 
                             if (state.infoStorage && !debug) {
@@ -256,6 +259,7 @@ require([
             }
 
         });
+
         wikiIocDispatcher.addReloadState(reloadStateHandler);
 
         unload.addOnWindowUnload(function () {
