@@ -50,7 +50,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 'draft' => $responseData['draft'],
                 'lastmod' => $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod']),
                 'type' => 'full_document',
-                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit'
+                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit'
             ];
 
 

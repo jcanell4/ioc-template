@@ -182,7 +182,7 @@ require([
             }
 
             if (state.pages) {
-                console.log("Trobades pàgines:", state.pages);
+
                 var np = 0;
                 var length = state.pagesLength();
                 var requestState = new Request();
@@ -196,8 +196,6 @@ require([
 
                 for (var id in state.pages) {
                     var queryParams = '';
-
-                    console.log("Recarregant page:",id,"action:",state.getContent(id).action);
 
                     if (state.getContent(id).action === "view") {
 
