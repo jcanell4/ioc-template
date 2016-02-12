@@ -88,7 +88,6 @@ require([
                             }
                         }
                     } else if (page.action === 'edit') {
-
                         var locked = disp.getContentCache(cur).getMainContentTool().locked;
 
                         //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
@@ -197,7 +196,10 @@ require([
                 for (var id in state.pages) {
                     var queryParams = '';
 
-                    if (state.getContent(id).action === "view") {
+                    //if (state.getContent(id).action === "view") {
+                    if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
+
+                        //if (state.getContent(id).action === "view") {
 
                         if (state.getContent(id).rev) {
                             queryParams += "rev=" + state.getContent(id).rev + "&";
@@ -205,9 +207,12 @@ require([
 
                         queryParams += "call=page&id=";
 
-
-                    } else if (state.getContent(id).action === "edit") {
-                        queryParams = "call=edit&reload=1&id=";
+                    //} else if (state.getContent(id).action === "edit") { // ALERTA[Xavi] Mai arriba aqui, deshabilitat fins que solucionem el problema de sincronització al recarregar amb els contenidors
+                        //if (state.getContent(id).rev) {
+                        //    queryParams += "rev=" + state.getContent(id).rev + "&";
+                        //}
+                        //
+                        //queryParams = "call=edit&do=edit&reload=1&id=";
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
@@ -225,7 +230,6 @@ require([
                     } else {
                         queryParams = "call=page&id=";
                     }
-
 
                     requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
                         np++;
@@ -312,7 +316,7 @@ require([
             deleteDraft();
         });
 
-        // TODO[Xavi] Aquí es on es creen i es configuren els controladors de request
+        // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
         new RequestControl('lock_document', 'lib/plugins/ajaxcommand/ajax.php?call=lock', true);
         new RequestControl('unlock_document', 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
         new RequestControl('cancel_document', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
