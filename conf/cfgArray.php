@@ -771,9 +771,9 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i1_save' => 
+            'i1save' => 
             array (
-              'class' => 'WikiIocButton',
+              'class' => 'WikiEventButton',
               'parms' => 
               array (
                 'DOM' => 
@@ -787,9 +787,9 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=save\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
-                  'getPostData' => 'function(){var _ret=null; require([\'dojo/dom-form\'],function(domForm){ _ret=domForm.toObject(\'dw__editform\');});return _ret;}',
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_\' + id};return _ret;}',
                 ),
               ),
             ),
@@ -814,6 +814,28 @@ $_arrIocCfgGUI = array (
               ),
             ),
             'i3_cancel' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'cancelButton',
+                  'label' => 'Tornar',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=cancel\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_\'',
+                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel_\' + id};return _ret;}',
+                ),
+              ),
+            ),
+            'i3_cancel.old' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
@@ -897,7 +919,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial_\' + id};return _ret;}',
+                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial_\' + id};return _ret;}',
                 ),
               ),
             ),

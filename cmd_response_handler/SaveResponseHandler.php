@@ -20,6 +20,8 @@ class SaveResponseHandler extends PageResponseHandler {
     protected function response($requestParams, 
                                 $responseData, 
                                 &$ajaxCmdResponseGenerator) {
+
+        // TODO[Xavi] Com els errors es gestionen amb excepcions, cal fer servir el code? Si es llença excepció no arriba aquí
         if($responseData["code"]==0){
             $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true, 
@@ -42,4 +44,3 @@ class SaveResponseHandler extends PageResponseHandler {
     }
 }
 
-?>
