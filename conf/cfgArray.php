@@ -33,29 +33,70 @@ $_arrIocCfgGUI = array (
       ),
       'items' => 
       array (
-        'i0_logo' => 
+        'i0_left' => 
         array (
-          'class' => 'WikiIocImage',
+          'class' => 'WikiIocSpanBloc',
           'parms' => 
           array (
+            'DOM' => 
+            array (
+              'id' => 'zonaLogo',
+            ),
             'CSS' => 
             array (
-              'position' => 'absolute',
-              'top' => '2px',
-              'left' => '0px',
+              'float' => 'left',
+              'padding-left' => '5px',
               'width' => '240px',
               'height' => '50px',
               'z-index' => '900',
             ),
-            'PRP' => 
+          ),
+          'items' => 
+          array (
+            'logo' => 
             array (
-              'src' => 'img/logo.png',
+              'class' => 'WikiIocImage',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'alt' => 'logo',
+                ),
+                'CSS' => 
+                array (
+                  'width' => '240px',
+                  'height' => '50px',
+                  'z-index' => '900',
+                ),
+                'PRP' => 
+                array (
+                  'src' => 'img/logo.png',
+                ),
+              ),
             ),
           ),
         ),
-        'i2_login' => 
+        'i1_center' => 
         array (
-          'class' => 'WikiIocDivBloc',
+          'class' => 'WikiIocSpanBloc',
+          'parms' => 
+          array (
+            'DOM' => 
+            array (
+              'id' => 'zonaMenu',
+            ),
+            'CSS' => 
+            array (
+              'float' => 'left',
+              'padding-top' => '5px',
+              'padding-left' => '30px',
+              'height' => '50px',
+            ),
+          ),
+        ),
+        'i2_right' => 
+        array (
+          'class' => 'WikiIocSpanBloc',
           'parms' => 
           array (
             'DOM' => 
@@ -64,9 +105,9 @@ $_arrIocCfgGUI = array (
             ),
             'CSS' => 
             array (
-              'width' => '80px',
-              'height' => '60px',
               'float' => 'right',
+              'height' => '50px',
+              'width' => '80px',
             ),
           ),
           'items' => 
@@ -251,6 +292,14 @@ $_arrIocCfgGUI = array (
         'DOM' => 
         array (
           'id' => 'mainContent',
+        ),
+        'CSS' => 
+        array (
+          'height' => '100%',
+          'width' => '100%',
+          'min-width' => '1em',
+          'min-height' => '1px',
+          'z-index' => '0',
         ),
       ),
       'items' => 
@@ -583,28 +632,6 @@ $_arrIocCfgGUI = array (
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_\'',
                   'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel_\' + id};return _ret;}',
-                ),
-              ),
-            ),
-            'i3_cancel.old' => 
-            array (
-              'class' => 'WikiIocButton',
-              'parms' => 
-              array (
-                'DOM' => 
-                array (
-                  'id' => 'cancelButton',
-                  'label' => 'Tornar',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'query' => '\'do=cancel\'',
-                  'autoSize' => true,
-                  'visible' => false,
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel\'',
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),

@@ -23,6 +23,10 @@ class cfgBuilder {
         // $arrParcial es el nombre del array definido en cada uno de los ficheros arrayParcialCfg.php
         $arrCfg = $arrParcial;
         
+        if(isset($arrCfg['hidden']) && $arrCfg['hidden']){
+            return NULL;
+        }
+        
         $arrJS_AMD_tmp = $this->buscaJS_AMD("$dir/js/amd");
         if ($arrJS_AMD_tmp) {
             foreach ($arrJS_AMD_tmp as $v) {
@@ -57,7 +61,10 @@ class cfgBuilder {
                 if (!in_array($value, array(".",".."))) {
                     $ruta_completa = "$dir/$value";
                     if (is_dir($ruta_completa)) {
-                        $item[$value] = $this->dirToArray($ruta_completa);
+                        $child = $this->dirToArray($ruta_completa);
+                        if($child){
+                            $item[$value] = $child;
+                        }
                     }
                 }
             }

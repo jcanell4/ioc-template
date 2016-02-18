@@ -120,8 +120,8 @@ abstract class WikiIocComponent extends WikiIocBuilder {
                 $ret .= $this->parejaKeyValue($key, $value, $glue, $sep);
             }
         }
-        if (substr($ret,-1)===",") $ret = substr($ret,0,-1);
-        return $ret;
+//        if (substr($ret,-1)===",") $ret = substr($ret,0,-1);
+        return trim($ret, " ,");
     }
     /**
      * Crea una pareja key:value transformando valores booleanos en strings

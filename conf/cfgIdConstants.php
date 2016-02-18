@@ -8,7 +8,9 @@ class cfgIdConstants
 
     //elemento topBloc de MAIN
     const TOP_BLOC = "topBloc";
+    const ZONA_LOGO = "zonaLogo";
     //elemento Barramenu del elemento topBloc de MAIN
+    const ZONA_MENU = "zonaMenu";
     const BARRA_MENU = "barraMenu";
 
     //elemento zonaLogin del elemento topBloc de MAIN

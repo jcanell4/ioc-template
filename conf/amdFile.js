@@ -217,33 +217,3 @@ return false;
 });
 }
 });
-require([
-"dijit/registry"
-,"dojo/dom"
-,"dojo/dom-construct"
-,"dijit/layout/BorderContainer"
-,"dijit/Dialog"
-,"dijit/layout/ContentPane"
-,"dijit/form/Form"
-,"dijit/form/TextBox"
-,"dijit/form/Button"
-,"ioc/gui/NsTreeContainer"
-,"ioc/gui/NsTreeContainer"
-,"ioc/wiki30/dispatcherSingleton"
-], function (registry,dom,domConstruct,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,NsTreeContainer,NsTreeContainer,getDispatcher) {
-var dispatcher = getDispatcher();
-var cancelButton = registry.byId('cancelButton'),
-changesManager = dispatcher.getChangesManager();
-if (cancelButton) {
-cancelButton.on('click', function () {
-var docId = dispatcher.getGlobalState().getCurrentId();
-if (changesManager.isContentChanged(docId) === false) {
-cancelButton.query = cancelButton.query.replace('cancel', 'page');
-cancelButton.urlBase = cancelButton.urlBase.replace('cancel', 'page');
-} else {
-cancelButton.query = cancelButton.query.replace('page', 'cancel');
-cancelButton.urlBase = cancelButton.urlBase.replace('page', 'cancel');
-}
-});
-}
-});

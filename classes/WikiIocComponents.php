@@ -139,6 +139,21 @@ class WikiIocDivBloc extends WikiIocItemsContainer {
     }
 }
 
+class WikiIocSpanBloc extends WikiIocItemsContainer {
+
+    function __construct($aParms = array(), $aItems = array()) {
+        parent::__construct($aParms, $aItems, array(), array());
+    }
+
+    protected function getPreContent() {
+        return "<span {$this->getDOM()} {$this->getCSS()}>\n";
+    }
+
+    protected function getPostContent() {
+        return "</span>\n";
+    }
+}
+
 /**
      * Descripció: Dibuixa el logo IOC
     */
@@ -148,9 +163,7 @@ class WikiIocImage extends WikiIocComponent {
     }
 
     function getRenderingCode() {
-        $ret = "<span {$this->getCSS()}>\n"
-             . "<img alt='logo' {$this->getCSS(array('width','height','z-index'))} src='".DOKU_TPL."{$this->getPRP('src')}'></img>\n"
-             . "</span>\n";
+        $ret = "<img {$this->getDOM()} {$this->getCSS()} src='".DOKU_TPL."{$this->getPRP('src')}'></img>\n";
         return $ret;
     }
 }
@@ -172,7 +185,8 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
         $ret = "<div {$this->getDOM()}>\n"
              . "<div data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
              . "design='sidebar' persist='false' gutters='true' "
-             . "style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
+             . "{$this->getCSS()}>\n";
+//             . "style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
         return $ret;
     }
 
@@ -374,15 +388,6 @@ class WikiIocContentPane extends WikiIocContainer {
     }
 
     protected function getPreContent() {
-        /*
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $selected = $this->get('selected') ? " selected='true'" : "";
-        
-        $ret = "<div {$this->getDOM()} data-dojo-type='dijit.layout.ContentPane'"
-            . " title='{$this->getDOM('label')}' tooltip='{$this->getDOM('toolTip')}'"
-            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
-            . " $selected closable='false' doLayout='false'>\n";
-        */
         $label = $this->get('DOM','label');
         $title = ($label) ? "title='$label'" : "";
         $tooltip = ($label) ? "tooltip='$label'" : "";
@@ -421,21 +426,12 @@ class WikiIocContainerFromPage extends WikiIocContentPane {
                          array("name" => "ioc", "location" => $js_packages["ioc"])
                       );
         $reqJsModule = array(
-            "ContentTabDokuwikiPage" => "ioc/gui/ContentTabDokuwikiPage"
-        );
+                        "ContentTabDokuwikiPage" => "ioc/gui/ContentTabDokuwikiPage"
+                       );
         parent::__construct($aParms, $reqPackage, $reqJsModule);
     }
 
     protected function getPreContent() {
-        /*
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $selected = $this->get('selected') ? " selected='true'" : "";
-
-        $ret = "<div $id data-dojo-type='ioc.gui.ContentTabDokuwikiPage'"
-            . " title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
-            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
-            . " $selected closable='false' doLayout='false'>\n";
-        */
         $label = $this->get('DOM','label');
         $title = ($label) ? "title='$label'" : "";
         $tooltip = ($label) ? "tooltip='$label'" : "";
@@ -460,21 +456,6 @@ class WikiIocTreeContainer extends WikiIocContentPane {
     }
 
     protected function getPreContent() {
-        /*
-        $id = $this->get('id'); $id = $id ? "id='$id'" : "";
-        $treeDataSource = $this->get('treeDataSource') ? "treeDataSource:\"{$this->get('treeDataSource')}\"" : "";
-        $coma = $treeDataSource ? "," : "";
-        $rootValue = $this->get('rootValue') ? "$coma rootValue:\"{$this->get('rootValue')}\"" : "";
-        $coma = $treeDataSource || $rootValue ? "," : "";
-        $pageDataSource = $this->get('pageDataSource') ? "$coma urlBase:\"{$this->get('pageDataSource')}\"" : "";
-        $selected = $this->get('selected') ? "selected='true'" : "";
-        
-        $ret = "<div $id data-dojo-type='ioc.gui.ContentTabDokuwikiNsTree'"
-            . " title='{$this->get('label')}' tooltip='{$this->get('toolTip')}'"
-            . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false'"
-            . " data-dojo-props='{$treeDataSource}{$rootValue}{$pageDataSource}'"
-            . " $selected style='overflow:auto;' closable='false' doLayout='false'>\n";
-        */
         $label = $this->get('DOM','label');
         $title = ($label) ? "title='$label'" : "";
         $tooltip = ($label) ? "tooltip='$label'" : "";
@@ -570,7 +551,7 @@ class WikiIocDropDownMenu extends WikiIocItemsContainer {
     }
 
     public function getPreContent() {
-        $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('DropDownMenu')}'>";
+        $ret = "<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('DropDownMenu')}'>\n";
         return $ret;
     }
     public function getPostContent() {
@@ -742,6 +723,77 @@ class WikiIocButton extends WikiIocComponent {
     }
 }
 
+class WikiDojoMenuBar extends WikiIocItemsContainer {
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        $reqJsModule = array(
+//                        "parser" => "dojo/parser",
+                        "MenuBar" => "dijit/MenuBar"
+                      );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
+    }
+
+    protected function getPreContent() {
+        $ret = "<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('MenuBar')}'>\n";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n";
+    }
+}
+
+class WikiDojoPopupMenuBarItem extends WikiIocItemsContainer {
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        $reqJsModule = array(
+//                        "parser" => "dojo/parser",
+//                        "MenuBar" => "dijit/MenuBar",
+                        "PopupMenuBarItem" => "dijit/PopupMenuBarItem"
+                      );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
+    }
+
+    protected function getPreContent() {
+        $ret = "<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('PopupMenuBarItem')}'>\n"
+             . "<span>{$this->get('DOM','title')}</span>\n";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n";
+    }
+}
+
+class WikiDojoMenuBarItem extends WikiIocComponent {
+    public function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                      );
+        $reqJsModule = array(
+                        "MenuBarItem" => "dijit/MenuBarItem"
+                      );
+        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    }
+
+    public function getRenderingCode() {
+        $ret = "<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('MenuBarItem')}' {$this->getDJO()}>"
+             . "{$this->get('DOM','label')}"
+             . "</div>\n";
+        return $ret;
+    }
+}
+
 class WikiDojoMenu extends WikiIocItemsContainer {
     public function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
@@ -757,15 +809,14 @@ class WikiDojoMenu extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "<div data-dojo-type='dijit.layout.ContentPane' {$this->getDOM('title')}"
+        $ret = "<div data-dojo-type='{$this->getReqJsModule('ContentPane')}' {$this->getDOM('title')}"
              . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n"
-             . "<div {$this->getDOM()} data-dojo-type='dijit.Menu' {$this->getDJO()} style='border:0px;width:100%;'>";
+             . "<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('Menu')}' {$this->getDJO()} style='border:0px;width:100%;'>";
         return $ret;
     }
 
     protected function getPostContent() {
-        $ret = "\n</div>\n</div>\n\n";
-        return $ret;
+        return "\n</div>\n</div>\n";
     }
 }
 
@@ -777,16 +828,16 @@ class WikiDojoSubMenu extends WikiIocItemsContainer {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
         $reqJsModule = array(
-            "Menu" => "dijit/Menu",
-            "PopupMenuItem" => "dijit/PopupMenuItem"
+                        "Menu" => "dijit/Menu",
+                        "PopupMenuItem" => "dijit/PopupMenuItem"
         );
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
     }
 
     protected function getPreContent() {
-        $ret = "\n<div data-dojo-type='dijit.PopupMenuItem'>\n"
+        $ret = "\n<div data-dojo-type='{$this->getReqJsModule('PopupMenuItem')}'>\n"
              . "<span>{$this->get('DOM','label')}</span>\n"
-             . "<div {$this->getDOM('id')} data-dojo-type='dijit.Menu'>";
+             . "<div {$this->getDOM('id')} data-dojo-type='{$this->getReqJsModule('Menu')}'>";
         return $ret;
     }
 
@@ -803,18 +854,18 @@ class WikiDojoMenuItem extends WikiIocComponent {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
         $reqJsModule = array(
-            "MenuItem" => "dijit/MenuItem",
-            "MenuSeparator" => "dijit/MenuSeparator"
+                        "MenuItem" => "dijit/MenuItem",
+                        "MenuSeparator" => "dijit/MenuSeparator"
                       );
         parent::__construct($aParms, $reqPackage, $reqJsModule);
     }
 
     public function getRenderingCode() {
-        $sep = $this->get('PRP','MenuSeparator');
-        $ret = "\n<div {$this->getDOM()} data-dojo-type='dijit.MenuItem'"
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('MenuItem')}'"
              . " {$this->getDJO()}>{$this->get('DOM','label')}</div>";
+        $sep = $this->get('PRP','MenuSeparator');
         if ($sep) {
-            $ret .= "\n<div data-dojo-type='dijit.MenuSeparator'></div>";
+            $ret .= "\n<div data-dojo-type='{$this->getReqJsModule('MenuSeparator')}'></div>";
         }
         return $ret;
     }
@@ -834,7 +885,7 @@ class WikiDojoMenuSeparator extends WikiIocComponent {
     }
 
     public function getRenderingCode() {
-        $ret = "\n<div data-dojo-type='dijit.MenuSeparator'></div>";
+        $ret = "\n<div data-dojo-type='{$this->getReqJsModule('MenuSeparator')}'></div>";
         return $ret;
     }
 }
