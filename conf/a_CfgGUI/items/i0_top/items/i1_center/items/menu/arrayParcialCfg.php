@@ -7,4 +7,5 @@ $arrParcial = array(
                                           ,"label" => "BarraDeMenu"
                                         )
                             )
+                ,"hidden" => true
               );
