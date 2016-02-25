@@ -327,6 +327,7 @@ require([
 
         new RequestControl('cancel', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
         new RequestControl('save', 'lib/plugins/ajaxcommand/ajax.php?call=save', true);
+        new RequestControl('edit', 'lib/plugins/ajaxcommand/ajax.php?call=edit', false);
 
         new RequestControl('save_draft', 'lib/plugins/ajaxcommand/ajax.php?call=save_draft', true);
 
