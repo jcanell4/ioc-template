@@ -321,7 +321,7 @@ require([
         });
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
-        new RequestControl('lock_document', 'lib/plugins/ajaxcommand/ajax.php?call=lock', true);
+        new RequestControl('lock_document', 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
         new RequestControl('unlock_document', 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
         new RequestControl('cancel_document', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
 
@@ -331,6 +331,9 @@ require([
 
         new RequestControl('cancel', 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
         new RequestControl('save', 'lib/plugins/ajaxcommand/ajax.php?call=save', true);
+        new RequestControl('edit', 'lib/plugins/ajaxcommand/ajax.php?call=edit', false);
+
+        new RequestControl('save_draft', 'lib/plugins/ajaxcommand/ajax.php?call=save_draft', true);
 
     });
 });
