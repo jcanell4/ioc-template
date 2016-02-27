@@ -36,7 +36,6 @@ class EditResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-        global $conf;
         global $INFO;
 
 
@@ -70,7 +69,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             $params = [];
             $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
             $params['readonly'] = $this->getPermission()->isReadOnly();
- 
+
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
                 $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
@@ -80,9 +79,6 @@ class EditResponseHandler extends WikiIocResponseHandler
             $meta = $responseData['meta'];
             $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-
         }
-
-
     }
 }
