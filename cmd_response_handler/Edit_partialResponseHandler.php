@@ -36,10 +36,13 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
+        $responseData['structure']['editing']['readonly'] = true;
+
 
         if ($responseData['locked']) {
             unset($responseData['show_draft_dialog']);
         }
+
 
         if (isset($responseData['full_draft'])) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
@@ -49,6 +52,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 ]);
 
         } else if (isset($responseData['show_draft_dialog'])) {
+
 
             $params = [
                 'title' => $responseData['title'],
@@ -77,7 +81,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
 
-        // TODO[Xavi] Això ha de ser reemplaçat per les funcionalitats dels ContenTools
+
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['structure']['id'],
             TRUE,
@@ -88,6 +92,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
+
 
     }
 }
