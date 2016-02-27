@@ -312,11 +312,10 @@ require([
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
             }
-
             deleteDraft();
         });
 
-        var eventName = dispatcher.getEventManager().eventName;
+        var eventName = wikiIocDispatcher.getEventManager().eventName;
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
         new RequestControl(eventName.LOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
