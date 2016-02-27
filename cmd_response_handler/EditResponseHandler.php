@@ -69,7 +69,8 @@ class EditResponseHandler extends WikiIocResponseHandler
 
             $params = [];
             $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
-
+            $params['readonly'] = $this->getPermission()->isReadOnly();
+ 
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
                 $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],

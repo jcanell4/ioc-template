@@ -80,7 +80,10 @@ require([
 
                             if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
                                 // La edició seleccionada està en edició
-                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", true);
+                                var ro = disp.getContentCache(cur).getMainContentTool().locked
+                                    || disp.getContentCache(cur).getMainContentTool().readonly;
+
+                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", !ro);
                                 disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
                             } else {
                                 // La edició seleccionada no està en edició
@@ -88,10 +91,11 @@ require([
                             }
                         }
                     } else if (page.action === 'edit') {
-                        var locked = disp.getContentCache(cur).getMainContentTool().locked;
+                        var ro = disp.getContentCache(cur).getMainContentTool().locked
+                                    || disp.getContentCache(cur).getMainContentTool().readonly;
 
                         //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
-                        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !locked);
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
 
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
 

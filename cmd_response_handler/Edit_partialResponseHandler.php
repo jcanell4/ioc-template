@@ -73,7 +73,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             );
 
         } else {
-
+            $responseData['structure']['editing']['readonly'] = $this->getPermission()->isReadOnly();
+            
             $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
         }
 
