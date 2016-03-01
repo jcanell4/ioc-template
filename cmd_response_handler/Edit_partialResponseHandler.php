@@ -52,7 +52,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
         } else if (isset($responseData['show_draft_dialog'])) {
 
-
             $params = [
                 'title' => $responseData['title'],
                 'content' => $responseData['content'],
