@@ -33,7 +33,7 @@ class SaveResponseHandler extends PageResponseHandler {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
         }
         elseif ($responseData["deleted"]){
-            $ajaxCmdResponseGenerator->addRemoveContentTab($requestParams[PageKeys::KEY_ID]);
+            $ajaxCmdResponseGenerator->addRemoveContentTab($responseData['id']);
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]['message']);
         }
         else{
