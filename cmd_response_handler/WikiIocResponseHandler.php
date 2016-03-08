@@ -6,15 +6,17 @@
  */
 
 if (!defined("DOKU_INC")) die();
+require_once(DOKU_INC . 'lib/plugins/ownInit/WikiGlobalConfig.php');
 
 function _tplIncDir(){
-    global $conf;
-    if(is_callable('tpl_incdir')){
-        $ret = tpl_incdir();
-    }else{
-        $ret = DOKU_INC.'lib/tpl/'.$conf['template'].'/';
-    }
-    return $ret;
+//    global $conf;
+//    if(is_callable('tpl_incdir')){
+//        $ret = tpl_incdir();
+//    }else{
+//        $ret = DOKU_INC.'lib/tpl/'.$conf['template'].'/';
+//    }
+//    return $ret;
+    return WikiGlobalConfig::tplIncDir();
 }
 
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
