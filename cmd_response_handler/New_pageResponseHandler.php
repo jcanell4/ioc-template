@@ -10,6 +10,9 @@ if (!defined("DOKU_INC")) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
+require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
+require_once(tpl_incdir().'conf/cfgIdConstants.php');
+
 
 class New_pageResponseHandler extends pageResponseHandler
 {
@@ -21,6 +24,7 @@ class New_pageResponseHandler extends pageResponseHandler
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
     }
 
 }

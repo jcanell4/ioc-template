@@ -11,6 +11,7 @@ require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
 //require_once(tpl_incdir().'cmd_response_handler/EditResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
+require_once(tpl_incdir().'conf/cfgIdConstants.php');
 
 //class SaveResponseHandler extends EditResponseHandler {
 class SaveResponseHandler extends PageResponseHandler {
@@ -35,6 +36,8 @@ class SaveResponseHandler extends PageResponseHandler {
         elseif ($responseData["deleted"]){
             $ajaxCmdResponseGenerator->addRemoveContentTab($responseData['id']);
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]['message']);
+            $ajaxCmdResponseGenerator->addRemoveItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
+            
         }
         else{
             $ajaxCmdResponseGenerator->addError($responseData["code"], 
