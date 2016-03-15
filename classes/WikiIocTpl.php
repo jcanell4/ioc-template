@@ -25,6 +25,7 @@ class WikiIocTpl {
     private $scriptPostInitJsFile;
     private $contentGeneratedAmd;
     private $constantsForInitJsFile;
+    private $scriptCode;
 
     public static function Instance() {
         static $inst = NULL;
@@ -67,6 +68,10 @@ class WikiIocTpl {
         $this->constantsForInitJsFile = $constants;
     }
 
+    public function setEmbebdedScript($scriptCode) {
+        $this->scriptCode = $scriptCode;
+    }
+    
     public function setBody($obj, $parms, $items) {
         global $js_packages;
         //[TODO Josep] Cal passar això al plugin aceeditor
@@ -107,7 +112,6 @@ class WikiIocTpl {
                                     "media" => "screen");
         $item0 = $event->data["script"][0];
         $item1 = $event->data["script"][1];
-        
         
         $event->data["script"][0] = array( 
                 "type" => "text/javascript",
@@ -163,7 +167,8 @@ class WikiIocTpl {
 
 
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
-        echo $this->fillJsCode(); //replacedContentJsFile;
+        echo $this->scriptCode;     // codi generat per a una petició de pàgina explícita per GET
+        echo $this->fillJsCode();   // replacedContentJsFile;
         echo "</head>\n";
     }
 

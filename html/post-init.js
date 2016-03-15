@@ -160,7 +160,7 @@ require([
                 if (state.permissions['isadmin'] | state.permissions['ismanager']) {
                     var requestTabContent = new Request();
                     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-                    var data_tab = requestTabContent.sendRequest().always(function () {
+                    requestTabContent.sendRequest().always(function () {
                         var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
                         if (currentNavigationPaneId === "tb_admin") {
                             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
@@ -277,8 +277,11 @@ require([
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
-
+            var extraState = wikiIocDispatcher.requestedState;
+            
             wikiIocDispatcher.reloadFromState(state);
+            if (extraState)
+                wikiIocDispatcher.reloadFromState(extraState);
         }
 
         // Establim el panell d'informació actiu
