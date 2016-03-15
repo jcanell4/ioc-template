@@ -40,10 +40,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
         if ($responseData['locked']) {
             unset($responseData['show_draft_dialog']);
+            unset($responseData['show_full_draft_dialog']);
         }
 
 
-        if (isset($responseData['full_draft'])) {
+        if (isset($responseData['show_full_draft_dialog'])) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
                 [
                     'id' => $responseData['id'],
