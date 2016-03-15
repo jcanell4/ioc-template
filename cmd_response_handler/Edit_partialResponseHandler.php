@@ -40,14 +40,16 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
         if ($responseData['locked']) {
             unset($responseData['show_draft_dialog']);
+            unset($responseData['show_full_draft_dialog']);
         }
 
 
-        if (isset($responseData['full_draft'])) {
+        if (isset($responseData['show_full_draft_dialog'])) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
                 [
                     'id' => $responseData['id'],
-                    'original_call' =>$responseData['original_call']
+                    'original_call' =>$responseData['original_call'],
+                    'timeout' => $responseData['timeout'] // ALERTA[Xavi] El timeout s'hauria de passar per tots els dialegs?
                 ]);
 
         } else if (isset($responseData['show_draft_dialog'])) {
