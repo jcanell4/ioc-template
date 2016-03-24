@@ -171,7 +171,9 @@ table.diff th {
 }
 
 table.diff td {
-	width: 45%;
+    min-width: 265px; /* les cel·les de les taules no funcionen amb mides percentuals ni amb width fixa */
+    max-width: 265px;
+    overflow: hidden;
 }
 
 table.diff .empty {

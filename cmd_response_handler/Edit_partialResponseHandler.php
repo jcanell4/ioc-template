@@ -48,7 +48,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
                 [
                     'id' => $responseData['id'],
-                    'original_call' =>$responseData['original_call'],
+                    'original_call' => $responseData['original_call'],
                     'timeout' => $responseData['timeout'] // ALERTA[Xavi] El timeout s'hauria de passar per tots els dialegs?
                 ]);
 
@@ -57,12 +57,18 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $params = [
                 'title' => $responseData['title'],
                 'content' => $responseData['content'],
-                'draft' => $responseData['draft'],
                 'lastmod' => $responseData['structure']['date'],
                 'type' => 'partial_document',
                 'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
-                'original_call' => $responseData['original_call']// TODO[Xavi] Això es podria substituir pel query
+                'original_call' => $responseData['original_call'],
             ];
+
+            if ($responseData['local']) {
+                $params['local'] = true;
+                $params['selected'] = $responseData['original_call']['section_id'];
+            } else {
+                $params['draft'] = $responseData['draft'];
+            }
 
             $ajaxCmdResponseGenerator->addDraftDialog(
                 $responseData['structure']['id'],
@@ -88,8 +94,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             TRUE,
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
-                "ns"            => $responseData['structure']['ns'],
-                "editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                "ns" => $responseData['structure']['ns'],
+                "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
