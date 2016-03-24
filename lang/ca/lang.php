@@ -116,6 +116,7 @@ $lang['document_revision_loaded'] = 'Aquesta es una revisió antiga del document
 $lang['diff_loaded'] = 'Ací es mostren les diferències entre les revisions.';
 $lang['switch_diff_mode'] = 'Canvia mode';
 $lang['draft_editing'] = "S'està editant un esborrany, no el document actual.";
+$lang['local_draft_editing'] = "S'està editant un esborrany local, no el document actual.";
 $lang['draft_found'] = "S'ha trobat un esborrany complet del document.";
 $lang['partial_draft_found'] = "S'ha trobat un esborrany complet del document.";
 
