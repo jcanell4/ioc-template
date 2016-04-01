@@ -39,6 +39,11 @@ class EditResponseHandler extends WikiIocResponseHandler
         global $INFO;
 
 
+        if ($responseData['locked']) {
+            unset($responseData['show_draft_dialog']);
+        }
+
+
         if ($responseData['show_draft_dialog']) {
 
             // No s'envien les respostes convencionals
@@ -51,6 +56,10 @@ class EditResponseHandler extends WikiIocResponseHandler
                 'type' => 'full_document',
                 'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit'
             ];
+
+            if ($responseData['local']) {
+                $params['local'] = true;
+            }
 
 
             // TODO[Xavi] si està bloquejat no s'ha de mostrar el dialog
@@ -70,9 +79,20 @@ class EditResponseHandler extends WikiIocResponseHandler
             $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
             $params['readonly'] = $this->getPermission()->isReadOnly();
 
+
+            $recoverDrafts = [];
+
+            if (isset($responseData[PageKeys::KEY_RECOVER_DRAFT])) {
+                $recoverDrafts[PageKeys::KEY_RECOVER_DRAFT] = $responseData[PageKeys::KEY_RECOVER_DRAFT]==='true';
+            }
+
+            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
+                $recoverDrafts[PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
+            }
+
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
-                $responseData['title'], $responseData['content'], $responseData['draft'], $responseData['recover_draft'],
+                $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
                 $params, $responseData['rev']
             );
 
