@@ -339,6 +339,8 @@ require([
 
         new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=save_draft', true);
 
+        new RequestControl(eventName.NOTIFY, 'lib/plugins/ajaxcommand/ajax.php?call=notify', true);
+
     });
 });
 

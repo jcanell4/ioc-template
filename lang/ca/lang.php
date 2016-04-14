@@ -137,3 +137,8 @@ $lang['button_revert'] = 'Reverteix les pàgines seleccionades';
 $lang['js']['willexpire1'] = 'El blocatge per a editar el document ';
 $lang['js']['willexpire2'] = ' venç d\'aquí a un minut.\nVoleu guardar els canvis i renovar el blocatge, o cancel·lar la edició i descartar els canvis?';
 $lang['js']['lock_timeout'] = ' El temps s\'ha esgotat. S\'ha guardat l\'esborrany i el document ha estat desbloquejat.';
+
+$lang['notifier_initialized'] = 'Notificador inicialitzat correctament';
+$lang['notifier_send_message'] = 'S\'ha enviat un missatge mitjançant el notificador';
+$lang['notifier_pop_messaged'] = 'S\'han recuperat missatges del notificador';
+$lang['notifier_closed'] = 'S\'ha tancat el notificador';
