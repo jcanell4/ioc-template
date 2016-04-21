@@ -54,6 +54,7 @@ require([
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
 
+
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
@@ -340,6 +341,18 @@ require([
         new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=save_draft', true);
 
         new RequestControl(eventName.NOTIFY, 'lib/plugins/ajaxcommand/ajax.php?call=notify', true);
+
+
+        // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions
+        console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
+        if (wikiIocDispatcher.getGlobalState().login === true) {
+            wikiIocDispatcher.getEventManager().dispatchEvent('notify', {
+                //id: null, // No cal
+                dataToSend: {
+                    do: 'init'
+                }
+            });
+        }
 
     });
 });
