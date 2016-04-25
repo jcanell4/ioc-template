@@ -83,17 +83,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $info['type']= 'success';
             // $info['message'] = $lang['user_login'];
             $info['message'] = 'Usuari connectat';
-
         }
 
-        if (isset($responseData['notification'])) {
-            $action = $responseData['notification']['action'];
-            $params = $responseData['notification']['params'];
-
-            $ajaxCmdResponseGenerator->addNotification($action, $params);
-        }
-
-
-
+        $ajaxCmdResponseGenerator->addInfoDta($info);
     }
 }
