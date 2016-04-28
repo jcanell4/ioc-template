@@ -39,7 +39,40 @@ class EditResponseHandler extends WikiIocResponseHandler
         global $INFO;
 
 
-        if ($responseData['locked']) {
+
+        // TODO[Xavi] Pendent per quan afegim els dialegs
+        // S'ha d'afegir aquest nou tipus
+        // Mostra un dialog indicant que altre usuari el te bloquejat
+        // Mostra el nom de l'usuari
+        // Dona 2 opcions:
+        //      Continuar en mode readonly -> crida ajax obrir read only
+        //      Demanar accéss al fitxer -> crida ajax notificació per requeri el fitxer a l'usuari
+
+
+//        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) {
+//            $lockingUser = WikiIocInfoManager::getInfo(WikiIocInfoManager::KEY_LOCKED);
+//            $ajaxCmdResponseGenerator->addDialogData(
+//                WikiIocLangManager::getLang('lockedByTitle'),
+//                sprintf(WikiIocLangManager::getLang('lockedByDialog'), $lockingUser),
+//                [
+//                    [
+//                        'type' => 'Ajax',
+//                        'label' => WikiIocLangManager::getLang('BtnReadOnly'),
+//                        'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit&readonly=true&id=' . $responseData['ns'], // TODO[Xavi] Crec que això no està implementat però alguna cosa sobre readonly si que està feta
+//                        'params' => []
+//                    ],
+//                    [
+//                        'type' => 'Ajax',
+//                        'label' => WikiIocLangManager::getLang('BtnRequireLock'),
+//                        'base' => 'lib/plugins/ajaxcommand/ajax.php?call=requirelock&id=' . $responseData['ns'], // TODO[Xavi] Pendend de confirmar si es passa com notify o como ajaxcommand: call=requireLock&id=foo
+//                        'params' => []
+//                    ]
+//                ]);
+
+
+
+        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
+//        if ($responseData['locked']) {
             unset($responseData['show_draft_dialog']);
         }
 
@@ -63,6 +96,7 @@ class EditResponseHandler extends WikiIocResponseHandler
 
 
             // TODO[Xavi] si està bloquejat no s'ha de mostrar el dialog
+            // ALERTA[Xavi] Com que es fa la comprovació anteriorment, no hauria de arribar mati a aquí en aquest cas
             if (!$INFO['locked']) {
                 $ajaxCmdResponseGenerator->addDraftDialog(
                     $responseData['id'],
@@ -76,7 +110,16 @@ class EditResponseHandler extends WikiIocResponseHandler
         } else {
 
             $params = [];
-            $params['locked'] = $responseData['locked']; // Nou, ho passem com a param -> true: està bloquejat
+
+            if ($responseData['locked'] === false || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
+                $params['locked'] = true;
+                $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+
+            } else {
+                $params['locked'] = false;
+            }
+//            $params['locked'] = $responseData['locked'];
+
             $params['readonly'] = $this->getPermission()->isReadOnly();
 
 

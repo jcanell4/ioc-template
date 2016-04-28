@@ -344,7 +344,8 @@ require([
 
 
         // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions
-        console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
+        //console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
+
         if (wikiIocDispatcher.getGlobalState().login === true) {
             wikiIocDispatcher.getEventManager().dispatchEvent('notify', {
                 //id: null, // No cal
