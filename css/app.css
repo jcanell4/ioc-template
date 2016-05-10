@@ -170,7 +170,7 @@ table.diff th {
 	width: 5%;
 }
 
-table.diff td {
+.diff-dialog-diff>table.diff td {
     min-width: 265px; /* les cel·les de les taules no funcionen amb mides percentuals ni amb width fixa */
     max-width: 265px;
     overflow: hidden;
