@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of page_response_handler
  *
@@ -18,6 +12,7 @@ if (!defined('DOKU_PLUGIN')) {
     define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 }
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocInfoManager.php';
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
 class EditResponseHandler extends WikiIocResponseHandler
@@ -36,7 +31,7 @@ class EditResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-        global $INFO;
+//        global $INFO;
 
 
 
@@ -71,77 +66,129 @@ class EditResponseHandler extends WikiIocResponseHandler
 
 
 
-        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
-//        if ($responseData['locked']) {
-            unset($responseData['show_draft_dialog']);
-        }
+//        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
+////        if ($responseData['locked']) {
+//            unset($responseData['show_draft_dialog']);
+//        }
 
 
         if ($responseData['show_draft_dialog']) {
 
             // No s'envien les respostes convencionals
-
-            $params = [
-                'title' => $responseData['title'],
-                'content' => $responseData['content'],
-                'draft' => $responseData['draft'],
-                'lastmod' => $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod']),
-                'type' => 'full_document',
-                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit'
-            ];
-
-            if ($responseData['local']) {
-                $params['local'] = true;
+            $params = array();
+            foreach ($responseData as $key => $value){
+                if($key !="show_draft_dialog" && $key!="id"
+                        && $key!="ns" && $key!="rev"){
+                    if($key=="local"){
+                        if($value){
+                            $params[$key] = $value; 
+                        }
+                    }else{
+                        $params[$key] = $value; 
+                    }
+                }
             }
+            $params["base"]='lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit';
+
+//            $params = [
+//                'title' => $responseData['title'],
+//                'htmlForm' => $responseData['htmlForm'],
+//                'content' => $responseData['content'],
+//                'draft' => $responseData['draft'],
+//                'lastmod' => $this->getModelWrapper()->extractDateFromRevision($INFO['lastmod']),
+//                'type' => 'full_document',
+//                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit'
+//            ];
+
+//            if ($responseData['local']) {
+//                $params['local'] = true;
+//            }
 
 
             // TODO[Xavi] si està bloquejat no s'ha de mostrar el dialog
             // ALERTA[Xavi] Com que es fa la comprovació anteriorment, no hauria de arribar mati a aquí en aquest cas
-            if (!$INFO['locked']) {
+            if (!WikiIocInfoManager::getInfo('locked')) {
                 $ajaxCmdResponseGenerator->addDraftDialog(
                     $responseData['id'],
                     $responseData['ns'],
                     $responseData['rev'],
-                    $params
+                    $params,
+                    WikiGlobalConfig::getConf("locktime")    
 
                 );
             }
 
         } else {
-
-            $params = [];
-
-            if ($responseData['locked'] === false || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
-                $params['locked'] = true;
-                $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-
-            } else {
-                $params['locked'] = false;
-            }
-//            $params['locked'] = $responseData['locked'];
-
-            $params['readonly'] = $this->getPermission()->isReadOnly();
-
-
             $recoverDrafts = [];
-
-            if (isset($responseData[PageKeys::KEY_RECOVER_DRAFT])) {
-                $recoverDrafts[PageKeys::KEY_RECOVER_DRAFT] = $responseData[PageKeys::KEY_RECOVER_DRAFT]==='true';
+            $params = [];
+            foreach ($responseData as $key => $value){
+                if($key=="locked" && $value){
+                    //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
+                    $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+                }
+                
+                if($key==PageKeys::KEY_RECOVER_DRAFT ||
+                            $key==PageKeys::KEY_RECOVER_LOCAL_DRAFT){
+                    $recoverDrafts[$key]=TRUE;
+                }else if(
+                            $key!="id" &&
+                            $key!="ns" &&
+                            $key!="title" &&
+                            $key!="content" &&                        
+                            $key!="draft" &&                        
+                            $key!="meta" &&                        
+                            $key!="rev" &&                        
+                            $key!="htmlForm" &&                        
+                            $key!="info" 
+                        ){
+                    $params[$key]=$value;
+                }
             }
-
-            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
-                $recoverDrafts[PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
-            }
-
+            
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
                 $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
-                $params, $responseData['rev']
+                $responseData["htmlForm"], $params, $responseData['rev']
             );
 
             $meta = $responseData['meta'];
             $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+
+            
+//            $params = [];
+//
+//            if ($responseData['locked'] === false || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
+//                $params['locked'] = true;
+//                $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+//
+//            } else {
+//                $params['locked'] = false;
+//            }
+////            $params['locked'] = $responseData['locked'];
+//
+//            $params['readonly'] = $this->getPermission()->isReadOnly();
+//
+//
+//            $recoverDrafts = [];
+//
+//            if (isset($responseData[PageKeys::KEY_RECOVER_DRAFT])) {
+//                $recoverDrafts[PageKeys::KEY_RECOVER_DRAFT] = $responseData[PageKeys::KEY_RECOVER_DRAFT]==='true';
+//            }
+//
+//            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
+//                $recoverDrafts[PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
+//            }
+//
+//            $ajaxCmdResponseGenerator->addWikiCodeDoc(
+//                $responseData['id'], $responseData['ns'],
+//                $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
+//                $params, $responseData['rev']
+//            );
+//
+//            $meta = $responseData['meta'];
+//            $ajaxCmdResponseGenerator->addMetadata($responseData['id'], $meta);
+//            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
     }
 }
