@@ -118,15 +118,60 @@ class EditResponseHandler extends WikiIocResponseHandler
                 );
             }
 
+        }else if($responseData["locked"]){    
+            //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
+            //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+            $params = array(
+                "id" => $responseData["id"],
+                "ns" => $responseData["ns"],
+                "title" => $responseData["title"],
+                "timer" => array(
+                    "eventOnExpire" => "edit",
+                    "paramsOnExpire" => array(
+                        "dataToSend"=>PageKeys::KEY_ID."=".$requestParams[PageKeys::KEY_ID]
+                                        ."&".PageKeys::KEY_TO_REQUIRE."=true"
+                                        .(PageKeys::KEY_REV?("&".PageKeys::KEY_REV."=".$requestParams[PageKeys::KEY_REV]):""),
+                    ),
+                    "eventOnCancel" => "cancel",                    
+                    "paramsOnCancel" => array(
+                        "dataToSend" => PageKeys::KEY_ID."=".$requestParams[PageKeys::KEY_ID]
+                                        .(PageKeys::KEY_REV?("&".PageKeys::KEY_REV."=".$requestParams[PageKeys::KEY_REV]):""),
+                    ),
+                    "timeout" => 3000,
+                ),
+                "content" => array( //ALERTA / TODO [JOSEP] Canviar content per data
+                    "requiring" => array(
+                        "message" => sprintf(WikiIocInfoManager::getInfo("requiring_message"), "user", "resource"),
+    //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
+                    ),
+                ),
+            );
+            if($requestParams[PageKeys::KEY_TO_REQUIRE]){
+                $params["action"]="refresh";
+            }else{
+                $params["action"]="dialog";
+                $params["dialog"]= array(
+                    "title" => WikiIocInfoManager::getInfo("requiring_dialog_title"),
+                    "message" => sprintf(WikiIocInfoManager::getInfo("requiring_dialog_message"), "user", "resource"),
+                    "ok" => array(
+                        "text" => WikiIocInfoManager::getInfo("yes"),
+                    ),
+                    "cancel" => array(
+                        "text" => WikiIocInfoManager::getInfo("no"),
+                    ),
+                );
+                $params["content"]["text"] = $responseData["content"]; //ALERTA / TODO [JOSEP] Canviar content per data
+                $params["content"]["htmlForm"] = $responseData["htmlForm"]; //ALERTA / TODO [JOSEP] Canviar content per data
+                $params["info"] = $responseData["info"];
+            }
+            //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
+            $ajaxCmdResponseGenerator->addRequiringDoc($params["id"], 
+                    $params["ns"], $params["title"], $params["action"],
+                    $params["timer"], $params["content"], $params["dialog"]);            
         } else {
             $recoverDrafts = [];
             $params = [];
             foreach ($responseData as $key => $value){
-                if($key=="locked" && $value){
-                    //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
-                    $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-                }
-                
                 if($key==PageKeys::KEY_RECOVER_DRAFT ||
                             $key==PageKeys::KEY_RECOVER_LOCAL_DRAFT){
                     $recoverDrafts[$key]=TRUE;
