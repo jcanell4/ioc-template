@@ -13,6 +13,7 @@ if (!defined('DOKU_PLUGIN')) {
 }
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocInfoManager.php';
+require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
 class EditResponseHandler extends WikiIocResponseHandler
@@ -135,33 +136,43 @@ class EditResponseHandler extends WikiIocResponseHandler
                     "eventOnCancel" => "cancel",                    
                     "paramsOnCancel" => array(
                         "dataToSend" => PageKeys::KEY_ID."=".$requestParams[PageKeys::KEY_ID]
+                                        ."&".PageKeys::KEY_DO. "=leaveResource"
                                         .(PageKeys::KEY_REV?("&".PageKeys::KEY_REV."=".$requestParams[PageKeys::KEY_REV]):""),
                     ),
-                    "timeout" => 3000,
+                    "timeout" => ($responseData["lockInfo"]["locker"]["time"]+WikiGlobalConfig::getConf("locktime")-time())*1000,
                 ),
-                "content" => array( //ALERTA / TODO [JOSEP] Canviar content per data
-                    "requiring" => array(
-                        "message" => sprintf(WikiIocInfoManager::getInfo("requiring_message"), "user", "resource"),
-    //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
-                    ),
+                "content" => array( //ALERTA / TODO [JOSEP] Canviar content per data                   
+                    "text" => $responseData["content"],
                 ),
             );
             if($requestParams[PageKeys::KEY_TO_REQUIRE]){
                 $params["action"]="refresh";
+                $params["content"]["requiring"] = array(
+                        "message" => sprintf(WikiIocLangManager::getLang("requiring_message"), 
+                                $requestParams[PageKeys::KEY_ID], 
+                                $responseData["lockInfo"]["locker"]["name"],
+                                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"]+WikiGlobalConfig::getConf("locktime"))),
+    //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
+                );
             }else{
                 $params["action"]="dialog";
+                $params["timer"]["timeout"]=0;
                 $params["dialog"]= array(
-                    "title" => WikiIocInfoManager::getInfo("requiring_dialog_title"),
-                    "message" => sprintf(WikiIocInfoManager::getInfo("requiring_dialog_message"), "user", "resource"),
+                    "title" => WikiIocLangManager::getLang("requiring_dialog_title"),
+                    "message" => sprintf(WikiIocLangManager::getLang("requiring_dialog_message"), 
+                                            $requestParams[PageKeys::KEY_ID], 
+                                            $responseData["lockInfo"]["locker"]["name"], 
+                                            date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"]+WikiGlobalConfig::getConf("locktime")),
+                                            $responseData["lockInfo"]["locker"]["name"], 
+                                            $requestParams[PageKeys::KEY_ID]),
                     "ok" => array(
-                        "text" => WikiIocInfoManager::getInfo("yes"),
+                        "text" => WikiIocLangManager::getLang("yes"),
                     ),
                     "cancel" => array(
-                        "text" => WikiIocInfoManager::getInfo("no"),
+                        "text" => WikiIocLangManager::getLang("no"),
                     ),
                 );
-                $params["content"]["text"] = $responseData["content"]; //ALERTA / TODO [JOSEP] Canviar content per data
-                $params["content"]["htmlForm"] = $responseData["htmlForm"]; //ALERTA / TODO [JOSEP] Canviar content per data
+                $params["content"]["htmlForm"] = $responseData["htmlForm"];
                 $params["info"] = $responseData["info"];
             }
             //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
