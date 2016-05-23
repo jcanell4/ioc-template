@@ -201,10 +201,33 @@ class EditResponseHandler extends WikiIocResponseHandler
                 }
             }
             
+            $timer = array(
+                "dialogOnExpire" => array(
+                        "title" =>  WikiIocLangManager::getLang("expiring_dialog_title"),
+                        "message" =>  WikiIocLangManager::getLang("expiring_dialog_message"),
+                        "ok" => array(
+                            "text" => WikiIocLangManager::getLang("expiring_dialog_yes"),
+                        ),
+                        "cancel" => array(
+                            "text" => WikiIocLangManager::getLang("expiring_dialog_no"),
+                        ),
+                        "okContentEvent" => "save",
+                        "okEventParams" => array(
+                            PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID]
+                        ),
+                        "cancelContentEvent" => "cancel",
+                        "cancelEventParams" => array(
+                            PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                            "extraDataToSend" => PageKeys::DISCARD_CHANGES."=true",
+                        ),
+                ),
+                "timeout" => ($responseData["lockInfo"]["locker"]["time"]+WikiGlobalConfig::getConf("locktime")-120-time())*1000,
+            );
+            
             $ajaxCmdResponseGenerator->addWikiCodeDoc(
                 $responseData['id'], $responseData['ns'],
                 $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
-                $responseData["htmlForm"], $params, $responseData['rev']
+                $responseData["htmlForm"], $params, $timer, $responseData['rev']
             );
 
             $meta = $responseData['meta'];
