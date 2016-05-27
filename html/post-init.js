@@ -348,7 +348,7 @@ require([
         //console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
 
         if (wikiIocDispatcher.getGlobalState().login === true) {
-            wikiIocDispatcher.getEventManager().dispatchEvent('notify', {
+            wikiIocDispatcher.getEventManager().fireEvent('notify', {
                 //id: null, // No cal
                 dataToSend: {
                     do: 'init'
