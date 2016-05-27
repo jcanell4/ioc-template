@@ -6,5 +6,5 @@ chunk = chunk.replace("container_", "");
 _ret = {
     id: id,
     chunk: chunk,
-    name: 'save_partial_' + id
+    name: 'save_partial'
 };
