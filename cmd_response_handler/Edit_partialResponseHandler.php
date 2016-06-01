@@ -38,60 +38,25 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
 
 
-        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
-//        if ($responseData['locked']) {
-            unset($responseData['show_draft_dialog']);
-            unset($responseData['show_full_draft_dialog']);
+//        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
+////        if ($responseData['locked']) {
+//            unset($responseData['show_draft_dialog']);
+//            unset($responseData['show_draft_conflict_dialog']);
+//
+//        }
 
-        }
 
+        if (isset($responseData['show_draft_conflict_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
 
-        if (isset($responseData['show_full_draft_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
-
-            // TODO[Xavi] Canviar al mateix sistema que el DraftProcessor i fer servir un unic processor per tots dos
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processDraftSelectionDialog",
-                [
-                    'id' => $responseData['id'],
-                    'original_call' => $responseData['original_call'],
-                    'timeout' => WikiGlobalConfig::getConf("locktime")
-                ]);
+            $this->addDraftConflictDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
         } else if (isset($responseData['show_draft_dialog'])) {
 
-            // TODO[Xavi] ajustar a com es fa al EditResponseHandler
-            $params = [
-                'title' => $responseData['title'],
-                'content' => $responseData['content'],
-                'lastmod' => $responseData['structure']['date'],
-                'type' => 'partial_document',
-                'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
-                'original_call' => $responseData['original_call'],
-            ];
-            if ($responseData['local']) {
-                $params['local'] = true;
-                $params['selected'] = $responseData['original_call']['section_id'];
-            } else {
-                $params['draft'] = $responseData['draft'];
-            }
+            $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
-            if (!WikiIocInfoManager::getInfo('locked')) {
-                $ajaxCmdResponseGenerator->addDraftDialog(
-                    $responseData['structure']['id'], // ALERTA[Xavi] Canvia respecta al EditResponseHandler
-                    $responseData['structure']['ns'], // ALERTA[Xavi] Canvia respecta al EditResponseHandler
-                    $responseData['structure']['rev'],  // ALERTA[Xavi] Canvia respecta al EditResponseHandler
-                    $params,
-                    WikiGlobalConfig::getConf("locktime")
-                );
-            }
+        } else if ($responseData["locked"]) {
+            // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
 
-
-//            $ajaxCmdResponseGenerator->addDraftDialog(
-//                $responseData['structure']['id'],
-//                $responseData['structure']['ns'],
-//                $responseData['structure']['rev'],
-//                $params
-//
-//            );
 
         } else {
 
@@ -101,19 +66,108 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
             $responseData['structure']['editing']['readonly'] = $this->getPermission()->isReadOnly();
 
-            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])){
+            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
                 $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
             }
 
             $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
         }
 
-        if (isset($responseData['info'])) {
-            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+
+        $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
+
+        $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
+
+    }
+
+    /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
+    protected function addDraftDialogResponse($responseData, &$cmdResponseGenerator)
+    {
+        $params = $this->generateDraftDialogParams($responseData);
+
+        if (!WikiIocInfoManager::getInfo('locked')) {
+            $this->addDraftDialog($responseData, $cmdResponseGenerator, $params);
+        }
+    }
+
+    /**
+     * @param $responseData
+     * @param $cmdResponseGenerator
+     * @param $params
+     * @override
+     */
+    protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params)
+    {
+        $cmdResponseGenerator->addDraftDialog(
+            $responseData['structure']['id'],
+            $responseData['structure']['ns'],
+            $responseData['structure']['rev'],
+            $params,
+            WikiGlobalConfig::getConf("locktime")
+        );
+    }
+
+    /**
+     * @param $responseData
+     * @return array
+     * @override
+     */
+    protected function generateDraftDialogParams($responseData)
+    {
+        $params = [
+            'title' => $responseData['title'],
+            'content' => $responseData['content'],
+            'lastmod' => $responseData['structure']['date'],
+            'type' => 'partial_document',
+            'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
+            'original_call' => $responseData['original_call'],
+        ];
+
+        if ($responseData['local']) {
+            $params['local'] = true;
+            $params['selected'] = $responseData['original_call']['section_id'];
+        } else {
+            $params['draft'] = $responseData['draft'];
         }
 
+        return $params;
+    }
 
-        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
+    protected function addDraftConflictDialogResponse($responseData, &$cmdResponseGenerator)
+    {
+        // TODO[Xavi] Canviar al mateix sistema que el DraftProcessor i fer servir un unic processor per tots dos
+        $cmdResponseGenerator->addProcessFunction(
+            true,
+            "ioc/dokuwiki/processDraftSelectionDialog",
+            [
+                'id' => $responseData['id'],
+                'original_call' => $responseData['original_call'],
+                'timeout' => WikiGlobalConfig::getConf("locktime")
+            ]);
+    }
+
+    /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
+    protected function addMetadataResponse($responseData, $cmdResponseGenerator)
+    {
+        if ($responseData['meta']) {
+            $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
+        }
+    }
+
+    /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
+    protected function addInfoDataResponse($responseData, $cmdResponseGenerator)
+    {
+        if (!$responseData['info']) {
+            $cmdResponseGenerator->addInfoDta($responseData['info']);
+        }
+    }
+
+    protected function addProcessContentResponse($responseData, $cmdResponseGenerator)
+    {
+        // ALERTA[Xavi] Això es crida sempre, perquè? Que fa? <-- Afegeix les capçaleres, listeners a imatges, etc.
+
+        $cmdResponseGenerator->addProcessDomFromFunction(
             $responseData['structure']['id'],
             TRUE,
             "ioc/dokuwiki/processContentPage",  //TODO configurable
@@ -124,6 +178,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             )
         );
 
-
     }
+
 }
