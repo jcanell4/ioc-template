@@ -60,7 +60,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
         } else {
 
-            if ($responseData['locked'] === false || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
+            if ($responseData['structure']['locked'] || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
                 $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
             }
 
