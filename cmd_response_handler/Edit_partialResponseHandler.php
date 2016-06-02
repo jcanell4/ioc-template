@@ -47,14 +47,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
         } else {
 
-            if ($responseData["locked"]) {
-                // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
+            if ($responseData['structure']["locked"]) {
 
-                $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-
-            } else {
-
-                // TODO[Xavi] accions extres a realitzar si no es troba bloquejat
+                $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
             }
 
@@ -176,7 +171,15 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
-
     }
+
+
+
+    protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
+    {
+        // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
+         $cmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+    }
+
 
 }

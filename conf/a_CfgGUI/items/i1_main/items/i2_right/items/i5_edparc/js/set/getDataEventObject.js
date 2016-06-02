@@ -6,5 +6,5 @@ chunk = chunk.replace("container_", "");
 _ret = {
     id: id,
     chunk: chunk,
-    name: 'edit_partial_' + id
+    name: 'edit_partial'
 };
