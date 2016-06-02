@@ -37,15 +37,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
 
-
-//        if ($responseData[PageKeys::KEY_LOCK_STATE] == 200) { //
-////        if ($responseData['locked']) {
-//            unset($responseData['show_draft_dialog']);
-//            unset($responseData['show_draft_conflict_dialog']);
-//
-//        }
-
-
         if (isset($responseData['show_draft_conflict_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
 
             $this->addDraftConflictDialogResponse($responseData, $ajaxCmdResponseGenerator);
@@ -54,14 +45,17 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
-        } else if ($responseData["locked"]) {
-            // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
-
-
         } else {
 
-            if ($responseData['structure']['locked'] || $responseData[PageKeys::KEY_LOCK_STATE] == 200) { // El fitxer està bloquejat
+            if ($responseData["locked"]) {
+                // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
+
                 $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+
+            } else {
+
+                // TODO[Xavi] accions extres a realitzar si no es troba bloquejat
+
             }
 
             $responseData['structure']['editing']['readonly'] = $this->getPermission()->isReadOnly();
@@ -71,13 +65,18 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             }
 
             $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
+
+            // ALERTA[Xavi] Si no es fica això no funciona el doble click al chunks
+            $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
+
+
         }
 
-        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
 
+        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
+        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
         $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
-        $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
 
     }
 
@@ -95,14 +94,14 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      * @param $responseData
      * @param $cmdResponseGenerator
      * @param $params
-     * @override
+     * @override // ALERTA[Xavi] Ara es idèntic al de EditResponseHandler
      */
     protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params)
     {
         $cmdResponseGenerator->addDraftDialog(
-            $responseData['structure']['id'],
-            $responseData['structure']['ns'],
-            $responseData['structure']['rev'],
+            $responseData['id'],
+            $responseData['ns'],
+            $responseData['rev'],
             $params,
             WikiGlobalConfig::getConf("locktime")
         );
@@ -118,15 +117,15 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         $params = [
             'title' => $responseData['title'],
             'content' => $responseData['content'],
-            'lastmod' => $responseData['structure']['date'],
+            'lastmod' => $responseData['lastmod'],
             'type' => 'partial_document',
             'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
-            'original_call' => $responseData['original_call'],
+            'selected' => $responseData['section_id'],
+            'editing_chunks' => $responseData['editing_chunks']
         ];
 
         if ($responseData['local']) {
             $params['local'] = true;
-            $params['selected'] = $responseData['original_call']['section_id'];
         } else {
             $params['draft'] = $responseData['draft'];
         }
