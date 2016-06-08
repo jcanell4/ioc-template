@@ -32,6 +32,11 @@ class SaveResponseHandler extends PageResponseHandler {
                 "inputs" => $responseData["inputs"],
             );
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
+            if($responseData['lockInfo']){
+                $timeout =  ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000;
+
+                $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
+            }
         }
         elseif ($responseData["deleted"]){
             $ajaxCmdResponseGenerator->addRemoveContentTab($responseData['id']);

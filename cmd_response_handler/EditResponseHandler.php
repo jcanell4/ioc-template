@@ -16,7 +16,7 @@ require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocInfoManager.php';
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
-class EditResponseHandler extends WikiIocResponseHandler
+class EditResponseHandler extends WikiIocResponseHandler 
 {
     function __construct()
     {
@@ -34,15 +34,20 @@ class EditResponseHandler extends WikiIocResponseHandler
     {
 
         if ($responseData['show_draft_dialog']) {
-
+            //Hi ha un esborrany. Es pregunta que cal fer.
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
+        }else if(isset($responseData["codeType"])){
+            
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);        
+            
         } else if ($responseData["locked"]) {
-
+            //El recurs està bloquejat per un altre usuari. Es pregunta si cal fer-ne seguiment per saber 
+            //quan acaba el bloqueig
             $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
         } else {
-
+            //Tot OK. Es retornen les dades per editar el recurs
             $this->addEditDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
             $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
             $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
@@ -171,10 +176,16 @@ class EditResponseHandler extends WikiIocResponseHandler
                 "cancelContentEvent" => "cancel",
                 "cancelEventParams" => [
                     PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
-                    "extraDataToSend" => PageKeys::DISCARD_CHANGES . "=true",
+                    "extraDataToSend" => PageKeys::DISCARD_CHANGES . "=true&" .PageKeys::KEY_KEEP_DRAFT . "=false&auto=true",
+                ],
+                "timeoutContentEvent" => "cancel",
+                "timeoutParams" => [
+                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                    "extraDataToSend" => PageKeys::DISCARD_CHANGES . "=true&".PageKeys::KEY_KEEP_DRAFT . "=true&auto=true",
                 ],
             ],
-            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - 120 - time()) * 1000,
+//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
+            "timeout" => $this->_getExpiringTime($responseData, 0),
         ];
 
         return $timer;
@@ -228,10 +239,23 @@ class EditResponseHandler extends WikiIocResponseHandler
                     . "&" . PageKeys::KEY_DO . "=leaveResource"
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
             ],
-            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
+//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time() + 60) * 1000,
+            "timeout" => $this->_getExpiringTime($responseData, 1),
         ];
 
         return $timer;
+    }
+    
+    private function _getExpiringData($responseData, /*0 locker, 1 requirer*/ $for=0){
+        $addSecs = 0;
+        if($for==1){
+            $addSecs = 60;
+        }
+        return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
+    }
+
+    private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/ $for=0){
+        return ($this->_getExpiringData($responseData, $for) - time())*1000;
     }
 
     protected function addRequiringDialogParamsToParams(&$params, $requestParams, $responseData)
@@ -241,7 +265,9 @@ class EditResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime"))),
+//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
+//            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
+                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1))),
             //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
@@ -255,7 +281,8 @@ class EditResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_dialog_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime")),
+//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
+                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
             "ok" => [
