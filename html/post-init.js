@@ -54,7 +54,6 @@ require([
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
 
-
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
