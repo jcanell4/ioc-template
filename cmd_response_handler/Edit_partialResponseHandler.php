@@ -45,21 +45,27 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
+        } else if (isset($responseData["codeType"])) {
+
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
+
         } else {
 
             if ($responseData['structure']["locked"]) {
 
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
+            } else {
+                $responseData['structure']['readonly'] = $this->getPermission()->isReadOnly();
+
+                if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
+                    $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
+                }
+
+                $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
+
             }
 
-            $responseData['structure']['editing']['readonly'] = $this->getPermission()->isReadOnly();
-
-            if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
-                $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
-            }
-
-            $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
 
             // ALERTA[Xavi] Si no es fica això no funciona el doble click al chunks
             $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
@@ -175,10 +181,138 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
 
+//    protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
+//    {
+//        // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
+//         $cmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+//
+//    }
+
+
+// ALERTA[Xavi] Duplicat al EditResponseHandler
+
     protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
     {
-        // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
-         $cmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+        $params = $this->generateRequiringDialogParams($requestParams, $responseData);
+
+        //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
+        //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
+
+        if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
+            $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
+        } else {
+            $this->addDialogParamsToParams($params, $requestParams, $responseData);
+        }
+
+        $this->addRequiringDoc($cmdResponseGenerator, $params);
+    }
+
+    protected function generateRequiringDialogParams($requestParams, $responseData)
+    {
+        $timer = $this->generateRequiringDialogTimer($requestParams, $responseData);
+
+        $params = [
+            "id" => $responseData["structure"]["id"],
+            "ns" => $responseData["structure"]["ns"],
+            "title" => $responseData["structure"]["title"],
+            "timer" => $timer,
+            "content" =>  $responseData["structure"], //ALERTA / TODO [JOSEP] Canviar content per data
+
+        ];
+
+        return $params;
+    }
+
+    protected function generateRequiringDialogTimer($requestParams, $responseData)
+    {
+        $timer = [
+            "eventOnExpire" => "edit_partial",
+            "paramsOnExpire" => [
+                "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
+                    . "&" . PageKeys::KEY_TO_REQUIRE . "=true"
+                    . "&" . PageKeys::KEY_SECTION_ID . "=" . $requestParams[PageKeys::KEY_SECTION_ID]
+                    . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : "")
+                    . (PageKeys::KEY_IN_EDITING_CHUNKS ? ("&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) : ""), // ALERTA[Xavi] S'haurà d'afegir la informació dels chunks en edició i el elected
+            ],
+            "eventOnCancel" => "cancel", //
+            "paramsOnCancel" => [
+                "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
+                    . "&" . PageKeys::KEY_DO . "=leaveResource"
+                    . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
+            ],
+//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time() + 60) * 1000,
+            "timeout" => $this->_getExpiringTime($responseData, 1),
+        ];
+
+        return $timer;
+    }
+
+    private function _getExpiringData($responseData, /*0 locker, 1 requirer*/
+                                      $for = 0)
+    {
+        $addSecs = 0;
+        if ($for == 1) {
+            $addSecs = 60;
+        }
+        return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
+    }
+
+    private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/
+                                      $for = 0)
+    { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
+        return ($this->_getExpiringData($responseData, $for) - time()) * 1000;
+    }
+
+    protected function addRequiringDialogParamsToParams(&$params, $requestParams, $responseData)
+    {
+        $params["action"] = "refresh";
+        $params["content"]["requiring"] = [
+            "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
+                $requestParams[PageKeys::KEY_ID],
+                $responseData["lockInfo"]["locker"]["name"],
+//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
+//            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
+                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1))),
+            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
+        ];
+    }
+
+    protected function addDialogParamsToParams(&$params, $requestParams, $responseData)
+    {
+        $params["action"] = "dialog";
+        $params["timer"]["timeout"] = 0;
+        $params["dialog"] = [
+            "title" => WikiIocLangManager::getLang("requiring_dialog_title"),
+            "message" => sprintf(WikiIocLangManager::getLang("requiring_dialog_message"),
+                $requestParams[PageKeys::KEY_ID],
+                $responseData["lockInfo"]["locker"]["name"],
+//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
+                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1)),
+                $responseData["lockInfo"]["locker"]["name"],
+                $requestParams[PageKeys::KEY_ID]),
+            "ok" => [
+                "text" => WikiIocLangManager::getLang("yes"),
+            ],
+            "cancel" => [
+                "text" => WikiIocLangManager::getLang("no"),
+            ],
+        ];
+//        $params["content"]["htmlForm"] = $responseData["htmlForm"]; // ALERTA[Xavi] Això només serveix pel editor complet, el parcial fa servir la estructura
+        $params["info"] = $responseData["info"];
+    }
+
+    protected function addRequiringDoc($cmdResponseGenerator, $params)
+    {
+        //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
+        $cmdResponseGenerator->addRequiringDoc(
+            $params["id"],
+            $params["ns"],
+            $params["title"],
+            $params["action"],
+            $params["timer"],
+            $params["content"],
+        'structured',
+            $params["dialog"]);
     }
 
 
