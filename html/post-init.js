@@ -54,7 +54,6 @@ require([
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
 
-
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
@@ -116,7 +115,7 @@ require([
                         if (!pageDif) {
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
                             //disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                            if (disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
+                            if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
                             }
                         } else {
