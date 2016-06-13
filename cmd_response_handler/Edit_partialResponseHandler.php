@@ -350,13 +350,13 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 ],
                 "cancelContentEvent" => "cancel",
                 "cancelEventParams" => [
-                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                    PageKeys::KEY_ID => $this->cleanId($requestParams[PageKeys::KEY_ID]),
                     "extraDataToSend" => PageKeys::KEY_KEEP_DRAFT . "=false&auto=true",
                     PageKeys::DISCARD_CHANGES => true
                 ],
                 "timeoutContentEvent" => "cancel",
                 "timeoutParams" => [
-                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                    PageKeys::KEY_ID => $this->cleanId($requestParams[PageKeys::KEY_ID]),
                     "extraDataToSend" => PageKeys::KEY_KEEP_DRAFT . "=true&auto=true",
                     PageKeys::DISCARD_CHANGES => true
                 ],
@@ -387,5 +387,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         }
 
         return $chunks;
+    }
+
+    protected function cleanId($id) {
+        return str_replace(":", "_", $id);
     }
 }
