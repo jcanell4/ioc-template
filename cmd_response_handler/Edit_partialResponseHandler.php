@@ -53,7 +53,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
             if ($responseData['structure']["locked"]) {
 
+
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+
 
             } else {
                 $responseData['structure']['readonly'] = $this->getPermission()->isReadOnly();
@@ -197,9 +199,14 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
         //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
 
-        if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
+
+        if ($requestParams[PageKeys::KEY_TO_REQUIRE] ||
+            strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS])>0) { // ja hi ha chunks en edició
+
             $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
+
         } else {
+
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
 
@@ -215,7 +222,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             "ns" => $responseData["structure"]["ns"],
             "title" => $responseData["structure"]["title"],
             "timer" => $timer,
-            "content" =>  $responseData["structure"], //ALERTA / TODO [JOSEP] Canviar content per data
+            "content" => $responseData["structure"], //ALERTA / TODO [JOSEP] Canviar content per data
 
         ];
 
@@ -225,14 +232,15 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function generateRequiringDialogTimer($requestParams, $responseData)
     {
 
-        $chunks = $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS] . ',' . $requestParams[PageKeys::KEY_SECTION_ID];
+        $chunks = $this->getEditingChunksIds($requestParams);
         $timer = [
             "eventOnExpire" => "edit_partial",
             "paramsOnExpire" => [
                 "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
                     . "&" . PageKeys::KEY_TO_REQUIRE . "=true"
                     . "&" . PageKeys::KEY_SECTION_ID . "=" . $requestParams[PageKeys::KEY_SECTION_ID]
-                    . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]
+                    . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $chunks
+//                    . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : "")
             ],
             "eventOnCancel" => "cancel", //
@@ -254,6 +262,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         $addSecs = 0;
         if ($for == 1) {
             $addSecs = 60;
+//            $addSecs = 0; // Per testejar
         }
         return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
     }
@@ -312,12 +321,13 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $params["action"],
             $params["timer"],
             $params["content"],
-        'structured',
+            'structured',
             $params["dialog"]);
     }
 
 
-    private function addEditPartialDocumentResponse($requestParams, $responseData, $cmdResponseGenerator) {
+    private function addEditPartialDocumentResponse($requestParams, $responseData, $cmdResponseGenerator)
+    {
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $cmdResponseGenerator->addWikiCodeDocPartial($responseData['structure'], $timer);
     }
@@ -337,8 +347,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 "okContentEvent" => "save_partial_all",
                 "okEventParams" => [
                     PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
-//                    "chunks" => ($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]? $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS] . ',' : '') . $requestParams[PageKeys::KEY_SECTION_ID]
-//                    "chunks" => $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]? $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]  : $requestParams[PageKeys::KEY_SECTION_ID]
                 ],
                 "cancelContentEvent" => "cancel",
                 "cancelEventParams" => [
@@ -361,4 +369,23 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     }
 
 
+    private function getEditingChunksIds($requestParams)
+    {
+        $chunks = $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS];
+
+
+        if (strpos($requestParams[PageKeys::KEY_SECTION_ID], $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > -1) {
+            // Ja es troba el seleccionat als chunks en edició
+
+        } else {
+            if (strlen($chunks) > 0) {
+                $chunks .= ',' . $requestParams[PageKeys::KEY_SECTION_ID];
+            } else {
+                $chunks = $requestParams[PageKeys::KEY_SECTION_ID];
+            }
+
+        }
+
+        return $chunks;
+    }
 }
