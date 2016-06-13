@@ -261,8 +261,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
         $addSecs = 0;
         if ($for == 1) {
-            $addSecs = 60;
-//            $addSecs = 0; // Per testejar
+//            $addSecs = 60;
+            $addSecs = 0; // Per testejar
         }
         return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
     }
