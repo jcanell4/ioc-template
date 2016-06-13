@@ -62,15 +62,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
                 }
 
-                $ajaxCmdResponseGenerator->addWikiCodeDocPartial($responseData['structure']);
-
+                $this->addEditPartialDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
             }
-
 
             // ALERTA[Xavi] Si no es fica això no funciona el doble click al chunks
             $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
-
-
         }
 
 
@@ -80,6 +76,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
     }
+
 
     /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
     protected function addDraftDialogResponse($responseData, &$cmdResponseGenerator)
@@ -115,6 +112,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      */
     protected function generateDraftDialogParams($responseData)
     {
+
+
         $params = [
             'title' => $responseData['title'],
             'content' => $responseData['content'],
@@ -225,14 +224,16 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
     protected function generateRequiringDialogTimer($requestParams, $responseData)
     {
+
+        $chunks = $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS] . ',' . $requestParams[PageKeys::KEY_SECTION_ID];
         $timer = [
             "eventOnExpire" => "edit_partial",
             "paramsOnExpire" => [
                 "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
                     . "&" . PageKeys::KEY_TO_REQUIRE . "=true"
                     . "&" . PageKeys::KEY_SECTION_ID . "=" . $requestParams[PageKeys::KEY_SECTION_ID]
+                    . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : "")
-                    . (PageKeys::KEY_IN_EDITING_CHUNKS ? ("&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) : ""), // ALERTA[Xavi] S'haurà d'afegir la informació dels chunks en edició i el elected
             ],
             "eventOnCancel" => "cancel", //
             "paramsOnCancel" => [
@@ -313,6 +314,50 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $params["content"],
         'structured',
             $params["dialog"]);
+    }
+
+
+    private function addEditPartialDocumentResponse($requestParams, $responseData, $cmdResponseGenerator) {
+        $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
+        $cmdResponseGenerator->addWikiCodeDocPartial($responseData['structure'], $timer);
+    }
+
+    private function generateEditDocumentTimer($requestParams, $responseData)
+    {
+        $timer = [
+            "dialogOnExpire" => [
+                "title" => WikiIocLangManager::getLang("expiring_dialog_title"),
+                "message" => WikiIocLangManager::getLang("expiring_dialog_message"),
+                "ok" => [
+                    "text" => WikiIocLangManager::getLang("expiring_dialog_yes"),
+                ],
+                "cancel" => [
+                    "text" => WikiIocLangManager::getLang("expiring_dialog_no"),
+                ],
+                "okContentEvent" => "save_partial_all",
+                "okEventParams" => [
+                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+//                    "chunks" => ($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]? $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS] . ',' : '') . $requestParams[PageKeys::KEY_SECTION_ID]
+//                    "chunks" => $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]? $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]  : $requestParams[PageKeys::KEY_SECTION_ID]
+                ],
+                "cancelContentEvent" => "cancel",
+                "cancelEventParams" => [
+                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                    "extraDataToSend" => PageKeys::KEY_KEEP_DRAFT . "=false&auto=true",
+                    PageKeys::DISCARD_CHANGES => true
+                ],
+                "timeoutContentEvent" => "cancel",
+                "timeoutParams" => [
+                    PageKeys::KEY_ID => $requestParams[PageKeys::KEY_ID],
+                    "extraDataToSend" => PageKeys::KEY_KEEP_DRAFT . "=true&auto=true",
+                    PageKeys::DISCARD_CHANGES => true
+                ],
+            ],
+//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
+            "timeout" => $this->_getExpiringTime($responseData, 0),
+        ];
+
+        return $timer;
     }
 
 

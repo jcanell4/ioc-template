@@ -259,6 +259,8 @@ class EditResponseHandler extends WikiIocResponseHandler
     private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/
                                       $for = 0)
     { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
+        $timer = ($this->_getExpiringData($responseData, $for) - time()) * 1000;
+
         return ($this->_getExpiringData($responseData, $for) - time()) * 1000;
     }
 
