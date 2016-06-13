@@ -115,7 +115,7 @@ require([
                         if (!pageDif) {
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
                             //disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                            if (disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
+                            if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
                             }
                         } else {

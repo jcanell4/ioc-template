@@ -151,7 +151,9 @@ table {
   border-collapse: collapse;
   empty-cells: show;
   border-spacing: 0;
-  border: 1px solid __border__;
+  /*border: 1px solid __border__;*/
+  border-top: 1px solid;
+  border-bottom: 1px solid;
 }
 caption {
   caption-side: top;
@@ -681,7 +683,9 @@ th[align="right"] {
   text-align: right;
 }
 .dokuwiki table.inline {
-  background-color: __background__;
+  /*background-color: __background__;*/
+  margin: 0 auto 2em;
+  min-width:300px;
 }
 .dokuwiki table.inline th,
 .dokuwiki table.inline td {
@@ -694,6 +698,34 @@ th[align="right"] {
 .dokuwiki table.inline tr:hover td,
 .dokuwiki table.inline tr:hover th,
 .dokuwiki table.inline th:hover {
+}
+
+table.inline th,
+table.inline td {
+  padding: .3em .5em;
+  margin: 0;
+  vertical-align: top;
+  border: 1px solid __border__;
+  text-align: left;
+}
+table.inline th {
+  font-weight: bold;
+  background-color: __background_alt__;
+}
+
+div.dokuwiki table.inline th{
+ background-color: transparent;
+ border-top:0 none;
+ border-bottom:1px solid;
+ border-left:0 none;
+ border-right:0 none;
+}
+div.dokuwiki table.inline td {
+  border: 0 none;
+}
+
+div.dokuwiki table.inline tr:hover,
+div.dokuwiki table.inline th:hover {
   background-color: __background_alt__;
 }
 
