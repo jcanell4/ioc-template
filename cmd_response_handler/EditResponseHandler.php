@@ -15,6 +15,7 @@ require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocInfoManager.php';
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class EditResponseHandler extends WikiIocResponseHandler
 {
@@ -185,7 +186,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 ],
             ],
 //            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
-            "timeout" => $this->_getExpiringTime($responseData, 0),
+            "timeout" => ExpiringCalc::getExpiringTime($responseData, 0),
         ];
 
         return $timer;
@@ -240,28 +241,10 @@ class EditResponseHandler extends WikiIocResponseHandler
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
             ],
 //            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time() + 60) * 1000,
-            "timeout" => $this->_getExpiringTime($responseData, 1),
+            "timeout" => ExpiringCalc::getExpiringTime($responseData, 1),
         ];
 
         return $timer;
-    }
-
-    private function _getExpiringData($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    {
-        $addSecs = 0;
-        if ($for == 1) {
-            $addSecs = 60;
-        }
-        return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
-    }
-
-    private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
-        $timer = ($this->_getExpiringData($responseData, $for) - time()) * 1000;
-
-        return ($this->_getExpiringData($responseData, $for) - time()) * 1000;
     }
 
     protected function addRequiringDialogParamsToParams(&$params, $requestParams, $responseData)
@@ -273,7 +256,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
 //            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
-                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1))),
+                date("d-m-Y H:i:s", ExpiringCalc::getExpiringData($responseData, 1))),
             //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
@@ -288,7 +271,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
-                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1)),
+                date("d-m-Y H:i:s", ExpiringCalc::getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
             "ok" => [

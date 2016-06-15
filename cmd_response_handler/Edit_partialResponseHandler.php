@@ -19,6 +19,7 @@ if (!defined('DOKU_PLUGIN')) {
 }
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class Edit_partialResponseHandler extends WikiIocResponseHandler
 {
@@ -259,18 +260,13 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     private function _getExpiringData($responseData, /*0 locker, 1 requirer*/
                                       $for = 0)
     {
-        $addSecs = 0;
-        if ($for == 1) {
-//            $addSecs = 60;
-            $addSecs = 0; // Per testejar
-        }
-        return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
+        return ExpiringCalc::getExpiringData($responseData, $for);
     }
 
     private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/
                                       $for = 0)
     { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
-        return ($this->_getExpiringData($responseData, $for) - time()) * 1000;
+        return ExpiringCalc::getExpiringTime($responseData, $for);
     }
 
     protected function addRequiringDialogParamsToParams(&$params, $requestParams, $responseData)

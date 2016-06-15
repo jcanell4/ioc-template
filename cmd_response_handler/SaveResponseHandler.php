@@ -12,6 +12,7 @@ require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
+require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 //class SaveResponseHandler extends EditResponseHandler {
 class SaveResponseHandler extends PageResponseHandler {
@@ -33,7 +34,7 @@ class SaveResponseHandler extends PageResponseHandler {
             );
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
             if($responseData['lockInfo']){
-                $timeout =  ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000;
+                $timeout = ExpiringCalc::getExpiringTime($responseData);
 
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }

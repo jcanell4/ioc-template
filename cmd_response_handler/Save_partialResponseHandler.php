@@ -10,6 +10,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once(tpl_incdir() . 'cmd_response_handler/PageResponseHandler.php');
 //require_once(tpl_incdir().'cmd_response_handler/EditResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class Save_partialResponseHandler extends PageResponseHandler
 {
@@ -50,7 +51,11 @@ class Save_partialResponseHandler extends PageResponseHandler
                 "ioc/dokuwiki/processSetFormsDate",
                 $params);
 
+            if($responseData['lockInfo']){
+                $timeout = ExpiringCalc::getExpiringTime($responseData);
 
+                $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
+            }
 
 
         } else {
