@@ -15,7 +15,7 @@ class ExpiringCalc {
     static public function getExpiringData($responseData, /*0 locker, 1 requirer*/
                                       $for = 0)
     {
-        $addSecs = 0;
+        $addSecs = -60;
         if ($for == 1) {
             $addSecs = 60;
         }

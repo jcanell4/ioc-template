@@ -46,6 +46,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             //El recurs està bloquejat per un altre usuari. Es pregunta si cal fer-ne seguiment per saber 
             //quan acaba el bloqueig
             $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+            $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
         } else {
             //Tot OK. Es retornen les dades per editar el recurs
@@ -95,7 +96,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         return $params;
     }
 
-    protected function addMetadataResponse($responseData, $cmdResponseGenerator)
+    protected function addMetadataResponse($responseData, &$cmdResponseGenerator)
     {
         if ($responseData['meta']) {
             $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
@@ -103,15 +104,15 @@ class EditResponseHandler extends WikiIocResponseHandler
     }
 
 
-    protected function addInfoDataResponse($responseData, $cmdResponseGenerator)
+    protected function addInfoDataResponse($responseData, &$cmdResponseGenerator)
     {
-        if (!$responseData['info']) {
+        if ($responseData['info']) {
             $cmdResponseGenerator->addInfoDta($responseData['info']);
         }
     }
 
 
-    protected function addEditDocumentResponse($requestParams, $responseData, $cmdResponseGenerator)
+    protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $recoverDrafts = $this->getRecoverDrafts($responseData);
         $params = $this->generateEditDocumentParams($responseData);
@@ -120,7 +121,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $params, $timer);
     }
 
-    protected function addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $params, $timer)
+    protected function addEditDocumentCommand($responseData, &$cmdResponseGenerator, $recoverDrafts, $params, $timer)
     {
         $cmdResponseGenerator->addWikiCodeDoc(
             $responseData['id'], $responseData['ns'],
@@ -192,7 +193,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         return $timer;
     }
 
-    protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
+    protected function addRequiringDialogResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
 
@@ -285,7 +286,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         $params["info"] = $responseData["info"];
     }
 
-    protected function addRequiringDoc($cmdResponseGenerator, $params)
+    protected function addRequiringDoc(&$cmdResponseGenerator, $params)
     {
         //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
         $cmdResponseGenerator->addRequiringDoc(

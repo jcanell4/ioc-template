@@ -56,8 +56,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-
-
+                $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+                $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
             } else {
                 $responseData['structure']['readonly'] = $this->getPermission()->isReadOnly();
 
@@ -66,6 +66,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 }
 
                 $this->addEditPartialDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                if($requestParams[PageKeys::KEY_TO_REQUIRE]){
+                    $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+                    $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
+                }
             }
 
             // ALERTA[Xavi] Si no es fica això no funciona el doble click al chunks
@@ -73,8 +77,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         }
 
 
-        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
-        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+//        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
+//        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
         $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
 
@@ -150,22 +154,40 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     }
 
     /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
-    protected function addMetadataResponse($responseData, $cmdResponseGenerator)
+    protected function addMetadataResponse($responseData, &$cmdResponseGenerator)
     {
         if ($responseData['meta']) {
-            $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
+//            $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
+            $cmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
         }
     }
 
     /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
-    protected function addInfoDataResponse($responseData, $cmdResponseGenerator)
+    protected function addRevisionListResponse($responseData, &$cmdResponseGenerator)
     {
-        if (!$responseData['info']) {
+        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+
+            $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+
+        } else {
+            $cmdResponseGenerator->addExtraMetadata(
+                $responseData['structure']['id'],
+                $responseData['structure']['id'] . '_revisions',
+                'No hi ha revisions',
+                "<h2> Aquest document no té revisions </h2>" //TODO[Xavi] localització
+            );
+        }
+    }
+
+    /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
+    protected function addInfoDataResponse($responseData, &$cmdResponseGenerator)
+    {
+        if ($responseData['info']) {
             $cmdResponseGenerator->addInfoDta($responseData['info']);
         }
     }
 
-    protected function addProcessContentResponse($responseData, $cmdResponseGenerator)
+    protected function addProcessContentResponse($responseData, &$cmdResponseGenerator)
     {
         // ALERTA[Xavi] Això es crida sempre, perquè? Que fa? <-- Afegeix les capçaleres, listeners a imatges, etc.
 
@@ -193,7 +215,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 // ALERTA[Xavi] Duplicat al EditResponseHandler
 
-    protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
+    protected function addRequiringDialogResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
 
@@ -307,7 +329,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         $params["info"] = $responseData["info"];
     }
 
-    protected function addRequiringDoc($cmdResponseGenerator, $params)
+    protected function addRequiringDoc(&$cmdResponseGenerator, $params)
     {
         //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
         $cmdResponseGenerator->addRequiringDoc(
@@ -322,7 +344,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     }
 
 
-    private function addEditPartialDocumentResponse($requestParams, $responseData, $cmdResponseGenerator)
+    private function addEditPartialDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $cmdResponseGenerator->addWikiCodeDocPartial($responseData['structure'], $timer);
