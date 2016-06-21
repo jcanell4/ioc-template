@@ -12,13 +12,17 @@ require([
     'ioc/wiki30/GlobalState',
     'ioc/gui/content/containerContentToolFactory',
     'ioc/wiki30/RequestControl',
+    'ioc/wiki30/LocalUserConfig',
     'dojo/domReady!'
 ], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
-             containerContentToolFactory, RequestControl) {
+             containerContentToolFactory, RequestControl, LocalUserConfig) {
 
     var wikiIocDispatcher = getDispatcher();
+    //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
+    wikiIocDispatcher.almacenLocal = new LocalUserConfig();
+    
     //declaració de funcions
     ready(function () {
 
@@ -274,6 +278,9 @@ require([
             }
         });
 
+        // Guardar los valores por defecto de las medidas de los paneles ajustables
+        wikiIocDispatcher.almacenLocal.setUpUserDefaultPanelsSize(wikiIocDispatcher);
+        
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));

@@ -232,7 +232,7 @@ $_arrIocCfgGUI = array (
                           'disabled' => false,
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                           'standbyId' => '\'bodyContent\'',
-                          'getQuery' => 'function(){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
+                          'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
                         ),
                       ),
                     ),
@@ -253,7 +253,7 @@ $_arrIocCfgGUI = array (
                           'disabled' => false,
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                           'standbyId' => '\'bodyContent\'',
-                          'getQuery' => 'function(){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
+                          'getQuery' => 'function(_data){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
                         ),
                       ),
                     ),
@@ -321,6 +321,10 @@ $_arrIocCfgGUI = array (
             'CSS' => 
             array (
               'width' => '190px',
+            ),
+            'DJO' => 
+            array (
+              'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserLeftPanelSize(user,_data.size.w);}return _ret;}',
             ),
           ),
           'items' => 
@@ -537,8 +541,12 @@ $_arrIocCfgGUI = array (
             ),
             'CSS' => 
             array (
-              'width' => '65px',
+              'width' => '50px',
               'padding' => '0px',
+            ),
+            'DJO' => 
+            array (
+              'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserRightPanelSize(user,_data.size.w);}return _ret;}',
             ),
           ),
           'items' => 
@@ -551,7 +559,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'newButton',
-                  'label' => 'Nou',
+                  'title' => 'Nou',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -559,6 +567,7 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=new\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconNew\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
                   'dialogTitle' => '\'Nou Document\'',
                   'EspaideNomslabel' => '\'Espai de Noms\'',
@@ -567,7 +576,7 @@ $_arrIocCfgGUI = array (
                   'NouDocumentplaceHolder' => '\'Nou Document\'',
                   'labelButtonAcceptar' => '\'Acceptar\'',
                   'labelButtonCancellar' => '\'Cancel·lar\'',
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
@@ -579,7 +588,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'saveButton',
-                  'label' => 'Desar',
+                  'title' => 'Desar',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -587,9 +596,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=save\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconSave\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
-                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save\'};return _ret;}',
                 ),
               ),
             ),
@@ -601,7 +611,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'mediaDetailButton',
-                  'label' => 'Detall',
+                  'title' => 'Detall',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -609,7 +619,8 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';var node = this.dispatcher.getGlobalState().getDwPageUi().getElementParentNodeId(this.dispatcher.getGlobalState().getCurrentElementId(), \'DL\');if (node) { var elid = \'\'; if (typeof node === \'string\') { elid = node; } else { elid = node.title; } _ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';}return _ret;}',
+                  'iconClass' => '\'iocIconMediaDetail\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var node = this.dispatcher.getGlobalState().getDwPageUi().getElementParentNodeId(this.dispatcher.getGlobalState().getCurrentElementId(), \'DL\');if (node) { var elid = \'\'; if (typeof node === \'string\') { elid = node; } else { elid = node.title; } _ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';}return _ret;}',
                 ),
               ),
             ),
@@ -621,7 +632,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'cancelButton',
-                  'label' => 'Tornar',
+                  'title' => 'Tornar',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -629,9 +640,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=cancel\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconClose\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_\'',
-                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel\'};return _ret;}',
                 ),
               ),
             ),
@@ -643,7 +655,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'editButton',
-                  'label' => 'Edició',
+                  'title' => 'Edició',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -651,9 +663,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=edit\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconEdit\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var globalState = this.dispatcher.getGlobalState(); var ns=globalState.getContent(globalState.currentTabId).ns; var rev = globalState.getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; } _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId)}return _ret;}',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var globalState = this.dispatcher.getGlobalState(); var ns=globalState.getContent(globalState.currentTabId).ns; var rev = globalState.getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; } _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId)}return _ret;}',
                 ),
               ),
             ),
@@ -665,7 +678,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'edparcButton',
-                  'label' => 'Ed. Parc.',
+                  'title' => 'Edició Parcial',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -673,9 +686,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=edit_partial\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconPartialEdit\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'edit_partial\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'edit_partial\'};return _ret;}',
                 ),
               ),
             ),
@@ -687,7 +701,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'saveparcButton',
-                  'label' => 'Desar Parc.',
+                  'title' => 'Desar Parcial',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -695,9 +709,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=save_partial\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconSave\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial\'};return _ret;}',
                 ),
               ),
             ),
@@ -709,7 +724,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'cancelparcButton',
-                  'label' => 'Tornar Parc.',
+                  'title' => 'Tornar Parcial',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -717,9 +732,10 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=cancel_partial\'',
                   'autoSize' => true,
                   'visible' => false,
+                  'iconClass' => '\'iocIconClose\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial\'',
-                  'getDataEventObject' => 'function(){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};return _ret;}',
                 ),
               ),
             ),
@@ -731,7 +747,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'mediaSupressioButton',
-                  'label' => 'Suprimeix',
+                  'title' => 'Suprimeix',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -739,7 +755,8 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var eldelete = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; var confirmar=confirm(\'Suprimiu aquesta entrada?\'); if (confirmar){ _ret=\'call=mediadetails&delete=\'+eldelete+\'&do=media&ns=\'+ns; }else{ _ret=\'call=mediadetails&id=\'+eldelete+\'&image=\'+eldelete+\'&img=\'+eldelete+\'&do=media\'; }}return _ret;}',
+                  'iconClass' => '\'iocIconTrash\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var eldelete = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; var confirmar=confirm(\'Suprimiu aquesta entrada?\'); if (confirmar){ _ret=\'call=mediadetails&delete=\'+eldelete+\'&do=media&ns=\'+ns; }else{ _ret=\'call=mediadetails&id=\'+eldelete+\'&image=\'+eldelete+\'&img=\'+eldelete+\'&do=media\'; }}return _ret;}',
                 ),
               ),
             ),
@@ -751,7 +768,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'mediaUploadButton',
-                  'label' => 'Upload',
+                  'title' => 'Upload',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -759,7 +776,8 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(dojo.query(\'input[type=radio][name=fileoptions]:checked\')[0] === undefined){ _ret=\'id=\' + elid + \'&ns=\' + ns + \'&do=media&versioupload=true\'; }else{ var list = dojo.query(\'input[type=radio][name=fileoptions]:checked\')[0].value; var sort = dojo.query(\'input[type=radio][name=filesort]:checked\')[0].value; _ret=\'id=\' + elid + \'&ns=\' + ns + \'&do=media&list=\'+list+\'&sort=\'+sort+\'&versioupload=true\'; } }return _ret;}',
+                  'iconClass' => '\'iocIconUpload\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(dojo.query(\'input[type=radio][name=fileoptions]:checked\')[0] === undefined){ _ret=\'id=\' + elid + \'&ns=\' + ns + \'&do=media&versioupload=true\'; }else{ var list = dojo.query(\'input[type=radio][name=fileoptions]:checked\')[0].value; var sort = dojo.query(\'input[type=radio][name=filesort]:checked\')[0].value; _ret=\'id=\' + elid + \'&ns=\' + ns + \'&do=media&list=\'+list+\'&sort=\'+sort+\'&versioupload=true\'; } }return _ret;}',
                 ),
               ),
             ),
@@ -771,7 +789,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'mediaEditButton',
-                  'label' => 'Edició',
+                  'title' => 'Edició',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -779,7 +797,8 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; _ret=\'image=\' + elid + \'&ns=\' + ns + \'&do=media&tab_details=edit&tab_files=files\';}return _ret;}',
+                  'iconClass' => '\'iocIconMediaEdit\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var elid = this.dispatcher.getGlobalState().currentTabId; var ns = this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; _ret=\'image=\' + elid + \'&ns=\' + ns + \'&do=media&tab_details=edit&tab_files=files\';}return _ret;}',
                 ),
               ),
             ),
@@ -791,7 +810,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'mediaTornarButton',
-                  'label' => 'Tornar',
+                  'title' => 'Tornar',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -799,7 +818,8 @@ $_arrIocCfgGUI = array (
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'getQuery' => 'function(){var _ret=null; _ret=\'\';var elid = this.dispatcher.getGlobalState().currentTabId;_ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';return _ret;}',
+                  'iconClass' => '\'iocIconExit\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var elid = this.dispatcher.getGlobalState().currentTabId;_ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';return _ret;}',
                 ),
               ),
             ),
@@ -820,6 +840,10 @@ $_arrIocCfgGUI = array (
             'CSS' => 
             array (
               'height' => '60px',
+            ),
+            'DJO' => 
+            array (
+              'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserBottomPanelSize(user,_data.size.h);}return _ret;}',
             ),
           ),
           'items' => 

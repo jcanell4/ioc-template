@@ -4,14 +4,14 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::CANCEL_PARC_BUTTON
-                                          ,"label" => "Tornar Parc."
+                                          ,"title" => "Tornar Parcial"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
                                            "query" => "'do=cancel_partial'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          /*,"standbyId" => "'bodyContent'"*/
+                                          ,'iconClass' => "'iocIconClose'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial'"
 //                                          ,"eventId" => "'cancel_partial'" // S'ha d'afegir el id del document que correspongui

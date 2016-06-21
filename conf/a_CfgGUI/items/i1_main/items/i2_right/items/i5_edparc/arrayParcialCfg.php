@@ -4,14 +4,14 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::ED_PARC_BUTTON
-                                          ,"label" => "Ed. Parc."
+                                          ,"title" => "Edició Parcial"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
                                            "query" => "'do=edit_partial'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          /*,"standbyId" => "'bodyContent'"*/
+                                          ,'iconClass' => "'iocIconPartialEdit'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit_partial'"
 //                                          ,"eventId" => "'edit_partial'" // S'ha d'afegir el id del document que correspongui

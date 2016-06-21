@@ -123,7 +123,7 @@ class WikiIocBody extends WikiIocItemsContainer {
 /**
  * class WikiIocDivBloc
  *      Contenidor de tipus DIV sense propietats dijit
-*/
+ */
 class WikiIocDivBloc extends WikiIocItemsContainer {
 
     function __construct($aParms = array(), $aItems = array()) {
@@ -155,8 +155,8 @@ class WikiIocSpanBloc extends WikiIocItemsContainer {
 }
 
 /**
-     * Descripció: Dibuixa el logo IOC
-    */
+ * Descripció: Dibuixa el logo IOC
+ */
 class WikiIocImage extends WikiIocComponent {
     function __construct($aParms = array()) {
         parent::__construct($aParms, array());
@@ -183,10 +183,10 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
 
     protected function getPreContent() {
         $ret = "<div {$this->getDOM()}>\n"
-             . "<div data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
+             . "<div id='{$this->get('DOM','id')}_bc' "
+             . "data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
              . "design='sidebar' persist='false' gutters='true' "
              . "{$this->getCSS()}>\n";
-//             . "style='min-width:1em; min-height:1px; z-index:0; width:100%; height:100%;'>\n";
         return $ret;
     }
 
@@ -199,6 +199,7 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
  * class WikiIocItemsPanel
  *      Contenidor de tipus ContentPane allotjat en un BorderContainer
  *      Pot contenir items de qualsevol tipus
+ *      Inclou un mètode onResize que guarda el tamany del contenidor establert per cada usuari
  */
 class WikiIocItemsPanel extends WikiIocItemsContainer {
     // bloc esquerre: conté la #zona de navegació# i la #zona de propietats#
@@ -206,17 +207,18 @@ class WikiIocItemsPanel extends WikiIocItemsContainer {
     function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
-            array("name" => "dojo", "location" => $js_packages["dojo"]),
-            array("name" => "dijit", "location" => $js_packages["dijit"])
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "ioc", "location" => $js_packages["ioc"])
         );
         $reqJsModule = array(
-            "ContentPane" => "dijit/layout/ContentPane"
+                        "ContentPane" => "ioc/gui/ContentPaneOnResize"
         );
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
     }
 
     protected function getPreContent() {
-        $ret = "<div {$this->getDOM()} {$this->getCSS()} data-dojo-type='{$this->getReqJsModule('ContentPane')}'"
+        $ret = "<div {$this->getDOM()} {$this->getCSS()} {$this->getDJO()} data-dojo-type='{$this->getReqJsModule('ContentPane')}'"
               . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n";
         return $ret;
     }
@@ -634,7 +636,7 @@ class WikiDojoButton extends WikiIocComponent {
     public function getRenderingCode() {
         $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('Button')}'"
             . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
-            . " iconClass='dijitNoIcon' style='font-size:1em;'></input>\n";
+            . " style='font-size:1em;'></input>\n";
         return $ret;
     }
 }
@@ -656,7 +658,7 @@ class WikiEventButton extends WikiIocComponent {
     public function getRenderingCode() {
         $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('EventButton')}'"
             . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
-            . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+            . " style='font-size:0.75em;'></input>\n";
         return $ret;
     }
 }
@@ -678,7 +680,7 @@ class WikiButtonToListen extends WikiIocComponent {
     public function getRenderingCode() {
         $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('ButtonToListen')}'"
             . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
-            . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+            . " style='font-size:0.75em;'></input>\n";
         return $ret;
     }
 }
@@ -718,7 +720,7 @@ class WikiIocButton extends WikiIocComponent {
     public function getRenderingCode() {
         $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('IocButton')}'"
             . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
-            . " iconClass='dijitNoIcon' style='font-size:0.75em;'></input>\n";
+            . " style='font-size:0.75em;'></input>\n";
         return $ret;
     }
 }
@@ -731,7 +733,6 @@ class WikiDojoMenuBar extends WikiIocItemsContainer {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
         $reqJsModule = array(
-//                        "parser" => "dojo/parser",
                         "MenuBar" => "dijit/MenuBar"
                       );
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
@@ -755,8 +756,6 @@ class WikiDojoPopupMenuBarItem extends WikiIocItemsContainer {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                       );
         $reqJsModule = array(
-//                        "parser" => "dojo/parser",
-//                        "MenuBar" => "dijit/MenuBar",
                         "PopupMenuBarItem" => "dijit/PopupMenuBarItem"
                       );
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);

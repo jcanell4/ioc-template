@@ -27,6 +27,7 @@ class cfgIdConstants
 
     //elemento mainContent de MAIN
     const MAIN_CONTENT = "mainContent";
+    const MAIN_BC      = "mainContent_bc"; //Main BorderContainer
 
     const LEFT_PANEL = "id_LeftPanel";
     const TB_CONTAINER = "tb_container";

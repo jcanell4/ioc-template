@@ -4,14 +4,14 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::EDIT_BUTTON
-                                          ,"label" => "Edició"
+                                          ,"title" => "Edició"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
                                            "query" => "'do=edit'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          /*,"standbyId" => "'bodyContent'"*/
+                                          ,'iconClass' => "'iocIconEdit'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit'"
                                         )

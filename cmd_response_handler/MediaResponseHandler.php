@@ -35,7 +35,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['content'],$preserveMetaData);
         
         //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
-        //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE)
+        //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE, $expandProject=FALSE)
         global $NS;
         
         //Càrrega de la zona info de missatges

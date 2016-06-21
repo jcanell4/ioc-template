@@ -120,7 +120,6 @@ abstract class WikiIocComponent extends WikiIocBuilder {
                 $ret .= $this->parejaKeyValue($key, $value, $glue, $sep);
             }
         }
-//        if (substr($ret,-1)===",") $ret = substr($ret,0,-1);
         return trim($ret, " ,");
     }
     /**
@@ -130,6 +129,10 @@ abstract class WikiIocComponent extends WikiIocBuilder {
     private function parejaKeyValue($k, $v, $g, $s){
         if (is_bool($v)) 
             $v = ($v) ? 'true' : 'false';
+        if (is_array($v)) {
+            $v = json_encode($v);
+            $v = str_replace('"', '\'', str_replace('\'', '', str_replace('\\', '', $v)));
+        }
         return ($g==':') ? "$k:$v$s" : "$k='$v'$s";
     }
     /**

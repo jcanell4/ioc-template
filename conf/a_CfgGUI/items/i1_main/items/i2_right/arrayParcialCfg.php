@@ -11,7 +11,7 @@ $arrParcial = array(
                                           ,"closable" => "true"
                                         )
                               ,"CSS" => array(
-                                           "width" => "65px"
+                                           "width" => "50px"
                                           ,"padding" => "0px"
                                         )
                             )

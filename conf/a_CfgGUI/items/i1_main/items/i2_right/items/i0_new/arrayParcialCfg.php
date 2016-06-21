@@ -4,13 +4,14 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::NEW_BUTTON
-                                          ,"label" => "Nou"
+                                          ,"title" => "Nou"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
                                            "query" => "'do=new'"
                                           ,"autoSize" => true
                                           ,"visible" => false
+                                          ,'iconClass' => "'iocIconNew'"
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=new_page'"
                                           ,"dialogTitle" => "'Nou Document'"
                                           ,"EspaideNomslabel" => "'Espai de Noms'"

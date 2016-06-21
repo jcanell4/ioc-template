@@ -205,3 +205,40 @@ table.diff th.author {
 	width: auto;
 	overflow: scroll;
 }
+
+.iocIconSave,
+.iocIconPrint,
+.iocIconCut,
+.iocIconCopy,
+.iocIconExit,
+.iocIconDelete,
+.iocIconUndo,
+.iocIconRedo,
+.iocIconNew,
+.iocIconEdit,
+.iocIconPartialEdit,
+.iocIconMediaDetail,
+.iocIconTrash,
+.iocIconClose,
+.iocIconUpload,
+.iocIconMediaEdit{
+	background-image: url("css/icons/commonIconsObjActEnabled.png"); 
+	width: 32px;
+	height: 32px;
+}
+.iocIconSave { background-position: 0; }
+.iocIconPrint { background-position: -32px; }
+.iocIconCut { background-position: -64px; }
+.iocIconCopy { background-position: -96px; }
+.iocIconExit { background-position: -128px; }
+.iocIconDelete { background-position: -160px; }
+.iocIconUndo { background-position: -192px; }
+.iocIconRedo { background-position: -224px; }
+.iocIconNew { background-position: -256px; }
+.iocIconEdit { background-position: -288px; }
+.iocIconPartialEdit { background-position: -320px; }
+.iocIconMediaDetail { background-position: -352px; }
+.iocIconTrash { background-position: -384px; }
+.iocIconClose { background-position: -416px; }
+.iocIconUpload { background-position: -448px; }
+.iocIconMediaEdit { background-position: -480px; }
