@@ -48,6 +48,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
@@ -66,6 +67,7 @@ require([
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON', "visible", true);
 
                 if (disp.getGlobalState().currentTabId) {
 
@@ -362,6 +364,10 @@ require([
                 }
             });
         }
+
+        // Recuperem el contenidor de notificacions
+        var notifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER');
+        wikiIocDispatcher.setNotifierContainer(notifierContainer);
 
     });
 });

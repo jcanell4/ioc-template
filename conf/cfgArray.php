@@ -101,178 +101,252 @@ $_arrIocCfgGUI = array (
           array (
             'DOM' => 
             array (
-              'id' => 'zonaLogin',
+              'id' => 'zonaTopRight',
             ),
             'CSS' => 
             array (
               'float' => 'right',
               'height' => '50px',
-              'width' => '80px',
             ),
           ),
           'items' => 
           array (
-            'loginButton' => 
+            'i2_login' => 
             array (
-              'class' => 'WikiIocDropDownButton',
+              'class' => 'WikiIocSpanBloc',
               'parms' => 
               array (
                 'DOM' => 
                 array (
-                  'id' => 'loginButton',
-                  'label' => 'Entrar',
-                  'class' => 'iocDisplayBlock',
+                  'id' => 'zonaLogin',
                 ),
-                'DJO' => 
+                'CSS' => 
                 array (
-                  'autoSize' => true,
-                  'visible' => true,
+                  'height' => '50px',
+                  'width' => '80px',
                 ),
               ),
               'items' => 
               array (
-                'loginDialog' => 
+                'loginButton' => 
                 array (
-                  'class' => 'WikiIocHiddenDialog',
+                  'class' => 'WikiIocDropDownButton',
                   'parms' => 
                   array (
                     'DOM' => 
                     array (
-                      'id' => 'loginDialog',
+                      'id' => 'loginButton',
+                      'label' => 'Entrar',
+                      'class' => 'iocDisplayBlock',
                     ),
                     'DJO' => 
                     array (
-                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
-                      'standbyId' => '\'loginDialog_hidden_container\'',
+                      'autoSize' => false,
+                      'visible' => true,
                     ),
                   ),
                   'items' => 
                   array (
-                    'name' => 
+                    'loginDialog' => 
                     array (
-                      'class' => 'WikiIocFormInputField',
+                      'class' => 'WikiIocHiddenDialog',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'login_name',
-                          'label' => 'Usuari:',
-                          'name' => 'u',
+                          'id' => 'loginDialog',
+                        ),
+                        'DJO' => 
+                        array (
+                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                          'standbyId' => '\'loginDialog_hidden_container\'',
                         ),
                       ),
-                    ),
-                    'pass' => 
-                    array (
-                      'class' => 'WikiIocFormInputField',
-                      'parms' => 
+                      'items' => 
                       array (
-                        'DOM' => 
+                        'name' => 
                         array (
-                          'id' => 'login_pass',
-                          'label' => 'Contrasenya:',
-                          'name' => 'p',
-                          'type' => 'password',
+                          'class' => 'WikiIocFormInputField',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'login_name',
+                              'label' => 'Usuari:',
+                              'name' => 'u',
+                            ),
+                          ),
+                        ),
+                        'pass' => 
+                        array (
+                          'class' => 'WikiIocFormInputField',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'login_pass',
+                              'label' => 'Contrasenya:',
+                              'name' => 'p',
+                              'type' => 'password',
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            'userButton' => 
-            array (
-              'class' => 'WikiIocDropDownButton',
-              'parms' => 
-              array (
-                'DOM' => 
+                'userButton' => 
                 array (
-                  'id' => 'userButton',
-                  'label' => 'Menú User',
-                  'class' => 'iocDisplayBlock',
-                ),
-                'DJO' => 
-                array (
-                  'autoSize' => true,
-                  'visible' => true,
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                ),
-              ),
-              'items' => 
-              array (
-                'userDialog' => 
-                array (
-                  'class' => 'WikiIocDropDownMenu',
+                  'class' => 'WikiIocDropDownButton',
                   'parms' => 
                   array (
                     'DOM' => 
                     array (
-                      'id' => 'userDialog',
+                      'id' => 'userButton',
+                      'label' => 'Menú User',
+                      'class' => 'iocDisplayBlock',
                     ),
                     'DJO' => 
                     array (
+                      'autoSize' => false,
+                      'visible' => true,
                       'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
                     ),
                   ),
                   'items' => 
                   array (
-                    'i0_userMenuItem' => 
+                    'userDialog' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'class' => 'WikiIocDropDownMenu',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'userMenuItem',
-                          'label' => 'La meva pàgina',
+                          'id' => 'userDialog',
                         ),
                         'DJO' => 
                         array (
-                          'query' => '\'id=user\'',
-                          'autoSize' => true,
-                          'disabled' => false,
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                          'standbyId' => '\'bodyContent\'',
-                          'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'i0_userMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'userMenuItem',
+                              'label' => 'La meva pàgina',
+                            ),
+                            'DJO' => 
+                            array (
+                              'query' => '\'id=user\'',
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'standbyId' => '\'bodyContent\'',
+                              'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
+                            ),
+                          ),
+                        ),
+                        'i1_talkUserMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'talkUserMenuItem',
+                              'label' => 'Discussió',
+                            ),
+                            'DJO' => 
+                            array (
+                              'query' => '\'id=talkUser\'',
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'standbyId' => '\'bodyContent\'',
+                              'getQuery' => 'function(_data){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
+                            ),
+                          ),
+                        ),
+                        'i2_logoffMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'logoffMenuItem',
+                              'label' => 'Desconnectar',
+                            ),
+                            'DJO' => 
+                            array (
+                              'query' => '\'do=logoff\'',
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    'i1_talkUserMenuItem' => 
+                  ),
+                ),
+              ),
+            ),
+            'i3_noti' => 
+            array (
+              'class' => 'WikiIocSpanBloc',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'zonaNotification',
+                ),
+                'CSS' => 
+                array (
+                  'height' => '50px',
+                  'width' => '100px',
+                ),
+              ),
+              'items' => 
+              array (
+                'notiButton' => 
+                array (
+                  'class' => 'WikiIocNotifierButton',
+                  'parms' => 
+                  array (
+                    'DOM' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
-                      'parms' => 
-                      array (
-                        'DOM' => 
-                        array (
-                          'id' => 'talkUserMenuItem',
-                          'label' => 'Discussió',
-                        ),
-                        'DJO' => 
-                        array (
-                          'query' => '\'id=talkUser\'',
-                          'autoSize' => true,
-                          'disabled' => false,
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                          'standbyId' => '\'bodyContent\'',
-                          'getQuery' => 'function(_data){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
-                        ),
-                      ),
+                      'id' => 'notifierButton',
+                      'label' => 'Notificacions (0)',
+                      'class' => 'iocDisplayBlock',
                     ),
-                    'i2_logoffMenuItem' => 
+                    'DJO' => 
                     array (
-                      'class' => 'WikiIocMenuItem',
+                      'autoSize' => false,
+                      'visible' => true,
+                      'displayBlock' => false,
+                    ),
+                  ),
+                  'items' => 
+                  array (
+                    'notifierContainer' => 
+                    array (
+                      'class' => 'WikiIocNotifierContainer',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'logoffMenuItem',
-                          'label' => 'Desconnectar',
+                          'id' => 'notifierContainer',
+                          'class' => 'notification-container',
                         ),
                         'DJO' => 
                         array (
-                          'query' => '\'do=logoff\'',
-                          'autoSize' => true,
-                          'disabled' => false,
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
                         ),
                       ),
                     ),

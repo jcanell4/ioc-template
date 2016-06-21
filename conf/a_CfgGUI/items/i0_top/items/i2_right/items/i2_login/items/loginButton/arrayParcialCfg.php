@@ -8,7 +8,7 @@ $arrParcial = array(
                                             ,"class" => "iocDisplayBlock"
                       			  )
                                 ,"DJO" => array(
-                                             "autoSize" => true
+                                             "autoSize" => false
                                             ,"visible" => true
                                           )
                             )

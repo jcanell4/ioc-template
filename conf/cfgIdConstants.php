@@ -24,6 +24,8 @@ class cfgIdConstants
     const USER_MENU_ITEM = "userMenuItem";
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
+    const NOTIFIER_BUTTON = "notifierButton";
+    const NOTIFIER_CONTAINER = "notifierContainer";
 
     //elemento mainContent de MAIN
     const MAIN_CONTENT = "mainContent";
@@ -66,6 +68,8 @@ class cfgIdConstants
 
     const BOTTOM_PANEL = "id_BottomPanel";
     const ZONA_MISSATGES = "zonaMissatges";
+    const ZONA_TOP_RIGHT = "zonaTopRight";
+    const ZONA_TOP_NOTIFICATION = "zonaNotification";
 
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;

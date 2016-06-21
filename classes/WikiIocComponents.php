@@ -1094,3 +1094,74 @@ class WikiIocTextContentPane extends WikiIocContainer {
         return "</div>\n";
     }
 }
+
+class WikiIocNotifierButton extends WikiIocItemsContainer {
+    /* @author Rafael Claver <rclaver@xtec.cat>
+     * Descripció:
+     *        Dibuixa un botó de la classe ioc.gui.IocDropDownButton
+     * Propietats:
+     *        Accepta n paràmetres que configuren l'aspecte del botó:
+     *        - display: true/false
+     *                true: indica que és visible.
+     *                false: indica que no és visible.
+     *        - displayBlock: true/false
+     *                true: utilitzarà la classe CSS .iocDisplayBlock {display:block}.
+     *                false: utilitzarà la classe CSS dijitInline.
+     */
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+            array("name" => "ioc", "location" => $js_packages["ioc"]),
+            array("name" => "dojo", "location" => $js_packages["dojo"]),
+            array("name" => "dijit", "location" => $js_packages["dijit"])
+        );
+        $reqJsModule = array(
+            "IocNotifierButton" => "ioc/gui/IocNotifierButton"
+        );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
+    }
+
+    protected function getPreContent() {
+        $ret = "\n<div {$this->getDOM(array('id','class'))} data-dojo-type='{$this->getReqJsModule('IocNotifierButton')}'"
+            ." {$this->getDJO()}"
+            ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'>"
+            ."\n<span>{$this->get('DOM','label')}</span>";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "\n</div>\n";
+    }
+}
+
+/**
+ * Class WikiIocNotifierContainer
+ *
+ * @author Xavier García <xaviergaro.dev@gmail.com>
+ */
+class WikiIocNotifierContainer extends WikiIocItemsContainer {
+
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+            array("name" => "ioc", "location" => $js_packages["ioc"])
+        ,array("name" => "dojo", "location" => $js_packages["dojo"])
+        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+        );
+        $reqJsModule = array(
+            "NotifierContainer" => "ioc/gui/content/NotifierContainer"
+        );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
+    }
+
+    protected function getPreContent() {
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('NotifierContainer')}'"
+            . " {$this->getDJO()}"
+            . ">";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n";
+    }
+}

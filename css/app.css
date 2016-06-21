@@ -242,3 +242,29 @@ table.diff th.author {
 .iocIconClose { background-position: -416px; }
 .iocIconUpload { background-position: -448px; }
 .iocIconMediaEdit { background-position: -480px; }
+
+/* NOTIFICATIONS */
+.notification-container {
+    background-color: #fff;
+    min-width: 310px;
+}
+
+.notification {
+    border: 1px solid  #8cacbb;
+    background-color: #fff;
+    color: black;
+    width: 300px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.unreaded .notification {
+    /* Són els colors de warning */
+    color:#9F6000;
+    background-color:#FEEFB3;
+}
+
+.notification span.dijitTabCloseIcon {
+    margin-right: 0;
+    float: right;
+}

@@ -1,16 +1,16 @@
 <?php
 $arrParcial = array(
-             "class" => "WikiIocDropDownButton"
+             "class" => "WikiIocNotifierButton"
             ,"parms" => array(
                            "DOM" => array(
-                     						 "id" => cfgIdConstants::USER_BUTTON
-                      						,"label" => "Menú User"
+                     						 "id" => cfgIdConstants::NOTIFIER_BUTTON
+                      						,"label" => "Notificacions (0)"
                       						,"class" => "iocDisplayBlock"
                       					 )
                           ,"DJO" => array(
-                      						 "autoSize" => true
+                      						 "autoSize" => false
                       						,"visible" => true
-                      						,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
+                      						,"displayBlock" => false
                                     )
                         )
           );
