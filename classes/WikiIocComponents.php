@@ -591,7 +591,7 @@ class WikiIocDropDownButton extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "\n<div {$this->getDOM(array('id','class'))} data-dojo-type='{$this->getReqJsModule('IocDropDownButton')}'"
+        $ret = "\n<div {$this->getNoDOM(array("label"))} data-dojo-type='{$this->getReqJsModule('IocDropDownButton')}'"
               ." {$this->getDJO()}"
               ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'>"
               ."\n<span>{$this->get('DOM','label')}</span>";
@@ -1122,7 +1122,7 @@ class WikiIocNotifierButton extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $ret = "\n<div {$this->getDOM(array('id','class'))} data-dojo-type='{$this->getReqJsModule('IocNotifierButton')}'"
+        $ret = "\n<div  {$this->getNoDOM(array("label"))} data-dojo-type='{$this->getReqJsModule('IocNotifierButton')}'"
             ." {$this->getDJO()}"
             ." style='font-size:0.75em; margin-top:10px; margin-right:5px; float:right;'>"
             ."\n<span>{$this->get('DOM','label')}</span>";

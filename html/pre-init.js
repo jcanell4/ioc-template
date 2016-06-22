@@ -39,5 +39,6 @@ require([
         wikiIocDispatcher.mediaEditButtonId     = 'cfgIdConstants::MEDIA_EDIT_BUTTON';
         wikiIocDispatcher.cancelParcButtonId    = 'cfgIdConstants::CANCEL_PARC_BUTTON';
         wikiIocDispatcher.saveParcButtonId      = 'cfgIdConstants::CANCEL_PARC_BUTTON';
+        wikiIocDispatcher.notifierButtonId      = 'cfgIdConstants::NOTIFIER_BUTTON';
 });
 

@@ -268,3 +268,26 @@ table.diff th.author {
     margin-right: 0;
     float: right;
 }
+
+.activeAlarm{
+    font-weight: bold !important;
+    color: #EE2C2C !important;
+}
+
+.inactiveAlarm{
+    font-weight: normal;
+    color: black;
+}
+
+.iocIconActiveAlarm{
+	background-image: url("css/icons/activeAlarm.gif"); 
+	width: 16px;
+	height: 16px;
+}
+
+.iocIconInactiveAlarm{
+	background-image: url("css/icons/inactiveAlarm.png"); 
+	width: 16px;
+	height: 16px;
+}
+
