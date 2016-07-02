@@ -103,11 +103,11 @@ class WikiIocTpl {
         global $js_packages;
         
         $event->data["link"][] = array ("rel" => "stylesheet",
-                                    "href" => $js_packages["dijit"] 
+                                    "href" => $js_packages["dijit"]
                                                 . "/themes/claro/claro.css",
                                     "media" => "screen");
         $event->data["link"][] = array ("rel" => "stylesheet",
-                                    "href" => $js_packages["dijit"] 
+                                    "href" => $js_packages["dijit"]
                                                 . "/themes/claro/document.css",
                                     "media" => "screen");
         $item0 = $event->data["script"][0];
@@ -146,11 +146,14 @@ class WikiIocTpl {
         //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/document.css'/>\n";
         tpl_metaheaders();
         echo "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n";
+        echo '<link rel="stylesheet" type="text/css" href="'. DOKU_TPL .'css/bootstrap/css/bootstrap.css" />';
 
         if(!file_exists(DOKU_TPL_INCDIR . "style.ini")) {
             echo "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"" . DOKU_TPL . "bug49642.php" . ((!empty($lang["direction"]) && $lang["direction"] === "rtl") ? "?langdir=rtl" : "") . "\" />\n"; //var comes from DokuWiki core
             echo '<link rel="stylesheet" href="css/app.css" />';
         }
+
+
 
         $this->_userdefinedFavicon();
         $this->_userdefinedJs();
@@ -161,6 +164,7 @@ class WikiIocTpl {
                 echo "<style type=\"text/css\" media=\"all\">\n" . hsc($interim) . "\n</style>\n";
             }
         }
+
 
         // TODO[Xavi] carreguem la llibrería ace
         echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";

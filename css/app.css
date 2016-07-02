@@ -291,3 +291,36 @@ table.diff th.author {
 	height: 16px;
 }
 
+/* Forms */
+.ioc-bootstrap .form-group.form-frame {
+	border-radius:5px;
+	border: 1px solid #8cacbb;
+}
+
+.ioc-bootstrap .form-group.form-without-frame {
+	margin-bottom: 16px;
+	margin-top: 1px;
+}
+
+.ioc-bootstrap .form-group { /* Pertany a Bootstrap */
+	padding-bottom: 10px;
+}
+
+/* Capçeleres falses pels formularis */
+.h1, .h2 {
+	/*margin-top: 20px;*/
+	/*margin-bottom: 10px;*/
+	font-family: inherit;
+	font-weight: 500;
+	/*line-height: 1.1;*/
+	color: inherit;
+}
+
+.h1 {
+	font-size: 20px;
+	text-align: center;
+}
+
+.h2 {
+	font-size: 14px;
+}

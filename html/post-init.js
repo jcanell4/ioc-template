@@ -369,6 +369,18 @@ require([
         var notifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER');
         wikiIocDispatcher.setNotifierContainer(notifierContainer);
 
+
+        // Alerta[Xavi] TEST per carregar formularis
+        //jQuery.ajax({
+        //    url: '//iocwiki.dev/dokuwiki_30/lib/plugins/ajaxcommand/ajax.php?call=form&id=testforms',
+        //    success: wikiIocDispatcher.processResponse.bind(wikiIocDispatcher)
+        //});
+
+        var requestForm = new Request();
+        requestForm.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=testform&id=testform";
+        requestForm.sendRequest();
+
+
     });
 });
 
