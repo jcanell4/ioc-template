@@ -382,11 +382,18 @@
     "@hr-border": "@gray-lighter"
   },
   "css": [
+    "code.less",
     "grid.less",
+    "tables.less",
     "forms.less",
     "buttons.less",
-    "labels.less"
+    "button-groups.less",
+    "input-groups.less",
+    "navs.less",
+    "navbar.less",
+    "labels.less",
+    "badges.less"
   ],
   "js": [],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=891ca9fcb9d32897941830375463bdf5"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=bb624513cc8cd69aaa16913c797c9b51"
 }
