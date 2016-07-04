@@ -324,3 +324,8 @@ table.diff th.author {
 .h2 {
 	font-size: 14px;
 }
+
+/* Correcció posició de l'icona de la carpeta a la vista d'arbre */
+.dijitTreeIcon.dijitIconFolderClosed, .dijitTreeIcon.dijitFolderClosed{
+	background-position: -463px;
+}
