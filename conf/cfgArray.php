@@ -455,7 +455,7 @@ $_arrIocCfgGUI = array (
                           array (
                             'p' => 
                             array (
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=testform\'',
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
                               'params' => 
                               array (
                                 0 => 'projectType',

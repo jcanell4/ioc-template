@@ -376,9 +376,9 @@ require([
         //    success: wikiIocDispatcher.processResponse.bind(wikiIocDispatcher)
         //});
 
-        var requestForm = new Request();
-        requestForm.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=testform&id=testform";
-        requestForm.sendRequest();
+        //var requestForm = new Request();
+        //requestForm.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=testform&id=testform";
+        //requestForm.sendRequest();
 
 
     });
