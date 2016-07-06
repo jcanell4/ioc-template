@@ -8,6 +8,11 @@ $arrParcial = array(
                                         )
                               ,"DJO" => array(
                                            "treeDataSource" => "'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/'"
+                              , "typeDictionary" => ["p" => [
+                                    "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
+                                    "params" => ['projectType']
+                            ]]
+
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
                                           /*,"urlBaseTyped" => array(
                                                                  "p" => "'lib/plugins/ajaxcommand/ajax.php?call=commandreport'"
