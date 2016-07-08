@@ -115,18 +115,18 @@ class EditResponseHandler extends WikiIocResponseHandler
     protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $recoverDrafts = $this->getRecoverDrafts($responseData);
-        $params = $this->generateEditDocumentParams($responseData);
+        $editing = $this->generateEditDocumentParams($responseData);
+        $editing['readonly'] = $this->getPermission()->isReadOnly();
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
-
-        $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $params, $timer);
+        $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer);
     }
 
-    protected function addEditDocumentCommand($responseData, &$cmdResponseGenerator, $recoverDrafts, $params, $timer)
+    protected function addEditDocumentCommand($responseData, &$cmdResponseGenerator, $recoverDrafts, $editing, $timer)
     {
         $cmdResponseGenerator->addWikiCodeDoc(
             $responseData['id'], $responseData['ns'],
             $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
-            $responseData["htmlForm"], $params, $timer, $responseData['rev']
+            $responseData["htmlForm"], $editing, $timer, $responseData['rev']
         );
     }
 
