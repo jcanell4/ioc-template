@@ -109,19 +109,25 @@ $lang['img_detail_title'] = 'DETALL IMATGE: ';
 
 $lang['chunk_editing'] = 'S\'ha iniciat una edició parcial per ';
 $lang['chunk_closed'] = 'S\'ha tancat la edició parcial';
-$lang['edition_cancelled'] = 'S\'ha cancel·lat la edició';
+$lang['edition_closed'] = 'S\'ha tancat l\'edició';
+$lang['edition_cancelled'] = 'S\'ha cancel·lat l\'edició';
+$lang['auto_cancelled'] = "cancel·lació automàtica";
 $lang['document_loaded'] = 'S\'ha carregat el document';
 $lang['document_created'] = 'S\'ha creat el document';
 $lang['document_revision_loaded'] = 'Aquesta es una revisió antiga del document feta el ';
 $lang['diff_loaded'] = 'Ací es mostren les diferències entre les revisions.';
 $lang['switch_diff_mode'] = 'Canvia mode';
-$lang['draft_editing'] = "S'està editant un esborrany, no el document actual.";
-$lang['local_draft_editing'] = "S'està editant un esborrany local, no el document actual.";
-$lang['draft_found'] = "S'ha trobat un esborrany complet del document.";
-$lang['partial_draft_found'] = "S'ha trobat un esborrany complet del document.";
+$lang['draft_editing'] = "S\'està editant un esborrany, no el document actual.";
+$lang['local_draft_editing'] = "S\'està editant un esborrany local, no el document actual.";
+$lang['draft_found'] = "S\'ha trobat un esborrany complet del document.";
+$lang['partial_draft_found'] = "S\'ha trobat un esborrany complet del document.";
 
+$lang['expiring_dialog_title'] = "Massa estona sense editar.";
+$lang['expiring_dialog_message'] = "Quan aconssegueixis baixar de la figuera, voldràs continuar editant la pàgina?";
+$lang['expiring_dialog_yes'] = "Sí";
+$lang['expiring_dialog_no'] = "No";
 
-$lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de desar els canvis per tal que siguin efectius';
+$lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de guardar els canvis per tal que siguin efectius';
 $lang['admin_task_perm_delete'] = 'Permisos Eliminats.';
 $lang['admin_task_perm_update'] = 'Permisos Actualitzats.';
 $lang['auth_error'] = 'Error d\'autenticació';
