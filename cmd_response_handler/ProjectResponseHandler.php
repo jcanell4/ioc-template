@@ -30,6 +30,10 @@ require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
 
 class ProjectResponseHandler extends WikiIocResponseHandler
 {
+
+    private $rows = [];
+    private $lastRow = 0;
+
     function __construct()
     {
         parent::__construct(WikiIocResponseHandler::PAGE);
@@ -87,318 +91,190 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 
 
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
-        $form = $this->buildTestForm($id, $action, $requestParams['projectType']);
+//        $form = FormBuilder::buildTestForm($id, $action, $requestParams['projectType']);
+        $form = $this->buildForm($id, $action, $requestParams['projectType'], $responseData['projectMetaData']['structure']);
 
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form);
 
     }
 
+
     protected function buildForm($id, $action, $projectType, $structure)
     {
+        $this->lastRow = 1; // Es reserva la primera posició del array
+        //
         $builder = new FormBuilder();
 
-        $form = $builder
-            ->setId($id)
-            ->setAction($action)
-            ->addRow(
-                'Projecte: ' . $id, // Títol de prova
-                [
-                    $builder->createGroupBuilder()
-                        ->setTitle('Formulari de prova mini')
-                        ->setFrame(true)
-                        ->addFields(
-                            [
-                                $builder->createFieldBuilder()
-                                    ->setLabel('Títol')
-                                    ->setName('title')
-                                    ->setColumns(12)
-                                    ->build(),
-                                $builder->createFieldBuilder()
-                                    ->setLabel('Modificar el render per que no es mostri label')
-                                    ->setType('hidden')
-                                    ->setName('projectType')
-                                    ->setValue($projectType)
-                                    ->setColumns(12)
-                                    ->build(),
-                                $builder->createFieldBuilder()
-                                    ->setLabel('Modificar el render per que no es mostri label')
-                                    ->setType('hidden')
-                                    ->setName('id')
-                                    ->setValue($id)
-                                    ->setColumns(12)
-                                    ->build(),
-                            ]
-                        )
-                        ->build()
-                ]
-            )
+        // Es fa una passada del primer nivell, tots els elements que no siguien o array va en la mateixa row i grup.
+        $builder->setId($id)
+            ->setAction($action);
+
+        $mainRow = FormBuilder::createRowBuilder()
+            ->setTitle('Projecte: ' . $id);
+
+
+        $mainGroup = FormBuilder::createGroupBuilder()
+            ->setTitle('Dades generals del projecte')//TODO[Xavi] Localitzar al lang
+            ->setFrame(true);
+
+        // Camps ocults obligatoris pel formulari
+        $mainGroup->addFields([
+            FormBuilder::createFieldBuilder()
+                ->setLabel('Modificar el render per que no es mostri label')
+                ->setType('hidden')
+                ->setName('projectType')
+                ->setValue($projectType)
+                ->setColumns(12)
+                ->build(),
+            FormBuilder::createFieldBuilder()
+                ->setLabel('Modificar el render per que no es mostri label')
+                ->setType('hidden')
+                ->setName('id')
+                ->setValue($id)
+                ->setColumns(12)
+                ->build()
+        ]);
+
+        foreach ($structure as $key => $value) {
+            if ($value['tipus'] === 'array' || ($value['tipus'] === 'object')) {
+                // Afegir a una altra fila
+                $this->generateRow($value, $key);
+
+            } else {
+
+                $mainGroup->addField(FormBuilder::createFieldBuilder()
+                    ->setId($value['id'])
+                    ->setLabel($key)
+                    ->setColumns(6)
+                    ->setValue($value['value'])
+                    ->build() // Es construeix el camp
+                );
+            }
+        }
+
+        $mainRow->addGroup($mainGroup->build()); // Es construeix el grup
+
+        $this->rows[0] = $mainRow->build(); // Es construeix la fila
+
+
+        $form = $builder->addRows($this->rows)
             ->build();
+
+
+        // Afegir totes les rows
+
+//
+//
+//        $form = $builder
+//            ->setId($id)
+//            ->setAction($action)
+//            ->addRow(
+//                'Projecte: ' . $id, // Títol de prova
+//                [
+//                    $builder->createGroupBuilder()
+//                        ->setTitle('Formulari de prova mini')
+//                        ->setFrame(true)
+//                        ->addFields(
+//                            [
+//                                $builder->createFieldBuilder()
+//                                    ->setLabel('Títol')
+//                                    ->setName('title')
+//                                    ->setColumns(12)
+//                                    ->build(),
+//                                $builder->createFieldBuilder()
+//                                    ->setLabel('Modificar el render per que no es mostri label')
+//                                    ->setType('hidden')
+//                                    ->setName('projectType')
+//                                    ->setValue($projectType)
+//                                    ->setColumns(12)
+//                                    ->build(),
+//                                $builder->createFieldBuilder()
+//                                    ->setLabel('Modificar el render per que no es mostri label')
+//                                    ->setType('hidden')
+//                                    ->setName('id')
+//                                    ->setValue($id)
+//                                    ->setColumns(12)
+//                                    ->build(),
+//                            ]
+//                        )
+//                        ->build()
+//                ]
+//            )
+//            ->build();
 
         return $form;
     }
 
-    protected function buildTestForm($id, $action, $projectType)
+
+    protected function generateRow($values, $title = '')
     {
-        $builder = new FormBuilder();
+        // El valor que ha arribat sempre és un objecte o un array
+        // Si és un objecte (apartat) conté propietats i aquestes poden contenir un array
 
-        $form = $builder
-            ->setId($id)
-            ->setAction($action)
-            ->addRow(
-                'Paràmetres de Dokuwiki',
-                [
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Paràmetres bàsics')
-                        ->setFrame(true)
-                        ->setcolumns(3)
-                        ->addFields(
-                            [
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Modificar el render per que no es mostri label')
-                                    ->setType('hidden')
-                                    ->setName('projectType')
-                                    ->setValue($projectType)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Modificar el render per que no es mostri label')
-                                    ->setType('hidden')
-                                    ->setName('id')
-                                    ->setValue($id)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Títol del wiki')
-                                    ->setName('title')
-                                    ->setPriority(1)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Nom de la pàgina d\'inici')
-                                    ->setName('start')
-                                    ->setPriority(10)
-                                    ->build(),
-                            ]
-                        )
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setFrame(true)
-                        ->addFields(
-                            [
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Canvis recents')
-                                    ->setType('number')
-                                    ->setName('recent')
-                                    ->setColumns(6)
-                                    ->setPriority(10)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Quantitat de canvis recentes que es mantenenanvis recents')
-                                    ->setType('number')
-                                    ->setName('recent_Days')
-                                    ->setColumns(6)
-                                    ->setPriority(1)
-                                    ->addProp('placeholder', 'Quantitat de canvis recents en dies')
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Camp d\'amplada total')
-                                    ->setName('amplada')
-                                    ->setPriority(1)
-                                    ->build(),
-                            ]
-                        )
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Títol del test sense frame')
-                        ->setPriority(10)
-                        ->setColumns(3)
-                        ->addFields(
-                            [
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Utilitza llistes de control')
-                                    ->setType('checkbox')
-                                    ->setName('useacl')
-                                    ->setColumns(6)
-                                    ->setPriority(10)
-                                    ->addProp('checked', true)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Notificacions')
-                                    ->setType('checkbox')
-                                    ->setName('notifications')
-                                    ->setColumns(6)
-                                    ->setPriority(10)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Camp d\'amplada total 2')
-                                    ->setName('amplada 2')
-                                    ->setPriority(1)
-                                    ->build(),
-                            ]
-                        )
-                        ->build()
-                ])
-            ->addRow(
-                'Segona fila',
-                [
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Amplada de columna 6 = 50%')
-                        ->setFrame(true)
-                        ->setColumns(6)
-                        ->setPriority(10)
-                        ->addFields(
-                            [
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Camp d\'amplada màxima')
-                                    ->setName('surname')
-                                    ->addProp('placeholder', 'Introdueix el cognom')
-                                    ->build()
-                            ]
-                        )
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setFrame(true)
-                        ->setTitle('Grup d\'amplada 3 = 25%')
-                        ->setColumns(3)
-                        ->addFields([
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
-                                ->setColumns(6)
-                                ->setName('name2')
-                                ->build(),
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
-                                ->setName('name3')
-                                ->setColumns(6)
-                                ->build(),
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada completa 12 = 100%')
-                                ->setName('name3')
-                                ->setPriority(99)
-                                ->build()
-                        ])
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setColumns(3)
-                        ->setPriority(10)
-                        ->addFields([
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada completa dins d\'amplada 3 = 25%')
-                                ->setName('name4')
-                                ->setPriority(10)
-                                ->build(),
-                        ])
-                        ->build()
-                ]
-            )
-            ->addRow(
-                'Demostració controls afegits',
-                [
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('check/radio')
-                        ->setFrame(true)
-                        ->setColumns(6)
-                        ->addFields(
-                            [
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Checkbox1')
-                                    ->setName('check1')
-                                    ->setType('checkbox')
-                                    ->setColumns(2)
-                                    ->addProp('checked', 'true')
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Checkbox2')
-                                    ->setName('check2')
-                                    ->setType('checkbox')
-                                    ->setColumns(2)
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Radio 1 (grp 1)')
-                                    ->setName('radio-group-1')
-                                    ->setColumns(2)
-                                    ->setType('radio')
-                                    ->addProp('checked', 'true')
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Radio 2 (grp 1)')
-                                    ->setName('radio-group-1')
-                                    ->setColumns(2)
-                                    ->setType('radio')
-                                    ->addProp('checked', 'true')
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Radio 1 (grp 1)')
-                                    ->setName('radio-group-2')
-                                    ->setColumns(2)
-                                    ->setType('radio')
-                                    ->addProp('checked', 'true')
-                                    ->build(),
-                                FormBuilder::createFieldBuilder()
-                                    ->setLabel('Radio 2 (grp 2)')
-                                    ->setName('radio-group-2')
-                                    ->setColumns(2)
-                                    ->setType('radio')
-                                    ->addProp('checked', 'true')
-                                    ->build(),
-                            ]
-                        )
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Grup d\'amplada 3 = 25%')
-                        ->setColumns(3)
-                        ->addFields([
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
-                                ->setName('name2')
-                                ->setColumns(6)
-                                ->build(),
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
-                                ->setName('name3')
-                                ->setColumns(6)
-                                ->build(),
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Camp d\'amplada completa 12 = 100%')
-                                ->setName('name3')
-                                ->setPriority(99)
-                                ->build()
-                        ])
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Grup d\'amplada 3 = 25%')
-                        ->setColumns(3)
-                        ->addFields([
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Nom43')
-                                ->setName('name43')
-                                ->build(),
-                        ])
-                        ->build(),
-                    FormBuilder::createGroupBuilder()
-                        ->setTitle('Demostració textarea i select')
-                        ->addFields([
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Textarea')
-                                ->setType('textarea')
-                                ->setName('demotextarea')
-                                ->setColumns(9)
-                                ->addProp('rows', 5)
-                                ->build(),
-                            FormBuilder::createFieldBuilder()
-                                ->setLabel('Demostració select')
-                                ->setType('select')
-                                ->setName('demoselect')
-                                ->setColumns(3)
-                                ->addOption('B', 'Barceolna')
-                                ->addOption('T', 'Tarragona')
-                                ->addOption('L', 'Lleida', true)
-                                ->addOption('G', 'Girona')
-                                ->build(),
-                        ])
-                        ->build(),
-                ]
-            )
-            ->build();
+        // Sí és un array (bloc) conté només elements. Es salta aquesta fila, l'index ha de ser el mateix
 
-        return $form;
+
+        if ($values['tipus'] === 'object') {
+            $index = $this->lastRow; // Guardem el valor de $lastRow al entrar
+
+            $row = FormBuilder::createRowBuilder();
+            $group = FormBuilder::createGroupBuilder();
+            $row->setTitle($title);
+
+            // TODO s'ha de recorre de forma diferent
+//            $this->generateRowFromObject($value);
+
+            $this->lastRow++; // Els objectes sempre afegiran una fila encara que no continguin res (que no ha de ser el cas)
+
+            foreach ($values['value'] as $key => $value) {
+
+
+                if ($value['tipus'] === 'object') {
+
+                    $this->generateRow($value, $key);
+
+                } else if ($value['tipus'] === 'array') {
+
+                    $this->generateRow($value, $key);
+
+                } else {
+
+                    $group->addField(
+                        FormBuilder::createFieldBuilder()
+                            ->setId($value['id'])
+                            ->setLabel($key)
+                            ->setColumns(6)
+                            ->setValue($value['value'])
+                            ->build() // Es construeix el camp
+                    );
+                }
+            }
+
+            $group->setFrame(true);
+
+
+            $row->addGroup($group->build());
+            $this->rows[$index] = $row->build();
+
+
+        } else if ($values['tipus'] === 'array') {
+            // No es mostra per pantalla, per tant no cal incrementar el nombre de files
+
+            for ($i = 0, $len = count($values['value']); $i < $len; $i++) {
+                // Primera passada: És processan dos blocs, el títol no es mostra
+                // Segona passada: és una unitat
+                $title = $values['itemsType'] . ' ' . ($i + 1);
+                $this->generateRow($values['value'][$i], $title);
+            }
+        } else {
+            throw new Exception();
+        }
+
+
+        // Si el valor és un array només es recorre però no s'ha de crear
+
+
     }
+
 }

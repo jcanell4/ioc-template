@@ -82,6 +82,7 @@ class GroupBuilder
     public function addField($field)
     {
         $this->fields[] = $field;
+        return $this;
     }
 
     public function addFields(array $fields)
