@@ -53,7 +53,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         }
 
 
-
 //		ALERTA[Xavi] Això es necessari? es troba enganxat en molts els response handlers
 //		$ajaxCmdResponseGenerator->addProcessDomFromFunction(
 //			$responseData['id'],
@@ -67,347 +66,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 //		);
     }
 
-    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator){
-        $form = [];
-//        $form['view'] = [
-//            'rows' => 10, // Aquest no crec que sigui necessari
-//            'columns' => 4 // Ha de ser divisor de 12: Bootstrap far servir un grid de 12 que s'ha de dividir per aquest nombre
-//        ];
-        $form['id'] = 'form_' . $requestParams['id']; // ALERTA[Xavi]Compte, els : s'han de reemplaçar per _
-        $form['method'] = 'GET'; // GET|POST
-        $form['action'] = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save'; // URL de destí del formulari <-- que serà una crida ajax
-//        $fotm['enctype'] = 'multipart/form-data'; // ALERTA[Xavi] Opcional, només per la pujada de fitxers
-
-
+    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
         // El grid està compost per 12 columnes
-        // Si no s'especifica el nombre de columnes s'utilitzen 12
+        // Si no s'especifica el nombre de columnes s'utilitzen 6
         // Les columnes es poden especificar a:
         // * Group: indica el nombre de columnes que emplea el grup
         // * Field: indica el nombre de columnes que emplea el camp. S'ha de tenir en compte que es sobre 12 INDEPENDENMENT del nombre de columnes del grup ja que són niuades
-
-        $form['rows'] = [
-            [
-                'title' => 'Projecte: ' . $requestParams['id'],
-                'groups' => [
-                    [
-                        'hasFrame ' => true,
-                        'fields' => [
-                            [
-                                'label' => 'title',
-                                'name' => 'title',
-                                'value' => $responseData['projectMetaData']['values']['title'],
-                                'type' => 'text'
-                            ],
-                            [
-                                'label' => 'Modificar el render per que no es mostri label',
-                                'type' => 'hidden',
-                                'name' => 'projectType',
-                                'value' => $requestParams['projectType']
-                            ],
-                            [
-                                'label' => 'Modificar el render per que no es mostri label',
-                                'type' => 'hidden',
-                                'name' => 'id',
-                                'value' => $requestParams['id']
-                            ]
-
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-//
-//		$form['rows'] = [ // ALERTA: Per organitzar-los al frontend es més comode com array, si es fa associatiu s'ha d'afegir un diccionary amb la correspondència
-//			[
-//				'title' => 'Paràmetres de Dokuwiki',
-//				'groups' => [
-//					[
-//						'columns' => 3,
-//						'hasFrame' => true,
-//						'title' => 'Paràmetres bàsics', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Títol del wiki', // Etiqueta del formulari
-//								'name' => 'title',
-//								'value' => 'DokuIOC_josep',
-//								'type' => 'text',
-////                                'columns' => 12, // Això es converteix en: 12/(columns/cols) = 6 al grid de bootstrap
-//								'priority' => 1, // Més alt es més prioritari
-//							],
-//							[
-//								'label' => 'Nom de la pàgina d\'inici', // Etiqueta del formulari
-//								'name' => 'start',
-//								'value' => '',
-//								'type' => 'text',
-////                                'columns' => 12,
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['placeholder' => 'Introdueix el nom de la pàgina d\'inici']
-//							]
-//						]
-//					],
-//					[
-//						'columns' => 6,
-//						'hasFrame' => false,
-//						'title' => 'Paràmetres de visualització', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Canvis recents', // Etiqueta del formulari
-//								'name' => 'recent',
-//								'type' => 'number',
-//								'columns' => 6, // Això es converteix en: 12/(columns/cols) = 6 al grid de bootstrap
-//								'priority' => 10, // Més alt es més prioritari
-//								'value' => 'R.',
-//							],
-//							[
-//								'label' => 'Quantitat de canvis recents que es mantenen', // Etiqueta del formulari
-//								'name' => 'recent_days',
-//								'value' => '',
-//								'type' => 'number',
-//								'columns' => 6,
-//								'priority' => 1, // Més alt es més prioritari
-//								'props' => ['placeholder' => 'Quantiat de canvis recents en dies']
-//							],
-//							[
-//								'label' => 'Camp d\'amplada total', // Etiqueta del formulari
-//								'name' => 'amplada',
-//								'value' => 'amplada completa',
-//								'type' => 'input',
-//								'priority' => 1, // Més alt es més prioritari
-//							]
-//						],
-//					],
-//					[
-//						'columns' => 3,
-//						'hasFrame' => false,
-////                    'title' => 'Titol del test sense frame', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Utilitza llistes de control', // Etiqueta del formulari
-//								'name' => 'useacl',
-////                                'value' => true,
-//								'type' => 'checkbox',
-//								'columns' => 6,
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['checked' => true]
-//							],
-//							[
-//								'label' => 'Notificacions', // Etiqueta del formulari
-//								'name' => 'notifications',
-////                                'value' => true,
-//								'type' => 'checkbox',
-//								'columns' => 6,
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['checked' => false]
-//							]
-//						]
-//					]
-//				]
-//			],
-//			[
-//				'title' => 'Segona fila',
-//				'groups' => [
-//					[
-//						'columns' => 6,
-//						'hasFrame' => true,
-//						'title' => 'Amplada de columna 6 = 50%', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Camp d\'amplada màxima', // Etiqueta del formulari
-//								'name' => 'surname',
-//								'value' => '',
-//								'type' => 'input',
-//								'priority' => 10,
-//								'props' => ['placeholder' => 'Introdueix el cognom']
-//							]
-//						]
-//					],
-//					[
-//						'columns' => 3,
-//						'hasFrame' => false,
-//						'title' => 'Grup d\'amplada 3 = 25%', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Mitja amplada 6 = 50%', // Etiqueta del formulari
-//								'name' => 'name2',
-//								'type' => 'text',
-//								'columns' => 6,
-//								'priority' => 1, // Més alt es més prioritari
-//								'value' => 'R.',
-//							],
-//							[
-//								'label' => 'Mitja amplada 6 = 50%', // Etiqueta del formulari
-//								'name' => 'surname2',
-//								'value' => '',
-//								'type' => 'input',
-//								'columns' => 6,
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['placeholder' => 'Introdueix el cognom']
-//							],
-//							[
-//								'label' => 'Amplada 12 = 100%', // Etiqueta del formulari
-//								'name' => 'name',
-//								'value' => 'amplada completa',
-//								'type' => 'input',
-//								'priority' => 99, // Més alt es més prioritari
-//							]
-//						],
-//					],
-//					[
-//						'columns' => 3,
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Nom3', // Etiqueta del formulari
-//								'value' => 'res especial',
-//								'type' => 'input',
-//								'priority' => 10, // Més alt es més prioritari
-//							]
-//						]
-//					]
-//				]
-//			],
-//			[
-//				'title' => 'Demostració controls afegits',
-//				'groups' => [
-//					[
-//						'columns' => 6,
-//						'hasFrame' => true,
-//						'title' => 'check/radius', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Checkbox1', // Etiqueta del formulari
-//								'name' => 'check2',
-//								'columns' => 2,
-//								'type' => 'checkbox',
-//								'props' => ['checked' => true]
-//							],
-//							[
-//								'label' => 'Checkbox2', // Etiqueta del formulari
-//								'name' => 'check1',
-//								'columns' => 2,
-//								'type' => 'checkbox',
-//							],
-//							[
-//								'label' => 'Radius1 (grp1)', // Etiqueta del formulari
-//								'name' => 'radius-group-1',
-//								'value' => 1,
-//								'columns' => 2,
-//								'type' => 'radio',
-//								'props' => ['checked' => true]
-//							],
-//							[
-//								'label' => 'Radius2 (grp1)', // Etiqueta del formulari
-//								'value' => 2,
-//								'name' => 'radius-group-1',
-//								'columns' => 2,
-//								'type' => 'radio',
-//							],
-//							[
-//								'label' => 'Radius3 (grp2)', // Etiqueta del formulari
-//								'name' => 'radius-group-2',
-//								'value' => 3,
-//								'columns' => 2,
-//								'type' => 'radio',
-//							],
-//							[
-//								'label' => 'Radius4 (grp4)', // Etiqueta del formulari
-//								'value' => 4,
-//								'name' => 'radius-group-2',
-//								'columns' => 2,
-//								'type' => 'radio',
-//								'props' => ['checked' => true]
-//							]
-//
-//
-//						]
-//					],
-//					[
-//						'columns' => 3,
-//						'hasFrame' => false,
-//						'title' => 'Grup d\'amplada 3 = 25%', // Optatiu
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Mitja amplada 6 = 50%', // Etiqueta del formulari
-//								'name' => 'name2',
-//								'type' => 'text',
-//								'columns' => 6,
-//								'priority' => 10, // Més alt es més prioritari
-//								'value' => 'R.',
-//							],
-//							[
-//								'label' => 'Mitja amplada 6 = 50%', // Etiqueta del formulari
-//								'name' => 'surname2',
-//								'value' => '',
-//								'type' => 'input',
-//								'columns' => 6,
-//								'priority' => 1, // Més alt es més prioritari
-//								'props' => ['placeholder' => 'Introdueix el cognom']
-//							],
-//							[
-//								'label' => 'Amplada completa ', // Etiqueta del formulari
-//								'name' => 'name',
-//								'value' => 'amplada completa',
-//								'type' => 'input',
-//								'priority' => 1, // Més alt es més prioritari
-//							]
-//						],
-//					],
-//					[
-//						'columns' => 3,
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Nom3', // Etiqueta del formulari
-//								'value' => 'res especial',
-//								'type' => 'input',
-//								'priority' => 10, // Més alt es més prioritari
-//							]
-//						]
-//					],
-//					[
-//						'title' => 'Demostració textarea',
-//						'hasFrame' => true,
-////                        'columns' => 12,
-//						'priority' => 10, // Més alt es més prioritari
-//						'fields' => [
-//							[
-//								'label' => 'Nom3', // Etiqueta del formulari
-//								'value' => 'Contingut del textarea',
-//								'name' => 'demotextarea',
-//								'type' => 'textarea',
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['rows' => 5]
-//							],
-//							[
-//								'label' => 'Demostració select',
-//								'type' => 'select',
-//								'name' => 'demoselect',
-//								'columns' => 3,
-//								'options' => [
-//									['value' => 'B', 'description' => 'Barcelona'],
-//									['value' => 'T', 'description' => 'Tarragona'],
-//									['value' => 'L', 'description' => 'Lleida', 'selected' => true],
-//									['value' => 'G', 'description' => 'Girona']
-//								]
-//							]
-//
-//						]
-//
-//					],
-//
-//
-//				]
-//			]
-//
-//		];
 
 
         if ($responseData['info']) {
@@ -421,26 +86,318 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         // TODO[Xavi] Dividir la generació del formulari en estrucutra i dades que corresponen a $responseData[project][structure] i  $responseData[project][values]
 
 
-
-        $builder = new FormBuilder();
-
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
-        $form = $this->buildForm($id, $action, $responseData['projectMetaData']['structure'] );
-
-
-
+        $form = $this->buildTestForm($id, $action, $requestParams['projectType']);
 
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form);
 
     }
 
-    protected function buildForm($id, $action, $structure) {
+    protected function buildForm($id, $action, $projectType, $structure)
+    {
         $builder = new FormBuilder();
 
         $form = $builder
             ->setId($id)
             ->setAction($action)
+            ->addRow(
+                'Projecte: ' . $id, // Títol de prova
+                [
+                    $builder->createGroupBuilder()
+                        ->setTitle('Formulari de prova mini')
+                        ->setFrame(true)
+                        ->addFields(
+                            [
+                                $builder->createFieldBuilder()
+                                    ->setLabel('Títol')
+                                    ->setName('title')
+                                    ->setColumns(12)
+                                    ->build(),
+                                $builder->createFieldBuilder()
+                                    ->setLabel('Modificar el render per que no es mostri label')
+                                    ->setType('hidden')
+                                    ->setName('projectType')
+                                    ->setValue($projectType)
+                                    ->setColumns(12)
+                                    ->build(),
+                                $builder->createFieldBuilder()
+                                    ->setLabel('Modificar el render per que no es mostri label')
+                                    ->setType('hidden')
+                                    ->setName('id')
+                                    ->setValue($id)
+                                    ->setColumns(12)
+                                    ->build(),
+                            ]
+                        )
+                        ->build()
+                ]
+            )
+            ->build();
+
+        return $form;
+    }
+
+    protected function buildTestForm($id, $action, $projectType)
+    {
+        $builder = new FormBuilder();
+
+        $form = $builder
+            ->setId($id)
+            ->setAction($action)
+            ->addRow(
+                'Paràmetres de Dokuwiki',
+                [
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Paràmetres bàsics')
+                        ->setFrame(true)
+                        ->setcolumns(3)
+                        ->addFields(
+                            [
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Modificar el render per que no es mostri label')
+                                    ->setType('hidden')
+                                    ->setName('projectType')
+                                    ->setValue($projectType)
+                                    ->setColumns(12)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Modificar el render per que no es mostri label')
+                                    ->setType('hidden')
+                                    ->setName('id')
+                                    ->setValue($id)
+                                    ->setColumns(12)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Títol del wiki')
+                                    ->setName('title')
+                                    ->setColumns(12)
+                                    ->setPriority(1)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Nom de la pàgina d\'inici')
+                                    ->setName('start')
+                                    ->setColumns(12)
+                                    ->setPriority(10)
+                                    ->build(),
+                            ]
+                        )
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setFrame(true)
+                        ->addFields(
+                            [
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Canvis recents')
+                                    ->setType('number')
+                                    ->setName('recent')
+                                    ->setPriority(10)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Quantitat de canvis recentes que es mantenenanvis recents')
+                                    ->setType('number')
+                                    ->setName('recent_Days')
+                                    ->setPriority(1)
+                                    ->addProp('placeholder', 'Quantitat de canvis recents en dies')
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Camp d\'amplada total')
+                                    ->setName('amplada')
+                                    ->setColumns(12)
+                                    ->setPriority(1)
+                                    ->build(),
+                            ]
+                        )
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Títol del test sense frame')
+                        ->setPriority(10)
+                        ->setColumns(3)
+                        ->addFields(
+                            [
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Utilitza llistes de control')
+                                    ->setType('checkbox')
+                                    ->setName('useacl')
+                                    ->setPriority(10)
+                                    ->addProp('checked', true)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Notificacions')
+                                    ->setType('checkbox')
+                                    ->setName('notifications')
+                                    ->setPriority(10)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Camp d\'amplada total 2')
+                                    ->setName('amplada 2')
+                                    ->setColumns(12)
+                                    ->setPriority(1)
+                                    ->build(),
+                            ]
+                        )
+                        ->build()
+                ])
+            ->addRow(
+                'Segona fila',
+                [
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Amplada de columna 6 = 50%')
+                        ->setFrame(true)
+                        ->setPriority(10)
+                        ->addFields(
+                            [
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Camp d\'amplada màxima')
+                                    ->setName('surname')
+                                    ->addProp('placeholder', 'Introdueix el cognom')
+                                    ->build()
+                            ]
+                        )
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setFrame(true)
+                        ->setTitle('Grup d\'amplada 3 = 25%')
+                        ->setColumns(3)
+                        ->addFields([
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
+                                ->setName('name2')
+                                ->build(),
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
+                                ->setName('name3')
+                                ->build(),
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada completa 12 = 100%')
+                                ->setName('name3')
+                                ->setColumns(12)
+                                ->setPriority(99)
+                                ->build()
+                        ])
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setColumns(3)
+                        ->setPriority(10)
+                        ->addFields([
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada completa dins d\'amplada 3 = 25%')
+                                ->setName('name4')
+                                ->setColumns(12)
+                                ->setPriority(10)
+                                ->build(),
+                        ])
+                        ->build()
+                ]
+            )
+            ->addRow(
+                'Demostració controls afegits',
+                [
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('check/radio')
+                        ->setFrame(true)
+                        ->addFields(
+                            [
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Checkbox1')
+                                    ->setName('check1')
+                                    ->setType('checkbox')
+                                    ->setColumns(2)
+                                    ->addProp('checked', 'true')
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Checkbox2')
+                                    ->setName('check2')
+                                    ->setType('checkbox')
+                                    ->setColumns(2)
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Radio 1 (grp 1)')
+                                    ->setName('radio-group-1')
+                                    ->setColumns(2)
+                                    ->setType('radio')
+                                    ->addProp('checked', 'true')
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Radio 2 (grp 1)')
+                                    ->setName('radio-group-1')
+                                    ->setColumns(2)
+                                    ->setType('radio')
+                                    ->addProp('checked', 'true')
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Radio 1 (grp 1)')
+                                    ->setName('radio-group-2')
+                                    ->setColumns(2)
+                                    ->setType('radio')
+                                    ->addProp('checked', 'true')
+                                    ->build(),
+                                FormBuilder::createFieldBuilder()
+                                    ->setLabel('Radio 2 (grp 2)')
+                                    ->setName('radio-group-2')
+                                    ->setColumns(2)
+                                    ->setType('radio')
+                                    ->addProp('checked', 'true')
+                                    ->build(),
+                            ]
+                        )
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Grup d\'amplada 3 = 25%')
+                        ->setColumns(3)
+                        ->addFields([
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
+                                ->setName('name2')
+                                ->build(),
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada mitja 6 = 50%')
+                                ->setName('name3')
+                                ->build(),
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Camp d\'amplada completa 12 = 100%')
+                                ->setName('name3')
+                                ->setColumns(12)
+                                ->setPriority(99)
+                                ->build()
+                        ])
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Grup d\'amplada 3 = 25%')
+                        ->setColumns(3)
+                        ->addFields([
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Nom43')
+                                ->setName('name43')
+                                ->setColumns(12)
+                                ->build(),
+                        ])
+                        ->build(),
+                    FormBuilder::createGroupBuilder()
+                        ->setTitle('Demostració textarea i select')
+                        ->setColumns(12)
+                        ->addFields([
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Textarea')
+                                ->setType('textarea')
+                                ->setName('demotextarea')
+                                ->setColumns(9)
+                                ->addProp('rows', 5)
+                                ->build(),
+                            FormBuilder::createFieldBuilder()
+                                ->setLabel('Demostració select')
+                                ->setType('select')
+                                ->setName('demoselect')
+                                ->setColumns(3)
+                                ->addOption('B', 'Barceolna')
+                                ->addOption('T', 'Tarragona')
+                                ->addOption('L', 'Lleida', true)
+                                ->addOption('G', 'Girona')
+                                ->build(),
+                        ])
+                        ->build(),
+                ]
+            )
             ->build();
 
         return $form;
