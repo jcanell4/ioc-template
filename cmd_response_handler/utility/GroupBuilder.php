@@ -15,7 +15,7 @@ class GroupBuilder
     protected $priority;
     protected $fields = [];
 
-    public function __construct($id = null, $title = null, $hasFrame = false, $columns = 6, $priority = 0)
+    public function __construct($id = null, $title = null, $hasFrame = false, $columns = 12, $priority = 0)
     {
         $this->setId($id)
             ->setTitle($title)

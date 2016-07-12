@@ -159,25 +159,21 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                                     ->setType('hidden')
                                     ->setName('projectType')
                                     ->setValue($projectType)
-                                    ->setColumns(12)
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Modificar el render per que no es mostri label')
                                     ->setType('hidden')
                                     ->setName('id')
                                     ->setValue($id)
-                                    ->setColumns(12)
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Títol del wiki')
                                     ->setName('title')
-                                    ->setColumns(12)
                                     ->setPriority(1)
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Nom de la pàgina d\'inici')
                                     ->setName('start')
-                                    ->setColumns(12)
                                     ->setPriority(10)
                                     ->build(),
                             ]
@@ -191,19 +187,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                                     ->setLabel('Canvis recents')
                                     ->setType('number')
                                     ->setName('recent')
+                                    ->setColumns(6)
                                     ->setPriority(10)
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Quantitat de canvis recentes que es mantenenanvis recents')
                                     ->setType('number')
                                     ->setName('recent_Days')
+                                    ->setColumns(6)
                                     ->setPriority(1)
                                     ->addProp('placeholder', 'Quantitat de canvis recents en dies')
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Camp d\'amplada total')
                                     ->setName('amplada')
-                                    ->setColumns(12)
                                     ->setPriority(1)
                                     ->build(),
                             ]
@@ -219,6 +216,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                                     ->setLabel('Utilitza llistes de control')
                                     ->setType('checkbox')
                                     ->setName('useacl')
+                                    ->setColumns(6)
                                     ->setPriority(10)
                                     ->addProp('checked', true)
                                     ->build(),
@@ -226,12 +224,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                                     ->setLabel('Notificacions')
                                     ->setType('checkbox')
                                     ->setName('notifications')
+                                    ->setColumns(6)
                                     ->setPriority(10)
                                     ->build(),
                                 FormBuilder::createFieldBuilder()
                                     ->setLabel('Camp d\'amplada total 2')
                                     ->setName('amplada 2')
-                                    ->setColumns(12)
                                     ->setPriority(1)
                                     ->build(),
                             ]
@@ -244,6 +242,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                     FormBuilder::createGroupBuilder()
                         ->setTitle('Amplada de columna 6 = 50%')
                         ->setFrame(true)
+                        ->setColumns(6)
                         ->setPriority(10)
                         ->addFields(
                             [
@@ -262,16 +261,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                         ->addFields([
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada mitja 6 = 50%')
+                                ->setColumns(6)
                                 ->setName('name2')
                                 ->build(),
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada mitja 6 = 50%')
                                 ->setName('name3')
+                                ->setColumns(6)
                                 ->build(),
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada completa 12 = 100%')
                                 ->setName('name3')
-                                ->setColumns(12)
                                 ->setPriority(99)
                                 ->build()
                         ])
@@ -283,7 +283,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada completa dins d\'amplada 3 = 25%')
                                 ->setName('name4')
-                                ->setColumns(12)
                                 ->setPriority(10)
                                 ->build(),
                         ])
@@ -296,6 +295,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                     FormBuilder::createGroupBuilder()
                         ->setTitle('check/radio')
                         ->setFrame(true)
+                        ->setColumns(6)
                         ->addFields(
                             [
                                 FormBuilder::createFieldBuilder()
@@ -349,15 +349,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada mitja 6 = 50%')
                                 ->setName('name2')
+                                ->setColumns(6)
                                 ->build(),
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada mitja 6 = 50%')
                                 ->setName('name3')
+                                ->setColumns(6)
                                 ->build(),
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Camp d\'amplada completa 12 = 100%')
                                 ->setName('name3')
-                                ->setColumns(12)
                                 ->setPriority(99)
                                 ->build()
                         ])
@@ -369,13 +370,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Nom43')
                                 ->setName('name43')
-                                ->setColumns(12)
                                 ->build(),
                         ])
                         ->build(),
                     FormBuilder::createGroupBuilder()
                         ->setTitle('Demostració textarea i select')
-                        ->setColumns(12)
                         ->addFields([
                             FormBuilder::createFieldBuilder()
                                 ->setLabel('Textarea')

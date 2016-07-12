@@ -26,7 +26,7 @@ class FieldBuilder
 //								'priority' => 10, // Més alt es més prioritari
 //								'props' => ['placeholder' => 'Introdueix el nom de la pàgina d\'inici']
 
-    public function __construct($id = null, $label = '', $type = 'text', $name = null, $columns = 6, $priority = 0)
+    public function __construct($id = null, $label = '', $type = 'text', $name = null, $columns = 12, $priority = 0)
     {
         $this->setId($id)
             ->setLabel($label)
