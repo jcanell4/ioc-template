@@ -17,8 +17,16 @@ if (!defined("DOKU_INC")) {
 if (!defined('DOKU_PLUGIN')) {
     define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 }
+
+if (!defined('DOKU_COMMAND')) {
+    define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
+}
+
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(tpl_incdir() . 'cmd_response_handler/utility/FormBuilder.php');
+
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
 
 class ProjectResponseHandler extends WikiIocResponseHandler
 {
@@ -30,8 +38,36 @@ class ProjectResponseHandler extends WikiIocResponseHandler
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
 
-        // TODO[Xavi] La resposta serà diferent si es tracta d'un edit o un save
+        switch ($requestParams[RequestParameterKeys::DO_KEY]) {
+            case 'edit':
+                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                break;
 
+            case 'save':
+//                $this->saveResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator);
+                break;
+
+            default:
+                // TODO[Xavi] Llençar una excepció personlitzada, no existeix aquest 'do'.
+                throw new Exception();
+        }
+
+
+
+//		ALERTA[Xavi] Això es necessari? es troba enganxat en molts els response handlers
+//		$ajaxCmdResponseGenerator->addProcessDomFromFunction(
+//			$responseData['id'],
+//			TRUE,
+//			"ioc/dokuwiki/processContentPage",  //TODO configurable
+//			array(
+//				"ns"            => $responseData['ns'],
+//				"editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+//				"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+//			)
+//		);
+    }
+
+    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator){
         $form = [];
 //        $form['view'] = [
 //            'rows' => 10, // Aquest no crec que sigui necessari
@@ -384,20 +420,29 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 
         // TODO[Xavi] Dividir la generació del formulari en estrucutra i dades que corresponen a $responseData[project][structure] i  $responseData[project][values]
 
+
+
+        $builder = new FormBuilder();
+
+        $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
+        $form = $this->buildForm($id, $action, $responseData['projectMetaData']['structure'] );
+
+
+
+
+
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form);
 
+    }
 
-//		ALERTA[Xavi] Això es necessari? es troba enganxat en molts els response handlers
-//		$ajaxCmdResponseGenerator->addProcessDomFromFunction(
-//			$responseData['id'],
-//			TRUE,
-//			"ioc/dokuwiki/processContentPage",  //TODO configurable
-//			array(
-//				"ns"            => $responseData['ns'],
-//				"editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-//				"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
-//			)
-//		);
+    protected function buildForm($id, $action, $structure) {
+        $builder = new FormBuilder();
 
+        $form = $builder
+            ->setId($id)
+            ->setAction($action)
+            ->build();
+
+        return $form;
     }
 }
