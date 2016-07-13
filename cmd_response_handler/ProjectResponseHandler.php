@@ -161,48 +161,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         $form = $builder->addRows($this->rows)
             ->build();
 
-
-        // Afegir totes les rows
-
-//
-//
-//        $form = $builder
-//            ->setId($id)
-//            ->setAction($action)
-//            ->addRow(
-//                'Projecte: ' . $id, // Títol de prova
-//                [
-//                    $builder->createGroupBuilder()
-//                        ->setTitle('Formulari de prova mini')
-//                        ->setFrame(true)
-//                        ->addFields(
-//                            [
-//                                $builder->createFieldBuilder()
-//                                    ->setLabel('Títol')
-//                                    ->setName('title')
-//                                    ->setColumns(12)
-//                                    ->build(),
-//                                $builder->createFieldBuilder()
-//                                    ->setLabel('Modificar el render per que no es mostri label')
-//                                    ->setType('hidden')
-//                                    ->setName('projectType')
-//                                    ->setValue($projectType)
-//                                    ->setColumns(12)
-//                                    ->build(),
-//                                $builder->createFieldBuilder()
-//                                    ->setLabel('Modificar el render per que no es mostri label')
-//                                    ->setType('hidden')
-//                                    ->setName('id')
-//                                    ->setValue($id)
-//                                    ->setColumns(12)
-//                                    ->build(),
-//                            ]
-//                        )
-//                        ->build()
-//                ]
-//            )
-//            ->build();
-
         return $form;
     }
 
@@ -221,10 +179,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
             $row = FormBuilder::createRowBuilder();
             $group = FormBuilder::createGroupBuilder();
             $row->setTitle($title);
-
-            // TODO s'ha de recorre de forma diferent
-//            $this->generateRowFromObject($value);
-
             $this->lastRow++; // Els objectes sempre afegiran una fila encara que no continguin res (que no ha de ser el cas)
 
             foreach ($values['value'] as $key => $value) {
@@ -239,7 +193,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                     $this->generateRow($value, $key);
 
                 } else {
-
+                    // TODO[Xavi] Canviar per un mètode i afegir la configuració per tipus
                     $group->addField(
                         FormBuilder::createFieldBuilder()
                             ->setId($value['id'])
@@ -253,7 +207,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 
             $group->setFrame(true);
 
-
             $row->addGroup($group->build());
             $this->rows[$index] = $row->build();
 
@@ -261,10 +214,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         } else if ($values['tipus'] === 'array') {
             // No es mostra per pantalla, per tant no cal incrementar el nombre de files
 
+            $this->generateHeader($title);
             for ($i = 0, $len = count($values['value']); $i < $len; $i++) {
                 // Primera passada: És processan dos blocs, el títol no es mostra
                 // Segona passada: és una unitat
                 $title = $values['itemsType'] . ' ' . ($i + 1);
+
+
+
                 $this->generateRow($values['value'][$i], $title);
             }
         } else {
@@ -275,6 +232,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         // Si el valor és un array només es recorre però no s'ha de crear
 
 
+    }
+
+
+    private function generateHeader($title)
+    {
+
+        $row = FormBuilder::createRowBuilder();
+        $row->setTitle($title);
+        $this->rows[$this->lastRow] = $row->build();
+        $this->lastRow++;
     }
 
 }
