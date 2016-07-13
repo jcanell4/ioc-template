@@ -58,6 +58,7 @@ class cfgIdConstants
     const ED_PARC_BUTTON = "edparcButton";
     const CANCEL_PARC_BUTTON = "cancelparcButton";
     const SAVE_PARC_BUTTON = "saveparcButton";
+    const SAVE_FORM_BUTTON = "saveFormButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
@@ -70,6 +71,9 @@ class cfgIdConstants
     const ZONA_MISSATGES = "zonaMissatges";
     const ZONA_TOP_RIGHT = "zonaTopRight";
     const ZONA_TOP_NOTIFICATION = "zonaNotification";
+
+
+
 
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;

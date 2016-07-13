@@ -49,6 +49,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 
             case 'save':
 //                $this->saveResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator);
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                 break;
 
             default:
@@ -95,7 +96,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         $form = $this->buildForm($id, $action, $requestParams['projectType'], $responseData['projectMetaData']['structure']);
 
 
-        $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form);
+        $values = $responseData['projectMetaData']['values'];
+        $extra = ['projectType' => $requestParams['projectType']];
+
+        $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
 
     }
 
@@ -219,7 +223,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                 // Primera passada: És processan dos blocs, el títol no es mostra
                 // Segona passada: és una unitat
                 $title = $values['itemsType'] . ' ' . ($i + 1);
-
 
 
                 $this->generateRow($values['value'][$i], $title);

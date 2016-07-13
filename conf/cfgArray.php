@@ -668,6 +668,28 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i1_save_form' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'saveFormButton',
+                  'title' => 'Desar Formulari',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconSave\'',
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project&do=save\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_form\'};return _ret;}',
+                ),
+              ),
+            ),
             'i1save' => 
             array (
               'class' => 'WikiEventButton',

@@ -22,7 +22,7 @@ require([
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
     wikiIocDispatcher.almacenLocal = new LocalUserConfig();
-    
+
     //declaració de funcions
     ready(function () {
 
@@ -54,6 +54,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -79,8 +80,8 @@ require([
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);                            
-                    
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
+
                     } else if (page.action === 'sec_edit') {
                         if (selectedSection.id) {
 
@@ -98,7 +99,7 @@ require([
                         }
                     } else if (page.action === 'edit') {
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
-                                    || disp.getContentCache(cur).getMainContentTool().readonly;
+                            || disp.getContentCache(cur).getMainContentTool().readonly;
 
                         //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
@@ -109,6 +110,10 @@ require([
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
+
+                    } else if (page.action === 'form') {
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
+
                     } else if (page.action === 'media') {
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     } else if (page.action === 'mediadetails') {
@@ -217,12 +222,20 @@ require([
 
                         queryParams += "call=page&id=";
 
-                    //} else if (state.getContent(id).action === "edit") { // ALERTA[Xavi] Mai arriba aqui, deshabilitat fins que solucionem el problema de sincronització al recarregar amb els contenidors
+                        //} else if (state.getContent(id).action === "edit") { // ALERTA[Xavi] Mai arriba aqui, deshabilitat fins que solucionem el problema de sincronització al recarregar amb els contenidors
                         //if (state.getContent(id).rev) {
                         //    queryParams += "rev=" + state.getContent(id).rev + "&";
                         //}
                         //
                         //queryParams = "call=edit&do=edit&reload=1&id=";
+
+
+                    } else if (state.getContent(id).action === "form") {
+                        var ns = state.getContent(id).ns,
+                            projectType = state.getContent(id).projectType;
+
+                        queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
+
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
@@ -282,12 +295,12 @@ require([
 
         // Guardar los valores por defecto de las medidas de los paneles ajustables
         wikiIocDispatcher.almacenLocal.setUpUserDefaultPanelsSize(wikiIocDispatcher);
-        
+
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             var extraState = wikiIocDispatcher.requestedState;
-            
+
             wikiIocDispatcher.reloadFromState(state);
             if (extraState)
                 wikiIocDispatcher.reloadFromState(extraState);
@@ -323,7 +336,6 @@ require([
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
 
-
         window.addEventListener("beforeunload", function (event) {
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
@@ -346,6 +358,8 @@ require([
         new RequestControl(eventName.CANCEL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false);
         new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true);
         new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false);
+
+        new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true);
 
         new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=save', true);
         new RequestControl(eventName.REMOVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=remove', true);
