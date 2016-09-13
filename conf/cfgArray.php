@@ -451,6 +451,17 @@ $_arrIocCfgGUI = array (
                         array (
                           'treeDataSource' => '\'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/\'',
                           'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                          'typeDictionary' => 
+                          array (
+                            'p' => 
+                            array (
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                              'params' => 
+                              array (
+                                0 => 'projectType',
+                              ),
+                            ),
+                          ),
                           'standbyId' => '\'bodyContent\'',
                         ),
                       ),
@@ -654,6 +665,28 @@ $_arrIocCfgGUI = array (
                   'labelButtonAcceptar' => '\'Acceptar\'',
                   'labelButtonCancellar' => '\'Cancel·lar\'',
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
+            'i1_save_form' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'saveFormButton',
+                  'title' => 'Desar Formulari',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconSave\'',
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project&do=save\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_form\'};return _ret;}',
                 ),
               ),
             ),

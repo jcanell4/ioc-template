@@ -54,6 +54,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -109,6 +110,10 @@ require([
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
+
+                    } else if (page.action === 'form') {
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
+
                     } else if (page.action === 'media') {
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                     } else if (page.action === 'mediadetails') {
@@ -223,6 +228,14 @@ require([
                         //}
                         //
                         //queryParams = "call=edit&do=edit&reload=1&id=";
+
+
+                    } else if (state.getContent(id).action === "form") {
+                        var ns = state.getContent(id).ns,
+                            projectType = state.getContent(id).projectType;
+
+                        queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
+
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
@@ -347,6 +360,8 @@ require([
         new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true);
         new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false);
 
+        new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true);
+
         new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=save', true);
         new RequestControl(eventName.REMOVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=remove', true);
 
@@ -368,6 +383,18 @@ require([
         // Recuperem el contenidor de notificacions
         var notifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER');
         wikiIocDispatcher.setNotifierContainer(notifierContainer);
+
+
+        // Alerta[Xavi] TEST per carregar formularis
+        //jQuery.ajax({
+        //    url: '//iocwiki.dev/dokuwiki_30/lib/plugins/ajaxcommand/ajax.php?call=form&id=testforms',
+        //    success: wikiIocDispatcher.processResponse.bind(wikiIocDispatcher)
+        //});
+
+        //var requestForm = new Request();
+        //requestForm.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=testform&id=testform";
+        //requestForm.sendRequest();
+
 
     });
 });

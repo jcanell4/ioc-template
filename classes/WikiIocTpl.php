@@ -146,6 +146,8 @@ class WikiIocTpl {
         //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/document.css'/>\n";
         tpl_metaheaders();
         echo "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n";
+	//TO DO [Josep] Cal afegir aquesta línia fent servir el sistema de configuració actual, no pas de forma literal!
+        echo '<link rel="stylesheet" type="text/css" href="'. DOKU_TPL .'css/bootstrap/css/bootstrap.css" />';
 
         if(!file_exists(DOKU_TPL_INCDIR . "style.ini")) {
             echo "<link rel=\"stylesheet\" media=\"all\" type=\"text/css\" href=\"" . DOKU_TPL . "bug49642.php" . ((!empty($lang["direction"]) && $lang["direction"] === "rtl") ? "?langdir=rtl" : "") . "\" />\n"; //var comes from DokuWiki core
