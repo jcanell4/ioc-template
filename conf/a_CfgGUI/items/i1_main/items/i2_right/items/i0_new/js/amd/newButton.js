@@ -1,13 +1,16 @@
 //include "dijit/registry"
 //include "dojo/dom"
 //include "dojo/dom-construct"; alias "domConstruct"
+//include "dojo/dom-style"; alias "domStyle"
 //include "dijit/layout/BorderContainer"
 //include "dijit/Dialog"
 //include "dijit/layout/ContentPane"
 //include "dijit/form/Form"
-//include  "dijit/form/TextBox"
-//include  "dijit/form/Button"
-//include  "ioc/gui/NsTreeContainer"
+//include "dijit/form/TextBox"
+//include "dijit/form/Button"
+//include "dijit/form/ComboBox"
+//include "dojo/store/JsonRest"
+//include "ioc/gui/NsTreeContainer"
 
 
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
@@ -19,22 +22,23 @@ if (newButton) {
 
         if(!dialog){
             dialog = new Dialog({
-                id:"newDocumentDlg",
+                id: "newDocumentDlg",
                 title: newButton.dialogTitle,
-                style: "width: 470px; height: 250px;",
+                style: "width: 470px; height: 350px;",
                 newButton: newButton
             });
 
             dialog.on('hide', function () {
                 dialog.dialogTree.tree.collapseAll();
+                dom.byId('textBoxNouProjecte').value="";
                 dom.byId('textBoxNouDocument').value="";
             });
             dialog.on('show', function () {
-                dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
-                dom.byId('textBoxEspaiNoms').focus();
                 dialog.dialogTree.tree.set('path',path).then(function(){
                     dom.byId('textBoxNouDocument').focus();
                 });
+                dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+                dom.byId('textBoxEspaiNoms').focus();
             });
 
             dialog.nsActivePage = function (){
@@ -45,7 +49,7 @@ if (newButton) {
                     aPath = aPath.split(':');
                     aPath.pop();
                     aPath.unshift("");
-                    for (var i=0;i<aPath.length;i++) {
+                    for (var i=0; i<aPath.length; i++) {
                         if (i > 1) {
                             stPath = stPath + ":";
                         }
@@ -57,7 +61,7 @@ if (newButton) {
 
 
             var bc = new BorderContainer({
-                style: "height: 200px; width: 450px;"
+                style: "height: 300px; width: 450px;"
             });
 
             // create a ContentPane as the left pane in the BorderContainer
@@ -76,12 +80,31 @@ if (newButton) {
             // put the top level widget into the document, and then call startup()
             bc.placeAt(dialog.containerNode);
 
+            //L'arbre de navegació a la banda esquerra del quadre.
+            var divizquierda = domConstruct.create('div', {
+                className: 'izquierda'
+            },cpEsquerra.containerNode);
+
+            var dialogTree = new NsTreeContainer({
+                treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
+                onlyDirs:true,
+                hiddenProjects:true
+            }).placeAt(divizquierda);
+            dialogTree.startup();
+
+            dialog.dialogTree = dialogTree;
+
+            dialogTree.tree.onClick=function(item) {
+                dom.byId('textBoxEspaiNoms').value= item.id;
+                dom.byId('textBoxEspaiNoms').focus();
+            }
+
             // Un formulari a la banda dreta contenint:
-            var divesquerra = domConstruct.create('div', {
+            var divdreta = domConstruct.create('div', {
                 className: 'dreta'
             },cpDreta.containerNode);
 
-            var form = new Form().placeAt(divesquerra);
+            var form = new Form().placeAt(divdreta);
 
             // Un camp de text per poder escriure l'espai de noms
             var divEspaiNoms = domConstruct.create('div', {
@@ -98,7 +121,67 @@ if (newButton) {
             }).placeAt(divEspaiNoms);
             dialog.textBoxEspaiNoms = EspaiNoms;
 
-            // Un camp de text per poder escriure el nom del nou document
+            // Un combo per seleccionar el tipus de projecte (hidden/visible)
+            var divProjecte = domConstruct.create('div', {
+                className: 'divProjecte'
+            },form.containerNode);
+
+            domConstruct.create('label', {
+                innerHTML: '<br>' + newButton.Projecteslabel + '<br>'
+            },divProjecte);
+
+            var selectProjecte = new ComboBox({
+                id: 'comboProjectes',
+                placeHolder: newButton.ProjectesplaceHolder,
+                name: 'projecte',
+                //value: 'defaultProject',
+                store: new JsonRest({target: newButton.urlListProjects })
+            }).placeAt(divProjecte);
+            dialog.comboProjectes = selectProjecte;
+            //selectProjecte.startup();
+            dialog.comboProjectes.startup();
+
+            dialog.comboProjectes.onClick = function(item) {
+                //dom.byId('textBoxNouDocument').value="";
+                var box = registry.byId('textBoxNouDocument');
+                domStyle.set(box.domNode, "visible", "hidden");
+            }
+
+            // Un camp de text per poder escriure el nom del nou projecte (hidden/visible)
+            var divNouProjecte = domConstruct.create('div', {
+                className: 'divNouProjecte'
+            },form.containerNode);
+
+            domConstruct.create('label', {
+                innerHTML: '<br>' + newButton.NouProjectelabel + '<br>'
+            }, divNouProjecte);
+
+            var NouProjecte = new TextBox({
+                id: "textBoxNouProjecte",
+                placeHolder: newButton.NouProjecteplaceHolder
+            }).placeAt(divNouProjecte);
+
+            // Un combo per seleccionar la plantilla del document (hidden/visible)
+            var divTemplate = domConstruct.create('div', {
+                className: 'divTemplate'
+            },form.containerNode);
+
+            domConstruct.create('label', {
+                innerHTML: '<br>' + newButton.Templateslabel + '<br>'
+            },divTemplate);
+
+            var selectTemplate = new ComboBox({
+                id: 'comboTemplates',
+                placeHolder: newButton.TemplatesplaceHolder,
+                name: 'plantilla',
+                value: 'plantilla 1',
+                store: new JsonRest({target: newButton.urlListTemplates })
+            }).placeAt(divTemplate);
+            dialog.comboTemplates = selectTemplate;
+            //selectTemplate.startup();
+            dialog.comboTemplates.startup();
+
+            // Un camp de text per poder escriure el nom del nou document (hidden/visible)
             var divNouDocument = domConstruct.create('div', {
                 className: 'divNouDocument'
             },form.containerNode);
@@ -111,24 +194,6 @@ if (newButton) {
                 id: "textBoxNouDocument",
                 placeHolder: newButton.NouDocumentplaceHolder
             }).placeAt(divNouDocument);
-
-            //L'arbre de navegació a la banda dreta del quadre.
-            var divdreta = domConstruct.create('div', {
-                className: 'dreta'
-            },cpEsquerra.containerNode);
-
-            var dialogTree = new NsTreeContainer({
-                treeDataSource: 'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/',
-                onlyDirs:true
-            }).placeAt(divdreta);
-            dialogTree.startup();
-
-            dialog.dialogTree = dialogTree;
-
-            dialogTree.tree.onClick=function(item) {
-                dom.byId('textBoxEspaiNoms').value= item.id;
-                dom.byId('textBoxEspaiNoms').focus();
-            }
 
             // botons
             var botons = domConstruct.create('div', {
