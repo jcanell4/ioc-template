@@ -113,13 +113,16 @@ dialog.on('hide', function () {
 dialog.dialogTree.tree.collapseAll();
 dom.byId('textBoxNouProjecte').value="";
 dom.byId('textBoxNouDocument').value="";
+dom.byId('id_divNouProjecte').hidden = false;
+dom.byId('id_divTemplate').hidden = false;
+dom.byId('id_divNouDocument').hidden = false;
 });
 dialog.on('show', function () {
 dialog.dialogTree.tree.set('path',path).then(function(){
-dom.byId('textBoxNouDocument').focus();
+registry.byId('textBoxNouDocument').focus();
 });
-dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
-dom.byId('textBoxEspaiNoms').focus();
+registry.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+registry.byId('textBoxEspaiNoms').focus();
 });
 dialog.nsActivePage = function (){
 path.length=0;
@@ -164,7 +167,7 @@ dialog.dialogTree = dialogTree;
 dialogTree.tree.onClick=function(item) {
 dom.byId('textBoxEspaiNoms').value= item.id;
 dom.byId('textBoxEspaiNoms').focus();
-}
+};
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
 },cpDreta.containerNode);
@@ -181,6 +184,7 @@ placeHolder: newButton.EspaideNomsplaceHolder
 }).placeAt(divEspaiNoms);
 dialog.textBoxEspaiNoms = EspaiNoms;
 var divProjecte = domConstruct.create('div', {
+id: 'id_divProjecte',
 className: 'divProjecte'
 },form.containerNode);
 domConstruct.create('label', {
@@ -194,11 +198,19 @@ store: new JsonRest({target: newButton.urlListProjects })
 }).placeAt(divProjecte);
 dialog.comboProjectes = selectProjecte;
 dialog.comboProjectes.startup();
-dialog.comboProjectes.onClick = function(item) {
-var box = registry.byId('textBoxNouDocument');
-domStyle.set(box.domNode, "visible", "hidden");
+dialog.comboProjectes.connect(registry.byId('comboProjectes'), "onChange", function(e) {
+if (selectProjecte.value == 'defaultProject') {
+dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
+dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
+dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
+}else{
+dom.byId('id_divTemplate').hidden = true;       //oculta el DIV que contiene el combo de 'Plantilla'
+dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
+dom.byId('id_divNouProjecte').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Projecte'
 }
+});
 var divNouProjecte = domConstruct.create('div', {
+id: 'id_divNouProjecte',
 className: 'divNouProjecte'
 },form.containerNode);
 domConstruct.create('label', {
@@ -209,6 +221,7 @@ id: "textBoxNouProjecte",
 placeHolder: newButton.NouProjecteplaceHolder
 }).placeAt(divNouProjecte);
 var divTemplate = domConstruct.create('div', {
+id: 'id_divTemplate',
 className: 'divTemplate'
 },form.containerNode);
 domConstruct.create('label', {
@@ -224,6 +237,7 @@ store: new JsonRest({target: newButton.urlListTemplates })
 dialog.comboTemplates = selectTemplate;
 dialog.comboTemplates.startup();
 var divNouDocument = domConstruct.create('div', {
+id: 'id_divNouDocument',
 className: 'divNouDocument'
 },form.containerNode);
 domConstruct.create('label', {
