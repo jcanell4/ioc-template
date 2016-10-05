@@ -30,6 +30,7 @@ if (newButton) {
 
             dialog.on('hide', function () {
                 dialog.dialogTree.tree.collapseAll();
+                dom.byId('textBoxEspaiNoms').value="";
                 dom.byId('textBoxNouProjecte').value="";
                 dom.byId('textBoxNouDocument').value="";
                 //muestra los DIV que contienen el textBox de 'Nou Projecte', el combo de las plantillas y TextBox de 'Nou Document'
@@ -41,10 +42,11 @@ if (newButton) {
             });
             dialog.on('show', function () {
                 dialog.dialogTree.tree.set('path',path).then(function(){
-                    registry.byId('textBoxNouDocument').focus();
+                    dom.byId('textBoxNouDocument').focus();
                 });
-                registry.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
-                registry.byId('textBoxEspaiNoms').focus();
+                dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+                dom.byId('textBoxEspaiNoms').focus();
+                dialog.switchBloc('defaultProject');
             });
 
             dialog.nsActivePage = function (){
@@ -63,6 +65,18 @@ if (newButton) {
                         path[i]=stPath;
                     }
                 }    
+            };
+
+            dialog.switchBloc = function(e) {
+                if (e === 'defaultProject') {
+                    dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
+                    dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
+                    dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
+                }else{
+                    dom.byId('id_divNouProjecte').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Projecte'
+                    dom.byId('id_divTemplate').hidden = true;       //oculta el DIV que contiene el combo de 'Plantilla'
+                    dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
+                }
             };
 
 
@@ -129,7 +143,7 @@ if (newButton) {
 
             //DIV PROJECTE Un div per contenir la selecció de Projectes
             var divProjecte = domConstruct.create('div', {
-                id: 'id_divProjecte',
+                //id: 'id_divProjecte',
                 className: 'divProjecte'
             },form.containerNode);
 
@@ -137,30 +151,18 @@ if (newButton) {
                 innerHTML: '<br>' + newButton.Projecteslabel + '<br>'
             },divProjecte);
 
-            //Un combo per seleccionar el tipus de projecte (hidden/visible)
+            //Un combo per seleccionar el tipus de projecte
             var selectProjecte = new ComboBox({
                 id: 'comboProjectes',
                 placeHolder: newButton.ProjectesplaceHolder,
                 name: 'projecte',
-                //value: 'defaultProject',
+                value: 'defaultProject',
                 store: new JsonRest({target: newButton.urlListProjects })
             }).placeAt(divProjecte);
             dialog.comboProjectes = selectProjecte;
-            dialog.comboProjectes.startup();
+            //dialog.comboProjectes.startup();
 
-            dialog.comboProjectes.connect(registry.byId('comboProjectes'), "onChange", function(e) {
-                if (selectProjecte.value == 'defaultProject') {
-                    dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
-                    dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
-                    dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
-                }else{
-                    dom.byId('id_divTemplate').hidden = true;       //oculta el DIV que contiene el combo de 'Plantilla'
-                    dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
-                    dom.byId('id_divNouProjecte').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Projecte'
-                }
-            });
-
-            // Un camp de text per poder escriure el nom del nou projecte (hidden/visible)
+            //DIV NOU PROJECTE: Un camp de text per poder escriure el nom del nou projecte (hidden/visible)
             var divNouProjecte = domConstruct.create('div', {
                 id: 'id_divNouProjecte',
                 className: 'divNouProjecte'
@@ -175,7 +177,7 @@ if (newButton) {
                 placeHolder: newButton.NouProjecteplaceHolder
             }).placeAt(divNouProjecte);
 
-            //DIV PLANTILLA
+            //DIV PLANTILLA: Selecció de plantilla i nom del Nou Document (hidden/visible)
             var divTemplate = domConstruct.create('div', {
                 id: 'id_divTemplate',
                 className: 'divTemplate'
@@ -185,18 +187,18 @@ if (newButton) {
                 innerHTML: '<br>' + newButton.Templateslabel + '<br>'
             },divTemplate);
 
-            // Un combo per seleccionar la plantilla del document (hidden/visible)
+            // Un combo per seleccionar la plantilla del document
             var selectTemplate = new ComboBox({
                 id: 'comboTemplates',
                 placeHolder: newButton.TemplatesplaceHolder,
                 name: 'plantilla',
-                value: 'plantilla 1',
+                value: '',
                 store: new JsonRest({target: newButton.urlListTemplates })
             }).placeAt(divTemplate);
             dialog.comboTemplates = selectTemplate;
             dialog.comboTemplates.startup();
 
-            // Un camp de text per poder escriure el nom del nou document (hidden/visible)
+            //DIV NOU DOCUMENT: Un camp de text per poder escriure el nom del nou document (hidden/visible)
             var divNouDocument = domConstruct.create('div', {
                 id: 'id_divNouDocument',
                 className: 'divNouDocument'
@@ -211,6 +213,11 @@ if (newButton) {
                 placeHolder: newButton.NouDocumentplaceHolder
             }).placeAt(divNouDocument);
 
+            //la posición de ésta línea en el script es relevante
+            dialog.comboProjectes.connect(dom.byId('comboProjectes'), "onChange", dialog.switchBloc(selectProjecte.value));
+            //dialog.comboProjectes.on('change', dialog.switchBloc(selectProjecte.value));
+            //dialog.comboProjectes.onChange = dialog.switchBloc(selectProjecte.value);
+
             // botons
             var botons = domConstruct.create('div', {
                 className: 'botons'
@@ -223,14 +230,20 @@ if (newButton) {
             new Button({
               label: newButton.labelButtonAcceptar,
               onClick: function(){
-                    if (NouDocument.value !== '') {
-                        var separacio = '';
-                        if (EspaiNoms.value !== '') {
-                            separacio = ':';
+                    if (selectProjecte.value === 'defaultProject') {
+                        if (NouDocument.value !== '') {
+                            var separacio = (EspaiNoms.value !== '') ? ':' : '';
+                            var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                            newButton.sendRequest(query);
+                            dialog.hide();
                         }
-                        var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
-                        newButton.sendRequest(query);
-                        dialog.hide();
+                    }else {
+                        if (NouProjecte.value !== '') {
+                            var separacio = (EspaiNoms.value !== '') ? ':' : '';
+                            var query = 'call=project&do=create&id=' + EspaiNoms.value + separacio + NouProjecte.value;
+                            newButton.sendRequest(query);
+                            dialog.hide();
+                        }
                     }
               }
             }).placeAt(botons);
