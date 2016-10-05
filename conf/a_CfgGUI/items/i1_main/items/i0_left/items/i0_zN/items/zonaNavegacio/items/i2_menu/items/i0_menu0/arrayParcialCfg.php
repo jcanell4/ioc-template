@@ -12,5 +12,6 @@ $arrParcial = array(
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=recent'"
                                         )
                             )
+                ,"hidden" => true
               );
 

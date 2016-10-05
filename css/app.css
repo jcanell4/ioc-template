@@ -329,3 +329,7 @@ table.diff th.author {
 .dijitTreeIcon.dijitIconFolderClosed, .dijitTreeIcon.dijitFolderClosed{
 	background-position: -463px;
 }
+
+#bodyContent{
+    font-size:  1.1em;
+}
