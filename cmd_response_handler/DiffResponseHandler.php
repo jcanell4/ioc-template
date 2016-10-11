@@ -60,6 +60,7 @@ class DiffResponseHandler extends WikiIocResponseHandler {
 			array(
 				"ns"            => $responseData['ns'],
 				"editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
+                                "pageCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=page",
 				"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
 			)
 		);
