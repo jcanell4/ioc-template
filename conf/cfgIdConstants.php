@@ -102,6 +102,10 @@ class cfgIdConstants
     const TALKUSER_MENUITEM   = "talkUserMenuItem"; //cambiada por TALK_USER_MENU_ITEM
     const LOGOFF_MENUITEM     = "logoffMenuItem";   //cambiada por LOGOFF_MENU_ITEM
     */
+    
+    //Constant de tipus de projecte
+    const PROJECT_TYPE = 'projectType';
+    
     public function getConstantsIds()
     {
         global $js_packages;

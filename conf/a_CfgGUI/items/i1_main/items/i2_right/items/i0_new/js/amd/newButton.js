@@ -83,6 +83,11 @@ if (newButton) {
                     dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
                 }
             };
+            
+            dialog.setDefaultDocumentName = function(n,o,e) {
+                dom.byId('textBoxNouDocument').value = e;
+                dom.byId('textBoxNouDocument').focus();
+            }
 
 
             var bc = new BorderContainer({
@@ -166,7 +171,6 @@ if (newButton) {
             }).placeAt(divProjecte);
             dialog.comboProjectes = selectProjecte;
             dialog.comboProjectes.startup();
-            //dialog.comboProjectes.connect(dialog.comboProjectes, "onChange", dialog.switchBloc );
             dialog.comboProjectes.watch('value', dialog.switchBloc );
 
             //DIV NOU PROJECTE: Un camp de text per poder escriure el nom del nou projecte (hidden/visible)
@@ -204,6 +208,7 @@ if (newButton) {
             }).placeAt(divTemplate);
             dialog.comboTemplates = selectTemplate;
             dialog.comboTemplates.startup();
+            dialog.comboTemplates.watch('value', dialog.setDefaultDocumentName );
 
             //DIV NOU DOCUMENT: Un camp de text per poder escriure el nom del nou document (hidden/visible)
             var divNouDocument = domConstruct.create('div', {
@@ -248,7 +253,8 @@ if (newButton) {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
                             var query = 'call=project' + 
                                         '&do=create' + 
-                                        '&id=' + EspaiNoms.value + separacio + NouProjecte.value;
+                                        '&id=' + EspaiNoms.value + separacio + NouProjecte.value +
+                                        '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.value;
                             newButton.sendRequest(query);
                             dialog.hide();
                         }

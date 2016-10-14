@@ -157,6 +157,10 @@ dom.byId('id_divTemplate').hidden = true;       //oculta el DIV que contiene el 
 dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
 }
 };
+dialog.setDefaultDocumentName = function(n,o,e) {
+dom.byId('textBoxNouDocument').value = e;
+dom.byId('textBoxNouDocument').focus();
+}
 var bc = new BorderContainer({
 style: "height: 300px; width: 450px;"
 });
@@ -243,6 +247,7 @@ store: new JsonRest({target: newButton.urlListTemplates })
 }).placeAt(divTemplate);
 dialog.comboTemplates = selectTemplate;
 dialog.comboTemplates.startup();
+dialog.comboTemplates.watch('value', dialog.setDefaultDocumentName );
 var divNouDocument = domConstruct.create('div', {
 id: 'id_divNouDocument',
 className: 'divNouDocument'
@@ -278,7 +283,8 @@ if (NouProjecte.value !== '') {
 var separacio = (EspaiNoms.value !== '') ? ':' : '';
 var query = 'call=project' +
 '&do=create' +
-'&id=' + EspaiNoms.value + separacio + NouProjecte.value;
+'&id=' + EspaiNoms.value + separacio + NouProjecte.value +
+'&projectType=' + selectProjecte.value;
 newButton.sendRequest(query);
 dialog.hide();
 }
