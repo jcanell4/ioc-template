@@ -9,6 +9,7 @@ $arrParcial = array(
                        ,"class" => "ioc_content dokuwiki"
                        ,"doLayout" => "false"
                        ,"splitter" => "false"
+                       ,"toggleSplitterCollapsedSize" => "20px"                         
                      )
                   )
                  ,"items" => array(

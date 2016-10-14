@@ -23,8 +23,8 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * @param array[] $reqJsModuls  hash de mòduls javascript necessaris
      *                              pels atributs dojo de la classe
      */
-    function __construct($aParms = array(), $reqPackage = array(), $reqJsModuls = array()) {
-        parent::__construct($reqPackage, $reqJsModuls);
+    function __construct($aParms = array(), $reqPackage = array(), $reqJsModuls = array(), $cssStyles=array()) {
+        parent::__construct($reqPackage, $reqJsModuls, $cssStyles);
         
         $this->aParams = $aParms;
 

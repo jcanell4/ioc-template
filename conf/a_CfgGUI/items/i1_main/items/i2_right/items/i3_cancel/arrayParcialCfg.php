@@ -8,12 +8,12 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                           "query" => "'do=cancel'"
-                                          ,"autoSize" => true
+                                          "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconClose'"
-                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel_'"
+//                                          ,"query" => "'do=cancel'"
+//                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
+//                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel_'"
 //                                          ,"eventId" => "'cancel_partial'" // S'ha d'afegir el id del document que correspongui
                                         )
                             )

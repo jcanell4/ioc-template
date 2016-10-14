@@ -166,7 +166,8 @@ class WikiIocTpl {
 
         // TODO[Xavi] carreguem la llibrería ace
         echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";
-
+        
+        echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredStyles();
 
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
         echo $this->scriptCode;     // codi generat per a una petició de pàgina explícita per GET

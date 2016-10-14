@@ -7,6 +7,7 @@ $arrParcial = array(
                          ,"region" => "bottom"
                          ,"doLayout" => "false"
                          ,"splitter" => "true"
+                         ,"toggleSplitterCollapsedSize" => "20px"
                      )
                     ,"CSS" => array(
                         "height" => "60px"

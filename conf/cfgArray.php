@@ -392,6 +392,7 @@ $_arrIocCfgGUI = array (
               'region' => 'left',
               'doLayout' => 'true',
               'splitter' => 'true',
+              'toggleSplitterCollapsedSize' => '20px',
               'minSize' => '150',
               'closable' => 'false',
             ),
@@ -574,6 +575,7 @@ $_arrIocCfgGUI = array (
               'class' => 'ioc_content dokuwiki',
               'doLayout' => 'false',
               'splitter' => 'false',
+              'toggleSplitterCollapsedSize' => '20px',
             ),
           ),
           'items' => 
@@ -606,6 +608,7 @@ $_arrIocCfgGUI = array (
               'region' => 'right',
               'doLayout' => 'true',
               'splitter' => 'true',
+              'toggleSplitterCollapsedSize' => '20px',
               'minSize' => '50',
               'closable' => 'true',
             ),
@@ -666,8 +669,6 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSave\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project&do=save\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_form\'};return _ret;}',
                 ),
               ),
@@ -685,12 +686,9 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=save\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSave\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save\'};return _ret;}',
                 ),
               ),
@@ -729,13 +727,10 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=cancel\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();var isChanged = !this.dispatcher.getChangesManager().isChanged(id);console.log(\'Hi ha canvis:\' + isChanged);_ret = { id: id, name: \'cancel\'};if(!isChanged){ _ret.keep_draft=false;}return _ret;}',
                 ),
               ),
             ),
@@ -775,12 +770,9 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=edit_partial\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconPartialEdit\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit_partial\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'edit_partial\'};return _ret;}',
                 ),
               ),
@@ -798,12 +790,9 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=save_partial\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSave\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=save_partial\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'save_partial\'};return _ret;}',
                 ),
               ),
@@ -821,13 +810,10 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=cancel_partial\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
-                  'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId(), isChanged = !this.dispatcher.getChangesManager().isChanged(id);console.log(\'Hi ha canvis:\' + isChanged);chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};if(!isChanged){ _ret.keep_draft = false;}return _ret;}',
                 ),
               ),
             ),
@@ -928,6 +914,7 @@ $_arrIocCfgGUI = array (
               'region' => 'bottom',
               'doLayout' => 'false',
               'splitter' => 'true',
+              'toggleSplitterCollapsedSize' => '20px',
             ),
             'CSS' => 
             array (

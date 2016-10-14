@@ -122,10 +122,10 @@ $lang['local_draft_editing'] = "S\'està editant un esborrany local, no el docum
 $lang['draft_found'] = "S\'ha trobat un esborrany complet del document.";
 $lang['partial_draft_found'] = "S\'ha trobat un esborrany complet del document.";
 
-$lang['expiring_dialog_title'] = "Massa estona sense editar.";
-$lang['expiring_dialog_message'] = "Quan aconssegueixis baixar de la figuera, voldràs continuar editant la pàgina?";
-$lang['expiring_dialog_yes'] = "Sí";
-$lang['expiring_dialog_no'] = "No";
+$lang['expiring_dialog_title'] = "Temps excedit sense editar el document";
+$lang['expiring_dialog_message'] = "Heu exhaurit el temps màxim d'inactivitat, editant un document. Si voleu continuar editant, és necessari que guardeu els canvis, prement el botó guardar. Si NO desitgeu mantenir els canvis, cancel·leu l'edició. La cancel·lació restaurarà el document a la darrera versió guardada i eliminarà qualsevol esborrany que s'hagi generat.";
+$lang['expiring_dialog_yes'] = "Guardar";
+$lang['expiring_dialog_no'] = "Cancel·lar";
 
 $lang['admin_task_loaded'] = 'Tasca disponible. Recordeu de guardar els canvis per tal que siguin efectius';
 $lang['admin_task_perm_delete'] = 'Permisos Eliminats.';

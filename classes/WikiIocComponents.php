@@ -23,8 +23,8 @@ abstract class WikiIocContainer extends WikiIocComponent {
      */
     private $content;
     
-    function __construct($aParms = array(), $reqPackage = array(), $reqJsModule = array()) {
-        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    function __construct($aParms = array(), $reqPackage = array(), $reqJsModule = array(), $reqStyles=array()) {
+        parent::__construct($aParms, $reqPackage, $reqJsModule, $reqStyles);
     }
 
     /**
@@ -60,8 +60,8 @@ abstract class WikiIocContainer extends WikiIocComponent {
 abstract class WikiIocItemsContainer extends WikiIocContainer {
     protected $items = array();
 
-    function __construct($aParms = array(), $aItems = array(), $reqPackage = array(), $reqJsModule = array()) {
-        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    function __construct($aParms = array(), $aItems = array(), $reqPackage = array(), $reqJsModule = array(), $reqStyles=array()) {
+        parent::__construct($aParms, $reqPackage, $reqJsModule, $reqStyles);
 
         if ($aItems) {
             foreach($aItems as $item) {
@@ -175,10 +175,20 @@ class WikiIocImage extends WikiIocComponent {
 class WikiIocBorderContainer extends WikiIocItemsContainer {
 
     function __construct($aParms = array(), $aItems = array()) {
-        $reqJsModule = array(
-            "BorderContainer" => "dijit/layout/BorderContainer"
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "dojox", "location" => $js_packages["dojox"])
         );
-        parent::__construct($aParms, $aItems, array(), $reqJsModule);
+        $reqJsModule = array(
+            "BorderContainer" => "dijit/layout/BorderContainer",
+            "ToggleSplitter" => "dojox/layout/ToggleSplitter"
+        );
+        $reqStyles = array(
+            "dojox/layout/resources/ToggleSplitter.css"
+        );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule, $reqStyles);
     }
 
     protected function getPreContent() {
@@ -186,7 +196,11 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
              . "<div id='{$this->get('DOM','id')}_bc' "
              . "data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
              . "design='sidebar' persist='false' gutters='true' "
-             . "{$this->getCSS()}>\n";
+             . "{$this->getCSS()}>\n"
+             . "<script type=\"dojo/method\">\n"
+             . "this._splitterClass = \"{$this->getReqJsModule('ToggleSplitter')}\";\n"
+             . "</script>\n";
+             
         return $ret;
     }
 

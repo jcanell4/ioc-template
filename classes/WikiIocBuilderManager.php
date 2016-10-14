@@ -16,6 +16,7 @@ class WikiIocBuilderManager {
     private $resourcePackages;
     private $locationController;
     private $jsModules;
+    private $styles;
 
     /**
      * Crea una nova instància o si ja existeix la retorna.
@@ -37,6 +38,7 @@ class WikiIocBuilderManager {
         $this->resourcePackages   = array();
         $this->locationController = array();
         $this->jsModules          = array();
+        $this->styles             = array();
     }
 
     /**
@@ -56,6 +58,13 @@ class WikiIocBuilderManager {
         if ($modules) {
             foreach($modules as $mod) {
                 $this->putRequiredJsModules($mod);
+            }
+        }
+
+        $styles = $component->getRequiredStyles();
+        if ($styles) {
+            foreach($styles as $sty) {
+                $this->putRequiredStyles($sty);
             }
         }
     }
@@ -98,6 +107,12 @@ class WikiIocBuilderManager {
         }
     }
     
+    function putRequiredStyles($sty) {
+        if (!in_array($sty, $this->styles, TRUE)) {
+            $this->styles[] = $sty;
+        }
+    }
+    
     /**
      * @return string con la lista de módulos javascript para el require de javascript
      */
@@ -133,6 +148,26 @@ class WikiIocBuilderManager {
             }
         }
         $ret .= "\n]\n";
+        return $ret;
+    }
+
+    public function getRenderingCodeForRequiredStyles() {
+        if(!$this->styles){
+            return "";
+        }
+        
+        $ret  = "<style type=\"text/css\">\n";
+        foreach($this->styles as $obj) {
+            $pck = explode("/", $obj)[0];
+        
+            if($obj[0]!=='/' && 0===strpos($obj, $pck)){
+                $obj = substr($obj, strlen($pck));
+                $ret .= "@import \"{$this->resourcePackages[$pck]['location']}{$obj}\";\n"; 
+            }else{
+                $ret .= "@import \"$obj\";\n"; 
+            }
+        }
+        $ret .= "</style>\n";
         return $ret;
     }
 

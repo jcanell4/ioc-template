@@ -15,14 +15,16 @@ require_once(DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php');
 abstract class WikiIocBuilder {
     protected $requiredPakages; //WE MUST CONTROL PAKAGE LEVEL ONLY
     protected $requiredJsModules;   //array de moduls AMD requerits en els atributs dojo
+    protected $requiredStyles;
 
     /**
      * @param array[] $requiredPakages array amb un hash que conté els packages requerits amb el format:
      *                                 "array("name" => "ioc", "location" => $js_packages["ioc"])
      */
-    public function __construct($requiredPakages = array(), $reqJsModules = array()) {
+    public function __construct($requiredPakages = array(), $reqJsModules = array(), $reqStyles = array()) {
         $this->requiredPakages = $requiredPakages;
         $this->requiredJsModules = $reqJsModules;
+        $this->requiredStyles = $reqStyles;
         WikiIocBuilderManager::Instance()->processComponent($this);
     }
 
@@ -39,6 +41,9 @@ abstract class WikiIocBuilder {
      */
     public function getRequiredPackages() {
         return $this->requiredPakages;
+    }
+    public function getRequiredStyles() {
+        return $this->requiredStyles;
     }
     /**
      * @return array[] hash que conté els mòduls javascript requerits.

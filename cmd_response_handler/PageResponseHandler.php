@@ -32,7 +32,7 @@ class PageResponseHandler extends WikiIocResponseHandler
 
 
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['structure']
+            $responseData['structure'], NULL, isset($responseData['draftType'])
         );
 
         // TODO[Xavi] Reactivar les metas i la info
