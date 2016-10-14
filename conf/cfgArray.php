@@ -1,6 +1,6 @@
 <?php
 function iocNeedResetArrayGUI(){
-  $_needReset = 1;
+  $_needReset = 0;
   return $_needReset;
 }
 
@@ -462,6 +462,8 @@ $_arrIocCfgGUI = array (
                               ),
                             ),
                           ),
+                          'expandProject' => 'true',
+                          'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\';return _ret;}',
                           'standbyId' => '\'bodyContent\'',
                         ),
                       ),
@@ -656,7 +658,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconNew\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=new_page\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php\'',
                   'urlListProjects' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_projects/\'',
                   'urlListTemplates' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_templates/\'',
                   'dialogTitle' => '\'Nou Document\'',

@@ -12,8 +12,7 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconNew'"
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=new_page'"
-                                          /*,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php'"*/
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php'"
                                           ,"urlListProjects" => "'lib/plugins/ajaxcommand/ajaxrest.php/list_projects/'"
                                           ,"urlListTemplates" => "'lib/plugins/ajaxcommand/ajaxrest.php/list_templates/'"
                                           ,"dialogTitle" => "'Nou Document'"

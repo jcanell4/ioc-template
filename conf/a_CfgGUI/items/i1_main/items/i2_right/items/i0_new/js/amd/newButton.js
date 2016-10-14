@@ -16,8 +16,9 @@
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
 
-    newButton.on('click', function () {                    
-        var path=[];
+    newButton.on('click', function () {
+        var defaultProject = 'defaultProject';
+        var path = [];
         var dialog = registry.byId("newDocumentDlg");
 
         if(!dialog){
@@ -29,24 +30,28 @@ if (newButton) {
             });
 
             dialog.on('hide', function () {
-                dialog.dialogTree.tree.collapseAll();
-                dom.byId('textBoxEspaiNoms').value="";
-                dom.byId('textBoxNouProjecte').value="";
-                dom.byId('textBoxNouDocument').value="";
-                //muestra los DIV que contienen el textBox de 'Nou Projecte', el combo de las plantillas y TextBox de 'Nou Document'
+                dialog.dialogTree.tree.collapseAll();   //contrae el árbol
+                //Elimina los valores de los inputs
+                dom.byId('textBoxEspaiNoms').value = "";
+                registry.byId('comboProjectes').set('value', defaultProject);
+                dom.byId('textBoxNouProjecte').value = "";
+                registry.byId('comboTemplates').value = null;
+                dom.byId('textBoxNouDocument').value = "";
+                //Muestra los DIV que contienen el textBox de 'Nou Projecte', el combo de las plantillas y TextBox de 'Nou Document'
                 //dado que pueden haber sido ocultados y es necesario reestablecer su aspecto original
                 //para la próxima vez que el botón 'Nou' solicite el diálogo
                 dom.byId('id_divNouProjecte').hidden = false;
                 dom.byId('id_divTemplate').hidden = false;
                 dom.byId('id_divNouDocument').hidden = false;
             });
+            
             dialog.on('show', function () {
                 dialog.dialogTree.tree.set('path',path).then(function(){
                     dom.byId('textBoxNouDocument').focus();
                 });
                 dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
                 dom.byId('textBoxEspaiNoms').focus();
-                dialog.switchBloc('defaultProject');
+                dialog.switchBloc(null,null,defaultProject);
             });
 
             dialog.nsActivePage = function (){
@@ -67,8 +72,8 @@ if (newButton) {
                 }    
             };
 
-            dialog.switchBloc = function(e) {
-                if (e === 'defaultProject') {
+            dialog.switchBloc = function(n,o,e) {
+                if (e === defaultProject || selectProjecte.value === defaultProject) {
                     dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
                     dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
                     dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
@@ -143,7 +148,6 @@ if (newButton) {
 
             //DIV PROJECTE Un div per contenir la selecció de Projectes
             var divProjecte = domConstruct.create('div', {
-                //id: 'id_divProjecte',
                 className: 'divProjecte'
             },form.containerNode);
 
@@ -156,11 +160,14 @@ if (newButton) {
                 id: 'comboProjectes',
                 placeHolder: newButton.ProjectesplaceHolder,
                 name: 'projecte',
-                value: 'defaultProject',
+                value: defaultProject,
+                searchAttr: 'name',
                 store: new JsonRest({target: newButton.urlListProjects })
             }).placeAt(divProjecte);
             dialog.comboProjectes = selectProjecte;
-            //dialog.comboProjectes.startup();
+            dialog.comboProjectes.startup();
+            //dialog.comboProjectes.connect(dialog.comboProjectes, "onChange", dialog.switchBloc );
+            dialog.comboProjectes.watch('value', dialog.switchBloc );
 
             //DIV NOU PROJECTE: Un camp de text per poder escriure el nom del nou projecte (hidden/visible)
             var divNouProjecte = domConstruct.create('div', {
@@ -213,10 +220,6 @@ if (newButton) {
                 placeHolder: newButton.NouDocumentplaceHolder
             }).placeAt(divNouDocument);
 
-            //la posición de ésta línea en el script es relevante
-            dialog.comboProjectes.connect(dom.byId('comboProjectes'), "onChange", dialog.switchBloc(selectProjecte.value));
-            //dialog.comboProjectes.on('change', dialog.switchBloc(selectProjecte.value));
-            //dialog.comboProjectes.onChange = dialog.switchBloc(selectProjecte.value);
 
             // botons
             var botons = domConstruct.create('div', {
@@ -230,17 +233,22 @@ if (newButton) {
             new Button({
               label: newButton.labelButtonAcceptar,
               onClick: function(){
-                    if (selectProjecte.value === 'defaultProject') {
+                    if (selectProjecte.value === defaultProject) {
                         if (NouDocument.value !== '') {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
-                            var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+                            var query = 'call=new_page' + 
+                                        '&do=new' + 
+                                        '&id=' + EspaiNoms.value + separacio + NouDocument.value +
+                                        '&template=' + selectTemplate.item.path;
                             newButton.sendRequest(query);
                             dialog.hide();
                         }
                     }else {
                         if (NouProjecte.value !== '') {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
-                            var query = 'call=project&do=create&id=' + EspaiNoms.value + separacio + NouProjecte.value;
+                            var query = 'call=project' + 
+                                        '&do=create' + 
+                                        '&id=' + EspaiNoms.value + separacio + NouProjecte.value;
                             newButton.sendRequest(query);
                             dialog.hide();
                         }

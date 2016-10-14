@@ -100,7 +100,8 @@ require([
 var newButton = registry.byId('newButton');
 if (newButton) {
 newButton.on('click', function () {
-var path=[];
+var defaultProject = 'defaultProject';
+var path = [];
 var dialog = registry.byId("newDocumentDlg");
 if(!dialog){
 dialog = new Dialog({
@@ -110,10 +111,12 @@ style: "width: 470px; height: 350px;",
 newButton: newButton
 });
 dialog.on('hide', function () {
-dialog.dialogTree.tree.collapseAll();
-dom.byId('textBoxEspaiNoms').value="";
-dom.byId('textBoxNouProjecte').value="";
-dom.byId('textBoxNouDocument').value="";
+dialog.dialogTree.tree.collapseAll();   //contrae el árbol
+dom.byId('textBoxEspaiNoms').value = "";
+registry.byId('comboProjectes').set('value', defaultProject);
+dom.byId('textBoxNouProjecte').value = "";
+registry.byId('comboTemplates').value = null;
+dom.byId('textBoxNouDocument').value = "";
 dom.byId('id_divNouProjecte').hidden = false;
 dom.byId('id_divTemplate').hidden = false;
 dom.byId('id_divNouDocument').hidden = false;
@@ -124,7 +127,7 @@ dom.byId('textBoxNouDocument').focus();
 });
 dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
 dom.byId('textBoxEspaiNoms').focus();
-dialog.switchBloc('defaultProject');
+dialog.switchBloc(null,null,defaultProject);
 });
 dialog.nsActivePage = function (){
 path.length=0;
@@ -143,8 +146,8 @@ path[i]=stPath;
 }
 }
 };
-dialog.switchBloc = function(e) {
-if (e === 'defaultProject') {
+dialog.switchBloc = function(n,o,e) {
+if (e === defaultProject || selectProjecte.value === defaultProject) {
 dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
 dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
 dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
@@ -206,10 +209,13 @@ var selectProjecte = new ComboBox({
 id: 'comboProjectes',
 placeHolder: newButton.ProjectesplaceHolder,
 name: 'projecte',
-value: 'defaultProject',
+value: defaultProject,
+searchAttr: 'name',
 store: new JsonRest({target: newButton.urlListProjects })
 }).placeAt(divProjecte);
 dialog.comboProjectes = selectProjecte;
+dialog.comboProjectes.startup();
+dialog.comboProjectes.watch('value', dialog.switchBloc );
 var divNouProjecte = domConstruct.create('div', {
 id: 'id_divNouProjecte',
 className: 'divNouProjecte'
@@ -248,7 +254,6 @@ var NouDocument = new TextBox({
 id: "textBoxNouDocument",
 placeHolder: newButton.NouDocumentplaceHolder
 }).placeAt(divNouDocument);
-dialog.comboProjectes.connect(dom.byId('comboProjectes'), "onChange", dialog.switchBloc(selectProjecte.value));
 var botons = domConstruct.create('div', {
 className: 'botons'
 },form.containerNode);
@@ -258,17 +263,22 @@ innerHTML: '<br><br>'
 new Button({
 label: newButton.labelButtonAcceptar,
 onClick: function(){
-if (selectProjecte.value === 'defaultProject') {
+if (selectProjecte.value === defaultProject) {
 if (NouDocument.value !== '') {
 var separacio = (EspaiNoms.value !== '') ? ':' : '';
-var query = 'do=new&id=' + EspaiNoms.value + separacio + NouDocument.value;
+var query = 'call=new_page' +
+'&do=new' +
+'&id=' + EspaiNoms.value + separacio + NouDocument.value +
+'&template=' + selectTemplate.item.path;
 newButton.sendRequest(query);
 dialog.hide();
 }
 }else {
 if (NouProjecte.value !== '') {
 var separacio = (EspaiNoms.value !== '') ? ':' : '';
-var query = 'call=project&do=create&id=' + EspaiNoms.value + separacio + NouProjecte.value;
+var query = 'call=project' +
+'&do=create' +
+'&id=' + EspaiNoms.value + separacio + NouProjecte.value;
 newButton.sendRequest(query);
 dialog.hide();
 }
