@@ -3,7 +3,7 @@ $arrParcial = array(
                 "class" => "WikiIocBorderContainer"
                 ,"parms" => array(
                                 "DOM" => array(
-                                            "id" => cfgIdConstants::MAIN_CONTENT
+                                            "id" => cfgIdConstants::LEFT_BC_PANEL
                                         )
                                 ,"CSS" => array(
                                            "height" => "100%"
@@ -16,10 +16,5 @@ $arrParcial = array(
                                             "design" => "'sidebar'"
                                            ,"gutters" => 'true'
                                         )
-                                ,"PRP" => array(
-                                            "splitterClass" => "dojox/layout/ToggleSplitter"
-                                           ,"extraCssFiles" => array("dojox/layout/resources/ToggleSplitter.css")
-                                           ,"wrapped" => true
-                                )
                             )
 );

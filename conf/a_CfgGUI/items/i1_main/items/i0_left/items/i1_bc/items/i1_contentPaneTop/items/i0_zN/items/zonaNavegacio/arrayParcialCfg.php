@@ -5,9 +5,13 @@ $arrParcial = array(
                                "DOM" => array(
                                            "id"=> cfgIdConstants::ZONA_NAVEGACIO
                                           ,"label" => "tabsNavegacio"
-                                          ,"tabType" => cfgIdConstants::RESIZING_TAB_TYPE
-                                          ,"useMenu" => true
                                         )
+                               ,"DJO" => array(
+                                           "useMenu" => true
+                               )
+                               ,"PRP" => array(
+                                           "tabType" => cfgIdConstants::RESIZING_TAB_TYPE                                   
+                               )
                             )
               );
 

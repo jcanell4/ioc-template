@@ -378,6 +378,20 @@ $_arrIocCfgGUI = array (
           'min-height' => '1px',
           'z-index' => '0',
         ),
+        'DJO' => 
+        array (
+          'design' => '\'sidebar\'',
+          'gutters' => 'true',
+        ),
+        'PRP' => 
+        array (
+          'splitterClass' => 'dojox/layout/ToggleSplitter',
+          'extraCssFiles' => 
+          array (
+            0 => 'dojox/layout/resources/ToggleSplitter.css',
+          ),
+          'wrapped' => true,
+        ),
       ),
       'items' => 
       array (
@@ -389,138 +403,199 @@ $_arrIocCfgGUI = array (
             'DOM' => 
             array (
               'id' => 'id_LeftPanel',
-              'region' => 'left',
-              'doLayout' => 'true',
-              'splitter' => 'true',
-              'toggleSplitterCollapsedSize' => '20px',
               'minSize' => '150',
-              'closable' => 'false',
             ),
             'CSS' => 
             array (
               'width' => '190px',
+              'padding' => '0px',
             ),
             'DJO' => 
             array (
+              'region' => '\'left\'',
+              'splitter' => 'true',
               'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserLeftPanelSize(user,_data.size.w);}return _ret;}',
             ),
           ),
           'items' => 
           array (
-            'i0_zN' => 
+            'i1_bc' => 
             array (
-              'class' => 'WikiIocDivBloc',
+              'class' => 'WikiIocBorderContainer',
               'parms' => 
               array (
                 'DOM' => 
                 array (
-                  'id' => 'tb_container',
+                  'id' => 'leftBorderContainerPanel',
                 ),
                 'CSS' => 
                 array (
-                  'height' => '40%',
+                  'height' => '100%',
+                  'width' => '100%',
+                  'min-width' => '1em',
+                  'min-height' => '1px',
+                  'z-index' => '0',
+                ),
+                'DJO' => 
+                array (
+                  'design' => '\'sidebar\'',
+                  'gutters' => 'true',
                 ),
               ),
               'items' => 
               array (
-                'zonaNavegacio' => 
+                'i1_contentPaneTop' => 
                 array (
-                  'class' => 'WikiIocTabsContainer',
+                  'class' => 'WikiIocItemsPanel',
                   'parms' => 
                   array (
                     'DOM' => 
                     array (
-                      'id' => 'zonaNavegacio',
-                      'label' => 'tabsNavegacio',
-                      'tabType' => 1,
-                      'useMenu' => true,
+                      'id' => 'left_top_panel',
+                    ),
+                    'DJO' => 
+                    array (
+                      'region' => '\'center\'',
+                      'doLayout' => 'true',
+                      'splitter' => 'true',
+                      'closable' => 'false',
+                    ),
+                    'CSS' => 
+                    array (
+                      'padding' => '0px',
+                    ),
+                    'PRP' => 
+                    array (
+                      'onResize' => false,
                     ),
                   ),
                   'items' => 
                   array (
-                    'i0_index' => 
+                    'i0_zN' => 
                     array (
-                      'class' => 'WikiIocTreeContainer',
+                      'class' => 'WikiIocDivBloc',
                       'parms' => 
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'tb_index',
-                          'label' => 'Índex',
+                          'id' => 'tb_container',
                         ),
-                        'DJO' => 
+                        'CSS' => 
                         array (
-                          'treeDataSource' => '\'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/\'',
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                          'typeDictionary' => 
-                          array (
-                            'p' => 
-                            array (
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
-                              'params' => 
-                              array (
-                                0 => 'projectType',
-                              ),
-                            ),
-                          ),
-                          'standbyId' => '\'bodyContent\'',
-                        ),
-                      ),
-                    ),
-                    'i1_docu' => 
-                    array (
-                      'class' => 'WikiIocContainerFromPage',
-                      'parms' => 
-                      array (
-                        'DOM' => 
-                        array (
-                          'id' => 'tb_docu',
-                          'label' => 'documentació',
-                        ),
-                        'DJO' => 
-                        array (
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                          'standbyId' => '\'bodyContent\'',
-                        ),
-                        'PRP' => 
-                        array (
-                          'page' => ':wiki:navigation',
-                        ),
-                      ),
-                    ),
-                    'i2_menu' => 
-                    array (
-                      'class' => 'WikiDojoMenu',
-                      'parms' => 
-                      array (
-                        'DOM' => 
-                        array (
-                          'id' => 'tb_menu',
-                          'title' => 'menú',
-                        ),
-                        'DJO' => 
-                        array (
-                          'contextMenuForWindow' => 'false',
-                          'activated' => 'true',
+                          'height' => '100%',
+                          'padding' => '0px',
                         ),
                       ),
                       'items' => 
                       array (
-                        'i1_menu1' => 
+                        'zonaNavegacio' => 
                         array (
-                          'class' => 'WikiIocMenuItem',
+                          'class' => 'WikiIocTabsContainer',
                           'parms' => 
                           array (
                             'DOM' => 
                             array (
-                              'id' => 'mediaManager',
-                              'label' => 'Media manager',
+                              'id' => 'zonaNavegacio',
+                              'label' => 'tabsNavegacio',
                             ),
                             'DJO' => 
                             array (
-                              'iconClass' => '\'dijitNoIcon\'',
-                              'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                              'useMenu' => true,
+                            ),
+                            'PRP' => 
+                            array (
+                              'tabType' => 1,
+                            ),
+                          ),
+                          'items' => 
+                          array (
+                            'i0_index' => 
+                            array (
+                              'class' => 'WikiIocTreeContainer',
+                              'parms' => 
+                              array (
+                                'DOM' => 
+                                array (
+                                  'id' => 'tb_index',
+                                  'label' => 'Índex',
+                                ),
+                                'DJO' => 
+                                array (
+                                  'treeDataSource' => '\'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/\'',
+                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                                  'typeDictionary' => 
+                                  array (
+                                    'p' => 
+                                    array (
+                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                      'params' => 
+                                      array (
+                                        0 => 'projectType',
+                                      ),
+                                    ),
+                                  ),
+                                  'standbyId' => '\'bodyContent\'',
+                                ),
+                              ),
+                            ),
+                            'i1_docu' => 
+                            array (
+                              'class' => 'WikiIocContainerFromPage',
+                              'parms' => 
+                              array (
+                                'DOM' => 
+                                array (
+                                  'id' => 'tb_docu',
+                                  'label' => 'documentació',
+                                ),
+                                'DJO' => 
+                                array (
+                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                                  'standbyId' => '\'bodyContent\'',
+                                ),
+                                'PRP' => 
+                                array (
+                                  'page' => ':wiki:navigation',
+                                ),
+                              ),
+                            ),
+                            'i2_menu' => 
+                            array (
+                              'class' => 'WikiDojoMenu',
+                              'parms' => 
+                              array (
+                                'DOM' => 
+                                array (
+                                  'id' => 'tb_menu',
+                                  'title' => 'menú',
+                                ),
+                                'DJO' => 
+                                array (
+                                  'contextMenuForWindow' => 'false',
+                                  'activated' => 'true',
+                                ),
+                              ),
+                              'items' => 
+                              array (
+                                'i1_menu1' => 
+                                array (
+                                  'class' => 'WikiIocMenuItem',
+                                  'parms' => 
+                                  array (
+                                    'DOM' => 
+                                    array (
+                                      'id' => 'mediaManager',
+                                      'label' => 'Media manager',
+                                    ),
+                                    'DJO' => 
+                                    array (
+                                      'iconClass' => '\'dijitNoIcon\'',
+                                      'disabled' => false,
+                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -528,33 +603,58 @@ $_arrIocCfgGUI = array (
                     ),
                   ),
                 ),
-              ),
-            ),
-            'i1_zM' => 
-            array (
-              'class' => 'WikiIocDivBloc',
-              'parms' => 
-              array (
-                'DOM' => 
+                'i2_contentPaneBottom' => 
                 array (
-                  'id' => 'zonaMetaInfoDiv',
-                ),
-                'CSS' => 
-                array (
-                  'height' => '60%',
-                ),
-              ),
-              'items' => 
-              array (
-                'zonaMetainfo' => 
-                array (
-                  'class' => 'WikiIocAccordionContainer',
+                  'class' => 'WikiIocItemsPanel',
                   'parms' => 
                   array (
                     'DOM' => 
                     array (
-                      'id' => 'zonaMetaInfo',
-                      'label' => 'ContainerMetaInfo',
+                      'id' => 'left_bottom_panel',
+                    ),
+                    'CSS' => 
+                    array (
+                      'height' => '40%',
+                    ),
+                    'DJO' => 
+                    array (
+                      'region' => '\'bottom\'',
+                      'doLayout' => 'true',
+                      'splitter' => 'true',
+                      'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserLeftBottomPanelSize(user,_data.size.h);}return _ret;}',
+                    ),
+                  ),
+                  'items' => 
+                  array (
+                    'i1_zM' => 
+                    array (
+                      'class' => 'WikiIocDivBloc',
+                      'parms' => 
+                      array (
+                        'DOM' => 
+                        array (
+                          'id' => 'zonaMetaInfoDiv',
+                        ),
+                        'CSS' => 
+                        array (
+                          'height' => '100%',
+                        ),
+                      ),
+                      'items' => 
+                      array (
+                        'zonaMetainfo' => 
+                        array (
+                          'class' => 'WikiIocAccordionContainer',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'zonaMetaInfo',
+                              'label' => 'ContainerMetaInfo',
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -571,11 +671,17 @@ $_arrIocCfgGUI = array (
             array (
               'id' => 'content',
               'label' => 'CentralPanel',
-              'region' => 'center',
               'class' => 'ioc_content dokuwiki',
+            ),
+            'DJO' => 
+            array (
+              'region' => '\'center\'',
               'doLayout' => 'false',
               'splitter' => 'false',
-              'toggleSplitterCollapsedSize' => '20px',
+            ),
+            'CSS' => 
+            array (
+              'padding' => '0px',
             ),
           ),
           'items' => 
@@ -589,9 +695,15 @@ $_arrIocCfgGUI = array (
                 array (
                   'id' => 'bodyContent',
                   'label' => 'bodyContent',
-                  'tabType' => 2,
+                ),
+                'DJO' => 
+                array (
                   'useMenu' => true,
                   'useSlider' => true,
+                ),
+                'PRP' => 
+                array (
+                  'tabType' => 2,
                 ),
               ),
             ),
@@ -605,12 +717,8 @@ $_arrIocCfgGUI = array (
             'DOM' => 
             array (
               'id' => 'zonaCanvi',
-              'region' => 'right',
-              'doLayout' => 'true',
-              'splitter' => 'true',
-              'toggleSplitterCollapsedSize' => '20px',
               'minSize' => '50',
-              'closable' => 'true',
+              'class' => 'ioc_content dokuwiki',
             ),
             'CSS' => 
             array (
@@ -619,6 +727,10 @@ $_arrIocCfgGUI = array (
             ),
             'DJO' => 
             array (
+              'region' => '\'right\'',
+              'doLayout' => 'true',
+              'splitter' => 'true',
+              'closable' => 'true',
               'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserRightPanelSize(user,_data.size.w);}return _ret;}',
             ),
           ),
@@ -730,7 +842,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();var isChanged = !this.dispatcher.getChangesManager().isChanged(id);console.log(\'Hi ha canvis:\' + isChanged);_ret = { id: id, name: \'cancel\'};if(!isChanged){ _ret.keep_draft=false;}return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'cancel\'};return _ret;}',
                 ),
               ),
             ),
@@ -813,7 +925,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId(), isChanged = !this.dispatcher.getChangesManager().isChanged(id);console.log(\'Hi ha canvis:\' + isChanged);chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};if(!isChanged){ _ret.keep_draft = false;}return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};return _ret;}',
                 ),
               ),
             ),
@@ -911,10 +1023,6 @@ $_arrIocCfgGUI = array (
             'DOM' => 
             array (
               'id' => 'id_BottomPanel',
-              'region' => 'bottom',
-              'doLayout' => 'false',
-              'splitter' => 'true',
-              'toggleSplitterCollapsedSize' => '20px',
             ),
             'CSS' => 
             array (
@@ -922,6 +1030,9 @@ $_arrIocCfgGUI = array (
             ),
             'DJO' => 
             array (
+              'region' => '\'bottom\'',
+              'doLayout' => 'false',
+              'splitter' => 'true',
               'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserBottomPanelSize(user,_data.size.h);}return _ret;}',
             ),
           ),

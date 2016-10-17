@@ -5,11 +5,16 @@ $arrParcial = array(
                      "DOM" => array(
                         "id" => cfgIdConstants::CONTENT
                        ,"label" => "CentralPanel"
-                       ,"region" => "center"
                        ,"class" => "ioc_content dokuwiki"
+                     )
+                     ,"DJO" => array(
+                        "region" => "'center'"
                        ,"doLayout" => "false"
                        ,"splitter" => "false"
-                       ,"toggleSplitterCollapsedSize" => "20px"                         
+//                       ,"toggleSplitterCollapsedSize" => "20px"                         
+                     )
+                     ,"CSS" => array(
+                        "padding" => "0px"
                      )
                   )
                  ,"items" => array(
@@ -19,9 +24,13 @@ $arrParcial = array(
                             "DOM" => array(
                                "id" => cfgIdConstants::BODY_CONTENT
                               ,"label" => "bodyContent"
-                              ,"tabType" => cfgIdConstants::SCROLLING_TAB_TYPE
-                              ,"useMenu" => true
+                            )
+                            ,"DJO" => array(
+                               "useMenu" => true
                               ,"useSlider" => true
+                            )
+                            ,"PRP" => array(
+                               "tabType" => cfgIdConstants::SCROLLING_TAB_TYPE
                             )
                          )
                       )

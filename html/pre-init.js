@@ -40,5 +40,7 @@ require([
         wikiIocDispatcher.cancelParcButtonId    = 'cfgIdConstants::CANCEL_PARC_BUTTON';
         wikiIocDispatcher.saveParcButtonId      = 'cfgIdConstants::SAVE_PARC_BUTTON';
         wikiIocDispatcher.notifierButtonId      = 'cfgIdConstants::NOTIFIER_BUTTON';
+        wikiIocDispatcher.leftBottomPanelNodeId = 'cfgIdConstants::LEFT_BOTTOM';
+        wikiIocDispatcher.leftBCNodeId = 'cfgIdConstants::LEFT_BC_PANEL';
 });
 

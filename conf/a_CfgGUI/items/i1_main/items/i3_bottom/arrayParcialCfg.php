@@ -4,14 +4,16 @@ $arrParcial = array(
             ,"parms" => array(
                      "DOM" => array(
                          "id" => cfgIdConstants::BOTTOM_PANEL
-                         ,"region" => "bottom"
-                         ,"doLayout" => "false"
-                         ,"splitter" => "true"
-                         ,"toggleSplitterCollapsedSize" => "20px"
                      )
                     ,"CSS" => array(
                         "height" => "60px"
                      )
+                    ,"DJO" => array(
+                          "region" => "'bottom'"
+                         ,"doLayout" => "false"
+                         ,"splitter" => "true"
+                         //,"toggleSplitterCollapsedSize" => "20px"
+                    )
                   )
             ,"items" => array(
                       array(

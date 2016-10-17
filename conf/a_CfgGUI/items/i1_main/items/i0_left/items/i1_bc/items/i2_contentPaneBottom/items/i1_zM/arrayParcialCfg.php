@@ -3,10 +3,10 @@ $arrParcial = array(
                  "class" => "WikiIocDivBloc"
                 ,"parms" => array(
                                "DOM" => array(
-                                          "id"=> cfgIdConstants::TB_CONTAINER
+                                          "id"=> cfgIdConstants::ZONA_METAINFO_DIV
                                         )
                               ,"CSS" => array(
-                                          "height" => "40%"
+                                          "height" => "100%"
                                         )
                             )
               );

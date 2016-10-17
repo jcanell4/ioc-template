@@ -173,7 +173,6 @@ class WikiIocImage extends WikiIocComponent {
  *      Contenidor de items del tipus BorderContainer
  */
 class WikiIocBorderContainer extends WikiIocItemsContainer {
-
     function __construct($aParms = array(), $aItems = array()) {
         global $js_packages;
         $reqPackage = array(
@@ -185,27 +184,47 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
             "BorderContainer" => "dijit/layout/BorderContainer",
             "ToggleSplitter" => "dojox/layout/ToggleSplitter"
         );
-        $reqStyles = array(
-            "dojox/layout/resources/ToggleSplitter.css"
-        );
+        if(isset($aParms["PRP"]["splitterClass"])){
+            $reqJsModule["splitterClass"]= $aParms["PRP"]["splitterClass"];
+        }
+        if(isset($aParms["PRP"]["extraCssFiles"])){
+            $reqStyles = array();
+            foreach ($aParms["PRP"]["extraCssFiles"] as $file){
+                $reqStyles[]=$file;
+            }
+        }
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule, $reqStyles);
     }
 
     protected function getPreContent() {
-        $ret = "<div {$this->getDOM()}>\n"
-             . "<div id='{$this->get('DOM','id')}_bc' "
-             . "data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
-             . "design='sidebar' persist='false' gutters='true' "
-             . "{$this->getCSS()}>\n"
-             . "<script type=\"dojo/method\">\n"
-             . "this._splitterClass = \"{$this->getReqJsModule('ToggleSplitter')}\";\n"
+        $splitterClass = "";
+        if($this->getPRP("splitterClass")){
+            $splitterClass = "<script type=\"dojo/method\">\n"
+             . "this._splitterClass = \"{$this->getReqJsModule('splitterClass')}\";\n"
              . "</script>\n";
-             
+        }
+        if($this->getPRP("wrapped")){
+             $ret = "<div {$this->getDOM()}>\n"
+                  . "<div id='{$this->get('DOM','id')}_bc' ";
+
+        }else{
+             $ret = "<div {$this->getDOM()} ";
+
+        }
+        $ret .= "data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
+                 . "{$this->getDJO()} "
+                 . "{$this->getCSS()}>\n"
+                 . "$splitterClass";             
         return $ret;
     }
 
     protected function getPostContent() {
-        return "</div>\n</div>\n";
+        if($this->getPRP("wrapped")){
+            $ret = "</div>\n</div>\n";
+        }else{
+            $ret = "</div>\n";
+        }
+        return $ret;
     }
 }
 
@@ -225,9 +244,25 @@ class WikiIocItemsPanel extends WikiIocItemsContainer {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                         ,array("name" => "ioc", "location" => $js_packages["ioc"])
         );
-        $reqJsModule = array(
+        
+        if(!isset($aParms["DJO"]["doLayout"])){
+            $aParms["PRP"]["doLayout"] = true;
+        }
+        if(!isset($aParms["DJO"]["closable"])){
+            $aParms["PRP"]["closable"] = true;  
+        }
+        if(!isset($aParms["PRP"]["onResize"])){
+            $aParms["PRP"]["onResize"] = true;
+        }
+        if($aParms["PRP"]["onResize"]){
+            $reqJsModule = array(
                         "ContentPane" => "ioc/gui/ContentPaneOnResize"
-        );
+            );
+        }else{
+            $reqJsModule = array(
+                        "ContentPane" => "dijit/layout/ContentPane"
+            );
+        }
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
     }
 
@@ -263,7 +298,7 @@ class WikiIocItemsPanelDiv extends WikiIocItemsContainer {
 
     protected function getPreContent() {
         $ret = "<div {$this->getDOM('id')}>\n"
-             . "<div {$this->getNoDOM(array('id','label'))} data-dojo-type='{$this->getReqJsModule('ContentPane')}'"
+             . "<div {$this->getNoDOM(array('id','label'))} data-dojo-type='{$this->getReqJsModule('ContentPane')}' {$this->getDJO()} {$this->getCSS()} "
               . " extractContent='false' preventCache='false' preload='false' refreshOnShow='false' maxSize='Infinity'>\n";
         return $ret;
     }
@@ -355,21 +390,22 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
     }
 
     protected function getPreContent() {
-        $useMenu   = $this->get('DOM','useMenu') ? "true" : "false";
-        $useSlider = $this->get('DOM','useSlider') ? "true" : "false";
+        $useMenu   = $this->get('DJO','useMenu') ? "true" : "false";
+        $useSlider = $this->get('DJO','useSlider') ? "true" : "false";
 
         $ret = "<div {$this->getDOM('id')} data-dojo-type='{$this->getReqJsModule('TabContainer')}' persist='false'";
-        if($this->get('DOM','tabType') == 2) {
+        if($this->get('PRP','tabType') == 2) {
             $ret .= " controllerWidget='{$this->getReqJsModule('ScrollingTabController')}'";
             $ret .= " useMenu='$useMenu'";
             $ret .= " useSlider='$useSlider'";
-        } elseif($this->get('DOM','tabType') == 1) {
+        } elseif($this->get('PRP','tabType') == 1) {
             $ret .= " controllerWidget='{$this->getReqJsModule('ResizingTabController')}'";
             $ret .= " useMenu='$useMenu'";
         } else {
             $ret .= " controllerWidget='{$this->getReqJsModule('TabController')}'";
         }
-        $ret .= ' style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;">';
+        $ret .= ' style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;">'       
+                ."\n";
         return $ret;
     }
 
