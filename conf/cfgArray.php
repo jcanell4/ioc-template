@@ -729,7 +729,7 @@ $_arrIocCfgGUI = array (
             array (
               'region' => '\'right\'',
               'doLayout' => 'true',
-              'splitter' => 'true',
+              'splitter' => 'false',
               'closable' => 'true',
               'onResize' => 'function(_data){var _ret=null; if(this.dispatcher.getGlobalState().login){ var user=this.dispatcher.getGlobalState().userId; this.dispatcher.almacenLocal.setUserRightPanelSize(user,_data.size.w);}return _ret;}',
             ),

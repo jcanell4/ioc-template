@@ -14,8 +14,7 @@ $arrParcial = array(
                             ,"DJO" => array(
                                           "region" => "'right'"
                                          ,"doLayout" => "true"
-                                         ,"splitter" => "true"
-                                          //,"toggleSplitterCollapsedSize" => "20px"
+                                         ,"splitter" => "false"
                                          ,"closable" => "true"
                             )
                     )
