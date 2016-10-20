@@ -341,7 +341,7 @@ require([
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
             }
-            deleteDraft();
+//            deleteDraft(); //Ja no es fa servir això!
         });
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;

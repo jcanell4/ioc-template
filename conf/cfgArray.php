@@ -252,27 +252,6 @@ $_arrIocCfgGUI = array (
                             ),
                           ),
                         ),
-                        'i1_talkUserMenuItem' => 
-                        array (
-                          'class' => 'WikiIocMenuItem',
-                          'parms' => 
-                          array (
-                            'DOM' => 
-                            array (
-                              'id' => 'talkUserMenuItem',
-                              'label' => 'Discussió',
-                            ),
-                            'DJO' => 
-                            array (
-                              'query' => '\'id=talkUser\'',
-                              'autoSize' => true,
-                              'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
-                              'standbyId' => '\'bodyContent\'',
-                              'getQuery' => 'function(_data){var _ret=null; _ret = \'id=talk:wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
-                            ),
-                          ),
-                        ),
                         'i2_logoffMenuItem' => 
                         array (
                           'class' => 'WikiIocMenuItem',

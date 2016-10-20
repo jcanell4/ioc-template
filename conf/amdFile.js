@@ -37,22 +37,6 @@ userDialog.addProcessor(processorUser.type, processorUser);
 });
 require([
 "dijit/registry"
-,"ioc/wiki30/processor/ErrorMultiFunctionProcessor"
-,"ioc/wiki30/Request"
-], function (registry,ErrorMultiFunctionProcessor,Request) {
-var userDialog = registry.byId('talkUserMenuItem');
-if (userDialog) {
-var processorTalk = new ErrorMultiFunctionProcessor();
-var requestTalk = new Request();
-requestTalk.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
-processorTalk.addErrorAction("1001", function () {
-requestTalk.sendRequest(userDialog.getQuery());
-});
-userDialog.addProcessor(processorTalk.type, processorTalk);
-}
-});
-require([
-"dijit/registry"
 ,"ioc/wiki30/GlobalState"
 ,"ioc/wiki30/dispatcherSingleton"
 ], function (registry,globalState,getDispatcher) {

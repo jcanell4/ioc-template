@@ -14,5 +14,6 @@ $arrParcial = array(
                       						,"standbyId" => "'bodyContent'"
                                     )
                         )
+            ,"hidden" => true
           );
 
