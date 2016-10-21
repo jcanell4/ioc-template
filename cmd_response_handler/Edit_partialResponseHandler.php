@@ -301,7 +301,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
 //            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
-                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1))),
+                date("H:i:s", $this->_getExpiringData($responseData, 1))),
             //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
@@ -316,7 +316,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
-                date("d-m-Y H:i:s", $this->_getExpiringData($responseData, 1)),
+                date("H:i:s", $this->_getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
             "ok" => [
@@ -347,8 +347,17 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
     private function addEditPartialDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
+        $autosaveTimer = NULL;
+        if(WikiGlobalConfig::getConf("autosaveTimer")){
+            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
+        }
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
-        $cmdResponseGenerator->addWikiCodeDocPartial($responseData['structure'], $timer);
+        $cmdResponseGenerator->addWikiCodeDocPartial(
+                                            $responseData['structure'], 
+                                            $timer, 
+                                            NULL, 
+                                            $autosaveTimer
+                );
     }
 
     private function generateEditDocumentTimer($requestParams, $responseData)

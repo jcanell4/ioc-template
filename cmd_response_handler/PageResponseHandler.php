@@ -19,6 +19,7 @@ if (!defined('DOKU_PLUGIN')) {
 }
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once DOKU_PLUGIN . 'ownInit/WikiGlobalConfig.php';
 
 class PageResponseHandler extends WikiIocResponseHandler
 {
@@ -29,10 +30,15 @@ class PageResponseHandler extends WikiIocResponseHandler
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-
-
+        $autosaveTimer = NULL;
+        if(WikiGlobalConfig::getConf("autosaveTimer")){
+            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
+        }
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
-            $responseData['structure'], NULL, isset($responseData['draftType'])
+                $responseData['structure'], 
+                NULL, 
+                isset($responseData['draftType']), 
+                $autosaveTimer
         );
 
         // TODO[Xavi] Reactivar les metas i la info

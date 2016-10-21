@@ -14,7 +14,7 @@ require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
 
 
-class New_pageResponseHandler extends pageResponseHandler
+class New_pageResponseHandler extends PageResponseHandler
 {
     function __construct()
     {

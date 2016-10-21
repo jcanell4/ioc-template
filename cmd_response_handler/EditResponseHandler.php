@@ -114,19 +114,24 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
+        $autosaveTimer = NULL;
+        if(WikiGlobalConfig::getConf("autosaveTimer")){
+            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
+        }
         $recoverDrafts = $this->getRecoverDrafts($responseData);
         $editing = $this->generateEditDocumentParams($responseData);
         $editing['readonly'] = $this->getPermission()->isReadOnly();
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
-        $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer);
+        $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer);
     }
 
-    protected function addEditDocumentCommand($responseData, &$cmdResponseGenerator, $recoverDrafts, $editing, $timer)
+    protected function addEditDocumentCommand($responseData, &$cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer=NULL)
     {
         $cmdResponseGenerator->addWikiCodeDoc(
             $responseData['id'], $responseData['ns'],
             $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
-            $responseData["htmlForm"], $editing, $timer, $responseData['rev']
+            $responseData["htmlForm"], $editing, $timer, $responseData['rev'],
+            $autosaveTimer
         );
     }
 
@@ -257,7 +262,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
 //            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
-                date("d-m-Y H:i:s", ExpiringCalc::getExpiringData($responseData, 1))),
+                date("H:i:s", ExpiringCalc::getExpiringData($responseData, 1))),
             //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
@@ -272,7 +277,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
 //                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
-                date("d-m-Y H:i:s", ExpiringCalc::getExpiringData($responseData, 1)),
+                date("H:i:s", ExpiringCalc::getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
             "ok" => [
