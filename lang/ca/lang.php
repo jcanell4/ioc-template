@@ -112,6 +112,7 @@ $lang['chunk_closed'] = 'S\'ha tancat la edició parcial';
 $lang['edition_closed'] = 'S\'ha tancat l\'edició';
 $lang['edition_cancelled'] = 'S\'ha cancel·lat l\'edició';
 $lang['auto_cancelled'] = "cancel·lació automàtica";
+$lang['draft_saved'] = "S'ha desat un esborray";
 $lang['document_loaded'] = 'S\'ha carregat el document';
 $lang['document_created'] = 'S\'ha creat el document';
 $lang['document_revision_loaded'] = 'Aquesta es una revisió antiga del document feta el ';

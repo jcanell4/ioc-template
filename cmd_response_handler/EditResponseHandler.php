@@ -48,6 +48,13 @@ class EditResponseHandler extends WikiIocResponseHandler
             $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
             $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
+        } else if ($responseData["locked_before"]) {
+            //El recurs està bloquejat pel propi usuari en una altre sessió. De moment no es deixa editar 
+            //fins que es tanqui la sessió oberta. Cal canviar-ho per una quadre de diàleg
+            $this->addEditDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator, TRUE);
+            $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+            $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
+
         } else {
             //Tot OK. Es retornen les dades per editar el recurs
             $this->addEditDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -112,7 +119,7 @@ class EditResponseHandler extends WikiIocResponseHandler
     }
 
 
-    protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
+    protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator, $forceReadOnly=FALSE)
     {
         $autosaveTimer = NULL;
         if(WikiGlobalConfig::getConf("autosaveTimer")){
@@ -120,7 +127,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         }
         $recoverDrafts = $this->getRecoverDrafts($responseData);
         $editing = $this->generateEditDocumentParams($responseData);
-        $editing['readonly'] = $this->getPermission()->isReadOnly();
+        $editing['readonly'] = $this->getPermission()->isReadOnly() || $forceReadOnly;
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer);
     }
@@ -198,6 +205,18 @@ class EditResponseHandler extends WikiIocResponseHandler
         return $timer;
     }
 
+    protected function addRequiringResponse($requestParams, $responseData, &$cmdResponseGenerator){
+        $params = [
+            "id" => $responseData["id"],
+            "ns" => $responseData["ns"],
+            "title" => $responseData["title"],
+            "content" => [ //ALERTA / TODO [JOSEP] Canviar content per data
+                "text" => $responseData["content"],
+            ],
+        ];
+        $this->addRequiringDoc($cmdResponseGenerator, $params);
+    }
+    
     protected function addRequiringDialogResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
