@@ -116,6 +116,7 @@ require([
 
                     } else if (page.action === 'media') {
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
                     } else if (page.action === 'mediadetails') {
                         var pageDif = false;
                         if (page.mediado) {
@@ -125,7 +126,7 @@ require([
                         }
                         if (!pageDif) {
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
-                            //disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
                             if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
                             }
@@ -366,6 +367,8 @@ require([
         new RequestControl(eventName.REMOVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=remove', true);
 
         new RequestControl(eventName.NOTIFY, 'lib/plugins/ajaxcommand/ajax.php?call=notify', true);
+
+        new RequestControl(eventName.MEDIA_DETAIL, 'lib/plugins/ajaxcommand/ajax.php?call=mediadetails', true);
 
 
         // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions
