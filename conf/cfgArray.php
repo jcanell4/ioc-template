@@ -659,8 +659,8 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconNew\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php\'',
-                  'urlListProjects' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_projects/\'',
-                  'urlListTemplates' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_templates/\'',
+                  'urlListProjects' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_projects_rest/\'',
+                  'urlListTemplates' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_templates_rest/\'',
                   'dialogTitle' => '\'Nou Document\'',
                   'EspaideNomslabel' => '\'Espai de Noms\'',
                   'EspaideNomsplaceHolder' => '\'Espai de Noms\'',
@@ -940,6 +940,29 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconExit\'',
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var elid = this.dispatcher.getGlobalState().currentTabId;_ret = \'id=\' + elid + \'&image=\' + elid + \'&img=\' + elid + \'&do=media\';return _ret;}',
+                ),
+              ),
+            ),
+            'iA_generar_projecte' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'generateProjectButton',
+                  'title' => 'Generar projecte',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=generate\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconUpload\'',
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=generate\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'generate\'};return _ret;}',
                 ),
               ),
             ),

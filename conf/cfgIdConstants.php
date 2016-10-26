@@ -59,6 +59,7 @@ class cfgIdConstants
     const CANCEL_PARC_BUTTON = "cancelparcButton";
     const SAVE_PARC_BUTTON = "saveparcButton";
     const SAVE_FORM_BUTTON = "saveFormButton";
+    const GENERATE_PROJECT_BUTTON = "generateProjectButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
