@@ -1,4 +1,11 @@
 _ret="";
+var id = this.dispatcher.getGlobalState().getCurrentId();
+require(['dijit/registry'], function(registry){
+    registry.byId("zonaMetaInfo").selectChild(id + "_metaMediafileupload"); /*TO DO [Josep] canviar per una constant*/
+});
+jQuery(document.getElementById("upload__file_"+id)).click();
+/*
+_ret="";
 if (this.dispatcher.getGlobalState().currentTabId) {
     var elid = this.dispatcher.getGlobalState().currentTabId;
     var ns = this.dispatcher.getGlobalState().getContent(
@@ -12,5 +19,6 @@ if (this.dispatcher.getGlobalState().currentTabId) {
 
     }        
 }
+*/
 
 

@@ -686,7 +686,7 @@ class WikiDojoButton extends WikiIocComponent {
     public function getRenderingCode() {
         $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('Button')}'"
             . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
-            . " style='font-size:1em;'></input>\n";
+            . " style='font-size:0.75em;'></input>\n";
         return $ret;
     }
 }
