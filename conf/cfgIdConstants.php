@@ -39,6 +39,7 @@ class cfgIdConstants
     const TB_ADMIN = "tb_admin";
     const TB_DOCU = "tb_docu";
     const TB_MENU = "tb_menu";
+    const TB_SHORTCUTS = "tb_shorcuts";
     const LEFT_BC_PANEL = "leftBorderContainerPanel";
     const LEFT_TOP = "left_top_panel";
     const LEFT_BOTTOM = "left_bottom_panel";

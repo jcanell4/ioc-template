@@ -48,6 +48,17 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                    $urlBase);
             }
 
+            // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
+            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+//            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
+
+            $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS,
+                $dades['title'],
+                $dades['content'],
+                $urlBase);
+
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{
