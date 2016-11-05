@@ -51,7 +51,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
             $dades = $this->getModelWrapper()->getShortcutsTaskList();
 //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab";
 
             $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS,
@@ -90,6 +90,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
              $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                    cfgIdConstants::TB_ADMIN,
                                                    $urlBase);
+
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
+            $ajaxCmdResponseGenerator->addRemoveShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS,
+                $urlBase);
         } else  {
             $info['type']= 'success';
             // $info['message'] = $lang['user_login'];
