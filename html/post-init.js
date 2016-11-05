@@ -183,6 +183,18 @@ require([
                 }
             }
 
+            // Add shortcut_tab
+            var requestTabContent = new Request();
+            requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab";
+            requestTabContent.sendRequest().always(function () {
+                // var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+                // if (currentNavigationPaneId === "tb_admin") {
+                //     var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+                //     tbContainer.selectChild(currentNavigationPaneId);
+                // }
+            });
+
+
             if (state.sectok) {
                 wikiIocDispatcher.processResponse({
                     "type": "sectok"
