@@ -34,6 +34,7 @@ require([
         wikiIocDispatcher.userButtonId          = 'cfgIdConstants::USER_BUTTON';
         wikiIocDispatcher.mediaDetailButtonId   = 'cfgIdConstants::MEDIA_DETAIL_BUTTON';
         wikiIocDispatcher.mediaTornarButtonId   = 'cfgIdConstants::MEDIA_TORNAR_BUTTON';
+        wikiIocDispatcher.detailSupressioButtonId= 'cfgIdConstants::DETAIL_SUPRESSIO_BUTTON';
         wikiIocDispatcher.mediaSupressioButtonId= 'cfgIdConstants::MEDIA_SUPRESSIO_BUTTON';
         wikiIocDispatcher.mediaUploadButtonId   = 'cfgIdConstants::MEDIA_UPLOAD_BUTTON';
         wikiIocDispatcher.mediaEditButtonId     = 'cfgIdConstants::MEDIA_EDIT_BUTTON';

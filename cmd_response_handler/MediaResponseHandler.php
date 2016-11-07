@@ -17,6 +17,8 @@ if (!defined('DOKU_PLUGIN'))
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
+require_once DOKU_PLUGIN."ajaxcommand/requestparams/MediaKeys.php";
+
 
 class MediaResponseHandler extends WikiIocResponseHandler {
 
@@ -29,6 +31,36 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         if(!$requestParams["preserveMetaData"]){
             $preserveMetaData = false;
         }
+        
+        if($requestParams[MediaKeys::KEY_DELETE]){
+            $this->_responseDelete($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
+        }else{
+            $this->_responseList($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
+        }
+        
+    }
+    
+    private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
+        if($responseData["result"] & 1){
+            $ajaxCmdResponseGenerator->addMedia("media", 
+                                                $responseData['ns'], 
+                                                $responseData['title'], 
+                                                $responseData['content'],$preserveMetaData);   
+            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info['type'] = 'warning';
+            $info['message'] = $responseData["info"];
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }else{
+            $ajaxCmdResponseGenerator->addAlert($responseData["info"]);
+            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info['type'] = 'error';
+            $info['message'] = $responseData["info"];
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }
+    }
+    
+    private function _responseList($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
+        
         $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
@@ -41,7 +73,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         //Càrrega de la zona info de missatges
         global $JUMPTO;
         global $MSG;
-        $info = array('id' => '', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+        $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
         $info['type'] = 'success';
         $info['message'] = 'Llista de fitxers de ' . $responseData['ns'] . ' carregada.';
         if (isset($JUMPTO)) {
@@ -109,11 +141,14 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             );
 
             $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
+        }else{
+            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            if($requestParams["versioupload"]){
+                $metaDataFileUpload['versioupload'] = $requestParams["id"];
+            }
+            $ajaxCmdResponseGenerator->addExtraMetadata("media", $metaDataFileUpload);
         }
         
-
-        
-
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
                 $responseData['id'], true, "ioc/dokuwiki/processMediaList", //TODO configurable
                 array(
