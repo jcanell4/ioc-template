@@ -56,7 +56,7 @@ class PageResponseHandler extends WikiIocResponseHandler
 
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
-        } else {
+        } else if(isset($responseData['meta'])) {
             $ajaxCmdResponseGenerator->addExtraMetadata(
                 $responseData['structure']['id'],
                 $responseData['structure']['id'] . '_revisions',
