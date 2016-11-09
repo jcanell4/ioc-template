@@ -18,6 +18,8 @@ require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
 require_once DOKU_PLUGIN."ajaxcommand/requestparams/MediaKeys.php";
+require_once DOKU_PLUGIN."ajaxcommand/AjaxCmdResponseGenerator.php";
+require_once DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php";
 
 
 class MediaResponseHandler extends WikiIocResponseHandler {
@@ -34,8 +36,73 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         
         if($requestParams[MediaKeys::KEY_DELETE]){
             $this->_responseDelete($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
+        }else if($requestParams[MediaKeys::KEY_IS_UPLOAD]){
+            $this->_responseUpload($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
         }else{
             $this->_responseList($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
+        }
+        
+    }
+    
+    private function _responseUpload($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
+        /*
+         *       0 = OK
+     *      -1 = UNAUTHORIZED
+     *      -2 = OVER_WRITING_NOT_ALLOWED
+     *      -3 = OVER_WRITING_UNAUTHORIZED
+     *      -5 = FAILS
+     *      -4 = WRONG_PARAMS
+     *      -6 = BAD_CONTENT
+     *      -7 = SPAM_CONTENT
+     *      -8 = XSS_CONTENT
+         * 
+         */                 
+        if($responseData["resultCode"] === 0 ){
+            $ajaxCmdResponseGenerator->addMedia("media", 
+                                                $responseData['ns'], 
+                                                $responseData['title'], 
+                                                $responseData['content'],$preserveMetaData);   
+//            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
+//            $info['type'] = 'success';
+//            $info['message'] = WikiIocLangManager::getLang('uploadsucc');
+            $info = AjaxCmdResponseGenerator::generateInfo("success",  WikiIocLangManager::getLang('uploadsucc'), 'media', 10);
+            foreach ($responseData["warnings"] as $value){
+                $info = AjaxCmdResponseGenerator::addInfoToInfo($info, AjaxCmdResponseGenerator::generateInfo("warning", $value, "media", 10));
+            }
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }else{
+            switch ($responseData["resultCode"]){
+                case -1:
+                    $message = WikiIocLangManager::getLang('auth_UploadMedia');
+                    break;
+                case -2:
+                case -3:
+                    $message = WikiIocLangManager::getLang('uploadexist');
+                    break;
+                case -4:
+                    $message = WikiIocLangManager::getLang('uploadwrong');
+                    break;
+                case -5:
+                    $message = WikiIocLangManager::getLang('uploadfail');
+                    break;
+                case -6:
+                    $message = sprintf(WikiIocLangManager::getLang('uploadbadcontent'),'.' . $requestParams["upload"]['ext']);
+                    break;
+                case -7:
+                    $message = WikiIocLangManager::getLang('uploadspam');
+                    break;
+                case -8:
+                    $message = WikiIocLangManager::getLang('uploadxss');
+                    break;
+                default:
+                    $message = WikiIocLangManager::getLang('uploadfail');                    
+            }
+            $ajaxCmdResponseGenerator->addAlert($message);
+//            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+//            $info['type'] = 'error';
+//            $info['message'] = $responseData["info"];
+            $info = AjaxCmdResponseGenerator::generateInfo("error",  $message, 'media', -1);            
+            $ajaxCmdResponseGenerator->addInfoDta($info);
         }
         
     }
