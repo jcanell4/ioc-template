@@ -8,12 +8,12 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                           "query" => "'do=generate'"
+                                           "query" => "'do=generateProject'"
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconUpload'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=generate'"
+                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project'"
                                         )
                             )
               );
