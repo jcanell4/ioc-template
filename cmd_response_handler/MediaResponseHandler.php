@@ -113,7 +113,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
                                                 $responseData['content'],$preserveMetaData);   
-            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'warning';
             $info['message'] = $responseData["info"];
             $ajaxCmdResponseGenerator->addInfoDta($info);
