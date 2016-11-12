@@ -65,9 +65,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 //            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
 //            $info['type'] = 'success';
 //            $info['message'] = WikiIocLangManager::getLang('uploadsucc');
-            $info = AjaxCmdResponseGenerator::generateInfo("success",  WikiIocLangManager::getLang('uploadsucc'), 'media', 10);
+            $info = AjaxCmdResponseGenerator::generateInfo("success",  WikiIocLangManager::getLang('uploadsucc'), 'media', -1);
             foreach ($responseData["warnings"] as $value){
-                $info = AjaxCmdResponseGenerator::addInfoToInfo($info, AjaxCmdResponseGenerator::generateInfo("warning", $value, "media", 10));
+                $info = AjaxCmdResponseGenerator::addInfoToInfo($info, AjaxCmdResponseGenerator::generateInfo("warning", $value, "media", -1));
             }
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }else{
@@ -113,7 +113,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['ns'], 
                                                 $responseData['title'], 
                                                 $responseData['content'],$preserveMetaData);   
-            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
+            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'warning';
             $info['message'] = $responseData["info"];
             $ajaxCmdResponseGenerator->addInfoDta($info);
