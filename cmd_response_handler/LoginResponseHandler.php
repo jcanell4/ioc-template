@@ -49,9 +49,9 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             }
 
             // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
-            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+            $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
 //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab";
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
             $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS,
