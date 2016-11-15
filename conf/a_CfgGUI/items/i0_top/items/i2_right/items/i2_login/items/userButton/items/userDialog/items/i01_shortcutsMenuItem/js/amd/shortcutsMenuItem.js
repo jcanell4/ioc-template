@@ -6,7 +6,7 @@ var userDialog = registry.byId('cfgIdConstants::SHORTCUTS_MENU_ITEM');
 if (userDialog) {
    var processorUser = new ErrorMultiFunctionProcessor();
    var requestUser = new Request();
-   requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page&template=shortcuts";
+   requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_shortcuts_page&template=shortcuts";
    processorUser.addErrorAction("1001", function () {
          requestUser.sendRequest(userDialog.getQuery());
    });
