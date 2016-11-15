@@ -231,6 +231,27 @@ $_arrIocCfgGUI = array (
                       ),
                       'items' => 
                       array (
+                        'i01_shortcutsMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'shortcutsMenuItem',
+                              'label' => 'Les meves dreceres',
+                            ),
+                            'DJO' => 
+                            array (
+                              'query' => '\'id=user\'',
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'standbyId' => '\'bodyContent\'',
+                              'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':dreceres\';return _ret;}',
+                            ),
+                          ),
+                        ),
                         'i0_userMenuItem' => 
                         array (
                           'class' => 'WikiIocMenuItem',

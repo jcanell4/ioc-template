@@ -22,6 +22,7 @@ class cfgIdConstants
     const USER_BUTTON = "userButton";
     const USER_DIALOG = "userDialog";
     const USER_MENU_ITEM = "userMenuItem";
+    const SHORTCUTS_MENU_ITEM = "shortcutsMenuItem";
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
     const NOTIFIER_BUTTON = "notifierButton";
