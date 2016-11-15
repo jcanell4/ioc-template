@@ -28,7 +28,7 @@ var userDialog = registry.byId('shortcutsMenuItem');
 if (userDialog) {
 var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
-requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
+requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page&template=shortcuts";
 processorUser.addErrorAction("1001", function () {
 requestUser.sendRequest(userDialog.getQuery());
 });
