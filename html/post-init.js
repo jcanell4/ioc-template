@@ -185,7 +185,7 @@ require([
 
             // Add shortcut_tab
             var requestTabContent = new Request();
-            requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab";
+            requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
             requestTabContent.sendRequest().always(function () {
                 // var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
                 // if (currentNavigationPaneId === "tb_admin") {
