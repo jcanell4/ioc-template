@@ -53,6 +53,20 @@ class SaveResponseHandler extends PageResponseHandler {
             parent::response($requestParams, $responseData["page"], 
                                                 $ajaxCmdResponseGenerator);
         }
+        
+        //CASOS ESPECIALS
+        if(preg_match("/wiki:user:.*:dreceres/", $requestParams[id])){
+            $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
+//            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+
+            $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS,
+                $dades['title'],
+                $dades['content'],
+                $urlBase);
+            
+        }
     }
 }
 
