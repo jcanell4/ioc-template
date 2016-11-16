@@ -517,7 +517,7 @@ div#content .dokuwiki h1 {
 div#content .dokuwiki h1,
 div#content .dokuwiki h2 {
   margin-bottom: 0.6em;
-  font-weight: normal;
+  font-weight: 600;
 }
 div#content .dokuwiki h3,
 div#content .dokuwiki h4,
@@ -1368,8 +1368,17 @@ div.dokuwiki .section_highlight {
 }
 
 /* --------------- meta revisions ------------ */
+table.meta-revisions {
+  min-width: 200px;
+}
+
+table.meta-revisions th input {
+  float: left;
+}
+
 table.meta-revisions td, table.meta-revisions th{
     padding: 2px;
+
 }
 
 table.meta-revisions tr:hover{
@@ -1393,3 +1402,13 @@ td.ellipsed, th.ellipsed {
 table.meta-revisions a {
     text-decoration: none;
 }
+
+/*table.meta-revisions td {*/
+table.meta-revisions td:nth-child(2) {
+  min-width: 70px;
+}
+
+table.meta-revisions td:nth-child(3) {
+  min-width: 50px;
+}
+

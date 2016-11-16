@@ -14,6 +14,7 @@ $arrParcial = array(
                                           ,'iconClass' => "'iocIconEdit'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit'"
+                                          ,'disableOnSend' => true                                  
                                         )
                             )
               );

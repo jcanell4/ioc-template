@@ -41,8 +41,6 @@ class PageResponseHandler extends WikiIocResponseHandler
                 $autosaveTimer
         );
 
-        // TODO[Xavi] Reactivar les metas i la info
-
 
         if (isset($responseData['meta'])) {
             $ajaxCmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
@@ -56,7 +54,7 @@ class PageResponseHandler extends WikiIocResponseHandler
 
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
-        } else {
+        } else if(isset($responseData['meta'])) {
             $ajaxCmdResponseGenerator->addExtraMetadata(
                 $responseData['structure']['id'],
                 $responseData['structure']['id'] . '_revisions',
@@ -65,8 +63,6 @@ class PageResponseHandler extends WikiIocResponseHandler
             );
         }
 
-
-        // TODO[Xavi] Això ha de ser reemplaçat per les funcionalitats dels ContenTools
 		$ajaxCmdResponseGenerator->addProcessDomFromFunction(
 			$responseData['structure']['id'],
 			TRUE,

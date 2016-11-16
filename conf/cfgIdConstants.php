@@ -67,6 +67,7 @@ class cfgIdConstants
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
+    const DETAIL_SUPRESSIO_BUTTON = "detailSupressioButton";
     const MEDIA_SUPRESSIO_BUTTON = "mediaSupressioButton";
     const MEDIA_UPLOAD_BUTTON = "mediaUploadButton";
     const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";

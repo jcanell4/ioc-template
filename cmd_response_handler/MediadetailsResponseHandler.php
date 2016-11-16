@@ -17,6 +17,7 @@ if (!defined('DOKU_PLUGIN'))
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
+require_once DOKU_PLUGIN."ajaxcommand/requestparams/MediaKeys.php";
 
 class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
@@ -25,6 +26,31 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        if($requestParams[MediaKeys::KEY_DELETE]){
+            $this->_responseDelete($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        }else{
+            $this->_responseDetail($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        }
+        
+    }
+    
+    private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator){
+        if($responseData["result"] & 1){
+            $ajaxCmdResponseGenerator->addMediaDetails("", "", "delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $info = array('id' => "media", 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info['type'] = 'warning';
+            $info['message'] = $responseData["info"];
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }else{
+            $ajaxCmdResponseGenerator->addAlert($responseData["info"]);
+            $info = array('id' => $requestParams['delete'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info['type'] = 'error';
+            $info['message'] = $responseData["info"];
+            $ajaxCmdResponseGenerator->addInfoDta($info);
+        }
+    }
+
+    private function _responseDetail($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
         /*
          * Aquest handler ha de controlar diverses crides
@@ -91,7 +117,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
             //Càrrega de la zona info de missatges
             global $JUMPTO;
-            $info = array('id' => $responseData['id'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
+            $info = array('id' => "bodyContent_tablist_{$responseData['id']}", 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'success';
             if($mediado == "diff"){
                 $info['message'] = ' &nbsp;Es mostren les versions a comparar.';
