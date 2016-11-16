@@ -88,13 +88,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             //$info['message'] = $lang['user_logout'];             
             $info['message'] = 'Usuari desconnectat';
              $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                   cfgIdConstants::TB_ADMIN,
-                                                   $urlBase);
+                                                   cfgIdConstants::TB_ADMIN);
 
             $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
             $ajaxCmdResponseGenerator->addRemoveShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
-                cfgIdConstants::TB_SHORTCUTS,
-                $urlBase);
+                cfgIdConstants::TB_SHORTCUTS);
         } else  {
             $info['type']= 'success';
             // $info['message'] = $lang['user_login'];
