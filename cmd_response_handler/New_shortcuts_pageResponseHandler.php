@@ -11,7 +11,10 @@ if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(tpl_incdir().'cmd_response_handler/New_pageResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
+require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/ResponseParameterKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
+
+
 
 
 class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
@@ -26,11 +29,12 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
         $dades = $this->getModelWrapper()->getShortcutsTaskList($user_id);
         $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
-        $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+        $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
             cfgIdConstants::TB_SHORTCUTS,
             $dades['title'],
             $dades['content'],
-            $urlBase);
+            $urlBase,
+            ResponseParameterKeys::FIRST_POSITION);
 
     }
 

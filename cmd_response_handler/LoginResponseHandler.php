@@ -9,9 +9,12 @@
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if(!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
+
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php');
+require_once(DOKU_COMMAND . 'requestparams/ResponseParameterKeys.php');
 
 class LoginResponseHandler extends WikiIocResponseHandler {
 
@@ -41,11 +44,17 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $dades = $this->getModelWrapper()->getAdminTaskList();
                 $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-                $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                   cfgIdConstants::TB_ADMIN,
-                                                   $dades['title'],
-                                                   $dades['content'],
-                                                   $urlBase);
+//                $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
+//                                                   cfgIdConstants::TB_ADMIN,
+//                                                   $dades['title'],
+//                                                   $dades['content'],
+//                                                   $urlBase);
+
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                    cfgIdConstants::TB_ADMIN,
+                    $dades['title'],
+                    $dades['content'],
+                    $urlBase);
             }
 
             // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
@@ -53,11 +62,12 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
             $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
-            $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+            $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS,
                 $dades['title'],
                 $dades['content'],
-                $urlBase);
+                $urlBase,
+                ResponseParameterKeys::FIRST_POSITION);
 
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
@@ -72,7 +82,6 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/setSignature", $sig);
 
 
-        global $lang;
 
         //$info = array('id' => null, 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
         $info = array('timestamp' => date('d-m-Y H:i:s'));
@@ -87,11 +96,14 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $info['type'] = 'info';
             //$info['message'] = $lang['user_logout'];             
             $info['message'] = 'Usuari desconnectat';
-             $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                   cfgIdConstants::TB_ADMIN);
+//             $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
+//                                                   cfgIdConstants::TB_ADMIN);
 
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
-            $ajaxCmdResponseGenerator->addRemoveShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_ADMIN);
+
+//            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
+            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS);
         } else  {
             $info['type']= 'success';

@@ -13,6 +13,7 @@ require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
 require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
+require_once(DOKU_COMMAND . 'requestparams/ResponseParameterKeys.php');
 
 //class SaveResponseHandler extends EditResponseHandler {
 class SaveResponseHandler extends PageResponseHandler {
@@ -55,21 +56,22 @@ class SaveResponseHandler extends PageResponseHandler {
         }
         
         //CASOS ESPECIALS
-        if(preg_match("/wiki:user:.*:dreceres/", $requestParams[id])){
+        if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
             if($responseData["deleted"]){
-                 $ajaxCmdResponseGenerator->addRemoveShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+                 $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS);
             }else{
                 $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
     //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
                 $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
-                $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                     cfgIdConstants::TB_SHORTCUTS,
                     $dades['title'],
                     $dades['content'],
-                    $urlBase);
-            }            
+                    $urlBase,
+                    ResponseParameterKeys::FIRST_POSITION);
+            }
         }
     }
 }
