@@ -67,7 +67,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $dades['title'],
                 $dades['content'],
                 $urlBase,
-                ResponseParameterKeys::FIRST_POSITION);
+                ResponseParameterKeys::FIRST_POSITION,
+                true);
 
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();

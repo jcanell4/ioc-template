@@ -15,8 +15,6 @@ require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/ResponseParameterKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
 
 
-
-
 class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
 {
 
@@ -24,17 +22,13 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
     {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
-        $user_id = WikiIocInfoManager::getInfo('client');
-
-        $dades = $this->getModelWrapper()->getShortcutsTaskList($user_id);
-        $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
-
         $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
             cfgIdConstants::TB_SHORTCUTS,
-            $dades['title'],
-            $dades['content'],
-            $urlBase,
-            ResponseParameterKeys::FIRST_POSITION);
+            $responseData['shortcuts']['title'],
+            $responseData['shortcuts']['content'],
+            $responseData['shortcuts']['url_base'],
+            ResponseParameterKeys::FIRST_POSITION,
+            true);
 
     }
 
