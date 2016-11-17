@@ -12,8 +12,8 @@ require_once(tpl_incdir() . 'cmd_response_handler/utility/FormBuilder.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
 
-class ProjectResponseHandler extends WikiIocResponseHandler
-{
+class ProjectResponseHandler extends WikiIocResponseHandler {
+
     private $rows = [];
     private $lastRow = 0;
 
@@ -34,24 +34,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                 break;
 
             case 'create':
-                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                break;
+
+            case 'generateProject':
+                if ($responseData['info'])
+                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
 
             default:
-                // TODO[Xavi] Llençar una excepció personlitzada, no existeix aquest 'do'.
-                throw new Exception();
+                throw new Exception(); 
         }
-//        ALERTA[Xavi] Això es necessari? es troba enganxat en molts els response handlers
-//        $ajaxCmdResponseGenerator->addProcessDomFromFunction(
-//                $responseData['id'],
-//                TRUE,
-//                "ioc/dokuwiki/processContentPage",  //TODO configurable
-//                array(
-//                        "ns"            => $responseData['ns'],
-//                        "editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-//                        "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
-//                )
-//        );
+        
     }
 
     protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -65,13 +59,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         }
 
         $id = str_replace(":", "_", $requestParams['id']); // Alerta[Xavi] només és una prova, però s'ha de comptar que no es reemplcen els : si es fa servir una carpeta
-        $ns = $requestParams['id'];
+        $ns = str_replace("_", ":", $requestParams['id']);
         $title = "Projecte $ns";
 
         // TODO[Xavi] Dividir la generació del formulari en estrucutra i dades que corresponen a $responseData[project][structure] i  $responseData[project][values]
 
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save'; //[TODO Rafa] Aquesta ruta hauria d'estar parametritzada i passar-li el call i el do
-//        $form = FormBuilder::buildTestForm($id, $action, $requestParams['projectType']);
         $form = $this->buildForm($id, $ns, $action, $requestParams['projectType'], $responseData['projectMetaData']['structure']);
 
         $values = $responseData['projectMetaData']['values'];

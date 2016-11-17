@@ -956,13 +956,13 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=generate\'',
+                  'query' => '\'do=generateProject\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconUpload\'',
                   'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=generate\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'generate\'};return _ret;}',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var id=this.dispatcher.getGlobalState().getCurrentId();var query=this.query;require ([\'dijit/registry\'], function(registry) { if (id) { var widget=registry.byId(id); var projectType=widget.getProjectType(); if(query){ _ret=query+\'&id=\'+id+\'&projectType=\'+projectType; }else{ _ret=\'id=\'+id+\'&projectType=\'+projectType; } }});return _ret;}',
                 ),
               ),
             ),
