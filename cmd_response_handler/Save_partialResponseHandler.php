@@ -83,17 +83,22 @@ class Save_partialResponseHandler extends PageResponseHandler
         }
         
         //CASOS ESPECIALS
-        if(preg_match("wiki:user:.*:dreceres", $requestParams[id])){
-            $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
-//            $dades = $this->getModelWrapper()->getShortcutsTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+        if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
+            if($responseData["deleted"]){
+                 $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS);
+            }else{
+                $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
+    //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
-            $ajaxCmdResponseGenerator->addShortcutsTab(cfgIdConstants::ZONA_NAVEGACIO,
-                cfgIdConstants::TB_SHORTCUTS,
-                $dades['title'],
-                $dades['content'],
-                $urlBase);
-            
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                    cfgIdConstants::TB_SHORTCUTS,
+                    $dades['title'],
+                    $dades['content'],
+                    $urlBase,
+                    ResponseParameterKeys::FIRST_POSITION);
+            }
         }
     }
 }
