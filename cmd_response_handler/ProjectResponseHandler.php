@@ -37,7 +37,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 break;
 
-            case 'generateProject':
+            case 'generate':
                 if ($responseData['info'])
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
