@@ -247,6 +247,7 @@ table.diff th.author {
 .notification-container {
     background-color: #fff;
     min-width: 310px;
+	border-radius: 5px;
 }
 
 .notification {
@@ -257,6 +258,7 @@ table.diff th.author {
     margin: 5px;
     padding: 5px;
 	opacity: 0.5;
+	border-radius: 5px;
 }
 
 .unreaded .notification {
@@ -271,24 +273,25 @@ table.diff th.author {
 /* AVISOS DEL SISTEMA */
 .warning-container .notification {
 	opacity: 1;
+	margin:0;
 }
 
-.warning-container .notification.warning {
+.notification.warning {
 	color:#9F6000;
 	background-color:#FEEFB3;
 }
 
-.warning-container .notification.error {
+.notification.error {
 	color:#D8000C;
 	background-color:#FFBABA;
 }
 
-.warning-container .notification.info{
+.notification.info, .notification.message {
 	color:#00529B;
 	background-color:#BDE5F8;
 }
 
-.warning-container .notification.success {
+.notification.success {
 	color:#4f8A10;
 	background-color:#DFF2BF;
 }

@@ -716,7 +716,7 @@ $_arrIocCfgGUI = array (
                 array (
                   'id' => 'systemWarningContainer',
                   'class' => 'warning-container',
-                  'style' => 'width:auto;height:auto;position:absolute;right:30px;top:30px',
+                  'style' => 'width:auto;height:auto;position:absolute;right:35px;top:63px',
                 ),
                 'DJO' => 
                 array (
