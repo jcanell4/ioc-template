@@ -1,6 +1,6 @@
 <?php
 function iocNeedResetArrayGUI(){
-  $_needReset = 0;
+  $_needReset = 1;
   return $_needReset;
 }
 
@@ -716,7 +716,7 @@ $_arrIocCfgGUI = array (
                 array (
                   'id' => 'systemWarningContainer',
                   'class' => 'warning-container',
-                  'style' => 'width:auto;height:auto;position:absolute;right:35px;top:63px',
+                  'style' => 'position:absolute;bottom:5px;right:5px',
                 ),
                 'DJO' => 
                 array (
