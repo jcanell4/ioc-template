@@ -33,6 +33,18 @@ $arrParcial = array(
                                "tabType" => cfgIdConstants::SCROLLING_TAB_TYPE
                             )
                          )
-                      )
-                  )
-               );
+                      ),
+        array(
+            "class" => "WikiIocNotifierContainer",
+            "parms" => array(
+                "DOM" => array(
+                    "id" => cfgIdConstants::SYSTEM_WARNING_CONTAINER,
+                    "class" => "warning-container",
+                    "style" => "width:auto;height:auto;position:absolute;right:30px;top:30px",
+                ),
+                "DJO" => array()
+            )
+        )
+
+    )
+);

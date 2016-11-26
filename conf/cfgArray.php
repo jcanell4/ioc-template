@@ -707,6 +707,22 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            1 => 
+            array (
+              'class' => 'WikiIocNotifierContainer',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'systemWarningContainer',
+                  'class' => 'warning-container',
+                  'style' => 'width:auto;height:auto;position:absolute;right:30px;top:30px',
+                ),
+                'DJO' => 
+                array (
+                ),
+              ),
+            ),
           ),
         ),
         'i2_right' => 
