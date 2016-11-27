@@ -113,14 +113,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         }
 
-        if (isset($responseData['notification'])) {
-            $action = $responseData['notification']['action'];
-            $params = $responseData['notification']['params'];
-
+        for ($i=0; $i<count($responseData['notifications']); $i++) {
+            $action = $responseData['notifications'][$i]['action'];
+            $params = $responseData['notifications'][$i]['params'];
             $ajaxCmdResponseGenerator->addNotification($action, $params);
         }
-
-
 
     }
 }
