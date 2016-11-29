@@ -79,6 +79,8 @@ class cfgIdConstants
     const ZONA_TOP_RIGHT = "zonaTopRight";
     const ZONA_TOP_NOTIFICATION = "zonaNotification";
 
+    const SYSTEM_WARNING_CONTAINER = "systemWarningContainer";
+
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;
     const RESIZING_TAB_TYPE = 1;

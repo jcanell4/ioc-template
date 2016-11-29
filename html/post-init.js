@@ -404,6 +404,8 @@ require([
         // Recuperem el contenidor de notificacions
         var notifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER');
         wikiIocDispatcher.setNotifierContainer(notifierContainer);
+        var warningContainer = registry.byId('cfgIdConstants::SYSTEM_WARNING_CONTAINER');
+        wikiIocDispatcher.setWarningContainer(warningContainer);
 
 
         // Alerta[Xavi] TEST per carregar formularis

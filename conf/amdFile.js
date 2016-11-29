@@ -24,15 +24,15 @@ require([
 ,"ioc/wiki30/processor/ErrorMultiFunctionProcessor"
 ,"ioc/wiki30/Request"
 ], function (registry,ErrorMultiFunctionProcessor,Request) {
-var userDialog = registry.byId('shortcutsMenuItem');
-if (userDialog) {
+var shortcutsOption = registry.byId('shortcutsMenuItem');
+if (shortcutsOption) {
 var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
-requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_shortcuts_page&template=shortcuts";
+requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_shortcuts_page&template=shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
 processorUser.addErrorAction("1001", function () {
-requestUser.sendRequest(userDialog.getQuery());
+requestUser.sendRequest(shortcutsOption.getQuery());
 });
-userDialog.addProcessor(processorUser.type, processorUser);
+shortcutsOption.addProcessor(processorUser.type, processorUser);
 }
 });
 require([
