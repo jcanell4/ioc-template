@@ -432,16 +432,17 @@ $_arrIocCfgGUI = array (
                     array (
                       'id' => 'left_top_panel',
                     ),
+                    'CSS' => 
+                    array (
+                      'padding' => '0px',
+                      'border' => '0px',
+                    ),
                     'DJO' => 
                     array (
                       'region' => '\'center\'',
                       'doLayout' => 'true',
                       'splitter' => 'true',
                       'closable' => 'false',
-                    ),
-                    'CSS' => 
-                    array (
-                      'padding' => '0px',
                     ),
                     'PRP' => 
                     array (
@@ -1056,13 +1057,13 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=generateProject\'',
+                  'query' => '\'do=generate\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconUpload\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
-                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var id=this.dispatcher.getGlobalState().getCurrentId();var query=this.query;require ([\'dijit/registry\'], function(registry) { if (id) { var widget=registry.byId(id); var projectType=widget.getProjectType(); if(query){ _ret=query+\'&id=\'+id+\'&projectType=\'+projectType; }else{ _ret=\'id=\'+id+\'&projectType=\'+projectType; } }});return _ret;}',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var gState=this.dispatcher.getGlobalState();var id=gState.getCurrentId();if (gState.currentTabId) var ns=gState.getContent(gState.currentTabId).ns;var query=this.query;require ([\'dijit/registry\'], function(registry) { if (id) { if (!ns) ns=id; var widget=registry.byId(id); var projectType=widget.getProjectType(); if(query){ _ret=query+\'&id=\'+ns+\'&projectType=\'+projectType; }else{ _ret=\'id=\'+ns+\'&projectType=\'+projectType; } }});return _ret;}',
                 ),
               ),
             ),

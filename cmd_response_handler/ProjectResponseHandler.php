@@ -59,7 +59,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         $id = str_replace(":", "_", $requestParams['id']); // Alerta[Xavi] només és una prova, però s'ha de comptar que no es reemplcen els : si es fa servir una carpeta
-        $ns = str_replace("_", ":", $requestParams['id']);
+        $ns = $requestParams['id'];
         $title = "Projecte $ns";
 
         // TODO[Xavi] Dividir la generació del formulari en estrucutra i dades que corresponen a $responseData[project][structure] i  $responseData[project][values]
@@ -103,7 +103,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ->setLabel('Modificar el render per que no es mostri label')
                 ->setType('hidden')
                 ->setName('id')
-                ->setValue($id)
+                ->setValue($ns)
                 ->setColumns(12)
                 ->build()
         ]);

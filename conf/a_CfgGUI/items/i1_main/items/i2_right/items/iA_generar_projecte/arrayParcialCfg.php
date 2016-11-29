@@ -8,7 +8,7 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                           "query" => "'do=generateProject'"
+                                           "query" => "'do=generate'"
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconUpload'"
