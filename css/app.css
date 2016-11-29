@@ -244,22 +244,29 @@ table.diff th.author {
 .iocIconMediaEdit { background-position: -480px; }
 
 /* NOTIFICATIONS */
+.notification {
+	border: 1px solid  #8cacbb;
+	background-color: #fff;
+	color: black;
+	width: 300px;
+	opacity: 0.5;
+	border-radius: 5px;
+	border: 1px solid;
+	background-image: url("css/icons/notify.png");
+	margin: 0 0 0.5em;
+	padding: 0.4em;
+	padding-left: 32px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+}
+
+
 .notification-container {
     background-color: #fff;
     min-width: 310px;
 	border-radius: 5px;
 }
 
-.notification {
-    border: 1px solid  #8cacbb;
-    background-color: #fff;
-    color: black;
-    width: 300px;
-    margin: 5px;
-    padding: 5px;
-	opacity: 0.5;
-	border-radius: 5px;
-}
 
 .unreaded .notification {
 	opacity: 1;
@@ -271,30 +278,44 @@ table.diff th.author {
 }
 
 /* AVISOS DEL SISTEMA */
-.warning-container .notification {
-	opacity: 1;
-	margin:0;
 
+
+
+
+.warning-container .notification{
+	opacity: 1;
+	font-size: inherit;
+	line-height: inherit;
+
+	background-position: 8px 8px;
 }
 
 .notification.warning {
 	color:#9F6000;
 	background-color:#FEEFB3;
+	border-color:#9F6000;
+	background-image: url("css/icons/warning.png");
 }
 
 .notification.error {
 	color:#D8000C;
 	background-color:#FFBABA;
+	border-color:#D8000C;
+	background-image: url("css/icons/error.png");
 }
 
 .notification.info, .notification.message {
 	color:#00529B;
 	background-color:#BDE5F8;
+	border-color:#00529B;
+	background-image: url("css/icons/info.png");
 }
 
 .notification.success {
 	color:#4f8A10;
 	background-color:#DFF2BF;
+	border-color:#4f8A10;
+	background-image: url("css/icons/success.png");
 }
 
 
