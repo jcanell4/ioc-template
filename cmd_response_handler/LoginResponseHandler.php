@@ -44,32 +44,48 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $dades = $this->getModelWrapper()->getAdminTaskList();
                 $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-//                $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-//                                                   cfgIdConstants::TB_ADMIN,
-//                                                   $dades['title'],
-//                                                   $dades['content'],
-//                                                   $urlBase);
-
+                $params = array(
+                    "id" => cfgIdConstants::TB_ADMIN,
+                    "title" =>  $dades['title'],
+                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "urlBase" => $urlBase,
+                    "content" => $dades["content"],
+                );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                    cfgIdConstants::TB_ADMIN,
-                    $dades['title'],
-                    $dades['content'],
-                    $urlBase);
+                                    $params);
             }
 
             // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
             $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
-//            $dades = $this->getModelWrapper()->getShortcutsTaskList();
-            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+            if($dades){
+                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+                $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
 
-            $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                cfgIdConstants::TB_SHORTCUTS,
-                $dades['title'],
-                $dades['content'],
-                $urlBase,
-                ResponseParameterKeys::FIRST_POSITION,
-                true);
-
+                $contentParams = array(
+                    "id" => cfgIdConstants::TB_SHORTCUTS,
+                    "title" =>  $dades['title'],
+                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "urlBase" => $urlBase,
+                    "data" => $dades["content"],
+                    "treeDataSource" => $urlTree,
+                    'typeDictionary' => array (
+                                            'p' => 
+                                            array (
+                                              'urlBase' => 'lib/plugins/ajaxcommand/ajax.php?call=project',
+                                              'params' => 
+                                              array (
+                                                0 => 'projectType',
+                                              ),
+                                            ),
+                                          ),                
+                );
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                                                $contentParams,
+                                                ResponseParameterKeys::FIRST_POSITION,
+                                                TRUE,
+                                                $containerClass);
+            }
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
         }else{

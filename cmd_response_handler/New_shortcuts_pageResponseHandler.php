@@ -22,14 +22,33 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
     {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
-        $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-            cfgIdConstants::TB_SHORTCUTS,
-            $responseData['shortcuts']['title'],
-            $responseData['shortcuts']['content'],
-            $responseData['shortcuts']['url_base'],
-            ResponseParameterKeys::FIRST_POSITION,
-            true);
+        $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
+        $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+        $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
 
+        $params = array(
+            "id" => cfgIdConstants::TB_SHORTCUTS,
+            "title" =>  $responseData['title'],
+            "standbyId" => cfgIdConstants::MAIN_CONTENT,
+            "urlBase" => $urlBase,
+            "data" => $responseData["content"],
+            "treeDataSource" => $urlTree,
+            'typeDictionary' => array (
+                                    'p' => 
+                                    array (
+                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                      'params' => 
+                                      array (
+                                        0 => 'projectType',
+                                      ),
+                                    ),
+                                  ),                
+        );
+        $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                            $params,
+                            ResponseParameterKeys::FIRST_POSITION,
+                            TRUE,
+                            $containerClass);
     }
 
 }
