@@ -709,7 +709,7 @@ $_arrIocCfgGUI = array (
             ),
             1 => 
             array (
-              'class' => 'WikiIocNotifierContainer',
+              'class' => 'WikiIocWarningContainer',
               'parms' => 
               array (
                 'DOM' => 

@@ -35,7 +35,8 @@ $arrParcial = array(
                          )
                       ),
         array(
-            "class" => "WikiIocNotifierContainer",
+//            "class" => "WikiIocNotifierContainer",
+            "class" => "WikiIocWarningContainer",
             "parms" => array(
                 "DOM" => array(
                     "id" => cfgIdConstants::SYSTEM_WARNING_CONTAINER,
