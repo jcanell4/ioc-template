@@ -278,8 +278,14 @@ table.diff th.author {
 
 /* AVISOS DEL SISTEMA */
 
+div.warning-container {
+    overflow:hidden;
+}
+.warning-container .notification, .warning-buttons{
 
-
+    cursor: pointer;
+    cursor: hand;
+}
 
 .warning-container .notification{
 	opacity: 1;
@@ -287,6 +293,7 @@ table.diff th.author {
 	line-height: inherit;
 
 	background-position: 8px 8px;
+
 }
 
 .notification.warning, .warning-buttons .warning {
@@ -295,6 +302,28 @@ table.diff th.author {
 	border-color:#9F6000;
 	background-image: url("css/icons/warning.png");
 }
+
+
+.warning-buttons>span{
+    display: inline-block;
+}
+
+.warning-container.toggle .warning-buttons {
+    transform: translateY(7px);
+    opacity: 1;
+}
+
+.warning-buttons {
+    opacity: 0.5;
+    transform: translateY(27px);
+}
+
+.warning-buttons:hover {
+    opacity: 1;
+    transform: translateY(7px);
+    transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
 
 .notification.error, .warning-buttons .error {
 	color:#D8000C;
@@ -331,6 +360,7 @@ table.diff th.author {
 	padding-left: 32px;
 	background-repeat: no-repeat;
 	background-position: 8px 4px;
+    display: none;
 }
 
 
