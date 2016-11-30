@@ -5,9 +5,9 @@ $arrParcial = array(
         "DOM" => array(
             "id" => cfgIdConstants::NOTIFIER_CONTAINER,
             "class" => "notification-container"
+
         ),
         "DJO" => array(
-
         )
     )
 );

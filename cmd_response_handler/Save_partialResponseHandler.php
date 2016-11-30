@@ -90,14 +90,34 @@ class Save_partialResponseHandler extends PageResponseHandler
             }else{
                 $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
     //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
-                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
 
+                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+                $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+
+                $params = array(
+                    "id" => cfgIdConstants::TB_SHORTCUTS,
+                    "title" =>  $contentData['title'],
+                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "urlBase" => $urlBase,
+                    "data" => $contentData["content"],
+                    "treeDataSource" => $urlTree,
+                    'typeDictionary' => array (
+                                            'p' => 
+                                            array (
+                                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                              'params' => 
+                                              array (
+                                                0 => 'projectType',
+                                              ),
+                                            ),
+                                          ),                
+                );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                    cfgIdConstants::TB_SHORTCUTS,
-                    $dades['title'],
-                    $dades['content'],
-                    $urlBase,
-                    ResponseParameterKeys::FIRST_POSITION);
+                                    $params,
+                                    ResponseParameterKeys::FIRST_POSITION,
+                                    FALSE,          
+                                    $containerClass);
             }
         }
     }
