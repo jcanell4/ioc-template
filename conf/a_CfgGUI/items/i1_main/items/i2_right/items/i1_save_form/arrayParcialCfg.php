@@ -8,13 +8,10 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-//                                           "query" => "'do=save'", // Alerta[Xavi] Si es posa així no funciona
                                           "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSave'"
-//                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-//                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project&do=save'"
-//                                          ,"eventId" => "'save_partial'"// S'ha d'afegir el id del document que correspongui
+                                          ,'getDataEventObject' => 'function(_data){var _ret=null; var id=this.dispatcher.getGlobalState().getCurrentId(); _ret={id:id, name:\'save_form\'}; return _ret;}'
                                         )
                             )
               );

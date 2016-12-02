@@ -64,6 +64,7 @@ class cfgIdConstants
     const CANCEL_PARC_BUTTON = "cancelparcButton";
     const SAVE_PARC_BUTTON = "saveparcButton";
     const SAVE_FORM_BUTTON = "saveFormButton";
+    const GENERATE_PROJECT_BUTTON = "generateProjectButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
@@ -111,6 +112,10 @@ class cfgIdConstants
     const TALKUSER_MENUITEM   = "talkUserMenuItem"; //cambiada por TALK_USER_MENU_ITEM
     const LOGOFF_MENUITEM     = "logoffMenuItem";   //cambiada por LOGOFF_MENU_ITEM
     */
+    
+    //Constant de tipus de projecte
+    const PROJECT_TYPE = 'projectType';
+    
     public function getConstantsIds()
     {
         global $js_packages;
