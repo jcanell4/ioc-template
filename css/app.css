@@ -313,6 +313,14 @@ div.warning-container {
     opacity: 1;
 }
 
+.warning-container.toggle .warning-buttons span:after {
+    content:" [v]";
+}
+
+.warning-container .warning-buttons span:after {
+    content: " [^]";
+}
+
 .warning-buttons {
     opacity: 0.5;
     transform: translateY(27px);

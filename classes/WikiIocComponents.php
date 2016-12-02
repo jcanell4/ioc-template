@@ -1235,6 +1235,7 @@ class WikiIocWarningContainer extends WikiIocItemsContainer {
     protected function getPreContent() {
         $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('WarningContainer')}'"
             . " {$this->getDJO()}"
+            . " {$this->getCSS()}"
             . ">";
         return $ret;
     }
