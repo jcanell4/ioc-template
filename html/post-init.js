@@ -169,6 +169,21 @@ require([
                 });
             }
 
+            // Establim el panell d'informació actiu
+            var currentNavigationPaneId = state.getCurrentNavigationId();
+            wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
+            
+            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+            if (tbContainer) {
+                // Seleccionem el tab si està creat
+                if (currentNavigationPaneId) {
+                    var childWidget = registry.byId(currentNavigationPaneId);
+                    if (childWidget) {
+                        tbContainer.selectChild(currentNavigationPaneId);
+                    }
+                }
+            }
+            
             if (state.permissions) {
                 wikiIocDispatcher.processResponse({
                     "type": "jsinfo"
@@ -178,13 +193,14 @@ require([
                 if (state.permissions['isadmin'] | state.permissions['ismanager']) {
                     var requestTabContent = new Request();
                     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-                    requestTabContent.sendRequest().always(function () {
-                        var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-                        if (currentNavigationPaneId === "tb_admin") {
-                            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                            tbContainer.selectChild(currentNavigationPaneId);
-                        }
-                    });
+                    requestTabContent.sendRequest();
+//                    requestTabContent.sendRequest().always(function () {
+//                        var currentNavigationPaneId = state.getCurrentNavigationId();
+//                        if (currentNavigationPaneId === "tb_admin") {
+//                            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+//                            tbContainer.selectChild(currentNavigationPaneId);
+//                        }
+//                    });
                 }
             }
 
@@ -192,14 +208,16 @@ require([
             if(state.extratabs['tb_shorcuts']){
                 var requestTabContent = new Request();
                 requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
-                requestTabContent.sendRequest().always(function () {
-                     var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-                     if (currentNavigationPaneId === "tb_shorcuts") {
-                         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-                         tbContainer.selectChild(currentNavigationPaneId);
-                     }
-                });
+                requestTabContent.sendRequest();
+//                requestTabContent.sendRequest().always(function () {
+//                     var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
+//                     if (currentNavigationPaneId === "tb_shorcuts") {
+//                         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+//                         tbContainer.selectChild(currentNavigationPaneId);
+//                     }
+//                });
             }
+            
             if (state.sectok) {
                 wikiIocDispatcher.processResponse({
                     "type": "sectok"
@@ -315,6 +333,12 @@ require([
         // Guardar los valores por defecto de las medidas de los paneles ajustables
         wikiIocDispatcher.almacenLocal.setUpUserDefaultPanelsSize(wikiIocDispatcher);
         
+        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
+        if (tbContainer) {
+            var currentNavigationPaneId = tbContainer.getChildren()[0].id;
+            wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
+        }
+
         // cercar l'estat
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
@@ -325,23 +349,6 @@ require([
                 wikiIocDispatcher.reloadFromState(extraState);
         }
 
-        // Establim el panell d'informació actiu
-        var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-        var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-        if (tbContainer) {
-            if (!currentNavigationPaneId) {
-                currentNavigationPaneId = tbContainer.getChildren()[0].id;
-                wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
-            }
-            tbContainer.selectChild(currentNavigationPaneId);
-            // Seleccionem el tab si està creat
-            if (currentNavigationPaneId) {
-                var childWidget = registry.byId(currentNavigationPaneId);
-                if (childWidget) {
-                    tbContainer.selectChild(currentNavigationPaneId);
-                }
-            }
-        }
         wikiIocDispatcher.updateFromState();
 
         var container = registry.byId(wikiIocDispatcher.metaInfoNodeId);
