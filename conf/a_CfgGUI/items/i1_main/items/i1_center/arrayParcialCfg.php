@@ -40,15 +40,12 @@ $arrParcial = array(
                 "DOM" => array(
                     "id" => cfgIdConstants::SYSTEM_WARNING_CONTAINER,
                     "class" => "warning-container",
-                    "style" => "position:absolute;bottom:5px;right:5px"
+//                    "style" => "position:absolute;bottom:5px;right:5px"
                 ),
-//                "CSS" => array( // ALERTA[Xavi] No funciona
-//                    "position" => "absolute",
-//                    "right" => "5px", // 35px per edició de textos
-//                    "top" => "5px", // 63px per edició de textos
-//                ),
-
-                "DJO" => array(
+                "CSS" => array( // ALERTA[Xavi] No funciona
+                    "position" => "absolute",
+                    "right" => "5px", // 35px per edició de textos
+                    "top" => "5px", // 63px per edició de textos
                 )
             )
         )
