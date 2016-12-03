@@ -57,7 +57,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
             // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
             $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
-            if($dades){
+            if($dades["content"]){
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
                 $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
                 $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";

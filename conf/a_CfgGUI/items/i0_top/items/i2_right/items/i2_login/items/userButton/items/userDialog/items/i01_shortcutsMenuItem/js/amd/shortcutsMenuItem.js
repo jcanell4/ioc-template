@@ -6,9 +6,9 @@ var shortcutsOption = registry.byId('cfgIdConstants::SHORTCUTS_MENU_ITEM');
 if (shortcutsOption) {
    var processorUser = new ErrorMultiFunctionProcessor();
    var requestUser = new Request();
-   requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_shortcuts_page&template=shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
    processorUser.addErrorAction("1001", function () {
-         requestUser.sendRequest(shortcutsOption.getQuery());
+       requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_shortcuts_page&template=shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
+       requestUser.sendRequest(shortcutsOption.getQuery());
    });
    shortcutsOption.addProcessor(processorUser.type, processorUser);
 }

@@ -243,7 +243,6 @@ $_arrIocCfgGUI = array (
                             ),
                             'DJO' => 
                             array (
-                              'query' => '\'id=user\'',
                               'autoSize' => true,
                               'disabled' => false,
                               'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',

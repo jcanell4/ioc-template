@@ -7,8 +7,8 @@ $arrParcial = array(
                       						,"label" => "Les meves dreceres"
                       					)
                           ,"DJO" => array(
-                      						 "query" => "'id=user'"
-                      						,"autoSize" => true
+//                      						 "query" => "'id=user'"
+                      						"autoSize" => true
                       						,"disabled" => false
                       						,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
                       						,"standbyId" => "'bodyContent'"
