@@ -17,9 +17,10 @@ $arrParcial = array(
             /*,"urlBaseTyped" => array(
                                    "p" => "'lib/plugins/ajaxcommand/ajax.php?call=commandreport'"
                                   ,"pf" => "'lib/plugins/ajaxcommand/ajax.php?call=commandreport'"
-                                )
-            ,"expandProject" => "true"*/
-        , "standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
+                                )*/
+            ,"expandProject" => "true"
+            ,"processOnClickAndOpenOnClick" => "true"
+            ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
         )
     )
 );

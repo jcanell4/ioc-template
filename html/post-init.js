@@ -57,7 +57,8 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
-
+            disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
+            
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
@@ -66,7 +67,9 @@ require([
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
-                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] || disp.getGlobalState().permissions['ismanager']);
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
+                                          disp.getGlobalState().permissions['ismanager'] ||
+                                          disp.getGlobalState().permissions['isprojectmanager']);
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
@@ -103,11 +106,8 @@ require([
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
                                     || disp.getContentCache(cur).getMainContentTool().readonly;
 
-                        //disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
-
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
-
 
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
@@ -115,6 +115,7 @@ require([
 
                     } else if (page.action === 'form') {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
 
                     } else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
@@ -124,12 +125,7 @@ require([
                         }
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
                     } else if (page.action === 'mediadetails') {
-                        var pageDif = false;
-                        if (page.mediado) {
-                            if (page.mediado == "diff") {
-                                pageDif = true;
-                            }
-                        }
+                        var pageDif = (page.mediado && page.mediado === "diff");
                         if (!pageDif) {
                             disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", true);
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", true);
