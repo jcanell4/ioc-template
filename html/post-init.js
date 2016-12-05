@@ -244,45 +244,33 @@ require([
                 for (var id in state.pages) {
                     var queryParams = '';
 
-                    //if (state.getContent(id).action === "view") {
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
-
-                        //if (state.getContent(id).action === "view") {
-
                         if (state.getContent(id).rev) {
                             queryParams += "rev=" + state.getContent(id).rev + "&";
                         }
-
                         queryParams += "call=page&id=";
 
-                    //} else if (state.getContent(id).action === "edit") { // ALERTA[Xavi] Mai arriba aqui, deshabilitat fins que solucionem el problema de sincronització al recarregar amb els contenidors
-                        //if (state.getContent(id).rev) {
-                        //    queryParams += "rev=" + state.getContent(id).rev + "&";
-                        //}
-                        //
-                        //queryParams = "call=edit&do=edit&reload=1&id=";
-
-
                     } else if (state.getContent(id).action === "form") {
-                        var ns = state.getContent(id).ns,
-                            projectType = state.getContent(id).projectType;
-
+                        var ns = state.getContent(id).ns;
+                        var projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
-
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
                         // fix? ns empty, load with page name
                         state.getContent(id).ns = id.substring(6);
+
                     } else if (state.getContent(id).action === "media") {
                         queryParams = "call=media";
                         var elid = state.getContent(id).ns;
                         queryParams += '&ns=' + elid + '&do=media&id=';
+                    
                     } else if (state.getContent(id).action === "mediadetails") {
                         queryParams = "call=mediadetails";
                         var elid = state.getContent(id).myid;
                         //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
+                    
                     } else {
                         queryParams = "call=page&id=";
                     }
@@ -293,8 +281,8 @@ require([
                         if (np === length) {
                             if (state.info) {
                                 wikiIocDispatcher.processResponse({
-                                    "type": "info"
-                                    , "value": state.info
+                                     "type": "info"
+                                    ,"value": state.info
                                 });
                             }
 
@@ -356,8 +344,6 @@ require([
 
         container = registry.byId(wikiIocDispatcher.navegacioNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
-
-
 
         window.addEventListener("beforeunload", function (event) {
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
