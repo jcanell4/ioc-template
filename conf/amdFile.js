@@ -28,8 +28,8 @@ var shortcutsOption = registry.byId('shortcutsMenuItem');
 if (shortcutsOption) {
 var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
-processorUser.addErrorAction("1001", function () {
-requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page&template=shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
+processorUser.addErrorAction("7101", function () {
+requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page&template=template:shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
 requestUser.sendRequest(shortcutsOption.getQuery());
 });
 shortcutsOption.addProcessor(processorUser.type, processorUser);
@@ -45,7 +45,7 @@ if (userDialog) {
 var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
 requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
-processorUser.addErrorAction("1001", function () {
+processorUser.addErrorAction("7101", function () {
 requestUser.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorUser.type, processorUser);

@@ -7,7 +7,7 @@ if (userDialog) {
    var processorTalk = new ErrorMultiFunctionProcessor();
    var requestTalk = new Request();
    requestTalk.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
-   processorTalk.addErrorAction("1001", function () {
+   processorTalk.addErrorAction("7101", function () {
          requestTalk.sendRequest(userDialog.getQuery());
    });
    userDialog.addProcessor(processorTalk.type, processorTalk);
