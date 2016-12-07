@@ -18,16 +18,15 @@ class FieldBuilder
     private $props = [];
     private $options = [];
 
-    //								'label' => 'Nom de la pàgina d\'inici', // Etiqueta del formulari
-//								'name' => 'start',
-//								'value' => '',
-//								'type' => 'text',
-////                                'columns' => 12,
-//								'priority' => 10, // Més alt es més prioritari
-//								'props' => ['placeholder' => 'Introdueix el nom de la pàgina d\'inici']
+//      'label' => 'Nom de la pàgina d\'inici', // Etiqueta del formulari
+//	'name' => 'start',
+//	'value' => '',
+//	'type' => 'text',
+//      'columns' => 40,
+//	'priority' => 10, // Més alt es més prioritari
+//	'props' => ['placeholder' => 'Introdueix el nom de la pàgina d\'inici']
 
-    public function __construct($id = null, $label = '', $type = 'text', $name = null, $columns = 12, $priority = 0)
-    {
+    public function __construct($id=null, $label='', $type='text', $name=null, $columns=40, $priority=0) {
         $this->setId($id)
             ->setLabel($label)
             ->setType($type)
@@ -92,12 +91,10 @@ class FieldBuilder
         return $this;
     }
 
-    public function setColumns($columns)
-    {
-        if ($columns > 12 || $columns < 1) {
-            throw new Exception();
-        }
-
+    public function setColumns($columns) {
+//        if ($columns > 12 || $columns < 1) {
+//            throw new Exception();
+//        }
         $this->columns = $columns;
         return $this;
     }

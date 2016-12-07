@@ -10,6 +10,7 @@ if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(tpl_incdir() . 'cmd_response_handler/utility/FormBuilder.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
@@ -49,20 +50,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        // El grid està compost per 12 columnes
-        // Si no s'especifica el nombre de columnes s'utilitzen 6
-        // Les columnes es poden especificar a:
-        // * Group: indica el nombre de columnes que emplea el grup
-        // * Field: indica el nombre de columnes que emplea el camp. S'ha de tenir en compte que es sobre 12 INDEPENDENMENT del nombre de columnes del grup ja que són niuades
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
-
-        $id = str_replace(":", "_", $requestParams['id']); // Alerta[Xavi] només és una prova, però s'ha de comptar que no es reemplcen els : si es fa servir una carpeta
+        $id = str_replace(":", "_", $requestParams['id']);
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
-
-        // TODO[Xavi] Dividir la generació del formulari en estrucutra i dades que corresponen a $responseData[project][structure] i  $responseData[project][values]
 
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save'; //[TODO Rafa] Aquesta ruta hauria d'estar parametritzada i passar-li el call i el do
         $form = $this->buildForm($id, $ns, $action, $requestParams['projectType'], $responseData['projectMetaData']['structure']);
@@ -73,23 +66,75 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
     }
 
-    protected function buildForm($id, $ns, $action, $projectType, $structure)
-    {
-        $this->lastRow = 1; // Es reserva la primera posició del array
+    /** El grid està compost per 12 columnes
+     * Si no s'especifica el nombre de columnes s'utilitzen 6
+     * Les columnes es poden especificar a:
+     * - Group: indica el nombre de columnes que emplea el grup
+     * - Field: indica el nombre de columnes que emplea el camp. S'ha de tenir en compte que es sobre 12 INDEPENDENMENT del nombre de columnes del grup ja que són niuades
+     * 
+     * @param string $id, $ns, $action, $projectType
+     * @param array $structure
+     * @return array
+     */
+    protected function buildForm($id, $ns, $action, $projectType, $structure) {
 
-        $builder = new FormBuilder();
-
+        $this->lastRow = 1; //es reserva la primera posició del array
+        $builder = new FormBuilder($id, $action);
+        
         // Es fa una passada del primer nivell, tots els elements que no siguien o array va en la mateixa row i grup.
-        $builder->setId($id)
-            ->setAction($action);
+//        $builder->setId($id)
+//            ->setAction($action);
 
         $mainRow = FormBuilder::createRowBuilder()
             ->setTitle('Projecte: ' . $ns);
 
-        $mainGroup = FormBuilder::createGroupBuilder()
-            ->setTitle('Dades generals del projecte')//TODO[Xavi] Localitzar al lang
-            ->setFrame(true);
+        //obtener el conjunto de grupos definidos en la estructura
+        $groups = $this->getGroups($structure);
 
+        //Como mínimo se creará el grupo 'main' aunque todos los elementos tengan grupo propio.
+        //Al grupo 'main' se incorporarán todos los elementos que no tengan grupo
+        foreach ($groups as $key => $value) {
+
+            $aGroups[$key] = FormBuilder::createGroupBuilder()
+                ->setTitle(WikiIocLangManager::getLang('projectGroup')[$key])
+                ->setFrame(true);
+        
+            foreach ($value as $field) {
+                if ($structure[$field]['type'] === 'array' || $structure[$field]['type'] === 'object') {
+                    // Afegir a una altra fila
+                    $this->generateRow($structure[$field], $field);
+                } else {
+                    if ($structure[$field]['mandatory'] === TRUE && (!$structure[$field]['value'] || $structure[$field]['value']==""))
+                        throw new Exception();
+                    if (!$structure[$field]['struc_chars'])
+                        $structure[$field]['struc_chars'] = 40;
+                    if (!$structure[$field]['struc_rows'])
+                        $structure[$field]['struc_rows'] = 1;
+                    
+                    $aGroups[$key]->addField(FormBuilder::createFieldBuilder()
+                        ->setId($structure[$field]['id'])
+                        ->setLabel(WikiIocLangManager::getLang('projectLabelForm')[$field])
+                        ->setColumns($structure[$field]['struc_chars'])
+                        ->setValue($structure[$field]['value'])
+                        ->build() // Es construeix el camp
+                    );
+                }
+            }
+        }
+        
+        foreach ($aGroups as $key => $value) {
+            $mainRow->addGroup($aGroups[$key]->build()); // Es construeix el grup
+        }
+        $this->rows[0] = $mainRow->build(); // Es construeix la fila
+        
+        $form = $builder->addRows($this->rows)
+                    ->build();
+
+/*
+        $mainGroup = FormBuilder::createGroupBuilder()
+            ->setTitle('Dades generals del projecte')
+            ->setFrame(true);
+/*
         // Camps ocults obligatoris pel formulari
         $mainGroup->addFields([
             FormBuilder::createFieldBuilder()
@@ -97,17 +142,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ->setType('hidden')
                 ->setName('projectType')
                 ->setValue($projectType)
-                ->setColumns(12)
+                ->setColumns(0)
                 ->build(),
             FormBuilder::createFieldBuilder()
                 ->setLabel('Modificar el render per que no es mostri label')
                 ->setType('hidden')
                 ->setName('id')
                 ->setValue($ns)
-                ->setColumns(12)
+                ->setColumns(0)
                 ->build()
         ]);
-
+*
         foreach ($structure as $key => $value) {
             if ($value['tipus'] === 'array' || ($value['tipus'] === 'object')) {
                 // Afegir a una altra fila
@@ -130,7 +175,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $form = $builder->addRows($this->rows)
                     ->build();
-
+*/
         return $form;
     }
 
@@ -195,4 +240,21 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $this->lastRow++;
     }
 
+    /** 
+     * Obtener el array de grupos definidos en la estructura. Los elementos de la estructura
+     * que no tienen grupo asignado se asignarán al grupo "main"
+     * @return array
+     */
+    private function getGroups($structure) {
+        $group = array();
+        $group['main'] = array();
+        foreach ($structure as $key => $value) {
+            if ($value['group']) {
+                $group[$value['group']][] = $key;
+            }else {
+                $group['main'][] = $key;
+            }
+        }
+        return $group;
+    }
 }

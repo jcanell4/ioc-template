@@ -1,12 +1,10 @@
 <?php
-
 /**
  * Description of GroupBuilder
  *
  * @author Xavier García <xaviergaro.dev@gmail.com>
  */
-class GroupBuilder
-{
+class GroupBuilder {
 
     protected $id;
     protected $title;
@@ -15,8 +13,7 @@ class GroupBuilder
     protected $priority;
     protected $fields = [];
 
-    public function __construct($id = null, $title = null, $hasFrame = false, $columns = 12, $priority = 0)
-    {
+    public function __construct($id=null, $title=null, $hasFrame=false, $columns=40, $priority=0) {
         $this->setId($id)
             ->setTitle($title)
             ->setFrame($hasFrame)
@@ -63,12 +60,10 @@ class GroupBuilder
         return $this;
     }
 
-    public function setColumns($columns)
-    {
-        if ($columns>12 || $columns <1) {
-            throw new Exception();
-        }
-
+    public function setColumns($columns) {
+//        if ($columns>12 || $columns <1) {
+//            throw new Exception();
+//        }
         $this->columns = $columns;
         return $this;
     }
