@@ -69,10 +69,10 @@ class SaveResponseHandler extends PageResponseHandler {
 
                 $params = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $responseData['title'],
+                    "title" =>  $dades['title'],
                     "standbyId" => cfgIdConstants::MAIN_CONTENT,
                     "urlBase" => $urlBase,
-                    "data" => $responseData["content"],
+                    "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array (
                                             'p' => 

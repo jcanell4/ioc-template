@@ -97,10 +97,10 @@ class Save_partialResponseHandler extends PageResponseHandler
 
                 $params = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $contentData['title'],
+                    "title" =>  $dades['title'],
                     "standbyId" => cfgIdConstants::MAIN_CONTENT,
                     "urlBase" => $urlBase,
-                    "data" => $contentData["content"],
+                    "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array (
                                             'p' => 
