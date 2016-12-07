@@ -196,6 +196,8 @@ class WikiIocTpl {
             $contentJsFile.= "});\n";  //fin ready
             $contentJsFile.= "});\n";  //fin require
 
+
+
             // Lee el fichero con el post-código javascript estático
             if(@file_exists($this->scriptPostInitJsFile)) {
                 $contentJsFile.= file_get_contents($this->scriptPostInitJsFile);

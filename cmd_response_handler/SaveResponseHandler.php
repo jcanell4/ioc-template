@@ -13,6 +13,7 @@ require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
 require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
+require_once(DOKU_COMMAND . 'requestparams/ResponseParameterKeys.php');
 
 //class SaveResponseHandler extends EditResponseHandler {
 class SaveResponseHandler extends PageResponseHandler {
@@ -52,6 +53,44 @@ class SaveResponseHandler extends PageResponseHandler {
                                             "ioc/dokuwiki/processCancellation");        
             parent::response($requestParams, $responseData["page"], 
                                                 $ajaxCmdResponseGenerator);
+        }
+        
+        //CASOS ESPECIALS
+        if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
+            if($responseData["deleted"]){
+                 $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS);
+            }else{
+                $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
+    //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+                $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+
+                $params = array(
+                    "id" => cfgIdConstants::TB_SHORTCUTS,
+                    "title" =>  $dades['title'],
+                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "urlBase" => $urlBase,
+                    "data" => $dades["content"],
+                    "treeDataSource" => $urlTree,
+                    'typeDictionary' => array (
+                                            'p' => 
+                                            array (
+                                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                              'params' => 
+                                              array (
+                                                0 => 'projectType',
+                                              ),
+                                            ),
+                                          ),                
+                );
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                                    $params,
+                                    ResponseParameterKeys::FIRST_POSITION,
+                                    FALSE,
+                                    $containerClass);
+            }
         }
     }
 }

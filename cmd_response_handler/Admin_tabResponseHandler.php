@@ -22,10 +22,13 @@ class Admin_tabResponseHandler extends WikiIocResponseHandler {
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
 
-        $ajaxCmdResponseGenerator->addAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                   cfgIdConstants::TB_ADMIN,
-                                                   $responseData['title'],
-                                                   $responseData['content'],
-                                                   $urlBase);
+        $params = array(
+            "id" => cfgIdConstants::TB_ADMIN,
+            "title" =>  $responseData['title'],
+            "standbyId" => cfgIdConstants::MAIN_CONTENT,
+            "urlBase" => $urlBase,
+            "content" => $responseData["content"],
+        );
+        $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO, $params);
     }
 }

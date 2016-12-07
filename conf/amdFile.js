@@ -24,12 +24,28 @@ require([
 ,"ioc/wiki30/processor/ErrorMultiFunctionProcessor"
 ,"ioc/wiki30/Request"
 ], function (registry,ErrorMultiFunctionProcessor,Request) {
+var shortcutsOption = registry.byId('shortcutsMenuItem');
+if (shortcutsOption) {
+var processorUser = new ErrorMultiFunctionProcessor();
+var requestUser = new Request();
+processorUser.addErrorAction("7101", function () {
+requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page&template=template:shortcuts&user_id="+shortcutsOption.dispatcher.getGlobalState().userId;
+requestUser.sendRequest(shortcutsOption.getQuery());
+});
+shortcutsOption.addProcessor(processorUser.type, processorUser);
+}
+});
+require([
+"dijit/registry"
+,"ioc/wiki30/processor/ErrorMultiFunctionProcessor"
+,"ioc/wiki30/Request"
+], function (registry,ErrorMultiFunctionProcessor,Request) {
 var userDialog = registry.byId('userMenuItem');
 if (userDialog) {
 var processorUser = new ErrorMultiFunctionProcessor();
 var requestUser = new Request();
 requestUser.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=new_page";
-processorUser.addErrorAction("1001", function () {
+processorUser.addErrorAction("7101", function () {
 requestUser.sendRequest(userDialog.getQuery());
 });
 userDialog.addProcessor(processorUser.type, processorUser);
@@ -44,11 +60,7 @@ var wikiIocDispatcher = getDispatcher();
 var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
 if (tbContainer) {
 tbContainer.watch("selectedChildWidget", function (name, oldTab, newTab) {
-var documentId = globalState.getCurrentId();
-var contentCache = wikiIocDispatcher.getContentCache(documentId);
-if (contentCache) {
-contentCache.setCurrentId("navigationPane", newTab.id);
-}
+wikiIocDispatcher.getGlobalState().setCurrentNavigationId(newTab.id);
 if (newTab.updateRendering) {
 newTab.updateRendering();
 }

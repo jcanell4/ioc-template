@@ -22,6 +22,7 @@ class cfgIdConstants
     const USER_BUTTON = "userButton";
     const USER_DIALOG = "userDialog";
     const USER_MENU_ITEM = "userMenuItem";
+    const SHORTCUTS_MENU_ITEM = "shortcutsMenuItem";
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
     const NOTIFIER_BUTTON = "notifierButton";
@@ -39,6 +40,7 @@ class cfgIdConstants
     const TB_ADMIN = "tb_admin";
     const TB_DOCU = "tb_docu";
     const TB_MENU = "tb_menu";
+    const TB_SHORTCUTS = "tb_shorcuts";
     const LEFT_BC_PANEL = "leftBorderContainerPanel";
     const LEFT_TOP = "left_top_panel";
     const LEFT_BOTTOM = "left_bottom_panel";
@@ -77,6 +79,8 @@ class cfgIdConstants
     const ZONA_MISSATGES = "zonaMissatges";
     const ZONA_TOP_RIGHT = "zonaTopRight";
     const ZONA_TOP_NOTIFICATION = "zonaNotification";
+
+    const SYSTEM_WARNING_CONTAINER = "systemWarningContainer";
 
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;

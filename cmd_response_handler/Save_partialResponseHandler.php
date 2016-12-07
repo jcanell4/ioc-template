@@ -81,5 +81,44 @@ class Save_partialResponseHandler extends PageResponseHandler
             // No ha de ser possible cap altre cas perquè hem desat així que com a minim hi ha una
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
         }
+        
+        //CASOS ESPECIALS
+        if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
+            if($responseData["deleted"]){
+                 $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
+                cfgIdConstants::TB_SHORTCUTS);
+            }else{
+                $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
+    //            $dades = $this->getModelWrapper()->getShortcutsTaskList();
+
+                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
+                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
+                $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+
+                $params = array(
+                    "id" => cfgIdConstants::TB_SHORTCUTS,
+                    "title" =>  $dades['title'],
+                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "urlBase" => $urlBase,
+                    "data" => $dades["content"],
+                    "treeDataSource" => $urlTree,
+                    'typeDictionary' => array (
+                                            'p' => 
+                                            array (
+                                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                              'params' => 
+                                              array (
+                                                0 => 'projectType',
+                                              ),
+                                            ),
+                                          ),                
+                );
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                                    $params,
+                                    ResponseParameterKeys::FIRST_POSITION,
+                                    FALSE,          
+                                    $containerClass);
+            }
+        }
     }
 }

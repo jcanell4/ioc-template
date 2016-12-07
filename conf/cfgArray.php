@@ -231,6 +231,26 @@ $_arrIocCfgGUI = array (
                       ),
                       'items' => 
                       array (
+                        'i01_shortcutsMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'shortcutsMenuItem',
+                              'label' => 'Les meves dreceres',
+                            ),
+                            'DJO' => 
+                            array (
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'standbyId' => '\'bodyContent\'',
+                              'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':dreceres\';return _ret;}',
+                            ),
+                          ),
+                        ),
                         'i0_userMenuItem' => 
                         array (
                           'class' => 'WikiIocMenuItem',
@@ -686,6 +706,24 @@ $_arrIocCfgGUI = array (
                 'PRP' => 
                 array (
                   'tabType' => 2,
+                ),
+              ),
+            ),
+            1 => 
+            array (
+              'class' => 'WikiIocWarningContainer',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'systemWarningContainer',
+                  'class' => 'warning-container',
+                ),
+                'CSS' => 
+                array (
+                  'position' => 'absolute',
+                  'right' => '5px',
+                  'bottom' => '5px',
                 ),
               ),
             ),

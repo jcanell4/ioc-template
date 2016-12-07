@@ -1207,6 +1207,7 @@ class WikiIocNotifierContainer extends WikiIocItemsContainer {
     protected function getPreContent() {
         $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('NotifierContainer')}'"
             . " {$this->getDJO()}"
+            . " {$this->getCSS()}"
             . ">";
         return $ret;
     }
@@ -1214,4 +1215,33 @@ class WikiIocNotifierContainer extends WikiIocItemsContainer {
     protected function getPostContent() {
         return "</div>\n";
     }
+}
+
+class WikiIocWarningContainer extends WikiIocItemsContainer {
+
+    public function __construct($aParms = array(), $aItems = array()) {
+        global $js_packages;
+        $reqPackage = array(
+            array("name" => "ioc", "location" => $js_packages["ioc"])
+        ,array("name" => "dojo", "location" => $js_packages["dojo"])
+        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+        );
+        $reqJsModule = array(
+            "WarningContainer" => "ioc/gui/content/WarningContainer"
+        );
+        parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
+    }
+
+    protected function getPreContent() {
+        $ret = "\n<div {$this->getDOM()} data-dojo-type='{$this->getReqJsModule('WarningContainer')}'"
+            . " {$this->getDJO()}"
+            . " {$this->getCSS()}"
+            . ">";
+        return $ret;
+    }
+
+    protected function getPostContent() {
+        return "</div>\n";
+    }
+
 }

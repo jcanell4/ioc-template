@@ -8,30 +8,20 @@
 
 if (!defined("DOKU_INC")) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
+require_once(tpl_incdir().'cmd_response_handler/New_pageResponseHandler.php');
 require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
 require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/ResponseParameterKeys.php');
 require_once(tpl_incdir().'conf/cfgIdConstants.php');
 
 
-class New_pageResponseHandler extends PageResponseHandler
+class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
 {
-    function __construct()
-    {
-        parent::__construct(pageResponseHandler::PAGE);
-    }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
-        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
-         if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
-             $this->shortcutsResponse($this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client")), $ajaxCmdResponseGenerator);
-         }
-    }
-    
-    private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
+
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
         $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
         $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
@@ -58,7 +48,7 @@ class New_pageResponseHandler extends PageResponseHandler
                             $params,
                             ResponseParameterKeys::FIRST_POSITION,
                             TRUE,
-                            $containerClass);        
+                            $containerClass);
     }
 
 }
