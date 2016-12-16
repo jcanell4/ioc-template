@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Xavier García<xaviergaro.dev@gmail.com>
+ * Construye los datos para la respuesta de la parte servidor en función de la petición
  */
 
 if (!defined("DOKU_INC")) die();
@@ -57,13 +57,94 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
 
-        $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save'; //[TODO Rafa] Aquesta ruta hauria d'estar parametritzada i passar-li el call i el do
-        $form = $this->buildForm($id, $ns, $action, $requestParams['projectType'], $responseData['projectMetaData']['structure']);
+        $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
+        //$form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure']);
+        $form = $this->newBuildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
 
         $values = $responseData['projectMetaData']['values'];
         $extra = ['projectType' => $requestParams['projectType']];
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
+    }
+
+    protected function newBuildForm($id, $ns, $action, $structure, $view) {
+
+        $aGroups = array();
+        $builder = new FormBuilder($id, $action);
+        
+        $mainRow = FormBuilder::createRowBuilder()
+            ->setTitle('Projecte: ' . $ns);
+        
+        //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
+        foreach ($view['groups'] as $keyGroup => $valGroup) {
+            //Se obtienen los atributos del grupo
+            $label = ($valGroup['label']) ? $valGroup['label'] : WikiIocLangManager::getLang('projectGroup')[$keyGroup];
+            $frame = ($valGroup['frame']) ? true : false;
+            $columns = ($valGroup['n_cols']) ? $valGroup['n_cols'] : $view['definition']['n_columns'];
+            $pare = $valGroup['parent'];
+
+            if ($aGroups[$keyGroup]) {
+                //El grupo ya ha sido creado con anterioridad
+                if (!$aGroups[$keyGroup]->hasData()) {
+                    //se añaden los atributos al grupo que fue creado sin ellos
+                    $aGroups[$keyGroup]
+                        ->setTitle($label)
+                        ->setFrame($frame)
+                        ->setColumns($columns);
+                }
+            }else {
+                //Se crea un nuevo grupo principal
+                $aGroups[$keyGroup] = FormBuilder::createGroupBuilder()
+                    ->setTitle($label)
+                    ->setFrame($frame)
+                    ->setColumns($columns);
+            }
+
+            if (!$pare) {
+                $builder->addElement($aGroups[$keyGroup]); //se añade como grupo principal
+                //$mainRow->addElement($aGroups[$keyGroup]); //se añade como grupo principal
+            }else {
+                if (!$aGroups[$pare]) {
+                    //si el grupo padre de este grupo todavía no está creado, se crea el grupo padre sin atributos
+                    $aGroups[$pare] = FormBuilder::createGroupBuilder();
+                }
+                $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
+            }
+            
+        }
+        
+        //Construye, como objetos, los campos definidos en la vista y los enlaza a los grupos correspondientes
+        foreach ($view['fields'] as $keyField => $valField) {
+            
+            //combina los atributos y valores de los arrays de estructura y de vista 
+            $arrValues = array_merge($structure[$keyField], $valField);
+            
+            //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
+            $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
+            if (!$aGroups[$grupo]) 
+                throw new Exception();
+            
+            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
+                throw new Exception();
+
+            if ($arrValues['struc_chars'])
+                $columns = $arrValues['struc_chars'] / $view['definition']['chars_column'];
+            else
+                $columns = $aGroups[$grupo]->getColumns();
+            
+            if (!$arrValues['struc_rows'])
+                $arrValues['struc_rows'] = 1;
+            
+            $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
+                ->setId($arrValues['id'])
+                ->setLabel(WikiIocLangManager::getLang('projectLabelForm')[$keyField])
+                ->setColumns($columns)
+                ->setValue($arrValues['value'])
+            );
+        }
+
+        $form = $builder->build();
+        return $form;
     }
 
     /** El grid està compost per 12 columnes
@@ -72,19 +153,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * - Group: indica el nombre de columnes que emplea el grup
      * - Field: indica el nombre de columnes que emplea el camp. S'ha de tenir en compte que es sobre 12 INDEPENDENMENT del nombre de columnes del grup ja que són niuades
      * 
-     * @param string $id, $ns, $action, $projectType
+     * @param string $id, $ns, $action
      * @param array $structure
      * @return array
      */
-    protected function buildForm($id, $ns, $action, $projectType, $structure) {
+    protected function buildForm($id, $ns, $action, $structure) {
 
         $this->lastRow = 1; //es reserva la primera posició del array
         $builder = new FormBuilder($id, $action);
         
-        // Es fa una passada del primer nivell, tots els elements que no siguien o array va en la mateixa row i grup.
-//        $builder->setId($id)
-//            ->setAction($action);
-
         $mainRow = FormBuilder::createRowBuilder()
             ->setTitle('Projecte: ' . $ns);
 
@@ -111,7 +188,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     if (!$structure[$field]['struc_rows'])
                         $structure[$field]['struc_rows'] = 1;
                     
-                    $aGroups[$key]->addField(FormBuilder::createFieldBuilder()
+                    $aGroups[$key]->addElement(FormBuilder::createFieldBuilder()
                         ->setId($structure[$field]['id'])
                         ->setLabel(WikiIocLangManager::getLang('projectLabelForm')[$field])
                         ->setColumns($structure[$field]['struc_chars'])
@@ -123,11 +200,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
         
         foreach ($aGroups as $key => $value) {
-            $mainRow->addGroup($aGroups[$key]->build()); // Es construeix el grup
+            $mainRow->addElement($aGroups[$key]->build()); // Es construeix el grup
         }
         $this->rows[0] = $mainRow->build(); // Es construeix la fila
         
-        $form = $builder->addRows($this->rows)
+        $form = $builder->addElements($this->rows)
                     ->build();
 
 /*

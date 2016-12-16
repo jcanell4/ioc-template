@@ -1,91 +1,53 @@
 <?php
+require_once(tpl_incdir() . 'cmd_response_handler/utility/AbstractFormBuilder.php');
+
 /**
- * Description of GroupBuilder
- *
- * @author Xavier García <xaviergaro.dev@gmail.com>
+ * Construeix un array amb els atributs d'un grup del formulari
  */
-class GroupBuilder {
+class GroupBuilder extends AbstractFormBuilder {
 
-    protected $id;
-    protected $title;
-    protected $hasFrame;
+    protected $frame;
     protected $columns;
-    protected $priority;
-    protected $fields = [];
 
-    public function __construct($id=null, $title=null, $hasFrame=false, $columns=40, $priority=0) {
+    public function __construct($id=NULL, $title=NULL, $frame=FALSE, $columns=12, $priority=0) {
         $this->setId($id)
             ->setTitle($title)
-            ->setFrame($hasFrame)
+            ->setFrame($frame)
             ->setColumns($columns)
             ->setPriority($priority);
     }
 
-    public function build()
-    {
-        if ($this->id) {
+    public function build() {
+        $group = [];
+        if ($this->id)
             $group['id'] = $this->id;
-        }
 
-        if ($this->title) {
+        if ($this->title)
             $group['title'] = $this->title;
-        }
 
-        if ($this->hasFrame) {
-            $group['hasFrame'] = $this->hasFrame;
-        }
-
+        $group['formType'] = "group";
+        $group['frame'] = $this->frame;
         $group['columns'] = $this->columns;
         $group['priority'] = $this->priority;
-        $group['fields'] = $this->fields;
-
+        $group['elements'] = $this->buildElements();
         return $group;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    public function setFrame($frame)
-    {
-        $this->hasFrame = $frame;
+    public function setFrame($frame) {
+        $this->frame = $frame;
         return $this;
     }
 
     public function setColumns($columns) {
-//        if ($columns>12 || $columns <1) {
-//            throw new Exception();
-//        }
         $this->columns = $columns;
         return $this;
     }
 
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-        return $this;
+    public function hasData() {
+        return ($this->columns !== NULL && $this->title !== NULL);
     }
 
-    public function addField($field)
-    {
-        $this->fields[] = $field;
-        return $this;
+    public function getColumns() {
+        return $this->columns;
     }
-
-    public function addFields(array $fields)
-    {
-        for ($i = 0, $len = count($fields); $i < $len; $i++) {
-            $this->addField($fields[$i]);
-        }
-        return $this;
-    }
-
 }
