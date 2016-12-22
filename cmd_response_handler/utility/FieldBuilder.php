@@ -54,9 +54,9 @@ class FieldBuilder extends AbstractFormBuilder {
     public function setId($id) {
         $this->id = $id;
 
-        if (!$this->name && $id) {
+        if (!$this->name && $id)
             $this->setName($id);
-        }
+
         return $this;
     }
 
@@ -68,13 +68,19 @@ class FieldBuilder extends AbstractFormBuilder {
     public function setName($name) {
         $this->name = $name;
 
-        if (!$this->id && $name) {
+        if (!$this->id && $name) 
             $this->setId($name);
-        }
+
+        if (!$this->label && $name) 
+            $this->setLabel($name);
+
         return $this;
     }
 
     public function setColumns($columns) {
+        if ($columns > 12 || $columns < 1) {
+            throw new WrongNumberOfColumnsFormBuilderException("", "Has indicat $columns columnes i el nombre màxim de columnes admés és 12");
+        }
         $this->columns = $columns;
         return $this;
     }

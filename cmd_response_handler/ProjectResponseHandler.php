@@ -4,14 +4,15 @@
  */
 
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
+if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(tpl_incdir() . 'cmd_response_handler/utility/FormBuilder.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
+require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
+require_once DOKU_PLUGIN . 'wikiiocmodel/projects/documentation/DocumentationModelExceptions.php' ;
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
@@ -67,20 +68,26 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
     }
 
+    /** El grid esta compuesto por 12 columnas
+     * 
+     * @param string: $id, $ns, $action
+     * @param array: $structure, obtenido de configMain.json
+     * @param array: $view, obtenido de defaultView.json
+     * @return array
+     */
     protected function newBuildForm($id, $ns, $action, $structure, $view) {
 
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
         
-        $mainRow = FormBuilder::createRowBuilder()
-            ->setTitle('Projecte: ' . $ns);
+        $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
         
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
             //Se obtienen los atributos del grupo
             $label = ($valGroup['label']) ? $valGroup['label'] : WikiIocLangManager::getLang('projectGroup')[$keyGroup];
             $frame = ($valGroup['frame']) ? true : false;
-            $columns = ($valGroup['n_cols']) ? $valGroup['n_cols'] : $view['definition']['n_columns'];
+            $columns = ($valGroup['n_columns']) ? $valGroup['n_columns'] : $view['definition']['n_columns'];
             $pare = $valGroup['parent'];
 
             if ($aGroups[$keyGroup]) {
@@ -101,8 +108,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
             if (!$pare) {
-                $builder->addElement($aGroups[$keyGroup]); //se añade como grupo principal
-                //$mainRow->addElement($aGroups[$keyGroup]); //se añade como grupo principal
+                $mainRow->addElement($aGroups[$keyGroup]); //se añade como grupo principal
             }else {
                 if (!$aGroups[$pare]) {
                     //si el grupo padre de este grupo todavía no está creado, se crea el grupo padre sin atributos
@@ -122,12 +128,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
             $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
             if (!$aGroups[$grupo]) 
-                throw new Exception();
+                throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
             
             if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
-                throw new Exception();
+                throw new MissingValueFormBuilderException($ns, "El camp $keyField és obligatori i no té valor");
 
-            if ($arrValues['struc_chars'])
+            //Se establecen los atributos del campo
+            if ($arrValues['n_columns'])
+                $columns = $arrValues['n_columns'];
+            elseif ($arrValues['struc_chars'])
                 $columns = $arrValues['struc_chars'] / $view['definition']['chars_column'];
             else
                 $columns = $aGroups[$grupo]->getColumns();
@@ -135,15 +144,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (!$arrValues['struc_rows'])
                 $arrValues['struc_rows'] = 1;
             
+            $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
+            
             $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
                 ->setId($arrValues['id'])
-                ->setLabel(WikiIocLangManager::getLang('projectLabelForm')[$keyField])
+                ->setLabel(($label != NULL) ? $label : $keyField)
                 ->setColumns($columns)
                 ->setValue($arrValues['value'])
             );
         }
 
-        $form = $builder->build();
+        $form = $builder->addElement($mainRow)
+                    ->build();
         return $form;
     }
 
