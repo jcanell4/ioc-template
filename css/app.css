@@ -308,7 +308,21 @@ div.warning-container {
     display: inline-block;
 }
 
-.warning-container.toggle .warning-buttons {
+.warning-container {
+	transform: translateY(27px);
+}
+
+.warning-container div.dijitContentPane {
+	padding:0;
+}
+
+
+.warning-container.toggle {
+	transform: translateY(0);
+}
+
+
+.warning-container.toggle {
     transform: translateY(7px);
     opacity: 1;
 }
@@ -321,12 +335,12 @@ div.warning-container {
     content: " [^]";
 }
 
-.warning-buttons {
+.warning-container {
     opacity: 0.5;
-    transform: translateY(27px);
+    /*transform: translateY(27px);*/
 }
 
-.warning-buttons:hover {
+.warning-container:hover {
     opacity: 1;
     transform: translateY(7px);
     transition: transform 0.2s ease-in, opacity 0.2s ease-in;
@@ -355,8 +369,8 @@ div.warning-container {
 }
 
 .warning-buttons.right {
-	margin: 0.5em;
-	padding: 0.2em;
+	margin: 0;
+	padding: 0 0 0.2em;
 	text-align: right;
 }
 
@@ -370,8 +384,6 @@ div.warning-container {
 	background-position: 8px 4px;
     display: none;
 }
-
-
 
 
 .activeAlarm{
