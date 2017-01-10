@@ -29,7 +29,7 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler
         $params = array(
             "id" => cfgIdConstants::TB_SHORTCUTS,
             "title" =>  $responseData['title'],
-            "standbyId" => cfgIdConstants::MAIN_CONTENT,
+            "standbyId" => cfgIdConstants::BODY_CONTENT,
             "urlBase" => $urlBase,
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
