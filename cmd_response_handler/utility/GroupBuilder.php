@@ -40,7 +40,7 @@ class GroupBuilder extends AbstractFormBuilder {
 
     public function setColumns($columns) {
         if ($columns > 12 || $columns < 1) {
-            throw new WrongNumberOfColumnsFormBuilderException("", "Has indicat $columns columnes i el nombre màxim de columnes admés és 12");
+            throw new WrongNumberOfColumnsFormBuilderException($this->id, $columns);
         }
         $this->columns = $columns;
         return $this;

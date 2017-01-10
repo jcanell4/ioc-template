@@ -18,7 +18,7 @@ class RowBuilder extends AbstractFormBuilder {
         $row['id'] = $this->id;
         $row['title'] = $this->title;
         $row['formType'] = "row";
-        $row['elements'] = $this->buildElements();   //$this->elements;
+        $row['elements'] = $this->buildElements();
         return $row;
     }
 
