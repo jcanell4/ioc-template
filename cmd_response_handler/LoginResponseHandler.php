@@ -47,7 +47,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $params = array(
                     "id" => cfgIdConstants::TB_ADMIN,
                     "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "standbyId" => cfgIdConstants::BODY_CONTENT,
                     "urlBase" => $urlBase,
                     "content" => $dades["content"],
                 );
@@ -65,7 +65,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $contentParams = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
                     "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::MAIN_CONTENT,
+                    "standbyId" => cfgIdConstants::BODY_CONTENT,
                     "urlBase" => $urlBase,
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,

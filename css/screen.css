@@ -1353,6 +1353,8 @@ div.dokuwiki .section_highlight {
 
 
 /* --------------- diff view ----------------- */
+/* ALERTA[Xavi] Desactivat, funciona correctament sense aplicar aquests canvis */
+/*
 .dokuwiki table.diff td {
   font-size: 12px;
   line-height: 17px;
@@ -1366,6 +1368,23 @@ div.dokuwiki .section_highlight {
   padding-left: 2px;
   padding-right: 2px;
 }
+
+table.diff {
+  table-layout: fixed;
+}
+
+.dokuwiki table.diff th {
+  width: auto;
+}
+
+.dokuwiki table.diff .diff-lineheader {
+  width: 5%
+}
+
+.dokuwiki table.diff .diff-context {
+  width: 45%
+}
+*/
 
 /* --------------- meta revisions ------------ */
 table.meta-revisions {

@@ -25,7 +25,7 @@ class Admin_tabResponseHandler extends WikiIocResponseHandler {
         $params = array(
             "id" => cfgIdConstants::TB_ADMIN,
             "title" =>  $responseData['title'],
-            "standbyId" => cfgIdConstants::MAIN_CONTENT,
+            "standbyId" => cfgIdConstants::BODY_CONTENT,
             "urlBase" => $urlBase,
             "content" => $responseData["content"],
         );
