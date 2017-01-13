@@ -58,15 +58,18 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                 $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
+
             } else {
-                $responseData['structure']['readonly'] = $this->getPermission()->isReadOnly();
+
+                $responseData['structure']['readonly'] = $this->isReadOnly($responseData);
+
 
                 if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
                     $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
                 }
 
                 $this->addEditPartialDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                if($requestParams[PageKeys::KEY_TO_REQUIRE]){
+                if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
                     $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                     $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
                 }
@@ -82,6 +85,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
 
+    }
+
+    private function isReadOnly($responseData) {
+
+        return $responseData['structure']['locked_before']? true : $this->getPermission()->isReadOnly();
     }
 
 
@@ -198,7 +206,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             array(
                 "ns" => $responseData['structure']['ns'],
                 "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                "pageCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=page",
+                "pageCommand" => "lib/plugins/ajaxcommand/ajax.php?call=page",
                 "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
             )
         );
@@ -225,7 +233,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
         if ($requestParams[PageKeys::KEY_TO_REQUIRE] ||
-            strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS])>0) { // ja hi ha chunks en edició
+            strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > 0
+        ) { // ja hi ha chunks en edició
 
             $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
 
@@ -348,16 +357,16 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     private function addEditPartialDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $autosaveTimer = NULL;
-        if(WikiGlobalConfig::getConf("autosaveTimer")){
-            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
+        if (WikiGlobalConfig::getConf("autosaveTimer")) {
+            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") * 1000;
         }
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $cmdResponseGenerator->addWikiCodeDocPartial(
-                                            $responseData['structure'], 
-                                            $timer, 
-                                            NULL, 
-                                            $autosaveTimer
-                );
+            $responseData['structure'],
+            $timer,
+            NULL,
+            $autosaveTimer
+        );
     }
 
     private function generateEditDocumentTimer($requestParams, $responseData)
@@ -417,7 +426,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         return $chunks;
     }
 
-    protected function cleanId($id) {
+    protected function cleanId($id)
+    {
         return str_replace(":", "_", $id);
     }
 }
