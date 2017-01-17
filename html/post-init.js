@@ -413,8 +413,8 @@ require([
 
         // TODO[Xavi] Canviar per codi de Dojo
         baseUnload.addOnUnload(function(){
-            console.log("Esborrant la cookie");
-            cookie("IOCForceScriptLoad", null, {expires: -1});
+            console.log("Creant la cookie");
+            cookie("IOCForceScriptLoad", 1);
         });
     });
 });
