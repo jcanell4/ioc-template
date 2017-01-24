@@ -414,7 +414,7 @@ require([
         // TODO[Xavi] Canviar per codi de Dojo
         baseUnload.addOnUnload(function(){
             console.log("Creant la cookie");
-            cookie("IOCForceScriptLoad", 1);
+            cookie("IOCgFoprceScriptLoad", 1);
         });
     });
 });
