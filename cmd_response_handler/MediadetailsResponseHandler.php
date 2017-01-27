@@ -1,19 +1,10 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of page_response_handler
- *
+ * MediadetailsResponseHandler
  * @author Miguel Angel Lozano <mlozan54@ioc.cat>
  */
-if (!defined("DOKU_INC"))
-    die();
-if (!defined('DOKU_PLUGIN'))
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
@@ -26,40 +17,40 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        if($requestParams[MediaKeys::KEY_DELETE]){
+        if ($requestParams[MediaKeys::KEY_DELETE]){
             $this->_responseDelete($requestParams, $responseData, $ajaxCmdResponseGenerator);
-        }else{
+        }else {
             $this->_responseDetail($requestParams, $responseData, $ajaxCmdResponseGenerator);
         }
-        
     }
     
     private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator){
-        if($responseData["result"] & 1){
-            $ajaxCmdResponseGenerator->addMediaDetails("", "", "delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
-            $info = array('id' => "media", 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
-            $info['type'] = 'warning';
-            $info['message'] = $responseData["info"];
+        if ($responseData["result"] & 1){
+            $ajaxCmdResponseGenerator->addMediaDetails("", "", "delete", $requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $info = array(
+                        'id' => "media",
+                        'duration' => -1,
+                        'timestamp' => date('d-m-Y H:i:s'),
+                        'type' => "warning",
+                        'message' => $responseData["info"]
+                    );
             $ajaxCmdResponseGenerator->addInfoDta($info);
-        }else{
+        }else {
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]);
-            $info = array('id' => $requestParams['delete'], 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
-            $info['type'] = 'error';
-            $info['message'] = $responseData["info"];
+            $info = array(
+                        'id' => $requestParams['delete'],
+                        'duration' => -1,
+                        'timestamp' => date('d-m-Y H:i:s'),
+                        'type' => "error",
+                        'message' => $responseData["info"]
+                    );
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
     }
 
     private function _responseDetail($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-
-        /*
-         * Aquest handler ha de controlar diverses crides
-         * - Petició del detall d'un media
-         * - Eliminació d'un media --> existeix $requestParams['delete'] amb l'ns i l'id del media
-         * 
-         */
         $mediado = "";
-        if($requestParams['mediado']){
+        if ($requestParams['mediado']){
             $mediado = $requestParams['mediado'];
         }
         $difftype = "";
@@ -67,41 +58,44 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             $difftype = $requestParams['difftype'];
         }
         if ($requestParams['delete']) {
-            $ajaxCmdResponseGenerator->addMediaDetails($difftype,$mediado,"delete",$requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails($difftype, $mediado, "delete", $requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
         } else {
-            $ajaxCmdResponseGenerator->addMediaDetails($difftype,$mediado,"details",$responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
-            /*
-             * HISTÒRIC DE VERSIONS
-             */
-            
+            $ajaxCmdResponseGenerator->addMediaDetails($difftype, $mediado, "details", $responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
+
+            // Històric de versions
             $propLlista = array(
                 'id' => $responseData['id'] . '_metaMediaDetailsProva',
                 'title' => "Històric de versions",
                 'ns' => $responseData['ns'],
-                'content' => $this->getModelWrapper()->mediaDetailsHistory()
+                'content' => $this->getModelWrapper()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
             );
-
                         
-            /*
-             * File Upload
-             */
-            
+            // File Upload
             $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
             $metaDataFileUpload['ns'] = $responseData['ns'];
             $metaDataFileUpload['id'] = $responseData['id'] . '_metaMediafileupload';
-            if($requestParams["versioupload"]){
+            if ($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $responseData['id'];
             }
             $patrones = array();
-            $patrones[0] = '/dw__upload/';
-            $patrones[1] = '/upload__file/';
-            $patrones[2] = '/upload__name/';
-            $patrones[3] = '/dw__ow/';                  
+            //Los patrones 0 a 2 se ponen temporalmente para evitar que se modifique el nombre de archivo y el check
+            //de sobreescritura. Esto no será necesario cuando mediadetails disponga de un formulario propio para
+            //hacer un upload que sólo sirva para sustituir el fichero actual por uno nuevo (sin cambio de nombre)
+            $patrones[0] = '/type="text"/';
+            $patrones[1] = '/label for="upload__name"/';
+            $patrones[2] = '/label class="check"/';
+            $patrones[3] = '/dw__upload/';
+            $patrones[4] = '/upload__file/';
+            $patrones[5] = '/upload__name/';
+            $patrones[6] = '/dw__ow/';
             $sustituciones = array();
-            $sustituciones[0] = 'dw__upload_'.$responseData['id'];         
-            $sustituciones[1] = 'upload__file_'.$responseData['id'];         
-            $sustituciones[2] = 'upload__name_'.$responseData['id'];         
-            $sustituciones[3] = 'dw__ow_'.$responseData['id'];                              
+            $sustituciones[0] = 'type="text" readonly ';
+            $sustituciones[1] = 'label for="upload__name" style="display:none" ';                              
+            $sustituciones[2] = 'label class="check" style="display:none" ';                              
+            $sustituciones[3] = 'dw__upload_'.$responseData['id'];         
+            $sustituciones[4] = 'upload__file_'.$responseData['id'];         
+            $sustituciones[5] = 'upload__name_'.$responseData['id'];         
+            $sustituciones[6] = 'dw__ow_'.$responseData['id'];
             $metaDataFileUpload['content'] = preg_replace($patrones, $sustituciones, $metaDataFileUpload['content']);  
             
             $metaAgrupa = array(
@@ -111,32 +105,24 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
             $ajaxCmdResponseGenerator->addMetaMediaDetailsData($responseData['id'], $metaAgrupa);
 
-            //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
-            //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE, $expandProject=FALSE, $hiddenProjects=FALSE)
-            global $NS;
-
             //Càrrega de la zona info de missatges
-            global $JUMPTO;
             $info = array('id' => "bodyContent_tablist_{$responseData['id']}", 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'success';
-            if($mediado == "diff"){
+            if ($mediado == "diff"){
                 $info['message'] = ' &nbsp;Es mostren les versions a comparar.';
             }else{
                 $info['message'] = ' &nbsp;Imatge ' . $responseData['id'] . ' carregada.';
             }
-
-            if (isset($JUMPTO)) {
-                if ($JUMPTO == false) {
-                    $info['type'] = 'error';
-                    $info['message'] = "El fitxer no s'ha pogut carregar.";
-                }
-            }
-
-
+            /* Esto ya no es necesario, el error se controla antes, en DokuModelAdapter.php->getMediaDetails()
+             * global $JUMPTO;
+             * if (isset($JUMPTO)) {
+             *     if ($JUMPTO == false) {
+             *         $info['type'] = 'error';
+             *         $info['message'] = "El fitxer no s'ha pogut carregar.";
+             *     }
+             * }*/
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
     }
 
 }
-
-?>
