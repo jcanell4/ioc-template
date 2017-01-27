@@ -134,6 +134,9 @@ class WikiIocTpl {
         );
         array_unshift($event->data["script"], $item1);
         array_unshift($event->data["script"], $item0);
+
+        // TODO[Xavi] Establir cookie
+        setcookie("IOCForceScriptLoad", null);
     }
 
     public function printHeaderTags() {

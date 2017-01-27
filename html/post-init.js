@@ -13,11 +13,14 @@ require([
     'ioc/gui/content/containerContentToolFactory',
     'ioc/wiki30/RequestControl',
     'ioc/wiki30/LocalUserConfig',
+    'dojo/_base/unload',
+    'dojo/cookie',
     'dojo/domReady!'
 ], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
-             containerContentToolFactory, RequestControl, LocalUserConfig) {
+             containerContentToolFactory, RequestControl, LocalUserConfig,
+             baseUnload, cookie) {
 
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
@@ -408,6 +411,11 @@ require([
         //requestForm.sendRequest();
 
 
+        // TODO[Xavi] Canviar per codi de Dojo
+        baseUnload.addOnUnload(function(){
+            console.log("Creant la cookie");
+            cookie("IOCForceScriptLoad", 1);
+        });
     });
 });
 
