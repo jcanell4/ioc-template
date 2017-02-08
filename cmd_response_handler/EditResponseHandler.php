@@ -105,6 +105,26 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addMetadataResponse($responseData, &$cmdResponseGenerator)
     {
+
+        // TODO[Xavi] Aquesta meta ha de ser disponible a totes les respostes
+        // TODO[Xavi] Localitzar
+        // TODO[Xavi] Utilitzar widgets dojo pels elements de lformulari per unificar l'estil
+        $responseData['meta'][] = [
+            "id" => $responseData['id'] . "_metaNotifications",
+            "title" => "Enviar Notificacions",
+            "content" => '<form action="lib/plugins/ajaxcommand/ajax.php" method="post">
+<input type="hidden" name="sectok" value="'.getSecurityToken().'"/>
+<input type="hidden" name="call" value="notify"/>
+<input type="hidden" name="do" value="add_message">
+<input type="hidden" name="id" value="'. $responseData['id'].'"/>
+<input type="hidden" name="type" value="warning"/>
+<label>Destinatari:<input type="text" name="to" ></label>
+<label><input type="checkbox" name="notify_changes" value="'. $responseData['id'].'"/>Notificar canvis a ' . $responseData['id']. '</label><input type="checkbox" name="send_email" disabled />Enviar correu</label>
+<label>Missatge<textarea name="message"></textarea></label>
+<button>Enviar</button></form>',
+            "type" => "notification" // aixó no se si es necessari
+        ];
+
         if ($responseData['meta']) {
             $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
         }
