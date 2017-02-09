@@ -56,7 +56,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+//                $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                 $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
 
             } else {
@@ -70,7 +70,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
                 $this->addEditPartialDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
-                    $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+//                    $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                     $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
                 }
             }
@@ -81,7 +81,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
 
 //        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
-//        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
         $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
 
@@ -165,8 +165,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function addMetadataResponse($responseData, &$cmdResponseGenerator)
     {
         if ($responseData['meta']) {
-//            $cmdResponseGenerator->addMetadata($responseData['id'], $responseData['meta']);
-            $cmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
+            $id = isset($responseData['id']) ? $responseData['id'] :  $responseData['structure']['id'];
+            $cmdResponseGenerator->addMetadata($id, $responseData['meta']);
+//            $cmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
         }
     }
 
