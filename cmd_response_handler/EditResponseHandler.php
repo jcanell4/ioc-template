@@ -118,7 +118,7 @@ class EditResponseHandler extends WikiIocResponseHandler
 <input type="hidden" name="do" value="add_message">
 <input type="hidden" name="type" value="warning"/>
 <label>Destinatari:<input type="text" name="to" required></label>
-<label><input type="checkbox" name="id" value="'. $responseData['id'].'"/>Afegir enllaç al document ' . $responseData['id']. '</label><br>
+<label><input type="checkbox" name="id" value="'. $responseData['ns'].'"/>Afegir enllaç al document ' . $responseData['id']. '</label><br>
 <input type="checkbox" name="send_email" disabled />Enviar correu</label><br>
 <label>Missatge<textarea name="message" required></textarea></label>
 <button>Enviar</button></form>',
