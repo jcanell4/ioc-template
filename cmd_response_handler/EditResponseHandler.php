@@ -116,10 +116,10 @@ class EditResponseHandler extends WikiIocResponseHandler
 <input type="hidden" name="sectok" value="'.getSecurityToken().'"/>
 <input type="hidden" name="call" value="notify"/>
 <input type="hidden" name="do" value="add_message">
-<input type="hidden" name="id" value="'. $responseData['id'].'"/>
 <input type="hidden" name="type" value="warning"/>
 <label>Destinatari:<input type="text" name="to" ></label>
-<label><input type="checkbox" name="notify_changes" value="'. $responseData['id'].'"/>Notificar canvis a ' . $responseData['id']. '</label><input type="checkbox" name="send_email" disabled />Enviar correu</label>
+<label><input type="checkbox" name="id" value="'. $responseData['id'].'"/>Afegir enllaç al document ' . $responseData['id']. '</label><br>
+<input type="checkbox" name="send_email" disabled />Enviar correu</label><br>
 <label>Missatge<textarea name="message"></textarea></label>
 <button>Enviar</button></form>',
             "type" => "notification" // aixó no se si es necessari
