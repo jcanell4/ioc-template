@@ -15,6 +15,5 @@ require (["dijit/registry"], function(registry) {
             _ret="id="+ns+"&projectType="+projectType;
         }
     }
-    console.log("_ret (dins require):" + _ret);
-});
-console.log("_ret (fora require):" + _ret);
+}
+);
