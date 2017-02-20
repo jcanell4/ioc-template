@@ -450,3 +450,27 @@ div.warning-container {
 #bodyContent{
     font-size:  1.1em;
 }
+
+/* panells de tipus form_request */
+.request_form input, .request_form textarea {
+	width: 100%
+}
+
+.request_form div {
+	margin-bottom: 1em;
+}
+
+.request_form div.hidden {
+	margin: 0;
+	padding: 0;
+}
+
+
+.request_form label {
+	font-weight: bold;
+}
+
+.request_form input[type="checkbox"], .request_form input[type="radio"] {
+	width: auto;
+	margin-right: 0.5em;
+}
