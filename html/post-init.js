@@ -193,28 +193,14 @@ require([
                     var requestTabContent = new Request();
                     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
                     requestTabContent.sendRequest();
-//                    requestTabContent.sendRequest().always(function () {
-//                        var currentNavigationPaneId = state.getCurrentNavigationId();
-//                        if (currentNavigationPaneId === "tb_admin") {
-//                            var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-//                            tbContainer.selectChild(currentNavigationPaneId);
-//                        }
-//                    });
                 }
             }
 
             // Add shortcut_tab
-            if(state.extratabs['tb_shorcuts']){
+            if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
                 var requestTabContent = new Request();
                 requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
                 requestTabContent.sendRequest();
-//                requestTabContent.sendRequest().always(function () {
-//                     var currentNavigationPaneId = state ? state.getCurrentNavigationId() : null;
-//                     if (currentNavigationPaneId === "tb_shorcuts") {
-//                         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
-//                         tbContainer.selectChild(currentNavigationPaneId);
-//                     }
-//                });
             }
             
             if (state.sectok) {

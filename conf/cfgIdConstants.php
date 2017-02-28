@@ -40,7 +40,7 @@ class cfgIdConstants
     const TB_ADMIN = "tb_admin";
     const TB_DOCU = "tb_docu";
     const TB_MENU = "tb_menu";
-    const TB_SHORTCUTS = "tb_shorcuts";
+    const TB_SHORTCUTS = "tb_shortcuts";
     const LEFT_BC_PANEL = "leftBorderContainerPanel";
     const LEFT_TOP = "left_top_panel";
     const LEFT_BOTTOM = "left_bottom_panel";
@@ -112,10 +112,10 @@ class cfgIdConstants
     const TALKUSER_MENUITEM   = "talkUserMenuItem"; //cambiada por TALK_USER_MENU_ITEM
     const LOGOFF_MENUITEM     = "logoffMenuItem";   //cambiada por LOGOFF_MENU_ITEM
     */
-    
+
     //Constant de tipus de projecte
     const PROJECT_TYPE = 'projectType';
-    
+
     public function getConstantsIds()
     {
         global $js_packages;
