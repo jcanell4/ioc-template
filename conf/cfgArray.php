@@ -579,6 +579,25 @@ $_arrIocCfgGUI = array (
                               ),
                               'items' => 
                               array (
+                                'i0_menu0' => 
+                                array (
+                                  'class' => 'WikiIocMenuItem',
+                                  'parms' => 
+                                  array (
+                                    'DOM' => 
+                                    array (
+                                      'id' => 'canvisRecents',
+                                      'label' => 'Canvis recents',
+                                    ),
+                                    'DJO' => 
+                                    array (
+                                      'iconClass' => '\'dijitNoIcon\'',
+                                      'disabled' => false,
+                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=recent\'',
+                                    ),
+                                  ),
+                                  'hidden' => false,
+                                ),
                                 'i1_menu1' => 
                                 array (
                                   'class' => 'WikiIocMenuItem',
