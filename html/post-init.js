@@ -51,7 +51,8 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_OUTBOX', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", false);
@@ -76,7 +77,8 @@ require([
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
-                disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", true);
+                disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_OUTBOX', "visible", true);
 
                 if (disp.getGlobalState().currentTabId) {
 
@@ -380,10 +382,19 @@ require([
         }
 
         // Recuperem el contenidor de notificacions
-        var notifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER');
-        wikiIocDispatcher.setNotifierContainer(notifierContainer);
+        var inboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_INBOX');
+        var outboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_OUTBOX');
+        // wikiIocDispatcher.setNotifierContainer(notifierContainer);
+
         var warningContainer = registry.byId('cfgIdConstants::SYSTEM_WARNING_CONTAINER');
-        wikiIocDispatcher.setWarningContainer(warningContainer);
+        // wikiIocDispatcher.setWarningContainer(warningContainer);
+
+        var notifyManager = wikiIocDispatcher.getNotifyManager();
+
+        notifyManager.addWarningContainer(warningContainer);
+        notifyManager.addNotifyContainer('inbox',  inboxNotifierContainer);
+        notifyManager.addNotifyContainer('outbox', outboxNotifierContainer);
+
 
 
         // Alerta[Xavi] TEST per carregar formularis

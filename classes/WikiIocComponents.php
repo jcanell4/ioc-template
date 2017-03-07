@@ -1168,6 +1168,7 @@ class WikiIocNotifierButton extends WikiIocItemsContainer {
         $reqJsModule = array(
             "IocNotifierButton" => "ioc/gui/IocNotifierButton"
         );
+
         parent::__construct($aParms, $aItems, $reqPackage, $reqJsModule);
     }
 

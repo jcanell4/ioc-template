@@ -11,6 +11,6 @@ $arrParcial = array(
                                              "autoSize" => false
                                             ,"visible" => true
                                           )
-                            )
+                            ),
             );
 

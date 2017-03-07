@@ -297,7 +297,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i3_noti' => 
+            'i3_noti_inbox' => 
             array (
               'class' => 'WikiIocSpanBloc',
               'parms' => 
@@ -321,13 +321,14 @@ $_arrIocCfgGUI = array (
                   array (
                     'DOM' => 
                     array (
-                      'id' => 'notifierButton',
+                      'id' => 'notifierButtonInbox',
                       'label' => '(0)',
                       'title' => 'Notificacions',
                       'class' => 'iocDisplayBlock',
                     ),
                     'DJO' => 
                     array (
+                      'mailbox' => '\'inbox\'',
                       'autoSize' => false,
                       'visible' => true,
                       'iconClass' => '\'iocIconInactiveAlarm\'',
@@ -344,7 +345,71 @@ $_arrIocCfgGUI = array (
                       array (
                         'DOM' => 
                         array (
-                          'id' => 'notifierContainer',
+                          'id' => 'notifierContainerInbox',
+                          'class' => 'notification-container',
+                        ),
+                        'DJO' => 
+                        array (
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            'i3_noti_outbox' => 
+            array (
+              'class' => 'WikiIocSpanBloc',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'zonaNotification',
+                ),
+                'CSS' => 
+                array (
+                  'height' => '50px',
+                  'width' => '100px',
+                ),
+              ),
+              'items' => 
+              array (
+                'notiButton' => 
+                array (
+                  'class' => 'WikiIocNotifierButton',
+                  'parms' => 
+                  array (
+                    'DOM' => 
+                    array (
+                      'id' => 'notifierButtonOutbox',
+                      'label' => '(0)',
+                      'title' => 'Notificacions',
+                      'class' => 'iocDisplayBlock',
+                    ),
+                    'DJO' => 
+                    array (
+                      'mailbox' => '\'outbox\'',
+                      'autoSize' => false,
+                      'visible' => true,
+                      'iconClass' => '\'iocIconInactiveAlarm\'',
+                      'activeIconClass' => '\'iocIconActiveAlarm\'',
+                      'displayBlock' => false,
+                    ),
+                    'PRP' => 
+                    array (
+                      'mailbox' => 'outbox',
+                    ),
+                  ),
+                  'items' => 
+                  array (
+                    'notifierContainer' => 
+                    array (
+                      'class' => 'WikiIocNotifierContainer',
+                      'parms' => 
+                      array (
+                        'DOM' => 
+                        array (
+                          'id' => 'notifierContainerOutbox',
                           'class' => 'notification-container',
                         ),
                         'DJO' => 

@@ -25,8 +25,10 @@ class cfgIdConstants
     const SHORTCUTS_MENU_ITEM = "shortcutsMenuItem";
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
-    const NOTIFIER_BUTTON = "notifierButton";
-    const NOTIFIER_CONTAINER = "notifierContainer";
+    const NOTIFIER_BUTTON_INBOX = "notifierButtonInbox";
+    const NOTIFIER_BUTTON_OUTBOX = "notifierButtonOutbox";
+    const NOTIFIER_CONTAINER_INBOX = "notifierContainerInbox";
+    const NOTIFIER_CONTAINER_OUTBOX= "notifierContainerOutbox";
 
     //elemento mainContent de MAIN
     const MAIN_CONTENT = "mainContent";
