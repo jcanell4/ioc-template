@@ -27,6 +27,7 @@ class cfgIdConstants
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
     const NOTIFIER_BUTTON_INBOX = "notifierButtonInbox";
     const NOTIFIER_BUTTON_OUTBOX = "notifierButtonOutbox";
+    const NOTIFIER_BUTTON_OUTBOX_LABEL = "Enviats"; // TODO[Xavi] Localitzar, com ho fem?
     const NOTIFIER_CONTAINER_INBOX = "notifierContainerInbox";
     const NOTIFIER_CONTAINER_OUTBOX= "notifierContainerOutbox";
 
@@ -80,7 +81,8 @@ class cfgIdConstants
     const BOTTOM_PANEL = "id_BottomPanel";
     const ZONA_MISSATGES = "zonaMissatges";
     const ZONA_TOP_RIGHT = "zonaTopRight";
-    const ZONA_TOP_NOTIFICATION = "zonaNotification";
+    const ZONA_TOP_NOTIFICATION_INBOX = "zonaNotificationInbox";
+    const ZONA_TOP_NOTIFICATION_OUTBOX = "zonaNotificationOutbox";
 
     const SYSTEM_WARNING_CONTAINER = "systemWarningContainer";
 

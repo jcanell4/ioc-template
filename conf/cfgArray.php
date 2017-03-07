@@ -304,7 +304,7 @@ $_arrIocCfgGUI = array (
               array (
                 'DOM' => 
                 array (
-                  'id' => 'zonaNotification',
+                  'id' => 'zonaNotificationInbox',
                 ),
                 'CSS' => 
                 array (
@@ -364,7 +364,7 @@ $_arrIocCfgGUI = array (
               array (
                 'DOM' => 
                 array (
-                  'id' => 'zonaNotification',
+                  'id' => 'zonaNotificationOutbox',
                 ),
                 'CSS' => 
                 array (
@@ -382,7 +382,7 @@ $_arrIocCfgGUI = array (
                     'DOM' => 
                     array (
                       'id' => 'notifierButtonOutbox',
-                      'label' => '(0)',
+                      'label' => 'Enviats',
                       'title' => 'Notificacions',
                       'class' => 'iocDisplayBlock',
                     ),
@@ -391,8 +391,7 @@ $_arrIocCfgGUI = array (
                       'mailbox' => '\'outbox\'',
                       'autoSize' => false,
                       'visible' => true,
-                      'iconClass' => '\'iocIconInactiveAlarm\'',
-                      'activeIconClass' => '\'iocIconActiveAlarm\'',
+                      'iconClass' => '\'iocIconOutbox\'',
                       'displayBlock' => false,
                     ),
                     'PRP' => 

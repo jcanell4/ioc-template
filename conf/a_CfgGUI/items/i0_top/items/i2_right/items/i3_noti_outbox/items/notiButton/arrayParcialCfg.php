@@ -4,7 +4,7 @@ $arrParcial = array(
             ,"parms" => array(
                            "DOM" => array(
                      						 "id" => cfgIdConstants::NOTIFIER_BUTTON_OUTBOX
-                      						,"label" => "(0)"
+                      						,"label" => cfgIdConstants::NOTIFIER_BUTTON_OUTBOX_LABEL
                       						,"title" => "Notificacions"
                       						,"class" => "iocDisplayBlock"
                       					 )
@@ -13,8 +13,8 @@ $arrParcial = array(
                       						 "autoSize" => false
                       						,"visible" => true
             //TODO[Xavi] Canviar per una iconoa més apropiada per missatges enviats
-                                                                ,'iconClass' => "'iocIconInactiveAlarm'"
-                                                                ,'activeIconClass' => "'iocIconActiveAlarm'"
+                                                                ,'iconClass' => "'iocIconOutbox'"
+//                                                                ,'activeIconClass' => "'iocIconActiveAlarm'"
                       						,"displayBlock" => false
                                     ),
                         "PRP" => [

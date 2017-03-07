@@ -402,11 +402,20 @@ div.warning-container {
 	height: 16px;
 }
 
+.iocIconOutbox{
+	background-image: url("css/icons/outbox.png");
+	width: 16px;
+	height: 16px;
+}
+
+
 .iocIconInactiveAlarm{
 	background-image: url("css/icons/inactiveAlarm.png"); 
 	width: 16px;
 	height: 16px;
 }
+
+
 
 /* Forms */
 .ioc-bootstrap .form-group.form-frame {
