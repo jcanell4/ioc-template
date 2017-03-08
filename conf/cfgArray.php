@@ -329,6 +329,7 @@ $_arrIocCfgGUI = array (
                     'DJO' => 
                     array (
                       'mailbox' => '\'inbox\'',
+                      'counter' => true,
                       'autoSize' => false,
                       'visible' => true,
                       'iconClass' => '\'iocIconInactiveAlarm\'',
@@ -350,6 +351,7 @@ $_arrIocCfgGUI = array (
                         ),
                         'DJO' => 
                         array (
+                          'name' => '\'inbox\'',
                         ),
                       ),
                     ),
@@ -413,6 +415,7 @@ $_arrIocCfgGUI = array (
                         ),
                         'DJO' => 
                         array (
+                          'name' => '\'outbox\'',
                         ),
                       ),
                     ),

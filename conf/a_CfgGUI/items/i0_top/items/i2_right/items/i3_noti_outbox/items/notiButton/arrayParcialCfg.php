@@ -9,6 +9,7 @@ $arrParcial = array(
                       						,"class" => "iocDisplayBlock"
                       					 )
                           ,"DJO" => array(
+
                                             "mailbox" => "'outbox'",
                       						 "autoSize" => false
                       						,"visible" => true

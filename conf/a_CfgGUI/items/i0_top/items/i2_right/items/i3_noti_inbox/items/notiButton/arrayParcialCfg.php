@@ -10,10 +10,11 @@ $arrParcial = array(
                       					 )
                           ,"DJO" => array(
                                             "mailbox" => "'inbox'",
+                                            "counter" => true,
                       						 "autoSize" => false
                       						,"visible" => true
                                                                 ,'iconClass' => "'iocIconInactiveAlarm'"                              
-                                                                ,'activeIconClass' => "'iocIconActiveAlarm'"                              
+                                                                ,'activeIconClass' => "'iocIconActiveAlarm'"
                       						,"displayBlock" => false
                                     )
                         )

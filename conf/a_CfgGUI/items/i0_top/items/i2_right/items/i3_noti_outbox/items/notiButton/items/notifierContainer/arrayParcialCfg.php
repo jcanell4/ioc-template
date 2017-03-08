@@ -8,6 +8,7 @@ $arrParcial = array(
 
         ),
         "DJO" => array(
+            "name" => "'outbox'",
         )
     )
 );
