@@ -474,3 +474,9 @@ div.warning-container {
 	width: auto;
 	margin-right: 0.5em;
 }
+
+.changeType fieldset,
+.pagenav fieldset{
+    border: 2px solid __fieldset_border__;
+    padding: 10px;
+}

@@ -12,11 +12,37 @@ require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 
 class RecentResponseHandler extends WikiIocResponseHandler {
     function __construct() {
-        parent::__construct(WikiIocResponseHandler::CANCEL);
+        parent::__construct("recents");
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addHtmlDoc($responseData["id"], "", $responseData["title"], $responseData["content"], '', $responseData["type"]);
+        $ajaxCmdResponseGenerator->addRecents(
+                $responseData["id"], 
+                $responseData["title"], 
+                $responseData["content"]['list'],
+                array(
+                        'urlBase' => "lib/plugins/ajaxcommand/ajax.php?call=recent",
+                        'formId' => $responseData["formId"],
+                ),
+                array(
+                    'callAtt' => 'call',
+                    'urlBase' => "lib/plugins/ajaxcommand/ajax.php",
+                )
+        );
+        $ajaxCmdResponseGenerator->addMetadata(
+            $responseData["id"], 
+            array(array(
+                "id" => "meta".$responseData["id"],
+                "title" => WikiIocLangManager::getLang("recent_controls"),
+                "content" => $responseData['content']['form_controls']
+            ))
+        );
+        
+        $ajaxCmdResponseGenerator->addInfoDta($ajaxCmdResponseGenerator->generateInfo(
+                'info',
+                WikiIocLangManager::getLang("recent_list_loaded"),
+                'recent_list'
+        ));
     }
 
 }
