@@ -251,6 +251,11 @@ require([
                         // fix? ns empty, load with page name
                         state.getContent(id).ns = id.substring(6);
 
+                    } else if (state.getContent(id).action === "recents") {
+                        queryParams = "call=recent&id=";
+                        // fix? ns empty, load with page name
+                        state.getContent(id).ns = "";
+
                     } else if (state.getContent(id).action === "media") {
                         queryParams = "call=media";
                         var elid = state.getContent(id).ns;

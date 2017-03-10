@@ -23,9 +23,9 @@ require_once DOKU_PLUGIN . 'ownInit/WikiGlobalConfig.php';
 
 class PageResponseHandler extends WikiIocResponseHandler
 {
-    function __construct()
+    function __construct($cmd = WikiIocResponseHandler::PAGE)
     {
-        parent::__construct(WikiIocResponseHandler::PAGE);
+        parent::__construct($cmd);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
