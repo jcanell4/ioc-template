@@ -450,3 +450,18 @@ div.warning-container {
 #bodyContent{
     font-size:  1.1em;
 }
+
+/* Plugin Icons */
+.dijitIocIcon {
+	background-image: url('css/icons/iocIconsEnabled.png'); /* editor icons sprite image for the enabled state */
+	background-repeat: no-repeat;
+	width: 18px;
+	height: 18px;
+	text-align: center;
+}
+.dijitDisabled .dijitIocIcon {
+	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
+}
+
+
+.dijitIocIconComments { background-position: 0; }
