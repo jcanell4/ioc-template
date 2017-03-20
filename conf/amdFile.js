@@ -11,16 +11,6 @@ bt.closeDropDown(false);
 });
 require([
 "dijit/registry"
-], function (registry) {
-var loginDialog = registry.byId('loginDialog');
-if (loginDialog) {
-loginDialog.on('hide', function () {
-loginDialog.reset();
-});
-}
-});
-require([
-"dijit/registry"
 ,"ioc/wiki30/processor/ErrorMultiFunctionProcessor"
 ,"ioc/wiki30/Request"
 ], function (registry,ErrorMultiFunctionProcessor,Request) {
