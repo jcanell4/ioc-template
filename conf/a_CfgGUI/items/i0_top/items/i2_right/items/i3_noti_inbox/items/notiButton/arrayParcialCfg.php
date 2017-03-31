@@ -5,7 +5,7 @@ $arrParcial = array(
                            "DOM" => array(
                      						 "id" => cfgIdConstants::NOTIFIER_BUTTON_INBOX
                       						,"label" => "(0)"
-                      						,"title" => "Notificacions"
+                      						,"title" => "Notificacions rebudes"
                       						,"class" => "iocDisplayBlock"
                       					 )
                           ,"DJO" => array(

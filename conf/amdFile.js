@@ -85,7 +85,7 @@ require([
 ], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
 var newButton = registry.byId('newButton');
 if (newButton) {
-newButton.on('click', function () {
+newButton.onClick = function () {
 var defaultProject = 'defaultProject';
 var path = [];
 var dialog = registry.byId("newDocumentDlg");
@@ -287,6 +287,18 @@ form.startup();
 dialog.nsActivePage();
 dialog.show();
 return false;
+}; //);
+}
 });
+require([
+"dijit/registry"
+,"dojo/cookie"
+], function (registry,cookie) {
+var button = registry.byId('printButton');
+if (button) {
+button.onClick = function () {
+console.log("Creant la cookie");
+cookie("IOCForceScriptLoad", 1);
+};
 }
 });

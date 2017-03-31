@@ -16,7 +16,8 @@
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
 
-    newButton.on('click', function () {
+    //newButton.on('click', function () {
+    newButton.onClick = function () {
         var defaultProject = 'defaultProject';
         var path = [];
         var dialog = registry.byId("newDocumentDlg");
@@ -274,5 +275,5 @@ if (newButton) {
         dialog.nsActivePage();
         dialog.show();
         return false;
-    });
+    }; //);
 }

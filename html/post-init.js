@@ -62,6 +62,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -91,6 +92,7 @@ require([
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                         }
                         disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);                            
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
                     
                     } else if (page.action === 'sec_edit') {
                         if (selectedSection.id) {
@@ -107,6 +109,7 @@ require([
                                 disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                             }
                         }
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
                     } else if (page.action === 'edit') {
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
                                     || disp.getContentCache(cur).getMainContentTool().readonly;
@@ -117,7 +120,7 @@ require([
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
                     } else if (page.action === 'form') {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);

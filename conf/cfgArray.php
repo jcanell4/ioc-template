@@ -323,7 +323,7 @@ $_arrIocCfgGUI = array (
                     array (
                       'id' => 'notifierButtonInbox',
                       'label' => '(0)',
-                      'title' => 'Notificacions',
+                      'title' => 'Notificacions rebudes',
                       'class' => 'iocDisplayBlock',
                     ),
                     'DJO' => 
@@ -384,8 +384,7 @@ $_arrIocCfgGUI = array (
                     'DOM' => 
                     array (
                       'id' => 'notifierButtonOutbox',
-                      'label' => 'Enviats',
-                      'title' => 'Notificacions',
+                      'title' => 'Notificacions enviades',
                       'class' => 'iocDisplayBlock',
                     ),
                     'DJO' => 
@@ -1041,6 +1040,28 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; _ret = {};var id = this.dispatcher.getGlobalState().getCurrentId(), chunk = this.dispatcher.getGlobalState().getCurrentElementId();chunk = chunk.replace(id + \'_\', \'\');chunk = chunk.replace(\'container_\', \'\');_ret = { id: id, chunk: chunk, name: \'cancel_partial\'};return _ret;}',
+                ),
+              ),
+            ),
+            'i6_print' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'printButton',
+                  'title' => 'Imprimeix',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=print\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconPrint\'',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=print\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),
             ),
