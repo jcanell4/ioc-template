@@ -236,15 +236,22 @@ require([
                 }
 
                 for (var id in state.pages) {
+
+                    console.log("RELOAD: Fent coses amb la pàgina ", id);
+
                     var queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
+                        console.log("Cas 1");
                         if (state.getContent(id).rev) {
                             queryParams += "rev=" + state.getContent(id).rev + "&";
                         }
                         queryParams += "call=page&id=";
 
+                        console.log("El queryparams és:", queryParams, "pagina:", state.getContent(id));
+
                     } else if (state.getContent(id).action === "form") {
+                        console.log("Cas 2");
                         var ns = state.getContent(id).ns;
                         var projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
