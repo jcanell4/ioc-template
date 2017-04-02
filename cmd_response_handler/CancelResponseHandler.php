@@ -26,11 +26,11 @@ class CancelResponseHandler extends PageResponseHandler {
                         $responseData, 
                         $ajaxCmdResponseGenerator);
 
-            $params['id'] = $responseData['structure'][PageKeys::KEY_ID];
-
-            // ALERTA[Xavi] La finalitat original ja no serveix, per altra banda no es te en compte la confirmació
-            $ajaxCmdResponseGenerator->addProcessFunction(true, 
-                                            "ioc/dokuwiki/processCancellation", $params);
+//            $params['id'] = $responseData['structure'][PageKeys::KEY_ID];
+//
+//            // ALERTA[Xavi] La finalitat original ja no serveix, per altra banda no es te en compte la confirmació
+//            $ajaxCmdResponseGenerator->addProcessFunction(true, 
+//                                            "ioc/dokuwiki/processCancellation", $params);
         }
     }
 }
