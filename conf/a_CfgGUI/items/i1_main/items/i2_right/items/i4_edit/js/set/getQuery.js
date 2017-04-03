@@ -15,5 +15,5 @@ if (this.dispatcher.getGlobalState().currentTabId) {
         _ret+="&rev=" + rev;
     }
 
-    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId)
+    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns)
 }
