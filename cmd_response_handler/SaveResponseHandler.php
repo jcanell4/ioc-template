@@ -33,14 +33,41 @@ class SaveResponseHandler extends PageResponseHandler {
                 "formId" => $responseData["formId"],
                 "inputs" => $responseData["inputs"],
             );
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
+
+
+
+
             if($responseData['lockInfo']){
                 $timeout = ExpiringCalc::getExpiringTime($responseData);
 
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }
+
+
+
+
+
+            if ($responseData["reload"]) {
+                $params = [
+                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
+                    "params" =>$responseData["reload"]
+                ];
+
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+            }
+
+            if ($responseData["close"]) {
+                $params = $responseData["close"];
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
+            } else {
+                // ALERTA[Xavi] El formulari només cal actualitzar-lo quan no es tanca la pestanya
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
+            }
+
+
+
         }
-        elseif ($responseData["deleted"]){
+        else if ($responseData["deleted"]){
             $ajaxCmdResponseGenerator->addRemoveContentTab($responseData['id']);
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]['message']);
             $ajaxCmdResponseGenerator->addRemoveItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
