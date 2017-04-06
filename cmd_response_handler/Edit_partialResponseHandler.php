@@ -446,12 +446,14 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function generateSaveOrDiscardDialog($id)
     {
         $dialogConfig = [
-            'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"), //'Vols desar els canvis?',
+            'id' => $id,
+            'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
+            'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"),
             'closable' => false,
             'buttons' => [
                 [
                     'id' => 'discard',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"), //'No desar',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"),
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [

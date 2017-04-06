@@ -337,6 +337,8 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function generateSaveOrDiscardDialog($id) {
         $dialogConfig = [
+            'id' => $id,
+            'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
             'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"), //'Vols desar els canvis?',
             'closable' => false,
             'buttons' => [
