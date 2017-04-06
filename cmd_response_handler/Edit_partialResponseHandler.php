@@ -362,11 +362,14 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") * 1000;
         }
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
+        $this->addSaveOrDiscardDialog($responseData, $responseData['structure']['id']);
+
         $cmdResponseGenerator->addWikiCodeDocPartial(
             $responseData['structure'],
             $timer,
             NULL,
-            $autosaveTimer
+            $autosaveTimer,
+            $responseData['extra']
         );
     }
 
@@ -430,5 +433,59 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     protected function cleanId($id)
     {
         return str_replace(":", "_", $id);
+    }
+
+
+    // ALERTA[Xavi] Duplicat al EditResponseHandler
+    protected function addSaveOrDiscardDialog(&$responseData, $id) {
+        $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
+        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog( $id);
+    }
+
+    // ALERTA[Xavi] Duplicat al EditResponseHandler (canviant els events per la versió parcial)
+    protected function generateSaveOrDiscardDialog($id)
+    {
+        $dialogConfig = [
+            'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"), //'Vols desar els canvis?',
+            'closable' => false,
+            'buttons' => [
+                [
+                    'id' => 'discard',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"), //'No desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'cancel',
+                            'data' => [
+                                'discardChanges' => true
+                            ],
+                            'observable' => $id
+                        ]
+                    ]
+                ],
+                [
+                    'id' => 'save',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'save_partial',
+                            'data' => [],
+                            'observable' => $id
+                        ],
+                        [
+                            'eventType' => 'cancel_partial',
+                            'data' => [
+                                'discardChanges' => true
+                            ],
+                            'observable' => $id
+                        ]
+                    ]
+                ],
+            ]
+
+        ];
+
+        return $dialogConfig;
     }
 }

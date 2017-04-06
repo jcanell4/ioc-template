@@ -130,7 +130,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         $editing = $this->generateEditDocumentParams($responseData);
         $editing['readonly'] = $this->getPermission()->isReadOnly() || $forceReadOnly;
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
-        $this->addSaveOrDiscardDialog($responseData);
+        $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer);
     }
 
@@ -330,12 +330,12 @@ class EditResponseHandler extends WikiIocResponseHandler
             $params["dialog"]);
     }
 
-    protected function addSaveOrDiscardDialog(&$responseData) {
+    protected function addSaveOrDiscardDialog(&$responseData, $id) {
         $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
-        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData);
+        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id);
     }
 
-    protected function generateSaveOrDiscardDialog($responseData) {
+    protected function generateSaveOrDiscardDialog($id) {
         $dialogConfig = [
             'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"), //'Vols desar els canvis?',
             'closable' => false,
@@ -350,7 +350,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                             'data' => [
                                 'discardChanges' => true
                             ],
-                            'observable' => $responseData['id']
+                            'observable' => $id
                         ]
                     ]
                 ],
@@ -362,14 +362,14 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'save',
                             'data' => [],
-                            'observable' => $responseData['id']
+                            'observable' => $id
                         ],
                         [
                             'eventType' => 'cancel',
                             'data' => [
                                 'discardChanges' => true
                             ],
-                            'observable' => $responseData['id']
+                            'observable' => $id
                         ]
                     ]
                 ],
