@@ -350,7 +350,8 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel',
                             'data' => [
-                                'discardChanges' => true
+                                'discardChanges' => true,
+                                'keep_draft' => false
                             ],
                             'observable' => $id
                         ]
@@ -369,7 +370,8 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel',
                             'data' => [
-                                'discardChanges' => true
+                                'discardChanges' => true,
+                                'keep_draft' => false
                             ],
                             'observable' => $id
                         ]

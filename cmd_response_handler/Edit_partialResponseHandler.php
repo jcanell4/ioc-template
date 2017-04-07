@@ -459,7 +459,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel',
                             'data' => [
-                                'discardChanges' => true
+                                'discardChanges' => true,
+                                'keep_draft' => false
                             ],
                             'observable' => $id
                         ]
@@ -478,7 +479,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel_partial',
                             'data' => [
-                                'discardChanges' => true
+                                'discardChanges' => true,
+                                'keep_draft' => false
                             ],
                             'observable' => $id
                         ]
