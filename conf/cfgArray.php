@@ -1051,7 +1051,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'printButton',
-                  'title' => 'Imprimeix',
+                  'title' => 'Versió per imprimir',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -1059,7 +1059,7 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=print\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'iconClass' => '\'iocIconPrint\'',
+                  'iconClass' => '\'iocIconPreviewPrint\'',
                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=print\'',
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
