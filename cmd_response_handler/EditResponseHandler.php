@@ -332,10 +332,10 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addSaveOrDiscardDialog(&$responseData, $id) {
         $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
-        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id);
+        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id, strlen($responseData["rev"])>0);
     }
 
-    protected function generateSaveOrDiscardDialog($id) {
+    protected function generateSaveOrDiscardDialog($id, $isRev) {
         $dialogConfig = [
             'id' => $id,
             'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
@@ -357,6 +357,31 @@ class EditResponseHandler extends WikiIocResponseHandler
                         ]
                     ]
                 ],
+
+            ]
+
+        ];
+
+        if ($isRev) {
+            $dialogConfig['buttons'][] =
+                [
+                    'id' => 'save',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'save',
+                            'data' => [
+                                'extraDataToSend' =>[
+                                    'reload'=>false
+                                ]
+                            ],
+                            'observable' => $id
+                        ],
+                    ]
+                ];
+        } else {
+            $dialogConfig['buttons'][] =
                 [
                     'id' => 'save',
                     'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
@@ -365,7 +390,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'save',
                             'data' => [],
-                            'observable' => $id
+                            'observable' => $id,
                         ],
                         [
                             'eventType' => 'cancel',
@@ -376,10 +401,8 @@ class EditResponseHandler extends WikiIocResponseHandler
                             'observable' => $id
                         ]
                     ]
-                ],
-            ]
-
-        ];
+                ];
+        }
 
         return $dialogConfig;
     }

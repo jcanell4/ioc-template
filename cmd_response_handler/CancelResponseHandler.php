@@ -32,5 +32,10 @@ class CancelResponseHandler extends PageResponseHandler {
 //            $ajaxCmdResponseGenerator->addProcessFunction(true, 
 //                                            "ioc/dokuwiki/processCancellation", $params);
         }
+
+        if ($responseData["close"]) {
+            $params = $responseData["close"];
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
+        }
     }
 }
