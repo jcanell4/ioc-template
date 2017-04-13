@@ -159,7 +159,7 @@ require([
                     , "value": {
                         "loginRequest": true
                         , "loginResult": true
-                        , "userId": state.userId
+                        , "username": state.username
                     }
                 });
                 wikiIocDispatcher.processResponse({
@@ -168,7 +168,7 @@ require([
                         "type": "change_widget_property"
                         , "id": 'cfgIdConstants::USER_BUTTON'
                         , "propertyName": "label"
-                        , "propertyValue": state.userId
+                        , "propertyValue": state.username
                     }
                 });
             }
@@ -204,7 +204,7 @@ require([
             // Add shortcut_tab
             if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
                 var requestTabContent = new Request();
-                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
+                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.username;
                 requestTabContent.sendRequest();
             }
             

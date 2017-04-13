@@ -1,1 +1,1 @@
-_ret = "id=wiki:user:" + this.dispatcher.getGlobalState().userId + ":index";
+_ret = "id=wiki:user:" + this.dispatcher.getGlobalState().username + ":index";
