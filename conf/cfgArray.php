@@ -618,8 +618,9 @@ $_arrIocCfgGUI = array (
                                 ),
                                 'DJO' => 
                                 array (
-                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
                                   'standbyId' => '\'bodyContent\'',
+                                  'defaultCall' => '\'call=page\'',
                                 ),
                                 'PRP' => 
                                 array (
