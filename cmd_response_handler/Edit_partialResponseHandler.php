@@ -363,6 +363,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         }
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $this->addSaveOrDiscardDialog($responseData, $responseData['structure']['id']);
+        $this->addSaveOrDiscardDialogAll($responseData, $responseData['structure']['id']);
 
         $cmdResponseGenerator->addWikiCodeDocPartial(
             $responseData['structure'],
@@ -439,10 +440,84 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     // ALERTA[Xavi] Duplicat al EditResponseHandler
     protected function addSaveOrDiscardDialog(&$responseData, $id) {
         $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
-        $responseData['extra']['dialogSaveOrDiscard'] = $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id, strlen($responseData["rev"])>0);;
+        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id, strlen($responseData["rev"])>0);;
     }
 
-    // ALERTA[Xavi] Duplicat al EditResponseHandler (canviant els events per la versió parcial)
+    protected function addSaveOrDiscardDialogAll(&$responseData, $id) {
+        $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
+        $responseData['extra']['dialogSaveOrDiscardAll'] = $this->generateSaveOrDiscardAllDialog($id, strlen($responseData["rev"])>0);;
+    }
+
+
+    // ALERTA[Xavi] Canviats els events dels botons per la cancel·lació compelta (quan es tanca la pestanya)
+    protected function generateSaveOrDiscardAllDialog($id, $isRev)
+    {
+        $dialogConfig = [
+            'id' => $id,
+            'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
+            'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"),
+            'closable' => false,
+            'buttons' => [
+                [
+                    'id' => 'discard',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"),
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'cancel',
+                            'data' => [
+                                'discardChanges' => true,
+                                'keep_draft' => false
+                            ],
+                            'observable' => $id
+                        ]
+                    ]
+                ],
+            ]
+        ];
+
+        if ($isRev) {
+            $dialogConfig['buttons'][] = [
+                'id' => 'save',
+                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+                'buttonType' => 'fire_event',
+                'extra' => [
+                    [
+                        'eventType' => 'save_partial_all',
+                        'data' => [
+                            'reload'=>false
+                        ],
+                        'observable' => $id
+                    ],
+                ]
+            ];
+        } else {
+            $dialogConfig['buttons'][] = [
+                'id' => 'save',
+                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+                'buttonType' => 'fire_event',
+                'extra' => [
+                    [
+                        'eventType' => 'save_partial_all',
+                        'data' => [],
+                        'observable' => $id
+                    ],
+                    [
+                        'eventType' => 'cancel',
+                        'data' => [
+                            'discardChanges' => true,
+                            'keep_draft' => false,
+                            'reload'=>false
+                        ],
+                        'observable' => $id
+                    ]
+                ]
+            ];
+        }
+
+        return $dialogConfig;
+    }
+
     protected function generateSaveOrDiscardDialog($id, $isRev)
     {
         $dialogConfig = [

@@ -346,10 +346,10 @@ require([
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
         window.addEventListener("beforeunload", function (event) {
+            // ALERTA[Xavi] Si es detectan canvis retorna a "event.returnValue" el que fa que el navegador mostri un missatge (segons el navegador el missatge serà el propi i no el que es passa com a valor, Firefox i Chrome fan servir el missatge propi)
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
             }
-//            deleteDraft(); //Ja no es fa servir això!
         });
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;
