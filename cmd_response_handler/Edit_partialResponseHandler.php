@@ -499,18 +499,22 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 'extra' => [
                     [
                         'eventType' => 'save_partial_all',
-                        'data' => [],
-                        'observable' => $id
-                    ],
-                    [
-                        'eventType' => 'cancel',
                         'data' => [
-                            'discardChanges' => true,
-                            'keep_draft' => false,
-                            'reload'=>false
+                            'extraDataToSend' =>[
+                                'cancel'=>true
+                            ]
                         ],
                         'observable' => $id
-                    ]
+                    ],
+//                    [
+//                        'eventType' => 'cancel',
+//                        'data' => [
+//                            'discardChanges' => true,
+//                            'keep_draft' => false,
+//                            'reload'=>false
+//                        ],
+//                        'observable' => $id
+//                    ]
                 ]
             ];
         }
@@ -553,7 +557,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     [
                         'eventType' => 'save_partial',
                         'data' => [
-                            'reload'=>false
+                            'extraDataToSend' =>[
+                                'cancel'=>true
+                            ]
                         ],
                         'observable' => $id
                     ],
@@ -567,18 +573,26 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 'extra' => [
                     [
                         'eventType' => 'save_partial',
-                        'data' => [],
-                        'observable' => $id
-                    ],
-                    [
-                        'eventType' => 'cancel_partial',
                         'data' => [
-                            'discardChanges' => true,
-                            'keep_draft' => false,
-                            'reload'=>false
+                            'extraDataToSend' =>[
+                                'cancel'=>true
+                            ]
                         ],
                         'observable' => $id
-                    ]
+                    ],
+
+
+
+
+//                    [
+//                        'eventType' => 'cancel_partial',
+//                        'data' => [
+//                            'discardChanges' => true,
+//                            'keep_draft' => false,
+//                            'reload'=>false
+//                        ],
+//                        'observable' => $id
+//                    ]
                 ]
             ];
         }

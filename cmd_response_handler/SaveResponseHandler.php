@@ -26,7 +26,7 @@ class SaveResponseHandler extends PageResponseHandler {
                                 &$ajaxCmdResponseGenerator) {
 
         // TODO[Xavi] Com els errors es gestionen amb excepcions, cal fer servir el code? Si es llença excepció no arriba aquí
-        if ($responseData["code"]==0 && !$responseData["deleted"]){
+        if ($responseData["code"]===0 && !$responseData["deleted"]){
             $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
             $params = array(
@@ -72,8 +72,15 @@ class SaveResponseHandler extends PageResponseHandler {
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]['message']);
             $ajaxCmdResponseGenerator->addRemoveItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
             
-        }
-        else{
+        } else if ($responseData["code"] === "cancel_document") {
+                $params = [
+                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
+                    "params" => $responseData["cancel_params"]
+                ];
+
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+
+        } else{
             $ajaxCmdResponseGenerator->addError($responseData["code"], 
                                                 $responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true, 

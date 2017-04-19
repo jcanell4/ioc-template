@@ -23,7 +23,7 @@ class Save_partialResponseHandler extends PageResponseHandler
                                 $responseData,
                                 &$ajaxCmdResponseGenerator)
     {
-        if ($responseData["code"] == 0) {
+        if ($responseData["code"] === 0) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true,
                 "ioc/dokuwiki/processSaving");
@@ -57,6 +57,14 @@ class Save_partialResponseHandler extends PageResponseHandler
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }
 
+
+        } else if ($responseData["code"] === "cancel_document") {
+            $params = [
+                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
+                "params" => $responseData["cancel_params"]
+            ];
+
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
 
         } else {
             $ajaxCmdResponseGenerator->addError($responseData["code"],
