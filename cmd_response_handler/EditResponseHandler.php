@@ -122,13 +122,16 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator, $forceReadOnly=FALSE)
     {
+        $isRev = isset($responseData['rev']);
+
+
         $autosaveTimer = NULL;
         if(WikiGlobalConfig::getConf("autosaveTimer")){
             $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
         }
         $recoverDrafts = $this->getRecoverDrafts($responseData);
         $editing = $this->generateEditDocumentParams($responseData);
-        $editing['readonly'] = $this->getPermission()->isReadOnly() || $forceReadOnly;
+        $editing['readonly'] = $this->getPermission()->isReadOnly() || $forceReadOnly || $isRev;
         $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer);
