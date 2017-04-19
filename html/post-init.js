@@ -63,6 +63,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
             
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -84,9 +85,19 @@ require([
                 if (disp.getGlobalState().currentTabId) {
 
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
-                        selectedSection = disp.getGlobalState().getCurrentElement();
+                        selectedSection = disp.getGlobalState().getCurrentElement(),
+                        isRevision;
+
 
                     if (page.action === 'view') {
+
+                        // ALERTA[Xavi] Compte! en el mode vista no es pot fer servir el mateix botó perqué no tenim la informació per desar a la wiki!
+                        // isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
+                        //
+                        // if (isRevision) {
+                        //     disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
+                        // }
+
 
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
@@ -114,8 +125,16 @@ require([
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
                                     || disp.getContentCache(cur).getMainContentTool().readonly;
 
+                        isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
+
+                        if (isRevision) {
+                            disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
+                        }
+
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
+
+
 
                         if (cur) {
                             style.set(cur, "overflow", "hidden");

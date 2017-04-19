@@ -56,13 +56,15 @@ class SaveResponseHandler extends PageResponseHandler {
                 $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
             }
 
-            if ($responseData["close"]) {
-                $params = $responseData["close"];
-                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
-            } else {
-                // ALERTA[Xavi] El formulari només cal actualitzar-lo quan no es tanca la pestanya
+//            if ($responseData["close"]) {
+//                $params = $responseData["close"];
+//                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
+//            } else {
+
+
+//                 ALERTA[Xavi] El formulari només cal actualitzar-lo quan no es tanca la pestanya
                 $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
-            }
+//            }
 
 
 

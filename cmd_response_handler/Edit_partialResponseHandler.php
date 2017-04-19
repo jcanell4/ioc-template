@@ -249,6 +249,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
     protected function generateRequiringDialogParams($requestParams, $responseData)
     {
+
+
+
         $timer = $this->generateRequiringDialogTimer($requestParams, $responseData);
 
         $params = [
@@ -361,9 +364,20 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         if (WikiGlobalConfig::getConf("autosaveTimer")) {
             $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") * 1000;
         }
-        $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
+
+
+        if ($responseData['structure']['readonly']) {
+            $timer = null;
+        } else {
+            $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
+        }
+
+
         $this->addSaveOrDiscardDialog($responseData, $responseData['structure']['id']);
         $this->addSaveOrDiscardDialogAll($responseData, $responseData['structure']['id']);
+
+
+
 
         $cmdResponseGenerator->addWikiCodeDocPartial(
             $responseData['structure'],
