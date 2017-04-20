@@ -206,6 +206,12 @@ table.diff th.author {
 	overflow: scroll;
 }
 
+.iocIconPreviewPrint{
+    background-image: url("css/icons/printPreview.png"); 
+    width: 32px;
+    height: 32px;    
+}
+
 .iocIconSave,
 .iocIconPrint,
 .iocIconCut,

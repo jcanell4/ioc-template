@@ -4,14 +4,14 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::PRINT_BUTTON
-                                          ,"title" => "Imprimeix"
+                                          ,"title" => "Versió per imprimir"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
                                            "query" => "'do=print'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          ,'iconClass' => "'iocIconPrint'"
+                                          ,'iconClass' => "'iocIconPreviewPrint'"
                                           ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=print'"
                                         )
                             )
