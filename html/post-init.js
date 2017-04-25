@@ -25,7 +25,7 @@ require([
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
     wikiIocDispatcher.almacenLocal = new LocalUserConfig();
-    
+
     //declaració de funcions
     ready(function () {
 
@@ -73,9 +73,9 @@ require([
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
-                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
-                                          disp.getGlobalState().permissions['ismanager'] ||
-                                          disp.getGlobalState().permissions['isprojectmanager']);
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] ||
+                    disp.getGlobalState().permissions['ismanager'] ||
+                    disp.getGlobalState().permissions['isprojectmanager']);
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
@@ -102,9 +102,9 @@ require([
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);                            
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
-                    
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
+
                     } else if (page.action === 'sec_edit') {
                         if (selectedSection.id) {
 
@@ -120,10 +120,10 @@ require([
                                 disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                             }
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     } else if (page.action === 'edit') {
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
-                                    || disp.getContentCache(cur).getMainContentTool().readonly;
+                            || disp.getContentCache(cur).getMainContentTool().readonly;
 
                         isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
 
@@ -139,7 +139,7 @@ require([
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);                            
+                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     } else if (page.action === 'form') {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
@@ -195,7 +195,7 @@ require([
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state.getCurrentNavigationId();
             wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
-            
+
             var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
             if (tbContainer) {
                 // Seleccionem el tab si està creat
@@ -206,7 +206,7 @@ require([
                     }
                 }
             }
-            
+
             if (state.permissions) {
                 wikiIocDispatcher.processResponse({
                     "type": "jsinfo"
@@ -226,7 +226,7 @@ require([
                 requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
                 requestTabContent.sendRequest();
             }
-            
+
             if (state.sectok) {
                 wikiIocDispatcher.processResponse({
                     "type": "sectok"
@@ -264,7 +264,7 @@ require([
                         queryParams += "call=page&id=";
 
                     } else if (state.getContent(id).action === "form") {
-                        console.log("Cas 2");
+
                         var ns = state.getContent(id).ns;
                         var projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
@@ -283,13 +283,13 @@ require([
                         queryParams = "call=media";
                         var elid = state.getContent(id).ns;
                         queryParams += '&ns=' + elid + '&do=media&id=';
-                    
+
                     } else if (state.getContent(id).action === "mediadetails") {
                         queryParams = "call=mediadetails";
                         var elid = state.getContent(id).myid;
                         //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
-                    
+
                     } else {
                         queryParams = "call=page&id=";
                     }
@@ -300,7 +300,7 @@ require([
                         if (np === length) {
                             if (state.info) {
                                 wikiIocDispatcher.processResponse({
-                                     "type": "info"
+                                    "type": "info"
                                     ,"value": state.info
                                 });
                             }
@@ -335,7 +335,7 @@ require([
 
         // Guardar los valores por defecto de las medidas de los paneles ajustables
         wikiIocDispatcher.almacenLocal.setUpUserDefaultPanelsSize(wikiIocDispatcher);
-        
+
         var tbContainer = registry.byId(wikiIocDispatcher.navegacioNodeId);
         if (tbContainer) {
             var currentNavigationPaneId = tbContainer.getChildren()[0].id;
@@ -346,7 +346,7 @@ require([
         if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             var extraState = wikiIocDispatcher.requestedState;
-            
+
             wikiIocDispatcher.reloadFromState(state);
             if (extraState)
                 wikiIocDispatcher.reloadFromState(extraState);
