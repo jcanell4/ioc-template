@@ -40,9 +40,8 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $evt->advise_after();
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
-        //omplir el extrastate si hi ha projectType a $requestParams==> $ajaxCmdResponseGenerator->addExtraContentStateResponse(id, stateKey, stateValue);
         if ($requestParams[self::K_PROJECTTYPE]) {
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($requestParams['id'], $requestParams[self::K_PROJECTTYPE], $requestParams[self::K_PROJECTTYPE]);
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($requestParams['id'], self::K_PROJECTTYPE, $requestParams[self::K_PROJECTTYPE]);
         }
     }
 

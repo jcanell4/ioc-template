@@ -18,9 +18,8 @@ class FormBuilder extends AbstractFormBuilder {
     public function build() {
         $form = [];
         if (!($this->id && $this->action)) {
-            throw new Exception();
+            throw new Exception("Exception in FormBuilder->build()<br> [ ! (\$this->id && \$this->action) ]<br>- \$this->id='$this->id'<br>- \$this->action='$this->action'", 9999);
         }
-
         $form['id'] = $this->id;
         $form['method'] = $this->method;
         $form['action'] = $this->action;
