@@ -619,8 +619,7 @@ $_arrIocCfgGUI = array (
                                 'DJO' => 
                                 array (
                                   'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
-                                  'standbyId' => '\'bodyContent\'',
-                                  'defaultCall' => '\'call=page\'',
+                                  'defaultCall' => '\'call=print\'',
                                 ),
                                 'PRP' => 
                                 array (
@@ -915,7 +914,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconUndo\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();var globalState = this.dispatcher.getGlobalState();var contentToolActual = this.dispatcher.getContentCache(id).getMainContentTool();var ns = contentToolActual.ns;if (globalState.isPageRequired(ns)) { alert(\'No es pot restaurar la revisió perquè s\\\'ha detectat el document original en edició. Has de tancar-lo abans.\'); _ret = { _cancel: true }} else { _ret = { id: id, name: \'save\', extraDataToSend: {do: \'revert\'} };}return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();var globalState = this.dispatcher.getGlobalState();var contentToolActual = this.dispatcher.getContentCache(id).getMainContentTool();var ns = contentToolActual.ns;if (globalState.isPageRequired(ns)) { alert(\'No es pot restaurar la revisió perquè s\\\'ha detectat el document original en edició. Has de tancar-lo abans.\'); _ret = { _cancel: true }} else { _ret = { id: id, name: \'save\', extraDataToSend: {do: \'save_rev\'} };}return _ret;}',
                 ),
               ),
             ),

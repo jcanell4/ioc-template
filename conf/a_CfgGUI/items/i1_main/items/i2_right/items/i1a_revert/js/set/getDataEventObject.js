@@ -15,7 +15,7 @@ if (globalState.isPageRequired(ns)) {
     _ret = {
         id: id,
         name: 'save',
-        extraDataToSend: {do: 'revert'}
+        extraDataToSend: {do: 'save_rev'}
     };
 }
 
