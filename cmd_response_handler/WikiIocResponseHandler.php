@@ -7,13 +7,6 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
 require_once(DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php');
 
-// ESTO NO SIRVE DE NADA
-//require_once(DOKU_INC . 'lib/plugins/ownInit/WikiGlobalConfig.php');
-//function _tplIncDir(){
-//    return WikiGlobalConfig::tplIncDir();
-//}
-//if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
-
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     const K_PROJECTTYPE = ProjectKeys::KEY_PROJECT_TYPE;
 
@@ -41,7 +34,9 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
         if ($requestParams[self::K_PROJECTTYPE]) {
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($requestParams['id'], self::K_PROJECTTYPE, $requestParams[self::K_PROJECTTYPE]);
+            if (!$responseData['projectExtraData'][self::K_PROJECTTYPE]) { //es una página de un proyecto
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], self::K_PROJECTTYPE, $requestParams[self::K_PROJECTTYPE]);
+            }
         }
     }
 

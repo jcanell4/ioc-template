@@ -1,26 +1,25 @@
 <?php
-require_once(tpl_incdir() . 'cmd_response_handler/utility/AbstractFormBuilder.php');
-
 /**
  * Construeix un array amb els atributs d'un camp del formulari
  */
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/AbstractFormBuilder.php");
+
 class FieldBuilder extends AbstractFormBuilder {
 
     //private $id;        // igual a 'name' si no s'especifica altra cosa
     private $label;
     private $name;      // igual a 'id' si no s'especifica altra cosa
     private $type;
-    private $readonly;
     private $columns;
     private $value;
     private $props = [];
     private $options = [];
 
-    public function __construct($id=NULL, $label='', $type='text', $readonly=NULL, $name=NULL, $columns=12, $priority=0) {
+    public function __construct($id=NULL, $label="", $type="text", $name=NULL, $columns=12, $priority=0) {
         $this->setId($id)
             ->setLabel($label)
             ->setType($type)
-            ->setReadOnly($readonly)
             ->setName($name)
             ->setColumns($columns)
             ->setPriority($priority);
@@ -35,27 +34,18 @@ class FieldBuilder extends AbstractFormBuilder {
         $field['name'] = $this->name;
         $field['formType'] = "field";
         $field['type'] = $this->type;
-        $field['readonly'] = $this->readonly;
         $field['label'] = $this->label;
         $field['columns'] = $this->columns;
         $field['priority'] = $this->priority;
-        $field['props'] = $this->props;
         $field['value'] = $this->value;
-
-        if (count($this->options) > 0) {
-            $field['options'] = $this->options;
-        }
+        if (count($this->props) > 0) $field['props'] = $this->props;
+        if (count($this->options) > 0) $field['options'] = $this->options;
 
         return $field;
     }
 
     public function setType($type) {
         $this->type = $type;
-        return $this;
-    }
-
-    public function setReadOnly($readonly) {
-        $this->readonly = $readonly;
         return $this;
     }
 

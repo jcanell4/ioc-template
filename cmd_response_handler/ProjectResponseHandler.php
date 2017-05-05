@@ -52,14 +52,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
-        $id = str_replace(":", "_", $requestParams['id']);
+        $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
         $values = $responseData['projectMetaData']['values'];
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
-//        $extra = ['projectType' => $requestParams['projectType']];
         $extra = $responseData['projectExtraData'];
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
@@ -147,7 +146,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ->setId($arrValues['id'])
                 ->setLabel(($label != NULL) ? $label : $keyField)
                 ->setType(($arrValues['type']) ? $arrValues['type'] : "text")
-                ->setReadOnly(($arrValues['readonly']) ? "readonly" : NULL)
+                ->addProps($arrValues['props'])
                 ->setColumns($columns)
                 ->setValue($arrValues['value'])
             );

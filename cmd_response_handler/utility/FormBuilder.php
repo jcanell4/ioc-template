@@ -1,9 +1,10 @@
 <?php
-require_once(tpl_incdir() . 'cmd_response_handler/utility/AbstractFormBuilder.php');
-
 /**
- * Description of FormBuilder
+ * FormBuilder
  */
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/AbstractFormBuilder.php");
+
 class FormBuilder extends AbstractFormBuilder {
 
     private $method;
@@ -51,6 +52,7 @@ class FormBuilder extends AbstractFormBuilder {
         return new RowBuilder();
     }
 
+    /*
     // Funció de prova que retorna un formulari construit
     public static function buildTestForm($id, $action, $projectType) {
         $builder = new FormBuilder();
@@ -315,5 +317,5 @@ class FormBuilder extends AbstractFormBuilder {
 
         return $form;
     }
-
+    */
 }
