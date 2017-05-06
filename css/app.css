@@ -496,7 +496,3 @@ div.warning-container {
     padding: 10px;
 }
 
-textarea.ace_text-input, .ace_content {
-	font-family:monospace, serif;
-	font-size:14px;
-}
