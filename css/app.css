@@ -496,3 +496,6 @@ div.warning-container {
     padding: 10px;
 }
 
+div.level2 {
+	overflow:hidden;
+}
