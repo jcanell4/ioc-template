@@ -9,6 +9,7 @@ $arrParcial = array(
                               ,"CSS" => array(
                                           "width" => "190px"
                                          ,"padding" => "0px"
+                                         ,"overflow" => "hidden"
                                         )
                               ,"DJO" => array(
                                           "region" => "'left'"

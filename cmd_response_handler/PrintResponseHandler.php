@@ -13,13 +13,20 @@ class PrintResponseHandler extends WikiIocResponseHandler{
     
     //put your code here
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        $resp = array();
         if(isset($responseData['draftType'])){
             //Indicar que hi ha un esborrany però que el que s'imprimeix és la versió original. 
             //Indicar que si es vol imprimir els canvis de l'esborrany cal guardar-lo abans
+            $resp["ns"] = $requestParams["id"];
+            $resp["html"] = $responseData['html'];
+            $resp["pageCommand"] = "lib/plugins/ajaxcommand/ajax.php?call=page";
         }else{
             //Imprimir 
-            $ajaxCmdResponseGenerator->addPrintResponse($responseData['html']);
+            $resp["ns"] = $requestParams["id"];
+            $resp["html"] = $responseData['html'];
+            $resp["pageCommand"] = "lib/plugins/ajaxcommand/ajax.php?call=page";
         }
+        $ajaxCmdResponseGenerator->addPrintResponse($resp);
     }
 
 }

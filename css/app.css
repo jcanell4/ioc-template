@@ -505,3 +505,31 @@ div.warning-container {
 .new-section {
 	clear:both;
 }
+
+#zonaNavegacio{
+    overflow: hidden;
+}
+
+#zonaNavegacio .dijitTabContainerTop-container,
+#zonaNavegacio .dijitTabContainerTopChildWrapper
+{
+    overflow: visible;
+    height: 100%;
+}
+
+#zonaNavegacio .dijitTabContainerTop-dijitLayoutContainer
+{
+    overflow: auto;
+    height: 100%;
+}
+
+#tb_shortcuts .dijitLayoutContainer,
+#tb_shortcuts .dijitContainer,
+.dijitTree{
+    overflow: visible;
+}
+
+#bodyContent .dijitTabContainerTop-container
+{
+    border: 0;
+}

@@ -474,6 +474,7 @@ $_arrIocCfgGUI = array (
             array (
               'width' => '190px',
               'padding' => '0px',
+              'overflow' => 'hidden',
             ),
             'DJO' => 
             array (
