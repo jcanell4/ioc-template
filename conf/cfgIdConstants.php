@@ -44,9 +44,13 @@ class cfgIdConstants
     const TB_DOCU = "tb_docu";
     const TB_MENU = "tb_menu";
     const TB_SHORTCUTS = "tb_shortcuts";
+    const TB_PROJECT = "tb_project";
+
     const LEFT_BC_PANEL = "leftBorderContainerPanel";
     const LEFT_TOP = "left_top_panel";
     const LEFT_BOTTOM = "left_bottom_panel";
+
+
 
     const EINES_CANVIS_RECENTS = "canvisRecents";
     const EINES_MEDIAMANGER = "mediaManager";
@@ -121,6 +125,7 @@ class cfgIdConstants
     
     //Constant de tipus de projecte
     const PROJECT_TYPE = 'projectType';
+
     
     public function getConstantsIds()
     {

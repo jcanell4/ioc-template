@@ -593,14 +593,15 @@ $_arrIocCfgGUI = array (
                                   array (
                                     'p' => 
                                     array (
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=test_project\'',
                                       'params' => 
                                       array (
                                         0 => 'projectType',
                                       ),
                                     ),
                                   ),
-                                  'expandProject' => 'true',
+                                  'expandProject' => 'false',
+                                  'openOnclick' => 'false',
                                   'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\';return _ret;}',
                                   'standbyId' => '\'bodyContent\'',
                                 ),
