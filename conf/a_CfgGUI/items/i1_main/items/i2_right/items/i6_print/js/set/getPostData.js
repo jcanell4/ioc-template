@@ -1,5 +1,4 @@
 _ret="";
-/*
 if (this.dispatcher.getGlobalState().currentTabId) {
    var id = this.dispatcher.getGlobalState().currentTabId;
    var ns=this.dispatcher.getGlobalState().getContent(id)["ns"];
@@ -16,24 +15,28 @@ if (this.dispatcher.getGlobalState().currentTabId) {
        hasChanges = 0;
    }
    if(hasChanges==1){
-        _ret="call=preview&id=" + ns +"&wikitext="+this.dispatcher.getWidget(id).getQuerySave().wikitext;
+        _ret={
+            call:'preview',
+            id: ns,
+            wikitext:this.dispatcher.getWidget(id).getQuerySave().wikitext
+        };
    }else if(hasChanges==2){
-       var currentSection = this.dispatcher.getGlobalState().getCurrentElementId();
-       var queryValues = this.dispatcher.getWidget(id).getQuerySave(currentSection);
-        _ret="call=preview&id=" + ns +"&wikitext="+queryValues.prefix+queryValues.wikitext+queryValues.suffix;
+       var editor  =this.dispatcher.getWidget(id);
+       var queryValues = editor.getQuerySave(editor.getCurrentSection());
+        _ret={
+            call:'preview',
+            id: ns,
+            wikitext:queryValues.prefix+queryValues.wikitext+queryValues.suffix
+        };
    }else{
-        _ret="call=print&id=" + ns;
+        _ret={
+            call:'print',
+            id: ns,
+        };
    }
-   if(this.query){
-      _ret+="&"+this.query;
-   }
-   
    if (rev) {
-        _ret+="&rev=" + rev;
+        _ret.rev = rev;
     }
 }
-*/
-if(this.query){
-    _ret=this.query;
-}
+
 

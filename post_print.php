@@ -23,24 +23,21 @@
 if (!defined("DOKU_INC")){
     die();
 }
-require_once DOKU_INC."lib/plugins/ownInit/WikiGlobalConfig.php";
-
-
-
-
-//detect revision
-$rev = (int)$INFO["rev"]; //$INFO comes from the DokuWiki core
-if ($rev < 1){
-    $rev = (int)$INFO["lastmod"];
-}
-
-if ($ACT === "edit" &&
-    !headers_sent()){
-    header("X-UA-Compatible: IE=EmulateIE7");
-}
-
-
-include WikiGlobalConfig::tplIncDir().'pre_print.php';
-tpl_content(FALSE);
-include WikiGlobalConfig::tplIncDir().'post_print.php';
 ?>
+    <!-- end rendered wiki content -->
+    <div class="clearer"></div>
+  </div>
+  <!-- end div id bodyContent -->
+</div>
+<!-- end div id=content -->
+<?php
+//provide DokuWiki housekeeping, required in all templates
+tpl_indexerWebBug();
+
+//include web analytics software
+if (file_exists(DOKU_TPLINC."/user/tracker.php")){
+    include DOKU_TPLINC."/user/tracker.php";
+}
+?>
+</body>
+</html>

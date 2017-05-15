@@ -1077,12 +1077,14 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'query' => '\'do=print\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconPreviewPrint\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=print\'',
-                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; }}return _ret;}',
+                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php\'',
+                  'method' => '\'post\'',
+                  'standbyId' => 'bodyContent',
+                  'getPostData' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var id = this.dispatcher.getGlobalState().currentTabId; var ns=this.dispatcher.getGlobalState().getContent(id)[\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; var hasChanges; if(this.dispatcher.getGlobalState().getCurrentContent().action===\'edit\' && this.dispatcher.getChangesManager().isContentChanged(id)){ hasChanges = 1; }else if(this.dispatcher.getGlobalState().getCurrentContent().action===\'sec_edit\' && this.dispatcher.getChangesManager().isContentChanged(id)){ hasChanges = 2; }else{ hasChanges = 0; } if(hasChanges==1){ _ret={ call:\'preview\', id: ns, wikitext:this.dispatcher.getWidget(id).getQuerySave().wikitext }; }else if(hasChanges==2){ var editor =this.dispatcher.getWidget(id); var queryValues = editor.getQuerySave(editor.getCurrentSection()); _ret={ call:\'preview\', id: ns, wikitext:queryValues.prefix+queryValues.wikitext+queryValues.suffix }; }else{ _ret={ call:\'print\', id: ns, }; } if (rev) { _ret.rev = rev; }}return _ret;}',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';/*if (this.dispatcher.getGlobalState().currentTabId) { var id = this.dispatcher.getGlobalState().currentTabId; var ns=this.dispatcher.getGlobalState().getContent(id)[\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; var hasChanges; if(this.dispatcher.getGlobalState().getCurrentContent().action===\'edit\' && this.dispatcher.getChangesManager().isContentChanged(id)){ hasChanges = 1; }else if(this.dispatcher.getGlobalState().getCurrentContent().action===\'sec_edit\' && this.dispatcher.getChangesManager().isContentChanged(id)){ hasChanges = 2; }else{ hasChanges = 0; } if(hasChanges==1){ _ret=\'call=preview&id=\' + ns +\'&wikitext=\'+this.dispatcher.getWidget(id).getQuerySave().wikitext; }else if(hasChanges==2){ var currentSection = this.dispatcher.getGlobalState().getCurrentElementId(); var queryValues = this.dispatcher.getWidget(id).getQuerySave(currentSection); _ret=\'call=preview&id=\' + ns +\'&wikitext=\'+queryValues.prefix+queryValues.wikitext+queryValues.suffix; }else{ _ret=\'call=print&id=\' + ns; } if(this.query){ _ret+=\'&\'+this.query; } if (rev) { _ret+=\'&rev=\' + rev; }}*/if(this.query){ _ret=this.query;}return _ret;}',
                 ),
               ),
             ),
