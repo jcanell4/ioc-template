@@ -550,10 +550,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [
-                            'eventType' => 'cancel',
+                            'eventType' => 'cancel_partial',
                             'data' => [
                                 'discardChanges' => true,
-                                'keep_draft' => false
+                                'keep_draft' => false,
                             ],
                             'observable' => $id
                         ]
