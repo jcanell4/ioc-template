@@ -59,12 +59,17 @@ class Save_partialResponseHandler extends PageResponseHandler
 
 
         } else if ($responseData["code"] === "cancel_document") {
-            $params = [
-                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
-                "params" => $responseData["cancel_params"]
-            ];
+//            $params = [
+//                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
+//                "params" => $responseData["cancel_params"]
+//            ];
 
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+//            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
+
+
+//
 
         } else {
             $ajaxCmdResponseGenerator->addError($responseData["code"],
