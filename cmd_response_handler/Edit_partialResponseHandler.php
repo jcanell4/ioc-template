@@ -554,7 +554,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                             'eventType' => 'cancel_partial',
                             'data' => [
                                 'discardChanges' => true,
-//                                'keep_draft' => false,
+                                'keep_draft' => false,
                             ],
                             'observable' => $id
                         ]
@@ -563,7 +563,26 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             ]
         ];
 
-        if ($isRev) {
+        // ALERTA[Xavi] Una revisió no pot estar editada parcialment
+//        if ($isRev) {
+//            $dialogConfig['buttons'][] = [
+//                'id' => 'save',
+//                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+//                'buttonType' => 'fire_event',
+//                'extra' => [
+//                    [
+//                        'eventType' => 'save_partial',
+//                        'data' => [
+//                            'extraDataToSend' =>[
+//                                'cancel'=>true,
+//                                'keep_draft'=>false
+//                            ]
+//                        ],
+//                        'observable' => $id
+//                    ],
+//                ]
+//            ];
+//        } else {
             $dialogConfig['buttons'][] = [
                 'id' => 'save',
                 'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
@@ -573,24 +592,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         'eventType' => 'save_partial',
                         'data' => [
                             'extraDataToSend' =>[
-                                'cancel'=>true
-                            ]
-                        ],
-                        'observable' => $id
-                    ],
-                ]
-            ];
-        } else {
-            $dialogConfig['buttons'][] = [
-                'id' => 'save',
-                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
-                'buttonType' => 'fire_event',
-                'extra' => [
-                    [
-                        'eventType' => 'save_partial',
-                        'data' => [
-                            'extraDataToSend' =>[
-                                'cancel'=>true
+                                'cancel'=>true,
+                                'keep_draft'=>false
                             ]
                         ],
                         'observable' => $id
@@ -610,7 +613,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 //                    ]
                 ]
             ];
-        }
+//        }
 
         return $dialogConfig;
     }

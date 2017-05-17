@@ -23,7 +23,7 @@ class Save_partialResponseHandler extends PageResponseHandler
                                 $responseData,
                                 &$ajaxCmdResponseGenerator)
     {
-        if ($responseData["code"] === 0) {
+        if ($responseData["code"] === 0 ||  $responseData["code"] === "cancel_document") {
             $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
             $ajaxCmdResponseGenerator->addProcessFunction(true,
                 "ioc/dokuwiki/processSaving");
@@ -51,14 +51,14 @@ class Save_partialResponseHandler extends PageResponseHandler
                 "ioc/dokuwiki/processSetFormsDate",
                 $params);
 
-            if($responseData['lockInfo']){
+            if ($responseData['lockInfo']) {
                 $timeout = ExpiringCalc::getExpiringTime($responseData);
 
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }
 
 
-        } else if ($responseData["code"] === "cancel_document") {
+//        } else if ($responseData["code"] === "cancel_document") {
 //            $params = [
 //                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
 //                "params" => $responseData["cancel_params"]
@@ -66,10 +66,7 @@ class Save_partialResponseHandler extends PageResponseHandler
 
 //            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
 
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
 
-
-//
 
         } else {
             $ajaxCmdResponseGenerator->addError($responseData["code"],
@@ -78,6 +75,11 @@ class Save_partialResponseHandler extends PageResponseHandler
                 "ioc/dokuwiki/processCancellation");
             parent::response($requestParams, $responseData["page"],
                 $ajaxCmdResponseGenerator);
+        }
+
+
+        if ($responseData["cancel_params"]) {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
         }
 
 
