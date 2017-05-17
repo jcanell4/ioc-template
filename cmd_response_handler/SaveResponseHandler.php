@@ -75,12 +75,8 @@ class SaveResponseHandler extends PageResponseHandler {
             $ajaxCmdResponseGenerator->addRemoveItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
             
         } else if ($responseData["code"] === "cancel_document") {
-                $params = [
-                    "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
-                    "params" => $responseData["cancel_params"]
-                ];
 
-                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
 
         } else{
             $ajaxCmdResponseGenerator->addError($responseData["code"], 

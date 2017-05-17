@@ -399,7 +399,8 @@ class EditResponseHandler extends WikiIocResponseHandler
                             'eventType' => 'save',
                             'data' => [
                                 'extraDataToSend' =>[
-                                    'cancel'=>true
+                                    'cancel'=>true,
+                                    'keep_draft'=>false
                                 ]
                             ],
                             'observable' => $id,
