@@ -23,7 +23,7 @@ if (this.dispatcher.getGlobalState().currentTabId) {
         /*console.log("call:preview, id:"+ns+"wikitext:" + _ret.wikitext);*/
    }else if(hasChanges==2){
        var editor  =this.dispatcher.getWidget(id);
-       var queryValues = editor.getQuerySave(editor.getCurrentHeaderId());
+       var queryValues = editor.getEditedText(editor.getCurrentHeaderId());
         _ret={
             call:'preview',
             id: ns,
