@@ -358,8 +358,10 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel',
                             'data' => [
-                                'discardChanges' => true,
-                                'keep_draft' => false
+                                'dataToSend' =>[
+                                    'discardChanges' => true,
+                                    'keep_draft' => false
+                                ]
                             ],
                             'observable' => $id
                         ]
@@ -380,7 +382,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'save',
                             'data' => [
-                                'extraDataToSend' =>[
+                                'dataToSend' =>[
                                     'reload'=>false
                                 ]
                             ],
@@ -398,7 +400,7 @@ class EditResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'save',
                             'data' => [
-                                'extraDataToSend' =>[
+                                'dataToSend' =>[
                                     'cancel'=>true,
                                     'keep_draft'=>false
                                 ]

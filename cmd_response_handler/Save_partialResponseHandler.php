@@ -78,10 +78,6 @@ class Save_partialResponseHandler extends PageResponseHandler
         }
 
 
-        if ($responseData["cancel_params"]) {
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
-        }
-
 
         // Actualització de les metas, info i les revisions
         if (isset($responseData['meta'])) {
@@ -95,6 +91,10 @@ class Save_partialResponseHandler extends PageResponseHandler
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
             // No ha de ser possible cap altre cas perquè hem desat així que com a minim hi ha una
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+        }
+
+        if ($responseData["cancel_params"]) {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
         }
         
         //CASOS ESPECIALS

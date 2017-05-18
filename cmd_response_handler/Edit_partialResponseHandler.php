@@ -480,9 +480,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel',
                             'data' => [
+                                'dataToSend' => [
                                     'discardChanges' => true,
-//                                    'keep_draft' => false
-                                ],
+                                    'keep_draft' => false
+                                ]
+                            ],
                             'observable' => $id
                         ]
                     ]
@@ -499,7 +501,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     [
                         'eventType' => 'save_partial_all',
                         'data' => [
-                            'reload'=>false
+                            'dataToSend' => [
+                                'reload'=>false
+                            ]
                         ],
                         'observable' => $id
                     ],
@@ -514,10 +518,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     [
                         'eventType' => 'save_partial_all',
                         'data' => [
-                            'extraDataToSend' =>[
-                                'cancel'=>true,
-                                'keep_draft'=>false,
-                            ]
+                                'dataToSend' => [
+                                    'discardChanges' => true,
+                                    'cancel'=>true,
+                                    'keep_draft'=>false
+                                ]
                         ],
                         'observable' => $id
                     ],
@@ -553,8 +558,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         [
                             'eventType' => 'cancel_partial',
                             'data' => [
-                                'discardChanges' => true,
-                                'keep_draft' => false,
+                                'dataToSend' => [
+                                    'discardChanges' => true,
+                                    'keep_draft' => false,
+                                ]
                             ],
                             'observable' => $id
                         ]
@@ -591,7 +598,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     [
                         'eventType' => 'save_partial',
                         'data' => [
-                            'extraDataToSend' =>[
+                            'dataToSend' =>[
                                 'cancel'=>true,
                                 'keep_draft'=>false
                             ]
