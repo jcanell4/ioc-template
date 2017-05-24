@@ -533,3 +533,8 @@ div.warning-container {
 {
     border: 0;
 }
+
+textarea[name="wikitext"] {
+	font-size: 14px;
+	font-family: monospace;
+}
