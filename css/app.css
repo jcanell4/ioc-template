@@ -538,3 +538,15 @@ textarea[name="wikitext"] {
 	font-size: 14px;
 	font-family: monospace;
 }
+
+
+/* Ressaltadors pel Drag & Drop */
+
+
+.highlight {
+	border: 2px solid red !important;
+}
+
+/*.glow {*/
+	/*border: 2px solid green !important;*/
+/*}*/
