@@ -34,9 +34,11 @@ class ControlTplGenerator {
     }
 
     public function addWikiIocButton($class, $params, $name=NULL){
-        if(!$params){
+        if(!is_string($class)){
+            $name = $params;
             $params = $class;
             $class = self::defaultClass;
+            
         }
         $this->checkParams($params);
         if (!$name){
