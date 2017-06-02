@@ -37,9 +37,9 @@ class ControlTplGenerator {
         if(!is_string($class)){
             $name = $params;
             $params = $class;
-            $class = self::defaultClass;
-            
+            $class = self::defaultClass;            
         }
+        
         $this->checkParams($params);
         if (!$name){
             $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
