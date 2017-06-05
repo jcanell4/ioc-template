@@ -564,18 +564,18 @@ span.arrow-icon {
 
 
 .arrow-right {
-	background-position-x: 0;
+	background-position: 0;
 }
 
 .arrow-left {
-	background-position-x: -18px;
+	background-position: -18px;
 }
 
 .arrow-up {
-	background-position-x: -36px;
+	background-position: -36px;
 	/*transform:rotateY(90deg);*/
 }
 
 .arrow-down {
-	background-position-x: -54px;
+	background-position: -54px;
 }
