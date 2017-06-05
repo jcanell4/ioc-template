@@ -543,10 +543,39 @@ textarea[name="wikitext"] {
 /* Ressaltadors pel Drag & Drop */
 
 
-.highlight {
-	border: 2px solid red !important;
-}
+/*.highlight {*/
+	/*border: 2px solid red !important;*/
+/*}*/
 
 /*.glow {*/
 	/*border: 2px solid green !important;*/
 /*}*/
+
+span.arrow-icon {
+	padding: 1px;
+	/*background-color:lightgrey;*/
+	/*border: 1px solid black;*/
+	border-radius: 50%;
+	display: none;
+	width: 18px;
+	height: 18px;
+	background-image: url("css/icons/dojo-arrows.png");
+}
+
+
+.arrow-right {
+	background-position-x: 0;
+}
+
+.arrow-left {
+	background-position-x: -18px;
+}
+
+.arrow-up {
+	background-position-x: -36px;
+	/*transform:rotateY(90deg);*/
+}
+
+.arrow-down {
+	background-position-x: -54px;
+}
