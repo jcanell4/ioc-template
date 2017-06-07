@@ -176,6 +176,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
 
+            $responseData['revs']['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=diff";
             $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
         } else {

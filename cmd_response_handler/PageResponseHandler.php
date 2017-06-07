@@ -52,6 +52,7 @@ class PageResponseHandler extends WikiIocResponseHandler
 
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
 
+            $responseData['revs']['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=diff";
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
         } else if(isset($responseData['meta'])) {

@@ -171,6 +171,7 @@ require([
         // Objecte que gestiona el refresc de la pàgina
         var reloadStateHandler = new ReloadStateHandler(function (state) {
 
+
             //actualitza l'estat a partir de les dades emmagatzemades en local
             if (state.login) {
                 wikiIocDispatcher.processResponse({
@@ -254,7 +255,10 @@ require([
                     infoManager.refreshInfo();
                 }
 
+                console.log(state.pages);
+
                 for (var id in state.pages) {
+                    console.log("Reloading pàgina:", id);
                     var queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
@@ -289,6 +293,18 @@ require([
                         var elid = state.getContent(id).myid;
                         //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
+
+                    } else if (state.getContent(id).action === "diff") {
+                        console.log("Diff al globalstate", state.getContent(id));
+                        var page = state.getContent(id);
+                        queryParams = 'call=diff&id=' + page.ns;
+
+                        if (page.rev2) {
+                            queryParams += '&rev2[]=' + page.rev1;
+                            queryParams += '&rev2[]=' + page.rev2;
+                        } else {
+                            queryParams += '&rev1=' + page.rev1;
+                        }
 
                     } else {
                         queryParams = "call=page&id=";
@@ -359,7 +375,7 @@ require([
 
 
         container = registry.byId(wikiIocDispatcher.containerNodeId);
-        containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
+        containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher, isCentral: true});
 
         container = registry.byId(wikiIocDispatcher.navegacioNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
