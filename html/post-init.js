@@ -255,10 +255,10 @@ require([
                     infoManager.refreshInfo();
                 }
 
-                console.log(state.pages);
+                // console.log(state.pages);
 
                 for (var id in state.pages) {
-                    console.log("Reloading pàgina:", id);
+
                     var queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
@@ -295,7 +295,7 @@ require([
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "diff") {
-                        console.log("Diff al globalstate", state.getContent(id));
+
                         var page = state.getContent(id);
                         queryParams = 'call=diff&id=' + page.ns;
 
