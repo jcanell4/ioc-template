@@ -269,7 +269,8 @@ require([
 
                     } else if (state.getContent(id).action === "form") {
 
-                        var ns = state.getContent(id).ns;
+                        var ns = state.getContent(id
+                        ).ns;
                         var projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
 
