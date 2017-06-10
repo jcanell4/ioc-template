@@ -342,7 +342,10 @@ require([
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
                 var state = wikiIocDispatcher.getGlobalState();
-                sessionStorage.globalState = JSON.stringify(state);
+                state.freeAllPages();
+                state.updateStorage();
+
+                // sessionStorage.globalState = JSON.stringify(state);
 
             }
         });
