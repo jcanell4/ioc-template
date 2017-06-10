@@ -15,12 +15,13 @@ require([
     'ioc/wiki30/LocalUserConfig',
     'dojo/_base/unload',
     'dojo/cookie',
+    'ioc/wiki30/manager/StorageManager',
     'dojo/domReady!'
 ], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory, RequestControl, LocalUserConfig,
-             baseUnload, cookie) {
+             baseUnload, cookie,storageManager) {
 
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
@@ -173,35 +174,14 @@ require([
 
 
             //actualitza l'estat a partir de les dades emmagatzemades en local
-            if (state.login) {
+            var loginState = storageManager.findObject('login');
+            console.log("loginState:", loginState);
 
+            if (loginState && loginState.login) {
 
-                // ALERTA[Xavi] Comprovar si l'usuari està autenticat al servidor
                 var requestLogin = new Request();
-                requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + state.userId;
+                requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + loginState.userId;
                 requestLogin.sendRequest();
-
-
-                    //     wikiIocDispatcher.processResponse({
-                    //         "type": "login"
-                    //         , "value": {
-                    //             "loginRequest": true
-                    //             , "loginResult": true
-                    //             , "userId": state.userId
-                    //         }
-                    //     });
-                    //     wikiIocDispatcher.processResponse({
-                    //         "type": "command"
-                    //         , "value": {
-                    //             "type": "change_widget_property"
-                    //             , "id": 'cfgIdConstants::USER_BUTTON'
-                    //             , "propertyName": "label"
-                    //             , "propertyValue": state.userId
-                    //         }
-                    //     });
-                    // }
-
-
 
             }
 
@@ -361,7 +341,9 @@ require([
 
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
-                sessionStorage.globalState = JSON.stringify(wikiIocDispatcher.getGlobalState());
+                var state = wikiIocDispatcher.getGlobalState();
+                sessionStorage.globalState = JSON.stringify(state);
+
             }
         });
 
@@ -461,7 +443,33 @@ require([
         baseUnload.addOnUnload(function(){
             cookie("IOCForceScriptLoad", 1);
         });
-        
+
+
+        console.log(storageManager.length());
+
+        storageManager.on('change', 'login', function(e) {
+            var request;
+
+            var newState = JSON.parse(e.newValue),
+                oldState = JSON.parse(e.oldValue);
+
+            // No estava logejat i ara ho està
+            if (newState.login && !oldState.login && newState.userId) {
+                request = new Request();
+                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + newState.userId;
+                request.sendRequest();
+
+                // Ara no està logejat però abans si ho estava
+            } else if (!newState.login && oldState.login) {
+                request = new Request();
+                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
+                request.sendRequest();
+            }
+
+
+            console.log("Canvis al login", e);
+            console.log(storageManager.length());
+        });
     });
 });
 
