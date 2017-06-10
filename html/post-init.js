@@ -174,23 +174,35 @@ require([
 
             //actualitza l'estat a partir de les dades emmagatzemades en local
             if (state.login) {
-                wikiIocDispatcher.processResponse({
-                    "type": "login"
-                    , "value": {
-                        "loginRequest": true
-                        , "loginResult": true
-                        , "userId": state.userId
-                    }
-                });
-                wikiIocDispatcher.processResponse({
-                    "type": "command"
-                    , "value": {
-                        "type": "change_widget_property"
-                        , "id": 'cfgIdConstants::USER_BUTTON'
-                        , "propertyName": "label"
-                        , "propertyValue": state.userId
-                    }
-                });
+
+
+                // ALERTA[Xavi] Comprovar si l'usuari està autenticat al servidor
+                var requestLogin = new Request();
+                requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + state.userId;
+                requestLogin.sendRequest();
+
+
+                    //     wikiIocDispatcher.processResponse({
+                    //         "type": "login"
+                    //         , "value": {
+                    //             "loginRequest": true
+                    //             , "loginResult": true
+                    //             , "userId": state.userId
+                    //         }
+                    //     });
+                    //     wikiIocDispatcher.processResponse({
+                    //         "type": "command"
+                    //         , "value": {
+                    //             "type": "change_widget_property"
+                    //             , "id": 'cfgIdConstants::USER_BUTTON'
+                    //             , "propertyName": "label"
+                    //             , "propertyValue": state.userId
+                    //         }
+                    //     });
+                    // }
+
+
+
             }
 
             // Establim el panell d'informació actiu
@@ -208,39 +220,43 @@ require([
                 }
             }
 
-            if (state.permissions) {
-                wikiIocDispatcher.processResponse({
-                    "type": "jsinfo"
-                    , "value": state.permissions
-                });
-                // Add admin_tab to the Navigation container
-                if (state.permissions['isadmin'] | state.permissions['ismanager']) {
-                    var requestTabContent = new Request();
-                    requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-                    requestTabContent.sendRequest();
-                }
-            }
+            // TODO: ELIMINAR
+            // if (state.permissions) {
+            //     wikiIocDispatcher.processResponse({
+            //         "type": "jsinfo"
+            //         , "value": state.permissions
+            //     });
+            //     // Add admin_tab to the Navigation container
+            //     if (state.permissions['isadmin'] | state.permissions['ismanager']) {
+            //         var requestTabContent = new Request();
+            //         requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+            //         requestTabContent.sendRequest();
+            //     }
+            // }
 
+            // TODO: ELIMINAR
             // Add shortcut_tab
-            if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
-                var requestTabContent = new Request();
-                requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
-                requestTabContent.sendRequest();
-            }
+            // if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
+            //     var requestTabContent = new Request();
+            //     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
+            //     requestTabContent.sendRequest();
+            // }
 
-            if (state.sectok) {
-                wikiIocDispatcher.processResponse({
-                    "type": "sectok"
-                    , "value": state.sectok
-                });
-            }
+            // TODO: ELIMINAR
+            // if (state.sectok) {
+            //     wikiIocDispatcher.processResponse({
+            //         "type": "sectok"
+            //         , "value": state.sectok
+            //     });
+            // }
 
-            if (state.title) {
-                wikiIocDispatcher.processResponse({
-                    "type": "title"
-                    , "value": state.title
-                });
-            }
+            // TODO: ELIMINAR
+            // if (state.title) {
+            //     wikiIocDispatcher.processResponse({
+            //         "type": "title"
+            //         , "value": state.title
+            //     });
+            // }
 
             if (state.pages) {
 
@@ -416,14 +432,15 @@ require([
         // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions
         //console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
 
-        if (wikiIocDispatcher.getGlobalState().login === true) {
-            wikiIocDispatcher.getEventManager().fireEvent('notify', {
-                //id: null, // No cal
-                dataToSend: {
-                    do: 'init'
-                }
-            });
-        }
+        // ALERTA[Xavi] Eliminar
+        // if (wikiIocDispatcher.getGlobalState().login === true) {
+        //     wikiIocDispatcher.getEventManager().fireEvent('notify', {
+        //         //id: null, // No cal
+        //         dataToSend: {
+        //             do: 'init'
+        //         }
+        //     });
+        // }
 
         // Recuperem el contenidor de notificacions
         var inboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_INBOX');
