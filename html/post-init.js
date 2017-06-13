@@ -13,7 +13,6 @@ require([
     'ioc/gui/content/containerContentToolFactory',
     'ioc/wiki30/RequestControl',
     'ioc/wiki30/LocalUserConfig',
-    'dojo/_base/unload',
     'dojo/cookie',
     'ioc/wiki30/manager/StorageManager',
     'dojo/domReady!'
@@ -21,7 +20,7 @@ require([
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory, RequestControl, LocalUserConfig,
-             baseUnload, cookie,storageManager) {
+             cookie, storageManager) {
 
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
@@ -37,11 +36,15 @@ require([
         var updateHandler = new UpdateViewHandler();
 
         updateHandler.update = function () {
+
             var disp = wikiIocDispatcher;
             var cur = disp.getGlobalState().currentTabId;
+
             if (cur) {
                 style.set(cur, "overflow", "auto");
             }
+
+
             disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
@@ -65,7 +68,8 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
-            
+
+
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
@@ -136,7 +140,6 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
 
 
-
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
                         }
@@ -169,21 +172,12 @@ require([
         };
         wikiIocDispatcher.addUpdateView(updateHandler);
 
+
         // Objecte que gestiona el refresc de la pàgina
         var reloadStateHandler = new ReloadStateHandler(function (state) {
 
-
             //actualitza l'estat a partir de les dades emmagatzemades en local
-            var loginState = storageManager.findObject('login');
-            console.log("loginState:", loginState);
-
-            if (loginState && loginState.login) {
-
-                var requestLogin = new Request();
-                requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + loginState.userId;
-                requestLogin.sendRequest();
-
-            }
+            // relogin();
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state.getCurrentNavigationId();
@@ -313,7 +307,7 @@ require([
                             if (state.info) {
                                 wikiIocDispatcher.processResponse({
                                     "type": "info"
-                                    ,"value": state.info
+                                    , "value": state.info
                                 });
                             }
 
@@ -343,12 +337,13 @@ require([
             if (typeof(Storage) !== "undefined") {
                 var state = wikiIocDispatcher.getGlobalState();
                 state.freeAllPages();
-                state.updateStorage();
-
+                state.updateSessionStorage();
                 // sessionStorage.globalState = JSON.stringify(state);
-
             }
-        });
+
+            cookie("IOCForceScriptLoad", 1);
+
+        }.bind(wikiIocDispatcher));
 
         // Guardar los valores por defecto de las medidas de los paneles ajustables
         wikiIocDispatcher.almacenLocal.setUpUserDefaultPanelsSize(wikiIocDispatcher);
@@ -438,41 +433,53 @@ require([
         var notifyManager = wikiIocDispatcher.getNotifyManager();
 
         notifyManager.addWarningContainer(warningContainer);
-        notifyManager.addNotifyContainer('inbox',  inboxNotifierContainer);
+        notifyManager.addNotifyContainer('inbox', inboxNotifierContainer);
         notifyManager.addNotifyContainer('outbox', outboxNotifierContainer);
 
 
-        // TODO[Xavi] Canviar per codi de Dojo
-        baseUnload.addOnUnload(function(){
-            cookie("IOCForceScriptLoad", 1);
-        });
+        // Gestío del relogin
+
+        var relogin = function (userId) {
+
+            var requestLogin = new Request();
+            requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + userId;
+            requestLogin.sendRequest()
+        };
 
 
-        console.log(storageManager.length());
-
-        storageManager.on('change', 'login', function(e) {
+        storageManager.on('change', 'login', function (e) {
             var request;
 
             var newState = JSON.parse(e.newValue),
                 oldState = JSON.parse(e.oldValue);
 
             // No estava logejat i ara ho està
-            if (newState.login && !oldState.login && newState.userId) {
-                request = new Request();
-                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + newState.userId;
-                request.sendRequest();
+            if (newState.login && (!oldState || !oldState.login) && newState.userId) {
+                relogin(newState.userId);
 
                 // Ara no està logejat però abans si ho estava
             } else if (!newState.login && oldState.login) {
                 request = new Request();
                 request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
                 request.sendRequest();
+
             }
 
 
-            console.log("Canvis al login", e);
-            console.log(storageManager.length());
+            console.log("Detectats canvis al login", e);
         });
+
+
+        // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
+        var loginState = storageManager.findObject('login');
+        // console.log("loginState:", loginState);
+
+        if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
+            // console.log("enviant petició del login", loginState.userId);
+            relogin(loginState.userId);
+        }
+
+
     });
 });
 
