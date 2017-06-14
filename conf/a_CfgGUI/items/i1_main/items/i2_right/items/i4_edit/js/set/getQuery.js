@@ -1,4 +1,5 @@
 _ret="";
+
 if (this.dispatcher.getGlobalState().currentTabId) {
     var globalState = this.dispatcher.getGlobalState();
    var ns=globalState.getContent(globalState.currentTabId).ns;

@@ -293,6 +293,24 @@ return false;
 require([
 "dijit/registry"
 ,"dojo/cookie"
+,"ioc/wiki30/dispatcherSingleton"
+], function (registry,cookie,dispatcherSingleton) {
+var button = registry.byId('editButton');
+if (button) {
+button.onClick = function (e) {
+var dispatcher = dispatcherSingleton();
+var globalState = dispatcher.getGlobalState();
+var ns= globalState.getContent(globalState.currentTabId).ns;
+if (globalState.isPageRequired(ns)) {
+e.stopPropagation();
+e.preventDefault();
+}
+};
+}
+});
+require([
+"dijit/registry"
+,"dojo/cookie"
 ], function (registry,cookie) {
 var button = registry.byId('printButton');
 if (button) {

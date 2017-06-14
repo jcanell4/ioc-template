@@ -35,6 +35,10 @@ require([
         }
         var updateHandler = new UpdateViewHandler();
 
+
+
+
+
         updateHandler.update = function () {
 
             var disp = wikiIocDispatcher;
@@ -171,6 +175,55 @@ require([
             }
         };
         wikiIocDispatcher.addUpdateView(updateHandler);
+
+
+
+        // Gestío del relogin
+
+        var relogin = function (userId) {
+
+            var requestLogin = new Request();
+            requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + userId;
+            requestLogin.sendRequest().then(function() {
+                // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
+                // console.log("---------- Ha arribat la resposta del login ------------");
+            });
+        };
+
+
+        storageManager.on('change', 'login', function (e) {
+            var request;
+
+            var newState = JSON.parse(e.newValue),
+                oldState = JSON.parse(e.oldValue);
+
+            // No estava logejat i ara ho està
+            if (newState.login && (!oldState || !oldState.login) && newState.userId) {
+                relogin(newState.userId);
+
+                // Ara no està logejat però abans si ho estava
+            } else if (!newState.login && oldState.login) {
+                request = new Request();
+                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
+                request.sendRequest();
+
+            }
+
+
+            console.log("Detectats canvis al login", e);
+        });
+
+
+        // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
+        var loginState = storageManager.findObject('login');
+        // console.log("loginState:", loginState);
+
+        if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
+            // console.log("enviant petició del login", loginState.userId);
+            relogin(loginState.userId);
+        }
+
+
 
 
         // Objecte que gestiona el refresc de la pàgina
@@ -385,19 +438,27 @@ require([
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
+        var validatorPageNotRequired = function(data) {
+            if (!data.ns) {
+                console.error("ALERTA! no s'ha trobat el ns del document", data);
+            }
+            return !wikiIocDispatcher.getGlobalState().isPageRequired(data.ns);
+        };
+
+
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
         new RequestControl(eventName.LOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
         new RequestControl(eventName.UNLOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
         new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
 
-        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false, true); // Test Validation
-        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true);
+        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false, true);
+        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true, validatorPageNotRequired);
         new RequestControl(eventName.SAVE_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true, true);
         new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial&do=save_all', true, true);
 
         new RequestControl(eventName.CANCEL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
         new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true, true);
-        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true);
+        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true, validatorPageNotRequired);
 
         new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true, true);
 
@@ -437,47 +498,8 @@ require([
         notifyManager.addNotifyContainer('outbox', outboxNotifierContainer);
 
 
-        // Gestío del relogin
-
-        var relogin = function (userId) {
-
-            var requestLogin = new Request();
-            requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + userId;
-            requestLogin.sendRequest()
-        };
 
 
-        storageManager.on('change', 'login', function (e) {
-            var request;
-
-            var newState = JSON.parse(e.newValue),
-                oldState = JSON.parse(e.oldValue);
-
-            // No estava logejat i ara ho està
-            if (newState.login && (!oldState || !oldState.login) && newState.userId) {
-                relogin(newState.userId);
-
-                // Ara no està logejat però abans si ho estava
-            } else if (!newState.login && oldState.login) {
-                request = new Request();
-                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
-                request.sendRequest();
-
-            }
-
-
-            console.log("Detectats canvis al login", e);
-        });
-
-
-        // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
-        var loginState = storageManager.findObject('login');
-        // console.log("loginState:", loginState);
-
-        if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            // console.log("enviant petició del login", loginState.userId);
-            relogin(loginState.userId);
-        }
 
 
     });
