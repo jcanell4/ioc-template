@@ -439,10 +439,16 @@ require([
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
         var validatorPageNotRequired = function(data) {
-            if (!data.ns) {
+            console.log("Validator#validatorPageNotRequired", data);
+            if (typeof data === "string") {
+                data = JSON.parse('{"' + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+            }
+
+
+            if (!data.id) { // ALERTA[Xavi] aquest ID es correspón amb el NS
                 console.error("ALERTA! no s'ha trobat el ns del document", data);
             }
-            return !wikiIocDispatcher.getGlobalState().isPageRequired(data.ns);
+            return !wikiIocDispatcher.getGlobalState().isPageRequired(data.id);
         };
 
 

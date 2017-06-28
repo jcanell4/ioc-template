@@ -304,6 +304,8 @@ var ns= globalState.getContent(globalState.currentTabId).ns;
 if (globalState.isPageRequired(ns)) {
 e.stopPropagation();
 e.preventDefault();
+var errorMessage = {response: {text: 'No es pot enviar la petició'}};
+dispatcher.processError(errorMessage); // TODO[Xavi] Localitzar
 }
 };
 }
