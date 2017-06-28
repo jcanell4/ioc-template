@@ -51,9 +51,8 @@ jQuery(menuItem.domNode).on('click', function (e) {
 var dispatcher = dispatcherSingleton();
 var globalState = dispatcher.getGlobalState();
 var isAnyPageChanged = globalState.isAnyPageChanged();
-var discardChangesMessage = "Hi han documents en edició amb canvis, vols descartar-los i desconnectar?"; // TODO[Xavi] Localitzar
+var discardChangesMessage = LANG.template['ioc-template'].confirm_logout_dialog;
 if (isAnyPageChanged && !confirm(discardChangesMessage)) {
-console.log("Es cancel·la l'event");
 e.stopPropagation();
 e.preventDefault();
 }
@@ -323,7 +322,7 @@ var ns= globalState.getContent(globalState.currentTabId).ns;
 if (globalState.isPageRequired(ns)) {
 e.stopPropagation();
 e.preventDefault();
-var errorMessage = {response: {text: 'No es pot enviar la petició'}};
+var errorMessage = {response: {text: LANG.template['ioc-template'].page_already_required}};
 dispatcher.processError(errorMessage); // TODO[Xavi] Localitzar
 }
 };

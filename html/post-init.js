@@ -464,7 +464,7 @@ require([
 
         var validatorPageNotRequired = {
             callback: function(data) {
-                console.log("Validator#validatorPageNotRequired", data);
+                // console.log("Validator#validatorPageNotRequired", data);
                 if (typeof data === "string") {
                     data = JSON.parse('{"' + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
                 }
@@ -475,7 +475,8 @@ require([
                 }
                 return !wikiIocDispatcher.getGlobalState().isPageRequired(data.id);
             },
-            message: "La pàgina es troba en edició en una altra pestanya, tanca la edició per poder editar-la en aquesta."// TODO[Xavi] Localitzar
+
+            message: LANG.template['ioc-template'].page_already_required// TODO[Xavi] Localitzar
         };
 
 

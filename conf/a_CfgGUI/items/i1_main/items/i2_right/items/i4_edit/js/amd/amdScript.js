@@ -21,7 +21,7 @@ if (button) {
         if (globalState.isPageRequired(ns)) {
             e.stopPropagation();
             e.preventDefault();
-            var errorMessage = {response: {text: 'No es pot enviar la petició'}};
+            var errorMessage = {response: {text: LANG.template['ioc-template'].page_already_required}};
             dispatcher.processError(errorMessage); // TODO[Xavi] Localitzar
         }
 

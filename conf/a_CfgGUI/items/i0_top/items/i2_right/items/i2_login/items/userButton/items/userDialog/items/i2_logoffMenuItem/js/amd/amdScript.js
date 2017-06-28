@@ -11,16 +11,13 @@ if (menuItem) {
 
 
         var isAnyPageChanged = globalState.isAnyPageChanged();
-        var discardChangesMessage = "Hi han documents en edició amb canvis, vols descartar-los i desconnectar?"; // TODO[Xavi] Localitzar
+        var discardChangesMessage = LANG.template['ioc-template'].confirm_logout_dialog;
 
         //Si la pàgina es troba requerida s'atura la cadena d'events i no s'envia la petició d'edició
         if (isAnyPageChanged && !confirm(discardChangesMessage)) {
-            console.log("Es cancel·la l'event");
             e.stopPropagation();
             e.preventDefault();
         }
-
-
 
     });
 }

@@ -144,8 +144,14 @@ $lang['button_revert'] = 'Reverteix les pàgines seleccionades';
 $lang['js']['willexpire1'] = 'El blocatge per a editar el document ';
 $lang['js']['willexpire2'] = ' venç d\'aquí a un minut.\nVoleu guardar els canvis i renovar el blocatge, o cancel·lar la edició i descartar els canvis?';
 $lang['js']['lock_timeout'] = ' El temps s\'ha esgotat. S\'ha guardat l\'esborrany i el document ha estat desbloquejat.';
+$lang['js']['confirm_logout_dialog'] = 'Hi han documents en edició amb canvis, vols descartar-los i desconnectar?';
+$lang['js']['page_already_required'] = 'La pàgina es troba en edició en una altra pestanya, tanca la edició per poder editar-la en aquesta.';
+$lang['js']['default_validation_request_error'] = 'No es pot enviar la petició';
+$lang['js']['login_error'] = "Usuari o contrasenya incorrectes";
+
 
 $lang['notifier_initialized'] = 'Notificador inicialitzat correctament';
 $lang['notifier_send_message'] = 'S\'ha enviat un missatge mitjançant el notificador';
 $lang['notifier_pop_messaged'] = 'S\'han recuperat missatges del notificador';
 $lang['notifier_closed'] = 'S\'ha tancat el notificador';
+
