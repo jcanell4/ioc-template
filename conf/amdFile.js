@@ -43,6 +43,25 @@ userDialog.addProcessor(processorUser.type, processorUser);
 });
 require([
 "dijit/registry"
+,"ioc/wiki30/dispatcherSingleton"
+], function (registry,dispatcherSingleton) {
+var menuItem = registry.byId('logoffMenuItem');
+if (menuItem) {
+jQuery(menuItem.domNode).on('click', function (e) {
+var dispatcher = dispatcherSingleton();
+var globalState = dispatcher.getGlobalState();
+var isAnyPageChanged = globalState.isAnyPageChanged();
+var discardChangesMessage = "Hi han documents en edició amb canvis, vols descartar-los i desconnectar?"; // TODO[Xavi] Localitzar
+if (isAnyPageChanged && !confirm(discardChangesMessage)) {
+console.log("Es cancel·la l'event");
+e.stopPropagation();
+e.preventDefault();
+}
+});
+}
+});
+require([
+"dijit/registry"
 ,"ioc/wiki30/GlobalState"
 ,"ioc/wiki30/dispatcherSingleton"
 ], function (registry,globalState,getDispatcher) {
