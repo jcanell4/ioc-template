@@ -177,8 +177,22 @@ require([
         wikiIocDispatcher.addUpdateView(updateHandler);
 
 
+        // Recupera el valor d'un paràmetre de la URL, per exemple: el id per determinar si s'ha seguit un enllaç a un document o s'ha recarregat la pàgina
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
 
-        // Gestío del relogin
+
+
+
+
+        // Gestió del relogin
 
         var relogin = function (userId) {
 
@@ -285,6 +299,10 @@ require([
             //     });
             // }
 
+
+            // Comprovem si s'ha seguit un enllaç (param id a l'URL)
+            var paramId = getParameterByName("id");
+
             if (state.pages) {
 
                 var np = 0;
@@ -301,6 +319,12 @@ require([
                 // console.log(state.pages);
 
                 for (var id in state.pages) {
+
+                    if (paramId && paramId !== state.pages[id].ns) {
+                        // Si existeix el paràmetre només es carrega aquesta pàgina
+                        console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
+                        continue;
+                    }
 
                     var queryParams = '';
 
@@ -438,17 +462,20 @@ require([
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
-        var validatorPageNotRequired = function(data) {
-            console.log("Validator#validatorPageNotRequired", data);
-            if (typeof data === "string") {
-                data = JSON.parse('{"' + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
-            }
+        var validatorPageNotRequired = {
+            callback: function(data) {
+                console.log("Validator#validatorPageNotRequired", data);
+                if (typeof data === "string") {
+                    data = JSON.parse('{"' + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
+                }
 
 
-            if (!data.id) { // ALERTA[Xavi] aquest ID es correspón amb el NS
-                console.error("ALERTA! no s'ha trobat el ns del document", data);
-            }
-            return !wikiIocDispatcher.getGlobalState().isPageRequired(data.id);
+                if (!data.id) { // ALERTA[Xavi] aquest ID es correspón amb el NS
+                    console.error("ALERTA! no s'ha trobat el ns del document", data);
+                }
+                return !wikiIocDispatcher.getGlobalState().isPageRequired(data.id);
+            },
+            message: "La pàgina es troba en edició en una altra pestanya, tanca la edició per poder editar-la en aquesta."// TODO[Xavi] Localitzar
         };
 
 
