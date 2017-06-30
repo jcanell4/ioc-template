@@ -310,23 +310,10 @@ return false;
 });
 require([
 "dijit/registry"
-,"dojo/cookie"
-,"ioc/wiki30/dispatcherSingleton"
-], function (registry,cookie,dispatcherSingleton) {
+,"ioc/functions/getValidator"
+], function (registry,getValidator) {
 var button = registry.byId('editButton');
-if (button) {
-button.onClick = function (e) {
-var dispatcher = dispatcherSingleton();
-var globalState = dispatcher.getGlobalState();
-var ns= globalState.getContent(globalState.currentTabId).ns;
-if (globalState.isPageRequired(ns)) {
-e.stopPropagation();
-e.preventDefault();
-var errorMessage = {response: {text: LANG.template['ioc-template'].page_already_required}};
-dispatcher.processError(errorMessage); // TODO[Xavi] Localitzar
-}
-};
-}
+button.setValidator(getValidator('PageNotRequired'));
 });
 require([
 "dijit/registry"

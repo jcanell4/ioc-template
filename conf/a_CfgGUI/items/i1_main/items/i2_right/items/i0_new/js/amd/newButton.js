@@ -13,6 +13,7 @@
 //include "ioc/gui/NsTreeContainer"
 
 
+
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
 

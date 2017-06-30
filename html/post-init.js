@@ -15,16 +15,38 @@ require([
     'ioc/wiki30/LocalUserConfig',
     'dojo/cookie',
     'ioc/wiki30/manager/StorageManager',
+    'ioc/functions/getValidator',
     'dojo/domReady!'
 ], function (dom, getDispatcher, Request, registry,
              ready, style, UpdateViewHandler,
              ReloadStateHandler, unload, JSON, globalState,
              containerContentToolFactory, RequestControl, LocalUserConfig,
-             cookie, storageManager) {
+             cookie, storageManager, getValidator) {
 
     var wikiIocDispatcher = getDispatcher();
     //almacenLocal: Gestiona la configuració GUI persistent de l'usuari
     wikiIocDispatcher.almacenLocal = new LocalUserConfig();
+
+
+
+    // Recupera el valor d'un paràmetre de la URL, per exemple: el id per determinar si s'ha seguit un enllaç a un document o s'ha recarregat la pàgina
+    var getParameterByName = function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    };
+
+
+    // ALERTA[Xavi] Això s'ha de fer aquí o es produeix un error quan s'envien les peticions ajax. Reescriptura de l'URL
+    var paramId = getParameterByName("id");
+    var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
+    var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
+    window.history.pushState("", "", newURL);
+
 
     //declaració de funcions
     ready(function () {
@@ -177,17 +199,6 @@ require([
         wikiIocDispatcher.addUpdateView(updateHandler);
 
 
-        // Recupera el valor d'un paràmetre de la URL, per exemple: el id per determinar si s'ha seguit un enllaç a un document o s'ha recarregat la pàgina
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-
 
 
 
@@ -301,7 +312,7 @@ require([
 
 
             // Comprovem si s'ha seguit un enllaç (param id a l'URL)
-            var paramId = getParameterByName("id");
+
 
             if (state.pages) {
 
@@ -406,9 +417,13 @@ require([
                 }
             }
 
+
         });
 
-        wikiIocDispatcher.addReloadState(reloadStateHandler);
+
+
+            wikiIocDispatcher.addReloadState(reloadStateHandler);
+        // Reescrivint la URL si s'ha passat un id per paràmetre
 
         unload.addOnWindowUnload(function () {
             if (typeof(Storage) !== "undefined") {
@@ -462,22 +477,7 @@ require([
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
-        var validatorPageNotRequired = {
-            callback: function(data) {
-                // console.log("Validator#validatorPageNotRequired", data);
-                if (typeof data === "string") {
-                    data = JSON.parse('{"' + decodeURI(data.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}')
-                }
 
-
-                if (!data.id) { // ALERTA[Xavi] aquest ID es correspón amb el NS
-                    console.error("ALERTA! no s'ha trobat el ns del document", data);
-                }
-                return !wikiIocDispatcher.getGlobalState().isPageRequired(data.id);
-            },
-
-            message: LANG.template['ioc-template'].page_already_required// TODO[Xavi] Localitzar
-        };
 
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
@@ -486,13 +486,13 @@ require([
         new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
 
         new RequestControl(eventName.CANCEL_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false, true);
-        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true, validatorPageNotRequired);
+        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
         new RequestControl(eventName.SAVE_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true, true);
         new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial&do=save_all', true, true);
 
         new RequestControl(eventName.CANCEL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
-        new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true, true);
-        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true, validatorPageNotRequired);
+        new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true, true, getValidator('CanRevert'));
+        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
 
         new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true, true);
 
@@ -530,8 +530,6 @@ require([
         notifyManager.addWarningContainer(warningContainer);
         notifyManager.addNotifyContainer('inbox', inboxNotifierContainer);
         notifyManager.addNotifyContainer('outbox', outboxNotifierContainer);
-
-
 
 
 

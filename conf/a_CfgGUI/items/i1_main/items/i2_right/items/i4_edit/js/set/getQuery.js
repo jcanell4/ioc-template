@@ -1,4 +1,8 @@
+
 _ret="";
+
+
+
 
 if (this.dispatcher.getGlobalState().currentTabId) {
     var globalState = this.dispatcher.getGlobalState();
@@ -16,5 +20,5 @@ if (this.dispatcher.getGlobalState().currentTabId) {
         _ret+="&rev=" + rev;
     }
 
-    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns)
+    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
 }
