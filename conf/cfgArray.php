@@ -288,6 +288,7 @@ $_arrIocCfgGUI = array (
                               'autoSize' => true,
                               'disabled' => false,
                               'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                              'getQuery' => 'function(_data){var _ret=null; var requiredPages = this.dispatcher.getGlobalState().getAllRequiredPagesNS();console.log(requiredPages.join(\',\'));_ret = \'do=logoff&unlock=\' + requiredPages.join(\',\') +\'\';return _ret;}',
                             ),
                           ),
                         ),
