@@ -41,11 +41,19 @@ require([
     };
 
 
-    // ALERTA[Xavi] Això s'ha de fer aquí o es produeix un error quan s'envien les peticions ajax. Reescriptura de l'URL
+    // ALERTA[Xavi] En fer la reescriptura de l'URL es produeix un error de dojo relacionat amb el Dijit.Tree (no sempre, segurament relacionat amb el temps de resposta de les crides AJAX)
+    var removeParamsFromURL = function () {
+        if (window.location.href.indexOf('?') === -1) {
+            return;
+        }
+
+        var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
+        var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
+        window.history.pushState("", "", newURL);
+    };
+
     var paramId = getParameterByName("id");
-    var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
-    var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
-    window.history.pushState("", "", newURL);
+    removeParamsFromURL(); //ALERTA[Xavi] Provoca un error
 
 
     //declaració de funcions
