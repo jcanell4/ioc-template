@@ -4,23 +4,19 @@
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
-if (!defined("DOKU_INC")) {
-    die();
-}
-if (!defined('DOKU_PLUGIN')) {
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-}
-require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocInfoManager.php';
 require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
 require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class EditResponseHandler extends WikiIocResponseHandler
 {
-    function __construct()
-    {
+    function __construct() {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
 
@@ -31,8 +27,7 @@ class EditResponseHandler extends WikiIocResponseHandler
      *
      * @return void
      */
-    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
-    {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
         if ($responseData['show_draft_dialog']) {
             //Hi ha un esborrany. Es pregunta que cal fer.
@@ -43,13 +38,13 @@ class EditResponseHandler extends WikiIocResponseHandler
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
 
         } else if ($responseData["locked"]) {
-            //El recurs està bloquejat per un altre usuari. Es pregunta si cal fer-ne seguiment per saber 
+            //El recurs està bloquejat per un altre usuari. Es pregunta si cal fer-ne seguiment per saber
             //quan acaba el bloqueig
             $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
             $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
         } else if ($responseData["locked_before"]) {
-            //El recurs està bloquejat pel propi usuari en una altre sessió. De moment no es deixa editar 
+            //El recurs està bloquejat pel propi usuari en una altre sessió. De moment no es deixa editar
             //fins que es tanqui la sessió oberta. Cal canviar-ho per una quadre de diàleg
             $this->addEditDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator, TRUE);
             $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
@@ -216,7 +211,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         ];
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
-    
+
     protected function addRequiringDialogResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
