@@ -62,6 +62,25 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $extra = $responseData['projectExtraData'];
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
+
+        $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
+    }
+
+    private function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
+        $rdata['id'] = "metainfo_tree_".$projectId;
+        $rdata['type'] = "meta_dokuwiki_ns_tree";
+        $rdata['title'] = "Espai de noms del projecte";
+        $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
+        $rdata['fromRoot'] = $projectNs;
+        $rdata['treeDataSource'] = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+        $rdata['typeDictionary'] = array(
+                                      array('urlBase' => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
+                                            'params' => array(0 => 'projectType')
+                                           )
+                                        );
+        $rdata['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=page";
+
+        $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
 
     /** El grid esta compuesto por 12 columnas
@@ -73,6 +92,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      */
     protected function buildForm($id, $ns, $action, $structure, $view) {
 
+        $structure = $this->flatStructure($structure);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
 
@@ -119,7 +139,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         foreach ($view['fields'] as $keyField => $valField) {
 
             //combina los atributos y valores de los arrays de estructura y de vista
-            $arrValues = array_merge($structure[$keyField], $valField);
+            if (!is_array($valField)) $valField = array($valField);
+            $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
 
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
             $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
@@ -157,4 +178,23 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $form;
     }
 
+    /**
+     * Aplana la estructura del array que contine "estructura con datos"
+     */
+    protected function flatStructure($structure) {
+        $flat = [];
+        foreach ($structure as $key => $item) {
+            if (!is_array($item['value'])) {
+                //se conserva íntegramente
+                $flat[$item['id']] = $item;
+            }elseif ($item['value']==NULL) {
+                //'value' contiene un array vacío. se conserva íntegramente
+                $flat[$item['id']] = $item;
+            }else {
+                $tmp = $this->flatStructure($item['value']);
+                $flat = array_merge($flat, $tmp);
+            }
+        }
+        return $flat;
+    }
 }

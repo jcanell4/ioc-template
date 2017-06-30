@@ -60,6 +60,10 @@ class FieldBuilder extends AbstractFormBuilder {
 
     public function setLabel($label) {
         $this->label = $label;
+
+        if (!$this->id && $label)
+            $this->setId($label);
+        
         return $this;
     }
 
