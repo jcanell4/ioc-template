@@ -13,7 +13,7 @@ $arrParcial = array(
                 "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
                 "params" => ['projectType']
             ]]
-            ,"expandProject" => "true"
+            ,"expandProject" => "false"
             ,"processOnClickAndOpenOnClick" => "true"
             ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
         )

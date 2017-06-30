@@ -534,7 +534,7 @@ $_arrIocCfgGUI = array (
                                       ),
                                     ),
                                   ),
-                                  'expandProject' => 'true',
+                                  'expandProject' => 'false',
                                   'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\';return _ret;}',
                                   'standbyId' => '\'bodyContent\'',
                                 ),
