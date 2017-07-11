@@ -49,7 +49,7 @@ require([
 
         var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
         var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
-        window.history.pushState("", "", newURL);
+        window.history.pushState(null, null, newURL);
     };
 
     var paramId = getParameterByName("id");
