@@ -147,8 +147,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (!$aGroups[$grupo])
                 throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
 
-            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
-                throw new MissingValueFormBuilderException($ns, "El camp \'$keyField\' és obligatori i no té valor");
+//            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
+//                throw new MissingValueFormBuilderException($ns, "El camp \'$keyField\' és obligatori i no té valor");
 
             //Se establecen los atributos del campo
             if ($arrValues['n_columns'])
