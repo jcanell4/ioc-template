@@ -81,7 +81,7 @@ class WikiIocCfg {
         $toAdd = $this->generator->getWikiIocButtonControls();
         if ($toAdd) {
             foreach ($toAdd as $value) {
-                $root[$value["name"]]["class"] = "WikiIocButton";
+                $root[$value["name"]]["class"] = $value["class"];
                 $root[$value["name"]]["parms"] = $value["parms"];
             }
         }

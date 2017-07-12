@@ -18,6 +18,8 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once (DOKU_TPL_INCDIR . 'conf/generator/WikiIocTplGeneratorExceptions.php');
 
 class ControlTplGenerator {
+    const defaultClass = "WikiIocButton";
+
     private $controls;
     
     public function addControlScript($scriptPath, $aReplacements=NULL){
@@ -30,8 +32,14 @@ class ControlTplGenerator {
         }
         $this->controls["controlScript"][]=$textScript;        
     }
-    
-    public function addWikiIocButton($params, $name=NULL){
+
+    public function addWikiIocButton($class, $params, $name=NULL){
+        if(!is_string($class)){
+            $name = $params;
+            $params = $class;
+            $class = self::defaultClass;            
+        }
+        
         $this->checkParams($params);
         if(!$name){
             $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
@@ -39,7 +47,7 @@ class ControlTplGenerator {
                 throw new RequiredParamNotFoundException("id");
             }
         }
-        $this->controls["IocButtonControls"][] = array("name" => $name, "parms" => $params);        
+        $this->controls["IocButtonControls"][] = array("name" => $name, "class" => $class, "parms" => $params);
     }
     
     public function getControlScripts(){
