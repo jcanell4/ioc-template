@@ -1,26 +1,18 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of page_response_handler
- *
+ * Description of MediaResponseHandler
  * @author Miguel Angel Lozano <mlozan54@ioc.cat>
  */
-if (!defined("DOKU_INC"))
-    die();
-if (!defined('DOKU_PLUGIN'))
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
-require_once DOKU_PLUGIN."ajaxcommand/requestparams/MediaKeys.php";
-require_once DOKU_PLUGIN."ajaxcommand/AjaxCmdResponseGenerator.php";
-require_once DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php";
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+require_once DOKU_PLUGIN."ajaxcommand/JsonGenerator.php";
+require_once DOKU_PLUGIN."ajaxcommand/AjaxCmdResponseGenerator.php";
+require_once DOKU_PLUGIN."ajaxcommand/defkeys/MediaKeys.php";
+require_once DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php";
 
 class MediaResponseHandler extends WikiIocResponseHandler {
 
@@ -33,7 +25,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         if(!$requestParams["preserveMetaData"]){
             $preserveMetaData = false;
         }
-        
+
         if($requestParams[MediaKeys::KEY_DELETE]){
             $this->_responseDelete($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
         }else if($requestParams[MediaKeys::KEY_IS_UPLOAD]){
@@ -41,9 +33,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         }else{
             $this->_responseList($requestParams, $responseData, $ajaxCmdResponseGenerator, $preserveMetaData);
         }
-        
+
     }
-    
+
     private function _responseUpload($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
         /*
          *       0 = OK
@@ -55,13 +47,13 @@ class MediaResponseHandler extends WikiIocResponseHandler {
      *      -6 = BAD_CONTENT
      *      -7 = SPAM_CONTENT
      *      -8 = XSS_CONTENT
-         * 
-         */                 
+         *
+         */
         if($responseData["resultCode"] === 0 ){
-            $ajaxCmdResponseGenerator->addMedia("media", 
-                                                $responseData['ns'], 
-                                                $responseData['title'], 
-                                                $responseData['content'],$preserveMetaData);   
+            $ajaxCmdResponseGenerator->addMedia("media",
+                                                $responseData['ns'],
+                                                $responseData['title'],
+                                                $responseData['content'],$preserveMetaData);
 //            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
 //            $info['type'] = 'success';
 //            $info['message'] = WikiIocLangManager::getLang('uploadsucc');
@@ -95,24 +87,24 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                     $message = WikiIocLangManager::getLang('uploadxss');
                     break;
                 default:
-                    $message = WikiIocLangManager::getLang('uploadfail');                    
+                    $message = WikiIocLangManager::getLang('uploadfail');
             }
             $ajaxCmdResponseGenerator->addAlert($message);
 //            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
 //            $info['type'] = 'error';
 //            $info['message'] = $responseData["info"];
-            $info = AjaxCmdResponseGenerator::generateInfo("error",  $message, 'media', -1);            
+            $info = AjaxCmdResponseGenerator::generateInfo("error",  $message, 'media', -1);
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
-        
+
     }
-    
+
     private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
         if($responseData["result"] & 1){
-            $ajaxCmdResponseGenerator->addMedia("media", 
-                                                $responseData['ns'], 
-                                                $responseData['title'], 
-                                                $responseData['content'],$preserveMetaData);   
+            $ajaxCmdResponseGenerator->addMedia("media",
+                                                $responseData['ns'],
+                                                $responseData['title'],
+                                                $responseData['content'],$preserveMetaData);
             $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
             $info['type'] = 'warning';
             $info['message'] = $responseData["info"];
@@ -125,18 +117,18 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
     }
-    
+
     private function _responseList($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
-        
-        $ajaxCmdResponseGenerator->addMedia($responseData['id'], 
-                                                $responseData['ns'], 
-                                                $responseData['title'], 
+
+        $ajaxCmdResponseGenerator->addMedia($responseData['id'],
+                                                $responseData['ns'],
+                                                $responseData['title'],
                                                 $responseData['content'],$preserveMetaData);
-        
+
         //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
         //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE, $expandProject=FALSE, $hiddenProjects=FALSE)
         global $NS;
-        
+
         //Càrrega de la zona info de missatges
         global $JUMPTO;
         global $MSG;
@@ -144,20 +136,20 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         $info['type'] = 'success';
         $info['message'] = 'Llista de fitxers de ' . $responseData['ns'] . ' carregada.';
         if (isset($JUMPTO)) {
-            if ($JUMPTO == false) {                
+            if ($JUMPTO == false) {
                 $info['type'] = 'error';
                 $info['message'] = $MSG[0]["msg"];
             }
         }
         if (isset($_REQUEST['mediado'])) {
-            if ($_REQUEST['mediado'] == 'searchlist') {                
+            if ($_REQUEST['mediado'] == 'searchlist') {
                 $info['type'] = 'success';
                 $info['message'] = 'Fitxers de carpeta "' . $responseData['ns'] . '" i subcarpetes, que es corresponen amb la cerca: "'.$_REQUEST['q'].'"';
             }
         }
-        
+
         $ajaxCmdResponseGenerator->addInfoDta($info);
-        
+
         /*
          * 20150430 Miguel Angel Lozano
          * Canvi per fer servir ContentTabDokuWikiNsTree
@@ -178,7 +170,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 $list = $INPUT->str('list');
             }
             $metaData = array(
-                'id' => 'metaMedia', 
+                'id' => 'metaMedia',
                 'sort' => $sort,
                 'list' => $list
             );
@@ -186,17 +178,17 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
             $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
             $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
-            
+
             /*
              * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
              */
-            
+
             $propLlista = array(
 			'id'      => 'metaMediaProperties',
 			'title'   => "Propietats de la llista",
 			'content' => $metaDataFileOptions.$metaDataFileSort.$metaDataSearch
 		);
-            
+
             $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
@@ -215,7 +207,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             }
             $ajaxCmdResponseGenerator->addExtraMetadata("media", $metaDataFileUpload);
         }
-        
+
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
                 $responseData['id'], true, "ioc/dokuwiki/processMediaList", //TODO configurable
                 array(
@@ -236,4 +228,4 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
 }
 
-?>
+

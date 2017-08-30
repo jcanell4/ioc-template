@@ -1,12 +1,13 @@
 <?php
-require_once(tpl_incdir() . 'cmd_response_handler/utility/FieldBuilder.php');
-require_once(tpl_incdir() . 'cmd_response_handler/utility/GroupBuilder.php');
-require_once(tpl_incdir() . 'cmd_response_handler/utility/RowBuilder.php');
-
 /**
- * Definición general de variables y métodos get accesibles 
+ * Definición general de variables y métodos get accesibles
  * @culpable Rafael Claver
  */
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/FieldBuilder.php");
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/GroupBuilder.php");
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/RowBuilder.php");
+
 class AbstractFormBuilder {
 
     protected $id;
@@ -25,7 +26,7 @@ class AbstractFormBuilder {
     public function getElements() {
         return $this->elements;
     }
-    
+
     public function setId($id) {
         $this->id = $id;
         return $this;
@@ -52,7 +53,7 @@ class AbstractFormBuilder {
         }
         return $this;
     }
-    
+
     protected function buildElements() {
         foreach ($this->elements as $elem) {
             $ret[] = $elem->build();

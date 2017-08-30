@@ -1,17 +1,19 @@
 <?php
 /**
- * Construye los datos para la respuesta de la parte servidor en función de la petición
+ * ProjectResponseHandler: Construye los datos para la respuesta de la parte servidor en función de la petición
+ * @culpable Rafael Claver
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
 if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
-require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once(tpl_incdir() . 'cmd_response_handler/utility/FormBuilder.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once DOKU_COMMAND . 'requestparams/RequestParameterKeys.php';
-require_once DOKU_PLUGIN . 'wikiiocmodel/WikiIocLangManager.php';
-require_once DOKU_PLUGIN . 'wikiiocmodel/projects/documentation/DocumentationModelExceptions.php' ;
+require_once(DOKU_TPL_INCDIR."cmd_response_handler/WikiIocResponseHandler.php");
+require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
+require_once(DOKU_COMMAND."JsonGenerator.php");
+require_once(DOKU_COMMAND."defkeys/RequestParameterKeys.php");
+require_once(DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php");
+require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModelExceptions.php");
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
@@ -41,30 +43,48 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 break;
 
             default:
-                throw new Exception(); 
+                throw new Exception();
         }
-        
+
     }
 
     protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
-        $id = str_replace(":", "_", $requestParams['id']);
+        $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
-
         $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
-
         $values = $responseData['projectMetaData']['values'];
-        $extra = ['projectType' => $requestParams['projectType']];
+        //El action que dispara este ProjectResponseHandler envía el array projectExtraData
+        $extra = $responseData['projectExtraData'];
 
         $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
+
+        $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
+    }
+
+    private function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
+        $rdata['id'] = "metainfo_tree_".$projectId;
+        $rdata['type'] = "meta_dokuwiki_ns_tree";
+        $rdata['title'] = "Espai de noms del projecte";
+        $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
+        $rdata['fromRoot'] = $projectNs;
+        $rdata['treeDataSource'] = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+        $rdata['typeDictionary'] = array(
+                                      array('urlBase' => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
+                                            'params' => array(0 => 'projectType')
+                                           )
+                                        );
+        $rdata['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=page";
+
+        $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
 
     /** El grid esta compuesto por 12 columnas
-     * 
+     *
      * @param string: $id, $ns, $action
      * @param array: $structure, obtenido de configMain.json
      * @param array: $view, obtenido de defaultView.json
@@ -72,11 +92,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      */
     protected function buildForm($id, $ns, $action, $structure, $view) {
 
+        $structure = $this->flatStructure($structure);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
-        
+
         $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
-        
+
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
             //Se obtienen los atributos del grupo
@@ -111,22 +132,23 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 }
                 $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
             }
-            
+
         }
-        
+
         //Construye, como objetos, los campos definidos en la vista y los enlaza a los grupos correspondientes
         foreach ($view['fields'] as $keyField => $valField) {
-            
-            //combina los atributos y valores de los arrays de estructura y de vista 
-            $arrValues = array_merge($structure[$keyField], $valField);
-            
+
+            //combina los atributos y valores de los arrays de estructura y de vista
+            if (!is_array($valField)) $valField = array($valField);
+            $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
+
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
             $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
-            if (!$aGroups[$grupo]) 
+            if (!$aGroups[$grupo])
                 throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
-            
-            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
-                throw new MissingValueFormBuilderException($ns, "El camp \'$keyField\' és obligatori i no té valor");
+
+//            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
+//                throw new MissingValueFormBuilderException($ns, "El camp \'$keyField\' és obligatori i no té valor");
 
             //Se establecen los atributos del campo
             if ($arrValues['n_columns'])
@@ -135,15 +157,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $columns = $arrValues['struc_chars'] / $view['definition']['chars_column'];
             else
                 $columns = $view['definition']['n_columns'];
-            
+
             if (!$arrValues['struc_rows'])
                 $arrValues['struc_rows'] = 1;
-            
+
             $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
-            
+
             $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
                 ->setId($arrValues['id'])
                 ->setLabel(($label != NULL) ? $label : $keyField)
+                ->setType(($arrValues['type']) ? $arrValues['type'] : "text")
+                ->addProps($arrValues['props'])
                 ->setColumns($columns)
                 ->setValue($arrValues['value'])
             );
@@ -153,5 +177,24 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     ->build();
         return $form;
     }
-    
+
+    /**
+     * Aplana la estructura del array que contine "estructura con datos"
+     */
+    protected function flatStructure($structure) {
+        $flat = [];
+        foreach ($structure as $key => $item) {
+            if (!is_array($item['value'])) {
+                //se conserva íntegramente
+                $flat[$item['id']] = $item;
+            }elseif ($item['value']==NULL) {
+                //'value' contiene un array vacío. se conserva íntegramente
+                $flat[$item['id']] = $item;
+            }else {
+                $tmp = $this->flatStructure($item['value']);
+                $flat = array_merge($flat, $tmp);
+            }
+        }
+        return $flat;
+    }
 }

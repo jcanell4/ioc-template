@@ -1,20 +1,16 @@
 <?php
-
 /**
- * Description of WikiIocResponseHandler
- *
+ * Description of LoginResponseHandler
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
-
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
-if(!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
 
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php');
-require_once(DOKU_COMMAND . 'requestparams/ResponseParameterKeys.php');
+require_once(DOKU_PLUGIN . 'ajaxcommand/defkeys/ResponseParameterKeys.php');
 
 class LoginResponseHandler extends WikiIocResponseHandler {
 
@@ -70,15 +66,15 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array (
-                                            'p' => 
+                                            'p' =>
                                             array (
                                               'urlBase' => 'lib/plugins/ajaxcommand/ajax.php?call=project',
-                                              'params' => 
+                                              'params' =>
                                               array (
                                                 0 => 'projectType',
                                               ),
                                             ),
-                                          ),                
+                                          ),
                 );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                 $contentParams,
@@ -111,7 +107,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         } else if (!$responseData['loginRequest'] && !$responseData['loginResult']) {
             $info['type'] = 'info';
-            //$info['message'] = $lang['user_logout'];             
+            //$info['message'] = $lang['user_logout'];
             $info['message'] = 'Usuari desconnectat';
 //             $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
 //                                                   cfgIdConstants::TB_ADMIN);

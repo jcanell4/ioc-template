@@ -65,20 +65,12 @@ require([
         }
         var updateHandler = new UpdateViewHandler();
 
-
-
-
-
         updateHandler.update = function () {
-
             var disp = wikiIocDispatcher;
             var cur = disp.getGlobalState().currentTabId;
-
             if (cur) {
                 style.set(cur, "overflow", "auto");
             }
-
-
             disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
@@ -112,9 +104,9 @@ require([
                 // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
-                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] ||
-                    disp.getGlobalState().permissions['ismanager'] ||
-                    disp.getGlobalState().permissions['isprojectmanager']);
+                    new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
+                                          disp.getGlobalState().permissions['ismanager'] ||
+                                          disp.getGlobalState().permissions['isprojectmanager']);
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
@@ -126,7 +118,6 @@ require([
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
                         selectedSection = disp.getGlobalState().getCurrentElement(),
                         isRevision;
-
 
                     if (page.action === 'view') {
 
@@ -162,7 +153,7 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     } else if (page.action === 'edit') {
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
-                            || disp.getContentCache(cur).getMainContentTool().readonly;
+                                    || disp.getContentCache(cur).getMainContentTool().readonly;
 
                         isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
 
@@ -172,7 +163,6 @@ require([
 
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
-
 
                         if (cur) {
                             style.set(cur, "overflow", "hidden");
@@ -402,8 +392,8 @@ require([
                         if (np === length) {
                             if (state.info) {
                                 wikiIocDispatcher.processResponse({
-                                    "type": "info"
-                                    , "value": state.info
+                                     "type": "info"
+                                    ,"value": state.info
                                 });
                             }
 
@@ -484,9 +474,6 @@ require([
         });
 
         var eventName = wikiIocDispatcher.getEventManager().eventName;
-
-
-
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
         new RequestControl(eventName.LOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
