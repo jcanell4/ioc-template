@@ -36,6 +36,8 @@ class CancelResponseHandler extends PageResponseHandler {
         if ($responseData["close"]) {
             $params = $responseData["close"];
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
+        }else{
+            $ajaxCmdResponseGenerator->addContenttoolTimerStop($responseData['structure']['id']);
         }
     }
 }
