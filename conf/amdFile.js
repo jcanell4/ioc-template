@@ -1,6 +1,7 @@
 require([
 "dijit/registry"
 ], function (registry) {
+/*
 var loginCancelButton = registry.byId('loginDialog' + '_CancelButton');
 if (loginCancelButton) {
 loginCancelButton.on('click', function () {
@@ -8,16 +9,19 @@ var bt = registry.byId('loginButton');
 bt.closeDropDown(false);
 });
 }
+*/
 });
 require([
 "dijit/registry"
 ], function (registry) {
+/*
 var loginDialog = registry.byId('loginDialog');
 if (loginDialog) {
 loginDialog.on('hide', function () {
 loginDialog.reset();
 });
 }
+*/
 });
 require([
 "dijit/registry"

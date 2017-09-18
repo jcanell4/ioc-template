@@ -1,3 +1,4 @@
+/*
 //include dijit/registry; alias registry
 
 var loginCancelButton = registry.byId('cfgIdConstants::LOGIN_DIALOG' + '_CancelButton');
@@ -7,3 +8,4 @@ if (loginCancelButton) {
         bt.closeDropDown(false);
     });
 }
+*/
