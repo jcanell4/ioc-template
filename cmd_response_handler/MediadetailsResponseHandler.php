@@ -5,10 +5,12 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once(tpl_incdir() . 'conf/cfgIdConstants.php');
-require_once DOKU_PLUGIN."ajaxcommand/requestparams/MediaKeys.php";
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+require_once DOKU_PLUGIN . "ajaxcommand/JsonGenerator.php";
+require_once DOKU_PLUGIN . "ajaxcommand/defkeys/MediaKeys.php";
 
 class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
@@ -23,7 +25,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             $this->_responseDetail($requestParams, $responseData, $ajaxCmdResponseGenerator);
         }
     }
-    
+
     private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator){
         if ($responseData["result"] & 1){
             $ajaxCmdResponseGenerator->addMediaDetails("", "", "delete", $requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
@@ -69,7 +71,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
                 'ns' => $responseData['ns'],
                 'content' => $this->getModelWrapper()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
             );
-                        
+
             // File Upload
             $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
             $metaDataFileUpload['ns'] = $responseData['ns'];
@@ -90,14 +92,14 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             $patrones[6] = '/dw__ow/';
             $sustituciones = array();
             $sustituciones[0] = 'type="text" readonly ';
-            $sustituciones[1] = 'label for="upload__name" style="display:none" ';                              
-            $sustituciones[2] = 'label class="check" style="display:none" ';                              
-            $sustituciones[3] = 'dw__upload_'.$responseData['id'];         
-            $sustituciones[4] = 'upload__file_'.$responseData['id'];         
-            $sustituciones[5] = 'upload__name_'.$responseData['id'];         
+            $sustituciones[1] = 'label for="upload__name" style="display:none" ';
+            $sustituciones[2] = 'label class="check" style="display:none" ';
+            $sustituciones[3] = 'dw__upload_'.$responseData['id'];
+            $sustituciones[4] = 'upload__file_'.$responseData['id'];
+            $sustituciones[5] = 'upload__name_'.$responseData['id'];
             $sustituciones[6] = 'dw__ow_'.$responseData['id'];
-            $metaDataFileUpload['content'] = preg_replace($patrones, $sustituciones, $metaDataFileUpload['content']);  
-            
+            $metaDataFileUpload['content'] = preg_replace($patrones, $sustituciones, $metaDataFileUpload['content']);
+
             $metaAgrupa = array(
                 "0" => $propLlista,
                 "1" => $metaDataFileUpload

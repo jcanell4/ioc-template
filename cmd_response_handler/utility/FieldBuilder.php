@@ -1,9 +1,10 @@
 <?php
-require_once(tpl_incdir() . 'cmd_response_handler/utility/AbstractFormBuilder.php');
-
 /**
  * Construeix un array amb els atributs d'un camp del formulari
  */
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/AbstractFormBuilder.php");
+
 class FieldBuilder extends AbstractFormBuilder {
 
     //private $id;        // igual a 'name' si no s'especifica altra cosa
@@ -15,7 +16,7 @@ class FieldBuilder extends AbstractFormBuilder {
     private $props = [];
     private $options = [];
 
-    public function __construct($id=NULL, $label='', $type='text', $name=NULL, $columns=12, $priority=0) {
+    public function __construct($id=NULL, $label="", $type="text", $name=NULL, $columns=12, $priority=0) {
         $this->setId($id)
             ->setLabel($label)
             ->setType($type)
@@ -26,7 +27,7 @@ class FieldBuilder extends AbstractFormBuilder {
 
     public function build() {
         if (!($this->name && $this->id && $this->type)) {
-            throw new Exception();
+            throw new Exception("Exception in FieldBuilder->build()<br> [ ! (\$this->name && \$this->id && \$this->type) ]<br>- \$this->name='$this->name'<br>- \$this->id='$this->id'<br>- \$this->type='$this->type'", 9999);
         }
 
         $field['id'] = $this->id;
@@ -36,12 +37,9 @@ class FieldBuilder extends AbstractFormBuilder {
         $field['label'] = $this->label;
         $field['columns'] = $this->columns;
         $field['priority'] = $this->priority;
-        $field['props'] = $this->props;
         $field['value'] = $this->value;
-
-        if (count($this->options) > 0) {
-            $field['options'] = $this->options;
-        }
+        if (count($this->props) > 0) $field['props'] = $this->props;
+        if (count($this->options) > 0) $field['options'] = $this->options;
 
         return $field;
     }
@@ -62,16 +60,20 @@ class FieldBuilder extends AbstractFormBuilder {
 
     public function setLabel($label) {
         $this->label = $label;
+
+        if (!$this->id && $label)
+            $this->setId($label);
+        
         return $this;
     }
 
     public function setName($name) {
         $this->name = $name;
 
-        if (!$this->id && $name) 
+        if (!$this->id && $name)
             $this->setId($name);
 
-        if (!$this->label && $name) 
+        if (!$this->label && $name)
             $this->setLabel($name);
 
         return $this;
@@ -94,7 +96,6 @@ class FieldBuilder extends AbstractFormBuilder {
         foreach ($props as $key => $value) {
             $this->addProp($key, $value);
         }
-
         return $this;
     }
 
@@ -105,7 +106,7 @@ class FieldBuilder extends AbstractFormBuilder {
 
     public function addOption($value, $description, $selected = false) {
         if ($this->type != 'select') {
-            throw new Exception();
+            throw new Exception("Exception in FieldBuilder->addOption()<br> [ \$this->type != 'select' ]<br>- \$this->type='$this->type'", 9999);
         }
 
         $option['value'] = $value;

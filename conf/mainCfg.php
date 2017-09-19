@@ -17,7 +17,7 @@ class WikiIocCfg {
     private $arrCfgGUI;
     private $strAmdGUI;
     private $generator;
-    
+
     public function getArrayIocCfg() {
         global $conf;
         $this->fileArrayCfgGUI = $conf["ioc_file_cfg_gui"];
@@ -41,22 +41,22 @@ class WikiIocCfg {
         unset($this->generator);
         return array('arrCfg' => $this->arrCfgGUI, 'amd' => $this->strAmdGUI);
     }
-    
+
     private function processAddScripts(){
         $evt = new Doku_Event("ADD_TPL_CONTROL_SCRIPTS", $this->generator);
         $evt->trigger();
         unset($evt);
-        $this->addScripts();        
+        $this->addScripts();
     }
-    
+
     private function processAddTplControls(){
         $evt = new Doku_Event("ADD_TPL_CONTROLS", $this->generator);
         $evt->trigger();
         unset($evt);
-        $this->addControls();        
+        $this->addControls();
     }
-    
-    
+
+
     private function addScripts(){
         $toAdd = $this->generator->getControlScripts();
         if ($toAdd) {
@@ -66,7 +66,7 @@ class WikiIocCfg {
             }
         }
     }
-    
+
     private function addControls(){
         $path = split("/", cfgIdConstants::WIKI_IOC_BUTTON_PATH);
         $root = &$this->arrCfgGUI;
@@ -77,7 +77,7 @@ class WikiIocCfg {
                 $root=&$root[$dir]["items"];
             }
         }
-        
+
         $toAdd = $this->generator->getWikiIocButtonControls();
         if ($toAdd) {
             foreach ($toAdd as $value) {
@@ -96,7 +96,7 @@ class WikiIocCfg {
         $this->arrCfgGUI = $inst->writeArrayToFile($arrIocCfg['arrCfg'], $this->fileArrayCfgGUI);
         $this->strAmdGUI = $inst->writeAMDToFile($arrIocCfg['amd'], $this->fileArrayAmdGUI);
     }
-    
+
     /* SINGLETON CLASS */
     public static function Instance(){
         static $inst = null;

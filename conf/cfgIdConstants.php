@@ -1,4 +1,5 @@
 <?php
+require_once (DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/GlobalKeys.php');
 
 class cfgIdConstants
 {
@@ -23,6 +24,7 @@ class cfgIdConstants
     const USER_DIALOG = "userDialog";
     const USER_MENU_ITEM = "userMenuItem";
     const SHORTCUTS_MENU_ITEM = "shortcutsMenuItem";
+    const TEMPLATE_SHORTCUTS_NS = GlobalKeys::TEMPLATE_SHORTCUTS_NS;
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
     const NOTIFIER_BUTTON_INBOX = "notifierButtonInbox";
@@ -118,10 +120,10 @@ class cfgIdConstants
     const TALKUSER_MENUITEM   = "talkUserMenuItem"; //cambiada por TALK_USER_MENU_ITEM
     const LOGOFF_MENUITEM     = "logoffMenuItem";   //cambiada por LOGOFF_MENU_ITEM
     */
-    
+
     //Constant de tipus de projecte
     const PROJECT_TYPE = 'projectType';
-    
+
     public function getConstantsIds()
     {
         global $js_packages;

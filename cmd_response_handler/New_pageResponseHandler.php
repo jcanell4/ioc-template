@@ -1,18 +1,17 @@
 <?php
-
 /**
  * Description of New_pageResponseHandler
- *
  * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com>
  */
-
 if (!defined("DOKU_INC")) die();
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
-require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
-require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/PageKeys.php');
-require_once(DOKU_PLUGIN.'ajaxcommand/requestparams/ResponseParameterKeys.php');
-require_once(tpl_incdir().'conf/cfgIdConstants.php');
+if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_INC . "lib/plugins/ajaxcommand/");
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
+require_once(DOKU_TPL_INCDIR.'cmd_response_handler/PageResponseHandler.php');
+require_once(DOKU_TPL_INCDIR.'conf/cfgIdConstants.php');
+require_once(DOKU_COMMAND.'JsonGenerator.php');
+require_once(DOKU_COMMAND.'defkeys/PageKeys.php');
+require_once(DOKU_COMMAND.'defkeys/ResponseParameterKeys.php');
 
 
 class New_pageResponseHandler extends PageResponseHandler
@@ -30,7 +29,7 @@ class New_pageResponseHandler extends PageResponseHandler
              $this->shortcutsResponse($this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client")), $ajaxCmdResponseGenerator);
          }
     }
-    
+
     private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
         $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
@@ -44,21 +43,21 @@ class New_pageResponseHandler extends PageResponseHandler
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array (
-                                    'p' => 
+                                    'p' =>
                                     array (
                                       'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
-                                      'params' => 
+                                      'params' =>
                                       array (
                                         0 => 'projectType',
                                       ),
                                     ),
-                                  ),                
+                                  ),
         );
         $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                             $params,
                             ResponseParameterKeys::FIRST_POSITION,
                             TRUE,
-                            $containerClass);        
+                            $containerClass);
     }
 
 }

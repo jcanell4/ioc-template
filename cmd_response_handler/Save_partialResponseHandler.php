@@ -51,21 +51,11 @@ class Save_partialResponseHandler extends PageResponseHandler
                 "ioc/dokuwiki/processSetFormsDate",
                 $params);
 
-            if ($responseData['lockInfo']) {
+            if($responseData['lockInfo']){
                 $timeout = ExpiringCalc::getExpiringTime($responseData);
 
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }
-
-
-//        } else if ($responseData["code"] === "cancel_document") {
-//            $params = [
-//                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
-//                "params" => $responseData["cancel_params"]
-//            ];
-
-//            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
-
 
 
         } else {
@@ -76,7 +66,6 @@ class Save_partialResponseHandler extends PageResponseHandler
             parent::response($requestParams, $responseData["page"],
                 $ajaxCmdResponseGenerator);
         }
-
 
 
         // Actualització de les metas, info i les revisions

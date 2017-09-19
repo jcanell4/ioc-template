@@ -4,7 +4,6 @@
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
-
 if (!defined("DOKU_INC")) die();
 require_once(DOKU_INC . 'lib/plugins/ownInit/WikiGlobalConfig.php');
 
@@ -22,15 +21,16 @@ function _tplIncDir(){
 if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
+require_once(DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
+    const K_PROJECTTYPE = ProjectKeys::KEY_PROJECT_TYPE;
+
     function __construct($cmd) {
         parent::__construct($cmd);
     }
 
-    private function _getDataEvent(&$ajaxCmdResponseGenerator,
-                                    $requestParams=NULL,
-                                    $responseData=NULL){
+    private function _getDataEvent(&$ajaxCmdResponseGenerator, $requestParams=NULL, $responseData=NULL){
         $ret = array(
             "command" => $this->getCommandName(),
             "requestParams" => $requestParams,
@@ -40,12 +40,8 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         return $ret;
     }
 
-    protected function postResponse($requestParams,
-                                        $responseData,
-                                        &$ajaxCmdResponseGenerator) {
-        $data = $this->_getDataEvent($ajaxCmdResponseGenerator,
-                                        $requestParams,
-                                        $responseData);
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        $data = $this->_getDataEvent($ajaxCmdResponseGenerator, $requestParams, $responseData);
         $evt = new Doku_Event("WIOC_PROCESS_RESPONSE", $data);
         $evt->advise_after();
         unset($evt);
@@ -53,6 +49,11 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $evt->advise_after();
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
+        if ($requestParams[self::K_PROJECTTYPE]) {
+            if (!$responseData['projectExtraData'][self::K_PROJECTTYPE]) { //es una página de un proyecto
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], self::K_PROJECTTYPE, $requestParams[self::K_PROJECTTYPE]);
+            }
+        }
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
@@ -80,68 +81,49 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 //        $value["summaryId"] = "edit__summary";
     }
 
-
   /**
-   * Afegeix al paràmetre $value els selectors css que es
-   * fan servir per seleccionar els forms al html del pluguin ACL
-   *
+   * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin ACL
    * @param array $value - array de paràmetres
-   *
    */
     protected function getAclSelectors(&$value){
         $this->getModelWrapper()->getAclSelectors($value);
     }
 
   /**
-   * Afegeix al paràmetre $value els selectors css que es
-   * fan servir per seleccionar els forms al html del pluguin PLUGIN
-   *
+   * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin PLUGIN
    * @param array $value - array de paràmetres
-   *
    */
     protected function getPluginSelectors(&$value){
         $this->getModelWrapper()->getPluginSelectors($value);
     }
 
    /**
-    * Afegeix al paràmetre $value els selectors css que es
-    * fan servir per seleccionar els forms al html del pluguin PLUGIN
-    *
+    * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin PLUGIN
     * @param array $value - array de paràmetres
-    *
     */
      protected function getConfigSelectors(&$value){
          $this->getModelWrapper()->getConfigSelectors($value);
      }
 
    /**
-    * Afegeix al paràmetre $value els selectors css que es
-    * fan servir per seleccionar els forms al html del pluguin USERMANAGER
-    *
+    * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin USERMANAGER
     * @param array $value - array de paràmetres
-    *
     */
      protected function getUserManagerSelectors(&$value){
          $this->getModelWrapper()->getUserManagerSelectors($value);
      }
 
    /**
-    * Afegeix al paràmetre $value els selectors css que es
-    * fan servir per seleccionar els forms al html del pluguin REVERT
-    *
+    * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin REVERT
     * @param array $value - array de paràmetres
-    *
     */
      protected function getRevertSelectors(&$value){
          $this->getModelWrapper()->getRevertSelectors($value);
      }
 
    /**
-    * Afegeix al paràmetre $value els selectors css que es
-    * fan servir per seleccionar els forms al html del pluguin LATEX
-    *
+    * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin LATEX
     * @param array $value - array de paràmetres
-    *
     */
      protected function getLatexSelectors(&$value){
          $this->getModelWrapper()->getLatexSelectors($value);

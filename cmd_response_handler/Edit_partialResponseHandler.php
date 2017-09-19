@@ -250,9 +250,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
     protected function generateRequiringDialogParams($requestParams, $responseData)
     {
-
-
-
         $timer = $this->generateRequiringDialogTimer($requestParams, $responseData);
 
         $params = [

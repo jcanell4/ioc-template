@@ -21,7 +21,7 @@ class ControlTplGenerator {
     const defaultClass = "WikiIocButton";
 
     private $controls;
-    
+
     public function addControlScript($scriptPath, $aReplacements=NULL){
         if(!file_exists($scriptPath)){
             throw new FileScriptNotFoundException($scriptPath);
@@ -30,7 +30,7 @@ class ControlTplGenerator {
         if($aReplacements){
             $textScript = str_replace($aReplacements["search"], $aReplacements["replace"], $textScript);
         }
-        $this->controls["controlScript"][]=$textScript;        
+        $this->controls["controlScript"][]=$textScript;
     }
 
     public function addWikiIocButton($class, $params, $name=NULL){
@@ -41,19 +41,19 @@ class ControlTplGenerator {
         }
         
         $this->checkParams($params);
-        if(!$name){
+        if (!$name){
             $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
-            if(empty($name)){
+            if (empty($name)){
                 throw new RequiredParamNotFoundException("id");
             }
         }
         $this->controls["IocButtonControls"][] = array("name" => $name, "class" => $class, "parms" => $params);
     }
-    
+
     public function getControlScripts(){
         return $this->controls["controlScript"];
     }
-    
+
     public function getWikiIocButtonControls(){
         return $this->controls["IocButtonControls"];
     }
@@ -87,13 +87,13 @@ class ControlTplGenerator {
             }
         }else{
             $atype=array($type);
-            $akey=array($key);            
+            $akey=array($key);
         }
-        
+
         $ret="";
         for($i=0; empty($ret) && $i<sizeof($atype); $i++){
             if(in_array($akey[$i], array_keys($params[$atype[$i]]))){
-                $ret = $params[$atype[$i]][$akey[$i]];        
+                $ret = $params[$atype[$i]][$akey[$i]];
             }
         }
         return $ret;

@@ -31,8 +31,8 @@ class DiffResponseHandler extends WikiIocResponseHandler {
 		                                       $responseData['title'],
 		                                       $responseData['content'],
 		                                       $responseData['type'],
-            									$responseData['rev1'],
-												$responseData['rev2']
+                                                       $responseData['rev1'],
+                                                       $responseData['rev2']
 
 		);
 
