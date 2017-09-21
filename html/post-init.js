@@ -528,6 +528,8 @@ require([
 
 
 
+        var draftManager = wikiIocDispatcher.getDraftManager();
+        draftManager.compactDrafts();
 
     });
 });
