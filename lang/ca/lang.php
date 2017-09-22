@@ -121,7 +121,7 @@ $lang['switch_diff_mode'] = 'Canvia mode';
 $lang['draft_editing'] = "S\'està editant un esborrany, no el document actual.";
 $lang['local_draft_editing'] = "S\'està editant un esborrany local, no el document actual.";
 $lang['draft_found'] = "S\'ha trobat un esborrany complet del document.";
-$lang['partial_draft_found'] = "S\'ha trobat un esborrany complet del document.";
+$lang['partial_draft_found'] = "S\'ha trobat un esborrany parcial del document.";
 
 $lang['expiring_dialog_title'] = "Temps excedit sense editar el document";
 $lang['expiring_dialog_message'] = "Heu exhaurit el temps màxim d'inactivitat, editant un document. Si voleu continuar editant, és necessari que guardeu els canvis, prement el botó guardar. Si NO desitgeu mantenir els canvis, cancel·leu l'edició. La cancel·lació restaurarà el document a la darrera versió guardada i eliminarà qualsevol esborrany que s'hagi generat.";
