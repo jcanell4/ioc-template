@@ -37,7 +37,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-
+            
         if (isset($responseData['show_draft_conflict_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
 
             $this->addDraftConflictDialogResponse($responseData, $ajaxCmdResponseGenerator);
