@@ -154,3 +154,5 @@ $lang['notifier_initialized'] = 'Notificador inicialitzat correctament';
 $lang['notifier_send_message'] = 'S\'ha enviat un missatge mitjançant el notificador';
 $lang['notifier_pop_messaged'] = 'S\'han recuperat missatges del notificador';
 $lang['notifier_closed'] = 'S\'ha tancat el notificador';
+
+$lang["metadata_export_title"]="Propietats exportació";
