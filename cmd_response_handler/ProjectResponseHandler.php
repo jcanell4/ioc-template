@@ -18,7 +18,7 @@ require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModel
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct(WikiIocResponseHandler::PAGE);
+        parent::__construct(WikiIocResponseHandler::PROJECT);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
