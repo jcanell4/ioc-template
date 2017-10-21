@@ -41,7 +41,7 @@ class directRequest {
                             "\t'dojo/domReady!'\n".
                         "], function (globalState, getDispatcher) {\n".
                                 "\tvar wikiIocDispatcher = getDispatcher();\n".
-                                "\twikiIocDispatcher.requestedState = globalState.newInstance(". $queryEncoded . ");\n".
+                                "\twikiIocDispatcher.setRequestedState(globalState.newInstance(". $queryEncoded . "));\n".
                             "}\n".
                         ");\n".
                         "</script>\n";

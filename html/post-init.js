@@ -41,19 +41,7 @@ require([
     };
 
 
-    // ALERTA[Xavi] En fer la reescriptura de l'URL es produeix un error de dojo relacionat amb el Dijit.Tree (no sempre, segurament relacionat amb el temps de resposta de les crides AJAX)
-    var removeParamsFromURL = function () {
-        if (window.location.href.indexOf('?') === -1) {
-            return;
-        }
-
-        var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
-        var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
-        window.history.pushState(null, null, newURL);
-    };
-
     var paramId = getParameterByName("id");
-    removeParamsFromURL(); //ALERTA[Xavi] Provoca un error
 
 
     //declaració de funcions
@@ -444,18 +432,6 @@ require([
             wikiIocDispatcher.getGlobalState().setCurrentNavigationId(currentNavigationPaneId);
         }
 
-        // cercar l'estat
-        if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
-            var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
-            var extraState = wikiIocDispatcher.requestedState;
-
-            wikiIocDispatcher.reloadFromState(state);
-            if (extraState)
-                wikiIocDispatcher.reloadFromState(extraState);
-        }
-
-        wikiIocDispatcher.updateFromState();
-
         var container = registry.byId(wikiIocDispatcher.metaInfoNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
@@ -530,6 +506,30 @@ require([
 
         var draftManager = wikiIocDispatcher.getDraftManager();
         draftManager.compactDrafts();
+        
+        var removeParamsFromURL = function () {
+            if (window.location.href.indexOf('?') === -1) {
+                return;
+            }
+
+            var domainPos = window.location.href.indexOf('/', window.location.href.indexOf('//')+2);
+            var newURL =  window.location.href.substring(domainPos, window.location.href.lastIndexOf('?'));
+            window.history.pushState(null, null, newURL);
+        };
+        
+        // cercar l'estat
+        if (typeof(Storage) !== "undefined" && sessionStorage.globalState) {
+            var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
+            var extraState = wikiIocDispatcher.getRequestedState();
+
+            wikiIocDispatcher.reloadFromState(state);
+            if (extraState)
+                wikiIocDispatcher.reloadFromState(extraState);
+            
+            removeParamsFromURL();
+        }
+
+        wikiIocDispatcher.updateFromState();        
 
     });
 });
