@@ -67,10 +67,6 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         return $ret;
     }
 
-    protected function getJsInfo(){
-        return $this->getModelWrapper()->getJsInfo();
-    }
-
     protected function getToolbarIds(&$value){
         $this->getModelWrapper()->getToolbarIds($value);
 //        $value["varName"] = "toolbar";
