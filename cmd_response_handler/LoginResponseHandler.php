@@ -27,7 +27,14 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addLoginInfo($responseData["loginRequest"],
                                                 $responseData['loginResult'],
                                                 $responseData['userId']);
+
+        if ($responseData['user_state']) {
+            $ajaxCmdResponseGenerator->addUserState($responseData['user_state']);
+        }
+
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
+
+
 
         if($responseData["loginResult"]){
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
