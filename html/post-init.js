@@ -244,7 +244,7 @@ require([
 
             // Recarreguem l'estat de l'usuari
             if (state.userState) {
-                console.log("detectat estat d'usuari", state.userState);
+                // console.log("detectat estat d'usuari", state.userState);
                 wikiIocDispatcher.getGlobalState().userState = state.userState;
 
             }
