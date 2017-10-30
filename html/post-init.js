@@ -199,6 +199,7 @@ require([
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
             });
+
         };
 
 
@@ -235,13 +236,19 @@ require([
         }
 
 
-
-
         // Objecte que gestiona el refresc de la pàgina
         var reloadStateHandler = new ReloadStateHandler(function (state) {
 
             //actualitza l'estat a partir de les dades emmagatzemades en local
             // relogin();
+
+            // Recarreguem l'estat de l'usuari
+            if (state.userState) {
+                // console.log("detectat estat d'usuari", state.userState);
+                wikiIocDispatcher.getGlobalState().userState = state.userState;
+
+            }
+
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state.getCurrentNavigationId();
@@ -298,6 +305,8 @@ require([
 
 
             // Comprovem si s'ha seguit un enllaç (param id a l'URL)
+
+
 
 
             if (state.pages) {
