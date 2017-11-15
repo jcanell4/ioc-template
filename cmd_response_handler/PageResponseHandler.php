@@ -36,7 +36,7 @@ class PageResponseHandler extends WikiIocResponseHandler
 
         //ALERTA[Xavi] En obrir el fitxer s'actualitzen els esborranys locals
         if ($responseData['drafts']) {
-            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($responseData['drafts']);
+            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($responseData['structure']['ns'], $responseData['drafts']);
         }
 
 
