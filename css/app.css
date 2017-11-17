@@ -591,5 +591,9 @@ span.arrow-icon {
 	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
 }
 
-.dijitIocIconComments { background-position: 0; }
+.dijitIocIconIocComment { background-position: 0; }
 .dijitIocIconIocSound { background-position: -18px; }
+.dijitIocIconIocBack { background-position: -36px; }
+.dijitIocIconIocSave { background-position: -54px; }
+.dijitIocIconIocDocumentPreview { background-position: -72px; }
+

@@ -30,6 +30,16 @@ class PageResponseHandler extends WikiIocResponseHandler
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
+
+        // TEST!
+//        $responseData['drafts'] = ['TODO: enviar els drafts per processar-los!'];
+
+        //ALERTA[Xavi] En obrir el fitxer s'actualitzen els esborranys locals
+        if ($responseData['drafts']) {
+            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($responseData['structure']['ns'], $responseData['drafts']);
+        }
+
+
         $autosaveTimer = NULL;
         if(WikiGlobalConfig::getConf("autosaveTimer")){
             $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
