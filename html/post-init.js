@@ -194,7 +194,7 @@ require([
         var relogin = function (userId) {
 
             var requestLogin = new Request();
-            requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + userId;
+            requestLogin.urlBase = "ajax.php?call=login&do=relogin&userId=" + userId;
             requestLogin.sendRequest().then(function() {
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
@@ -216,7 +216,7 @@ require([
                 // Ara no està logejat però abans si ho estava
             } else if (!newState.login && oldState.login) {
                 request = new Request();
-                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
+                request.urlBase = "ajax.php?call=login&do=logoff";
                 request.sendRequest();
 
             }
@@ -274,7 +274,7 @@ require([
             //     // Add admin_tab to the Navigation container
             //     if (state.permissions['isadmin'] | state.permissions['ismanager']) {
             //         var requestTabContent = new Request();
-            //         requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
+            //         requestTabContent.urlBase = "ajax.php?call=admin_tab";
             //         requestTabContent.sendRequest();
             //     }
             // }
@@ -283,7 +283,7 @@ require([
             // Add shortcut_tab
             // if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
             //     var requestTabContent = new Request();
-            //     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
+            //     requestTabContent.urlBase = "ajax.php?call=shortcuts_tab&user_id="+state.userId;
             //     requestTabContent.sendRequest();
             // }
 
@@ -314,7 +314,7 @@ require([
                 var np = 0;
                 var length = state.pagesLength();
                 var requestState = new Request();
-                requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php";
+                requestState.urlBase = "ajax.php";
 
                 var infoManager = wikiIocDispatcher.getInfoManager();
                 if (length === 0) {
@@ -461,27 +461,27 @@ require([
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
-        new RequestControl(eventName.LOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
-        new RequestControl(eventName.UNLOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
-        new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
+        new RequestControl(eventName.LOCK_DOCUMENT, 'ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
+        new RequestControl(eventName.UNLOCK_DOCUMENT, 'ajax.php?call=unlock', false);
+        new RequestControl(eventName.CANCEL_DOCUMENT, 'ajax.php?call=cancel', false, true);
 
-        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false, true);
-        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
-        new RequestControl(eventName.SAVE_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true, true);
-        new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial&do=save_all', true, true);
+        new RequestControl(eventName.CANCEL_PARTIAL, 'ajax.php?call=cancel_partial', false, true);
+        new RequestControl(eventName.EDIT_PARTIAL, 'ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.SAVE_PARTIAL, 'ajax.php?call=save_partial', true, true);
+        new RequestControl(eventName.SAVE_PARTIAL_ALL, 'ajax.php?call=save_partial&do=save_all', true, true);
 
-        new RequestControl(eventName.CANCEL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
-        new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true, true, getValidator('CanRevert'));
-        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.CANCEL, 'ajax.php?call=cancel', false, true);
+        new RequestControl(eventName.SAVE, 'ajax.php?call=save', true, true, getValidator('CanRevert'));
+        new RequestControl(eventName.EDIT, 'ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
 
-        new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true, true);
+        new RequestControl(eventName.SAVE_FORM, 'ajax.php?call=project&do=save', true, true);
 
-        new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=save', true);
-        new RequestControl(eventName.REMOVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=remove', true);
+        new RequestControl(eventName.SAVE_DRAFT, 'ajax.php?call=draft&do=save', true);
+        new RequestControl(eventName.REMOVE_DRAFT, 'ajax.php?call=draft&do=remove', true);
 
-        new RequestControl(eventName.NOTIFY, 'lib/plugins/ajaxcommand/ajax.php?call=notify', true);
+        new RequestControl(eventName.NOTIFY, 'ajax.php?call=notify', true);
 
-        new RequestControl(eventName.MEDIA_DETAIL, 'lib/plugins/ajaxcommand/ajax.php?call=mediadetails', true);
+        new RequestControl(eventName.MEDIA_DETAIL, 'ajax.php?call=mediadetails', true);
 
 
         // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions

@@ -9,7 +9,6 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-require_once DOKU_PLUGIN . "ajaxcommand/JsonGenerator.php";
 require_once DOKU_PLUGIN . "ajaxcommand/defkeys/MediaKeys.php";
 
 class MediadetailsResponseHandler extends WikiIocResponseHandler {
@@ -28,7 +27,14 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
     private function _responseDelete($requestParams, $responseData, &$ajaxCmdResponseGenerator){
         if ($responseData["result"] & 1){
-            $ajaxCmdResponseGenerator->addMediaDetails("", "", "delete", $requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+            $ajaxCmdResponseGenerator->addMediaDetails( "",
+                                                        "",
+                                                        MediaKeys::KEY_DELETE,
+                                                        $requestParams[MediaKeys::KEY_DELETE],
+                                                        $responseData['ns'],
+                                                        $requestParams['title'],
+                                                        $responseData['content']
+                                                    );
             $info = array(
                         'id' => "media",
                         'duration' => -1,
@@ -37,10 +43,11 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
                         'message' => $responseData["info"]
                     );
             $ajaxCmdResponseGenerator->addInfoDta($info);
+
         }else {
             $ajaxCmdResponseGenerator->addAlert($responseData["info"]);
             $info = array(
-                        'id' => $requestParams['delete'],
+                        'id' => $requestParams[MediaKeys::KEY_DELETE],
                         'duration' => -1,
                         'timestamp' => date('d-m-Y H:i:s'),
                         'type' => "error",
@@ -59,8 +66,8 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
         if($requestParams['difftype']){
             $difftype = $requestParams['difftype'];
         }
-        if ($requestParams['delete']) {
-            $ajaxCmdResponseGenerator->addMediaDetails($difftype, $mediado, "delete", $requestParams['delete'], $responseData['ns'], $requestParams['title'], $responseData['content']);
+        if ($requestParams[MediaKeys::KEY_DELETE]) {
+            $ajaxCmdResponseGenerator->addMediaDetails($difftype, $mediado, MediaKeys::KEY_DELETE, $requestParams[MediaKeys::KEY_DELETE], $responseData['ns'], $requestParams['title'], $responseData['content']);
         } else {
             $ajaxCmdResponseGenerator->addMediaDetails($difftype, $mediado, "details", $responseData['id'], $responseData['ns'], $responseData['title'], $responseData['content']);
 
@@ -115,14 +122,6 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             }else{
                 $info['message'] = ' &nbsp;Imatge ' . $responseData['id'] . ' carregada.';
             }
-            /* Esto ya no es necesario, el error se controla antes, en DokuModelAdapter.php->getMediaDetails()
-             * global $JUMPTO;
-             * if (isset($JUMPTO)) {
-             *     if ($JUMPTO == false) {
-             *         $info['type'] = 'error';
-             *         $info['message'] = "El fitxer no s'ha pogut carregar.";
-             *     }
-             * }*/
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
     }

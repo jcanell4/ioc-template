@@ -9,8 +9,6 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-require_once DOKU_PLUGIN."ajaxcommand/JsonGenerator.php";
-require_once DOKU_PLUGIN."ajaxcommand/AjaxCmdResponseGenerator.php";
 require_once DOKU_PLUGIN."ajaxcommand/defkeys/MediaKeys.php";
 require_once DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php";
 
@@ -38,25 +36,21 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
     private function _responseUpload($requestParams, $responseData, &$ajaxCmdResponseGenerator, $preserveMetaData){
         /*
-         *       0 = OK
-     *      -1 = UNAUTHORIZED
-     *      -2 = OVER_WRITING_NOT_ALLOWED
-     *      -3 = OVER_WRITING_UNAUTHORIZED
-     *      -5 = FAILS
-     *      -4 = WRONG_PARAMS
-     *      -6 = BAD_CONTENT
-     *      -7 = SPAM_CONTENT
-     *      -8 = XSS_CONTENT
-         *
+         *  0 = OK
+         * -1 = UNAUTHORIZED
+         * -2 = OVER_WRITING_NOT_ALLOWED
+         * -3 = OVER_WRITING_UNAUTHORIZED
+         * -5 = FAILS
+         * -4 = WRONG_PARAMS
+         * -6 = BAD_CONTENT
+         * -7 = SPAM_CONTENT
+         * -8 = XSS_CONTENT
          */
         if($responseData["resultCode"] === 0 ){
             $ajaxCmdResponseGenerator->addMedia("media",
                                                 $responseData['ns'],
                                                 $responseData['title'],
                                                 $responseData['content'],$preserveMetaData);
-//            $info = array('id' => 'media', 'duration' => 10, 'timestamp' => date('d-m-Y H:i:s'));
-//            $info['type'] = 'success';
-//            $info['message'] = WikiIocLangManager::getLang('uploadsucc');
             $info = AjaxCmdResponseGenerator::generateInfo("success",  WikiIocLangManager::getLang('uploadsucc'), 'media', -1);
             foreach ($responseData["warnings"] as $value){
                 $info = AjaxCmdResponseGenerator::addInfoToInfo($info, AjaxCmdResponseGenerator::generateInfo("warning", $value, "media", -1));
@@ -90,9 +84,6 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                     $message = WikiIocLangManager::getLang('uploadfail');
             }
             $ajaxCmdResponseGenerator->addAlert($message);
-//            $info = array('id' => 'media', 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
-//            $info['type'] = 'error';
-//            $info['message'] = $responseData["info"];
             $info = AjaxCmdResponseGenerator::generateInfo("error",  $message, 'media', -1);
             $ajaxCmdResponseGenerator->addInfoDta($info);
         }
@@ -125,10 +116,6 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['title'],
                                                 $responseData['content'],$preserveMetaData);
 
-        //$metaData = $this->getModelWrapper()->getMediaMetaResponse();
-        //getNsTree($currentnode, $sortBy, $onlyDirs = FALSE, $expandProject=FALSE, $hiddenProjects=FALSE)
-        global $NS;
-
         //Càrrega de la zona info de missatges
         global $JUMPTO;
         global $MSG;
@@ -157,8 +144,6 @@ class MediaResponseHandler extends WikiIocResponseHandler {
          * necessària per tal de que al fer clic a ContentTabDokuWikiNsTree es pugui fer la crida
          * amb els paràmetres necessaris (que aniran directament a la urlBase)
          */
-
-        //$metaData = $this->getModelWrapper()->getNsMediaTree($NS, 0, TRUE);
         if(!$requestParams["preserveMetaData"]){
             global $INPUT;
             $sort = "name";
@@ -182,7 +167,6 @@ class MediaResponseHandler extends WikiIocResponseHandler {
             /*
              * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
              */
-
             $propLlista = array(
 			'id'      => 'metaMediaProperties',
 			'title'   => "Propietats de la llista",
@@ -210,19 +194,11 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
                 $responseData['id'], true, "ioc/dokuwiki/processMediaList", //TODO configurable
-                array(
-            "ns" => $responseData['ns']
-                //"editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                //"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail"
-                )
+                array("ns" => $responseData['ns'])
         );
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
                 cfgIdConstants::ZONA_METAINFO_DIV, true, "ioc/dokuwiki/processMetaMedia", //TODO configurable
-                array(
-            "ns" => $responseData['ns']
-                //"editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                //"detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail"
-                )
+                array("ns" => $responseData['ns'])
         );
     }
 

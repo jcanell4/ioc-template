@@ -7,16 +7,16 @@ $arrParcial = array(
             "label" => "Índex"
         ),
         "DJO" => array(
-            "treeDataSource" => "'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/'",
-            "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'",
+            "treeDataSource" => "'ajaxrest.php/ns_tree_rest/'",
+            "urlBase" => "'ajax.php?call=page'",
             "typeDictionary" => ["p" => [
-                "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
+                "urlBase" => "'ajax.php?call=project'",
                 "params" => ['projectType']
             ]]
 
             /*,"urlBaseTyped" => array(
-                                   "p" => "'lib/plugins/ajaxcommand/ajax.php?call=commandreport'"
-                                  ,"pf" => "'lib/plugins/ajaxcommand/ajax.php?call=commandreport'"
+                                   "p" => "'ajax.php?call=commandreport'"
+                                  ,"pf" => "'ajax.php?call=commandreport'"
                                 )*/
             ,"expandProject" => "true"
             ,"processOnClickAndOpenOnClick" => "true"

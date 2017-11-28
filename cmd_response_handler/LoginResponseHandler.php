@@ -9,7 +9,6 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once(DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php');
 require_once(DOKU_PLUGIN . 'ajaxcommand/defkeys/ResponseParameterKeys.php');
 
 class LoginResponseHandler extends WikiIocResponseHandler {
@@ -45,7 +44,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
             if($this->getPermission()->isAdminOrManager()){
                 $dades = $this->getModelWrapper()->getAdminTaskList();
-                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_task";
+                $urlBase = "ajax.php?call=admin_task";
 
                 $params = array(
                     "id" => cfgIdConstants::TB_ADMIN,
@@ -62,8 +61,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
             if($dades["content"]){
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
-                $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+                $urlBase = "ajax.php?call=page";
+                $urlTree = "ajaxrest.php/ns_tree_rest/";
 
                 $contentParams = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -73,15 +72,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array (
-                                            'p' =>
-                                            array (
-                                              'urlBase' => 'lib/plugins/ajaxcommand/ajax.php?call=project',
-                                              'params' =>
-                                              array (
-                                                0 => 'projectType',
-                                              ),
-                                            ),
-                                          ),
+                                            'p' => array (
+                                                      'urlBase' => 'ajax.php?call=project',
+                                                      'params' => array (0 => 'projectType')
+                                                   ),
+                                        ),
                 );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                 $contentParams,
@@ -94,42 +89,31 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         }else{
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
-            //$ajaxCmdResponseGenerator->addRemoveAllWidgetChildren(cfgIdConstants::ZONA_METAINFO);
             $title = '';
             $sig = '';
         }
+
         $ajaxCmdResponseGenerator->addTitle($title);
         $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/setSignature", $sig);
 
-
-
-        //$info = array('id' => null, 'duration' => -1, 'timestamp' => date('d-m-Y H:i:s'));
         $info = array('timestamp' => date('d-m-Y H:i:s'));
 
         if ($responseData['loginRequest'] && !$responseData['loginResult']) {
             $info['type'] = 'error';
-            //$info['message'] = $lang['auth_error'];
             $info['message'] = 'Error d\'autenticació';
-
 
         } else if (!$responseData['loginRequest'] && !$responseData['loginResult']) {
             $info['type'] = 'info';
-            //$info['message'] = $lang['user_logout'];
             $info['message'] = 'Usuari desconnectat';
-//             $ajaxCmdResponseGenerator->addRemoveAdminTab(cfgIdConstants::ZONA_NAVEGACIO,
-//                                                   cfgIdConstants::TB_ADMIN);
 
             $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_ADMIN);
 
-//            $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_task";
             $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS);
         } else  {
             $info['type']= 'success';
-            // $info['message'] = $lang['user_login'];
             $info['message'] = 'Usuari connectat';
-
         }
 
         for ($i=0; $i<count($responseData['notifications']); $i++) {

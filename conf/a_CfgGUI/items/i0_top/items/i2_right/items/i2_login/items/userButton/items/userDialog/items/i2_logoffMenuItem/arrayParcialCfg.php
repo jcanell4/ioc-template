@@ -10,7 +10,7 @@ $arrParcial = array(
                       						 "query" => "'do=logoff'"
                       						,"autoSize" => true
                       						,"disabled" => false
-                      						,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=login'"
+                      						,"urlBase" => "'ajax.php?call=login'"
                                     )
                         )
           );

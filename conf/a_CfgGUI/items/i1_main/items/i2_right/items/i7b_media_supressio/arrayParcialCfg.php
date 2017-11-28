@@ -8,7 +8,7 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                           "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?'"
+                                           "urlBase" => "'ajax.php?'"
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconTrash'"

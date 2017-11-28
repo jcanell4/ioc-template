@@ -1,30 +1,12 @@
 <?php
 /**
  * Description of WikiIocResponseHandler
- *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ownInit/WikiGlobalConfig.php');
-
-function _tplIncDir(){
-//    global $conf;
-//    if(is_callable('tpl_incdir')){
-//        $ret = tpl_incdir();
-//    }else{
-//        $ret = DOKU_INC.'lib/tpl/'.$conf['template'].'/';
-//    }
-//    return $ret;
-    return WikiGlobalConfig::tplIncDir();
-}
-
-if (!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', _tplIncDir().'classes/');
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'ajaxcommand/AbstractResponseHandler.php');
-require_once(DOKU_PLUGIN.'ajaxcommand/defkeys/ProjectKeys.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
-    const K_PROJECTTYPE = ProjectKeys::KEY_PROJECT_TYPE;
+    const K_PROJECTTYPE = AjaxKeys::PROJECT_TYPE;
 
     function __construct($cmd) {
         parent::__construct($cmd);
@@ -69,12 +51,6 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
     protected function getToolbarIds(&$value){
         $this->getModelWrapper()->getToolbarIds($value);
-//        $value["varName"] = "toolbar";
-//        $value["toolbarId"] = "tool__bar";
-//        $value["wikiTextId"] = "wiki__text";
-//        $value["editBarId"] = "wiki__editbar";
-//        $value["editFormId"] = "dw__editform";
-//        $value["summaryId"] = "edit__summary";
     }
 
   /**

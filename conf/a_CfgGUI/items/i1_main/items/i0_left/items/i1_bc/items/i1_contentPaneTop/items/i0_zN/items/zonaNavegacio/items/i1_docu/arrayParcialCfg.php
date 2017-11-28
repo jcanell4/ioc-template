@@ -7,7 +7,7 @@ $arrParcial = array(
                                           ,"label" => "documentació"
                                         )
                               ,"DJO" => array(
-                                           "urlBase" => "'lib/plugins/ajaxcommand/ajax.php?'"
+                                           "urlBase" => "'ajax.php?'"
 //                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"defaultCall" => "'call=print'"
                                         )

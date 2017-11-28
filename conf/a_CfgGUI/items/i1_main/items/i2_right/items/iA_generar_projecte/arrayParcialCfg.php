@@ -13,7 +13,7 @@ $arrParcial = array(
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconUpload'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=project'"
+                                          ,"urlBase" => "'ajax.php?call=project'"
                                         )
                             )
               );

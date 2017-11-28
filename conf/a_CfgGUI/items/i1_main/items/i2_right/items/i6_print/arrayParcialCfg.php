@@ -11,7 +11,7 @@ $arrParcial = array(
                                            "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconPreviewPrint'"
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php'"
+                                          ,"urlBase" => "'ajax.php'"
                                           ,"method" => "'post'"
                                           ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                         )

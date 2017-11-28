@@ -10,7 +10,7 @@ $arrParcial = array(
                           ,"DJO" => array(
                       						 "autoSize" => false
                       						,"visible" => true
-                      						,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
+                      						,"urlBase" => "'ajax.php?call=page'"
                                     )
                         )
           );
