@@ -36,7 +36,7 @@ class SaveResponseHandler extends PageResponseHandler {
 
             if ($responseData["reload"]) {
                 $params = [
-                    "urlBase" => "ajax.php?",
+                    "urlBase" => "lib/exe/ioc_ajax.php?",
                     "params" =>$responseData["reload"]
                 ];
 
@@ -68,8 +68,8 @@ class SaveResponseHandler extends PageResponseHandler {
             }else{
                 $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "ajax.php?call=page";
-                $urlTree = "ajaxrest.php/ns_tree_rest/";
+                $urlBase = "lib/exe/ioc_ajax.php?call=page";
+                $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
                 $params = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -80,7 +80,7 @@ class SaveResponseHandler extends PageResponseHandler {
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array(
                                             'p' => array(
-                                                      'urlBase' => '\'ajax.php?call=project\'',
+                                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                                                       'params' =>
                                                       array (0 => 'projectType')
                                                    ),

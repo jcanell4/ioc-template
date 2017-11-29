@@ -6,7 +6,6 @@
 if (!defined("DOKU_INC")) die();
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
-    const K_PROJECTTYPE = AjaxKeys::PROJECT_TYPE;
 
     function __construct($cmd) {
         parent::__construct($cmd);
@@ -31,9 +30,9 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $evt->advise_after();
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
-        if ($requestParams[self::K_PROJECTTYPE]) {
-            if (!$responseData['projectExtraData'][self::K_PROJECTTYPE]) { //es una página de un proyecto
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], self::K_PROJECTTYPE, $requestParams[self::K_PROJECTTYPE]);
+        if ($requestParams[AjaxKeys::PROJECT_TYPE]) {
+            if (!$responseData['projectExtraData'][AjaxKeys::PROJECT_TYPE]) { //es una página de un proyecto
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], AjaxKeys::PROJECT_TYPE, $requestParams[AjaxKeys::PROJECT_TYPE]);
             }
         }
     }

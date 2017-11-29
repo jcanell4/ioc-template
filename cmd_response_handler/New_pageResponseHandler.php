@@ -29,8 +29,8 @@ class New_pageResponseHandler extends PageResponseHandler
 
     private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-        $urlBase = "ajax.php?call=page";
-        $urlTree = "ajaxrest.php/ns_tree_rest/";
+        $urlBase = "lib/exe/ioc_ajax.php?call=page";
+        $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
         $params = array(
             "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -41,7 +41,7 @@ class New_pageResponseHandler extends PageResponseHandler
             "treeDataSource" => $urlTree,
             'typeDictionary' => array (
                                     'p' => array (
-                                              'urlBase' => '\'ajax.php?call=project\'',
+                                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                                               'params' => array (0 => 'projectType')
                                            ),
                                 )

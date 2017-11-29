@@ -101,7 +101,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             'content' => $responseData['content'],
             'lastmod' => $responseData['lastmod'],
             'type' => 'partial_document',
-            'base' => 'ajax.php?call=edit_partial',
+            'base' => 'lib/exe/ioc_ajax.php?call=edit_partial',
             'selected' => $responseData['section_id'],
             'editing_chunks' => $responseData['editing_chunks']
         ];
@@ -142,7 +142,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
 
-            $responseData['revs']['urlBase'] = "ajax.php?call=diff";
+            $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
             $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
         } else {
@@ -173,9 +173,9 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
                 "ns" => $responseData['structure']['ns'],
-                "editCommand" => "ajax.php?call=edit",
-                "pageCommand" => "ajax.php?call=page",
-                "detailCommand" => "ajax.php?call=get_image_detail",
+                "editCommand" => "lib/exe/ioc_ajax.php?call=edit",
+                "pageCommand" => "lib/exe/ioc_ajax.php?call=page",
+                "detailCommand" => "lib/exe/ioc_ajax.php?call=get_image_detail",
             )
         );
     }

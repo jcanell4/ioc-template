@@ -39,7 +39,7 @@ class PageResponseHandler extends WikiIocResponseHandler {
 
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
 
-            $responseData['revs']['urlBase'] = "ajax.php?call=diff";
+            $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
         } else if(isset($responseData['meta'])) {
@@ -57,9 +57,9 @@ class PageResponseHandler extends WikiIocResponseHandler {
                 "ioc/dokuwiki/processContentPage",  //TODO configurable
                 array(
                         "ns"            => $responseData['structure']['ns'],
-                        "editCommand"   => "ajax.php?call=edit",
-                        "pageCommand"   => "ajax.php?call=page",
-                        "detailCommand" => "ajax.php?call=get_image_detail",
+                        "editCommand"   => "lib/exe/ioc_ajax.php?call=edit",
+                        "pageCommand"   => "lib/exe/ioc_ajax.php?call=page",
+                        "detailCommand" => "lib/exe/ioc_ajax.php?call=get_image_detail",
                 )
         );
 

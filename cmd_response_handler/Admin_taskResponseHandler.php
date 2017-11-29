@@ -12,7 +12,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
         parent::__construct(WikiIocResponseHandler::ADMIN_TASK);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $urlBase = "ajax.php?call=admin_task";
+        $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";
 
         if($responseData["needRefresh"]){
             $params = array(
@@ -105,7 +105,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processRevertTask",
                         array(
-                           "urlBase" => "ajax.php?",
+                           "urlBase" => "lib/exe/ioc_ajax.php?",
                            "revertSelector" => $params["revertSelector"]
                         )
                     );

@@ -5,7 +5,7 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tplIncDir());
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 
@@ -16,7 +16,7 @@ class Admin_tabResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $urlBase = "ajax.php?call=admin_task";
+        $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";
 
         $params = array(
             "id" => cfgIdConstants::TB_ADMIN,

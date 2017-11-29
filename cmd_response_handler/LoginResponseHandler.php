@@ -44,7 +44,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
             if($this->getPermission()->isAdminOrManager()){
                 $dades = $this->getModelWrapper()->getAdminTaskList();
-                $urlBase = "ajax.php?call=admin_task";
+                $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";
 
                 $params = array(
                     "id" => cfgIdConstants::TB_ADMIN,
@@ -61,8 +61,8 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
             if($dades["content"]){
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "ajax.php?call=page";
-                $urlTree = "ajaxrest.php/ns_tree_rest/";
+                $urlBase = "lib/exe/ioc_ajax.php?call=page";
+                $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
                 $contentParams = array(
                     "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -73,7 +73,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array (
                                             'p' => array (
-                                                      'urlBase' => 'ajax.php?call=project',
+                                                      'urlBase' => 'lib/exe/ioc_ajax.php?call=project',
                                                       'params' => array (0 => 'projectType')
                                                    ),
                                         ),

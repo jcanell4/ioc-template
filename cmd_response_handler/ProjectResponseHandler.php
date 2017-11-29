@@ -52,7 +52,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
-        $action = 'ajax.php?call=project&do=save';
+        $action = 'lib/exe/ioc_ajax.php?call=project&do=save';
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
         $values = $responseData['projectMetaData']['values'];
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
@@ -69,13 +69,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['title'] = "Espai de noms del projecte";
         $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
         $rdata['fromRoot'] = $projectNs;
-        $rdata['treeDataSource'] = "ajaxrest.php/ns_tree_rest/";
+        $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
         $rdata['typeDictionary'] = array(
-                                      array('urlBase' => "'ajax.php?call=project'",
+                                      array('urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
                                             'params' => array(0 => 'projectType')
                                            )
                                         );
-        $rdata['urlBase'] = "ajax.php?call=page";
+        $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
 
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }

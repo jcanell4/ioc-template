@@ -10,7 +10,7 @@ $arrParcial = array(
                       						 "query" => "'do=logoff'"
                       						,"autoSize" => true
                       						,"disabled" => false
-                      						,"urlBase" => "'ajax.php?call=login'"
+                      						,"urlBase" => "'lib/exe/ioc_ajax.php?call=login'"
                                     )
                         )
           );

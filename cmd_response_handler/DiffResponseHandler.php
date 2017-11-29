@@ -24,7 +24,7 @@ class DiffResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
         $revs = $this->getModelWrapper()->getRevisionsList( $requestParams );
-        $revs['urlBase'] = "ajax.php?call=diff";
+        $revs['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
 
         $ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'], $responseData['meta']['meta'] );
         $ajaxCmdResponseGenerator->addRevisionsTypeResponse( $responseData['id'], $revs );
@@ -35,9 +35,9 @@ class DiffResponseHandler extends WikiIocResponseHandler {
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
                 "ns"            => $responseData['ns'],
-                "editCommand"   => "ajax.php?call=edit",
-                "pageCommand"   => "ajax.php?call=page",
-                "detailCommand" => "ajax.php?call=get_image_detail",
+                "editCommand"   => "lib/exe/ioc_ajax.php?call=edit",
+                "pageCommand"   => "lib/exe/ioc_ajax.php?call=page",
+                "detailCommand" => "lib/exe/ioc_ajax.php?call=get_image_detail",
             )
         );
 
