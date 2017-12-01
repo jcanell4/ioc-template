@@ -1,8 +1,6 @@
 <?php
-
 /**
  * Main file of the "vector" template for DokuWiki
- *
  *
  * LICENSE: This file is open source software (OSS) and may be copied under
  *          certain conditions. See COPYING file for details or try to contact
@@ -18,15 +16,9 @@
  * @link http://www.dokuwiki.org/devel:action_modes
  */
 
-
 //check if we are running within the DokuWiki environment
-if (!defined("DOKU_INC")){
-    die();
-}
-require_once DOKU_INC."lib/plugins/ownInit/WikiGlobalConfig.php";
-
-
-
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 //detect revision
 $rev = (int)$INFO["rev"]; //$INFO comes from the DokuWiki core
@@ -39,8 +31,7 @@ if ($ACT === "edit" &&
     header("X-UA-Compatible: IE=EmulateIE7");
 }
 
-
-include WikiGlobalConfig::tplIncDir().'pre_print.php';
+include DOKU_TPL_INCDIR.'pre_print.php';
 tpl_content(FALSE);
-include WikiGlobalConfig::tplIncDir().'post_print.php';
-?>
+include DOKU_TPL_INCDIR.'post_print.php';
+
