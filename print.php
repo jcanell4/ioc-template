@@ -18,7 +18,7 @@
 
 //check if we are running within the DokuWiki environment
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 
 //detect revision
 $rev = (int)$INFO["rev"]; //$INFO comes from the DokuWiki core
