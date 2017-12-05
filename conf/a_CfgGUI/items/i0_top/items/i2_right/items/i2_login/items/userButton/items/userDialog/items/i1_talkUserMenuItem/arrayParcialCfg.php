@@ -10,7 +10,7 @@ $arrParcial = array(
                       						 "query" => "'id=talkUser'"
                       						,"autoSize" => true
                       						,"disabled" => false
-                      						,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
+                      						,"urlBase" => "'lib/exe/ioc_ajax.php?call=page'"
                       						,"standbyId" => "'bodyContent'"
                                     )
                         )

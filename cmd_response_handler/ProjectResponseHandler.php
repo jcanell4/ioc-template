@@ -5,14 +5,11 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_PLUGIN . "ajaxcommand/");
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
+require_once(DOKU_TPL_INCDIR."conf/cfgIdConstants.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/WikiIocResponseHandler.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
-require_once(DOKU_COMMAND."JsonGenerator.php");
-require_once(DOKU_COMMAND."defkeys/RequestParameterKeys.php");
-require_once(DOKU_PLUGIN."wikiiocmodel/WikiIocLangManager.php");
 require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModelExceptions.php");
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
@@ -23,21 +20,21 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
-        switch ($requestParams[RequestParameterKeys::DO_KEY]) {
-            case 'edit':
+        switch ($requestParams[ProjectKeys::KEY_DO]) {
+            case ProjectKeys::KEY_EDIT:
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 break;
 
-            case 'save':
+            case ProjectKeys::KEY_SAVE:
                 $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                 $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
 
-            case 'create':
+            case ProjectKeys::KEY_CREATE:
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 break;
 
-            case 'generate':
+            case ProjectKeys::KEY_GENERATE:
                 if ($responseData['info'])
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
@@ -55,7 +52,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title = "Projecte $ns";
-        $action = 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save';
+        $action = 'lib/exe/ioc_ajax.php?call=project&do=save';
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
         $values = $responseData['projectMetaData']['values'];
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
@@ -72,13 +69,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['title'] = "Espai de noms del projecte";
         $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
         $rdata['fromRoot'] = $projectNs;
-        $rdata['treeDataSource'] = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+        $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
         $rdata['typeDictionary'] = array(
-                                      array('urlBase' => "'lib/plugins/ajaxcommand/ajax.php?call=project'",
+                                      array('urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
                                             'params' => array(0 => 'projectType')
                                            )
                                         );
-        $rdata['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=page";
+        $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
 
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
@@ -146,9 +143,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
             if (!$aGroups[$grupo])
                 throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
-
-//            if ($arrValues['mandatory'] === TRUE && (!$arrValues['value'] || $arrValues['value']==""))
-//                throw new MissingValueFormBuilderException($ns, "El camp \'$keyField\' és obligatori i no té valor");
 
             //Se establecen los atributos del campo
             if ($arrValues['n_columns'])

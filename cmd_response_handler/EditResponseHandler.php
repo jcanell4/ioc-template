@@ -1,16 +1,12 @@
 <?php
 /**
- * Description of page_response_handler
- *
+ * EditResponseHandler
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
-
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tplIncDir());
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
 class EditResponseHandler extends WikiIocResponseHandler
 {
@@ -22,7 +18,6 @@ class EditResponseHandler extends WikiIocResponseHandler
      * @param string[] $requestParams
      * @param mixed $responseData
      * @param AjaxCmdResponseGenerator $ajaxCmdResponseGenerator
-     *
      * @return void
      */
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -91,7 +86,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             }
         }
 
-        $params["base"] = 'lib/plugins/ajaxcommand/ajax.php?call=edit&do=edit';
+        $params["base"] = 'lib/exe/ioc_ajax.php?call=edit&do=edit';
 
         return $params;
     }
@@ -201,7 +196,6 @@ class EditResponseHandler extends WikiIocResponseHandler
                     "extraDataToSend" => PageKeys::DISCARD_CHANGES . "=true&" . PageKeys::KEY_KEEP_DRAFT . "=true&auto=true",
                 ],
             ],
-//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
             "timeout" => ExpiringCalc::getExpiringTime($responseData, 0),
         ];
 
@@ -219,7 +213,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         ];
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
-    
+
     protected function addRequiringDialogResponse($requestParams, $responseData, &$cmdResponseGenerator)
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
@@ -268,7 +262,6 @@ class EditResponseHandler extends WikiIocResponseHandler
                     . "&" . PageKeys::KEY_DO . "=leaveResource"
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
             ],
-//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time() + 60) * 1000,
             "timeout" => ExpiringCalc::getExpiringTime($responseData, 1),
         ];
 
@@ -282,10 +275,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
-//            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
                 date("H:i:s", ExpiringCalc::getExpiringData($responseData, 1))),
-            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
 
@@ -298,7 +288,6 @@ class EditResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_dialog_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
                 date("H:i:s", ExpiringCalc::getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
@@ -313,9 +302,7 @@ class EditResponseHandler extends WikiIocResponseHandler
         $params["info"] = $responseData["info"];
     }
 
-    protected function addRequiringDoc(&$cmdResponseGenerator, $params)
-    {
-        //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
+    protected function addRequiringDoc(&$cmdResponseGenerator, $params) {
         $cmdResponseGenerator->addRequiringDoc(
             $params["id"],
             $params["ns"],

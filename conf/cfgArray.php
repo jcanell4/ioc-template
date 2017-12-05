@@ -158,7 +158,7 @@ $_arrIocCfgGUI = array (
                         ),
                         'DJO' => 
                         array (
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                          'urlBase' => '\'lib/exe/ioc_ajax.php?call=login\'',
                           'standbyId' => '\'loginDialog_hidden_container\'',
                         ),
                       ),
@@ -210,7 +210,7 @@ $_arrIocCfgGUI = array (
                     array (
                       'autoSize' => false,
                       'visible' => true,
-                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=page\'',
                     ),
                   ),
                   'items' => 
@@ -226,7 +226,7 @@ $_arrIocCfgGUI = array (
                         ),
                         'DJO' => 
                         array (
-                          'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                          'urlBase' => '\'lib/exe/ioc_ajax.php?call=page\'',
                         ),
                       ),
                       'items' => 
@@ -245,7 +245,7 @@ $_arrIocCfgGUI = array (
                             array (
                               'autoSize' => true,
                               'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=page\'',
                               'standbyId' => '\'bodyContent\'',
                               'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':dreceres\';return _ret;}',
                             ),
@@ -266,7 +266,7 @@ $_arrIocCfgGUI = array (
                               'query' => '\'id=user\'',
                               'autoSize' => true,
                               'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=page\'',
                               'standbyId' => '\'bodyContent\'',
                               'getQuery' => 'function(_data){var _ret=null; _ret = \'id=wiki:user:\' + this.dispatcher.getGlobalState().userId + \':index\';return _ret;}',
                             ),
@@ -287,7 +287,7 @@ $_arrIocCfgGUI = array (
                               'query' => '\'do=logoff\'',
                               'autoSize' => true,
                               'disabled' => false,
-                              'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=login\'',
+                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=login\'',
                               'getQuery' => 'function(_data){var _ret=null; var requiredPages = this.dispatcher.getGlobalState().getAllRequiredPagesNS();console.log(requiredPages.join(\',\'));_ret = \'do=logoff&unlock=\' + requiredPages.join(\',\') +\'\';return _ret;}',
                             ),
                           ),
@@ -589,13 +589,13 @@ $_arrIocCfgGUI = array (
                                 ),
                                 'DJO' => 
                                 array (
-                                  'treeDataSource' => '\'lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/\'',
-                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=page\'',
+                                  'treeDataSource' => '\'lib/exe/ioc_ajaxrest.php/ns_tree_rest/\'',
+                                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=page\'',
                                   'typeDictionary' => 
                                   array (
                                     'p' => 
                                     array (
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                                       'params' => 
                                       array (
                                         0 => 'projectType',
@@ -620,7 +620,7 @@ $_arrIocCfgGUI = array (
                                 ),
                                 'DJO' => 
                                 array (
-                                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
+                                  'urlBase' => '\'lib/exe/ioc_ajax.php?\'',
                                   'defaultCall' => '\'call=print\'',
                                 ),
                                 'PRP' => 
@@ -661,7 +661,7 @@ $_arrIocCfgGUI = array (
                                     array (
                                       'iconClass' => '\'dijitNoIcon\'',
                                       'disabled' => false,
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=recent\'',
+                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=recent\'',
                                     ),
                                   ),
                                   'hidden' => false,
@@ -680,7 +680,7 @@ $_arrIocCfgGUI = array (
                                     array (
                                       'iconClass' => '\'dijitNoIcon\'',
                                       'disabled' => false,
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=media\'',
+                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=media\'',
                                     ),
                                   ),
                                 ),
@@ -860,9 +860,9 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconNew\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php\'',
-                  'urlListProjects' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_projects_rest/\'',
-                  'urlListTemplates' => '\'lib/plugins/ajaxcommand/ajaxrest.php/list_templates_rest/\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
+                  'urlListProjects' => '\'lib/exe/ioc_ajaxrest.php/list_projects_rest/\'',
+                  'urlListTemplates' => '\'lib/exe/ioc_ajaxrest.php/list_templates_rest/\'',
                   'dialogTitle' => '\'Nou Document\'',
                   'EspaideNomslabel' => '\'Espai de Noms\'',
                   'EspaideNomsplaceHolder' => '\'Espai de Noms\'',
@@ -953,7 +953,7 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconMediaDetail\'',
@@ -999,7 +999,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconEdit\'',
                   'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=edit\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=edit\'',
                   'disableOnSend' => true,
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var globalState = this.dispatcher.getGlobalState(); var ns=globalState.getContent(globalState.currentTabId).ns; var rev = globalState.getCurrentContent().rev; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; } if (rev) { _ret+=\'&rev=\' + rev; } _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);}return _ret;}',
                 ),
@@ -1081,7 +1081,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconPreviewPrint\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
                   'method' => '\'post\'',
                   'standbyId' => 'bodyContent',
                   'getPostData' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var id = this.dispatcher.getGlobalState().currentTabId; var ns=this.dispatcher.getGlobalState().getContent(id)[\'ns\']; var rev = this.dispatcher.getGlobalState().getCurrentContent().rev; var hasChanges; if(this.dispatcher.getGlobalState().getCurrentContent().action===\'edit\' && this.dispatcher.getChangesManager().isContentChanged(id)){ hasChanges = 1; }else if(this.dispatcher.getGlobalState().getCurrentContent().action===\'sec_edit\' && this.dispatcher.getChangesManager().isChanged(id)){ hasChanges = 2; }else{ hasChanges = 0; } if(hasChanges==1){ _ret={ call:\'preview\', id: ns, wikitext:this.dispatcher.getWidget(id).getQuerySave().wikitext }; /*console.log(\'call:preview, id:\'+ns+\'wikitext:\' + _ret.wikitext);*/ }else if(hasChanges==2){ var editor =this.dispatcher.getWidget(id); var queryValues = editor.getEditedText(editor.getCurrentHeaderId()); _ret={ call:\'preview\', id: ns, wikitext:queryValues.prefix+queryValues.wikitext+queryValues.suffix }; /*console.log(\'call:preview, id:\'+ns+\'wikitext:\' + _ret.wikitext);*/ }else{ _ret={ call:\'print\', id: ns, }; /*console.log(\'call:print, id:\'+ns);*/ } if (rev) { _ret.rev = rev; }}return _ret;}',
@@ -1102,7 +1102,7 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconTrash\'',
@@ -1123,7 +1123,7 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconTrash\'',
@@ -1164,7 +1164,7 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconMediaEdit\'',
@@ -1185,7 +1185,7 @@ $_arrIocCfgGUI = array (
                 ),
                 'DJO' => 
                 array (
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=mediadetails\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=mediadetails\'',
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconExit\'',
@@ -1231,7 +1231,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconUpload\'',
                   'standbyId' => '\'bodyContent\'',
-                  'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var gState=this.dispatcher.getGlobalState();var id=gState.getCurrentId();if (gState.currentTabId) var ns=gState.getContent(gState.currentTabId).ns;var query=this.query;require ([\'dijit/registry\'], function(registry) { if (id) { if (!ns) ns=id; var widget=registry.byId(id); var projectType=widget.getProjectType(); if(query){ _ret=query+\'&id=\'+ns+\'&projectType=\'+projectType; }else{ _ret=\'id=\'+ns+\'&projectType=\'+projectType; } }});return _ret;}',
                 ),
               ),

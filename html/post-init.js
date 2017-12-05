@@ -194,7 +194,7 @@ require([
         var relogin = function (userId) {
 
             var requestLogin = new Request();
-            requestLogin.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=relogin&userId=" + userId;
+            requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId;
             requestLogin.sendRequest().then(function() {
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
@@ -216,7 +216,7 @@ require([
                 // Ara no està logejat però abans si ho estava
             } else if (!newState.login && oldState.login) {
                 request = new Request();
-                request.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=login&do=logoff";
+                request.urlBase = "lib/exe/ioc_ajax.php?call=login&do=logoff";
                 request.sendRequest();
 
             }
@@ -265,56 +265,15 @@ require([
                 }
             }
 
-            // TODO: ELIMINAR
-            // if (state.permissions) {
-            //     wikiIocDispatcher.processResponse({
-            //         "type": "jsinfo"
-            //         , "value": state.permissions
-            //     });
-            //     // Add admin_tab to the Navigation container
-            //     if (state.permissions['isadmin'] | state.permissions['ismanager']) {
-            //         var requestTabContent = new Request();
-            //         requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=admin_tab";
-            //         requestTabContent.sendRequest();
-            //     }
-            // }
-
-            // TODO: ELIMINAR
-            // Add shortcut_tab
-            // if(state.extratabs['cfgIdConstants::TB_SHORTCUTS']){
-            //     var requestTabContent = new Request();
-            //     requestTabContent.urlBase = "lib/plugins/ajaxcommand/ajax.php?call=shortcuts_tab&user_id="+state.userId;
-            //     requestTabContent.sendRequest();
-            // }
-
-            // TODO: ELIMINAR
-            // if (state.sectok) {
-            //     wikiIocDispatcher.processResponse({
-            //         "type": "sectok"
-            //         , "value": state.sectok
-            //     });
-            // }
-
-            // TODO: ELIMINAR
-            // if (state.title) {
-            //     wikiIocDispatcher.processResponse({
-            //         "type": "title"
-            //         , "value": state.title
-            //     });
-            // }
-
 
             // Comprovem si s'ha seguit un enllaç (param id a l'URL)
-
-
-
 
             if (state.pages) {
 
                 var np = 0;
                 var length = state.pagesLength();
                 var requestState = new Request();
-                requestState.urlBase = "lib/plugins/ajaxcommand/ajax.php";
+                requestState.urlBase = "lib/exe/ioc_ajax.php";
 
                 var infoManager = wikiIocDispatcher.getInfoManager();
                 if (length === 0) {
@@ -461,27 +420,27 @@ require([
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
-        new RequestControl(eventName.LOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
-        new RequestControl(eventName.UNLOCK_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=unlock', false);
-        new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
+        new RequestControl(eventName.LOCK_DOCUMENT, 'lib/exe/ioc_ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
+        new RequestControl(eventName.UNLOCK_DOCUMENT, 'lib/exe/ioc_ajax.php?call=unlock', false);
+        new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/exe/ioc_ajax.php?call=cancel', false, true);
 
-        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial', false, true);
-        new RequestControl(eventName.EDIT_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
-        new RequestControl(eventName.SAVE_PARTIAL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial', true, true);
-        new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/plugins/ajaxcommand/ajax.php?call=save_partial&do=save_all', true, true);
+        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/exe/ioc_ajax.php?call=cancel_partial', false, true);
+        new RequestControl(eventName.EDIT_PARTIAL, 'lib/exe/ioc_ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.SAVE_PARTIAL, 'lib/exe/ioc_ajax.php?call=save_partial', true, true);
+        new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/exe/ioc_ajax.php?call=save_partial&do=save_all', true, true);
 
-        new RequestControl(eventName.CANCEL, 'lib/plugins/ajaxcommand/ajax.php?call=cancel', false, true);
-        new RequestControl(eventName.SAVE, 'lib/plugins/ajaxcommand/ajax.php?call=save', true, true, getValidator('CanRevert'));
-        new RequestControl(eventName.EDIT, 'lib/plugins/ajaxcommand/ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.CANCEL, 'lib/exe/ioc_ajax.php?call=cancel', false, true);
+        new RequestControl(eventName.SAVE, 'lib/exe/ioc_ajax.php?call=save', true, true, getValidator('CanRevert'));
+        new RequestControl(eventName.EDIT, 'lib/exe/ioc_ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
 
-        new RequestControl(eventName.SAVE_FORM, 'lib/plugins/ajaxcommand/ajax.php?call=project&do=save', true, true);
+        new RequestControl(eventName.SAVE_FORM, 'lib/exe/ioc_ajax.php?call=project&do=save', true, true);
 
-        new RequestControl(eventName.SAVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=save', true);
-        new RequestControl(eventName.REMOVE_DRAFT, 'lib/plugins/ajaxcommand/ajax.php?call=draft&do=remove', true);
+        new RequestControl(eventName.SAVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=save', true);
+        new RequestControl(eventName.REMOVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=remove', true);
 
-        new RequestControl(eventName.NOTIFY, 'lib/plugins/ajaxcommand/ajax.php?call=notify', true);
+        new RequestControl(eventName.NOTIFY, 'lib/exe/ioc_ajax.php?call=notify', true);
 
-        new RequestControl(eventName.MEDIA_DETAIL, 'lib/plugins/ajaxcommand/ajax.php?call=mediadetails', true);
+        new RequestControl(eventName.MEDIA_DETAIL, 'lib/exe/ioc_ajax.php?call=mediadetails', true);
 
 
         // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions

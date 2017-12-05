@@ -19,12 +19,12 @@ class PrintResponseHandler extends WikiIocResponseHandler{
             //Indicar que si es vol imprimir els canvis de l'esborrany cal guardar-lo abans
             $resp["ns"] = $requestParams["id"];
             $resp["html"] = $responseData['html'];
-            $resp["pageCommand"] = "lib/plugins/ajaxcommand/ajax.php?call=page";
+            $resp["pageCommand"] = "lib/exe/ioc_ajax.php?call=page";
         }else{
             //Imprimir 
             $resp["ns"] = $requestParams["id"];
             $resp["html"] = $responseData['html'];
-            $resp["pageCommand"] = "lib/plugins/ajaxcommand/ajax.php?call=page";
+            $resp["pageCommand"] = "lib/exe/ioc_ajax.php?call=page";
         }
         $ajaxCmdResponseGenerator->addPrintResponse($resp);
     }

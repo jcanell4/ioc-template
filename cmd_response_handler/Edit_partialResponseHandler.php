@@ -1,30 +1,16 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of page_response_handler
- *
+ * Edit_partialResponseHandler
  * @author Josep Cañellas <jcanell4@ioc.cat>, Xavier García <xaviergaro.dev@gmail.com>
  */
-
-if (!defined("DOKU_INC")) {
-    die();
-}
-if (!defined('DOKU_PLUGIN')) {
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-}
-require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
-require_once(tpl_incdir() . 'cmd_response_handler/utility/ExpiringCalc.php');
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class Edit_partialResponseHandler extends WikiIocResponseHandler
 {
-    function __construct()
-    {
+    function __construct() {
         parent::__construct(WikiIocResponseHandler::EDIT);
     }
 
@@ -35,34 +21,24 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      *
      * @return void
      */
-    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
-    {
-            
-        if (isset($responseData['show_draft_conflict_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
+        if (isset($responseData['show_draft_conflict_dialog'])) { // ALERTA[Xavi] Aquest es el dialog que avisa que s'ha de seleccionar entre edició parcial i completa
             $this->addDraftConflictDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
         } else if (isset($responseData['show_draft_dialog'])) {
-
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
         } else if (isset($responseData["codeType"])) {
-
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
 
         } else {
-
             if ($responseData['structure']["locked"]) {
-
-
                 $this->addRequiringDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-//                $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                 $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
 
             } else {
-
                 $responseData['structure']['readonly'] = $this->isReadOnly($responseData);
-
 
                 if (isset($responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT])) {
                     $responseData['structure'][PageKeys::KEY_RECOVER_LOCAL_DRAFT] = $responseData[PageKeys::KEY_RECOVER_LOCAL_DRAFT];
@@ -70,7 +46,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
                 $this->addEditPartialDocumentResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
-//                    $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
                     $this->addRevisionListResponse($responseData, $ajaxCmdResponseGenerator);
                 }
             }
@@ -79,8 +54,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             $this->addProcessContentResponse($responseData, $ajaxCmdResponseGenerator);
         }
 
-
-//        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
+        // ALERTA[Xavi] això cal quan no s'esta enviant ni document ni draft?
         $this->addMetadataResponse($responseData, $ajaxCmdResponseGenerator);
         $this->addInfoDataResponse($responseData, $ajaxCmdResponseGenerator);
 
@@ -88,14 +62,11 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     }
 
     private function isReadOnly($responseData) {
-
         return $responseData['structure']['locked_before']? true : $this->getPermission()->isReadOnly();
     }
 
-
     /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
-    protected function addDraftDialogResponse($responseData, &$cmdResponseGenerator)
-    {
+    protected function addDraftDialogResponse($responseData, &$cmdResponseGenerator) {
         $params = $this->generateDraftDialogParams($responseData);
 
         if (!WikiIocInfoManager::getInfo('locked')) {
@@ -109,8 +80,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      * @param $params
      * @override // ALERTA[Xavi] Ara es idèntic al de EditResponseHandler
      */
-    protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params)
-    {
+    protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params) {
         $cmdResponseGenerator->addDraftDialog(
             $responseData['id'],
             $responseData['ns'],
@@ -125,16 +95,13 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
      * @return array
      * @override
      */
-    protected function generateDraftDialogParams($responseData)
-    {
-
-
+    protected function generateDraftDialogParams($responseData) {
         $params = [
             'title' => $responseData['title'],
             'content' => $responseData['content'],
             'lastmod' => $responseData['lastmod'],
             'type' => 'partial_document',
-            'base' => 'lib/plugins/ajaxcommand/ajax.php?call=edit_partial',
+            'base' => 'lib/exe/ioc_ajax.php?call=edit_partial',
             'selected' => $responseData['section_id'],
             'editing_chunks' => $responseData['editing_chunks']
         ];
@@ -167,7 +134,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         if ($responseData['meta']) {
             $id = isset($responseData['id']) ? $responseData['id'] :  $responseData['structure']['id'];
             $cmdResponseGenerator->addMetadata($id, $responseData['meta']);
-//            $cmdResponseGenerator->addMetadata($responseData['meta']['id'], $responseData['meta']['meta']);
         }
     }
 
@@ -176,7 +142,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
 
-            $responseData['revs']['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=diff";
+            $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
             $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
 
         } else {
@@ -207,22 +173,12 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
                 "ns" => $responseData['structure']['ns'],
-                "editCommand" => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                "pageCommand" => "lib/plugins/ajaxcommand/ajax.php?call=page",
-                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+                "editCommand" => "lib/exe/ioc_ajax.php?call=edit",
+                "pageCommand" => "lib/exe/ioc_ajax.php?call=page",
+                "detailCommand" => "lib/exe/ioc_ajax.php?call=get_image_detail",
             )
         );
     }
-
-
-
-//    protected function addRequiringDialogResponse($requestParams, $responseData, $cmdResponseGenerator)
-//    {
-//        // TODO[Xavi] Aquí va el codi similar al del EditResponseHandler amb el requiring
-//         $cmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-//
-//    }
-
 
 // ALERTA[Xavi] Duplicat al EditResponseHandler
 
@@ -234,22 +190,18 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
 
 
-        if ($requestParams[PageKeys::KEY_TO_REQUIRE] ||
-            strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > 0
-        ) { // ja hi ha chunks en edició
-
+        if ($requestParams[PageKeys::KEY_TO_REQUIRE] || strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > 0) {
+            // ja hi ha chunks en edició
             $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
 
         } else {
-
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
 
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
 
-    protected function generateRequiringDialogParams($requestParams, $responseData)
-    {
+    protected function generateRequiringDialogParams($requestParams, $responseData) {
         $timer = $this->generateRequiringDialogTimer($requestParams, $responseData);
 
         $params = [
@@ -264,8 +216,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         return $params;
     }
 
-    protected function generateRequiringDialogTimer($requestParams, $responseData)
-    {
+    protected function generateRequiringDialogTimer($requestParams, $responseData) {
 
         $chunks = $this->getEditingChunksIds($requestParams);
         $timer = [
@@ -275,31 +226,28 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     . "&" . PageKeys::KEY_TO_REQUIRE . "=true"
                     . "&" . PageKeys::KEY_SECTION_ID . "=" . $requestParams[PageKeys::KEY_SECTION_ID]
                     . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $chunks
-//                    . "&" . PageKeys::KEY_IN_EDITING_CHUNKS . "=" . $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : "")
             ],
-            "eventOnCancel" => "cancel", //
+            "eventOnCancel" => "cancel",
             "paramsOnCancel" => [
                 "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
                     . "&" . PageKeys::KEY_DO . "=leaveResource"
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
             ],
-//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time() + 60) * 1000,
             "timeout" => $this->_getExpiringTime($responseData, 1),
         ];
 
         return $timer;
     }
 
-    private function _getExpiringData($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    {
+    private function _getExpiringData($responseData, $for = 0) {
+        //$for: 0 locker, 1 requirer
         return ExpiringCalc::getExpiringData($responseData, $for);
     }
 
-    private function _getExpiringTime($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
+    private function _getExpiringTime($responseData, $for = 0) {
+        //$for: 0 locker, 1 requirer
+        //afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
         return ExpiringCalc::getExpiringTime($responseData, $for);
     }
 
@@ -310,10 +258,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60)),
-//            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
                 date("H:i:s", $this->_getExpiringData($responseData, 1))),
-            //                    "messageReplacements" => array("user" => "user", "resource" => "resource"),
         ];
     }
 
@@ -326,7 +271,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             "message" => sprintf(WikiIocLangManager::getLang("requiring_dialog_message"),
                 $requestParams[PageKeys::KEY_ID],
                 $responseData["lockInfo"]["locker"]["name"],
-//                date("d-m-Y H:i:s", $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + 60),
                 date("H:i:s", $this->_getExpiringData($responseData, 1)),
                 $responseData["lockInfo"]["locker"]["name"],
                 $requestParams[PageKeys::KEY_ID]),
@@ -337,13 +281,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                 "text" => WikiIocLangManager::getLang("no"),
             ],
         ];
-//        $params["content"]["htmlForm"] = $responseData["htmlForm"]; // ALERTA[Xavi] Això només serveix pel editor complet, el parcial fa servir la estructura
         $params["info"] = $responseData["info"];
     }
 
-    protected function addRequiringDoc(&$cmdResponseGenerator, $params)
-    {
-        //$ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/processRequiringTimer", $params);
+    protected function addRequiringDoc(&$cmdResponseGenerator, $params) {
         $cmdResponseGenerator->addRequiringDoc(
             $params["id"],
             $params["ns"],
@@ -415,7 +356,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                     PageKeys::DISCARD_CHANGES => true
                 ],
             ],
-//            "timeout" => ($responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") - time()) * 1000,
             "timeout" => $this->_getExpiringTime($responseData, 0),
         ];
 
@@ -524,15 +464,6 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
                         ],
                         'observable' => $id
                     ],
-//                    [
-//                        'eventType' => 'cancel',
-//                        'data' => [
-//                            'discardChanges' => true,
-//                            'keep_draft' => false,
-//                            'reload'=>false
-//                        ],
-//                        'observable' => $id
-//                    ]
                 ]
             ];
         }
@@ -568,57 +499,24 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
             ]
         ];
 
-        // ALERTA[Xavi] Una revisió no pot estar editada parcialment
-//        if ($isRev) {
-//            $dialogConfig['buttons'][] = [
-//                'id' => 'save',
-//                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
-//                'buttonType' => 'fire_event',
-//                'extra' => [
-//                    [
-//                        'eventType' => 'save_partial',
-//                        'data' => [
-//                            'extraDataToSend' =>[
-//                                'cancel'=>true,
-//                                'keep_draft'=>false
-//                            ]
-//                        ],
-//                        'observable' => $id
-//                    ],
-//                ]
-//            ];
-//        } else {
-            $dialogConfig['buttons'][] = [
-                'id' => 'save',
-                'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
-                'buttonType' => 'fire_event',
-                'extra' => [
-                    [
-                        'eventType' => 'save_partial',
-                        'data' => [
-                            'dataToSend' =>[
-                                'cancel'=>true,
-                                'keep_draft'=>false
-                            ]
-                        ],
-                        'observable' => $id
+        $dialogConfig['buttons'][] = [
+            'id' => 'save',
+            'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+            'buttonType' => 'fire_event',
+            'extra' => [
+                [
+                    'eventType' => 'save_partial',
+                    'data' => [
+                        'dataToSend' =>[
+                            'cancel'=>true,
+                            'keep_draft'=>false
+                        ]
                     ],
+                    'observable' => $id
+                ],
 
-
-
-
-//                    [
-//                        'eventType' => 'cancel_partial',
-//                        'data' => [
-//                            'discardChanges' => true,
-//                            'keep_draft' => false,
-//                            'reload'=>false
-//                        ],
-//                        'observable' => $id
-//                    ]
-                ]
-            ];
-//        }
+            ]
+        ];
 
         return $dialogConfig;
     }

@@ -9,7 +9,7 @@ $arrParcial = array(
                               ,"DJO" => array(
                                            "iconClass" => "'dijitNoIcon'"
                                           ,"disabled" => false
-                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=media'"
+                                          ,"urlBase" => "'lib/exe/ioc_ajax.php?call=media'"
                                         )
                             )
               );

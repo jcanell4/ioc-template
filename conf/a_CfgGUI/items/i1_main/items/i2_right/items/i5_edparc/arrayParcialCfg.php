@@ -11,10 +11,6 @@ $arrParcial = array(
                                            "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconPartialEdit'"
-//                                          ,"query" => "'do=edit_partial'"
-//                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-//                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=edit_partial'"
-//                                          ,"eventId" => "'edit_partial'" // S'ha d'afegir el id del document que correspongui
                                         )
                             )
               );

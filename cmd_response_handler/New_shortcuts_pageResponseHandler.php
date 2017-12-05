@@ -9,8 +9,6 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/New_pageResponseHandler.php');
 require_once(DOKU_TPL_INCDIR.'conf/cfgIdConstants.php');
-require_once(DOKU_COMMAND.'JsonGenerator.php');
-require_once(DOKU_COMMAND.'defkeys/PageKeys.php');
 require_once(DOKU_COMMAND.'defkeys/ResponseParameterKeys.php');
 
 class New_shortcuts_pageResponseHandler extends New_pageResponseHandler {
@@ -19,8 +17,8 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-        $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
-        $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+        $urlBase = "lib/exe/ioc_ajax.php?call=page";
+        $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
         $params = array(
             "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -30,15 +28,11 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler {
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array (
-                                    'p' =>
-                                    array (
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
-                                      'params' =>
-                                      array (
-                                        0 => 'projectType',
-                                      ),
-                                    ),
-                                  ),
+                                    'p' => array (
+                                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                                              'params' => array (0 => 'projectType')
+                                           ),
+                                )
         );
         $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                             $params,

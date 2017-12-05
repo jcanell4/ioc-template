@@ -6,7 +6,7 @@ $arrParcial = array(
                       						"id" => cfgIdConstants::USER_DIALOG
                       					)
                           ,"DJO" => array(
-                      						"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=page'"
+                      						"urlBase" => "'lib/exe/ioc_ajax.php?call=page'"
                                     )
                         )
           );

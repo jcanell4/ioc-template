@@ -1,26 +1,13 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of diff_response_handler
- *
+ * DiffResponseHandler
  * @author Xavier García<xaviergaro.dev@gmail.com>
  */
-
-if ( ! defined( "DOKU_INC" ) ) {
-    die();
-}
-if ( ! defined( 'DOKU_PLUGIN' ) ) {
-    define( 'DOKU_PLUGIN', DOKU_INC . 'lib/plugins/' );
-}
+if (!defined('DOKU_INC')) die();
 require_once( tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php' );
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
 
 class DiffResponseHandler extends WikiIocResponseHandler {
+
     function __construct() {
         parent::__construct( WikiIocResponseHandler::PAGE );
     }
@@ -33,29 +20,14 @@ class DiffResponseHandler extends WikiIocResponseHandler {
             $responseData['type'],
             $responseData['rev1'],
             $responseData['rev2']
-
         );
 
-//		$metaData = $this->getModelWrapper()->getMetaResponse( $responseData['id'] );
-
-//		if ($metaData['id']) {
-//		$ajaxCmdResponseGenerator->addMetadata( $responseData['meta']['id'],
-//		                                        $responseData['meta']['meta']);
-////		}
-
         $ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
-
-//		$id   = $metaData['id'];
-        $id = $responseData['id'];
-
         $revs = $this->getModelWrapper()->getRevisionsList( $requestParams );
-        $revs['urlBase'] = "lib/plugins/ajaxcommand/ajax.php?call=diff";
+        $revs['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
 
-
-        $ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'],
-            $responseData['meta']['meta'] );
-
-        $ajaxCmdResponseGenerator->addRevisionsTypeResponse( $id, $revs );
+        $ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'], $responseData['meta']['meta'] );
+        $ajaxCmdResponseGenerator->addRevisionsTypeResponse( $responseData['id'], $revs );
 
         $ajaxCmdResponseGenerator->addProcessDomFromFunction(
             $responseData['id'],
@@ -63,9 +35,9 @@ class DiffResponseHandler extends WikiIocResponseHandler {
             "ioc/dokuwiki/processContentPage",  //TODO configurable
             array(
                 "ns"            => $responseData['ns'],
-                "editCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=edit",
-                "pageCommand"   => "lib/plugins/ajaxcommand/ajax.php?call=page",
-                "detailCommand" => "lib/plugins/ajaxcommand/ajax.php?call=get_image_detail",
+                "editCommand"   => "lib/exe/ioc_ajax.php?call=edit",
+                "pageCommand"   => "lib/exe/ioc_ajax.php?call=page",
+                "detailCommand" => "lib/exe/ioc_ajax.php?call=get_image_detail",
             )
         );
 

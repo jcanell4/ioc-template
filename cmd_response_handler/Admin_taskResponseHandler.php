@@ -1,25 +1,22 @@
 <?php
 /**
  * Description of admin_task_response_handler
- *
- * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com> 
+ * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com>
  */
-
 if (!defined("DOKU_INC")) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(tpl_incdir().'cmd_response_handler/WikiIocResponseHandler.php');
-require_once DOKU_PLUGIN.'ajaxcommand/JsonGenerator.php';
 
 class Admin_taskResponseHandler extends WikiIocResponseHandler {
     function __construct() {
         parent::__construct(WikiIocResponseHandler::ADMIN_TASK);
     }
-    protected function response($requestParams,
-                                $responseData,
-                                &$ajaxCmdResponseGenerator) {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";
+
         if($responseData["needRefresh"]){
             $params = array(
-                "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                "urlBase" => $urlBase,
                 "method" => "post",
                 "query" => "page=".$requestParams["page"],
             );
@@ -45,12 +42,12 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processAclTask",
                         array(
-                            "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                            "urlBase" => $urlBase,
                             "saveSelector" => $params["saveSelector"],
                             "updateSelector" => $params["updateSelector"]
                         )
                     );
-                break;
+                    break;
                 case "plugin":
                     // Obté els Selectors Css dels forms del plugin PLUGIN
                     $params = array();
@@ -61,13 +58,13 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processPluginTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "urlBase" => $urlBase,
                            "commonSelector" => $params["commonSelector"],
                            "pluginsSelector" => $params["pluginsSelector"]
                         )
                     );
-                break;
-                case "config":                    
+                    break;
+                case "config":
                     // Obté els Selectors Css dels forms del plugin PLUGIN
                     $params = array();
                     $this->getConfigSelectors($params);
@@ -77,11 +74,11 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processConfigTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "urlBase" => $urlBase,
                            "configSelector" => $params["configSelector"]
                         )
                     );
-                break;
+                    break;
                 case "usermanager":
                     // Obté els Selectors Css dels forms del plugin USERMANAGER
                     $params = array();
@@ -92,12 +89,12 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processUserManagerTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "urlBase" => $urlBase,
                            "formsSelector" => $params["formsSelector"],
                            "exportCsvName" => $params["exportCsvName"]
                         )
                     );
-                break;
+                    break;
                 case "revert":
                     // Obté els Selectors Css dels forms del plugin REVERT
                     $params = array();
@@ -108,11 +105,11 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processRevertTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?",
+                           "urlBase" => "lib/exe/ioc_ajax.php?",
                            "revertSelector" => $params["revertSelector"]
                         )
                     );
-                break;
+                    break;
                 case "latex":
                     // Obté els Selectors Css dels forms del plugin LATEX
                     $params = array();
@@ -123,13 +120,13 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                         true,
                         "ioc/dokuwiki/processLatexTask",
                         array(
-                           "urlBase" => "lib/plugins/ajaxcommand/ajax.php?call=admin_task",
+                           "urlBase" => $urlBase,
                            "latexSelector" => $params["latexSelector"],
                            "latexpurge" => $params["latexpurge"],
                            "dotest" => $params["dotest"]
                         )
                     );
-                break;
+                    break;
           }
       }
     }

@@ -11,10 +11,6 @@ $arrParcial = array(
                                            "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconClose'"
-//                                          ,"query" => "'do=cancel_partial'"
-//                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-//                                          ,"urlBase" => "'lib/plugins/ajaxcommand/ajax.php?call=cancel_partial'"
-//                                          ,"eventId" => "'cancel_partial'" // S'ha d'afegir el id del document que correspongui
                                         )
                             )
               );

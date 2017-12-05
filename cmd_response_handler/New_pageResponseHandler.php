@@ -9,31 +9,28 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/PageResponseHandler.php');
 require_once(DOKU_TPL_INCDIR.'conf/cfgIdConstants.php');
-require_once(DOKU_COMMAND.'JsonGenerator.php');
-require_once(DOKU_COMMAND.'defkeys/PageKeys.php');
 require_once(DOKU_COMMAND.'defkeys/ResponseParameterKeys.php');
 
 
 class New_pageResponseHandler extends PageResponseHandler
 {
-    function __construct()
-    {
+    function __construct() {
         parent::__construct(pageResponseHandler::PAGE);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
-        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[PageKeys::KEY_ID]);
-         if(preg_match("/wiki:user:.*:dreceres/", $requestParams["id"])){
+        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
+         if (preg_match("/wiki:user:.*:dreceres/", $requestParams[AjaxKeys::KEY_ID])){
              $this->shortcutsResponse($this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client")), $ajaxCmdResponseGenerator);
          }
     }
 
     private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-        $urlBase = "lib/plugins/ajaxcommand/ajax.php?call=page";
-        $urlTree = "lib/plugins/ajaxcommand/ajaxrest.php/ns_tree_rest/";
+        $urlBase = "lib/exe/ioc_ajax.php?call=page";
+        $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
         $params = array(
             "id" => cfgIdConstants::TB_SHORTCUTS,
@@ -43,15 +40,11 @@ class New_pageResponseHandler extends PageResponseHandler
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array (
-                                    'p' =>
-                                    array (
-                                      'urlBase' => '\'lib/plugins/ajaxcommand/ajax.php?call=project\'',
-                                      'params' =>
-                                      array (
-                                        0 => 'projectType',
-                                      ),
-                                    ),
-                                  ),
+                                    'p' => array (
+                                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                                              'params' => array (0 => 'projectType')
+                                           ),
+                                )
         );
         $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                             $params,
