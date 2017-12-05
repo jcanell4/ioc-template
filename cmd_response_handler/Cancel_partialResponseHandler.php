@@ -1,20 +1,18 @@
 <?php
-
 /**
- * Description of SaveResponseHandler
+ * Cancel_partialResponseHandler
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>, Xavier García <xaviergaro.dev@gmail.com>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(tpl_incdir() . 'cmd_response_handler/PageResponseHandler.php');
-//require_once(tpl_incdir().'cmd_response_handler/EditResponseHandler.php');
-require_once DOKU_PLUGIN . 'ajaxcommand/JsonGenerator.php';
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
+
 
 class Cancel_partialResponseHandler extends PageResponseHandler
 {
-    function __construct()
-    {
+    function __construct() {
         parent::__construct(WikiIocResponseHandler::SAVE);
     }
 }

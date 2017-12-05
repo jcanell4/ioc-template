@@ -11,10 +11,6 @@ $arrParcial = array(
                                           "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSave'"
-//                                          ,"query" => "'do=save'"
-//                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
-//                                          ,"urlBase" => "'ajax.php?call=save'"
-//                                          ,"eventId" => "'save_partial'"// S'ha d'afegir el id del document que correspongui
                                         )
                             )
               );

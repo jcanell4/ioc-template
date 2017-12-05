@@ -118,7 +118,7 @@ if (newButton) {
             },cpEsquerra.containerNode);
 
             var dialogTree = new NsTreeContainer({
-                treeDataSource: 'ajaxrest.php/ns_tree_rest/',
+                treeDataSource: 'lib/exe/ioc_ajaxrest.php/ns_tree_rest/',
                 onlyDirs:true,
                 hiddenProjects:true
             }).placeAt(divizquierda);

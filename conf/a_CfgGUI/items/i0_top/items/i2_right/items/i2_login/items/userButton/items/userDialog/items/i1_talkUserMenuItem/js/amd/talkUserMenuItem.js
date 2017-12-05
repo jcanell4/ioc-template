@@ -6,7 +6,7 @@ var userDialog = registry.byId('cfgIdConstants::TALK_USER_MENU_ITEM');
 if (userDialog) {
    var processorTalk = new ErrorMultiFunctionProcessor();
    var requestTalk = new Request();
-   requestTalk.urlBase = "ajax.php?call=new_page";
+   requestTalk.urlBase = "lib/exe/ioc_ajax.php?call=new_page";
    processorTalk.addErrorAction("7101", function () {
          requestTalk.sendRequest(userDialog.getQuery());
    });

@@ -7,17 +7,12 @@ $arrParcial = array(
             "label" => "Índex"
         ),
         "DJO" => array(
-            "treeDataSource" => "'ajaxrest.php/ns_tree_rest/'",
-            "urlBase" => "'ajax.php?call=page'",
+            "treeDataSource" => "'lib/exe/ioc_ajaxrest.php/ns_tree_rest/'",
+            "urlBase" => "'lib/exe/ioc_ajax.php?call=page'",
             "typeDictionary" => ["p" => [
-                "urlBase" => "'ajax.php?call=project'",
+                "urlBase" => "'lib/exe/ioc_ajax.php?call=project'",
                 "params" => ['projectType']
             ]]
-
-            /*,"urlBaseTyped" => array(
-                                   "p" => "'ajax.php?call=commandreport'"
-                                  ,"pf" => "'ajax.php?call=commandreport'"
-                                )*/
             ,"expandProject" => "true"
             ,"processOnClickAndOpenOnClick" => "true"
             ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)

@@ -4,7 +4,7 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tplIncDir());
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
 
@@ -86,7 +86,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             }
         }
 
-        $params["base"] = 'ajax.php?call=edit&do=edit';
+        $params["base"] = 'lib/exe/ioc_ajax.php?call=edit&do=edit';
 
         return $params;
     }

@@ -17,12 +17,12 @@ class RecentResponseHandler extends WikiIocResponseHandler {
                 $responseData["title"],
                 $responseData["content"]['list'],
                 array(
-                    'urlBase' => "ajax.php?call=recent",
+                    'urlBase' => "lib/exe/ioc_ajax.php?call=recent",
                     'formId' => $responseData["formId"],
                 ),
                 array(
                     'callAtt' => 'call',
-                    'urlBase' => "ajax.php",
+                    'urlBase' => "lib/exe/ioc_ajax.php",
                 )
         );
         $ajaxCmdResponseGenerator->addMetadata(
