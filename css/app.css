@@ -597,3 +597,12 @@ span.arrow-icon {
 .dijitIocIconIocSave { background-position: -54px; }
 .dijitIocIconIocDocumentPreview { background-position: -72px; }
 
+
+/* Icons to show with dropdown buttons */
+.dijitAdditionalEditorIconIocBack { background-position: -36px; }
+
+
+/* Test Toolbars */
+.floating-toolbar {
+	padding: 2px 0 0;
+}
