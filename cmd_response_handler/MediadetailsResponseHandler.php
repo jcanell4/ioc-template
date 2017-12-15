@@ -76,11 +76,11 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
                 'id' => $responseData['id'] . '_metaMediaDetailsProva',
                 'title' => "Històric de versions",
                 'ns' => $responseData['ns'],
-                'content' => $this->getModelWrapper()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
+                'content' => $this->getModelAdapter()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
             );
 
             // File Upload
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
             $metaDataFileUpload['ns'] = $responseData['ns'];
             $metaDataFileUpload['id'] = $responseData['id'] . '_metaMediafileupload';
             if ($requestParams["versioupload"]){

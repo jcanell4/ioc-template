@@ -23,7 +23,7 @@ class DiffResponseHandler extends WikiIocResponseHandler {
         );
 
         $ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
-        $revs = $this->getModelWrapper()->getRevisionsList( $requestParams );
+        $revs = $this->getModelAdapter()->getRevisionsList( $requestParams );
         $revs['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
 
         $ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'], $responseData['meta']['meta'] );

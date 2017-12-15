@@ -139,7 +139,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         /*
          * 20150430 Miguel Angel Lozano
          * Canvi per fer servir ContentTabDokuWikiNsTree
-         * En comptes de cridar a getModelWrapper()->getNsMediaTree, es construeix la resposta
+         * En comptes de cridar a getModelAdapter()->getNsMediaTree, es construeix la resposta
          * necessària per tal de que al fer clic a ContentTabDokuWikiNsTree es pugui fer la crida
          * amb els paràmetres necessaris (que aniran directament a la urlBase)
          */
@@ -159,9 +159,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 'list' => $list
             );
 
-            $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
-            $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
-            $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
+            $metaDataFileOptions = $this->getModelAdapter()->getMediaTabFileOptions();
+            $metaDataFileSort = $this->getModelAdapter()->getMediaTabFileSort();
+            $metaDataSearch= $this->getModelAdapter()->getMediaTabSearch();
 
             /*
              * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
@@ -172,7 +172,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 			'content' => $metaDataFileOptions.$metaDataFileSort.$metaDataSearch
 		);
 
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }
@@ -184,7 +184,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
             $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
         }else{
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }

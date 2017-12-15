@@ -77,7 +77,7 @@ class Save_partialResponseHandler extends PageResponseHandler
                 cfgIdConstants::TB_SHORTCUTS);
 
             }else{
-                $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
+                $dades = $this->getModelAdapter()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
                 $urlBase = "lib/exe/ioc_ajax.php?call=page";
                 $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";

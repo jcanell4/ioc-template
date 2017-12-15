@@ -23,7 +23,7 @@ class New_pageResponseHandler extends PageResponseHandler
         parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
         $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
          if (preg_match("/wiki:user:.*:dreceres/", $requestParams[AjaxKeys::KEY_ID])){
-             $this->shortcutsResponse($this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client")), $ajaxCmdResponseGenerator);
+             $this->shortcutsResponse($this->getModelAdapter()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client")), $ajaxCmdResponseGenerator);
          }
     }
 
