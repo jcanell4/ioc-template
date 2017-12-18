@@ -2,7 +2,8 @@
 /**
  * Construeix un array amb els atributs d'un camp del formulari
  */
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_INC')) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/AbstractFormBuilder.php");
 
 class FieldBuilder extends AbstractFormBuilder {
@@ -63,7 +64,7 @@ class FieldBuilder extends AbstractFormBuilder {
 
         if (!$this->id && $label)
             $this->setId($label);
-        
+
         return $this;
     }
 

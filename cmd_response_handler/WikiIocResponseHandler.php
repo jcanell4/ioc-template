@@ -4,11 +4,13 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
+require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
+require_once(DOKU_INC . 'lib/lib_ioc/ajaxcommand/AbstractResponseHandler.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
     /**
-     * Constructor al que se li passa el nom del Command com argument.
+     * Constructor que reb el nom del Command com argument.
      * @param string $cmd
      */
     function __construct($cmd) {
@@ -103,5 +105,4 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
      protected function getLatexSelectors(&$value){
          $this->getModelAdapter()->getLatexSelectors($value);
      }
-
 }
