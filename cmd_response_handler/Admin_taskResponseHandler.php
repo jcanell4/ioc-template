@@ -8,6 +8,7 @@ require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/WikiIocResponseHandler.php');
 
 class Admin_taskResponseHandler extends WikiIocResponseHandler {
+    
     function __construct() {
         parent::__construct(ResponseHandlerKeys::ADMIN_TASK);
     }
