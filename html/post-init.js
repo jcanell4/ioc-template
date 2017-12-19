@@ -430,6 +430,7 @@ require([
         new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/exe/ioc_ajax.php?call=save_partial&do=save_all', true, true);
 
         new RequestControl(eventName.CANCEL, 'lib/exe/ioc_ajax.php?call=cancel', false, true);
+        //(new RequestControl(eventName.SAVE, 'lib/exe/ioc_ajax.php?call=save', true, true, getValidator('CanRevert'))).addRprocessor(type i objeto processor error);
         new RequestControl(eventName.SAVE, 'lib/exe/ioc_ajax.php?call=save', true, true, getValidator('CanRevert'));
         new RequestControl(eventName.EDIT, 'lib/exe/ioc_ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
 
