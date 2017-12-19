@@ -597,8 +597,37 @@ span.arrow-icon {
 .dijitIocIconIocSave { background-position: -54px; }
 .dijitIocIconIocDocumentPreview { background-position: -72px; }
 
+/* IOC syntax buttons */
+.dijitIocIconIocNewContent { background-position: -90px; }
+.dijitIocIconIocInsertFigureSyntax { background-position: -108px; }
+.dijitIocIconIocInsertFigureLinkSyntax { background-position: -126px; }
+.dijitIocIconIocInsertTableSyntax { background-position: -144px; }
+.dijitIocIconIocInsertTableLinkSyntax { background-position: -162px; }
+.dijitIocIconIocInsertTextSyntax { background-position: -180px; }
+.dijitIocIconIocInsertTextlLargeSyntax { background-position: -198px; }
+.dijitIocIconIocInsertExampleSyntax { background-position: -216px; }
+.dijitIocIconIocInsertNoteSyntax { background-position: -234px; }
+.dijitIocIconIocInsertReferenceSyntax { background-position: -252px; }
+.dijitIocIconIocInsertImportantSyntax { background-position: -270px; }
+.dijitIocIconIocInsertQuoteSyntax { background-position: -288px; }
+.dijitIocIconIocInsertAccountingSyntax { background-position: -144px; }
+
+/*'InsertFigureSyntax': DojoFormat,*/
+/*'InsertFigureLinkSyntax': DojoFormat,*/
+/*'InsertTableSyntax': DojoFormat,*/
+/*'InsertTableLinkSyntax': DojoFormat,*/
+/*'InsertTextSyntax': DojoFormat,*/
+/*'InsertTextLargeSyntax': DojoFormat,*/
+/*'InsertExampleSyntax': DojoFormat,*/
+/*'InsertNoteSyntax': DojoFormat,*/
+/*'InsertReferenceSyntax': DojoFormat,*/
+/*'InsertImportantSyntax': DojoFormat,*/
+/*'InsertQuoteSyntax': DojoFormat,*/
+/*'InsertAccountingSyntax': DojoFormat,*/
+
 
 /* Icons to show with dropdown buttons */
+.dijitAdditionalEditorIconIocBack { background-position: -36px; }
 .dijitAdditionalEditorIconIocBack { background-position: -36px; }
 
 
