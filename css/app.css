@@ -585,15 +585,60 @@ span.arrow-icon {
 	width: 18px;
 	height: 18px;
 	text-align: center;
+	background-position-y: 0; /* Per defecte la primera fila */
 }
 
 .dijitDisabled .dijitIocIcon {
 	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
+
 }
 
-.dijitIocIconIocComment { background-position: 0; }
-.dijitIocIconIocSound { background-position: -18px; }
-.dijitIocIconIocBack { background-position: -36px; }
-.dijitIocIconIocSave { background-position: -54px; }
-.dijitIocIconIocDocumentPreview { background-position: -72px; }
+.dijitIocIconIocComment { background-position-x: 0; }
+.dijitIocIconIocSound { background-position-x: -18px; }
+.dijitIocIconIocBack { background-position-x: -36px; }
+.dijitIocIconIocSave { background-position-x: -54px; }
+.dijitIocIconIocDocumentPreview { background-position-x: -72px; }
 
+/* IOC syntax buttons */
+.dijitIocIconIocNewContent { background-position-x: -90px; }
+.dijitIocIconIocInsertFigureSyntax { background-position-x: -108px; }
+.dijitIocIconIocInsertFigureLinkSyntax { background-position-x: -126px; }
+.dijitIocIconIocInsertTableSyntax { background-position-x: -144px; }
+.dijitIocIconIocInsertTableLinkSyntax { background-position-x: -162px; }
+.dijitIocIconIocInsertTextSyntax { background-position-x: -180px; }
+.dijitIocIconIocInsertTextlLargeSyntax { background-position-x: -198px; }
+.dijitIocIconIocInsertExampleSyntax { background-position-x: -216px; }
+.dijitIocIconIocInsertNoteSyntax { background-position-x: -234px; }
+.dijitIocIconIocInsertReferenceSyntax { background-position-x: -252px; }
+.dijitIocIconIocInsertImportantSyntax { background-position-x: -270px; }
+.dijitIocIconIocInsertQuoteSyntax { background-position-x: -288px; }
+.dijitIocIconIocInsertAccountingSyntax { background-position-x: -144px; }
+
+
+
+
+.dijitIocIconIocBold { background-position: -198px -18px; }
+.dijitIocIconIocItalic { background-position: -216px -18px; }
+.dijitIocIconIocUnderline { background-position: -234px -18px; }
+.dijitIocIconIocCode { background-position: -180px -18px; }
+.dijitIocIconIocStrikethrough { background-position: -252px -18px; }
+.dijitIocIconIocHeader1{ background-position-x: -306px; }
+.dijitIocIconIocHeader2{ background-position-x: -324px; }
+.dijitIocIconIocHeader3{ background-position-x: -342px; }
+.dijitIocIconIocHeader4{ background-position-x: -360px; }
+.dijitIocIconIocHeader5{ background-position-x: -378px; }
+.dijitIocIconIocHeader6{ background-position-x: -396px; }
+.dijitIocIconIocLink{ background-position-x: -414px; }
+.dijitIocIconIocLinkExternal{ background-position-x: -432px; }
+
+
+
+
+/* Icons to show with dropdown buttons */
+.dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
+
+
+/* Test Toolbars */
+.floating-toolbar {
+	padding: 2px 0 0;
+}
