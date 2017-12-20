@@ -21,4 +21,5 @@ if (this.dispatcher.getGlobalState().currentTabId) {
     }
 
     _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
+    _ret+="&contentFormat=" + globalState.userState['editor'];
 }
