@@ -4,15 +4,14 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>, Xavier García <xaviergaro.dev@gmail.com>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
-require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 
 class Save_partialResponseHandler extends PageResponseHandler
 {
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::SAVE);
+        parent::__construct(WikiIocResponseHandler::SAVE);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -30,18 +29,27 @@ class Save_partialResponseHandler extends PageResponseHandler
             );
 
             // TODO[Xavi] aquest es el que es fa servir pel guardar normal
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormsDate", $params);
+            $ajaxCmdResponseGenerator->addProcessFunction(true,
+                "ioc/dokuwiki/processSetFormInputValue",
+                $params);
+
+            $ajaxCmdResponseGenerator->addProcessFunction(true,
+                "ioc/dokuwiki/processSetFormsDate",
+                $params);
 
             if($responseData['lockInfo']){
                 $timeout = ExpiringCalc::getExpiringTime($responseData);
+
                 $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[PageKeys::KEY_ID], $timeout);
             }
 
         } else {
-            $ajaxCmdResponseGenerator->addError($responseData["code"], $responseData["info"]);
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCancellation");
-            parent::response($requestParams, $responseData["page"], $ajaxCmdResponseGenerator);
+            $ajaxCmdResponseGenerator->addError($responseData["code"],
+                $responseData["info"]);
+            $ajaxCmdResponseGenerator->addProcessFunction(true,
+                "ioc/dokuwiki/processCancellation");
+            parent::response($requestParams, $responseData["page"],
+                $ajaxCmdResponseGenerator);
         }
 
         // Actualització de les metas, info i les revisions
@@ -69,8 +77,7 @@ class Save_partialResponseHandler extends PageResponseHandler
                 cfgIdConstants::TB_SHORTCUTS);
 
             }else{
-                $action = $this->getModelManager()->getActionInstance("ShortcutsTaskListAction", WikiIocInfoManager::getInfo("client"));
-                $dades = $action->get(['id' => $action->getNsShortcut()]);
+                $dades = $this->getModelWrapper()->getShortcutsTaskList(WikiIocInfoManager::getInfo("client"));
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
                 $urlBase = "lib/exe/ioc_ajax.php?call=page";
                 $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
@@ -82,19 +89,19 @@ class Save_partialResponseHandler extends PageResponseHandler
                     "urlBase" => $urlBase,
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
-                    'typeDictionary' => array('p' => array(
+                    'typeDictionary' => array(
+                                            'p' => array(
                                                       'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                                                       'params' =>
                                                       array (0 => 'projectType')
-                                                     ),
+                                                   ),
                                         )
                 );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                     $params,
-                                                     ResponseParameterKeys::FIRST_POSITION,
-                                                     FALSE,
-                                                     $containerClass
-                                                    );
+                                    $params,
+                                    ResponseParameterKeys::FIRST_POSITION,
+                                    FALSE,
+                                    $containerClass);
             }
         }
     }

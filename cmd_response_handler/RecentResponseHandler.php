@@ -1,14 +1,12 @@
 <?php
 /**
- * RecentResponseHandler
+ * Description of page_response_handler
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
-require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(tpl_incdir().'cmd_response_handler/PageResponseHandler.php');
 
 class RecentResponseHandler extends WikiIocResponseHandler {
-
     function __construct() {
         parent::__construct("recents");
     }

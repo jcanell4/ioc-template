@@ -1,15 +1,14 @@
 <?php
+if (!defined("DOKU_INC")) die();
+require_once(tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php');
+
 /**
  * PageResponseHandler
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
-if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
-require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
-
 class PageResponseHandler extends WikiIocResponseHandler {
 
-    function __construct($cmd = ResponseHandlerKeys::PAGE) {
+    function __construct($cmd = WikiIocResponseHandler::PAGE) {
         parent::__construct($cmd);
     }
 

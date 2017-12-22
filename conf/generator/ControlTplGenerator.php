@@ -1,11 +1,20 @@
 <?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /**
  * Description of ControlTplGenerator
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
-if (!defined('DOKU_INC')) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
+
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
 require_once (DOKU_TPL_INCDIR . 'conf/generator/WikiIocTplGeneratorExceptions.php');
 
 class ControlTplGenerator {
@@ -28,9 +37,9 @@ class ControlTplGenerator {
         if(!is_string($class)){
             $name = $params;
             $params = $class;
-            $class = self::defaultClass;
+            $class = self::defaultClass;            
         }
-
+        
         $this->checkParams($params);
         if (!$name){
             $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);

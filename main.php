@@ -4,8 +4,9 @@
  * @license GPLv2 (http://www.gnu.org/licenses/gpl2.html)
  * @author  Josep Cañellas <jcanell4@ioc.cat>
  */
-if (!defined('DOKU_INC')) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
+
+if (!defined("DOKU_INC")) die(); //check if we are running within the DokuWiki environment
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once DOKU_TPL_INCDIR . 'directRequest.php';
 require_once DOKU_TPL_INCDIR . 'conf/default.php';

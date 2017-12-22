@@ -4,13 +4,12 @@
  * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
-require_once(DOKU_TPL_INCDIR.'cmd_response_handler/WikiIocResponseHandler.php');
+if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+require_once(tpl_incdir().'cmd_response_handler/WikiIocResponseHandler.php');
 
 class Admin_taskResponseHandler extends WikiIocResponseHandler {
-    
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::ADMIN_TASK);
+        parent::__construct(WikiIocResponseHandler::ADMIN_TASK);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";

@@ -4,15 +4,14 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>, Xavier García <xaviergaro.dev@gmail.com>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/PageKeys.php');
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/utility/ExpiringCalc.php');
 
 class Edit_partialResponseHandler extends WikiIocResponseHandler
 {
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::EDIT);
+        parent::__construct(WikiIocResponseHandler::EDIT);
     }
 
     /**

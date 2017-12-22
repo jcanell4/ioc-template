@@ -5,14 +5,16 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN . 'ajaxcommand/defkeys/ResponseHandlerKeys.php');
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_PLUGIN . 'ajaxcommand/defkeys/ResponseParameterKeys.php');
 
 class LoginResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::LOGIN);
+        parent::__construct(WikiIocResponseHandler::LOGIN);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -31,17 +33,17 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
+
+
         if($responseData["loginResult"]){
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(
                                                     cfgIdConstants::USER_BUTTON,
                                                     "label",
                                                     $responseData["userId"]);
-            $modelManager = $this->getModelManager();
 
-            if ($this->getPermission()->isAdminOrManager()){
-                $action = $modelManager->getActionInstance("AdminTaskListAction");
-                $dades = $action->get();
+            if($this->getPermission()->isAdminOrManager()){
+                $dades = $this->getModelWrapper()->getAdminTaskList();
                 $urlBase = "lib/exe/ioc_ajax.php?call=admin_task";
 
                 $params = array(
@@ -51,12 +53,13 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "urlBase" => $urlBase,
                     "content" => $dades["content"],
                 );
-                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO, $params);
+                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
+                                    $params);
             }
 
-            $action = $modelManager->getActionInstance("ShortcutsTaskListAction", $responseData['userId']);
-            $dades = $action->get(['id' => $action->getNsShortcut()]);
-            if ($dades["content"]){
+            // TODO|ALERTA[Xavi] Dades de prova, s'han de sustituir les dades i la URL per la pàgina de dreceres
+            $dades = $this->getModelWrapper()->getShortcutsTaskList($responseData['userId']);
+            if($dades["content"]){
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
                 $urlBase = "lib/exe/ioc_ajax.php?call=page";
                 $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
@@ -68,23 +71,22 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "urlBase" => $urlBase,
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
-                    'typeDictionary' => array('p' => array (
+                    'typeDictionary' => array (
+                                            'p' => array (
                                                       'urlBase' => 'lib/exe/ioc_ajax.php?call=project',
                                                       'params' => array (0 => 'projectType')
-                                                     ),
+                                                   ),
                                         ),
                 );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                     $contentParams,
-                                                     ResponseHandlerKeys::FIRST_POSITION,
-                                                     TRUE,
-                                                     $containerClass
-                                                    );
+                                                $contentParams,
+                                                ResponseParameterKeys::FIRST_POSITION,
+                                                TRUE,
+                                                $containerClass);
             }
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();
-        }
-        else{
+        }else{
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
             $title = '';

@@ -1,7 +1,7 @@
 <?php
 
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR . 'classes/WikiIocBuilder.php');
 require_once(DOKU_TPL_INCDIR . 'conf/js_packages.php');
@@ -25,7 +25,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      */
     function __construct($aParms = array(), $reqPackage = array(), $reqJsModuls = array(), $cssStyles=array()) {
         parent::__construct($reqPackage, $reqJsModuls, $cssStyles);
-
+        
         $this->aParams = $aParms;
 
         foreach ($reqJsModuls as $k => $v) {
@@ -100,7 +100,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
     }
 
     /**
-     * Devuelve un string en el que se han concatenado las propiedades
+     * Devuelve un string en el que se han concatenado las propiedades 
      * en el formato requerido
      * @return string
      */
@@ -108,7 +108,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
         if ($aKeys) {
             if (is_array($aKeys)) {
                 foreach ($aKeys as $key) {
-                    if ($this->aParams[$class][$key])
+                    if ($this->aParams[$class][$key]) 
                         $ret .= $this->parejaKeyValue($key, $this->aParams[$class][$key], $glue, $sep);
                 }
             }else{
@@ -127,7 +127,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
      * @return string
      */
     private function parejaKeyValue($k, $v, $g, $s){
-        if (is_bool($v))
+        if (is_bool($v)) 
             $v = ($v) ? 'true' : 'false';
         if (is_array($v)) {
             $v = json_encode($v);
@@ -136,7 +136,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
         return ($g==':') ? "$k:$v$s" : "$k='$v'$s";
     }
     /**
-     * Devuelve un string en el que se han concatenado las propiedades
+     * Devuelve un string en el que se han concatenado las propiedades 
      * en el formato requerido, excluyendo las claves indicadas
      * @return string
      */
@@ -156,7 +156,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
 
     /**
      * Devuelve el elemento seleccionado del array PRP de propiedades propias
-     *
+     * 
      * @return string
      */
     function getPRP($key) {
@@ -231,7 +231,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	Versiones con código propio que ha sido substituido por un código
 	incluido en método getDOMCSSDJO(tipo, array_de_claves, signo, separador)
-
+	
     // Devuelve un string en el que se han concatenado las propiedades HTML excepto las de la etiqueta style
     function getDOM($aKeys = NULL) {
         if ($aKeys) {
@@ -257,7 +257,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
         if ($aKeys) {
             if (is_array($aKeys)) {
                 foreach ($aKeys as $key) {
-                    if ($this->aParams['CSS'][$key])
+                    if ($this->aParams['CSS'][$key]) 
                         $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
                 }
             }else{
@@ -289,7 +289,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
 
     Versiones con código propio que ha sido substituido por un código
     incluido en método getNoDOMCSSDJO(tipo, array_de_claves, signo, separador)
-
+	
     // Devuelve un string en el que se han concatenado las propiedades HTML excepto las de la etiqueta style
     function getNoDOM($aKeys) {
         if ($aKeys) {
@@ -315,7 +315,7 @@ abstract class WikiIocComponent extends WikiIocBuilder {
         if ($aKeys) {
             if (is_array($aKeys)) {
                 foreach ($aKeys as $key) {
-                    if ($this->aParams['CSS'][$key])
+                    if ($this->aParams['CSS'][$key]) 
                         $style .= $this->parejaKeyValue($key, $this->aParams['CSS'][$key], ";");
                 }
             }else{

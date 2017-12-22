@@ -4,8 +4,10 @@
  *
  * @author Josep Cañellas <jcanell4@ioc.cat>  i Rafael Claver <rclaver@xtec.cat>
  */
+
+//check if we are running within the DokuWiki environment
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 require_once(DOKU_TPL_INCDIR . 'classes/WikiIocComponent.php');
 require_once(DOKU_TPL_INCDIR . 'conf/js_packages.php');
@@ -20,7 +22,7 @@ abstract class WikiIocContainer extends WikiIocComponent {
      *                                  "array("name" => "ioc", "location" => $js_packages["ioc"])
      */
     private $content;
-
+    
     function __construct($aParms = array(), $reqPackage = array(), $reqJsModule = array(), $reqStyles=array()) {
         parent::__construct($aParms, $reqPackage, $reqJsModule, $reqStyles);
     }
@@ -212,7 +214,7 @@ class WikiIocBorderContainer extends WikiIocItemsContainer {
         $ret .= "data-dojo-type='{$this->getReqJsModule('BorderContainer')}' "
                  . "{$this->getDJO()} "
                  . "{$this->getCSS()}>\n"
-                 . "$splitterClass";
+                 . "$splitterClass";             
         return $ret;
     }
 
@@ -242,12 +244,12 @@ class WikiIocItemsPanel extends WikiIocItemsContainer {
                         ,array("name" => "dijit", "location" => $js_packages["dijit"])
                         ,array("name" => "ioc", "location" => $js_packages["ioc"])
         );
-
+        
         if(!isset($aParms["DJO"]["doLayout"])){
             $aParms["PRP"]["doLayout"] = true;
         }
         if(!isset($aParms["DJO"]["closable"])){
-            $aParms["PRP"]["closable"] = true;
+            $aParms["PRP"]["closable"] = true;  
         }
         if(!isset($aParms["PRP"]["onResize"])){
             $aParms["PRP"]["onResize"] = true;
@@ -402,7 +404,7 @@ class WikiIocTabsContainer extends WikiIocItemsContainer {
         } else {
             $ret .= " controllerWidget='{$this->getReqJsModule('TabController')}'";
         }
-        $ret .= ' style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;">'
+        $ret .= ' style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;">'       
                 ."\n";
         return $ret;
     }
@@ -575,7 +577,7 @@ class WikiDojoFormContainer extends WikiIocItemsContainer {
         $id = $this->getDOM('id'); $id = $id ? "id='$id'" : "";
         $id_form = $id ? "id='{$id}_form'" : "";
         $action = $this->getDJO('action') ? "" : "<script>alert('No s\'ha definit l\'element action al formulari [{$this->getDOM('label')}].');</script>\n";
-
+        
         $ret = "<span id='{$this->getDOM('id')}' title='{$this->getDOM('label')}' tooltip='{$this->getDOM('toolTip')}' {$this->getCSS()}'>\n"
             . " $action"
              . "<span $id_form data-dojo-type='{$this->getReqJsModule('IocForm')}' {$this->getDJO()}>\n";

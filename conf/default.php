@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default options for the "ioc_template" DokuWiki template
  *
@@ -10,9 +11,10 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 
+
 //check if we are running within the DokuWiki environment
-if (!defined('DOKU_INC')) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
+if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
 
 $conf['dojo_base'] = "//ajax.googleapis.com/ajax/libs/dojo/1.8/";
 
