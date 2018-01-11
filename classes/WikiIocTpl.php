@@ -1,7 +1,7 @@
 <?php
 
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 
 require_once (DOKU_INC . 'inc/common.php');
 require_once (DOKU_TPL_INCDIR . 'classes/WikiIocContentPage.php');
@@ -71,7 +71,7 @@ class WikiIocTpl {
     public function setEmbebdedScript($scriptCode) {
         $this->scriptCode = $scriptCode;
     }
-    
+
     public function setBody($obj, $parms, $items) {
         global $js_packages;
         //[TODO Josep] Cal passar això al plugin aceeditor
@@ -91,29 +91,29 @@ class WikiIocTpl {
         echo $this->aIocCfg->getRenderingCode();
         echo "</html>";
     }
-    
+
     public function handleDojoMetaHeaders(){
         global $EVENT_HANDLER;
-        
+
         $EVENT_HANDLER->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'setDojoMetaHeaders');
     }
-    
+
     public function setDojoMetaHeaders(Doku_Event &$event, $param) {
         global $conf;
         global $js_packages;
-        
+
         $event->data["link"][] = array ("rel" => "stylesheet",
-                                    "href" => $js_packages["dijit"] 
+                                    "href" => $js_packages["dijit"]
                                                 . "/themes/claro/claro.css",
                                     "media" => "screen");
         $event->data["link"][] = array ("rel" => "stylesheet",
-                                    "href" => $js_packages["dijit"] 
+                                    "href" => $js_packages["dijit"]
                                                 . "/themes/claro/document.css",
                                     "media" => "screen");
         $item0 = $event->data["script"][0];
         $item1 = $event->data["script"][1];
-        
-        $event->data["script"][0] = array( 
+
+        $event->data["script"][0] = array(
                 "type" => "text/javascript",
                 "charset" => "utf-8",
                 "_data" => "var dojoConfig = {\n".
@@ -121,10 +121,10 @@ class WikiIocTpl {
                         "   async:true,\n".
                         "   baseUrl: '/',\n".
                         "   tlmSiblingOfDojo: false,\n".
-                        "   locale: \"".hsc($conf["lang"])."\",\n". 
+                        "   locale: \"".hsc($conf["lang"])."\",\n".
                         WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages().
                         "};\n",
-        );             
+        );
 
         $event->data["script"][1] = array (
                 "type" => "text/javascript",
@@ -169,7 +169,7 @@ class WikiIocTpl {
 
         // TODO[Xavi] carreguem la llibrería ace
         echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";
-        
+
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredStyles();
 
         print "<!--[if lt IE 7]><style type='text/css'>body{behavior:url('" . DOKU_TPL . "static/3rd/csshover.htc')}</style><![endif]-->\n";
@@ -214,7 +214,7 @@ class WikiIocTpl {
             }
             return preg_replace($aPatrones, $aSustituciones, $contentJsFile);
         }
-        
+
     }
 
     /**

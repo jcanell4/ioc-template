@@ -3,13 +3,14 @@
  * DiffResponseHandler
  * @author Xavier García<xaviergaro.dev@gmail.com>
  */
-if (!defined('DOKU_INC')) die();
-require_once( tpl_incdir() . 'cmd_response_handler/WikiIocResponseHandler.php' );
+if (!defined("DOKU_INC")) die();
+require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
 
 class DiffResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct( WikiIocResponseHandler::PAGE );
+        parent::__construct( ResponseHandlerKeys::PAGE );
     }
 
     protected function response( $requestParams, $responseData, &$ajaxCmdResponseGenerator ) {
@@ -23,7 +24,8 @@ class DiffResponseHandler extends WikiIocResponseHandler {
         );
 
         $ajaxCmdResponseGenerator->addInfoDta( $responseData["info"] );
-        $revs = $this->getModelWrapper()->getRevisionsList( $requestParams );
+        $action = $this->getModelManager()->getActionInstance("RevisionsListAction");
+        $revs = $action->get($requestParams);
         $revs['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
 
         $ajaxCmdResponseGenerator->addMetaDiff( $responseData['meta']['id'], $responseData['meta']['meta'] );

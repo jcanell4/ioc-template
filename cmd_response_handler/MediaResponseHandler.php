@@ -4,17 +4,15 @@
  * @author Miguel Angel Lozano <mlozan54@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
-
-require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
-require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
-require_once DOKU_PLUGIN."ajaxcommand/defkeys/MediaKeys.php";
+require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
+require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/MediaKeys.php');
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
+require_once(DOKU_TPL_INCDIR . "conf/cfgIdConstants.php");
 
 class MediaResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct(WikiIocResponseHandler::MEDIA);
+        parent::__construct(ResponseHandlerKeys::MEDIA);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -139,7 +137,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
         /*
          * 20150430 Miguel Angel Lozano
          * Canvi per fer servir ContentTabDokuWikiNsTree
-         * En comptes de cridar a getModelWrapper()->getNsMediaTree, es construeix la resposta
+         * En comptes de cridar a getModelAdapter()->getNsMediaTree, es construeix la resposta
          * necessària per tal de que al fer clic a ContentTabDokuWikiNsTree es pugui fer la crida
          * amb els paràmetres necessaris (que aniran directament a la urlBase)
          */
@@ -159,9 +157,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 'list' => $list
             );
 
-            $metaDataFileOptions = $this->getModelWrapper()->getMediaTabFileOptions();
-            $metaDataFileSort = $this->getModelWrapper()->getMediaTabFileSort();
-            $metaDataSearch= $this->getModelWrapper()->getMediaTabSearch();
+            $metaDataFileOptions = $this->getModelAdapter()->getMediaTabFileOptions();
+            $metaDataFileSort = $this->getModelAdapter()->getMediaTabFileSort();
+            $metaDataSearch= $this->getModelAdapter()->getMediaTabSearch();
 
             /*
              * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
@@ -172,7 +170,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 			'content' => $metaDataFileOptions.$metaDataFileSort.$metaDataSearch
 		);
 
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }
@@ -184,7 +182,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
             $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
         }else{
-            $metaDataFileUpload = $this->getModelWrapper()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }
