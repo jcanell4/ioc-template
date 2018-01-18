@@ -630,9 +630,12 @@ span.arrow-icon {
 .dijitIocIconIocHeader6{ background-position-x: -396px; }
 .dijitIocIconIocLink{ background-position-x: -414px; }
 .dijitIocIconIocLinkExternal{ background-position-x: -432px; }
-
-
-
+.dijitIocIconIocSuperscript { background-position: -270px -18px; }
+.dijitIocIconIocSubscript { background-position: -288px -18px; }
+.dijitIocIconIocIndent { background-position: -378px -18px; }
+.dijitIocIconIocOutdent { background-position: -396px -18px; }
+.dijitIocIconIocOrderedList { background-position: -684px -18px; }
+.dijitIocIconIocUnorderedList { background-position: -702px -18px; }
 
 /* Icons to show with dropdown buttons */
 .dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
