@@ -1,13 +1,13 @@
 <?php
-
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', "../");
+if (!defined('DOKU_INC')) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'conf/default.php');
 
 class cfgBuilder {
 
     private $arrJS_AMD = array();
-    
+
     function __construct() {}
 
     public function getArrayCfg($dir) {
@@ -22,11 +22,11 @@ class cfgBuilder {
         include_once ("$dir/arrayParcialCfg.php");
         // $arrParcial es el nombre del array definido en cada uno de los ficheros arrayParcialCfg.php
         $arrCfg = $arrParcial;
-        
+
         if(isset($arrCfg['hidden']) && $arrCfg['hidden']){
             return NULL;
         }
-        
+
         $arrJS_AMD_tmp = $this->buscaJS_AMD("$dir/js/amd");
         if ($arrJS_AMD_tmp) {
             foreach ($arrJS_AMD_tmp as $v) {
@@ -135,7 +135,7 @@ class cfgBuilder {
                                 $sortida .= ",\"$v\"\n";
                             }
                             $sortida = "require([\n" . substr($sortida, 1) . "], function (";
-                            //Añade los punteros de la función  
+                            //Añade los punteros de la función
                             foreach ($contingut['alias'] as $v) {
                                 $sortida .= "$v,";
                             }
@@ -150,7 +150,7 @@ class cfgBuilder {
         else
             return NULL;
     }
-    
+
     /**
         Escribe el contenido de un array en un fichero de texto php
     **/
@@ -167,7 +167,7 @@ class cfgBuilder {
             $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
             $aSustituciones[] = $v;
         }
-        
+
         $sortida = preg_replace($aPatrones, $aSustituciones, $sortida);
         $fh = fopen($file, "w");
         fwrite($fh, $sortida);
@@ -191,7 +191,7 @@ class cfgBuilder {
             $aPatrones[] = "/\b(cfgIdConstants::$k)\b/";
             $aSustituciones[] = $v;
         }
-        
+
         $sortida = preg_replace($aPatrones, $aSustituciones, $sortida);
         $fh = fopen($file, "w");
         fwrite($fh, $sortida);

@@ -4,9 +4,15 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
+require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
+require_once(DOKU_INC . 'lib/lib_ioc/ajaxcommand/AbstractResponseHandler.php');
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
+    /**
+     * Constructor que reb el nom del Command com argument.
+     * @param string $cmd
+     */
     function __construct($cmd) {
         parent::__construct($cmd);
     }
@@ -49,7 +55,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     }
 
     protected function getToolbarIds(&$value){
-        $this->getModelWrapper()->getToolbarIds($value);
+        $this->getModelAdapter()->getToolbarIds($value);
     }
 
   /**
@@ -57,7 +63,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
    * @param array $value - array de paràmetres
    */
     protected function getAclSelectors(&$value){
-        $this->getModelWrapper()->getAclSelectors($value);
+        $this->getModelAdapter()->getAclSelectors($value);
     }
 
   /**
@@ -65,7 +71,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
    * @param array $value - array de paràmetres
    */
     protected function getPluginSelectors(&$value){
-        $this->getModelWrapper()->getPluginSelectors($value);
+        $this->getModelAdapter()->getPluginSelectors($value);
     }
 
    /**
@@ -73,7 +79,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     * @param array $value - array de paràmetres
     */
      protected function getConfigSelectors(&$value){
-         $this->getModelWrapper()->getConfigSelectors($value);
+         $this->getModelAdapter()->getConfigSelectors($value);
      }
 
    /**
@@ -81,7 +87,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     * @param array $value - array de paràmetres
     */
      protected function getUserManagerSelectors(&$value){
-         $this->getModelWrapper()->getUserManagerSelectors($value);
+         $this->getModelAdapter()->getUserManagerSelectors($value);
      }
 
    /**
@@ -89,7 +95,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     * @param array $value - array de paràmetres
     */
      protected function getRevertSelectors(&$value){
-         $this->getModelWrapper()->getRevertSelectors($value);
+         $this->getModelAdapter()->getRevertSelectors($value);
      }
 
    /**
@@ -97,7 +103,6 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     * @param array $value - array de paràmetres
     */
      protected function getLatexSelectors(&$value){
-         $this->getModelWrapper()->getLatexSelectors($value);
+         $this->getModelAdapter()->getLatexSelectors($value);
      }
-
 }

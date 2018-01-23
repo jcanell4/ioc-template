@@ -2,7 +2,8 @@
 /**
  * FormBuilder
  */
-if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', tpl_incdir());
+if (!defined('DOKU_INC')) die();
+if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/AbstractFormBuilder.php");
 
 class FormBuilder extends AbstractFormBuilder {
