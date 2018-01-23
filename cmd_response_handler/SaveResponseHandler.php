@@ -18,49 +18,65 @@ class SaveResponseHandler extends PageResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
-        // TODO[Xavi] Com els errors es gestionen amb excepcions, cal fer servir el code? Si es llença excepció no arriba aquí
-        if ($responseData["code"]===0 && !$responseData["deleted"]){
-            $ajaxCmdResponseGenerator->addInfoDta($responseData["info"]);
+        if ($responseData['close']) {
+            if (isset($requestParams['rev'])) {
+                $ajaxCmdResponseGenerator->addAlert($responseData['info']['message']);
+            }
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $responseData['close']);
+
+            if ($responseData['reload']) {
+                $params = ['urlBase' => "lib/exe/ioc_ajax.php?",
+                           'params' => $responseData['reload']
+                          ];
+                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
+            }
+            return;
+        }
+        elseif ($responseData['code']===0 && !$responseData['deleted']) {
+            if (isset($requestParams['rev'])) {
+                $ajaxCmdResponseGenerator->addAlert($responseData['info']['message']);
+            }else {
+                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+            }
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-            $params = array(
-                "formId" => $responseData["formId"],
-                "inputs" => $responseData["inputs"],
-            );
 
             if($responseData['lockInfo']){
                 $timeout = ExpiringCalc::getExpiringTime($responseData);
-                $ajaxCmdResponseGenerator->addRefreshLock($responseData["id"], $requestParams[AjaxKeys::KEY_ID], $timeout);
+                $ajaxCmdResponseGenerator->addRefreshLock($responseData[AjaxKeys::KEY_ID], $requestParams[AjaxKeys::KEY_ID], $timeout);
             }
 
-            if ($responseData["reload"]) {
-                $params = [
-                    "urlBase" => "lib/exe/ioc_ajax.php?",
-                    "params" =>$responseData["reload"]
-                ];
+            $params = array(
+                'formId' => $responseData['formId'],
+                'inputs' => $responseData['inputs']
+            );
 
+            if ($responseData['reload']) {
+                $params = ['urlBase' => "lib/exe/ioc_ajax.php?",
+                           'params' => $responseData['reload']
+                          ];
                 $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $params);
             }
 
             //ALERTA[Xavi] El formulari només cal actualitzar-lo quan no es tanca la pestanya
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSetFormInputValue", $params);
-
-        }elseif ($responseData["deleted"]){
-            $ajaxCmdResponseGenerator->addRemoveContentTab($responseData['id']);
-            $ajaxCmdResponseGenerator->addAlert($responseData["info"]['message']);
+        }
+        elseif ($responseData['deleted']){
+            $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[AjaxKeys::KEY_ID]);
+            $ajaxCmdResponseGenerator->addAlert($responseData['info']['message']);
             $ajaxCmdResponseGenerator->addRemoveItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
-
-        }else if ($responseData["code"] === "cancel_document") {
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData["cancel_params"]);
-
-        }else{
-            $ajaxCmdResponseGenerator->addError($responseData["code"], $responseData["info"]);
+        }
+        else if ($responseData['code'] === "cancel_document") {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processEvent", $responseData['cancel_params']);
+        }
+        else{
+            $ajaxCmdResponseGenerator->addError($responseData['code'], $responseData['info']);
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCancellation");
-            parent::response($requestParams, $responseData["page"], $ajaxCmdResponseGenerator);
+            parent::response($requestParams, $responseData['page'], $ajaxCmdResponseGenerator);
         }
 
         //CASOS ESPECIALS
         if (preg_match("/wiki:user:.*:dreceres/", $requestParams[AjaxKeys::KEY_ID])){
-            if ($responseData["deleted"]){
+            if ($responseData['deleted']){
                 $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
                 cfgIdConstants::TB_SHORTCUTS);
             }else{
@@ -71,16 +87,15 @@ class SaveResponseHandler extends PageResponseHandler {
                 $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
                 $params = array(
-                    "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::BODY_CONTENT,
-                    "urlBase" => $urlBase,
-                    "data" => $dades["content"],
-                    "treeDataSource" => $urlTree,
+                    'id' => cfgIdConstants::TB_SHORTCUTS,
+                    'title' =>  $dades['title'],
+                    'standbyId' => cfgIdConstants::BODY_CONTENT,
+                    'urlBase' => $urlBase,
+                    'data' => $dades['content'],
+                    'treeDataSource' => $urlTree,
                     'typeDictionary' => array('p' => array(
-                                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
-                                                      'params' =>
-                                                      array (0 => 'projectType')
+                                                      'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
+                                                      'params' => array (0 => "projectType")
                                                      ),
                                         )
                 );
@@ -93,5 +108,5 @@ class SaveResponseHandler extends PageResponseHandler {
             }
         }
     }
-}
 
+}

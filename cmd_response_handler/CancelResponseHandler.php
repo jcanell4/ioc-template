@@ -14,17 +14,16 @@ class CancelResponseHandler extends PageResponseHandler {
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
-        if(isset($responseData["codeType"])){
-            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
-        }else{
-            parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        if (isset($responseData['codeType'])) {
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
         }
-
-        if ($responseData["close"]) {
-            $params = $responseData["close"];
-            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $params);
-        }else{
+        elseif ($responseData['close']) {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $responseData['close']);
+        }
+        else {
+            parent::response($requestParams, $responseData, $ajaxCmdResponseGenerator);
             $ajaxCmdResponseGenerator->addContenttoolTimerStop($responseData['structure']['id']);
         }
     }
+
 }
