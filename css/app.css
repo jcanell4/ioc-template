@@ -636,6 +636,7 @@ span.arrow-icon {
 .dijitIocIconIocOutdent { background-position: -396px -18px; }
 .dijitIocIconIocOrderedList { background-position: -684px -18px; }
 .dijitIocIconIocUnorderedList { background-position: -702px -18px; }
+.dijitIocIconIocHorizontalRule { background-position: -666px -18px; }
 
 /* Icons to show with dropdown buttons */
 .dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
