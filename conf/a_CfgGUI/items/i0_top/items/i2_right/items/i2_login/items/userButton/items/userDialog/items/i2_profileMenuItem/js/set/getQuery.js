@@ -1,0 +1,1 @@
+_ret = "page=usermanager&user=" + this.dispatcher.getGlobalState().userId + "&fn[edit][" + this.dispatcher.getGlobalState().userId + "]=1";

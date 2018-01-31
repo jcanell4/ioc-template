@@ -26,6 +26,7 @@ class cfgIdConstants
     const SHORTCUTS_MENU_ITEM = "shortcutsMenuItem";
     const TEMPLATE_SHORTCUTS_NS = GlobalKeys::TEMPLATE_SHORTCUTS_NS;
     const TALK_USER_MENU_ITEM = "talkUserMenuItem";
+    const PROFILE_USER_MENU_ITEM = "profileUserMenuItem";
     const LOGOFF_MENU_ITEM = "logoffMenuItem";
     const NOTIFIER_BUTTON_INBOX = "notifierButtonInbox";
     const NOTIFIER_BUTTON_OUTBOX = "notifierButtonOutbox";

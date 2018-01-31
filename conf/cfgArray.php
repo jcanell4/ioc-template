@@ -272,7 +272,29 @@ $_arrIocCfgGUI = array (
                             ),
                           ),
                         ),
-                        'i2_logoffMenuItem' => 
+                        'i2_profileMenuItem' => 
+                        array (
+                          'class' => 'WikiIocMenuItem',
+                          'parms' => 
+                          array (
+                            'DOM' => 
+                            array (
+                              'id' => 'profileUserMenuItem',
+                              'label' => 'El meu perfil',
+                            ),
+                            'DJO' => 
+                            array (
+                              'query' => '\'id=profile\'',
+                              'autoSize' => true,
+                              'disabled' => false,
+                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=profile\'',
+                              'standbyId' => '\'bodyContent\'',
+                              'getQuery' => 'function(_data){var _ret=null; _ret = \'page=usermanager&user=\' + this.dispatcher.getGlobalState().userId + \'&fn[edit][\' + this.dispatcher.getGlobalState().userId + \']=1\';return _ret;}',
+                            ),
+                          ),
+                          'hidden' => false,
+                        ),
+                        'i3_logoffMenuItem' => 
                         array (
                           'class' => 'WikiIocMenuItem',
                           'parms' => 
