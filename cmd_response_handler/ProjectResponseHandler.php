@@ -5,7 +5,6 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(DOKU_PLUGIN."ajaxcommand/defkeys/ResponseHandlerKeys.php");
 require_once(DOKU_PLUGIN."ajaxcommand/defkeys/ProjectKeys.php");
 require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModelExceptions.php");
 require_once(DOKU_TPL_INCDIR."conf/cfgIdConstants.php");
@@ -15,7 +14,7 @@ require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::PROJECT);
+        parent::__construct(ProjectKeys::KEY_PROJECT);
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -23,6 +22,19 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         switch ($requestParams[ProjectKeys::KEY_DO]) {
             case ProjectKeys::KEY_EDIT:
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                //afegir la metadata de revisions com a resposta
+                if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                    $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                    $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+                    $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                }else {
+                    $ajaxCmdResponseGenerator->addExtraMetadata(
+                            $responseData['id'],
+                            $responseData['id'] . "_revisions",
+                            "No hi ha revisions",
+                            "<h3>Aquest projecte no té revisions</h3>"
+                    );
+                }
                 break;
 
             case ProjectKeys::KEY_SAVE:
@@ -51,7 +63,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
         $id = $responseData['id'];
         $ns = $requestParams['id'];
-        $title = "Projecte $ns";
+        $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
+        $title = "Projecte $ns $title_rev";
         $action = 'lib/exe/ioc_ajax.php?call=project&do=save';
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
         $values = $responseData['projectMetaData']['values'];
