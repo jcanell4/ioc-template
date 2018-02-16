@@ -66,12 +66,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
         $title = "Projecte $ns $title_rev";
         $action = 'lib/exe/ioc_ajax.php?call=project&do=save';
-        $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+        $form_readonly = isset($requestParams['rev']);
+        $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData'], $form_readonly);
         $values = $responseData['projectMetaData']['values'];
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $extra = $responseData['projectExtraData'];
+        $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
 
-        $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $extra);
+        $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $autosaveTimer, $extra);
 
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
     }
@@ -100,7 +102,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @param array: $view, obtenido de defaultView.json
      * @return array
      */
-    protected function buildForm($id, $ns, $action, $structure, $view) {
+    protected function buildForm($id, $ns, $action, $structure, $view, $form_readonly) {
 
         $structure = $this->flatStructure($structure);
         $aGroups = array();
@@ -151,6 +153,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             //combina los atributos y valores de los arrays de estructura y de vista
             if (!is_array($valField)) $valField = array($valField);
             $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
+
+            if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly']==FALSE)))
+                $arrValues['props']['readonly'] = TRUE;
 
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
             $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
