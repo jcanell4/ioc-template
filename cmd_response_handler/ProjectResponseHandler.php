@@ -73,7 +73,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $extra = $responseData['projectExtraData'];
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
 
-        $ajaxCmdResponseGenerator->addForm($id, $ns, $title, $form, $values, $autosaveTimer, $extra);
+        $ajaxCmdResponseGenerator->addProject($id, $ns, $title, $form, $values, $autosaveTimer, $extra);
 
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
     }

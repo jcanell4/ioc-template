@@ -438,6 +438,9 @@ require([
         new RequestControl(eventName.SAVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=save', true);
         new RequestControl(eventName.REMOVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=remove', true);
 
+        new RequestControl(eventName.SAVE_PROJECT_DRAFT, 'lib/exe/ioc_ajax.php?call=draft_project&do=save', true);
+        new RequestControl(eventName.REMOVE_PROJECT_DRAFT, 'lib/exe/ioc_ajax.php?call=draft_project&do=remove', true);
+
         new RequestControl(eventName.NOTIFY, 'lib/exe/ioc_ajax.php?call=notify', true);
 
         new RequestControl(eventName.MEDIA_DETAIL, 'lib/exe/ioc_ajax.php?call=mediadetails', true);
