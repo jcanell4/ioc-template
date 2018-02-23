@@ -20,6 +20,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
         switch ($requestParams[ProjectKeys::KEY_DO]) {
+
             case ProjectKeys::KEY_EDIT:
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 //afegir la metadata de revisions com a resposta
@@ -50,6 +51,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 if ($responseData['info'])
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
+
+            case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
+                if ($responseData['info'])
+                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                break;
+
+            case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
+                throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
 
             default:
                 throw new Exception();
@@ -87,7 +96,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
         $rdata['typeDictionary'] = array(
                                       array('urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
-                                            'params' => array(0 => 'projectType')
+                                            'params' => array(0 => ProjectKeys::PROJECT_TYPE)
                                            )
                                         );
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
