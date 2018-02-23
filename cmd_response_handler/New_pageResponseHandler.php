@@ -38,8 +38,8 @@ class New_pageResponseHandler extends PageResponseHandler
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array('p' => array(
-                                              'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
-                                              'params' => array (0 => 'projectType')
+                                              'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
+                                              'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
                                              ),
                                 )
         );

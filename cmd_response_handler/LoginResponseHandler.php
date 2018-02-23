@@ -70,7 +70,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array('p' => array (
                                                       'urlBase' => 'lib/exe/ioc_ajax.php?call=project',
-                                                      'params' => array (0 => 'projectType')
+                                                      'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
                                                      ),
                                         ),
                 );
