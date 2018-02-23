@@ -83,15 +83,14 @@ class Save_partialResponseHandler extends PageResponseHandler
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array('p' => array(
-                                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
-                                                      'params' =>
-                                                      array (0 => 'projectType')
+                                                      'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
+                                                      'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
                                                      ),
                                         )
                 );
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                                                      $params,
-                                                     ResponseParameterKeys::FIRST_POSITION,
+                                                     ResponseHandlerKeys::FIRST_POSITION,
                                                      FALSE,
                                                      $containerClass
                                                     );
