@@ -158,6 +158,7 @@ $_arrIocCfgGUI = array (
                         ),
                         'DJO' => 
                         array (
+                          'method' => '\'post\'',
                           'urlBase' => '\'lib/exe/ioc_ajax.php?call=login\'',
                           'standbyId' => '\'loginDialog_hidden_container\'',
                         ),
@@ -902,15 +903,15 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'i1_save_form' => 
+            'i1_save_project' => 
             array (
               'class' => 'WikiEventButton',
               'parms' => 
               array (
                 'DOM' => 
                 array (
-                  'id' => 'saveFormButton',
-                  'title' => 'Desar Formulari',
+                  'id' => 'saveProjectButton',
+                  'title' => 'Desar el Formulari del Projecte',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -918,7 +919,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSave\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_form\'};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'save_project\'};return _ret;}',
                 ),
               ),
             ),

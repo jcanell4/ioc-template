@@ -78,7 +78,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
@@ -108,22 +108,13 @@ require([
                         isRevision;
 
                     if (page.action === 'view') {
-
-                        // ALERTA[Xavi] Compte! en el mode vista no es pot fer servir el mateix botó perqué no tenim la informació per desar a la wiki!
-                        // isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
-                        //
-                        // if (isRevision) {
-                        //     disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
-                        // }
-
-
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                         }
                         disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-
-                    } else if (page.action === 'sec_edit') {
+                    }
+                    else if (page.action === 'sec_edit') {
                         if (selectedSection.id) {
 
                             if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
@@ -139,7 +130,8 @@ require([
                             }
                         }
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-                    } else if (page.action === 'edit') {
+                    }
+                    else if (page.action === 'edit') {
                         var ro = disp.getContentCache(cur).getMainContentTool().locked
                                     || disp.getContentCache(cur).getMainContentTool().readonly;
 
@@ -156,18 +148,20 @@ require([
                             style.set(cur, "overflow", "hidden");
                         }
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-                    } else if (page.action === 'form') {
-                        disp.changeWidgetProperty('cfgIdConstants::SAVE_FORM_BUTTON', "visible", true);
+                    }
+                    else if (page.action === 'form') {
+                        disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
-
-                    } else if (page.action === 'media') {
+                    }
+                    else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
                             disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                         }
                         disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                    } else if (page.action === 'mediadetails') {
+                    }
+                    else if (page.action === 'mediadetails') {
                         var pageDif = (page.mediado && page.mediado === "diff");
                         if (!pageDif) {
                             disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", true);
@@ -417,47 +411,32 @@ require([
             }
         });
 
+        var ajax_call = "lib/exe/ioc_ajax.php?call=";
         var eventName = wikiIocDispatcher.getEventManager().eventName;
 
         // ALERTA[Xavi] Aquí es on es creen i es configuren els controladors de request
-        new RequestControl(eventName.LOCK_DOCUMENT, 'lib/exe/ioc_ajax.php?call=lock', true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
-        new RequestControl(eventName.UNLOCK_DOCUMENT, 'lib/exe/ioc_ajax.php?call=unlock', false);
-        new RequestControl(eventName.CANCEL_DOCUMENT, 'lib/exe/ioc_ajax.php?call=cancel', false, true);
+        new RequestControl(eventName.LOCK_DOCUMENT, ajax_call+"lock", true); // TODO[Xavi] Això no cal que sigui true, però s'ha de canviar com es genera el query per tot arreu si ho canviem
+        new RequestControl(eventName.UNLOCK_DOCUMENT, ajax_call+"unlock", false);
+        new RequestControl(eventName.CANCEL_DOCUMENT, ajax_call+"cancel", false, true);
 
-        new RequestControl(eventName.CANCEL_PARTIAL, 'lib/exe/ioc_ajax.php?call=cancel_partial', false, true);
-        new RequestControl(eventName.EDIT_PARTIAL, 'lib/exe/ioc_ajax.php?call=edit_partial', false, true, getValidator('PageNotRequired'));
-        new RequestControl(eventName.SAVE_PARTIAL, 'lib/exe/ioc_ajax.php?call=save_partial', true, true);
-        new RequestControl(eventName.SAVE_PARTIAL_ALL, 'lib/exe/ioc_ajax.php?call=save_partial&do=save_all', true, true);
+        new RequestControl(eventName.CANCEL_PARTIAL, ajax_call+"cancel_partial", false, true);
+        new RequestControl(eventName.EDIT_PARTIAL, ajax_call+"edit_partial", false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.SAVE_PARTIAL, ajax_call+"save_partial", true, true);
+        new RequestControl(eventName.SAVE_PARTIAL_ALL, ajax_call+"save_partial&do=save_all", true, true);
 
-        new RequestControl(eventName.CANCEL, 'lib/exe/ioc_ajax.php?call=cancel', false, true);
-        new RequestControl(eventName.SAVE, 'lib/exe/ioc_ajax.php?call=save', true, true, getValidator('CanRevert'));
-        new RequestControl(eventName.EDIT, 'lib/exe/ioc_ajax.php?call=edit', false, true, getValidator('PageNotRequired'));
+        new RequestControl(eventName.CANCEL, ajax_call+"cancel", false, true);
+        new RequestControl(eventName.SAVE, ajax_call+"save", true, true, getValidator('CanRevert'));
+        new RequestControl(eventName.EDIT, ajax_call+"edit", false, true, getValidator('PageNotRequired'));
 
-        new RequestControl(eventName.SAVE_FORM, 'lib/exe/ioc_ajax.php?call=project&do=save', true, true);
+        new RequestControl(eventName.SAVE_DRAFT, ajax_call+"draft&do=save", true);
+        new RequestControl(eventName.REMOVE_DRAFT, ajax_call+"draft&do=remove", true);
 
-        new RequestControl(eventName.SAVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=save', true);
-        new RequestControl(eventName.REMOVE_DRAFT, 'lib/exe/ioc_ajax.php?call=draft&do=remove', true);
+        new RequestControl(eventName.SAVE_PROJECT, ajax_call+"project&do=save", true, true);
+        new RequestControl(eventName.SAVE_PROJECT_DRAFT, ajax_call+"project&do=save_project_draft", true);
+        new RequestControl(eventName.REMOVE_PROJECT_DRAFT, ajax_call+"project&do=remove_project_draft", true);
 
-        new RequestControl(eventName.SAVE_PROJECT_DRAFT, 'lib/exe/ioc_ajax.php?call=draft_project&do=save', true);
-        new RequestControl(eventName.REMOVE_PROJECT_DRAFT, 'lib/exe/ioc_ajax.php?call=draft_project&do=remove', true);
-
-        new RequestControl(eventName.NOTIFY, 'lib/exe/ioc_ajax.php?call=notify', true);
-
-        new RequestControl(eventName.MEDIA_DETAIL, 'lib/exe/ioc_ajax.php?call=mediadetails', true);
-
-
-        // ALERTA[Xavi] Si al carregar estem autenticats, s'ha de possar en marxa el motor de notificacions
-        //console.log("Estem autenticats?", wikiIocDispatcher.getGlobalState().login);
-
-        // ALERTA[Xavi] Eliminar
-        // if (wikiIocDispatcher.getGlobalState().login === true) {
-        //     wikiIocDispatcher.getEventManager().fireEvent('notify', {
-        //         //id: null, // No cal
-        //         dataToSend: {
-        //             do: 'init'
-        //         }
-        //     });
-        // }
+        new RequestControl(eventName.NOTIFY, ajax_call+"notify", true);
+        new RequestControl(eventName.MEDIA_DETAIL, ajax_call+"mediadetails", true);
 
         // Recuperem el contenidor de notificacions
         var inboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_INBOX');
@@ -472,8 +451,6 @@ require([
         notifyManager.addWarningContainer(warningContainer);
         notifyManager.addNotifyContainer('inbox', inboxNotifierContainer);
         notifyManager.addNotifyContainer('outbox', outboxNotifierContainer);
-
-
 
         var draftManager = wikiIocDispatcher.getDraftManager();
         draftManager.compactDrafts();

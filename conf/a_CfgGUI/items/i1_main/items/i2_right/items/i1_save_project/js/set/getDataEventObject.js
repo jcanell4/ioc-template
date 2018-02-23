@@ -1,5 +1,5 @@
 var id = this.dispatcher.getGlobalState().getCurrentId();
 _ret = {
     id: id,
-    name: 'save_form'
+    name: 'save_project'
 };
