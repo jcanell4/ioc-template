@@ -22,6 +22,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         switch ($requestParams[ProjectKeys::KEY_DO]) {
 
             case ProjectKeys::KEY_EDIT:
+                if ($responseData['drafts']) {
+                    $responseData['hasDraft'] = TRUE;
+                    $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+                }
+
                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                 //afegir la metadata de revisions com a resposta
                 if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
@@ -52,9 +57,22 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
                 break;
 
+            case ProjectKeys::KEY_CANCEL:
+                if (isset($responseData['codeType'])) {
+                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
+                }
+                break;
+
             case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
-                if ($responseData['info'])
+                if ($responseData['lockInfo']){
+                    $timeout = ($responseData['lockInfo']['locker']['time'] + WikiGlobalConfig::getConf("locktime") - 60 - time()) * 1000;
+                    $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
+                }
+                if ($responseData['info']) {
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                }else{
+                    $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
+                }
                 break;
 
             case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
@@ -77,13 +95,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $action = 'lib/exe/ioc_ajax.php?call=project&do=save';
         $form_readonly = isset($requestParams['rev']);
         $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData'], $form_readonly);
-        $values = $responseData['projectMetaData']['values'];
+
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
-        $extra = $responseData['projectExtraData'];
+        $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
 
-        $ajaxCmdResponseGenerator->addProject($id, $ns, $title, $form, $values, $autosaveTimer, $extra);
-
+        $ajaxCmdResponseGenerator->addProject($id, $ns, $title, $form,
+                                              $responseData['projectMetaData']['values'],
+                                              $autosaveTimer, $responseData['hasDraft'], $responseData['originalLastmod'],
+                                              $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
     }
 
@@ -218,4 +238,80 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
         return $flat;
     }
+
+    protected function addSaveOrDiscardDialog(&$responseData, $id) {
+        $responseData['projectExtraData']['messageChangesDetected'] = WikiIocLangManager::getLang('projects')['cancel_editing_with_changes'];
+        $responseData['projectExtraData']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id, strlen($responseData["rev"])>0);
+    }
+
+    protected function generateSaveOrDiscardDialog($id, $isRev) {
+        $dialogConfig = [
+            'id' => $id,
+            'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
+            'message' => WikiIocLangManager::getLang("save_or_discard_dialog_message"), //'Vols desar els canvis?',
+            'closable' => false,
+            'buttons' => [
+                [
+                    'id' => 'discard',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save") . " | discard_changes:true, keep_draft:false", //'No desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'cancel_project',
+                            'data' => [
+                                'dataToSend' => [
+                                    'discard_changes' => true,
+                                    'keep_draft' => false
+                                ]
+                            ],
+                            'observable' => $id
+                        ]
+                    ]
+                ],
+            ]
+        ];
+
+        if ($isRev) {
+            $dialogConfig['buttons'][] =
+                [
+                    'id' => 'save',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'save_project',
+                            'data' => [
+                                'dataToSend' => [
+                                    'reload' => false
+                                ]
+                            ],
+                            'observable' => $id
+                        ],
+                    ]
+                ];
+        }
+        else {
+            $dialogConfig['buttons'][] =
+                [
+                    'id' => 'save',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save") . " | cancel:true, keep_draft:false", //'Desar',
+                    'buttonType' => 'fire_event',
+                    'extra' => [
+                        [
+                            'eventType' => 'save_project',
+                            'data' => [
+                                'dataToSend' => [
+                                    'cancel' => true,
+                                    'keep_draft' => false
+                                ]
+                            ],
+                            'observable' => $id,
+                        ],
+                    ]
+                ];
+        }
+
+        return $dialogConfig;
+    }
+
 }
