@@ -302,7 +302,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                             'data' => [
                                 'dataToSend' => [
                                     'cancel' => true,
-                                    'keep_draft' => false
+                                    'keep_draft' => false,
+                                    'close' => true,
+                                    'no_response' => true
                                 ]
                             ],
                             'observable' => $id,
