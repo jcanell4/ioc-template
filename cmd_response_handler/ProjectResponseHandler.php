@@ -253,7 +253,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             'buttons' => [
                 [
                     'id' => 'discard',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save") . " | discard_changes:true, keep_draft:false", //'No desar',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"), //'No desar',
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [
@@ -294,7 +294,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $dialogConfig['buttons'][] =
                 [
                     'id' => 'save',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save") . " | cancel:true, keep_draft:false", //'Desar',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [
