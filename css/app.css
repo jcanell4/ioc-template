@@ -638,7 +638,12 @@ span.arrow-icon {
 .dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
 
 
-/* Test Toolbars */
 .floating-toolbar {
 	padding: 2px 0 0;
+}
+
+.readonly-highlight{
+	background-color: red;
+	opacity: 0.2;
+	position: absolute;
 }
