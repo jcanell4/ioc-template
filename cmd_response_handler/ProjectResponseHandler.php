@@ -44,8 +44,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 break;
 
             case ProjectKeys::KEY_SAVE:
-                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+                }else {
+                    $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
+                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                }
                 break;
 
             case ProjectKeys::KEY_CREATE:
@@ -58,8 +62,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 break;
 
             case ProjectKeys::KEY_CANCEL:
-                if (isset($responseData['codeType'])) {
-                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
+                if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
                 }
                 break;
 

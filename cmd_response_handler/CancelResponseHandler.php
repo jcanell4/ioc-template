@@ -10,14 +10,14 @@ require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 class CancelResponseHandler extends PageResponseHandler {
 
     function __construct() {
-        parent::__construct(ResponseHandlerKeys::CANCEL);
+        parent::__construct(ResponseHandlerKeys::KEY_CANCEL);
     }
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
-        if (isset($responseData['codeType'])) {
-            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
+        if (isset($responseData[ResponseHandlerKeys::KEY_CODETYPE])) {
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ResponseHandlerKeys::KEY_CODETYPE]);
         }
-        elseif ($responseData['close']) {
+        elseif ($responseData[ResponseHandlerKeys::KEY_CLOSE]) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $responseData['close']);
         }
         else {

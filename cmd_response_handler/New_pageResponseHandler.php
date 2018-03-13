@@ -45,7 +45,7 @@ class New_pageResponseHandler extends PageResponseHandler
         );
         $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
                             $params,
-                            ResponseParameterKeys::FIRST_POSITION,
+                            ResponseHandlerKeys::FIRST_KEY,
                             TRUE,
                             $containerClass);
     }
