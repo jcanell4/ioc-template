@@ -642,8 +642,16 @@ span.arrow-icon {
 	padding: 2px 0 0;
 }
 
+
+/* Tests Readonly */
+
 .readonly-highlight{
 	background-color: red;
 	opacity: 0.2;
 	position: absolute;
 }
+
+.ace_readonly{
+	/*display: none;*/
+}
+
