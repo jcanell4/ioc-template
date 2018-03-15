@@ -19,19 +19,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-        if ($requestParams[ProjectKeys::PROJECT_TYPE] && $responseData[ProjectKeys::KEY_CODETYPE]!==0) {
+        if ($requestParams[AjaxKeys::PROJECT_TYPE] && $responseData["codeType"]!==0) {
             if (!$responseData['projectExtraData'][AjaxKeys::PROJECT_TYPE]) { //es una página de un proyecto
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], AjaxKeys::PROJECT_TYPE, $requestParams[AjaxKeys::PROJECT_TYPE]);
             }
         }
+        
     }
-
+    
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-        }
-        else {
+        }else {
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_EDIT:
