@@ -17,69 +17,80 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         parent::__construct(ProjectKeys::KEY_PROJECT);
     }
 
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+            if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+            }
+        }
+        
+    }
+    
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+        }else {
+            switch ($requestParams[ProjectKeys::KEY_DO]) {
 
-        switch ($requestParams[ProjectKeys::KEY_DO]) {
+                case ProjectKeys::KEY_EDIT:
+                    if ($responseData['drafts']) {
+                        $responseData['hasDraft'] = TRUE;
+                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+                    }
 
-            case ProjectKeys::KEY_EDIT:
-                if ($responseData['drafts']) {
-                    $responseData['hasDraft'] = TRUE;
-                    $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
-                }
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    //afegir la metadata de revisions com a resposta
+                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                    }else {
+                        $ajaxCmdResponseGenerator->addExtraMetadata(
+                                $responseData['id'],
+                                $responseData['id'] . "_revisions",
+                                "No hi ha revisions",
+                                "<h3>Aquest projecte no té revisions</h3>"
+                        );
+                    }
+                    break;
 
-                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                //afegir la metadata de revisions com a resposta
-                if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                    $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                    $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
-                    $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
-                }else {
-                    $ajaxCmdResponseGenerator->addExtraMetadata(
-                            $responseData['id'],
-                            $responseData['id'] . "_revisions",
-                            "No hi ha revisions",
-                            "<h3>Aquest projecte no té revisions</h3>"
-                    );
-                }
-                break;
-
-            case ProjectKeys::KEY_SAVE:
-                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                break;
-
-            case ProjectKeys::KEY_CREATE:
-                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                break;
-
-            case ProjectKeys::KEY_GENERATE:
-                if ($responseData['info'])
+                case ProjectKeys::KEY_SAVE:
+                    $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                break;
+                    break;
 
-            case ProjectKeys::KEY_CANCEL:
-                if (isset($responseData['codeType'])) {
-                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
-                }
-                break;
+                case ProjectKeys::KEY_CREATE:
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
 
-            case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
-                if ($responseData['lockInfo']){
-                    $timeout = ($responseData['lockInfo']['locker']['time'] + WikiGlobalConfig::getConf("locktime") - 60 - time()) * 1000;
-                    $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
-                }
-                if ($responseData['info']) {
-                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                }else{
-                    $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
-                }
-                break;
+                case ProjectKeys::KEY_GENERATE:
+                    if ($responseData['info'])
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    break;
 
-            case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
-                throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+                case ProjectKeys::KEY_CANCEL:
+                    //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    break;
 
-            default:
-                throw new Exception();
+                case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
+                    if ($responseData['lockInfo']){
+                        $timeout = ($responseData['lockInfo']['locker']['time'] + WikiGlobalConfig::getConf("locktime") - 60 - time()) * 1000;
+                        $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
+                    }
+                    if ($responseData['info']) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    }else{
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
+                    }
+                    break;
+
+                case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
+                    throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+
+                default:
+                    throw new Exception();
+            }
         }
 
     }
@@ -253,7 +264,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             'buttons' => [
                 [
                     'id' => 'discard',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save") . " | discard_changes:true, keep_draft:false", //'No desar',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_dont_save"), //'No desar',
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [
@@ -294,7 +305,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $dialogConfig['buttons'][] =
                 [
                     'id' => 'save',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save") . " | cancel:true, keep_draft:false", //'Desar',
+                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
                     'buttonType' => 'fire_event',
                     'extra' => [
                         [

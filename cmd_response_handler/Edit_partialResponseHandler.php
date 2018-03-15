@@ -30,8 +30,8 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
         } else if (isset($responseData['show_draft_dialog'])) {
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
-        } else if (isset($responseData["codeType"])) {
-            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
+        } else if (isset($responseData[ResponseHandlerKeys::KEY_CODETYPE])) {
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ResponseHandlerKeys::KEY_CODETYPE]);
 
         } else {
             if ($responseData['structure']["locked"]) {
