@@ -27,9 +27,9 @@ class EditResponseHandler extends WikiIocResponseHandler
             //Hi ha un esborrany. Es pregunta que cal fer.
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
 
-        } else if (isset($responseData["codeType"])) {
+        } else if (isset($responseData[ResponseHandlerKeys::KEY_CODETYPE])) {
 
-            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData["codeType"]);
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ResponseHandlerKeys::KEY_CODETYPE]);
 
         } else if ($responseData["locked"]) {
             //El recurs està bloquejat per un altre usuari. Es pregunta si cal fer-ne seguiment per saber

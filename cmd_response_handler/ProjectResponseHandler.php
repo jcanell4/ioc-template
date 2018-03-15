@@ -28,68 +28,69 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
     
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+            $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+        }else {
+            switch ($requestParams[ProjectKeys::KEY_DO]) {
 
-        switch ($requestParams[ProjectKeys::KEY_DO]) {
+                case ProjectKeys::KEY_EDIT:
+                    if ($responseData['drafts']) {
+                        $responseData['hasDraft'] = TRUE;
+                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+                    }
 
-            case ProjectKeys::KEY_EDIT:
-                if ($responseData['drafts']) {
-                    $responseData['hasDraft'] = TRUE;
-                    $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
-                }
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    //afegir la metadata de revisions com a resposta
+                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                    }else {
+                        $ajaxCmdResponseGenerator->addExtraMetadata(
+                                $responseData['id'],
+                                $responseData['id'] . "_revisions",
+                                "No hi ha revisions",
+                                "<h3>Aquest projecte no té revisions</h3>"
+                        );
+                    }
+                    break;
 
-                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                //afegir la metadata de revisions com a resposta
-                if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                    $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                    $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
-                    $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
-                }else {
-                    $ajaxCmdResponseGenerator->addExtraMetadata(
-                            $responseData['id'],
-                            $responseData['id'] . "_revisions",
-                            "No hi ha revisions",
-                            "<h3>Aquest projecte no té revisions</h3>"
-                    );
-                }
-                break;
-
-            case ProjectKeys::KEY_SAVE:
-                $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                break;
-
-            case ProjectKeys::KEY_CREATE:
-                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                break;
-
-            case ProjectKeys::KEY_GENERATE:
-                if ($responseData['info'])
+                case ProjectKeys::KEY_SAVE:
+                    $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                     $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                break;
+                    break;
 
-            case ProjectKeys::KEY_CANCEL:
-                if (isset($responseData['codeType'])) {
-                    $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData['codeType']);
-                }
-                break;
+                case ProjectKeys::KEY_CREATE:
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
 
-            case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
-                if ($responseData['lockInfo']){
-                    $timeout = ($responseData['lockInfo']['locker']['time'] + WikiGlobalConfig::getConf("locktime") - 60 - time()) * 1000;
-                    $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
-                }
-                if ($responseData['info']) {
-                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                }else{
-                    $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
-                }
-                break;
+                case ProjectKeys::KEY_GENERATE:
+                    if ($responseData['info'])
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    break;
 
-            case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
-                throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+                case ProjectKeys::KEY_CANCEL:
+                    //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    break;
 
-            default:
-                throw new Exception();
+                case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
+                    if ($responseData['lockInfo']){
+                        $timeout = ($responseData['lockInfo']['locker']['time'] + WikiGlobalConfig::getConf("locktime") - 60 - time()) * 1000;
+                        $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
+                    }
+                    if ($responseData['info']) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    }else{
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
+                    }
+                    break;
+
+                case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
+                    throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+
+                default:
+                    throw new Exception();
+            }
         }
 
     }
