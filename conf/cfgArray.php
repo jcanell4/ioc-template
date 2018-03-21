@@ -1028,6 +1028,30 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i4_edit_project' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'editProjectButton',
+                  'title' => 'Edició',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=edit\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconEdit\'',
+                  'standbyId' => '\'bodyContent\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                  'disableOnSend' => true,
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var globalState=this.dispatcher.getGlobalState(); var ns=globalState.getContent(globalState.currentTabId).ns; var rev=globalState.getCurrentContent().rev; var projectType=globalState.getContent(globalState.getCurrentId()).projectType; if(this.query){ _ret=this.query+\'&\'; } _ret+=\'id=\'+ns+\'&projectType=\'+projectType; if(rev) { _ret+=\'&rev=\'+rev; } _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns); _ret+=\'&contentFormat=\'+globalState.userState[\'editor\'];}return _ret;}',
+                ),
+              ),
+            ),
             'i5_edparc' => 
             array (
               'class' => 'WikiEventButton',
@@ -1255,7 +1279,7 @@ $_arrIocCfgGUI = array (
                   'iconClass' => '\'iocIconUpload\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
-                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var gState=this.dispatcher.getGlobalState();var id=gState.getCurrentId();if (gState.currentTabId) var ns=gState.getContent(gState.currentTabId).ns;var query=this.query;require ([\'dijit/registry\'], function(registry) { if (id) { if (!ns) ns=id; var widget=registry.byId(id); var projectType=widget.getProjectType(); if(query){ _ret=query+\'&id=\'+ns+\'&projectType=\'+projectType; }else{ _ret=\'id=\'+ns+\'&projectType=\'+projectType; } }});return _ret;}',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var gState=this.dispatcher.getGlobalState();var id=gState.getCurrentId();if (id) { var ns=id; if (gState.currentTabId) ns=gState.getContent(gState.currentTabId).ns; var projectType=gState.getContent(id).projectType; if(this.query){ _ret=this.query+\'&\'; } _ret+=\'id=\'+ns+\'&projectType=\'+projectType;}return _ret;}',
                 ),
               ),
             ),
