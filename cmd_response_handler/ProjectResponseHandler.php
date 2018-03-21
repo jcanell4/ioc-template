@@ -39,7 +39,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_VIEW:
-                    $responseData['hasDraft'] = isset($responseData['drafts']);
+                    if ($responseData['drafts']) {
+                        $responseData['hasDraft'] = TRUE;
+                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+                    }
 
                     $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     //afegir la metadata de revisions com a resposta
@@ -120,34 +123,31 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        if ($responseData['info']) {
-            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-        }
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
         $title = "Projecte $ns $title_rev";
-        $action = "lib/exe/ioc_ajax.php?call=project&do=view";
-        $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
                                                   $responseData['hasDraft'],
                                                   $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
-    }
-
-    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
+    }
+
+    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
         $title = "Projecte $ns $title_rev";
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
-        $form = $this->buildForm($id, $ns, $action, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData'], $action);
 
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
@@ -155,10 +155,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
-                                                  $autosaveTimer, $responseData['hasDraft'], $responseData['originalLastmod'],
+                                                  $responseData['hasDraft'], $autosaveTimer, $responseData['originalLastmod'],
                                                   $responseData['projectExtraData']);
 
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
+        if ($responseData['info']) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        }
     }
 
     private function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
@@ -185,7 +188,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @param array: $view, obtenido de defaultView.json
      * @return array
      */
-    protected function buildForm($id, $ns, $action, $structure, $view, $form_readonly=FALSE) {
+    protected function buildForm($id, $ns, $structure, $view, $action=NULL, $form_readonly=FALSE) {
 
         $structure = $this->flatStructure($structure);
         $aGroups = array();
