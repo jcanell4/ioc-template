@@ -1,19 +1,14 @@
 _ret="";
 var gState=this.dispatcher.getGlobalState();
 var id=gState.getCurrentId();
-if (gState.currentTabId)
-    var ns=gState.getContent(gState.currentTabId).ns;
-var query=this.query;
-require (["dijit/registry"], function(registry) {
-    if (id) {
-        if (!ns) ns=id;
-        var widget=registry.byId(id);
-        var projectType=widget.getProjectType();
-        if(query){
-            _ret=query+"&id="+ns+"&projectType="+projectType;
-        }else{
-            _ret="id="+ns+"&projectType="+projectType;
-        }
+if (id) {
+    var ns=id;
+    if (gState.currentTabId)
+        ns=gState.getContent(gState.currentTabId).ns;
+    var projectType=gState.getContent(id).projectType;
+    if(this.query){
+        _ret=this.query+"&";
     }
+    _ret+="id="+ns+"&projectType="+projectType;
 }
-);
+
