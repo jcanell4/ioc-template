@@ -67,6 +67,7 @@ class cfgIdConstants
     const CANCEL_BUTTON = "cancelButton";
     const EDIT_BUTTON = "editButton";
     const ED_PARC_BUTTON = "edparcButton";
+    const EDIT_PROJECT_BUTTON = "editProjectButton";
     const CANCEL_PARC_BUTTON = "cancelparcButton";
     const SAVE_PARC_BUTTON = "saveparcButton";
     const SAVE_PROJECT_BUTTON = "saveProjectButton";

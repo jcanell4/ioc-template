@@ -78,6 +78,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
@@ -152,6 +153,9 @@ require([
                     else if (page.action === 'form') {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                    }
+                    else if (page.action === 'view_form') {
+                        disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
@@ -294,10 +298,14 @@ require([
                         queryParams += "call=page&id=";
 
                     } else if (state.getContent(id).action === "form") {
-
                         var ns = state.getContent(id).ns;
                         var projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
+
+                    } else if (state.getContent(id).action === "view_form") {
+                        var ns = state.getContent(id).ns;
+                        var projectType = state.getContent(id).projectType;
+                        queryParams = "call=project&do=view&ns=" + ns + "&projectType=" + projectType + "&id=";
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
@@ -317,7 +325,6 @@ require([
                     } else if (state.getContent(id).action === "mediadetails") {
                         queryParams = "call=mediadetails";
                         var elid = state.getContent(id).myid;
-                        //_ret = 'id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media';
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "diff") {

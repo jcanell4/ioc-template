@@ -149,6 +149,7 @@ $lang['js']['page_already_required'] = 'La pàgina es troba en edició en una al
 $lang['js']['default_validation_request_error'] = 'No es pot enviar la petició';
 $lang['js']['login_error'] = 'Usuari o contrasenya incorrectes';
 $lang['js']['cant_revert'] = 'No es pot restaurar la revisió perquè s\'ha detectat el document original en edició. Has de tancar-lo abans.';
+$lang['js']['has_draft'] = "Hi ha un esborrany d'aquest document";
 
 $lang['notifier_initialized'] = 'Notificador inicialitzat correctament';
 $lang['notifier_send_message'] = 'S\'ha enviat un missatge mitjançant el notificador';
@@ -156,3 +157,5 @@ $lang['notifier_pop_messaged'] = 'S\'han recuperat missatges del notificador';
 $lang['notifier_closed'] = 'S\'ha tancat el notificador';
 
 $lang["metadata_export_title"]="Propietats exportació";
+
+$lang["hasDraft"]="Hi ha un esborrany d'aquest document";

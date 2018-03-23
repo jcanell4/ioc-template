@@ -342,6 +342,13 @@ button.setValidator(getValidator('PageNotRequired'));
 });
 require([
 "dijit/registry"
+,"ioc/functions/getValidator"
+], function (registry,getValidator) {
+var button = registry.byId('editProjectButton');
+button.setValidator(getValidator('PageNotRequired'));
+});
+require([
+"dijit/registry"
 ,"dojo/cookie"
 ], function (registry,cookie) {
 var button = registry.byId('printButton');
