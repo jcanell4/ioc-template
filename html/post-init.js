@@ -279,7 +279,7 @@ require([
                     infoManager.refreshInfo();
                 }
 
-                // console.log(state.pages);
+                var queryParams, page, ns, projectType, elid;
 
                 for (var id in state.pages) {
 
@@ -288,8 +288,7 @@ require([
                         console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
                         continue;
                     }
-
-                    var queryParams = '';
+                    queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
                         if (state.getContent(id).rev) {
@@ -298,14 +297,26 @@ require([
                         queryParams += "call=page&id=";
 
                     } else if (state.getContent(id).action === "form") {
-                        var ns = state.getContent(id).ns;
-                        var projectType = state.getContent(id).projectType;
+                        ns = state.getContent(id).ns;
+                        projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
 
                     } else if (state.getContent(id).action === "view_form") {
-                        var ns = state.getContent(id).ns;
-                        var projectType = state.getContent(id).projectType;
+                        ns = state.getContent(id).ns;
+                        projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=view&ns=" + ns + "&projectType=" + projectType + "&id=";
+
+                    } else if (state.getContent(id).action === "project_diff") {
+                        page = state.getContent(id);
+                        projectType = state.getContent(id).projectType;
+                        queryParams = "call=project&do=diff&ns=" + page.ns + "&projectType=" + projectType;
+                        if (page.rev2) {
+                            queryParams += '&rev2[]=' + page.rev1;
+                            queryParams += '&rev2[]=' + page.rev2;
+                        } else {
+                            queryParams += '&rev1=' + page.rev1;
+                        }
+                        queryParams += "&id=";
 
                     } else if (state.getContent(id).action === "admin") {
                         queryParams = "call=admin_task&do=admin&page=";
@@ -319,17 +330,17 @@ require([
 
                     } else if (state.getContent(id).action === "media") {
                         queryParams = "call=media";
-                        var elid = state.getContent(id).ns;
+                        elid = state.getContent(id).ns;
                         queryParams += '&ns=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "mediadetails") {
                         queryParams = "call=mediadetails";
-                        var elid = state.getContent(id).myid;
+                        elid = state.getContent(id).myid;
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "diff") {
 
-                        var page = state.getContent(id);
+                        page = state.getContent(id);
                         queryParams = 'call=diff&id=' + page.ns;
 
                         if (page.rev2) {
