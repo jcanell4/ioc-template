@@ -663,7 +663,7 @@ span.arrow-icon {
 .dojoxGrid {
 	position: relative;
 	background-color: #EBEADB;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	-moz-outline-style: none;
 	outline: none;
 	overflow: hidden;
@@ -725,7 +725,7 @@ span.arrow-icon {
 .dojoxGridHeader .dojoxGridCell {
 	border: 1px solid;
 	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	background: url(images/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
 	padding-bottom: 2px;
 }
 
@@ -798,7 +798,7 @@ span.arrow-icon {
 	border: 1px solid;
 	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
 	border-top: none;
-	background: url(images/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
 }
 
 .dojoxGridRowbarInner {
@@ -981,7 +981,7 @@ span.arrow-icon {
 .dojoxGridDndAvatarItem	td {
 	border: 1px solid;
 	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	background: url(images/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
 	padding: 0pt;
 	margin: 0pt;
 }
@@ -1015,10 +1015,10 @@ span.arrow-icon {
 }
 
 .dojoxGridColPlaceBottom {
-	background: transparent url(images/grid_sort_up.gif) no-repeat scroll left top;
+	background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
 }
 .dojoxGridColPlaceTop {
-	background: transparent url(images/grid_sort_down.gif) no-repeat scroll left top;
+	background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
 }
 
 .dojoxGridColPlaceTop, .dojoxGridColPlaceBottom {
@@ -1051,10 +1051,10 @@ span.arrow-icon {
 }
 
 .dojoxGridColPlaceBottom {
-	background: transparent url(images/grid_sort_up.gif) no-repeat scroll left top;
+	background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
 }
 .dojoxGridColPlaceTop {
-	background: transparent url(images/grid_sort_down.gif) no-repeat scroll left top;
+	background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
 }
 
 .dojoxGridColPlaceTop, .dojoxGridColPlaceBottom {
@@ -1130,10 +1130,10 @@ span.arrow-icon {
 	padding-left:25px;
 }
 .claro .dojoxGridLoading {
-	background-image:url("../../../dijit/themes/claro/images/loadingAnimation.gif");
+	background-image:url("css/icons/Grid/loadingAnimation.gif");
 }
 .claro .dojoxGridError {
-	background-image: url('../../../dijit/icons/images/commonIconsObjActEnabled.png');
+	background-image: url('css/icons/commonIconsObjActEnabled.png');
 	background-position: -496px;
 	width: 16px;
 	height: 16px;
@@ -1176,7 +1176,7 @@ span.arrow-icon {
 	float:right;
 }
 .claro .dojoxGridArrowButtonNode {
-	background:transparent url("../../../dijit/themes/claro/images/spriteArrows.png") no-repeat scroll left center;
+	background:transparent url("css/icons/Grid/spriteArrows.png") no-repeat scroll left center;
 	display:block;
 	float:right;
 	height:1em;
@@ -1190,7 +1190,7 @@ span.arrow-icon {
 
 /* header rows */
 .claro .dojoxGridMasterHeader {
-	background: url("images/header.png") #EDF2F7 repeat-x bottom;
+	background: url("css/icons/Grid/header.png") #EDF2F7 repeat-x bottom;
 	background: -moz-linear-gradient(top, #EDF2F7, #D0DFEA);
 	background: -webkit-gradient(linear, left top, left bottom, from(#EDF2F7), to(#D0DFEA));
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFEDF2F7, endColorstr=#FFD0DFEA);
@@ -1229,12 +1229,12 @@ span.arrow-icon {
 
 /* rowbar - row headers */
 .claro .dojoxGridRowbar {
-	background:url("images/header.png") #e5edf4 repeat-x top;
+	background:url("css/icons/Grid/header.png") #e5edf4 repeat-x top;
 	border:none;
 	border-right:1px solid #BCBCBC;
 }
 .claro .dojoxGridRowbarTable {
-	background:transparent url("images/header_shadow.png") repeat-x scroll center bottom;
+	background:transparent url("css/icons/Grid/header_shadow.png") repeat-x scroll center bottom;
 }
 .dj_ie6 .claro .dojoxGridRowbar,
 .dj_ie6 .claro .dojoxGridRowbarTable {
@@ -1265,7 +1265,7 @@ span.arrow-icon {
 	border-collapse: collapse;
 }
 .claro .dojoxGridRowTable tr {
-	background:url("images/row_back.png") #fff repeat-x;
+	background:url("css/icons/Grid/row_back.png") #fff repeat-x;
 }
 .claro .dojoxGridRowOdd .dojoxGridRowTable tr {
 	background-color:#f7fcff;
@@ -1307,7 +1307,7 @@ span.arrow-icon {
 
 /*  Single Affordance Hover Effect */
 .claro .dojoxGridRowOver .dojoxGridCell {
-	background:url("images/row_back.png") #ABD6FF repeat-x;
+	background:url("css/icons/Grid/row_back.png") #ABD6FF repeat-x;
 	border-top:1px solid #769DC0;
 	border-bottom:1px solid #769DC0;
 }
@@ -1316,7 +1316,7 @@ span.arrow-icon {
 	border-right:1px solid #ABD6FF;
 }
 .claro .dojoxGridRowActive .dojoxGridCell {
-	background:url("images/td_button_down.png") #7DBEFA repeat-x;
+	background:url("css/icons/Grid/td_button_down.png") #7DBEFA repeat-x;
 }
 .dj_ie6 .claro .dojoxGridRowActive .dojoxGridCell,
 .dj_ie7 .claro .dojoxGridRowActive .dojoxGridCell {
@@ -1331,10 +1331,10 @@ span.arrow-icon {
 	border-collapse:separate;/*FF*/
 }
 .claro .dojoxGridDoubleAffordance .dojoxGridRowActive .dojoxGridCell{
-	background-image:url("images/row_back.png");
+	background-image:url("css/icons/Grid/row_back.png");
 }
 .claro .dojoxGridDoubleAffordance .dojoxGridRowActive .dojoxGridCellActive {
-	background:url("images/td_button_down.png") #93cafe repeat-x;
+	background:url("css/icons/Grid/td_button_down.png") #93cafe repeat-x;
 }
 .dj_ie6 .claro .dojoxGridCell {
 	background-image:none !important;
@@ -1399,7 +1399,7 @@ span.arrow-icon {
 	background-position: -53px 0px;
 }
 .claro .dojoxGridExpandoLoading .dojoxGridExpandoNode {
-	background-image: url('../../../dijit/themes/claro/images/loadingAnimation.gif');
+	background-image: url('css/icons/Grid/loadingAnimation.gif');
 }
 .claro .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpando {
 	visibility: visible !important;
@@ -1450,3 +1450,41 @@ span.view-field {
   -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
+
+.ioc-bootstrap table {
+	border: 1px solid #DBDBDB;
+	width:100%;
+}
+
+.ioc-bootstrap thead tr {
+-webkit-gradient(linear,left top,left bottom,from(#EDF2F7),to(#D0DFEA)); /* TODO: Afegir la versió per altres navegadors */
+
+	height: 38px;
+}
+
+.ioc-bootstrap th {
+	font-weight: bold;
+}
+
+.ioc-bootstrap tbody th {
+	background-color:inherit;
+}
+
+.ioc-bootstrap table th, .ioc-bootstrap table td {
+	text-align: left;
+	padding: 3px 5px;
+	border:1px solid #BFD6EB;
+}
+
+.ioc-bootstrap table tr:nth-child(odd) {
+	background-color: #f7fcff;
+}
+
+.dojoxGridHeader {
+	font-weight:bold;
+}
+
+.dojoxGridRow table.dojoxGridRowTable {
+	margin:0;
+}
+
