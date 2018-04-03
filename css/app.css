@@ -661,3 +661,33 @@ span.view-field {
   -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
+
+.leftcolor,
+.rightcolor{
+    font-size: 100%;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    padding: 2px 8px;
+}
+
+.leftcolor{
+    background-color: #DFF2BF;
+}
+
+.rightcolor{
+    background-color: lightpink;
+}
+
+.leftcolor.itemProjectChanged{
+    background-color: #9E9;
+    color: red;    
+}
+
+.rightcolor.itemProjectChanged{
+    background-color: #E99;
+    color: red;    
+}
+
+th.leftcolor,
+th.rightcolor{
+     font-weight: bold;
+}
