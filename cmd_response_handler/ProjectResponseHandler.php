@@ -32,11 +32,37 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
         }
         else {
-            if (isset($requestParams['rev'])) {
+            if (isset($requestParams['rev']) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
+            $extramd = ['id' => $responseData['id'],
+                        'idr' => $responseData['id']."_revisions",
+                        'txt' => "No hi ha revisions",
+                        'html' => "<h3>Aquest projecte no té revisions</h3>"
+                       ];
+
             switch ($requestParams[ProjectKeys::KEY_DO]) {
+
+                case ProjectKeys::KEY_DIFF:
+
+                    $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
+                                                              $responseData['projectExtraData']
+                                                            );
+                    //afegir la metadata de revisions com a resposta
+                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                    }else {
+                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
+                    }
+
+                    if ($responseData['info']) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    }
+                    break;
 
                 case ProjectKeys::KEY_VIEW:
                     if ($responseData['drafts']) {
@@ -47,16 +73,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     //afegir la metadata de revisions com a resposta
                     if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                        $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
                     }else {
-                        $ajaxCmdResponseGenerator->addExtraMetadata(
-                                $responseData['id'],
-                                $responseData['id'] . "_revisions",
-                                "No hi ha revisions",
-                                "<h3>Aquest projecte no té revisions</h3>"
-                        );
+                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
                     break;
 
@@ -69,16 +91,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     //afegir la metadata de revisions com a resposta
                     if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                        $responseData[ProjectKeys::KEY_REV]['data_call_items'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
                     }else {
-                        $ajaxCmdResponseGenerator->addExtraMetadata(
-                                $responseData['id'],
-                                $responseData['id'] . "_revisions",
-                                "No hi ha revisions",
-                                "<h3>Aquest projecte no té revisions</h3>"
-                        );
+                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
                     break;
 
