@@ -54,7 +54,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
                         $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
                         $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
-                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata']['id'], $responseData[ProjectKeys::KEY_REV]);
                     }else {
                         $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
