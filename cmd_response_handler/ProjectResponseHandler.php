@@ -45,16 +45,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_DIFF:
-
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
                                                               $responseData['projectExtraData']
-                                                            );
+                                                             );
                     //afegir la metadata de revisions com a resposta
                     if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $urlBase = "lib/exe/ioc_ajax.php?call=";
                         $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
                         $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = $urlBase.$responseData[ProjectKeys::KEY_REV]['call_diff'];
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata']['id'], $responseData[ProjectKeys::KEY_REV]);
+                        $param = ['ns' => $responseData['rdata']['ns'],
+                                  'pageCommand' => $urlBase."project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
+                                 ];
+                        $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['rdata']['id'], true, "ioc/dokuwiki/processContentPage", $param);
                     }else {
                         $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
