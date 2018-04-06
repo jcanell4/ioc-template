@@ -1004,6 +1004,48 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i3_cancel_project' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'cancelProjectButton',
+                  'title' => 'Cancel·lar',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconClose\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var pType = globalState.getContent(id).projectType;_ret = { id: id, name: \'cancel_project\', projectType: pType, dataToSend: {keep_draft: false, projectType: pType}};return _ret;}',
+                ),
+              ),
+            ),
+            'i3a_revert_project' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'revertProjectButton',
+                  'title' => 'Revertir',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=revert\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconUndo\'',
+                  'getQuery' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var ns = globalState.getContent(id).ns;var rev = globalState.getContent(id).rev;var pType = globalState.getContent(id).projectType;if(this.query){ _ret=this.query;}else{ _ret=\'do=revert\';}_ret+=\'&id=\'+ns + \'&projectType=\'+pType + \'&rev=\'+rev;return _ret;}',
+                ),
+              ),
+            ),
             'i4_edit' => 
             array (
               'class' => 'WikiIocButton',

@@ -120,6 +120,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_CANCEL:
                     //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_CANCEL."]");
+                    break;
+
+                case ProjectKeys::KEY_REVERT:
+                    //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REVERT."]");
                     break;
 
                 case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
@@ -135,7 +141,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
-                    throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT."]");
 
                 default:
                     throw new Exception();
