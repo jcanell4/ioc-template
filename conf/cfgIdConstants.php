@@ -73,7 +73,6 @@ class cfgIdConstants
     const SAVE_PROJECT_BUTTON = "saveProjectButton";
     const CANCEL_PROJECT_BUTTON = "cancelProjectButton";
     const GENERATE_PROJECT_BUTTON = "generateProjectButton";
-    const REVERT_PROJECT_BUTTON = "revertProjectButton";
     const PRINT_BUTTON = "printButton";
     const REVERT_BUTTON = "revertButton";
 

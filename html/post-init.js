@@ -79,7 +79,6 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::REVERT_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
 
@@ -127,8 +126,8 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     }
                     else if (page.action === 'edit') {
-                        var ro = disp.getContentCache(cur).getMainContentTool().locked
-                                    || disp.getContentCache(cur).getMainContentTool().readonly;
+                        var ro = disp.getContentCache(cur).getMainContentTool().locked ||
+                                 disp.getContentCache(cur).getMainContentTool().readonly;
 
                         isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
 
@@ -150,9 +149,7 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === "view_form" || page.action === "project_view") {
-                        if (disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
-                            disp.changeWidgetProperty('cfgIdConstants::REVERT_PROJECT_BUTTON', "visible", true);
-                        }else {
+                        if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
                             disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
                         }
                     }
@@ -182,7 +179,6 @@ require([
         wikiIocDispatcher.addUpdateView(updateHandler);
 
 
-
         // Gestió del relogin
         var relogin = function (userId) {
 
@@ -192,7 +188,6 @@ require([
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
             });
-
         };
 
         storageManager.on('change', 'login', function (e) {

@@ -119,14 +119,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_CANCEL:
-                    //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+                    }
                     throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_CANCEL."]");
                     break;
 
                 case ProjectKeys::KEY_REVERT:
-                    //El deixem aquí per a usuos futurs. No ELIMINAR!
-                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REVERT."]");
-                    break;
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REVERT."]\n"
+                                        . "S'ha traslladat a: wikiocmodel/projects/documentation/command/responseHandler/ProjectRevertResponseHandler.php");
 
                 case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
                     if ($responseData['lockInfo']){
@@ -192,7 +193,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
     }
 
-    private function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
+    protected function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
         $rdata['id'] = "metainfo_tree_".$projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
         $rdata['title'] = "Espai de noms del projecte";
