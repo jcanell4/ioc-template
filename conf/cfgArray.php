@@ -1004,6 +1004,26 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i3_cancel_project' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'cancelProjectButton',
+                  'title' => 'Cancel·lar',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconClose\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var pType = globalState.getContent(id).projectType;var kd = globalState.getContent(id).keep_draft;_ret = { id: id, name: \'cancel_project\', projectType: pType, dataToSend: {keep_draft: kd, projectType: pType}};return _ret;}',
+                ),
+              ),
+            ),
             'i4_edit' => 
             array (
               'class' => 'WikiIocButton',

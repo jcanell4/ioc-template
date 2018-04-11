@@ -28,7 +28,6 @@ require([
     wikiIocDispatcher.almacenLocal = new LocalUserConfig();
 
 
-
     // Recupera el valor d'un paràmetre de la URL, per exemple: el id per determinar si s'ha seguit un enllaç a un document o s'ha recarregat la pàgina
     var getParameterByName = function (name, url) {
         if (!url) url = window.location.href;
@@ -40,9 +39,7 @@ require([
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     };
 
-
     var paramId = getParameterByName("id");
-
 
     //declaració de funcions
     ready(function () {
@@ -81,16 +78,14 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
-
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
-
                 //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
-                // user is admin or manager => NEW_BUTTON visible
                 var new_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
                     new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
@@ -117,12 +112,10 @@ require([
                     }
                     else if (page.action === 'sec_edit') {
                         if (selectedSection.id) {
-
                             if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
                                 // La edició seleccionada està en edició
-                                var ro = disp.getContentCache(cur).getMainContentTool().locked
-                                    || disp.getContentCache(cur).getMainContentTool().readonly;
-
+                                var ro = disp.getContentCache(cur).getMainContentTool().locked ||
+                                         disp.getContentCache(cur).getMainContentTool().readonly;
                                 disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", !ro);
                                 disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
                             } else {
@@ -133,8 +126,8 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     }
                     else if (page.action === 'edit') {
-                        var ro = disp.getContentCache(cur).getMainContentTool().locked
-                                    || disp.getContentCache(cur).getMainContentTool().readonly;
+                        var ro = disp.getContentCache(cur).getMainContentTool().locked ||
+                                 disp.getContentCache(cur).getMainContentTool().readonly;
 
                         isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
 
@@ -150,12 +143,15 @@ require([
                         }
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     }
-                    else if (page.action === 'form') {
+                    else if (page.action === "form" || page.action === "project_edit") {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
                         disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
-                    else if (page.action === 'view_form') {
-                        disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
+                    else if (page.action === "view_form" || page.action === "project_view") {
+                        if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
+                            disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
+                        }
                     }
                     else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
@@ -183,12 +179,7 @@ require([
         wikiIocDispatcher.addUpdateView(updateHandler);
 
 
-
-
-
-
         // Gestió del relogin
-
         var relogin = function (userId) {
 
             var requestLogin = new Request();
@@ -197,9 +188,7 @@ require([
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
             });
-
         };
-
 
         storageManager.on('change', 'login', function (e) {
             var request;
@@ -218,8 +207,6 @@ require([
                 request.sendRequest();
 
             }
-
-
             console.log("Detectats canvis al login", e);
         });
 
@@ -244,7 +231,6 @@ require([
             if (state.userState) {
                 // console.log("detectat estat d'usuari", state.userState);
                 wikiIocDispatcher.getGlobalState().userState = state.userState;
-
             }
 
 
@@ -267,7 +253,6 @@ require([
             // Comprovem si s'ha seguit un enllaç (param id a l'URL)
 
             if (state.pages) {
-
                 var np = 0;
                 var length = state.pagesLength();
                 var requestState = new Request();
@@ -296,12 +281,12 @@ require([
                         }
                         queryParams += "call=page&id=";
 
-                    } else if (state.getContent(id).action === "form") {
+                    } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
 
-                    } else if (state.getContent(id).action === "view_form") {
+                    } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         queryParams = "call=project&do=view&ns=" + ns + "&projectType=" + projectType + "&id=";
@@ -383,12 +368,10 @@ require([
                 }
             }
 
-
         });
 
 
-
-            wikiIocDispatcher.addReloadState(reloadStateHandler);
+        wikiIocDispatcher.addReloadState(reloadStateHandler);
         // Reescrivint la URL si s'ha passat un id per paràmetre
 
         unload.addOnWindowUnload(function () {

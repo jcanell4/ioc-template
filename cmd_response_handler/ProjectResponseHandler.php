@@ -45,16 +45,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_DIFF:
-
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
                                                               $responseData['projectExtraData']
-                                                            );
+                                                             );
                     //afegir la metadata de revisions com a resposta
                     if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $urlBase = "lib/exe/ioc_ajax.php?call=";
                         $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
                         $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
-                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = $urlBase.$responseData[ProjectKeys::KEY_REV]['call_diff'];
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata']['id'], $responseData[ProjectKeys::KEY_REV]);
+                        $param = ['ns' => $responseData['rdata']['ns'],
+                                  'pageCommand' => $urlBase."project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
+                                 ];
+                        $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['rdata']['id'], true, "ioc/dokuwiki/processContentPage", $param);
                     }else {
                         $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
@@ -115,8 +119,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_CANCEL:
-                    //El deixem aquí per a usuos futurs. No ELIMINAR!
+                    if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+                    }
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_CANCEL."]");
                     break;
+
+                case ProjectKeys::KEY_REVERT:
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REVERT."]\n"
+                                        . "S'ha traslladat a: wikiocmodel/projects/documentation/command/responseHandler/ProjectRevertResponseHandler.php");
 
                 case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
                     if ($responseData['lockInfo']){
@@ -131,7 +142,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
-                    throw new Exception("Excepció a ProjectResponseHandler:[ ".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT)."]";
+                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT."]");
 
                 default:
                     throw new Exception();
@@ -182,7 +193,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
     }
 
-    private function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
+    protected function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
         $rdata['id'] = "metainfo_tree_".$projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
         $rdata['title'] = "Espai de noms del projecte";

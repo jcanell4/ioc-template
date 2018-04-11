@@ -67,13 +67,14 @@ class cfgIdConstants
     const CANCEL_BUTTON = "cancelButton";
     const EDIT_BUTTON = "editButton";
     const ED_PARC_BUTTON = "edparcButton";
-    const EDIT_PROJECT_BUTTON = "editProjectButton";
     const CANCEL_PARC_BUTTON = "cancelparcButton";
     const SAVE_PARC_BUTTON = "saveparcButton";
+    const EDIT_PROJECT_BUTTON = "editProjectButton";
     const SAVE_PROJECT_BUTTON = "saveProjectButton";
+    const CANCEL_PROJECT_BUTTON = "cancelProjectButton";
     const GENERATE_PROJECT_BUTTON = "generateProjectButton";
     const PRINT_BUTTON = "printButton";
-    const REVERT_BUTTON= "revertButton";
+    const REVERT_BUTTON = "revertButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
