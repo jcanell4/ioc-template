@@ -1,32 +1,30 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of ExpiringCalc
+ * ExpiringCalc: Funcions d'utilitat pel control del bloqueix
  *
  * @author josep
  */
 class ExpiringCalc {
-    static public function getExpiringData($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    {
-        $addSecs = -60;
-        if ($for == 1) {
-            $addSecs = 60;
-        }
+
+    /**
+     * Calcula el temps que falta per expirar el bloqueix
+     * @param type $responseData
+     * @param {integer} $for : 0=locker, 1=requirer. Afegeix 1 minut si es el requeridor o 0 si es locker
+     * @return {time}
+     */
+    static public function getExpiringData($responseData, $for = 0) {
+        $addSecs = ($for === 1) ? 60 : -60;
         return $responseData["lockInfo"]["locker"]["time"] + WikiGlobalConfig::getConf("locktime") + $addSecs;
     }
 
-    public static function getExpiringTime($responseData, /*0 locker, 1 requirer*/
-                                      $for = 0)
-    { // afegeix 1 minut si es tracta del requeridor o 0 minuts si es locker
+    /**
+     * Retorna els segons que falten per expirar el bloqueix
+     * @param type $responseData
+     * @param {integer} $for : 0=locker, 1=requirer. Afegeix 1 minut si es el requeridor o 0 si es locker
+     * @return {integer} segundos
+     */
+    public static function getExpiringTime($responseData, $for = 0) {
         return (self::getExpiringData($responseData, $for) - time()) * 1000;
     }
-
 
 }

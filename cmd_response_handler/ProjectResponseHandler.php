@@ -10,6 +10,7 @@ require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModel
 require_once(DOKU_TPL_INCDIR."conf/cfgIdConstants.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/WikiIocResponseHandler.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
+require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/ExpiringCalc.php");
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
@@ -24,7 +25,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
         }
-
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -36,12 +36,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
-            $extramd = ['id' => $responseData['id'],
-                        'idr' => $responseData['id']."_revisions",
-                        'txt' => "No hi ha revisions",
-                        'html' => "<h3>Aquest projecte no té revisions</h3>"
-                       ];
-
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_DIFF:
@@ -49,18 +43,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                                               $responseData['projectExtraData']
                                                              );
                     //afegir la metadata de revisions com a resposta
-                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                        $urlBase = "lib/exe/ioc_ajax.php?call=";
-                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = $urlBase.$responseData[ProjectKeys::KEY_REV]['call_diff'];
+                    if ($this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata']['id'], $responseData[ProjectKeys::KEY_REV]);
                         $param = ['ns' => $responseData['rdata']['ns'],
-                                  'pageCommand' => $urlBase."project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
+                                  'pageCommand' => "lib/exe/ioc_ajax.php?call=project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
                                  ];
                         $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['rdata']['id'], true, "ioc/dokuwiki/processContentPage", $param);
-                    }else {
-                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
                     }
 
                     if ($responseData['info']) {
@@ -68,45 +56,39 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
-                case ProjectKeys::KEY_VIEW:
-                    if ($responseData['drafts']) {
-                        $responseData['hasDraft'] = TRUE;
-                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
-                    }
-
-                    $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    //afegir la metadata de revisions com a resposta
-                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
-                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                case ProjectKeys::KEY_CANCEL:
+                    $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
+                    if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
                     }else {
-                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
-                    }
-                    break;
-
-                case ProjectKeys::KEY_EDIT:
-                    if ($responseData['drafts']) {
-                        $responseData['hasDraft'] = TRUE;
-                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
-                    }
-
-                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    //afegir la metadata de revisions com a resposta
-                    if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=edit&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}";
-                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
-                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
-                    }else {
-                        $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
+                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }
                     break;
 
                 case ProjectKeys::KEY_SAVE:
                     $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-                    $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    if (!$requestParams['cancel']) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    }else {
+                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    }
+                    break;
+
+                case ProjectKeys::KEY_VIEW:
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
+
+                case ProjectKeys::KEY_EDIT:
+                    if ($responseData['drafts']) {
+                        $responseData['projectExtraData']['hasDraft'] = TRUE;
+                        $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+                    }
+
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    //afegir la metadata de revisions com a resposta
+                    if ($this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+                    }
                     break;
 
                 case ProjectKeys::KEY_CREATE:
@@ -116,13 +98,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case ProjectKeys::KEY_GENERATE:
                     if ($responseData['info'])
                         $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                    break;
-
-                case ProjectKeys::KEY_CANCEL:
-                    if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-                        $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-                    }
-                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_CANCEL."]");
                     break;
 
                 case ProjectKeys::KEY_REVERT:
@@ -151,6 +126,38 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     }
 
+    private function _responseViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+        if ($responseData['drafts']) {
+            $responseData['projectExtraData']['hasDraft'] = TRUE;
+            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
+        }
+
+        $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+
+        //afegir la metadata de revisions com a resposta
+        if ($this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+        }
+    }
+
+    private function _addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+        if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+            $do = $requestParams[ProjectKeys::KEY_DO];
+            $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
+            $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType";
+            $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=$do&projectType=$pType";
+            $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
+            return true;
+        }else {
+            $extramd = ['id' => $responseData['id'],
+                        'idr' => $responseData['id']."_revisions",
+                        'txt' => "No hi ha revisions",
+                        'html' => "<h3>Aquest projecte no té revisions</h3>"
+                       ];
+            $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
+        }
+    }
+
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
@@ -159,9 +166,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
 
+        if ($requestParams[ProjectKeys::KEY_DISCARD_CHANGES])
+            $responseData['projectExtraData'][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
+
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
-                                                  $responseData['hasDraft'],
                                                   $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
@@ -178,13 +187,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData'], $action);
 
-        //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
+        $timer = $this->generateEditProjectTimer($requestParams, $responseData);
+
+        if ($responseData['originalLastmod'])
+            $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
-                                                  $responseData['hasDraft'], $autosaveTimer, $responseData['originalLastmod'],
+                                                  $autosaveTimer, $timer,
                                                   $responseData['projectExtraData']);
 
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
@@ -346,6 +358,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                             'eventType' => 'cancel_project',
                             'data' => [
                                 'dataToSend' => [
+                                    'cancel' => true,
                                     'discard_changes' => true,
                                     'keep_draft' => false
                                 ]
@@ -388,9 +401,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                             'data' => [
                                 'dataToSend' => [
                                     'cancel' => true,
-                                    'keep_draft' => false,
-                                    'close' => true,
-                                    'no_response' => true
+                                    'keep_draft' => false
                                 ]
                             ],
                             'observable' => $id,
@@ -400,6 +411,40 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         return $dialogConfig;
+    }
+
+    private function generateEditProjectTimer($requestParams, $responseData) {
+        $timer = [
+            "dialogOnExpire" => [
+                "title" => WikiIocLangManager::getLang("expiring_dialog_title"),
+                "message" => WikiIocLangManager::getLang("expiring_dialog_message"),
+                "ok" => [
+                    "text" => WikiIocLangManager::getLang("expiring_dialog_yes"),
+                ],
+                "cancel" => [
+                    "text" => WikiIocLangManager::getLang("expiring_dialog_no"),
+                ],
+                "okContentEvent" => "save_project",
+                "okEventParams" => [
+                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID]
+                ],
+                "cancelContentEvent" => "cancel_project",
+                "cancelEventParams" => [
+                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=false&auto=true",
+                ],
+                "timeoutContentEvent" => "cancel_project",
+                "timeoutParams" => [
+                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=true&auto=true",
+                ],
+            ],
+        ];
+        //$timer["timeout"] = ExpiringCalc::getExpiringTime($responseData, 0);
+        //especial para proyectos: es un apaño temporal mientras no se incluya el sistema de bloqueo en los proyectos
+        $timer["timeout"] = WikiGlobalConfig::getConf("locktime") * 1000;
+
+        return $timer;
     }
 
 }
