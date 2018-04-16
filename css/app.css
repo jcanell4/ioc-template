@@ -1483,6 +1483,8 @@ th.rightcolor{
 .ioc-bootstrap table {
 	border: 1px solid #DBDBDB;
 	width:100%;
+	margin-top:15px;
+	margin-bottom:15px;
 }
 
 .ioc-bootstrap thead tr {
@@ -1517,3 +1519,12 @@ th.rightcolor{
 	margin:0;
 }
 
+div.ioc-bootstrap table[data-editable-element]{
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+.ioc-bootstrap .element-container {
+	margin-top:15px;
+	margin-bottom:15px;
+}
