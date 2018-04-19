@@ -93,9 +93,11 @@ class FieldBuilder extends AbstractFormBuilder {
         return $this;
     }
 
-    public function addProps($props) {
-        foreach ($props as $key => $value) {
-            $this->addProp($key, $value);
+    public function addProps($props=[]) {
+        if ($props) {
+            foreach ($props as $key => $value) {
+                $this->addProp($key, $value);
+            }
         }
         return $this;
     }
