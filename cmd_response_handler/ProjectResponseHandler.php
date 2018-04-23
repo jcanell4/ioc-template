@@ -219,7 +219,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      */
     protected function buildForm($id, $ns, $structure, $view, $action=NULL, $form_readonly=FALSE) {
 
-        $structure = $this->flatStructure($structure);
+        
+        
+        
+//        $structure = $this->flatStructure($structure);
+        $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition']);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
 
@@ -261,8 +265,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
         }
-
-        //Construye, como objetos, los campos definidos en la vista y los enlaza a los grupos correspondientes
+        
         foreach ($view['fields'] as $keyField => $valField) {
 
             //combina los atributos y valores de los arrays de estructura y de vista
@@ -305,24 +308,62 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $form;
     }
 
-    /**
-     * Aplana la estructura del array que contine "estructura con datos"
-     */
-    protected function flatStructure($structure) {
-        $flat = [];
-        foreach ($structure as $key => $item) {
-            if (!is_array($item['value'])) {
-                //se conserva íntegramente
-                $flat[$item['id']] = $item;
-            }elseif ($item['value']==NULL) {
-                //'value' contiene un array vacío. se conserva íntegramente
-                $flat[$item['id']] = $item;
-            }else {
-                $tmp = $this->flatStructure($item['value']);
-                $flat = array_merge($flat, $tmp);
+    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+        $ret;
+        if(isset($structure['type'])){
+            $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);   
+        }else{
+            $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);
+        }
+        return $ret;
+    }
+    
+    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+        $ret = false;
+        foreach ($structure as $structureKey => $structureProperties){
+            if($structureProperties['renderAsMultiField']){
+                if(isset($structureProperties['value'])){
+                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $viewGroups, $viewDefinition, $structureProperties['mandatory'], $structureProperties['id']);
+                    if($needGroup){
+                        $viewGroups[$structureKey]['label'] = $structureKey;
+                        $viewGroups[$structureKey]['frame'] = true;
+                        $viewGroups[$structureKey]['n_columns'] = $viewDefinition['n_columns'];
+                        $viewGroups[$structureKey]['parent'] = $defaultParent;
+                        $ret = true;
+                    }                
+                }
+            }else{
+                $ret = $this->mergeStructureToForm($structureProperties, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);
             }
         }
-        return $flat;
+        return $ret;
+    }
+    
+    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+        $ret = false;
+        if(array_key_exists($structureProperties['id'], $viewFields)){
+            //merge
+            $viewFields[$structureProperties['id']] = array_merge(array(), $structureProperties, $viewFields[$structureProperties['id']]);
+//            if(!isset($viewFields[$structureProperties['id']]['value'])){
+//                $viewFields[$structureProperties['id']]['value'] = $viewFields[$structureProperties['id']]['default'];
+//            }
+        }else{
+            if($mandatoryParent || $structureProperties['mandatory']){
+                $ret=true;
+                $viewFields[$structureProperties['id']] = $structureProperties;
+//                if(!isset($viewFields[$structureProperties['id']]['value'])){
+//                    $viewFields[$structureProperties['id']]['value'] = $viewFields[$structureProperties['id']]['default'];
+//                }
+                $viewFields[$structureProperties['id']]['group']= $defaultParent;
+            }
+        }
+        if(isset($viewFields[$structureProperties['id']]['defaultRow'])){
+            if(!isset($viewFields[$structureProperties['id']]['props'])){
+                $viewFields[$structureProperties['id']]['props']=[];
+            }
+            $viewFields[$structureProperties['id']]['props']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
+        }
+        return $ret;
     }
 
     protected function addSaveOrDiscardDialog(&$responseData, $id) {
