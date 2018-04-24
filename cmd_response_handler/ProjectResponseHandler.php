@@ -177,7 +177,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title = "Projecte $ns $title_rev";
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $action);
+        $outValues = [];
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $action, $outValues);
 
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
@@ -218,13 +219,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @param array: $view, obtenido de defaultView.json
      * @return array
      */
-    protected function buildForm($id, $ns, $structure, $view, $action=NULL, $form_readonly=FALSE) {
+    protected function buildForm($id, $ns, $structure, $view, $action=NULL, $form_readonly=FALSE, &$outValues) {
 
         
         
         
 //        $structure = $this->flatStructure($structure);
-        $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition']);
+        $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
 
@@ -309,10 +310,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $form;
     }
 
-    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
         $ret;
         if(isset($structure['type'])){
-            $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);   
+            $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }else{
             $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);
         }
@@ -324,7 +325,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         foreach ($structure as $structureKey => $structureProperties){
             if($structureProperties['renderAsMultiField']){
                 if(isset($structureProperties['value'])){
-                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $viewGroups, $viewDefinition, $structureProperties['mandatory'], $structureProperties['id']);
+                    $discardValues = [];
+                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $discardValues, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties['id']);
                     if($needGroup){
                         $viewGroups[$structureKey]['label'] = $structureKey;
                         $viewGroups[$structureKey]['frame'] = true;
@@ -334,13 +336,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }                
                 }
             }else{
-                $ret = $this->mergeStructureToForm($structureProperties, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);
+                $ret = $this->mergeStructureToForm($structureProperties, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
             }
         }
         return $ret;
     }
     
-    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
         $ret = false;
         if(array_key_exists($structureProperties['id'], $viewFields)){
             //merge
@@ -364,6 +366,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
             $viewFields[$structureProperties['id']]['props']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
         }
+
+        //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
+
+        $outValues[$structureProperties['id']] =
         return $ret;
     }
 
