@@ -157,7 +157,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
         $title = "Projecte $ns $title_rev";
 
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+        //$form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData']);
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
@@ -176,14 +177,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title = "Projecte $ns $title_rev";
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData'], $action);
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $action);
 
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
-                                                  $responseData['projectMetaData']['values'],
+                                                  $responseData['projectMetaData']['values'], //substituir per l'array de valors generat 
                                                   $responseData['hasDraft'], $autosaveTimer, $responseData['originalLastmod'],
                                                   $responseData['projectExtraData']);
 
