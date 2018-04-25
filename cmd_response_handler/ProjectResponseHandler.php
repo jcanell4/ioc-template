@@ -158,10 +158,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title = "Projecte $ns $title_rev";
 
         //$form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData']);
+        $outValues = [];
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues);
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
-                                                  $responseData['projectMetaData']['values'],
+                                                    $outValues,
+                                                  //$responseData['projectMetaData']['values'],
                                                   $responseData['hasDraft'],
                                                   $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
@@ -178,14 +180,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
         $outValues = [];
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $action, $outValues);
+        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, $action);
 
         //El action que dispara este ProjectResponseHandler envía el array projectExtraData
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
-                                                  $responseData['projectMetaData']['values'], //substituir per l'array de valors generat 
+                                                    $outValues,
+//                                                  $responseData['projectMetaData']['values'], //substituir per l'array de valors generat
                                                   $responseData['hasDraft'], $autosaveTimer, $responseData['originalLastmod'],
                                                   $responseData['projectExtraData']);
 
@@ -219,11 +222,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @param array: $view, obtenido de defaultView.json
      * @return array
      */
-    protected function buildForm($id, $ns, $structure, $view, $action=NULL, $form_readonly=FALSE, &$outValues) {
+    protected function buildForm($id, $ns, $structure, $view, &$outValues, $action=NULL, $form_readonly=FALSE) {
 
-        
-        
-        
+
+
+
 //        $structure = $this->flatStructure($structure);
         $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
@@ -267,7 +270,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
         }
-        
+
         foreach ($view['fields'] as $keyField => $valField) {
 
             //combina los atributos y valores de los arrays de estructura y de vista
@@ -315,12 +318,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if(isset($structure['type'])){
             $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }else{
-            $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $mandatoryParent, $defaultParent);
+            $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }
         return $ret;
     }
-    
-    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, $mandatoryParent=false, $defaultParent =""){
+
+    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
         $ret = false;
         foreach ($structure as $structureKey => $structureProperties){
             if($structureProperties['renderAsMultiField']){
@@ -333,7 +336,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         $viewGroups[$structureKey]['n_columns'] = $viewDefinition['n_columns'];
                         $viewGroups[$structureKey]['parent'] = $defaultParent;
                         $ret = true;
-                    }                
+                    }
                 }
             }else{
                 $ret = $this->mergeStructureToForm($structureProperties, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
@@ -341,7 +344,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
         return $ret;
     }
-    
+
     protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
         $ret = false;
         if(array_key_exists($structureProperties['id'], $viewFields)){
@@ -365,11 +368,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $viewFields[$structureProperties['id']]['props']=[];
             }
             $viewFields[$structureProperties['id']]['props']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
+
+            //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }
 
-        //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
+        $outValues[$structureProperties['id']] = $structureProperties['value'];
 
-        $outValues[$structureProperties['id']] =
+
         return $ret;
     }
 
