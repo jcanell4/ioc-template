@@ -175,7 +175,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         if (isset($requestParams['rev']))
-            $title_rev = date("d-m-Y h:i:s", $requestParams['rev']);
+            $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
         $title = "Projecte $ns $title_rev";
 
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
