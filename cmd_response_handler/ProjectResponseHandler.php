@@ -154,7 +154,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
-        $title_rev = date("d-m-Y h:i:s", isset($requestParams['rev']) ? $requestParams['rev'] : "");
+        $title_rev = isset($requestParams['rev']) ? date("d-m-Y h:i:s", $requestParams['rev']): "";
         $title = "Projecte $ns $title_rev";
 
         //$form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
