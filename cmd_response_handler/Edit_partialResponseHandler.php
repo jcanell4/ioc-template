@@ -187,14 +187,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
 
-        //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
-        //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-
-
         if ($requestParams[PageKeys::KEY_TO_REQUIRE] || strlen($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > 0) {
             // ja hi ha chunks en edició
             $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
-
+            $responseData['info'] = $cmdResponseGenerator->addInfoToInfo($responseData['info'], $params['content']['requiring']['message']);
         } else {
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
