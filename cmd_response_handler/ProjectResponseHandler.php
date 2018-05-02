@@ -303,6 +303,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ->setLabel(($label != NULL) ? $label : $keyField)
                 ->setType(($arrValues['type']) ? $arrValues['type'] : "text")
                 ->addProps($arrValues['props'])
+                ->addConfig($arrValues['config'])
                 ->setColumns($columns)
                 ->setValue($arrValues['value'])
             );
@@ -364,10 +365,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
         if(isset($viewFields[$structureProperties['id']]['defaultRow'])){
-            if(!isset($viewFields[$structureProperties['id']]['props'])){
-                $viewFields[$structureProperties['id']]['props']=[];
+            if(!isset($viewFields[$structureProperties['id']]['config'])){
+                $viewFields[$structureProperties['id']]['config']=[];
             }
-            $viewFields[$structureProperties['id']]['props']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
+            $viewFields[$structureProperties['id']]['config']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
 
             //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }

@@ -16,6 +16,7 @@ class FieldBuilder extends AbstractFormBuilder {
     private $value;
     private $props = [];
     private $options = [];
+    private $config = [];
 
     public function __construct($id=NULL, $label="", $type="text", $name=NULL, $columns=12, $priority=0) {
         $this->setId($id)
@@ -41,6 +42,7 @@ class FieldBuilder extends AbstractFormBuilder {
         $field['value'] = $this->value;
         if (count($this->props) > 0) $field['props'] = $this->props;
         if (count($this->options) > 0) $field['options'] = $this->options;
+        if (count($this->config) > 0) $field['config'] = $this->config;
 
         return $field;
     }
@@ -97,6 +99,20 @@ class FieldBuilder extends AbstractFormBuilder {
         foreach ($props as $key => $value) {
             $this->addProp($key, $value);
         }
+        return $this;
+    }
+
+    public function addConfig($config) {
+
+
+        if (!$config) {
+            // No fem res
+        } else if (is_array($config)) {
+            $this->config = array_merge($this->config, $config);
+        } else {
+            array_push($this->config, $config);
+        }
+
         return $this;
     }
 
