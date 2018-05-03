@@ -432,6 +432,7 @@ require([
         new RequestControl(eventName.SAVE_DRAFT, ajax_call+"draft&do=save", true);
         new RequestControl(eventName.REMOVE_DRAFT, ajax_call+"draft&do=remove", true);
 
+        //new RequestControl(eventName.VIEW_PROJECT, ajax_call+"project&do=view", true, true);
         new RequestControl(eventName.EDIT_PROJECT, ajax_call+"project&do=edit", true, true);
         new RequestControl(eventName.SAVE_PROJECT, ajax_call+"project&do=save", true, true);
         new RequestControl(eventName.CANCEL_PROJECT, ajax_call+"project&do=cancel", true, true);

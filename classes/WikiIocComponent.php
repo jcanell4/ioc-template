@@ -116,8 +116,10 @@ abstract class WikiIocComponent extends WikiIocBuilder {
                         $ret .= $this->parejaKeyValue($aKeys, $this->aParams[$class][$aKeys], $glue, $sep);
             }
         }else{
-            foreach ($this->aParams[$class] as $key => $value) {
-                $ret .= $this->parejaKeyValue($key, $value, $glue, $sep);
+            if ($this->aParams && $this->aParams[$class]) {
+                foreach ($this->aParams[$class] as $key => $value) {
+                    $ret .= $this->parejaKeyValue($key, $value, $glue, $sep);
+                }
             }
         }
         return trim($ret, " ,");
