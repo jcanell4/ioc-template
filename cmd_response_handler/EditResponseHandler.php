@@ -219,11 +219,9 @@ class EditResponseHandler extends WikiIocResponseHandler
     {
         $params = $this->generateRequiringDialogParams($requestParams, $responseData);
 
-        //TODO[Josep]: Generar un diàleg per preguntar si vol que l'avisin quan s'alliberi
-        //$ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang('lockedByAlert')); // Alerta[Xavi] fent servir el lock state no tenim accés al nom de l'usuari que el bloqueja
-
         if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
             $this->addRequiringDialogParamsToParams($params, $requestParams, $responseData);
+            $responseData['info'] = $cmdResponseGenerator->addInfoToInfo($responseData['info'], $params['content']['requiring']['message']);
         } else {
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
@@ -317,10 +315,10 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addSaveOrDiscardDialog(&$responseData, $id) {
         $responseData['extra']['messageChangesDetected'] = WikiIocLangManager::getLang('cancel_editing_with_changes');
-        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id, strlen($responseData["rev"])>0);
+        $responseData['extra']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($id);
     }
 
-    protected function generateSaveOrDiscardDialog($id, $isRev) {
+    protected function generateSaveOrDiscardDialog($id) {
         $dialogConfig = [
             'id' => $id,
             'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
@@ -344,31 +342,6 @@ class EditResponseHandler extends WikiIocResponseHandler
                         ]
                     ]
                 ],
-
-            ]
-
-        ];
-
-        if ($isRev) {
-            $dialogConfig['buttons'][] =
-                [
-                    'id' => 'save',
-                    'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
-                    'buttonType' => 'fire_event',
-                    'extra' => [
-                        [
-                            'eventType' => 'save',
-                            'data' => [
-                                'dataToSend' =>[
-                                    'reload'=>false
-                                ]
-                            ],
-                            'observable' => $id
-                        ],
-                    ]
-                ];
-        } else {
-            $dialogConfig['buttons'][] =
                 [
                     'id' => 'save',
                     'description' => WikiIocLangManager::getLang("save_or_discard_dialog_save"), //'Desar',
@@ -386,8 +359,10 @@ class EditResponseHandler extends WikiIocResponseHandler
 
                         ],
                     ]
-                ];
-        }
+                ]
+            ]
+
+        ];
 
         return $dialogConfig;
     }
