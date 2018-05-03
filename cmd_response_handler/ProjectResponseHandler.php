@@ -33,7 +33,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
         }
         else {
-            if (isset($requestParams['rev']) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
+            if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
@@ -149,21 +149,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function _addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
         if ($this->addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
-            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['id'], $responseData[ProjectKeys::KEY_REV]);
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_REV]);
         }
     }
 
     private function addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
         if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
-            $do = $requestParams[ProjectKeys::KEY_DO];
             $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
             $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType";
-            $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=$do&projectType=$pType";
+            $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType";
             $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
             return true;
         }else {
-            $extramd = ['id' => $responseData['id'],
-                        'idr' => $responseData['id']."_revisions",
+            $extramd = ['id' => $responseData[ProjectKeys::KEY_ID],
+                        'idr' => $responseData[ProjectKeys::KEY_ID]."_revisions",
                         'txt' => "No hi ha revisions",
                         'html' => "<h3>Aquest projecte no té revisions</h3>"
                        ];
