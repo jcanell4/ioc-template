@@ -80,21 +80,25 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_EDIT:
-                    switch ($responseData['lockInfo']['state']) {
-                        case LockKeys::LOCKED:
-                            //se ha obtenido el bloqueo, continuamos la edición
-                            $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                            $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                            $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                            break;
-                        case LockKeys::REQUIRED:
-                            //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
-                            $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                            break;
-                        case LockKeys::LOCKED_BEFORE:
-                            //el recurso está bloqueado por el propio usuario en otra sesión
-                            $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                            break;
+                    if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]){
+                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    }else {
+                        switch ($responseData['lockInfo']['state']) {
+                            case LockKeys::LOCKED:
+                                //se ha obtenido el bloqueo, continuamos la edición
+                                $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                break;
+                            case LockKeys::REQUIRED:
+                                //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
+                                $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                break;
+                            case LockKeys::LOCKED_BEFORE:
+                                //el recurso está bloqueado por el propio usuario en otra sesión
+                                $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                break;
+                        }
                     }
                     break;
 
@@ -182,6 +186,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($requestParams[ProjectKeys::KEY_DISCARD_CHANGES])
             $responseData['projectExtraData'][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
 
+        if ($responseData['originalLastmod'])
+            $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
+
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
                                                   $responseData['projectExtraData']);
@@ -205,8 +212,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
         $timer = $this->generateEditProjectTimer($requestParams, $responseData);
 
+        /*Ahora está en viewResponse ya que solo se usa en el diálogo de comparar el original con el draft
         if ($responseData['originalLastmod'])
             $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
+        */
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
                                                   $responseData['projectMetaData']['values'],
