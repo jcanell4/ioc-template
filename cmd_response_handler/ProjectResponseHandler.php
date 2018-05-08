@@ -81,11 +81,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_EDIT:
                     if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]){
+                        $responseData['projectExtraData']['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }else {
                         switch ($responseData['lockInfo']['state']) {
                             case LockKeys::LOCKED:
                                 //se ha obtenido el bloqueo, continuamos la edición
+                                if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]){
+                                    $responseData['projectExtraData'][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
+                                }
                                 $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
                                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                                 $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -191,9 +195,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($responseData['originalLastmod'])
             $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
 
-        $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form,
-                                                    $outValues,
-                                                  //$responseData['projectMetaData']['values'],
+        $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues,
                                                   $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
@@ -221,9 +223,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
         */
 
-        $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form,
-                                                  $outValues,
-//                                                  $responseData['projectMetaData']['values'],
+        $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
                                                   $autosaveTimer, $timer,
                                                   $responseData['projectExtraData']);
 
@@ -259,10 +259,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      */
     protected function buildForm($id, $ns, $structure, $view, &$outValues, $action=NULL, $form_readonly=FALSE) {
 
-
-
-
-//        $structure = $this->flatStructure($structure);
         $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
