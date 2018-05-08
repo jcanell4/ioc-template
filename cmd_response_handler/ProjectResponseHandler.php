@@ -121,6 +121,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }else{
                         $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
                     }
+
                     break;
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
