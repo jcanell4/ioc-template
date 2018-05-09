@@ -17,6 +17,7 @@ class FieldBuilder extends AbstractFormBuilder {
     private $props = [];
     private $options = [];
     private $config = [];
+    //private $rows;
 
     public function __construct($id=NULL, $label="", $type="text", $name=NULL, $columns=12, $priority=0) {
         $this->setId($id)
@@ -38,6 +39,11 @@ class FieldBuilder extends AbstractFormBuilder {
         $field['type'] = $this->type;
         $field['label'] = $this->label;
         $field['columns'] = $this->columns;
+
+        if ($this->rows) {
+            $field['rows'] = $this->rows;
+        }
+
         $field['priority'] = $this->priority;
         $field['value'] = $this->value;
         if (count($this->props) > 0) $field['props'] = $this->props;
@@ -142,6 +148,11 @@ class FieldBuilder extends AbstractFormBuilder {
         for ($i = 0; $i < $len; $i++) {
             $this->addOption($options['value'], $options['description'], $options['selected']);
         }
+    }
+
+    public function setRows($rows) {
+        $this->rows = $rows;
+        return $this;
     }
 
 }

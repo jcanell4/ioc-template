@@ -15,6 +15,7 @@ class AbstractFormBuilder {
     protected $title;
     protected $priority;    //un valor més alt indica major prioritat
     protected $elements = [];
+    protected $rows;
 
     public function getId() {
         return $this->id;

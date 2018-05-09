@@ -121,7 +121,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }else{
                         $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
                     }
-
                     break;
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
@@ -323,6 +322,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (!$arrValues['struc_rows'])
                 $arrValues['struc_rows'] = 1;
 
+            if ($arrValues['n_rows'])  {
+                $rows = $arrValues['n_rows'];
+            } else {
+                $rows = false;
+            }
+
+
+
             $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
 
             $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
@@ -332,6 +339,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ->addProps($arrValues['props'])
                 ->addConfig($arrValues['config'])
                 ->setColumns($columns)
+                ->setRows($rows)
                 ->setValue($arrValues['value'])
             );
         }
