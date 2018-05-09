@@ -319,15 +319,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             else
                 $columns = $view['definition']['n_columns'];
 
-            if (!$arrValues['struc_rows'])
+            if (!$arrValues['struc_rows']) {
                 $arrValues['struc_rows'] = 1;
-
-            if ($arrValues['n_rows'])  {
-                $rows = $arrValues['n_rows'];
-            } else {
                 $rows = false;
+            } else {
+                $rows = $arrValues['struc_rows'];
             }
-
 
 
             $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
