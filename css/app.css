@@ -1528,3 +1528,20 @@ div.ioc-bootstrap table[data-editable-element]{
 	margin-top:15px;
 	margin-bottom:15px;
 }
+
+.dokuwiki .io_pt table.inline th,
+.dokuwiki .io_pt table.inline td {
+    border: 1px solid;
+}
+
+.dokuwiki .io_pt table.inline th {
+    background-color: #AAA;    
+}
+
+.dokuwiki .io_pt table.inline tr[class^="row"][class$="1"], 
+.dokuwiki .io_pt table.inline tr[class^="row"][class$="3"],
+.dokuwiki .io_pt table.inline tr[class^="row"][class$="5"],
+.dokuwiki .io_pt table.inline tr[class^="row"][class$="7"],
+.dokuwiki .io_pt table.inline tr[class^="row"][class$="9"] {
+    background-color: #D0DFEA;    
+}
