@@ -151,7 +151,10 @@ class FieldBuilder extends AbstractFormBuilder {
     }
 
     public function setRows($rows) {
-        $this->rows = $rows;
+        if ($rows) {
+            $this->rows = $rows;
+        }
+
         return $this;
     }
 

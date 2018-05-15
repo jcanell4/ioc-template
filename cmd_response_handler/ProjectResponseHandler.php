@@ -273,6 +273,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $columns = ($valGroup['n_columns']) ? $valGroup['n_columns'] : $view['definition']['n_columns'];
             $pare = $valGroup['parent'];
 
+            $rows = isset($valGroup['struc_rows']) ? $valGroup['struc_rows'] : null;
+
             if ($aGroups[$keyGroup]) {
                 //El grupo ya ha sido creado con anterioridad
                 if (!$aGroups[$keyGroup]->hasData()) {
@@ -280,14 +282,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $aGroups[$keyGroup]
                         ->setTitle($label)
                         ->setFrame($frame)
-                        ->setColumns($columns);
+                        ->setColumns($columns)
+                        ->setRows($rows);
                 }
             }else {
                 //Se crea un nuevo grupo principal
                 $aGroups[$keyGroup] = FormBuilder::createGroupBuilder()
                     ->setTitle($label)
                     ->setFrame($frame)
-                    ->setColumns($columns);
+                    ->setColumns($columns)
+                    ->setRows($rows);
             }
 
             if (!$pare) {
@@ -299,6 +303,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 }
                 $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
             }
+
+
 
         }
 

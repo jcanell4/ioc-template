@@ -28,6 +28,11 @@ class GroupBuilder extends AbstractFormBuilder {
         $group['formType'] = "group";
         $group['frame'] = $this->frame;
         $group['columns'] = $this->columns;
+
+        if ($this->rows) {
+            $group['rows'] = $this->rows;
+        }
+
         $group['priority'] = $this->priority;
         $group['elements'] = $this->buildElements();
         return $group;
@@ -52,5 +57,13 @@ class GroupBuilder extends AbstractFormBuilder {
 
     public function getColumns() {
         return $this->columns;
+    }
+
+    public function setRows($rows) {
+        if ($rows) {
+            $this->rows = $rows;
+        }
+
+        return $this;
     }
 }
