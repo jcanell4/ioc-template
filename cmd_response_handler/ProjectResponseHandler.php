@@ -15,6 +15,8 @@ require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/ExpiringCalc.php");
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
+    private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
+
     function __construct() {
         parent::__construct(ProjectKeys::KEY_PROJECT);
     }
@@ -181,6 +183,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
+
+        $this->responseType = "view";
+
         if (isset($requestParams['rev']))
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
         $title = "Projecte $ns $title_rev";
@@ -416,7 +421,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }
 
+        // ALERTA! Comprovar el mode, només es renderitza en view
+        if ($this->responseType == "view" && $structureProperties['config'] && $structureProperties['config']['renderable']) {
+            $mode = $structureProperties['config']['mode'];
+            $originalValue = $structureProperties['value'];
+            $structureProperties['value'] = $this->renderContent($originalValue, $mode);
+            $outValues[$structureProperties['id']] = $structureProperties['value'];
+        }
+
         $outValues[$structureProperties['id']] = $structureProperties['value'];
+
 
 
         return $ret;
@@ -607,6 +621,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                         $params['dialog'],
                                         $params['extra']
                                     );
+    }
+
+    protected function renderContent($content, $mode = 'xhtml') {
+        $instructions = p_get_instructions($content);
+        return p_render($mode,$instructions, $outInfo); // No fem res amb la info
     }
 
 }
