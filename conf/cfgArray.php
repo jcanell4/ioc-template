@@ -622,11 +622,21 @@ $_arrIocCfgGUI = array (
                                       'params' => 
                                       array (
                                         0 => 'projectType',
+                                        1 => 'nsproject',
+                                      ),
+                                    ),
+                                    'po' => 
+                                    array (
+                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                                      'params' => 
+                                      array (
+                                        0 => 'projectType',
+                                        1 => 'nsproject',
                                       ),
                                     ),
                                   ),
-                                  'expandProject' => 'true',
-                                  'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\';return _ret;}',
+                                  'expandProject' => 'false',
+                                  'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\'||_data===\'po\';return _ret;}',
                                   'standbyId' => '\'bodyContent\'',
                                 ),
                               ),
