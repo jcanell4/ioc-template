@@ -38,7 +38,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
-
+            
+            $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_DIFF:
@@ -184,8 +185,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
 
-        $this->responseType = "view";
-
         if (isset($requestParams['rev']))
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
         $title = "Projecte $ns $title_rev";
@@ -278,7 +277,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $columns = ($valGroup['n_columns']) ? $valGroup['n_columns'] : $view['definition']['n_columns'];
             $pare = $valGroup['parent'];
 
-            $rows = isset($valGroup['struc_rows']) ? $valGroup['struc_rows'] : null;
+            $rows = isset($valGroup['n_rows']) ? $valGroup['n_rows'] : null;
 
             if ($aGroups[$keyGroup]) {
                 //El grupo ya ha sido creado con anterioridad
@@ -335,11 +334,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             else
                 $columns = $view['definition']['n_columns'];
 
-            if (!$arrValues['struc_rows']) {
-                $arrValues['struc_rows'] = 1;
+            if (!$arrValues['n_rows']) {
+                $arrValues['n_rows'] = 1;
                 $rows = false;
             } else {
-                $rows = $arrValues['struc_rows'];
+                $rows = $arrValues['n_rows'];
             }
 
 
@@ -421,8 +420,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }
 
-        // ALERTA! Comprovar el mode, només es renderitza en view
-        if ($this->responseType == "view" && $structureProperties['config'] && $structureProperties['config']['renderable']) {
+        // ALERTA! Comprovar el mode, no s'ha de renderitzar en edit
+        if ($this->responseType !== "edit" && $structureProperties['config'] && $structureProperties['config']['renderable']) {
             $mode = $structureProperties['config']['mode'];
             $originalValue = $structureProperties['value'];
             $structureProperties['value'] = $this->renderContent($originalValue, $mode);
