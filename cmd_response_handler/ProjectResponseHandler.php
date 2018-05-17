@@ -4,10 +4,11 @@
  * @culpable Rafael Claver
  */
 if (!defined("DOKU_INC")) die();
+if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC.'lib/lib_ioc/');
 if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+require_once(DOKU_LIB_IOC."wikiiocmodel/ProjectModelExceptions.php");
 require_once(DOKU_PLUGIN."ajaxcommand/defkeys/ProjectKeys.php");
 require_once(DOKU_PLUGIN."ajaxcommand/defkeys/LockKeys.php");
-require_once(DOKU_PLUGIN."wikiiocmodel/projects/documentation/DocumentationModelExceptions.php");
 require_once(DOKU_TPL_INCDIR."conf/cfgIdConstants.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/WikiIocResponseHandler.php");
 require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
@@ -244,12 +245,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
         $rdata['fromRoot'] = $projectNs;
         $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
-        $rdata['typeDictionary'] = array(
-                                      array('urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
-                                            'params' => array(0 => ProjectKeys::PROJECT_TYPE)
-                                           )
-                                        );
+        $rdata['typeDictionary'] = ["p" => [
+                                            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
+                                            "params" => ['projectType','nsproject']
+                                           ],
+                                    "po" => [
+                                            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
+                                            "params" => ['projectType','nsproject']
+                                            ]
+                                   ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
+        $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');  //"function(_data){var _ret=null; _ret=_data==='p'||_data==='po';return _ret;}";
 
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
