@@ -251,7 +251,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                             ]
                                    ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
-        $rdata['processOnClickAndOpenOnClick'] = "function(_data){var _ret=null; _ret=_data==='p'||_data==='po';return _ret;}";
+        $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');  //"function(_data){var _ret=null; _ret=_data==='p'||_data==='po';return _ret;}";
 
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
