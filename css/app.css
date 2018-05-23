@@ -651,6 +651,12 @@ span.arrow-icon {
 	position: absolute;
 }
 
+.edittable-highlight{
+	background-color: green;
+	opacity: 0.2;
+	position: absolute;
+}
+
 .ace_readonly{
 	/*display: none;*/
 }
