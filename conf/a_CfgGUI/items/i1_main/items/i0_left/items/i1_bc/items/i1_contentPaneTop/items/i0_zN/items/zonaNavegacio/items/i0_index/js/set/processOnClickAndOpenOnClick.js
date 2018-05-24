@@ -1,1 +1,1 @@
-_ret=_data==='p';
+_ret=_data==='p'||_data==='po';
