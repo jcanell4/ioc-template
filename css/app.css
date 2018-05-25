@@ -1551,3 +1551,13 @@ div.ioc-bootstrap table[data-editable-element]{
 .dokuwiki .io_pt table.inline tr[class^="row"][class$="9"] {
     background-color: #D0DFEA;    
 }
+
+
+/* DataGrid Table Fix for row selector */
+.dojoxGridMasterView .dojoxGridRowbar.dojoxGridNonNormalizedCell:not(:first-child) {
+	margin-top: -15.5px;
+}
+
+table.dojoxGridRowTable {
+	margin-bottom: 0;
+}
