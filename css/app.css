@@ -1561,3 +1561,8 @@ div.ioc-bootstrap table[data-editable-element]{
 table.dojoxGridRowTable {
 	margin-bottom: 0;
 }
+
+td.dojoxGridCell i {
+	color: lightgrey;
+	text-align: center;
+}
