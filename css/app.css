@@ -1545,3 +1545,19 @@ div.ioc-bootstrap table[data-editable-element]{
 .dokuwiki .io_pt table.inline tr[class^="row"][class$="9"] {
     background-color: #D0DFEA;    
 }
+
+div[data-dojo-attach-point="sectionsNode"] .sectionNode{
+    display: inline-block;
+    min-height: 180px;
+    min-width: 200px;
+    margin: 4px;
+    padding: 6px;
+    border: 1px #b5bcc7 solid;
+    border-radius: 3px;
+    vertical-align: top;
+}
+
+div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
+    display: block;
+    border: none;
+}
