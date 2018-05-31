@@ -39,7 +39,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
-            
+
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
@@ -202,7 +202,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues,
                                                   $responseData['projectExtraData']);
-        $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
@@ -232,13 +232,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                                   $autosaveTimer, $timer,
                                                   $responseData['projectExtraData']);
 
-        $this->addMetadataResponse($id, $ns, $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
     }
 
-    protected function addMetadataResponse($projectId, $projectNs, &$ajaxCmdResponseGenerator) {
+    protected function addMetadataResponse($projectId, $projectNs, $projectType, &$ajaxCmdResponseGenerator) {
         $rdata['id'] = "metainfo_tree_".$projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
         $rdata['title'] = "Espai de noms del projecte";
@@ -255,7 +255,37 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                             ]
                                    ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
-        $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');  //"function(_data){var _ret=null; _ret=_data==='p'||_data==='po';return _ret;}";
+        $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');
+        $rdata['buttons'] = [['amdClass' => "ioc/gui/IocButton",
+                              'position' => "bottomRight",
+                              'buttonParams' => ['iconClass' => "iocIconActiveAlarm"]
+                             ],
+                             ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
+                              'amdClass' => "ioc/gui/IocDialogButton",
+                              'position' => "topRight",
+                              'buttonParams' => [
+                                    'iconClass' => "iocIconOutbox",
+                                    'id' => "projectMetaDataTreeZone_topRight_".$projectId,
+                                    'dialogParams' => [
+                                            'ns' => $projectNs,
+                                            'fromRoot' => $projectNs,
+                                            'projectType' => $projectType,
+                                            'urlBase' => "lib/exe/ioc_ajax.php/",
+                                            'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/",
+                                            'urlListProjects' => "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/",
+                                            'urlListTemplates' => "lib/exe/ioc_ajaxrest.php/list_templates_rest/"
+                                            ],
+                                    'formParams' => [
+                                            'EspaiDeNomsLabel' => "Espai de Noms",
+                                            'ProjectesLabel' => "Selecció del tipus de projecte",
+                                            'NouProjecteLabel' => "Nom del nou Projecte",
+                                            'TemplatesLabel' => "Selecció de la plantilla",
+                                            'NouDocumentLabel' => "Nom del nou Document",
+                                            'NovaCarpetaLabel' => "Nom de la nova Carpeta",
+                                            ]
+                                    ],
+                              'urlBase' => "lib/exe/ioc_ajax.php/"
+                            ]];
 
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
