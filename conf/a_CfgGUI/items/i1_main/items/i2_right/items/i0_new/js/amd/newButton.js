@@ -230,7 +230,8 @@ if (newButton) {
 
             // botons
             var botons = domConstruct.create('div', {
-                className: 'botons'
+                className: 'botons',
+                style: "text-align:center;"
             },form.containerNode);
 
             domConstruct.create('label', {
