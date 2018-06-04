@@ -1538,10 +1538,64 @@ div.ioc-bootstrap table[data-editable-element]{
     background-color: #AAA;    
 }
 
-.dokuwiki .io_pt table.inline tr[class^="row"][class$="1"], 
-.dokuwiki .io_pt table.inline tr[class^="row"][class$="3"],
-.dokuwiki .io_pt table.inline tr[class^="row"][class$="5"],
-.dokuwiki .io_pt table.inline tr[class^="row"][class$="7"],
-.dokuwiki .io_pt table.inline tr[class^="row"][class$="9"] {
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="1"], 
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="3"],
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="5"],
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="7"],
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="9"] {
     background-color: #D0DFEA;    
 }
+
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="0"], 
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="2"],
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="4"],
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="6"],
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="8"] {
+    background-color: #D0DFEA;    
+}
+
+.leftalign,
+table.inline .leftalign,
+table.inline td.leftalign,
+table.inline th.leftalign {
+	text-align: left;
+}
+
+.centeralign,
+table.inline .centeralign,
+table.inline td.centeralign,
+table.inline th.centeralign {
+	text-align: center;
+}
+
+.rightalign 
+table.inline .rightalign,
+table.inline td.rightalign,
+table.inline th.rightalign{
+	text-align: right;
+}
+
+.imploded{
+    display: none;
+}
+
+.hiddenContainer{
+    text-align: right;
+}
+
+.imploded.hiddenContainer{
+    display: inherit;
+}
+
+.imploded.hiddenContainer::after{
+    content: ' [+]';
+}
+
+.exploded{
+    display: inherit;
+}
+
+.exploded.hiddenContainer::after{
+    content: " [-]";
+}
+
