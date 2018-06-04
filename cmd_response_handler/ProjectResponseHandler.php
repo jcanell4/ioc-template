@@ -272,7 +272,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                             'urlBase' => "lib/exe/ioc_ajax.php/",
                                             'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/",
                                             'urlListProjects' => "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/",
-                                            'urlListTemplates' => "lib/exe/ioc_ajaxrest.php/list_templates_rest/"
+                                            'urlListTemplates' => "lib/exe/ioc_ajaxrest.php/list_templates_rest/",
+                                            'call_project' => "call=project&do=create",
+                                            'call_document' => "call=project&do=new_page",
+                                            'call_folder' => "call=project&do=new_folder"
                                             ],
                                     'formParams' => [
                                             'EspaiDeNomsLabel' => "Espai de Noms",
