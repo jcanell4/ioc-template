@@ -190,7 +190,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
         $title = "Projecte $ns $title_rev";
 
-        //$form = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
         $outValues = [];
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues);
 
@@ -258,7 +257,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');
         $rdata['buttons'] = [['amdClass' => "ioc/gui/IocButton",
                               'position' => "bottomRight",
-                              'buttonParams' => ['iconClass' => "iocIconActiveAlarm"]
+                              'buttonParams' => ['iconClass' => "iocIconInactiveAlarm"]
                              ],
                              ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
                               'amdClass' => "ioc/gui/IocDialogButton",
@@ -343,9 +342,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 }
                 $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
             }
-
-
-
         }
 
         foreach ($view['fields'] as $keyField => $valField) {
@@ -398,8 +394,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
-        $ret;
-        if(isset($structure['type'])){
+        if (isset($structure['type'])){
             $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }else{
             $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
@@ -578,14 +573,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     private function _generateRequireDialogParams($requestParams, $responseData) {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
-        $content = $this->buildForm($id, $ns, $responseData['projectMetaData']['structure'], $responseData['projectViewData']);
+        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData']);
         $timer = $this->_generateRequireDialogTimer($requestParams, $responseData);
         $params = [
             'id' => $id,
             'ns' => $ns,
             'title' => "Projecte $ns",
             'content' => $content,
-            'originalContent' => $responseData['projectMetaData']['values'],
+            'originalContent' => $responseData['projectMetaData'],
             'timer' => $timer,
             'extra' => $responseData['projectExtraData']
         ];
