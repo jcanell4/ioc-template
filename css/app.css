@@ -651,6 +651,12 @@ span.arrow-icon {
 	position: absolute;
 }
 
+.edittable-highlight{
+	background-color: green;
+	opacity: 0.2;
+	position: absolute;
+}
+
 .ace_readonly{
 	/*display: none;*/
 }
@@ -1599,3 +1605,17 @@ table.inline th.rightalign{
     content: " [-]";
 }
 
+
+/* DataGrid Table Fix for row selector */
+.dojoxGridMasterView .dojoxGridRowbar.dojoxGridNonNormalizedCell:not(:first-child) {
+	margin-top: -15.5px;
+}
+
+table.dojoxGridRowTable {
+	margin-bottom: 0;
+}
+
+td.dojoxGridCell i {
+	color: lightgrey;
+	text-align: center;
+}
