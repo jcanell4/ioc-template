@@ -139,7 +139,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT."]");
 
                 default:
-                    throw new Exception();
+                    if ($responseData['info']) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    }
+                    if ($responseData['alert']) {
+                        $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
+                    }else if (!$responseData['info'] && !$responseData['alert']){
+                        $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
+                    }
+
             }
         }
 
@@ -274,7 +282,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                             'urlListProjects' => "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/",
                                             'urlListTemplates' => "lib/exe/ioc_ajaxrest.php/list_templates_rest/",
                                             'call_project' => "call=project&do=create",
-                                            'call_document' => "call=project&do=new_page",
+                                            'call_document' => "call=project&do=new_document",
                                             'call_folder' => "call=project&do=new_folder"
                                             ],
                                     'formParams' => [
