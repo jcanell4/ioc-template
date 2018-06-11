@@ -272,7 +272,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                              ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
                               'amdClass' => "ioc/gui/IocDialogButton",
                               'position' => "bottomRight",
-                              'baseClass' => "imageOnly",
+                              'class' => "imageOnly",
                               'buttonParams' => [
                                     'iconClass' => "iocIconAdd",
                                     'id' => "projectMetaDataTreeZone_topRight_".$projectId,
