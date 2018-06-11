@@ -30,6 +30,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
     }
+    
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
@@ -249,6 +250,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
     }
 
+    //[JOSEP] Alerta cal canviar la crida hardcode als botons per una que impliqui configuració
     protected function addMetadataResponse($projectId, $projectNs, $projectType, &$ajaxCmdResponseGenerator) {
         $rdata['id'] = "metainfo_tree_".$projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
@@ -267,15 +269,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                    ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
         $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');
-        $rdata['buttons'] = [['amdClass' => "ioc/gui/IocButton",
+        $rdata['buttons'] = [/*['amdClass' => "ioc/gui/IocButton",
                               'position' => "bottomRight",
                               'buttonParams' => ['iconClass' => "iocIconInactiveAlarm"]
-                             ],
+                             ],*/
                              ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
                               'amdClass' => "ioc/gui/IocDialogButton",
-                              'position' => "topRight",
+                              'position' => "bottomRight",
+                              'class' => "imageOnly",
                               'buttonParams' => [
-                                    'iconClass' => "iocIconOutbox",
+                                    'iconClass' => "iocIconAdd",
                                     'id' => "projectMetaDataTreeZone_topRight_".$projectId,
                                     'dialogParams' => [
                                             'ns' => $projectNs,
