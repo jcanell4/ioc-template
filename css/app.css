@@ -206,6 +206,26 @@ table.diff th.author {
 	overflow: scroll;
 }
 
+.iocIconRemove,
+.iocIconAdd{
+	background-image: url("css/icons/201528-remove-add_32.png"); 
+	width: 32px;
+	height: 32px;
+}
+
+.iocIconRemove { background-position: -32px -64px; }
+.iocIconAdd { background-position: -32px -32px; }
+
+.iocIconFactory,
+.iocIconFactoryG{
+	background-image: url("css/icons/factory_icon_2.png"); 
+	width: 32px;
+	height: 32px;
+}
+
+.iocIconFactory { background-position: 0px -32px; }
+.iocIconFactoryG { background-position: -32px 0px; }
+
 .iocIconPreviewPrint{
     background-image: url("css/icons/printPreview.png"); 
     width: 32px;
@@ -232,6 +252,7 @@ table.diff th.author {
 	width: 32px;
 	height: 32px;
 }
+
 .iocIconSave { background-position: 0; }
 .iocIconPrint { background-position: -32px; }
 .iocIconCut { background-position: -64px; }

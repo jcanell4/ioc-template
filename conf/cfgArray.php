@@ -1306,7 +1306,7 @@ $_arrIocCfgGUI = array (
                   'query' => '\'do=generate\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'iconClass' => '\'iocIconUpload\'',
+                  'iconClass' => '\'iocIconFactory\'',
                   'standbyId' => '\'bodyContent\'',
                   'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var gState=this.dispatcher.getGlobalState();var id=gState.getCurrentId();if (id) { var ns=id; if (gState.currentTabId) ns=gState.getContent(gState.currentTabId).ns; var projectType=gState.getContent(id).projectType; if(this.query){ _ret=this.query+\'&\'; } _ret+=\'id=\'+ns+\'&projectType=\'+projectType;}return _ret;}',

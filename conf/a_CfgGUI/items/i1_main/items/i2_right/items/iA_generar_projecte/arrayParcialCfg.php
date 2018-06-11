@@ -11,7 +11,7 @@ $arrParcial = array(
                                            "query" => "'do=generate'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          ,'iconClass' => "'iocIconUpload'"
+                                          ,'iconClass' => "'iocIconFactory'"
                                           ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php?call=project'"
                                         )
