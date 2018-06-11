@@ -33,6 +33,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+            if ($responseData['info']) {
+                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+            }
+            if ($responseData['alert']) {
+                $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
+            }
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
         }
         else {
@@ -144,8 +150,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     if ($responseData['alert']) {
                         $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
-                    }else if (!$responseData['info'] && !$responseData['alert']){
-                        $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
                     }
 
             }
@@ -277,6 +281,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                             'ns' => $projectNs,
                                             'fromRoot' => $projectNs,
                                             'projectType' => $projectType,
+                                            'dialogType' => 'project_new_element',
                                             'urlBase' => "lib/exe/ioc_ajax.php/",
                                             'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/",
                                             'urlListProjects' => "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/",
