@@ -1664,4 +1664,6 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
     width: 32px !important;
     height: 32px !important;
     background-color: #fff !important;
+    bottom: -32 !important;
+    right: -32 !important;
 }
