@@ -151,6 +151,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     if ($responseData['alert']) {
                         $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
+                    }else if (!$responseData['info']){
+                        new IncorrectParametersException();
                     }
 
             }
