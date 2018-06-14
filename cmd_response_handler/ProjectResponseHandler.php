@@ -222,7 +222,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $id = $responseData['id'];
-        $ns = $requestParams['id'];
+        $ns = isset($responseData['ns'])?$responseData['ns']:$requestParams['id'];
         if (isset($requestParams['rev']))
             $title_rev = date("d-m-Y h:i:s", $requestParams['rev']);
         $title = "Projecte $ns $title_rev";
