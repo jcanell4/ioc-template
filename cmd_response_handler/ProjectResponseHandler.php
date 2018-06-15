@@ -26,7 +26,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['id'], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
         }
     }
@@ -117,7 +117,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
-                case ProjectKeys::KEY_CREATE:
+                case ProjectKeys::KEY_CREATE_PROJET:
+                case ProjectKeys::KEY_CREATE_SUBPROJET:
                     $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 
@@ -223,10 +224,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $id = $responseData['id'];
-        $ns = isset($responseData['ns'])?$responseData['ns']:$requestParams['id'];
-        if (isset($requestParams['rev']))
-            $title_rev = date("d-m-Y h:i:s", $requestParams['rev']);
+        $id = $responseData[ProjectKeys::KEY_ID];
+        $ns = isset($responseData[ProjectKeys::KEY_NS]) ? $responseData[ProjectKeys::KEY_NS] : $requestParams[ProjectKeys::KEY_ID];
+        if (isset($requestParams[ProjectKeys::KEY_REV]))
+            $title_rev = date("d-m-Y h:i:s", $requestParams[ProjectKeys::KEY_REV]);
         $title = "Projecte $ns $title_rev";
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
@@ -246,7 +247,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                                   $autosaveTimer, $timer,
                                                   $responseData['projectExtraData']);
 
-        $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData['create'], $ajaxCmdResponseGenerator);
+        $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
+        $this->addMetadataResponse($id, $ns, $pType, $responseData['create'], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
@@ -298,7 +300,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                 'urlBase' => "lib/exe/ioc_ajax.php/"
                                ];
         if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]) {
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create";
+            $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create_subproject";
             if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === TRUE)
                 $post = "true";
             elseif ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === FALSE)

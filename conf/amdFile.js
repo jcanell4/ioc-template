@@ -313,7 +313,7 @@ dialog.hide();
 if (NouProjecte.value !== '') {
 var separacio = (EspaiNoms.value !== '') ? ':' : '';
 var query = 'call=project' +
-'&do=create' +
+'&do=create_project' +
 '&id=' + EspaiNoms.value + separacio + NouProjecte.value +
 '&projectType=' + selectProjecte.value;
 newButton.sendRequest(query);
