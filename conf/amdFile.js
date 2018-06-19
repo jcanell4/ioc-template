@@ -289,7 +289,8 @@ id: "textBoxNouDocument",
 placeHolder: newButton.NouDocumentplaceHolder
 }).placeAt(divNouDocument);
 var botons = domConstruct.create('div', {
-className: 'botons'
+className: 'botons',
+style: "text-align:center;"
 },form.containerNode);
 domConstruct.create('label', {
 innerHTML: '<br><br>'
