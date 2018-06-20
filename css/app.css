@@ -666,6 +666,10 @@ span.arrow-icon {
 
 /* Tests Readonly */
 
+.ace-tm .ace_keyword.ace_operator.ace_readonly {
+	color: blue;
+}
+
 .readonly-highlight{
 	background-color: red;
 	opacity: 0.2;
