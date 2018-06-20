@@ -340,6 +340,27 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $builder = new FormBuilder($id, $action);
 
         $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
+        
+        if(!isset($view['definition'])){
+            $view['definition']=[
+                    "n_columns" => 12,
+                    "n_rows"=> 16,
+                    "chars_column"=> 10, 
+                    "rows_row"=> 1
+                ];
+        }
+        
+        if(!isset($view['groups'])){
+            $view['groups']=[
+                "main"=>[ 
+                    "parent"=> "",
+                    /*"label": "Principal",*/
+                    "n_columns" => 12,
+                    "n_rows"=> 16,
+                    "frame"=> false
+                    ]
+                ];
+        }
 
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
@@ -412,6 +433,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
 
             $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
+            if(!$label){
+                $label = $keyField;
+            }
 
             $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
                 ->setId($arrValues['id'])
