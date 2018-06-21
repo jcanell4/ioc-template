@@ -1672,6 +1672,17 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
     right: -32 !important;
 }
 
-.ace-tm .ace_markup.ace_protected{
+span.iocmarkkey,
+ace_markkey{
+    background-color: #BFFF80 !important;
+}
+
+div.iocprotectedcontent,
+.ace_markup.ace_protectedcontent{
+    /*content: "  "*/
     background-color: #E99 !important;
+}
+
+.ace_keyword.ace_operator.ace_protectedcontent{
+    color: #EE2C2C !important;
 }
