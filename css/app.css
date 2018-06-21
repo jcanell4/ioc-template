@@ -1670,4 +1670,10 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
 
 .ace-tm .ace_markup.ace_protected{
     background-color: #E99 !important;
+    color: #0000ff !important;
+}
+
+.ace-tm .ace_keyword.ace_operator.ace_readonly{
+    background-color: #E99 !important;
+    color: #0000ff !important;
 }
