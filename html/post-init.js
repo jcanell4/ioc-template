@@ -145,7 +145,9 @@ require([
                     }
                     else if (page.action === "form" || page.action === "project_edit") {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
-                        disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                        if (!page.generated) {
+                            disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                        }
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === "view_form" || page.action === "project_view") {

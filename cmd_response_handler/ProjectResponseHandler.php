@@ -91,6 +91,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_EDIT:
+                    $responseData['projectExtraData']['generated'] = $responseData['generated'];
                     if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]){
                         $responseData['projectExtraData']['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -343,19 +344,19 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $builder = new FormBuilder($id, $action);
 
         $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
-        
+
         if(!isset($view['definition'])){
             $view['definition']=[
                     "n_columns" => 12,
                     "n_rows"=> 16,
-                    "chars_column"=> 10, 
+                    "chars_column"=> 10,
                     "rows_row"=> 1
                 ];
         }
-        
+
         if(!isset($view['groups'])){
             $view['groups']=[
-                "main"=>[ 
+                "main"=>[
                     "parent"=> "",
                     /*"label": "Principal",*/
                     "n_columns" => 12,
