@@ -1686,3 +1686,7 @@ div.iocprotectedcontent,
 .ace_keyword.ace_operator.ace_protectedcontent{
     color: #EE2C2C !important;
 }
+
+div.dokuwiki button.toolbutton.toggled {
+	background-color: grey;
+}
