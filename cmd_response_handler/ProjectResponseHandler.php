@@ -91,6 +91,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_EDIT:
+                    $responseData['projectExtraData']['generated'] = $responseData['generated'];
                     if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]){
                         $responseData['projectExtraData']['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -273,56 +274,59 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                                    ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
         $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');
-        $rdata['buttons'][0] = ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
-                                'amdClass' => "ioc/gui/IocDialogButton",
-                                'position' => "bottomRight",
-                                'class' => "imageOnly",
-                                'buttonParams' => [
-                                    'iconClass' => "iocIconAdd",
-                                    'id' => "projectMetaDataTreeZone_topRight_".$projectId,
-                                    'dialogParams' => [
-                                            'ns' => $projectNs,
-                                            'fromRoot' => $projectNs,
-                                            'projectType' => $projectType,
-                                            'dialogType' => "project_new_element",
-                                            'urlBase' => "lib/exe/ioc_ajax.php/",
-                                            'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/"
-                                            ],
-                                    'formParams' => [
-                                            'EspaiDeNomsLabel' => "Espai de Noms",
-                                            'ProjectesLabel' => "Selecció del tipus de projecte",
-                                            'NouProjecteLabel' => "Nom del nou Projecte",
-                                            'TemplatesLabel' => "Selecció de la plantilla",
-                                            'NouDocumentLabel' => "Nom del nou Document",
-                                            'NovaCarpetaLabel' => "Nom de la nova Carpeta",
-                                            ]
-                                    ],
-                                'urlBase' => "lib/exe/ioc_ajax.php/"
-                               ];
-        if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]) {
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create_subproject";
-            if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === TRUE)
-                $post = "true";
-            elseif ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === FALSE)
-                $post = "false";
-            else
-                $post = $rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS];
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['urlListProjects'] = "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/$post/";
+        if($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]
+                || $rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS]
+                || $rdCreate[ProjectKeys::KEY_MD_CT_FOLDERS]){
+            $rdata['buttons'][0] = ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
+                                    'amdClass' => "ioc/gui/IocDialogButton",
+                                    'position' => "bottomRight",
+                                    'class' => "imageOnly",
+                                    'buttonParams' => [
+                                        'iconClass' => "iocIconAdd",
+                                        'id' => "projectMetaDataTreeZone_topRight_".$projectId,
+                                        'dialogParams' => [
+                                                'ns' => $projectNs,
+                                                'fromRoot' => $projectNs,
+                                                'projectType' => $projectType,
+                                                'dialogType' => "project_new_element",
+                                                'urlBase' => "lib/exe/ioc_ajax.php/",
+                                                'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/"
+                                                ],
+                                        'formParams' => [
+                                                'EspaiDeNomsLabel' => "Espai de Noms",
+                                                'ProjectesLabel' => "Selecció del tipus de projecte",
+                                                'NouProjecteLabel' => "Nom del nou Projecte",
+                                                'TemplatesLabel' => "Selecció de la plantilla",
+                                                'NouDocumentLabel' => "Nom del nou Document",
+                                                'NovaCarpetaLabel' => "Nom de la nova Carpeta",
+                                                ]
+                                        ],
+                                    'urlBase' => "lib/exe/ioc_ajax.php/"
+                                   ];
+            if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]) {
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create_subproject";
+                if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === TRUE)
+                    $post = "true";
+                elseif ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === FALSE)
+                    $post = "false";
+                else
+                    $post = $rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS];
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['urlListProjects'] = "lib/exe/ioc_ajaxrest.php/list_projects_rest/$projectType/$projectNs/$post/";
+            }
+            if ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS]) {
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['call_document'] = "call=project&do=new_document";
+                if ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS] === TRUE)
+                    $post = "true";
+                elseif ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS] === FALSE)
+                    $post = "false";
+                else
+                    $post = $rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS];
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['urlListTemplates'] = "lib/exe/ioc_ajaxrest.php/list_templates_rest/projectType/$projectType/template_list_type/$post/";
+            }
+            if ($rdCreate[ProjectKeys::KEY_MD_CT_FOLDERS]) {
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['call_folder'] = "call=project&do=new_folder";
+            }
         }
-        if ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS]) {
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['call_document'] = "call=project&do=new_document";
-            if ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS] === TRUE)
-                $post = "true";
-            elseif ($rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS] === FALSE)
-                $post = "false";
-            else
-                $post = $rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS];
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['urlListTemplates'] = "lib/exe/ioc_ajaxrest.php/list_templates_rest/projectType/$projectType/template_list_type/$post/";
-        }
-        if ($rdCreate[ProjectKeys::KEY_MD_CT_FOLDERS]) {
-            $rdata['buttons'][0]['buttonParams']['dialogParams']['call_folder'] = "call=project&do=new_folder";
-        }
-
         $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
     }
 
@@ -340,19 +344,19 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $builder = new FormBuilder($id, $action);
 
         $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
-        
+
         if(!isset($view['definition'])){
             $view['definition']=[
                     "n_columns" => 12,
                     "n_rows"=> 16,
-                    "chars_column"=> 10, 
+                    "chars_column"=> 10,
                     "rows_row"=> 1
                 ];
         }
-        
+
         if(!isset($view['groups'])){
             $view['groups']=[
-                "main"=>[ 
+                "main"=>[
                     "parent"=> "",
                     /*"label": "Principal",*/
                     "n_columns" => 12,

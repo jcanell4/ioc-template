@@ -1687,6 +1687,22 @@ div.iocprotectedcontent,
     color: #EE2C2C !important;
 }
 
+div.ioctodo, .ace_markup.ace_ioctodo{
+    background-color: #FFFF00 !important;
+}
+
+.ace_keyword.ace_operator.ace_ioctodo{
+    color: green !important;
+}
+
+div.ioctodogroc {
+    background-color: yellow;
+}
+
+span.ioctodoboldgroc {
+    font-weight: bold;
+    color: lightgreen;
+}
 div.dokuwiki button.toolbutton.toggled {
 	background-color: grey;
 }
