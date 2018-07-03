@@ -1735,3 +1735,14 @@ ul.table-editor input{
 	float: right;
 	width: 70%
 }
+
+.zoom {
+	position: absolute;
+	cursor: pointer;
+	z-index: 99999;
+}
+
+.zoom img {
+	width: 32px;
+	height: 32px;
+}
