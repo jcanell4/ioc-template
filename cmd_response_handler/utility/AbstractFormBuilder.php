@@ -16,6 +16,8 @@ class AbstractFormBuilder {
     protected $priority;    //un valor més alt indica major prioritat
     protected $elements = [];
     protected $rows;
+    protected $config = [];
+    protected $props = [];
 
     public function getId() {
         return $this->id;
@@ -63,4 +65,30 @@ class AbstractFormBuilder {
         return $ret;
     }
 
+    public function addConfig($config) {
+        if (!$config) {
+            // No fem res
+        } else if (is_array($config)) {
+            $this->config = array_merge($this->config, $config);
+        } else {
+            array_push($this->config, $config);
+        }
+
+        return $this;
+    }
+
+    public function addProp($key, $value) {
+        $this->props[$key] = $value;
+        return $this;
+    }
+
+    public function addProps($props=[]) {
+        if ($props) {
+            foreach ($props as $key => $value) {
+                $this->addProp($key, $value);
+            }
+        }
+        return $this;
+    }
+    
 }
