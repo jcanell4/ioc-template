@@ -338,7 +338,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @return array
      */
     protected function buildForm($id, $ns, $structure, $view, &$outValues, $action=NULL, $form_readonly=FALSE) {
-
+        $firsKeyGroup = "";
         $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
@@ -368,6 +368,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
+            if(empty($firsKeyGroup)){
+                $firsKeyGroup = $keyGroup;
+            }
             //Se obtienen los atributos del grupo
             $label = ($valGroup['label']) ? $valGroup['label'] : WikiIocLangManager::getLang('projectGroup')[$keyGroup];
             $frame = ($valGroup['frame']) ? true : false;
@@ -409,6 +412,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
             }
         }
+        
+        if(empty($firsKeyGroup)){
+            $firsKeyGroup = "main";
+        }
+
 
         foreach ($view['fields'] as $keyField => $valField) {
 
@@ -420,7 +428,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $arrValues['props']['readonly'] = TRUE;
 
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
-            $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
+            $grupo = ($arrValues['group']) ? $arrValues['group'] : $firsKeyGroup;
             if (!$aGroups[$grupo])
                 throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
 
