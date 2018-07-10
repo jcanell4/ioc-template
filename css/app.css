@@ -1463,6 +1463,19 @@ span.arrow-icon {
 	background-color:#cee6fa;
 }
 
+span.view-field{
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+span.view-field:hover{
+  overflow-x: auto;
+}
+
+div.view-textarea {
+  overflow: auto;
+}
+
 span.view-field, div.view-textarea {
   display: block;
   width: 100%;

@@ -14,9 +14,7 @@ class FieldBuilder extends AbstractFormBuilder {
     private $type;
     private $columns;
     private $value;
-    private $props = [];
     private $options = [];
-    private $config = [];
     //private $rows;
 
     public function __construct($id=NULL, $label="", $type="text", $name=NULL, $columns=12, $priority=0) {
@@ -96,33 +94,33 @@ class FieldBuilder extends AbstractFormBuilder {
         return $this;
     }
 
-    public function addProp($key, $value) {
-        $this->props[$key] = $value;
-        return $this;
-    }
+//    public function addProp($key, $value) {
+//        $this->props[$key] = $value;
+//        return $this;
+//    }
+//
+//    public function addProps($props=[]) {
+//        if ($props) {
+//            foreach ($props as $key => $value) {
+//                $this->addProp($key, $value);
+//            }
+//        }
+//        return $this;
+//    }
 
-    public function addProps($props=[]) {
-        if ($props) {
-            foreach ($props as $key => $value) {
-                $this->addProp($key, $value);
-            }
-        }
-        return $this;
-    }
-
-    public function addConfig($config) {
-
-
-        if (!$config) {
-            // No fem res
-        } else if (is_array($config)) {
-            $this->config = array_merge($this->config, $config);
-        } else {
-            array_push($this->config, $config);
-        }
-
-        return $this;
-    }
+//    public function addConfig($config) {
+//
+//
+//        if (!$config) {
+//            // No fem res
+//        } else if (is_array($config)) {
+//            $this->config = array_merge($this->config, $config);
+//        } else {
+//            array_push($this->config, $config);
+//        }
+//
+//        return $this;
+//    }
 
     public function setValue($value) {
         $this->value = $value;

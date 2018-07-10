@@ -384,6 +384,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         ->setTitle($label)
                         ->setFrame($frame)
                         ->setColumns($columns)
+                        ->addProps($valGroup['props'])
+                        ->addConfig($valGroup['config'])
                         ->setRows($rows);
                 }
             }else {
@@ -392,6 +394,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     ->setTitle($label)
                     ->setFrame($frame)
                     ->setColumns($columns)
+                    ->addProps($valGroup['props'])
+                    ->addConfig($valGroup['config'])
                     ->setRows($rows);
             }
 

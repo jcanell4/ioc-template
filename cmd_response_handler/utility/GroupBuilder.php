@@ -34,6 +34,12 @@ class GroupBuilder extends AbstractFormBuilder {
         }
 
         $group['priority'] = $this->priority;
+        if(count($this->props)>0){
+            $group['props'] = $this->props;
+        }
+        if(count($this->config)>0){
+            $group['config'] = $this->config;
+        }
         $group['elements'] = $this->buildElements();
         return $group;
     }
