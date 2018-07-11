@@ -949,7 +949,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconUndo\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();var globalState = this.dispatcher.getGlobalState();var contentToolActual = this.dispatcher.getContentCache(id).getMainContentTool();var ns = contentToolActual.ns; _ret = { id: id, name: \'save\', extraDataToSend: {do: \'save_rev\'}};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var contentToolActual = this.dispatcher.getContentCache(id).getMainContentTool();var ns = contentToolActual.ns;_ret = { id: id, name: \'save\', extraDataToSend: {do: \'save_rev\'}};return _ret;}',
                 ),
               ),
             ),
