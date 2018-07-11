@@ -200,11 +200,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $id = $responseData['id'];
-        $ns = $requestParams['id'];
+        $id = $responseData[ProjectKeys::KEY_ID];
+        $ns = $requestParams[ProjectKeys::KEY_ID];
 
-        if (isset($requestParams['rev']))
-            $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
+        if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO]!==ProjectKeys::KEY_REVERT)
+            $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams[ProjectKeys::KEY_REV]) . ")";
         $title = "Projecte $ns $title_rev";
 
         $outValues = [];
@@ -412,7 +412,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $aGroups[$pare]->addElement($aGroups[$keyGroup]); //se añade como elemento al grupo padre
             }
         }
-        
+
         if(empty($firsKeyGroup)){
             $firsKeyGroup = "main";
         }
