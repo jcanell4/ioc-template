@@ -18,8 +18,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
 
-    function __construct() {
-        parent::__construct(ProjectKeys::KEY_PROJECT);
+    function __construct($cmd=NULL) {
+        parent::__construct(($cmd!==NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
