@@ -1,14 +1,9 @@
-var id = this.dispatcher.getGlobalState().getCurrentId();
-
 var globalState = this.dispatcher.getGlobalState();
+var id = globalState.getCurrentId();
 var contentToolActual = this.dispatcher.getContentCache(id).getMainContentTool();
 var ns = contentToolActual.ns;
-
-    _ret = {
+_ret = {
     id: id,
     name: 'save',
     extraDataToSend: {do: 'save_rev'}
 };
-
-
-

@@ -18,8 +18,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
 
-    function __construct() {
-        parent::__construct(ProjectKeys::KEY_PROJECT);
+    function __construct($cmd=NULL) {
+        parent::__construct(($cmd!==NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -200,11 +200,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $id = $responseData['id'];
-        $ns = $requestParams['id'];
+        $id = $responseData[ProjectKeys::KEY_ID];
+        $ns = $requestParams[ProjectKeys::KEY_ID];
 
-        if (isset($requestParams['rev']))
-            $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams['rev']) . ")";
+        if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO]!==ProjectKeys::KEY_REVERT)
+            $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams[ProjectKeys::KEY_REV]) . ")";
         $title = "Projecte $ns $title_rev";
 
         $outValues = [];
@@ -338,7 +338,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @return array
      */
     protected function buildForm($id, $ns, $structure, $view, &$outValues, $action=NULL, $form_readonly=FALSE) {
-
+        $firsKeyGroup = "";
         $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
         $builder = new FormBuilder($id, $action);
@@ -368,6 +368,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
+            if(empty($firsKeyGroup)){
+                $firsKeyGroup = $keyGroup;
+            }
             //Se obtienen los atributos del grupo
             $label = ($valGroup['label']) ? $valGroup['label'] : WikiIocLangManager::getLang('projectGroup')[$keyGroup];
             $frame = ($valGroup['frame']) ? true : false;
@@ -410,6 +413,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
 
+        if(empty($firsKeyGroup)){
+            $firsKeyGroup = "main";
+        }
+
+
         foreach ($view['fields'] as $keyField => $valField) {
 
             //combina los atributos y valores de los arrays de estructura y de vista
@@ -420,7 +428,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $arrValues['props']['readonly'] = TRUE;
 
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
-            $grupo = ($arrValues['group']) ? $arrValues['group'] : "main";
+            $grupo = ($arrValues['group']) ? $arrValues['group'] : $firsKeyGroup;
             if (!$aGroups[$grupo])
                 throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
 

@@ -12,7 +12,7 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconEdit'"
-                                          ,"standbyId" => cfgIdConstants::getConstantToString(cfgIdConstants::BODY_CONTENT)
+                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php?call=project'"
                                           ,'disableOnSend' => true
                                         )

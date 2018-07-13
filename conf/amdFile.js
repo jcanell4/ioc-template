@@ -140,15 +140,8 @@ style: "width: 470px; height: 350px;",
 newButton: newButton
 });
 dialog.on('hide', function () {
-dialog.dialogTree.tree.collapseAll();   //contrae el árbol
-dom.byId('textBoxEspaiNoms').value = "";
-registry.byId('comboProjectes').set('value', defaultProject);
-dom.byId('textBoxNouProjecte').value = "";
-registry.byId('comboTemplates').value = null;
-dom.byId('textBoxNouDocument').value = "";
-dom.byId('id_divNouProjecte').hidden = false;
-dom.byId('id_divTemplate').hidden = false;
-dom.byId('id_divNouDocument').hidden = false;
+dialog.destroyRecursive(false);
+domConstruct.destroy("newDocumentDlg");
 });
 dialog.on('show', function () {
 dialog.dialogTree.tree.set('path',path).then(function(){
@@ -331,7 +324,7 @@ form.startup();
 dialog.nsActivePage();
 dialog.show();
 return false;
-}; //);
+};
 }
 });
 require([

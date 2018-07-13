@@ -12,12 +12,9 @@
 //include "dojo/store/JsonRest"
 //include "ioc/gui/NsTreeContainer"
 
-
-
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
 
-    //newButton.on('click', function () {
     newButton.onClick = function () {
         var defaultProject = 'defaultProject';
         var path = [];
@@ -32,19 +29,22 @@ if (newButton) {
             });
 
             dialog.on('hide', function () {
-                dialog.dialogTree.tree.collapseAll();   //contrae el árbol
-                //Elimina los valores de los inputs
-                dom.byId('textBoxEspaiNoms').value = "";
-                registry.byId('comboProjectes').set('value', defaultProject);
-                dom.byId('textBoxNouProjecte').value = "";
-                registry.byId('comboTemplates').value = null;
-                dom.byId('textBoxNouDocument').value = "";
-                //Muestra los DIV que contienen el textBox de 'Nou Projecte', el combo de las plantillas y TextBox de 'Nou Document'
-                //dado que pueden haber sido ocultados y es necesario reestablecer su aspecto original
-                //para la próxima vez que el botón 'Nou' solicite el diálogo
-                dom.byId('id_divNouProjecte').hidden = false;
-                dom.byId('id_divTemplate').hidden = false;
-                dom.byId('id_divNouDocument').hidden = false;
+//                dialog.dialogTree.tree.collapseAll();   //contrae el árbol
+//                //Elimina los valores de los inputs
+//                dom.byId('textBoxEspaiNoms').value = "";
+//                registry.byId('comboProjectes').set('value', defaultProject);
+//                dom.byId('textBoxNouProjecte').value = "";
+//                registry.byId('comboTemplates').value = null;
+//                dom.byId('textBoxNouDocument').value = "";
+//                //Muestra los DIV que contienen el textBox de 'Nou Projecte', el combo de las plantillas y TextBox de 'Nou Document'
+//                //dado que pueden haber sido ocultados y es necesario reestablecer su aspecto original
+//                //para la próxima vez que el botón 'Nou' solicite el diálogo
+//                dom.byId('id_divNouProjecte').hidden = false;
+//                dom.byId('id_divTemplate').hidden = false;
+//                dom.byId('id_divNouDocument').hidden = false;
+                
+                dialog.destroyRecursive(false);
+                domConstruct.destroy("newDocumentDlg");
             });
             
             dialog.on('show', function () {
@@ -277,5 +277,5 @@ if (newButton) {
         dialog.nsActivePage();
         dialog.show();
         return false;
-    }; //);
+    };
 }
