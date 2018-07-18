@@ -1774,3 +1774,18 @@ ul.table-editor input{
 	margin-top: 2px;
 
 }
+
+.category-button {
+	position: relative;
+}
+
+.category-button span {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 0 4px 4px;
+	border-color: transparent transparent #000000 transparent;
+	position: absolute;
+	bottom: 1px;
+	right: 3px;
+}
