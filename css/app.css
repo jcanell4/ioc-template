@@ -1808,3 +1808,15 @@ ul.table-editor input{
 	bottom: 1px;
 	right: 3px;
 }
+
+/* Fix dialog dialog barbutton */
+.dijitDialogPaneActionBar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#grid.dojoxGrid {
+	padding-bottom: 20px; /* Alçada de la secció de botons inferior */
+}
