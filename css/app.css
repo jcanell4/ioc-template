@@ -1817,6 +1817,14 @@ ul.table-editor input{
 	right: 0;
 }
 
-#grid.dojoxGrid {
-	padding-bottom: 20px; /* Alçada de la secció de botons inferior */
+.custom-ioc-dialog.digitDialog.dijitDialogPaneContent {
+	padding-bottom:20px;
 }
+
+#grid.dojoxGrid {
+	padding-bottom: 20px; /* Alçada de la secció de botons inferior. Editor de taules del ACE */
+}
+
+/*#grid_container .dojoxGrid {*/
+	/*padding-bottom: 25px; !* Correspon a la taula dels formularis *!*/
+/*}*/
