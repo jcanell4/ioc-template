@@ -1828,3 +1828,37 @@ ul.table-editor input{
 /*#grid_container .dojoxGrid {*/
 	/*padding-bottom: 25px; !* Correspon a la taula dels formularis *!*/
 /*}*/
+
+.left-position{
+    position: fixed;
+    left: 0;
+}
+
+.right-position{
+    position: fixed;
+    right: 0;
+}
+
+.collapseAll-icon{
+    position: fixed;
+    right: 135px;
+    z-index: 100;
+}
+
+.collapseAll-icon:after{
+    content: url("css/icons/collapseAll.png"); 
+    width: 16px;
+    height: 16px;    
+}
+
+.expandAll-icon{
+    position: fixed;
+    right: 155px;
+    z-index: 100;
+}
+
+.expandAll-icon:after{
+    content: url("css/icons/expandAll.png"); 
+    width: 16px;
+    height: 16px;    
+}
