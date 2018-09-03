@@ -4,25 +4,31 @@
  * @culpable Rafael Claver
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC.'lib/lib_ioc/');
-if (!defined('DOKU_PLUGIN'))  define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(DOKU_LIB_IOC."wikiiocmodel/ProjectModelExceptions.php");
-require_once(DOKU_PLUGIN."ajaxcommand/defkeys/ProjectKeys.php");
-require_once(DOKU_PLUGIN."ajaxcommand/defkeys/LockKeys.php");
-require_once(DOKU_TPL_INCDIR."conf/cfgIdConstants.php");
-require_once(DOKU_TPL_INCDIR."cmd_response_handler/WikiIocResponseHandler.php");
-require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/FormBuilder.php");
-require_once(DOKU_TPL_INCDIR."cmd_response_handler/utility/ExpiringCalc.php");
+if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC . 'lib/lib_ioc/');
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+require_once(DOKU_LIB_IOC . "wikiiocmodel/ProjectModelExceptions.php");
+require_once(DOKU_PLUGIN . "ajaxcommand/defkeys/ProjectKeys.php");
+require_once(DOKU_PLUGIN . "ajaxcommand/defkeys/LockKeys.php");
+require_once(DOKU_TPL_INCDIR . "conf/cfgIdConstants.php");
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/FormBuilder.php");
+require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/ExpiringCalc.php");
 
-class ProjectResponseHandler extends WikiIocResponseHandler {
+// Validators
+require_once(DOKU_PLUGIN . "wikiiocmodel/utility/ValidationByRoles.php");
+
+class ProjectResponseHandler extends WikiIocResponseHandler
+{
 
     private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
 
-    function __construct($cmd=NULL) {
-        parent::__construct(($cmd!==NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
+    function __construct($cmd = NULL)
+    {
+        parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
-    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
         parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
@@ -36,7 +42,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
 
-    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if ($responseData['info']) {
                 $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
@@ -45,8 +52,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
             }
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-        }
-        else {
+        } else {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
@@ -56,14 +62,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_DIFF:
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
-                                                              $responseData['projectExtraData']
-                                                             );
+                        $responseData['projectExtraData']
+                    );
                     //afegir la metadata de revisions com a resposta
                     if ($this->addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata']['id'], $responseData[ProjectKeys::KEY_REV]);
                         $param = ['ns' => $responseData['rdata']['ns'],
-                                  'pageCommand' => "lib/exe/ioc_ajax.php?call=project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
-                                 ];
+                            'pageCommand' => "lib/exe/ioc_ajax.php?call=project&do=view&projectType={$requestParams[ProjectKeys::KEY_PROJECT_TYPE]}"
+                        ];
                         $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['rdata']['id'], true, "ioc/dokuwiki/processContentPage", $param);
                     }
 
@@ -76,7 +82,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                     if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
                         $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-                    }else {
+                    } else {
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }
                     break;
@@ -85,7 +91,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                     if (!$requestParams['cancel']) {
                         $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                    }else {
+                    } else {
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }
                     break;
@@ -96,14 +102,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_EDIT:
                     $responseData['projectExtraData']['generated'] = $responseData['generated'];
-                    if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]){
+                    if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
                         $responseData['projectExtraData']['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    }else {
+                    } else {
                         switch ($responseData['lockInfo']['state']) {
                             case LockKeys::LOCKED:
                                 //se ha obtenido el bloqueo, continuamos la edición
-                                if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]){
+                                if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]) {
                                     $responseData['projectExtraData'][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
                                 }
                                 $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -133,23 +139,23 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_REVERT:
-                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REVERT."]\n"
-                                        . "S'ha traslladat a: wikiocmodel/projects/documentation/command/responseHandler/ProjectRevertResponseHandler.php");
+                    throw new Exception("Excepció a ProjectResponseHandler: [" . ProjectKeys::KEY_REVERT . "]\n"
+                        . "S'ha traslladat a: wikiocmodel/projects/documentation/command/responseHandler/ProjectRevertResponseHandler.php");
 
                 case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
-                    if ($responseData['lockInfo']){
+                    if ($responseData['lockInfo']) {
                         $timeout = ExpiringCalc::getExpiringTime($responseData['lockInfo']['locker']['time'], 0);
                         $ajaxCmdResponseGenerator->addRefreshLock($responseData['id'], $requestParams['id'], $timeout);
                     }
                     if ($responseData['info']) {
                         $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
-                    }else{
+                    } else {
                         $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
                     }
                     break;
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
-                    throw new Exception("Excepció a ProjectResponseHandler: [".ProjectKeys::KEY_REMOVE_PROJECT_DRAFT."]");
+                    throw new Exception("Excepció a ProjectResponseHandler: [" . ProjectKeys::KEY_REMOVE_PROJECT_DRAFT . "]");
 
                 default:
                     if ($responseData['info']) {
@@ -157,7 +163,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     if ($responseData['alert']) {
                         $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
-                    }else if (!$responseData['info']){
+                    } else if (!$responseData['info']) {
                         new IncorrectParametersException();
                     }
 
@@ -166,48 +172,53 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     }
 
-    private function _responseViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+    private function _responseViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
+    {
         $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
         $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
         //afegir la metadata de revisions com a resposta
         $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 
-    private function _addUpdateLocalDrafts($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+    private function _addUpdateLocalDrafts($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
+    {
         if ($responseData['drafts']) {
             $responseData['projectExtraData']['hasDraft'] = TRUE;
             $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams['id'], $responseData['drafts']);
         }
     }
 
-    private function _addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+    private function _addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
+    {
         if ($this->addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_REV]);
         }
     }
 
-    private function addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator) {
+    private function addMetaDataRevisions($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
+    {
         if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
             $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
             $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType";
             $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType";
-            $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
+            $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=" . $responseData[ProjectKeys::KEY_REV]['call_diff'];
             return true;
-        }else {
+        } else {
             $extramd = ['id' => $responseData[ProjectKeys::KEY_ID],
-                        'idr' => $responseData[ProjectKeys::KEY_ID]."_revisions",
-                        'txt' => "No hi ha revisions",
-                        'html' => "<h3>Aquest projecte no té revisions</h3>"
-                       ];
+                'idr' => $responseData[ProjectKeys::KEY_ID] . "_revisions",
+                'txt' => "No hi ha revisions",
+                'html' => "<h3>Aquest projecte no té revisions</h3>"
+            ];
             $ajaxCmdResponseGenerator->addExtraMetadata($extramd['id'], $extramd['idr'], $extramd['txt'], $extramd['html']);
         }
     }
 
-    protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function viewResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
         $id = $responseData[ProjectKeys::KEY_ID];
         $ns = $requestParams[ProjectKeys::KEY_ID];
 
-        if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO]!==ProjectKeys::KEY_REVERT)
+        if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_REVERT)
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams[ProjectKeys::KEY_REV]) . ")";
         $title = "Projecte $ns $title_rev";
 
@@ -221,14 +232,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues,
-                                                  $responseData['projectExtraData']);
+            $responseData['projectExtraData']);
         $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData['create'], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
     }
 
-    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    protected function editResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
         $id = $responseData[ProjectKeys::KEY_ID];
         $ns = isset($responseData[ProjectKeys::KEY_NS]) ? $responseData[ProjectKeys::KEY_NS] : $requestParams[ProjectKeys::KEY_ID];
         if (isset($requestParams[ProjectKeys::KEY_REV]))
@@ -249,8 +261,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         */
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
-                                                  $autosaveTimer, $timer,
-                                                  $responseData['projectExtraData']);
+            $autosaveTimer, $timer,
+            $responseData['projectExtraData']);
 
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
         $this->addMetadataResponse($id, $ns, $pType, $responseData['create'], $ajaxCmdResponseGenerator);
@@ -260,53 +272,54 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     //[JOSEP] Alerta cal canviar la crida hardcode als botons per una que impliqui configuració
-    protected function addMetadataResponse($projectId, $projectNs, $projectType, $rdCreate, &$ajaxCmdResponseGenerator) {
-        $rdata['id'] = "metainfo_tree_".$projectId;
+    protected function addMetadataResponse($projectId, $projectNs, $projectType, $rdCreate, &$ajaxCmdResponseGenerator)
+    {
+        $rdata['id'] = "metainfo_tree_" . $projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
         $rdata['title'] = "Espai de noms del projecte";
         $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
         $rdata['fromRoot'] = $projectNs;
         $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
         $rdata['typeDictionary'] = ["p" => [
-                                            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
-                                            "params" => ['projectType','nsproject']
-                                           ],
-                                    "po" => [
-                                            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
-                                            "params" => ['projectType','nsproject']
-                                            ]
-                                   ];
+            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
+            "params" => ['projectType', 'nsproject']
+        ],
+            "po" => [
+                "urlBase" => "lib/exe/ioc_ajax.php?call=project",
+                "params" => ['projectType', 'nsproject']
+            ]
+        ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
         $rdata['processOnClickAndOpenOnClick'] = array('p', 'po');
-        if($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]
-                || $rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS]
-                || $rdCreate[ProjectKeys::KEY_MD_CT_FOLDERS]){
-            $rdata['buttons'][0] = ['id' => "projectMetaDataTreeZone_topRight_".$projectId,
-                                    'amdClass' => "ioc/gui/IocDialogButton",
-                                    'position' => "bottomRight",
-                                    'class' => "imageOnly",
-                                    'buttonParams' => [
-                                        'iconClass' => "iocIconAdd",
-                                        'id' => "projectMetaDataTreeZone_topRight_".$projectId,
-                                        'dialogParams' => [
-                                                'ns' => $projectNs,
-                                                'fromRoot' => $projectNs,
-                                                'projectType' => $projectType,
-                                                'dialogType' => "project_new_element",
-                                                'urlBase' => "lib/exe/ioc_ajax.php/",
-                                                'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/"
-                                                ],
-                                        'formParams' => [
-                                                'EspaiDeNomsLabel' => "Espai de Noms",
-                                                'ProjectesLabel' => "Selecció del tipus de projecte",
-                                                'NouProjecteLabel' => "Nom del nou Projecte",
-                                                'TemplatesLabel' => "Selecció de la plantilla",
-                                                'NouDocumentLabel' => "Nom del nou Document",
-                                                'NovaCarpetaLabel' => "Nom de la nova Carpeta",
-                                                ]
-                                        ],
-                                    'urlBase' => "lib/exe/ioc_ajax.php/"
-                                   ];
+        if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]
+            || $rdCreate[ProjectKeys::KEY_MD_CT_DOCUMENTS]
+            || $rdCreate[ProjectKeys::KEY_MD_CT_FOLDERS]) {
+            $rdata['buttons'][0] = ['id' => "projectMetaDataTreeZone_topRight_" . $projectId,
+                'amdClass' => "ioc/gui/IocDialogButton",
+                'position' => "bottomRight",
+                'class' => "imageOnly",
+                'buttonParams' => [
+                    'iconClass' => "iocIconAdd",
+                    'id' => "projectMetaDataTreeZone_topRight_" . $projectId,
+                    'dialogParams' => [
+                        'ns' => $projectNs,
+                        'fromRoot' => $projectNs,
+                        'projectType' => $projectType,
+                        'dialogType' => "project_new_element",
+                        'urlBase' => "lib/exe/ioc_ajax.php/",
+                        'treeDataSource' => "lib/exe/ioc_ajaxrest.php/ns_tree_rest/"
+                    ],
+                    'formParams' => [
+                        'EspaiDeNomsLabel' => "Espai de Noms",
+                        'ProjectesLabel' => "Selecció del tipus de projecte",
+                        'NouProjecteLabel' => "Nom del nou Projecte",
+                        'TemplatesLabel' => "Selecció de la plantilla",
+                        'NouDocumentLabel' => "Nom del nou Document",
+                        'NovaCarpetaLabel' => "Nom de la nova Carpeta",
+                    ]
+                ],
+                'urlBase' => "lib/exe/ioc_ajax.php/"
+            ];
             if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]) {
                 $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create_subproject";
                 if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === TRUE)
@@ -341,7 +354,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
      * @param array: $view, obtenido de defaultView.json
      * @return array
      */
-    protected function buildForm($id, $ns, $structure, $view, &$outValues, $action=NULL, $form_readonly=FALSE) {
+    protected function buildForm($id, $ns, $structure, $view, &$outValues, $action = NULL, $form_readonly = FALSE)
+    {
         $firsKeyGroup = "";
         $this->mergeStructureToForm($structure, $view['fields'], $view['groups'], $view['definition'], $outValues);
         $aGroups = array();
@@ -349,30 +363,30 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $mainRow = FormBuilder::createRowBuilder()->setTitle('Projecte: ' . $ns);
 
-        if(!isset($view['definition'])){
-            $view['definition']=[
-                    "n_columns" => 12,
-                    "n_rows"=> 16,
-                    "chars_column"=> 10,
-                    "rows_row"=> 1
-                ];
+        if (!isset($view['definition'])) {
+            $view['definition'] = [
+                "n_columns" => 12,
+                "n_rows" => 16,
+                "chars_column" => 10,
+                "rows_row" => 1
+            ];
         }
 
-        if(!isset($view['groups'])){
-            $view['groups']=[
-                "main"=>[
-                    "parent"=> "",
+        if (!isset($view['groups'])) {
+            $view['groups'] = [
+                "main" => [
+                    "parent" => "",
                     /*"label": "Principal",*/
                     "n_columns" => 12,
-                    "n_rows"=> 16,
-                    "frame"=> false
-                    ]
-                ];
+                    "n_rows" => 16,
+                    "frame" => false
+                ]
+            ];
         }
 
         //Construye, como objetos, los grupos definidos en la vista y los enlaza jerarquicamente
         foreach ($view['groups'] as $keyGroup => $valGroup) {
-            if(empty($firsKeyGroup)){
+            if (empty($firsKeyGroup)) {
                 $firsKeyGroup = $keyGroup;
             }
             //Se obtienen los atributos del grupo
@@ -395,7 +409,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         ->addConfig($valGroup['config'])
                         ->setRows($rows);
                 }
-            }else {
+            } else {
                 //Se crea un nuevo grupo principal
                 $aGroups[$keyGroup] = FormBuilder::createGroupBuilder()
                     ->setTitle($label)
@@ -408,7 +422,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
             if (!$pare) {
                 $mainRow->addElement($aGroups[$keyGroup]); //se añade como grupo principal
-            }else {
+            } else {
                 if (!$aGroups[$pare]) {
                     //si el grupo padre de este grupo todavía no está creado, se crea el grupo padre sin atributos
                     $aGroups[$pare] = FormBuilder::createGroupBuilder();
@@ -417,7 +431,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
 
-        if(empty($firsKeyGroup)){
+        if (empty($firsKeyGroup)) {
             $firsKeyGroup = "main";
         }
 
@@ -428,7 +442,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (!is_array($valField)) $valField = array($valField);
             $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
 
-            if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly']==FALSE)))
+            if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly'] == FALSE)))
                 $arrValues['props']['readonly'] = TRUE;
 
             //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
@@ -453,9 +467,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
 
             $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
-            if(!$label){
+            if (!$label) {
                 $label = $keyField;
             }
+
+
+            $this->updateReadonlyFromConfig($arrValues);
+
 
             $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
                 ->setId($arrValues['id'])
@@ -470,27 +488,64 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         $form = $builder->addElement($mainRow)
-                    ->build();
+            ->build();
         return $form;
     }
 
-    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
-        if (isset($structure['type'])){
+    protected function updateReadonlyFromConfig(&$outArrValues)
+    {
+
+        if (!isset($outArrValues['config']) || !isset($outArrValues['config']['readonly'])) {
+            // no s'ha establert la propietat al config, no cal fer res
+            return;
+        }
+
+        $isReadOnly = $outArrValues['config']['readonly'];
+
+
+        if (is_array($isReadOnly)) {
+            $className = $outArrValues['config']['readonly']['class'];
+            $validator = new $className;
+
+            if (!$validator) {
+                // TODO: la classe no existeix, llençar execepció
+                return;
+            }
+
+            $validator->init($this->getPermission());
+            $isReadOnly = $validator->validate($outArrValues['config']['readonly']['data']);
+        }
+
+        $outArrValues['config']['readonly'] = $isReadOnly;
+
+        if (!isset($outArrValues['props'])) {
+            $outArrValues['props'] = [];
+        }
+
+        $outArrValues['props']['readonly'] = $isReadOnly;
+
+    }
+
+
+    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    {
+        if (isset($structure['type'])) {
             $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
-        }else{
+        } else {
             $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }
         return $ret;
     }
 
-    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
+    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    {
         $ret = false;
-        foreach ($structure as $structureKey => $structureProperties){
-            if($structureProperties['renderAsMultiField']){
-                if(isset($structureProperties['value'])){
+        foreach ($structure as $structureKey => $structureProperties) {
+            if ($structureProperties['renderAsMultiField']) {
+                if (isset($structureProperties['value'])) {
                     $discardValues = [];
                     $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $discardValues, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties['id']);
-                    if($needGroup){
+                    if ($needGroup) {
                         $viewGroups[$structureKey]['label'] = $structureKey;
                         $viewGroups[$structureKey]['frame'] = true;
                         $viewGroups[$structureKey]['n_columns'] = $viewDefinition['n_columns'];
@@ -498,36 +553,37 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         $ret = true;
                     }
                 }
-            }else{
+            } else {
                 $ret = $this->mergeStructureToForm($structureProperties, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
             }
         }
         return $ret;
     }
 
-    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent =""){
+    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    {
         $ret = false;
-        if(array_key_exists($structureProperties['id'], $viewFields)){
+        if (array_key_exists($structureProperties['id'], $viewFields)) {
             //merge
             $viewFields[$structureProperties['id']] = array_merge(array(), $structureProperties, $viewFields[$structureProperties['id']]);
 //            if(!isset($viewFields[$structureProperties['id']]['value'])){
 //                $viewFields[$structureProperties['id']]['value'] = $viewFields[$structureProperties['id']]['default'];
 //            }
-        }else{
-            if($mandatoryParent || $structureProperties['mandatory']){
-                $ret=true;
+        } else {
+            if ($mandatoryParent || $structureProperties['mandatory']) {
+                $ret = true;
                 $viewFields[$structureProperties['id']] = $structureProperties;
 //                if(!isset($viewFields[$structureProperties['id']]['value'])){
 //                    $viewFields[$structureProperties['id']]['value'] = $viewFields[$structureProperties['id']]['default'];
 //                }
-                $viewFields[$structureProperties['id']]['group']= $defaultParent;
+                $viewFields[$structureProperties['id']]['group'] = $defaultParent;
             }
         }
-        if(isset($viewFields[$structureProperties['id']]['defaultRow'])){
-            if(!isset($viewFields[$structureProperties['id']]['config'])){
-                $viewFields[$structureProperties['id']]['config']=[];
+        if (isset($viewFields[$structureProperties['id']]['defaultRow'])) {
+            if (!isset($viewFields[$structureProperties['id']]['config'])) {
+                $viewFields[$structureProperties['id']]['config'] = [];
             }
-            $viewFields[$structureProperties['id']]['config']['defaultRow']=$viewFields[$structureProperties['id']]['defaultRow'];
+            $viewFields[$structureProperties['id']]['config']['defaultRow'] = $viewFields[$structureProperties['id']]['defaultRow'];
 
             //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }
@@ -543,16 +599,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $outValues[$structureProperties['id']] = $structureProperties['value'];
 
 
-
         return $ret;
     }
 
-    protected function addSaveOrDiscardDialog(&$responseData) {
+    protected function addSaveOrDiscardDialog(&$responseData)
+    {
         $responseData['projectExtraData']['messageChangesDetected'] = WikiIocLangManager::getLang('projects')['cancel_editing_with_changes'];
         $responseData['projectExtraData']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData['id']);
     }
 
-    protected function generateSaveOrDiscardDialog($id) {
+    protected function generateSaveOrDiscardDialog($id)
+    {
         $dialogConfig = [
             'id' => $id,
             'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
@@ -600,7 +657,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $dialogConfig;
     }
 
-    private function generateEditProjectTimer($requestParams, $responseData) {
+    private function generateEditProjectTimer($requestParams, $responseData)
+    {
         $timer = [
             "dialogOnExpire" => [
                 "title" => WikiIocLangManager::getLang("expiring_dialog_title"),
@@ -618,12 +676,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 "cancelContentEvent" => "cancel_project",
                 "cancelEventParams" => [
                     ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
-                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=false&auto=true",
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES . "=true&" . ProjectKeys::KEY_KEEP_DRAFT . "=false&auto=true",
                 ],
                 "timeoutContentEvent" => "cancel_project",
                 "timeoutParams" => [
                     ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
-                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=true&auto=true",
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES . "=true&" . ProjectKeys::KEY_KEEP_DRAFT . "=true&auto=true",
                 ],
             ],
         ];
@@ -632,7 +690,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $timer;
     }
 
-    private function addRequireDialogResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+    private function addRequireDialogResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+    {
 
         $params = $this->_generateRequireDialogParams($requestParams, $responseData);
 
@@ -640,7 +699,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $this->_addRequireDialogRefreshParams($params, $requestParams, $responseData);
             $message = $ajaxCmdResponseGenerator->generateInfo('warning', $params['content']['requiring']['message'], $requestParams[ProjectKeys::KEY_ID]);
             $responseData['info'] = $ajaxCmdResponseGenerator->addInfoToInfo($responseData['info'], $message);
-        }else {
+        } else {
             $this->_addDialogParamsToParams($params, $requestParams, $responseData);
         }
 
@@ -651,7 +710,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
     }
 
-    private function _generateRequireDialogParams($requestParams, $responseData) {
+    private function _generateRequireDialogParams($requestParams, $responseData)
+    {
         $id = $responseData['id'];
         $ns = $requestParams['id'];
         $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData']);
@@ -668,29 +728,31 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $params;
     }
 
-    private function _generateRequireDialogTimer($requestParams, $responseData) {
-        $rev = $requestParams[ProjectKeys::KEY_REV] ? "&".ProjectKeys::KEY_REV."=".$requestParams[ProjectKeys::KEY_REV] : "" ;
+    private function _generateRequireDialogTimer($requestParams, $responseData)
+    {
+        $rev = $requestParams[ProjectKeys::KEY_REV] ? "&" . ProjectKeys::KEY_REV . "=" . $requestParams[ProjectKeys::KEY_REV] : "";
         $timer = [
             'eventOnExpire' => "edit_project",
             'paramsOnExpire' => [
-                'dataToSend' => ProjectKeys::KEY_ID."=".$requestParams[ProjectKeys::KEY_ID]
-                                . "&".ProjectKeys::KEY_TO_REQUIRE."=true"
-                                . "&".ProjectKeys::KEY_PROJECT_TYPE ."=".$requestParams[ProjectKeys::KEY_PROJECT_TYPE]
-                                . $rev
+                'dataToSend' => ProjectKeys::KEY_ID . "=" . $requestParams[ProjectKeys::KEY_ID]
+                    . "&" . ProjectKeys::KEY_TO_REQUIRE . "=true"
+                    . "&" . ProjectKeys::KEY_PROJECT_TYPE . "=" . $requestParams[ProjectKeys::KEY_PROJECT_TYPE]
+                    . $rev
             ],
             'eventOnCancel' => "cancel_project",
             'paramsOnCancel' => [
-                'dataToSend' => ProjectKeys::KEY_ID."=".$requestParams[ProjectKeys::KEY_ID]
-                                . "&".ProjectKeys::KEY_LEAVERESOURCE."=true"
-                                . "&".ProjectKeys::KEY_PROJECT_TYPE ."=".$requestParams[ProjectKeys::KEY_PROJECT_TYPE]
-                                . $rev
+                'dataToSend' => ProjectKeys::KEY_ID . "=" . $requestParams[ProjectKeys::KEY_ID]
+                    . "&" . ProjectKeys::KEY_LEAVERESOURCE . "=true"
+                    . "&" . ProjectKeys::KEY_PROJECT_TYPE . "=" . $requestParams[ProjectKeys::KEY_PROJECT_TYPE]
+                    . $rev
             ],
             'timeout' => ExpiringCalc::getExpiringTime($responseData['lockInfo']['time'], 1),
         ];
         return $timer;
     }
 
-    private function _addRequireDialogRefreshParams(&$params, $requestParams, $responseData) {
+    private function _addRequireDialogRefreshParams(&$params, $requestParams, $responseData)
+    {
         $params['action'] = "refresh";
         $params['content']['requiring'] = [
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
@@ -700,7 +762,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         ];
     }
 
-    private function _addDialogParamsToParams(&$params, $requestParams, $responseData) {
+    private function _addDialogParamsToParams(&$params, $requestParams, $responseData)
+    {
         $params['action'] = "dialog";
         $params['timer']['timeout'] = 0;
         $params['dialog'] = [
@@ -720,23 +783,25 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         ];
     }
 
-    private function _addRequireProject(&$ajaxCmdResponseGenerator, $params) {
+    private function _addRequireProject(&$ajaxCmdResponseGenerator, $params)
+    {
         $ajaxCmdResponseGenerator->addRequireProject(
-                                        $params['id'],
-                                        $params['ns'],
-                                        $params['title'],
-                                        $params['content'],
-                                        $params['originalContent'],
-                                        $params['action'],
-                                        $params['timer'],
-                                        $params['dialog'],
-                                        $params['extra']
-                                    );
+            $params['id'],
+            $params['ns'],
+            $params['title'],
+            $params['content'],
+            $params['originalContent'],
+            $params['action'],
+            $params['timer'],
+            $params['dialog'],
+            $params['extra']
+        );
     }
 
-    protected function renderContent($content, $mode = 'xhtml') {
+    protected function renderContent($content, $mode = 'xhtml')
+    {
         $instructions = p_get_instructions($content);
-        return p_render($mode,$instructions, $outInfo); // No fem res amb la info
+        return p_render($mode, $instructions, $outInfo); // No fem res amb la info
     }
 
 }

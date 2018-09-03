@@ -706,7 +706,6 @@ table.inline td {
   margin: 0;
   vertical-align: top;
   border: 1px solid __border__;
-  text-align: left;
 }
 table.inline th {
   font-weight: bold;
