@@ -54,8 +54,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler
             }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
+            $responseData['projectExtraData']['generated'] = $responseData['generated'];
             switch ($requestParams[ProjectKeys::KEY_DO]) {
-
                 case ProjectKeys::KEY_DIFF:
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
                         $responseData['projectExtraData']
@@ -97,7 +97,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler
                     break;
 
                 case ProjectKeys::KEY_EDIT:
-                    $responseData['projectExtraData']['generated'] = $responseData['generated'];
                     if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
                         $responseData['projectExtraData']['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
