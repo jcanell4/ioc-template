@@ -17,13 +17,11 @@ require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/ExpiringCalc.php");
 // Validators
 require_once(DOKU_PLUGIN . "wikiiocmodel/utility/ValidationByRoles.php");
 
-class ProjectResponseHandler extends WikiIocResponseHandler
-{
+class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
 
-    function __construct($cmd = NULL)
-    {
+    function __construct($cmd = NULL) {
         parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
@@ -32,7 +30,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler
         parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+                if (!$responseData[ProjectKeys::KEY_ID]) {
+                    $id = $responseData['info'][ProjectKeys::KEY_ID];
+                }
+                $id = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
         }
     }
@@ -151,6 +153,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler
 
                 case ProjectKeys::KEY_REMOVE_PROJECT_DRAFT:
                     throw new Exception("Excepció a ProjectResponseHandler: [" . ProjectKeys::KEY_REMOVE_PROJECT_DRAFT . "]");
+
+                case ProjectKeys::KEY_NEW_DOCUMENT:
+                    $this->setSubCmd(ProjectKeys::KEY_NEW_DOCUMENT);
+                    include_once(DOKU_TPL_INCDIR . "cmd_response_handler/PageResponseHandler.php");
+                    PageResponseHandler::staticResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
                 default:
                     if ($responseData['info']) {

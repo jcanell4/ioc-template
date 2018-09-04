@@ -12,9 +12,10 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     /**
      * Constructor que reb el nom del Command com argument.
      * @param string $cmd
+     * @param string $subcmd . Tractament especial d'alguns $params['do'] de project_command
      */
-    function __construct($cmd) {
-        parent::__construct($cmd);
+    function __construct($cmd, $subcmd="") {
+        parent::__construct($cmd, $subcmd);
     }
 
     private function _getDataEvent(&$ajaxCmdResponseGenerator, $requestParams=NULL, $responseData=NULL){
