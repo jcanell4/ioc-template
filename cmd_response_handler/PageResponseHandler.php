@@ -14,15 +14,18 @@ class PageResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        self::staticResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+    }
+
+    static function staticResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         //ALERTA[Xavi] En obrir el fitxer s'actualitzen els esborranys locals
         if ($responseData['drafts']) {
             $ajaxCmdResponseGenerator->addUpdateLocalDrafts($responseData['structure']['ns'], $responseData['drafts']);
         }
 
-        $autosaveTimer = NULL;
-        if(WikiGlobalConfig::getConf("autosaveTimer")){
-            $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer")*1000;
-        }
+        $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer");
+        if ($autosaveTimer) $autosaveTimer *= 1000;
+
         $ajaxCmdResponseGenerator->addWikiCodeDocPartial(
                 $responseData['structure'],
                 NULL,
@@ -39,11 +42,10 @@ class PageResponseHandler extends WikiIocResponseHandler {
         }
 
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
-
             $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
-
-        } else if(isset($responseData['meta'])) {
+        }
+        else if(isset($responseData['meta'])) {
             $ajaxCmdResponseGenerator->addExtraMetadata(
                 $responseData['structure']['id'],
                 $responseData['structure']['id'] . '_revisions',
