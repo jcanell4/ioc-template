@@ -25,19 +25,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
-    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
-    {
-        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-        if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-            if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
-                if (!$responseData[ProjectKeys::KEY_ID]) {
-                    $id = $responseData['info'][ProjectKeys::KEY_ID];
-                }
-                $id = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
-            }
-        }
-    }
+//    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
+//    {
+//        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+//        if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+//            if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
+//                if (!$responseData[ProjectKeys::KEY_ID]) {
+//                    $id = $responseData['info'][ProjectKeys::KEY_ID];
+//                }
+//                $id = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
+//                $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+//            }
+//        }
+//
+//    }
 
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
