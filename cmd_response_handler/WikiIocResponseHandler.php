@@ -50,7 +50,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
         if ($requestParams[ProjectKeys::PROJECT_OWNER]) {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_OWNER, $requestParams[ProjectKeys::PROJECT_OWNER]);
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_SOURCE_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
         }
     }
 
