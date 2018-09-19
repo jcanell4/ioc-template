@@ -13,7 +13,6 @@ require_once(DOKU_TPL_INCDIR . "conf/cfgIdConstants.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/FormBuilder.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/ExpiringCalc.php");
-
 // Validators
 require_once(DOKU_PLUGIN . "wikiiocmodel/utility/ValidationByRoles.php");
 
@@ -55,9 +54,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
+            if ($responseData['activarUpdateButton']) {
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData['activarUpdateButton']);
+            }
+
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             $responseData['projectExtraData']['generated'] = $responseData['generated'];
+
             switch ($requestParams[ProjectKeys::KEY_DO]) {
+
                 case ProjectKeys::KEY_DIFF:
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'],
                         $responseData['projectExtraData']
@@ -78,11 +83,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_CANCEL:
                     $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
-                    if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-                        $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-                    } else {
-                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    }
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 
                 case ProjectKeys::KEY_SAVE:
@@ -170,8 +171,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
 
             }
+
         }
 
+    }
+
+    protected function remoteViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
+    {
+        $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        //afegir la metadata de revisions com a resposta
+        $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 
     private function _responseViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
