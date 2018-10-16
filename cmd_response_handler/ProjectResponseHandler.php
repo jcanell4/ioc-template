@@ -24,24 +24,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
-//    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
-//    {
-//        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-//        if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-//            if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
-//                if (!$responseData[ProjectKeys::KEY_ID]) {
-//                    $id = $responseData['info'][ProjectKeys::KEY_ID];
-//                }
-//                $id = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
-//                $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
-//            }
-//        }
-//
-//    }
+    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
 
-
-    protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
-    {
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if ($responseData['info']) {
                 $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
@@ -50,7 +34,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
             }
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
-        } else {
+        }
+        else {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
@@ -447,56 +432,55 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $firsKeyGroup = "main";
         }
 
+        if (isset($view['fields']) && is_array($view['fields'])) {
 
-        foreach ($view['fields'] as $keyField => $valField) {
+            foreach ($view['fields'] as $keyField => $valField) {
 
-            //combina los atributos y valores de los arrays de estructura y de vista
-            if (!is_array($valField)) $valField = array($valField);
-            $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
+                //combina los atributos y valores de los arrays de estructura y de vista
+                if (!is_array($valField)) $valField = array($valField);
+                $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
 
-            if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly'] == FALSE)))
-                $arrValues['props']['readonly'] = TRUE;
+                if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly'] == FALSE)))
+                    $arrValues['props']['readonly'] = TRUE;
 
-            //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
-            $grupo = ($arrValues['group']) ? $arrValues['group'] : $firsKeyGroup;
-            if (!$aGroups[$grupo])
-                throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
+                //obtiene el grupo, al que pertenece este campo, de la vista o, si no lo encuentra, de la estructura
+                $grupo = ($arrValues['group']) ? $arrValues['group'] : $firsKeyGroup;
+                if (!$aGroups[$grupo])
+                    throw new MissingGroupFormBuilderException($ns, "El grup \'$grupo\' no està definit a la vista.");
 
-            //Se establecen los atributos del campo
-            if ($arrValues['n_columns'])
-                $columns = $arrValues['n_columns'];
-            elseif ($arrValues['struc_chars'])
-                $columns = $arrValues['struc_chars'] / $view['definition']['chars_column'];
-            else
-                $columns = $view['definition']['n_columns'];
+                //Se establecen los atributos del campo
+                if ($arrValues['n_columns'])
+                    $columns = $arrValues['n_columns'];
+                elseif ($arrValues['struc_chars'])
+                    $columns = $arrValues['struc_chars'] / $view['definition']['chars_column'];
+                else
+                    $columns = $view['definition']['n_columns'];
 
-            if (!$arrValues['n_rows']) {
-                $arrValues['n_rows'] = 1;
-                $rows = false;
-            } else {
-                $rows = $arrValues['n_rows'];
+                if (!$arrValues['n_rows']) {
+                    $arrValues['n_rows'] = 1;
+                    $rows = false;
+                } else {
+                    $rows = $arrValues['n_rows'];
+                }
+
+                $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
+                if (!$label) {
+                    $label = $keyField;
+                }
+
+                $this->updateReadonlyFromConfig($arrValues);
+
+                $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
+                    ->setId($arrValues['id'])
+                    ->setLabel(($label != NULL) ? $label : $keyField)
+                    ->setType(($arrValues['type']) ? $arrValues['type'] : "text")
+                    ->addProps($arrValues['props'])
+                    ->addConfig($arrValues['config'])
+                    ->setColumns($columns)
+                    ->setRows($rows)
+                    ->setValue($arrValues['value'])
+                );
             }
-
-
-            $label = ($arrValues['label']) ? $arrValues['label'] : WikiIocLangManager::getLang('projectLabelForm')[$keyField];
-            if (!$label) {
-                $label = $keyField;
-            }
-
-
-            $this->updateReadonlyFromConfig($arrValues);
-
-
-            $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
-                ->setId($arrValues['id'])
-                ->setLabel(($label != NULL) ? $label : $keyField)
-                ->setType(($arrValues['type']) ? $arrValues['type'] : "text")
-                ->addProps($arrValues['props'])
-                ->addConfig($arrValues['config'])
-                ->setColumns($columns)
-                ->setRows($rows)
-                ->setValue($arrValues['value'])
-            );
         }
 
         $form = $builder->addElement($mainRow)
@@ -504,16 +488,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $form;
     }
 
-    protected function updateReadonlyFromConfig(&$outArrValues)
-    {
-
+    protected function updateReadonlyFromConfig(&$outArrValues) {
         if (!isset($outArrValues['config']) || !isset($outArrValues['config']['readonly'])) {
-            // no s'ha establert la propietat al config, no cal fer res
-            return;
+            return; //no s'ha establert la propietat al config, no cal fer res
         }
 
         $isReadOnly = $outArrValues['config']['readonly'];
-
 
         if (is_array($isReadOnly)) {
             $className = $outArrValues['config']['readonly']['class'];
@@ -523,7 +503,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 // TODO: la classe no existeix, llençar execepció
                 return;
             }
-
             $validator->init($this->getPermission());
             $isReadOnly = $validator->validate($outArrValues['config']['readonly']['data']);
         }
@@ -535,7 +514,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         $outArrValues['props']['readonly'] = $isReadOnly;
-
     }
 
 
@@ -553,7 +531,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         $ret = false;
         foreach ($structure as $structureKey => $structureProperties) {
-            if ($structureProperties['renderAsMultiField']) {
+            if (isset($structureProperties['renderAsMultiField'])) {
                 if (isset($structureProperties['value'])) {
                     $discardValues = [];
                     $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $discardValues, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties['id']);
