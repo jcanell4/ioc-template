@@ -4,8 +4,10 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
-require_once(DOKU_INC . 'lib/lib_ioc/ajaxcommand/AbstractResponseHandler.php');
+if (!defined('DOKU_LIB_IOC')) define('DOKU_LIB_IOC', DOKU_INC . "lib/lib_ioc/");
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . "lib/plugins/");
+require_once(DOKU_LIB_IOC . "ajaxcommand/AbstractResponseHandler.php");
+require_once(DOKU_PLUGIN . "ajaxcommand/defkeys/ResponseHandlerKeys.php");
 
 abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
@@ -41,7 +43,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
         $projectId = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
 
-
+        //[NOTA: Rafael] Considero que este código ya no es necesario
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
