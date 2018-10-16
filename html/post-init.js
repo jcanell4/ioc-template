@@ -278,11 +278,18 @@ require([
                         console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
                         continue;
                     }
+                    
                     queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
                         if (state.getContent(id).rev) {
                             queryParams += "rev=" + state.getContent(id).rev + "&";
+                        }
+                        if (state.getContent(id).projectOwner) {
+                            queryParams += "projectOwner=" + state.getContent(id).projectOwner + "&";
+                        }
+                        if (state.getContent(id).projectSourceType) {
+                            queryParams += "projectSourceType=" + state.getContent(id).projectSourceType + "&";
                         }
                         queryParams += "call=page&id=";
 
@@ -329,7 +336,6 @@ require([
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "diff") {
-
                         page = state.getContent(id);
                         queryParams = 'call=diff&id=' + page.ns;
 
