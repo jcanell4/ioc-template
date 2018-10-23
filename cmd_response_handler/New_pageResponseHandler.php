@@ -25,6 +25,8 @@ class New_pageResponseHandler extends PageResponseHandler
         }
     }
 
+// [WARNING] [JOSEP] Mira este pobre, huérfano y desgraciado código
+// [Rafa] Me sabe grave pero parece ser que este código es un pobre huerfanito al que nadie llama
     private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
         $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
         $urlBase = "lib/exe/ioc_ajax.php?call=page";
@@ -38,8 +40,8 @@ class New_pageResponseHandler extends PageResponseHandler
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array('p' => array(
-                                              'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
-                                              'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
+                                              'urlBase' => "lib/exe/ioc_ajax.php?call=project",
+                                              'params' => [ResponseHandlerKeys::PROJECT_TYPE]
                                              ),
                                 )
         );

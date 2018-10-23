@@ -69,6 +69,8 @@ class Save_partialResponseHandler extends PageResponseHandler
                 cfgIdConstants::TB_SHORTCUTS);
 
             }else{
+// [WARNING] [JOSEP] Mira este pobre, huérfano y desgraciado código
+// [Rafa] Me sabe grave pero parece ser que este código es un pobre huerfanito al que nadie llama
                 $action = $this->getModelManager()->getActionInstance("ShortcutsTaskListAction", WikiIocInfoManager::getInfo("client"));
                 $dades = $action->get(['id' => $action->getNsShortcut()]);
                 $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
@@ -83,8 +85,8 @@ class Save_partialResponseHandler extends PageResponseHandler
                     "data" => $dades["content"],
                     "treeDataSource" => $urlTree,
                     'typeDictionary' => array('p' => array(
-                                                      'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
-                                                      'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
+                                                      'urlBase' => "'lib/exe/ioc_ajax.php?call=project",
+                                                      'params' => [ResponseHandlerKeys::PROJECT_TYPE]
                                                      ),
                                         )
                 );

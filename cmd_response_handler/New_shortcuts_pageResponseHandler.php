@@ -1,5 +1,6 @@
 <?php
 /**
+ * [WARNING] [JOSEP] Mira este pobre y desgraciao código que nadie utiliza
  * Description of New_shortcuts_pageResponseHandler
  * @author Eduardo Latorre Jarque <eduardo.latorre@gmail.com>
  */
@@ -25,7 +26,7 @@ class New_shortcuts_pageResponseHandler extends New_pageResponseHandler {
             "data" => $responseData["content"],
             "treeDataSource" => $urlTree,
             'typeDictionary' => array ('p' => array (
-                                              'urlBase' => "'lib/exe/ioc_ajax.php?call=project'",
+                                              'urlBase' => "lib/exe/ioc_ajax.php?call=project",
                                               'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
                                            ),
                                 )
