@@ -112,8 +112,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
-                case ProjectKeys::KEY_CREATE_PROJET:
-                case ProjectKeys::KEY_CREATE_SUBPROJET:
+                case ProjectKeys::KEY_CREATE_PROJECT:
                     $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 
@@ -277,10 +276,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $rdata['standbyId'] = cfgIdConstants::BODY_CONTENT;
         $rdata['fromRoot'] = $projectNs;
         $rdata['treeDataSource'] = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
-        $rdata['typeDictionary'] = ["p" => [
-            "urlBase" => "lib/exe/ioc_ajax.php?call=project",
-            "params" => ['projectType', 'nsproject']
-        ],
+        $rdata['typeDictionary'] = [
+            "p" => [
+                "urlBase" => "lib/exe/ioc_ajax.php?call=project",
+                "params" => ['projectType', 'nsproject']
+            ],
             "po" => [
                 "urlBase" => "lib/exe/ioc_ajax.php?call=project",
                 "params" => ['projectType', 'nsproject']
@@ -318,7 +318,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 'urlBase' => "lib/exe/ioc_ajax.php/"
             ];
             if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS]) {
-                $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=create_subproject";
+                //$rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=project&do=".ProjectKeys::KEY_CREATE_SUBPROJECT;
+                $rdata['buttons'][0]['buttonParams']['dialogParams']['call_project'] = "call=".ProjectKeys::KEY_CREATE_SUBPROJECT;
                 if ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === TRUE)
                     $post = "true";
                 elseif ($rdCreate[ProjectKeys::KEY_MD_CT_SUBPROJECTS] === FALSE)
