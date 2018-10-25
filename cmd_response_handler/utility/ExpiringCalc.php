@@ -14,7 +14,7 @@ class ExpiringCalc {
      */
     static public function getExpiringData($responseData, $for = 0) {
         $addSecs = ($for === 1) ? 60 : -60;
-        $val = $responseData["lockInfo"]["locker"]["time"];
+        $val = ($responseData) ? $responseData["lockInfo"]["locker"]["time"] : time();
         if (!$val && is_numeric($responseData))
             $val = $responseData;
         return $val + WikiGlobalConfig::getConf("locktime") + $addSecs;
