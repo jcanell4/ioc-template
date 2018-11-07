@@ -13,12 +13,11 @@ require_once(DOKU_TPL_INCDIR . "conf/cfgIdConstants.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/WikiIocResponseHandler.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/FormBuilder.php");
 require_once(DOKU_TPL_INCDIR . "cmd_response_handler/utility/ExpiringCalc.php");
-// Validators
-require_once(DOKU_PLUGIN . "wikiiocmodel/utility/ValidationByRoles.php");
 
 class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private $responseType = null; // ALERTA[Xavi] Afegit per poder discriminar el tipus de resposta sense afegir més paràmetres a les crides que generan els formularis.
+    private $responseData = null; // ALERTA[Josep] Afegit per poder disposar de la resposta en qualsevol dels mètodes de tractament.
 
     function __construct($cmd = NULL) {
         parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
@@ -42,6 +41,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
+        $this->responseData = $responseData;
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if ($responseData['info']) {
                 $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
@@ -516,16 +516,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
 
         if (is_array($isReadOnly)) {
-            $className = $outArrValues['config']['readonly']['class'];
-            $validator = new $className;
-
-            if (!$validator) {
-                // TODO: la classe no existeix, llençar execepció
-                return;
+            $funcREadOnly = $isReadOnly;
+            if(isset($funcREadOnly["or"])){
+                $isReadOnly=FALSE;
+                foreach ($funcREadOnly["or"] as $readOnlyValidator){
+                    $isReadOnly = $isReadOnly || $this->getValidatorValue($readOnlyValidator);
+                }
+            }else if(isset($funcREadOnly["and"])){
+                $isReadOnly=TRUE;
+                foreach ($funcREadOnly["and"] as $readOnlyValidator){
+                    $isReadOnly = $isReadOnly && $this->getValidatorValue($readOnlyValidator);
+                }
+            }else{
+                $isReadOnly = $this->getValidatorValue($funcREadOnly);
             }
-
-            $validator->init($this->getPermission());
-            $isReadOnly = $validator->validate($outArrValues['config']['readonly']['data']);
         }
 
         $outArrValues['config']['readonly'] = $isReadOnly;
@@ -538,6 +542,26 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     }
 
+    private function getValidatorValue($outArrValues){
+        $className = $outArrValues['class'];
+        $validator = new $className;
+
+        if (!$validator) {
+            // TODO: la classe no existeix, llençar execepció
+            return;
+        }
+        $validatorTypeData = $validator->getValidatorTypeData();
+        switch ($validatorTypeData){
+            case "permission":
+                $validator->init($this->getPermission());
+                break;
+            case "response":
+                $validator->init($this->responseData);
+                break;
+        }
+        $isReadOnly = $validator->validate($outArrValues['data']);
+        return $isReadOnly;
+    }
 
     protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
     {
