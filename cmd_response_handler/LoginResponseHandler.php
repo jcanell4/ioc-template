@@ -56,37 +56,10 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
             $action = $modelManager->getActionInstance("ShortcutsTaskListAction", $responseData['userId']);
             $dades = $action->get(['id' => $action->getNsShortcut()]);
-            if ($dades["content"]){
-// [WARNING] [JOSEP] Mira este pobre, huérfano y desgraciado código
-// [Rafa] Me sabe grave pero parece ser que este código es un pobre huerfanito al que nadie llama
-                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "lib/exe/ioc_ajax.php?call=page";
-                $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
-                $contentParams = array(
-                    "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::BODY_CONTENT,
-                    "urlBase" => $urlBase,
-                    "data" => $dades["content"],
-                    "treeDataSource" => $urlTree,
-                    'typeDictionary' => array('p' => array (
-                                                        'urlBase' => "lib/exe/ioc_ajax.php?call=project",
-                                                        'params' => [ResponseHandlerKeys::PROJECT_TYPE]
-                                                     ),
-                                              'pf' => array (
-                                                        'urlBase' => "lib/exe/ioc_ajax.php?call=page",
-                                                        'params' => [PageKeys::PROJECT_OWNER,
-                                                                     PageKeys::PROJECT_SOURCE_TYPE]
-                                                      )
-                                             )
-                );
-                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                     $contentParams,
-                                                     ResponseHandlerKeys::FIRST_POSITION,
-                                                     TRUE,
-                                                     $containerClass
-                                                    );
+            if ($dades["content"]){
+                $dades['selected'] = TRUE;
+                IocCommon::addResponseTab($dades, $ajaxCmdResponseGenerator);
             }
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();

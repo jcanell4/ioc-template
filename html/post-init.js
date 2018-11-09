@@ -269,7 +269,7 @@ require([
                     infoManager.refreshInfo();
                 }
 
-                var queryParams, page, ns, projectType, elid;
+                var queryParams, page, ns, projectType, metaDataSubSet, elid;
 
                 for (var id in state.pages) {
 
@@ -296,12 +296,14 @@ require([
                     } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
-                        queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
+                        metaDataSubSet = state.getContent(id).metaDataSubSet;
+                        queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
 
                     } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
-                        queryParams = "call=project&do=view&ns=" + ns + "&projectType=" + projectType + "&id=";
+                        metaDataSubSet = state.getContent(id).metaDataSubSet;
+                        queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
 
                     } else if (state.getContent(id).action === "project_diff") {
                         page = state.getContent(id);

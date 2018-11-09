@@ -73,29 +73,9 @@ class Save_partialResponseHandler extends PageResponseHandler
 // [Rafa] Me sabe grave pero parece ser que este código es un pobre huerfanito al que nadie llama
                 $action = $this->getModelManager()->getActionInstance("ShortcutsTaskListAction", WikiIocInfoManager::getInfo("client"));
                 $dades = $action->get(['id' => $action->getNsShortcut()]);
-                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "lib/exe/ioc_ajax.php?call=page";
-                $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
-                $params = array(
-                    "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::BODY_CONTENT,
-                    "urlBase" => $urlBase,
-                    "data" => $dades["content"],
-                    "treeDataSource" => $urlTree,
-                    'typeDictionary' => array('p' => array(
-                                                      'urlBase' => "'lib/exe/ioc_ajax.php?call=project",
-                                                      'params' => [ResponseHandlerKeys::PROJECT_TYPE]
-                                                     ),
-                                        )
-                );
-                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                     $params,
-                                                     ResponseHandlerKeys::FIRST_POSITION,
-                                                     FALSE,
-                                                     $containerClass
-                                                    );
+                $dades['selected'] = FALSE;
+                IocCommon::addResponseTab($dades, $ajaxCmdResponseGenerator);
             }
         }
     }
