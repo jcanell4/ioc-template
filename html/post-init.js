@@ -145,13 +145,13 @@ require([
                     }
                     else if (page.action === "form" || page.action === "project_edit") {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
-                        if (!page.generated) {
+                        if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === "view_form" || page.action === "project_view") {
-                        if (!page.generated) {
+                        if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }
                         if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {

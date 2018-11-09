@@ -136,8 +136,8 @@ class EditResponseHandler extends WikiIocResponseHandler
             $responseData['id'], $responseData['ns'],
             $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
             $responseData["htmlForm"], $editing, $timer, $responseData['rev'],
-            $autosaveTimer, $responseData['extra']
-
+            $autosaveTimer, $responseData['extra'],
+            $responseData['format']
         );
     }
 
