@@ -1573,12 +1573,12 @@ div.ioc-bootstrap table[data-editable-element]{
 	margin-bottom:15px;
 }
 
-.dokuwiki .io_pt table.inline th,
-.dokuwiki .io_pt table.inline td {
+.dokuwiki .pt_taula table.inline th,
+.dokuwiki .pt_taula table.inline td {
     border: 1px solid;
 }
 
-.dokuwiki .io_pt table.inline th {
+.dokuwiki .pt_taula table.inline th {
     background-color: #AAA;    
 }
 
