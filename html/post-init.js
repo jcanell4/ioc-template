@@ -297,13 +297,21 @@ require([
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
-                        queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        if (metaDataSubSet == undefined) {
+                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&id=";
+                        }else {
+                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        }
 
                     } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
-                        queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        if (metaDataSubSet == undefined) {
+                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&id=";
+                        }else {
+                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        }
 
                     } else if (state.getContent(id).action === "project_diff") {
                         page = state.getContent(id);

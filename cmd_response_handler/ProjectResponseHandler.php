@@ -250,12 +250,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $this->addSaveOrDiscardDialog($responseData);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
-        $timer = $this->generateEditProjectTimer($requestParams, $responseData);
-
-        /*Ahora está en viewResponse ya que solo se usa en el diálogo de comparar el original con el draft
-        if ($responseData['originalLastmod'])
-            $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
-        */
+        $timer = $this->generateEditProjectTimer($requestParams[ProjectKeys::KEY_ID], $requestParams[ProjectKeys::KEY_METADATA_SUBSET], $responseData['lockInfo']['time']);
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
             $autosaveTimer, $timer,
@@ -623,14 +618,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $ret;
     }
 
-    protected function addSaveOrDiscardDialog(&$responseData)
-    {
+    protected function addSaveOrDiscardDialog(&$responseData) {
         $responseData['projectExtraData']['messageChangesDetected'] = WikiIocLangManager::getLang('projects')['cancel_editing_with_changes'];
-        $responseData['projectExtraData']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_METADATA_SUBSET]);
+        $responseData['projectExtraData']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData[ProjectKeys::KEY_ID], $responseData['projectExtraData'][ProjectKeys::KEY_METADATA_SUBSET]);
     }
 
-    protected function generateSaveOrDiscardDialog($id, $metaDataSubSet)
-    {
+    protected function generateSaveOrDiscardDialog($id, $metaDataSubSet) {
         $dialogConfig = [
             ProjectKeys::KEY_ID => $id,
             'title' => WikiIocLangManager::getLang("save_or_discard_dialog_title"),
@@ -646,6 +639,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                             'eventType' => "cancel_project",
                             'data' => [
                                 'dataToSend' => [
+                                    ProjectKeys::KEY_METADATA_SUBSET => $metaDataSubSet,
                                     'cancel' => true,
                                     'discard_changes' => true,
                                     'keep_draft' => false
@@ -679,8 +673,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $dialogConfig;
     }
 
-    private function generateEditProjectTimer($requestParams, $responseData)
-    {
+    private function generateEditProjectTimer($id, $metaDataSubSet, $locktime) {
         $timer = [
             "dialogOnExpire" => [
                 "title" => WikiIocLangManager::getLang("expiring_dialog_title"),
@@ -693,31 +686,30 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 ],
                 "okContentEvent" => "save_project",
                 "okEventParams" => [
-                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
-                    ProjectKeys::KEY_METADATA_SUBSET => $responseData[ProjectKeys::KEY_METADATA_SUBSET]
+                    ProjectKeys::KEY_ID => $id,
+                    ProjectKeys::KEY_METADATA_SUBSET => $metaDataSubSet
                 ],
                 "cancelContentEvent" => "cancel_project",
                 "cancelEventParams" => [
-                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
-                    ProjectKeys::KEY_METADATA_SUBSET => $responseData[ProjectKeys::KEY_METADATA_SUBSET],
-                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES . "=true&" . ProjectKeys::KEY_KEEP_DRAFT . "=false&auto=true",
+                    ProjectKeys::KEY_ID => $id,
+                    ProjectKeys::KEY_METADATA_SUBSET => $metaDataSubSet,
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=false&auto=true",
                 ],
                 "timeoutContentEvent" => "cancel_project",
                 "timeoutParams" => [
-                    ProjectKeys::KEY_ID => $requestParams[ProjectKeys::KEY_ID],
-                    ProjectKeys::KEY_METADATA_SUBSET => $responseData[ProjectKeys::KEY_METADATA_SUBSET],
-                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES . "=true&" . ProjectKeys::KEY_KEEP_DRAFT . "=true&auto=true",
+                    ProjectKeys::KEY_ID => $id,
+                    ProjectKeys::KEY_METADATA_SUBSET => $metaDataSubSet,
+                    "extraDataToSend" => ProjectKeys::KEY_DISCARD_CHANGES."=true&" . ProjectKeys::KEY_KEEP_DRAFT."=true&auto=true",
                 ],
             ],
         ];
-        $timer['timeout'] = ExpiringCalc::getExpiringTime($responseData['lockInfo']['time'], 0);
+        $timer['timeout'] = ExpiringCalc::getExpiringTime($locktime, 0);
 
         return $timer;
     }
 
     private function addRequireDialogResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-
         $params = $this->_generateRequireDialogParams($requestParams, $responseData);
 
         if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
