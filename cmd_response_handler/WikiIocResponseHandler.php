@@ -47,7 +47,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
 
-        } else if ($data['command'] !== 'notify') {
+        } else if ($data['command'] !== 'notify' && $data['command'] != 'draft') {
             // Només s'afegeix el format si no es tracta d'un projecte
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($requestParams['id'], AjaxKeys::FORMAT, $this->getFormat());
         }
