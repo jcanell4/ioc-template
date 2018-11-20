@@ -46,7 +46,7 @@ class WikiIocBuilderManager {
      * @param WikiIocBuilder $component
      */
     function processComponent($component) {
-    
+
         $packages = $component->getRequiredPackages();
         if ($packages) {
             foreach($packages as $obj) {
@@ -106,13 +106,13 @@ class WikiIocBuilderManager {
             $this->jsModules[] = $mod;
         }
     }
-    
+
     function putRequiredStyles($sty) {
         if (!in_array($sty, $this->styles, TRUE)) {
             $this->styles[] = $sty;
         }
     }
-    
+
     /**
      * @return string con la lista de módulos javascript para el require de javascript
      */
@@ -136,15 +136,14 @@ class WikiIocBuilderManager {
             { name: "dojox", location: "//ajax.googleapis.com/ajax/libs/dojo/1.8/dojox" }
         ]
          */
-        $json = new JSON();
         $ret  = "packages: [\n";
         foreach($this->resourcePackages as $obj) {
             static $first = TRUE;
             if($first) {
-                $ret .= $json->encode($obj); //  json_encode($obj);
+                $ret .= json_encode($obj);
                 $first = FALSE;
             } else {
-                $ret .= ", \n" . $json->encode($obj); //json_encode($obj);
+                $ret .= ", \n" . json_encode($obj);
             }
         }
         $ret .= "\n]\n";
@@ -155,16 +154,16 @@ class WikiIocBuilderManager {
         if(!$this->styles){
             return "";
         }
-        
+
         $ret  = "<style type=\"text/css\">\n";
         foreach($this->styles as $obj) {
             $pck = explode("/", $obj)[0];
-        
+
             if($obj[0]!=='/' && 0===strpos($obj, $pck)){
                 $obj = substr($obj, strlen($pck));
-                $ret .= "@import \"{$this->resourcePackages[$pck]['location']}{$obj}\";\n"; 
+                $ret .= "@import \"{$this->resourcePackages[$pck]['location']}{$obj}\";\n";
             }else{
-                $ret .= "@import \"$obj\";\n"; 
+                $ret .= "@import \"$obj\";\n";
             }
         }
         $ret .= "</style>\n";
