@@ -283,7 +283,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             ],
             "s" => [
                 "urlBase" => "lib/exe/ioc_ajax.php?call=project",
-                "params" => [ProjectKeys::KEY_PROJECT_TYPE, ProjectKeys::KEY_METADATA_SUBSET, ProjectKeys::KEY_PROJECTTYPE_DIR]
+                "params" => [ProjectKeys::KEY_PROJECT_TYPE, ProjectKeys::KEY_METADATA_SUBSET]
             ]
         ];
         $rdata['urlBase'] = "lib/exe/ioc_ajax.php?call=page";
