@@ -249,7 +249,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, $action, FALSE, $extratitle);
 
         $this->addSaveOrDiscardDialog($responseData);
-        $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer") : NULL;
+        $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer")*1000 : NULL;
         $timer = $this->generateEditProjectTimer($requestParams[ProjectKeys::KEY_ID], $requestParams[ProjectKeys::KEY_METADATA_SUBSET], $responseData['lockInfo']['time']);
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
