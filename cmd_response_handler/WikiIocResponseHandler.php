@@ -126,13 +126,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
      protected $defaultFormat = "undefined";
 
-    protected function getFormat()
-    {
-        if (preg_match('/.*-(.*)$/', $this->params[PageKeys::KEY_ID], $matches)) {
-            return $matches[1];
-        } else {
-            return $this->defaultFormat;
-        }
-
+    protected function getFormat(){
+        return IocCommon::getFormat($this->params[PageKeys::KEY_ID], $this->defaultFormat);
     }
 }
