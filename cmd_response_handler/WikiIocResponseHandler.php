@@ -48,6 +48,11 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) { //es una página de un proyecto
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
+
+        } else if ($data['command'] !== 'notify'){  //S'ha de canviar aquesta condició per alguna cosa més genèrica que només englobi comandes de documents
+            if($responseData['structure'] && $responseData['structure']['id']){
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData['structure']['id'], AjaxKeys::FORMAT, $this->getFormat());
+            }
         }
 
         if ($requestParams[ProjectKeys::PROJECT_OWNER]) {
@@ -118,4 +123,16 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
      protected function getLatexSelectors(&$value){
          $this->getModelAdapter()->getLatexSelectors($value);
      }
+
+     protected $defaultFormat = "undefined";
+
+    protected function getFormat()
+    {
+        if (preg_match('/.*-(.*)$/', $this->params[PageKeys::KEY_ID], $matches)) {
+            return $matches[1];
+        } else {
+            return $this->defaultFormat;
+        }
+
+    }
 }
