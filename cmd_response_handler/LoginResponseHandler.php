@@ -56,30 +56,10 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
             $action = $modelManager->getActionInstance("ShortcutsTaskListAction", $responseData['userId']);
             $dades = $action->get(['id' => $action->getNsShortcut()]);
-            if ($dades["content"]){
-                $containerClass = "ioc/gui/ContentTabNsTreeListFromPage";
-                $urlBase = "lib/exe/ioc_ajax.php?call=page";
-                $urlTree = "lib/exe/ioc_ajaxrest.php/ns_tree_rest/";
 
-                $contentParams = array(
-                    "id" => cfgIdConstants::TB_SHORTCUTS,
-                    "title" =>  $dades['title'],
-                    "standbyId" => cfgIdConstants::BODY_CONTENT,
-                    "urlBase" => $urlBase,
-                    "data" => $dades["content"],
-                    "treeDataSource" => $urlTree,
-                    'typeDictionary' => array('p' => array (
-                                                      'urlBase' => 'lib/exe/ioc_ajax.php?call=project',
-                                                      'params' => array (0 => ResponseHandlerKeys::PROJECT_TYPE)
-                                                     ),
-                                        ),
-                );
-                $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO,
-                                                     $contentParams,
-                                                     ResponseHandlerKeys::FIRST_POSITION,
-                                                     TRUE,
-                                                     $containerClass
-                                                    );
+            if ($dades["content"]){
+                $dades['selected'] = TRUE;
+                IocCommon::addResponseTab($dades, $ajaxCmdResponseGenerator);
             }
             $title = $_SERVER['REMOTE_USER'];
             $sig = toolbar_signature();

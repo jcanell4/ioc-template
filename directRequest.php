@@ -31,8 +31,7 @@ class directRequest {
             }
 
             if (isset($query)) {
-                $json = new JSON();
-                $queryEncoded = $json->encode($query);
+                $queryEncoded = json_encode($query);
 
                 $ret = "\n<script type='text/javascript'>\n".
                         "require([\n".

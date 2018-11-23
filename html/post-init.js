@@ -145,13 +145,13 @@ require([
                     }
                     else if (page.action === "form" || page.action === "project_edit") {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
-                        if (!page.generated) {
+                        if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === "view_form" || page.action === "project_view") {
-                        if (!page.generated) {
+                        if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }
                         if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
@@ -269,7 +269,7 @@ require([
                     infoManager.refreshInfo();
                 }
 
-                var queryParams, page, ns, projectType, elid;
+                var queryParams, page, ns, projectType, metaDataSubSet, elid;
 
                 for (var id in state.pages) {
 
@@ -278,23 +278,40 @@ require([
                         console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
                         continue;
                     }
+                    
                     queryParams = '';
 
                     if (state.getContent(id).action === "view" || state.getContent(id).action === "edit") {
                         if (state.getContent(id).rev) {
                             queryParams += "rev=" + state.getContent(id).rev + "&";
                         }
+                        if (state.getContent(id).projectOwner) {
+                            queryParams += "projectOwner=" + state.getContent(id).projectOwner + "&";
+                        }
+                        if (state.getContent(id).projectSourceType) {
+                            queryParams += "projectSourceType=" + state.getContent(id).projectSourceType + "&";
+                        }
                         queryParams += "call=page&id=";
 
                     } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
-                        queryParams = "call=project&do=edit&ns=" + ns + "&projectType=" + projectType + "&id=";
+                        metaDataSubSet = state.getContent(id).metaDataSubSet;
+                        if (metaDataSubSet == undefined) {
+                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&id=";
+                        }else {
+                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        }
 
                     } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
-                        queryParams = "call=project&do=view&ns=" + ns + "&projectType=" + projectType + "&id=";
+                        metaDataSubSet = state.getContent(id).metaDataSubSet;
+                        if (metaDataSubSet == undefined) {
+                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&id=";
+                        }else {
+                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        }
 
                     } else if (state.getContent(id).action === "project_diff") {
                         page = state.getContent(id);
@@ -329,7 +346,6 @@ require([
                         queryParams += '&id=' + elid + '&image=' + elid + '&img=' + elid + '&do=media&id=';
 
                     } else if (state.getContent(id).action === "diff") {
-
                         page = state.getContent(id);
                         queryParams = 'call=diff&id=' + page.ns;
 

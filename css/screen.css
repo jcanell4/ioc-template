@@ -135,7 +135,7 @@ input[disabled],
 button[disabled],
 input[readonly],
 button[readonly] {
-  cursor: auto;
+  cursor: default;
 }
 optgroup {
   font-style: italic;
