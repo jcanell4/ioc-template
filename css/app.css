@@ -1864,3 +1864,5 @@ ul.table-editor input{
     width: 16px;
     height: 16px;    
 }
+
+@import url('dojox/editor/plugins/resources/editorPlugins.css');
