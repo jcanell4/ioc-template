@@ -270,6 +270,7 @@ table.diff th.author {
 .iocIconUpload { background-position: -448px; }
 .iocIconMediaEdit { background-position: -480px; }
 
+
 /* NOTIFICATIONS */
 .notification {
 	border: 1px solid  #8cacbb;
@@ -611,7 +612,8 @@ span.arrow-icon {
 
 .dijitDisabled .dijitIocIcon {
 	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
-
+	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+	filter: grayscale(100%);
 }
 
 .dijitIocIconIocComment { background-position-x: 0; }
@@ -654,6 +656,8 @@ span.arrow-icon {
 .dijitIocIconIocMedia{ background-position-x: -450px; }
 .dijitIocIconIocHr{ background-position-x: -468px; }
 .dijitIocIconIocSpecialChars{ background-position-x: -486px; }
+.dijitIocIconIocMergeCell { background-position-x: -504px; }
+.dijitIocIconIocTableDelete { background-position-x: -522px; }
 
 
 
