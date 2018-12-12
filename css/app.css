@@ -629,7 +629,7 @@ span.arrow-icon {
 .dijitIocIconIocInsertTableSyntax { background-position-x: -144px; }
 .dijitIocIconIocInsertTableLinkSyntax { background-position-x: -162px; }
 .dijitIocIconIocInsertTextSyntax { background-position-x: -180px; }
-.dijitIocIconIocInsertTextlLargeSyntax { background-position-x: -198px; }
+.dijitIocIconIocInsertTextLargeSyntax { background-position-x: -198px; }
 .dijitIocIconIocInsertExampleSyntax { background-position-x: -216px; }
 .dijitIocIconIocInsertNoteSyntax { background-position-x: -234px; }
 .dijitIocIconIocInsertReferenceSyntax { background-position-x: -252px; }
@@ -1892,3 +1892,6 @@ form.ioc-bootstrap.form-dialog {
 
 }
 
+.no-render {
+	display: none;
+}
