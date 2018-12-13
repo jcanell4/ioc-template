@@ -192,8 +192,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
             $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
-            $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType";
-            $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType";
+            $subSet = ($requestParams[ProjectKeys::KEY_METADATA_SUBSET] && $requestParams[ProjectKeys::KEY_METADATA_SUBSET]!==ProjectKeys::VAL_DEFAULTSUBSET) ? "&metaDataSubSet=".$requestParams[ProjectKeys::KEY_METADATA_SUBSET] : "";
+            $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType$subSet";
+            $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType$subSet";
             $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=" . $responseData[ProjectKeys::KEY_REV]['call_diff'];
             return true;
         } else {
@@ -543,17 +544,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $isReadOnly;
     }
 
-    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent="")
     {
         if (isset($structure['type'])) {
-            $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
+            $ret = $this->mergeStructureDefaultToForm($structure, $viewFields, $outValues, $mandatoryParent, $defaultParent);
         } else {
             $ret = $this->mergeStructureObjectToForm($structure, $viewFields, $viewGroups, $viewDefinition, $outValues, $mandatoryParent, $defaultParent);
         }
         return $ret;
     }
 
-    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    protected function mergeStructureObjectToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent="")
     {
         $ret = false;
         foreach ($structure as $structureKey => $structureProperties) {
@@ -576,22 +577,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $ret;
     }
 
-    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent = false, $defaultParent = "")
+    protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$outValues, $mandatoryParent=false, $defaultParent="")
     {
         $ret = false;
         if (array_key_exists($structureProperties[ProjectKeys::KEY_ID], $viewFields)) {
             //merge
             $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = array_merge(array(), $structureProperties, $viewFields[$structureProperties[ProjectKeys::KEY_ID]]);
-//            if(!isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['value'])){
-//                $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['value'] = $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['default'];
-//            }
         } else {
             if ($mandatoryParent || $structureProperties['mandatory']) {
                 $ret = true;
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties;
-//                if(!isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['value'])){
-//                    $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['value'] = $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['default'];
-//                }
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['group'] = $defaultParent;
             }
         }
@@ -613,7 +608,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
-
 
         return $ret;
     }
@@ -770,7 +764,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function _addRequireDialogRefreshParams(&$params, $requestParams, $responseData)
     {
-        $params['action'] = "refresh";
+        $params['action'] = PageKeys::KEY_REFRESH;
         $params['content']['requiring'] = [
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
                 $requestParams[PageKeys::KEY_ID],
