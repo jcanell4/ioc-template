@@ -44,12 +44,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
-            $responseData['projectExtraData']['generated'] = $responseData['generated'];
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['generated'] = $responseData['generated'];
 
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
                 case ProjectKeys::KEY_DIFF:
-                    $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'], $responseData['projectExtraData']);
+                    $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'], $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
                     //afegir la metadata de revisions com a resposta
                     if ($this->addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator)) {
                         $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['rdata'][ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_REV]);
@@ -84,14 +84,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 case ProjectKeys::KEY_EDIT:
                     if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
-                        $responseData['projectExtraData']['edit'] = 1;
+                        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['edit'] = 1;
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     } else {
                         switch ($responseData['lockInfo']['state']) {
                             case LockKeys::LOCKED:
                                 //se ha obtenido el bloqueo, continuamos la edición
                                 if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]) {
-                                    $responseData['projectExtraData'][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
+                                    $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
                                 }
                                 $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
                                 $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
@@ -176,8 +176,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     private function _addUpdateLocalDrafts($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
     {
         if ($responseData['drafts']) {
-            $responseData['projectExtraData']['hasDraft'] = TRUE;
-            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams[ProjectKeys::KEY_ID], $responseData['drafts']);
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_HAS_DRAFT] = TRUE;
+            $extra = [ProjectKeys::KEY_PROJECT_TYPE => $requestParams[ProjectKeys::KEY_PROJECT_TYPE]];
+            if ($requestParams[ProjectKeys::KEY_METADATA_SUBSET]) {
+                $extra[ProjectKeys::KEY_METADATA_SUBSET] = $requestParams[ProjectKeys::KEY_METADATA_SUBSET];
+            }else {
+                $extra[ProjectKeys::KEY_METADATA_SUBSET] = $requestParams[ProjectKeys::VAL_DEFAULTSUBSET];
+            }
+            $ajaxCmdResponseGenerator->addUpdateLocalDrafts($requestParams[ProjectKeys::KEY_ID], $responseData['drafts'], $extra);
         }
     }
 
@@ -222,13 +228,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
 
         if ($requestParams[ProjectKeys::KEY_DISCARD_CHANGES])
-            $responseData['projectExtraData'][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
 
         if ($responseData['originalLastmod'])
-            $responseData['projectExtraData']['originalLastmod'] = $responseData['originalLastmod'];
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['originalLastmod'] = $responseData['originalLastmod'];
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues,
-            $responseData['projectExtraData']);
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
         $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
@@ -255,7 +261,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
             $autosaveTimer, $timer,
-            $responseData['projectExtraData']);
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
 
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
         $this->addMetadataResponse($id, $ns, $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
@@ -613,8 +619,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function addSaveOrDiscardDialog(&$responseData) {
-        $responseData['projectExtraData']['messageChangesDetected'] = WikiIocLangManager::getLang('projects')['cancel_editing_with_changes'];
-        $responseData['projectExtraData']['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData[ProjectKeys::KEY_ID], $responseData['projectExtraData'][ProjectKeys::KEY_METADATA_SUBSET]);
+        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['messageChangesDetected'] = WikiIocLangManager::getLang('projects')['cancel_editing_with_changes'];
+        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['dialogSaveOrDiscard'] = $this->generateSaveOrDiscardDialog($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_METADATA_SUBSET]);
     }
 
     protected function generateSaveOrDiscardDialog($id, $metaDataSubSet) {
@@ -734,7 +740,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             'content' => $content,
             'originalContent' => $responseData['projectMetaData'],
             'timer' => $timer,
-            'extra' => $responseData['projectExtraData']
+            'extra' => $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]
         ];
         return $params;
     }

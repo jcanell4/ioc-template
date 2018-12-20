@@ -45,8 +45,8 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
 
         //[NOTA: Rafael] Considero que este código ya no es necesario
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-            if (!$responseData['projectExtraData'][ProjectKeys::PROJECT_TYPE]) {
-                //es una página de un proyecto pero (es raro) no tiene aún: $responseData['projectExtraData']['projectType']
+            if (!$responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::PROJECT_TYPE]) {
+                //es una página de un proyecto pero (es raro) no tiene aún: $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['projectType']
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
 
