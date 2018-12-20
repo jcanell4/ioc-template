@@ -25,6 +25,9 @@ class ControlTplGenerator {
     }
 
     public function addWikiIocButton($class, $params, $name=NULL){
+        if(!$class){
+            $return;
+        }
         if(!is_string($class)){
             $name = $params;
             $params = $class;
