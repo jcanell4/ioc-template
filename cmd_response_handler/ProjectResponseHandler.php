@@ -233,8 +233,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($responseData['originalLastmod'])
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['originalLastmod'] = $responseData['originalLastmod'];
 
-        $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues,
-            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
+        $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues, $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
         $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
@@ -259,9 +258,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer")*1000 : NULL;
         $timer = $this->generateEditProjectTimer($requestParams[ProjectKeys::KEY_ID], $requestParams[ProjectKeys::KEY_METADATA_SUBSET], $responseData['lockInfo']['time']);
 
-        $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues,
-            $autosaveTimer, $timer,
-            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
+        $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues, $autosaveTimer, $timer, $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
 
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
         $this->addMetadataResponse($id, $ns, $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
@@ -721,7 +718,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         $this->_addRequireProject($ajaxCmdResponseGenerator, $params);
-        $this->addMetadataResponse($params[ProjectKeys::KEY_ID], $params[ProjectKeys::KEY_NS], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
+        $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
+        $this->addMetadataResponse($params[ProjectKeys::KEY_ID], $params[ProjectKeys::KEY_NS], $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
         if ($responseData['info']) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
@@ -731,7 +729,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         $id = $responseData[ProjectKeys::KEY_ID];
         $ns = $requestParams[ProjectKeys::KEY_ID];
-        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData']);
+        $outValues = [];
+        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues);
         $timer = $this->_generateRequireDialogTimer($requestParams, $responseData);
         $params = [
             ProjectKeys::KEY_ID => $id,
