@@ -191,7 +191,7 @@ require([
             requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId;
             requestLogin.sendRequest().then(function() {
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
-                // console.log("---------- Ha arribat la resposta del login ------------");
+                console.log("---------- Ha arribat la resposta del login ------------");
             });
         };
 

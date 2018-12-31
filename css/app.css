@@ -2020,7 +2020,7 @@ div.ioc-comment [data-type="ioc-comment"] {
 /* Solució simple pels comentaris: amagar els elements interactius a la vista html*/
 
 textarea.reply, .ioc-comment-toolbar, .ioc-comment.ioc-comment-body button{
-	display: none;
+	/*display: none;*/
 }
 
 /* Fi plugin comentaris */
