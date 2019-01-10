@@ -26,8 +26,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $this->responseData = $responseData;
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
-            if ($responseData['info']) {
-                $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+            if ($responseData[ProjectKeys::KEY_INFO]) {
+                $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
             }
             if ($responseData['alert']) {
                 $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
@@ -59,8 +59,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['rdata'][ProjectKeys::KEY_ID], true, "ioc/dokuwiki/processContentPage", $param);
                     }
 
-                    if ($responseData['info']) {
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    if ($responseData[ProjectKeys::KEY_INFO]) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     }
                     break;
 
@@ -72,7 +72,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case ProjectKeys::KEY_SAVE:
                     $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processSaving");
                     if (!$requestParams['cancel']) {
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     } else {
                         $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }
@@ -100,6 +100,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                             case LockKeys::REQUIRED:
                                 //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
                                 $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
                                 break;
                             case LockKeys::LOCKED_BEFORE:
                                 //el recurso está bloqueado por el propio usuario en otra sesión
@@ -114,8 +115,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_GENERATE:
-                    if ($responseData['info'])
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    if ($responseData[ProjectKeys::KEY_INFO])
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     break;
 
                 case ProjectKeys::KEY_REVERT:
@@ -127,8 +128,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                         $timeout = ExpiringCalc::getExpiringTime($responseData['lockInfo']['locker']['time'], 0);
                         $ajaxCmdResponseGenerator->addRefreshLock($responseData[ProjectKeys::KEY_ID], $requestParams[ProjectKeys::KEY_ID], $timeout);
                     }
-                    if ($responseData['info']) {
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    if ($responseData[ProjectKeys::KEY_INFO]) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     } else {
                         $ajaxCmdResponseGenerator->addCodeTypeResponse(0);
                     }
@@ -143,12 +144,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     PageResponseHandler::staticResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
                 default:
-                    if ($responseData['info']) {
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+                    if ($responseData[ProjectKeys::KEY_INFO]) {
+                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     }
                     if ($responseData['alert']) {
                         $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
-                    } else if (!$responseData['info']) {
+                    } else if (!$responseData[ProjectKeys::KEY_INFO]) {
                         new IncorrectParametersException();
                     }
 
@@ -198,7 +199,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         if (isset($responseData[ProjectKeys::KEY_REV]) && count($responseData[ProjectKeys::KEY_REV]) > 0) {
             $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
-            $subSet = ($requestParams[ProjectKeys::KEY_METADATA_SUBSET] && $requestParams[ProjectKeys::KEY_METADATA_SUBSET]!==ProjectKeys::VAL_DEFAULTSUBSET) ? "&metaDataSubSet=".$requestParams[ProjectKeys::KEY_METADATA_SUBSET] : "";
+            $subSet = ($this->_isSubSet($requestParams[ProjectKeys::KEY_METADATA_SUBSET])) ? "&metaDataSubSet=".$requestParams[ProjectKeys::KEY_METADATA_SUBSET] : "";
             $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType$subSet";
             $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType$subSet";
             $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=" . $responseData[ProjectKeys::KEY_REV]['call_diff'];
@@ -221,7 +222,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_REVERT)
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams[ProjectKeys::KEY_REV]) . ")";
         if (($responseData['isSubSet']))
-            $extratitle = "[subset: {$requestParams[ProjectKeys::KEY_METADATA_SUBSET]}]";
+            $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET], TRUE);
         $title = "Projecte $ns $extratitle $title_rev";
 
         $outValues = [];
@@ -235,8 +236,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues, $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
         $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
-        if ($responseData['info']) {
-            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        if ($responseData[ProjectKeys::KEY_INFO]) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
     }
 
@@ -247,7 +248,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if (isset($requestParams[ProjectKeys::KEY_REV]))
             $title_rev = date("d-m-Y h:i:s", $requestParams[ProjectKeys::KEY_REV]);
         if (($responseData['isSubSet']))
-            $extratitle = "[subset: {$requestParams[ProjectKeys::KEY_METADATA_SUBSET]}]";
+            $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET], TRUE);
         $title = "Projecte $ns $extratitle $title_rev";
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
@@ -262,8 +263,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
         $this->addMetadataResponse($id, $ns, $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
-        if ($responseData['info']) {
-            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        if ($responseData[ProjectKeys::KEY_INFO]) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
     }
 
@@ -707,12 +708,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function addRequireDialogResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
+        //WARNING [Rafa] Esto no se debería corregir aquí. El ID de la pestaña del subset debería haber
+        //               llegado antes y correctamente al $responseData['info']['id']
+        if ($this->_isSubSet($requestParams[ProjectKeys::KEY_METADATA_SUBSET])) {
+            $responseData[ProjectKeys::KEY_INFO][ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_ID];
+        }
         $params = $this->_generateRequireDialogParams($requestParams, $responseData);
 
         if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
             $this->_addRequireDialogRefreshParams($params, $requestParams, $responseData);
-            $message = $ajaxCmdResponseGenerator->generateInfo('warning', $params['content']['requiring']['message'], $requestParams[ProjectKeys::KEY_ID]);
-            $responseData['info'] = $ajaxCmdResponseGenerator->addInfoToInfo($responseData['info'], $message);
+            $message = $ajaxCmdResponseGenerator->generateInfo('warning', $params['content']['requiring']['message'], $requestParams[ProjectKeys::KEY_ID], -1, $requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
+            $responseData[ProjectKeys::KEY_INFO] = $ajaxCmdResponseGenerator->addInfoToInfo($responseData[ProjectKeys::KEY_INFO], $message);
         } else {
             $this->_addDialogParamsToParams($params, $requestParams, $responseData);
         }
@@ -720,8 +726,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $this->_addRequireProject($ajaxCmdResponseGenerator, $params);
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
         $this->addMetadataResponse($params[ProjectKeys::KEY_ID], $params[ProjectKeys::KEY_NS], $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
-        if ($responseData['info']) {
-            $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
+        if ($responseData[ProjectKeys::KEY_INFO]) {
+            $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
     }
 
@@ -729,15 +735,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         $id = $responseData[ProjectKeys::KEY_ID];
         $ns = $requestParams[ProjectKeys::KEY_ID];
+        $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
         $outValues = [];
-        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues);
+        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
         $timer = $this->_generateRequireDialogTimer($requestParams, $responseData);
         $params = [
             ProjectKeys::KEY_ID => $id,
             ProjectKeys::KEY_NS => $ns,
-            'title' => "Projecte $ns",
+            'title' => "Projecte $ns $extratitle",
             'content' => $content,
-            'originalContent' => $responseData['projectMetaData'],
+            'originalContent' => $outValues,
             'timer' => $timer,
             'extra' => $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]
         ];
@@ -747,12 +754,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     private function _generateRequireDialogTimer($requestParams, $responseData)
     {
         $rev = $requestParams[ProjectKeys::KEY_REV] ? "&" . ProjectKeys::KEY_REV . "=" . $requestParams[ProjectKeys::KEY_REV] : "";
+        $subSet = ($this->_isSubSet($requestParams[ProjectKeys::KEY_METADATA_SUBSET])) ? "&".ProjectKeys::KEY_METADATA_SUBSET."=".$requestParams[ProjectKeys::KEY_METADATA_SUBSET] : "";
         $timer = [
             'eventOnExpire' => "edit_project",
             'paramsOnExpire' => [
                 'dataToSend' => ProjectKeys::KEY_ID . "=" . $requestParams[ProjectKeys::KEY_ID]
                     . "&" . ProjectKeys::KEY_TO_REQUIRE . "=true"
                     . "&" . ProjectKeys::KEY_PROJECT_TYPE . "=" . $requestParams[ProjectKeys::KEY_PROJECT_TYPE]
+                    . $subSet
                     . $rev
             ],
             'eventOnCancel' => "cancel_project",
@@ -760,6 +769,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 'dataToSend' => ProjectKeys::KEY_ID . "=" . $requestParams[ProjectKeys::KEY_ID]
                     . "&" . ProjectKeys::KEY_LEAVERESOURCE . "=true"
                     . "&" . ProjectKeys::KEY_PROJECT_TYPE . "=" . $requestParams[ProjectKeys::KEY_PROJECT_TYPE]
+                    . $subSet
                     . $rev
             ],
             'timeout' => ExpiringCalc::getExpiringTime($responseData['lockInfo']['time'], 1),
@@ -769,10 +779,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function _addRequireDialogRefreshParams(&$params, $requestParams, $responseData)
     {
+        $project_and_subset = $requestParams[ProjectKeys::KEY_ID] ." ". $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
         $params['action'] = PageKeys::KEY_REFRESH;
         $params['content']['requiring'] = [
-            "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
-                $requestParams[PageKeys::KEY_ID],
+            "message" => sprintf(WikiIocLangManager::getLang("require_message"),
+                $project_and_subset,
                 $responseData['lockInfo']['name'],
                 date("H:i:s", ExpiringCalc::getExpiringData($responseData['lockInfo']['time'], 1))),
         ];
@@ -780,12 +791,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function _addDialogParamsToParams(&$params, $requestParams, $responseData)
     {
+        $project_and_subset = $requestParams[ProjectKeys::KEY_ID] ." ". $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
         $params['action'] = "dialog";
         $params['timer']['timeout'] = 0;
         $params['dialog'] = [
             'title' => WikiIocLangManager::getLang("require_dialog_title"),
             'message' => sprintf(WikiIocLangManager::getLang("require_dialog_message"),
-                $requestParams[ProjectKeys::KEY_ID],
+                $project_and_subset,
                 $responseData['lockInfo']['name'],
                 date("H:i:s", ExpiringCalc::getExpiringData($responseData['lockInfo']['time'], 1)),
                 $responseData['lockInfo']['name'],
@@ -818,6 +830,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         $instructions = p_get_instructions($content);
         return p_render($mode, $instructions, $outInfo); // No fem res amb la info
+    }
+
+    private function _getExtraTitle($subSet, $isSubSet=FALSE) {
+        $extratitle = "";
+        if ($subSet && ($isSubSet || $subSet !== ProjectKeys::VAL_DEFAULTSUBSET)) {
+            $extratitle = "[subset: $subSet]";
+        }
+        return $extratitle;
+    }
+
+    private function _isSubSet($subSet=NULL) {
+        return ($subSet && $subSet !== ProjectKeys::VAL_DEFAULTSUBSET);
     }
 
 }
