@@ -708,11 +708,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function addRequireDialogResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator)
     {
-        //WARNING [Rafa] Esto no se debería corregir aquí. El ID de la pestaña del subset debería haber
-        //               llegado antes y correctamente al $responseData['info']['id']
-        if ($this->_isSubSet($requestParams[ProjectKeys::KEY_METADATA_SUBSET])) {
-            $responseData[ProjectKeys::KEY_INFO][ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_ID];
-        }
         $params = $this->_generateRequireDialogParams($requestParams, $responseData);
 
         if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
