@@ -308,7 +308,7 @@ var separacio = (EspaiNoms.value !== '') ? ':' : '';
 var query = 'call=project' +
 '&do=create_project' +
 '&id=' + EspaiNoms.value + separacio + NouProjecte.value +
-'&projectType=' + selectProjecte.value;
+'&projectType=' + selectProjecte.item.id;
 newButton.sendRequest(query);
 dialog.hide();
 }

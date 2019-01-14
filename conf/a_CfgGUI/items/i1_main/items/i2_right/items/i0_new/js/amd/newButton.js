@@ -258,7 +258,7 @@ if (newButton) {
                             var query = 'call=project' + 
                                         '&do=create_project' + 
                                         '&id=' + EspaiNoms.value + separacio + NouProjecte.value +
-                                        '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.value;
+                                        '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.item.id;
                             newButton.sendRequest(query);
                             dialog.hide();
                         }
