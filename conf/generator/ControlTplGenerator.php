@@ -24,14 +24,17 @@ class ControlTplGenerator {
         $this->controls["controlScript"][]=$textScript;
     }
 
-    public function addWikiIocButton($class, $params, $name=NULL){
+    public function addWikiIocButton($class=NULL, $params=NULL, $name=NULL){
+        if ($class == NULL){
+            $class = self::defaultClass;
+        }
         if(!is_string($class)){
             $name = $params;
             $params = $class;
             $class = self::defaultClass;
         }
 
-        $this->checkParams($params);
+        if (!empty($params)) $this->checkParams($params);
         if (!$name){
             $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
             if (empty($name)){
