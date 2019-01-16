@@ -44,7 +44,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
-            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['generated'] = $responseData['generated'];
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_GENERATED] = $responseData[ProjectKeys::KEY_GENERATED];
 
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
@@ -825,6 +825,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     {
         $instructions = p_get_instructions($content);
         return p_render($mode, $instructions, $outInfo); // No fem res amb la info
+    }
+
+    public function getSubSet($subSet="", $default=FALSE, $suffix="") {
+        if ($default) {
+            $ret = ProjectKeys::VAL_DEFAULTSUBSET;
+        }else {
+            $ret = "";
+            if ($subSet !== "" && $subSet !== ProjectKeys::VAL_DEFAULTSUBSET) {
+                $ret = $suffix . $subSet;
+            }
+        }
+        return $ret;
     }
 
     private function _getExtraTitle($subSet, $isSubSet=FALSE) {
