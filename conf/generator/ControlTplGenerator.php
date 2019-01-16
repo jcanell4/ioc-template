@@ -28,7 +28,7 @@ class ControlTplGenerator {
         if ($class == NULL){
             $class = self::defaultClass;
         }
-        if (!is_string($class)){
+        if(!is_string($class)){
             $name = $params;
             $params = $class;
             $class = self::defaultClass;
