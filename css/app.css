@@ -270,6 +270,7 @@ table.diff th.author {
 .iocIconUpload { background-position: -448px; }
 .iocIconMediaEdit { background-position: -480px; }
 
+
 /* NOTIFICATIONS */
 .notification {
 	border: 1px solid  #8cacbb;
@@ -611,7 +612,8 @@ span.arrow-icon {
 
 .dijitDisabled .dijitIocIcon {
 	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
-
+	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+	filter: grayscale(100%);
 }
 
 .dijitIocIconIocComment { background-position-x: 0; }
@@ -627,7 +629,7 @@ span.arrow-icon {
 .dijitIocIconIocInsertTableSyntax { background-position-x: -144px; }
 .dijitIocIconIocInsertTableLinkSyntax { background-position-x: -162px; }
 .dijitIocIconIocInsertTextSyntax { background-position-x: -180px; }
-.dijitIocIconIocInsertTextlLargeSyntax { background-position-x: -198px; }
+.dijitIocIconIocInsertTextLargeSyntax { background-position-x: -198px; }
 .dijitIocIconIocInsertExampleSyntax { background-position-x: -216px; }
 .dijitIocIconIocInsertNoteSyntax { background-position-x: -234px; }
 .dijitIocIconIocInsertReferenceSyntax { background-position-x: -252px; }
@@ -651,7 +653,11 @@ span.arrow-icon {
 .dijitIocIconIocHeader6{ background-position-x: -396px; }
 .dijitIocIconIocLink{ background-position-x: -414px; }
 .dijitIocIconIocLinkExternal{ background-position-x: -432px; }
-
+.dijitIocIconIocMedia{ background-position-x: -450px; }
+.dijitIocIconIocHr{ background-position-x: -468px; }
+.dijitIocIconIocSpecialChars{ background-position-x: -486px; }
+.dijitIocIconIocMergeCell { background-position-x: -504px; }
+.dijitIocIconIocTableDelete { background-position-x: -522px; }
 
 
 
@@ -1862,3 +1868,159 @@ ul.table-editor input{
     width: 16px;
     height: 16px;    
 }
+
+@import url('dojox/editor/plugins/resources/editorPlugins.css');
+
+
+form.ioc-bootstrap.form-dialog {
+	padding: 1px; /* si es deixa a 0 els botons tapen l'ultim camp */
+}
+.ioc-bootstrap.form-dialog ul {
+	padding:0;
+	margin:0;
+	list-style-type: none;
+}
+
+.ioc-bootstrap.form-dialog li{
+	padding: 10px 10px 10px 5px;
+
+}
+
+.ioc-bootstrap.form-dialog li input{
+	padding:0;
+	padding-left:5px;
+
+}
+
+.no-render {
+	display: none;
+}
+
+
+/* Plugin comentaris */
+
+.ioc-comment-block {
+	display: inline;
+	opacity: 0.999999; /* Sense això no es dibuixa correctament el triangle en el mode de lectura, meravelles de CSS i el z-index: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/ */
+}
+
+.ioc-comment-reference {
+	font-style: italic;
+}
+
+.ioc-comment {
+	cursor: default;
+	color: black;
+	background-color: #FEEFB3;
+	border: 1px solid #9F6000;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.ioc-comment-body {
+	position: relative;
+	max-width: 400px;
+}
+
+.ioc-comment textarea {
+	width: 96.5%;
+	margin: 10px 5px 5px;
+	resize: none;
+}
+
+.ioc-comment-reply {
+	margin: 5px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.ioc-comment-reply:nth-child(even) {
+	background-color: #CBBF8F;
+}
+
+.ioc-signature span {
+	color: red;
+	font-weight: normal;
+	font-style: italic;
+}
+
+div.editComment {
+	display: none;
+}
+
+/*.ioc-reply-list div:first-child {*/
+/*background-color:#FEE067;*/
+/*}*/
+
+/*.ioc-comment-reply:nth-child(odd) {*/
+/*background-color:#FEE067;*/
+/*}*/
+
+.ioc-comment-reply .editComment {
+	overflow: auto;
+}
+
+.ioc-comment-reply textarea {
+	width: 96%;
+}
+
+.ioc-comment-body, .ioc-comment button {
+	float: right;
+}
+
+span.ioc-comment-toolbar {
+	float: right;
+	color: #9F6000;
+}
+
+span.ioc-comment-toolbar-button {
+	cursor: pointer;
+	font-weight: 100;
+	font-size: smaller;
+}
+
+div.ioc-comment [data-type="ioc-comment"] {
+	float: right;
+	display: block;
+	max-width: 350px;
+	position: relative;
+	box-shadow: 0.2em 0.3em 1.5em #eee;
+}
+
+.ioc-signature {
+	display: block;
+	width: 100%;
+	border-top: 1px dotted #9F6000;
+	padding-top: 5px;
+	font-weight: bold;
+	font-size: smaller;
+}
+
+.triangle-inner {
+	position: absolute;
+	border-top: none;
+	border-bottom: 24px solid transparent;
+	border-left: none;
+	border-right: 24px solid #9F6000;
+	left: -15px;
+	top: -1px;
+	z-index: -1;
+}
+
+.triangle-outer {
+	position: absolute;
+	border-top: none;
+	border-bottom: 18px solid transparent;
+	border-left: none;
+	border-right: 18px solid #FEEFB3;
+	left: -13px;
+	top: 0;
+}
+
+/* Solució simple pels comentaris: amagar els elements interactius a la vista html*/
+
+textarea.reply, .ioc-comment-toolbar, .ioc-comment.ioc-comment-body button{
+	/*display: none;*/
+}
+
+/* Fi plugin comentaris */

@@ -250,7 +250,7 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
 
     protected function addRequiringDialogParamsToParams(&$params, $requestParams, $responseData)
     {
-        $params["action"] = "refresh";
+        $params["action"] = PageKeys::KEY_REFRESH;
         $params["content"]["requiring"] = [
             "message" => sprintf(WikiIocLangManager::getLang("requiring_message"),
                 $requestParams[PageKeys::KEY_ID],
