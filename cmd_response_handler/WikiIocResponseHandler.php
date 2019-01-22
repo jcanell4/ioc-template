@@ -60,6 +60,12 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_OWNER, $requestParams[ProjectKeys::PROJECT_OWNER]);
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_SOURCE_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
         }
+        if($responseData[ProjectKeys::KEY_GENERATED]){
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
+        }
+        if (isset($responseData['activarUpdateButton'])) {
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData['activarUpdateButton']);
+        }
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
