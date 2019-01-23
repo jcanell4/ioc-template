@@ -232,6 +232,18 @@ table.diff th.author {
     height: 32px;    
 }
 
+.iocIconProjectClosed{
+    background-image: url("css/icons/prj_b_closed.png"); 
+    width: 16px;
+    height: 16px;    
+}
+
+.iocIconProjectOpened{
+    background-image: url("css/icons/prj_b_opened.png"); 
+    width: 16px;
+    height: 16px;    
+}
+
 .iocIconSave,
 .iocIconPrint,
 .iocIconCut,
