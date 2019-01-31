@@ -121,6 +121,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     if(!$responseData[ProjectKeys::KEY_GENERATED]){
                         $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang("project_not_generated"));
                     }
+                    if($responseData["sendData"]){
+                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    }
                     break;
 
                 case ProjectKeys::KEY_REVERT:
