@@ -451,7 +451,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 //combina los atributos y valores de los arrays de estructura y de vista
                 if (!is_array($valField)) $valField = array($valField);
-                $arrValues = array_merge((!is_array($structure[$keyField])) ? array($structure[$keyField]) : $structure[$keyField], $valField);
+                if(preg_match("/#/", $keyField)){
+                    $akeys = explode("#", $keyField);
+                    $properties = $structure;
+                    $lim = count($akeys)-1;
+                    for($ind=0; $ind<$lim; $ind++){
+                        $properties =  $properties[$akeys[$ind]]["value"];
+                    }
+                    $properties = $properties[$akeys[$lim]];
+                }else{
+                    $properties = $structure[$keyField];
+                }
+                $arrValues = array_merge((!is_array($properties)) ? array($properties) : $properties, $valField);
 
                 if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly'] == FALSE)))
                     $arrValues['props']['readonly'] = TRUE;
@@ -571,13 +582,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         foreach ($structure as $structureKey => $structureProperties) {
             if (isset($structureProperties['renderAsMultiField'])) {
                 if (isset($structureProperties['value'])) {
-                    $discardValues = [];
-                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $discardValues, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties[ProjectKeys::KEY_ID]);
+                    //$discardValues = [];
+//                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $discardValues, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties[ProjectKeys::KEY_ID]);
+                    $needGroup = $this->mergeStructureToForm($structureProperties['value'], $viewFields, $viewGroups, $viewDefinition, $outValues, $structureProperties['mandatory'], $structureProperties[ProjectKeys::KEY_ID]);
                     if ($needGroup) {
-                        $viewGroups[$structureKey]['label'] = $structureKey;
-                        $viewGroups[$structureKey]['frame'] = true;
-                        $viewGroups[$structureKey]['n_columns'] = $viewDefinition['n_columns'];
-                        $viewGroups[$structureKey]['parent'] = $defaultParent;
+                        $viewGroups[$structureProperties[ProjectKeys::KEY_ID]]['label'] = $structureKey;
+                        $viewGroups[$structureProperties[ProjectKeys::KEY_ID]]['frame'] = true;
+                        $viewGroups[$structureProperties[ProjectKeys::KEY_ID]]['n_columns'] = $viewDefinition['n_columns'];
+                        $viewGroups[$structureProperties[ProjectKeys::KEY_ID]]['parent'] = $defaultParent;
+//                        $viewGroups[$structureKey]['label'] = $structureKey;
+//                        $viewGroups[$structureKey]['frame'] = true;
+//                        $viewGroups[$structureKey]['n_columns'] = $viewDefinition['n_columns'];
+//                        $viewGroups[$structureKey]['parent'] = $defaultParent;
                         $ret = true;
                     }
                 }
