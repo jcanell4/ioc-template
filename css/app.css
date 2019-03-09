@@ -2035,4 +2035,12 @@ textarea.reply, .ioc-comment-toolbar, .ioc-comment.ioc-comment-body button{
 	/*display: none;*/
 }
 
+.pair-label-field{
+    padding-top:10px;
+}
+
+div.ioc-bootstrap .pair-label-field table[data-editable-element]{
+    margin-top:3px;
+}
+
 /* Fi plugin comentaris */
