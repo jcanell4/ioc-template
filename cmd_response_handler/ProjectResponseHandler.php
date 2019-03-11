@@ -242,7 +242,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['originalLastmod'] = $responseData['originalLastmod'];
 
         $ajaxCmdResponseGenerator->addViewProject($id, $ns, $title, $form, $outValues, $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
-        $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($id, $ns, $requestParams[ProjectKeys::KEY_PROJECT_TYPE], $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator, $responseData["meta"]);
         if ($responseData[ProjectKeys::KEY_INFO]) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
@@ -269,15 +269,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addEditProject($id, $ns, $title, $form, $outValues, $autosaveTimer, $timer, $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
 
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
-        $this->addMetadataResponse($id, $ns, $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($id, $ns, $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator, $responseData["meta"]);
         if ($responseData[ProjectKeys::KEY_INFO]) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
     }
 
     //[JOSEP] Alerta cal canviar la crida hardcode als botons per una que impliqui configuració
-    protected function addMetadataResponse($projectId, $projectNs, $projectType, $rdCreate, &$ajaxCmdResponseGenerator)
+    protected function addMetadataResponse($projectId, $projectNs, $projectType, $rdCreate, &$ajaxCmdResponseGenerator, $meta=NULL)
     {
+        if(!$meta){
+            $meta = array();
+        }
         $rdata[ProjectKeys::KEY_ID] = "metainfo_tree_" . $projectId;
         $rdata['type'] = "meta_dokuwiki_ns_tree";
         $rdata['title'] = "Espai de noms del projecte";
@@ -354,7 +357,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $rdata['buttons'][0]['buttonParams']['dialogParams']['call_folder'] = "call=project&do=new_folder";
             }
         }
-        $ajaxCmdResponseGenerator->addMetadata($projectId, [$rdata]);
+        array_unshift($meta, $rdata);
+        $ajaxCmdResponseGenerator->addMetadata($projectId, $meta);
     }
 
     /** El grid esta compuesto por 12 columnas
@@ -743,7 +747,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         $this->_addRequireProject($ajaxCmdResponseGenerator, $params);
         $pType = isset($responseData[ProjectKeys::KEY_PROJECT_TYPE]) ? $responseData[ProjectKeys::KEY_PROJECT_TYPE] : $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
-        $this->addMetadataResponse($params[ProjectKeys::KEY_ID], $params[ProjectKeys::KEY_NS], $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator);
+        $this->addMetadataResponse($params[ProjectKeys::KEY_ID], $params[ProjectKeys::KEY_NS], $pType, $responseData[ProjectKeys::KEY_CREATE], $ajaxCmdResponseGenerator, $responseData['meta']);
         if ($responseData[ProjectKeys::KEY_INFO]) {
             $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
         }
