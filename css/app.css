@@ -1726,7 +1726,8 @@ div.ioctodo, .ace_markup.ace_ioctodo{
     color: green !important;
 }
 
-.ioctodogroc {
+.ioctodogroc,
+.ioctodogroc p{
     background-color: yellow;
 }
 
