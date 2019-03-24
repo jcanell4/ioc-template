@@ -143,7 +143,7 @@ require([
                         }
                         disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                     }
-                    else if (page.action === "form" || page.action === "project_edit") {
+                    else if (page.action === "form" || page.action === "project_edit" || page.action === "project_partial") {
                         disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
                         if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
@@ -293,7 +293,7 @@ require([
                         }
                         queryParams += "call=page&id=";
 
-                    } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit") {
+                    } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit" || page.action === "project_partial") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
