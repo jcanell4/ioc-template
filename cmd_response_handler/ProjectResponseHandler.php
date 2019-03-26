@@ -39,8 +39,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
-            if ($responseData['activarUpdateButton']) {
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData['activarUpdateButton']);
+            if ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]) {
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]);
             }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
