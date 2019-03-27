@@ -40,10 +40,8 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
 
-
         $projectId = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
 
-        //[NOTA: Rafael] Considero que este código ya no es necesario
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::PROJECT_TYPE]) {
                 //es una página de un proyecto pero (es raro) no tiene aún: $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['projectType']
@@ -60,11 +58,13 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_OWNER, $requestParams[ProjectKeys::PROJECT_OWNER]);
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_SOURCE_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
         }
-        if($responseData[ProjectKeys::KEY_GENERATED]){
+        if ($responseData[ProjectKeys::KEY_GENERATED]){
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
         }
-        $value = ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] === "1") ? "1" : "0";
-        $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $value);
+        if ($responseData[ProjectKeys::KEY_ID]) {
+            $value = ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] === "1") ? "1" : "0";
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $value);
+        }
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {
