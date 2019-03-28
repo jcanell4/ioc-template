@@ -293,7 +293,7 @@ require([
                         }
                         queryParams += "call=page&id=";
 
-                    } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit" || page.action === "project_partial") {
+                    } else if (state.getContent(id).action === "form" || state.getContent(id).action === "project_edit" ) {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
@@ -303,7 +303,7 @@ require([
                             queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
                         }
 
-                    } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view") {
+                    } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view" || state.getContent(id).action === "project_partial") {
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
