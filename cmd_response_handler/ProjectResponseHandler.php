@@ -78,72 +78,19 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
-                    // TODO[XAVI] REVISAR AQUEST CODI! fins a l'avís es codi de proves
                 case ProjectKeys::KEY_VIEW:
-                    // TODO[Xavi] comentat per fer que es cridi el codi del partial en el view
-//                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-//                    break;
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
 
-                    // ALERTA[Xavi] Copiat de KEY_EDIT fil per randa i canviat només per enviar el tipus project_partial del editResponse()
                 case ProjectKeys::KEY_PARTIAL:
-                    if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
-                        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['edit'] = 1;
-                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    } else {
-                        switch ($responseData['lockInfo']['state']) {
-
-                            case LockKeys::REQUIRED:
-                                //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
-                                $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-                            case LockKeys::LOCKED_BEFORE:
-                                //el recurso está bloqueado por el propio usuario en otra sesión
-                                $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-
-                            case LockKeys::LOCKED:
-                            default:
-                                //se ha obtenido el bloqueo, continuamos la edición
-                                if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]) {
-                                    $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
-                                }
-                                $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
-                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-                        }
-                    }
+                    $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
                     break;
 
                     // ALERTA[Xavi] FI AVÍS
 
                 case ProjectKeys::KEY_EDIT:
-                    if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
-                        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['edit'] = 1;
-                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                    } else {
-                        switch ($responseData['lockInfo']['state']) {
-                            case LockKeys::LOCKED:
-                                //se ha obtenido el bloqueo, continuamos la edición
-                                if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]) {
-                                    $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
-                                }
-                                $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-                            case LockKeys::REQUIRED:
-                                //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
-                                $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-                            case LockKeys::LOCKED_BEFORE:
-                                //el recurso está bloqueado por el propio usuario en otra sesión
-                                $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
-                                break;
-                        }
-                    }
+                    $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
+
                     break;
 
                 case ProjectKeys::KEY_CREATE_PROJECT:
@@ -200,6 +147,35 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         }
 
+    }
+
+    protected function _responseEditResponse(&$requestParams, &$responseData, &$ajaxCmdResponseGenerator, $projectResponseType) {
+        if ($requestParams[ProjectKeys::KEY_HAS_DRAFT]) {
+            $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['edit'] = 1;
+            $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+        } else {
+            switch ($responseData['lockInfo']['state']) {
+
+                case LockKeys::LOCKED:
+                    //se ha obtenido el bloqueo, continuamos la edición
+                    if ($requestParams[ProjectKeys::KEY_RECOVER_DRAFT]) {
+                        $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_RECOVER_DRAFT] = TRUE;
+                    }
+                    $this->_addUpdateLocalDrafts($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator, $projectResponseType);
+                    $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
+                case LockKeys::REQUIRED:
+                    //el recurso está bloqueado por otro usuario. Mostramos los datos del formulario y un cuadro de diálogo
+                    $this->addRequireDialogResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    $this->_addMetaDataRevisions($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
+                case LockKeys::LOCKED_BEFORE:
+                    //el recurso está bloqueado por el propio usuario en otra sesión
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
+            }
+        }
     }
 
     protected function remoteViewResponse($requestParams, &$responseData, &$ajaxCmdResponseGenerator)
