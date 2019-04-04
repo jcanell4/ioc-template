@@ -62,7 +62,7 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
         }
         if ($responseData[ProjectKeys::KEY_ID]) {
-            $value = ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] === "1") ? "1" : "0";
+            $value = ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] === "1"||$responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] >=1 ) ? "1" : "0";
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $value);
         }
     }
