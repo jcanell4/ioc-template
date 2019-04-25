@@ -89,9 +89,8 @@ if (newButton) {
             dialog.setDefaultDocumentName = function(n,o,e) {
                 dom.byId('textBoxNouDocument').value = e;
                 dom.byId('textBoxNouDocument').focus();
-            }
-
-
+            };
+        
             var bc = new BorderContainer({
                 style: "height: 300px; width: 450px;"
             });
@@ -239,15 +238,33 @@ if (newButton) {
             }, botons);
 
             new Button({
-              label: newButton.labelButtonAcceptar,
-              onClick: function(){
+                label: newButton.labelButtonAcceptar,
+                
+                _normalitzaCaracters: function(cadena) {
+                    //console.log ("newButton#_normalitzaCaracters 1:", cadena);
+                    cadena = cadena.toLowerCase();
+                    cadena = cadena.replace(/[áäàâ]/gi,"a");
+                    cadena = cadena.replace(/[éèëê]/gi,"e");
+                    cadena = cadena.replace(/[íìïî]/gi,"i");
+                    cadena = cadena.replace(/[óòöô]/gi,"o");
+                    cadena = cadena.replace(/[úùüû]/gi,"u");
+                    cadena = cadena.replace(/ç/gi,"c");
+                    cadena = cadena.replace(/ñ/gi,"n");
+                    cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
+                    cadena = cadena.replace(/_+/g,"_");
+                    cadena = cadena.replace(/^_+|_+$/g,"");
+                    //console.log ("newButton#_normalitzaCaracters 2:", cadena);
+                    return cadena;
+                },
+
+                onClick: function(){
                     if (selectProjecte.value === defaultProject) {
                         if (NouDocument.value !== '') {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
                             var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
                             var query = 'call=new_page' + 
                                         '&do=new' + 
-                                        '&id=' + EspaiNoms.value + separacio + NouDocument.value +
+                                        '&id=' + EspaiNoms.value + separacio + this._normalitzaCaracters(NouDocument.value) +
                                         templatePar;
                             newButton.sendRequest(query);
                             dialog.hide();
@@ -257,13 +274,13 @@ if (newButton) {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
                             var query = 'call=project' + 
                                         '&do=create_project' + 
-                                        '&id=' + EspaiNoms.value + separacio + NouProjecte.value +
+                                        '&id=' + EspaiNoms.value + separacio + this._normalitzaCaracters(NouProjecte.value) +
                                         '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.item.id;
                             newButton.sendRequest(query);
                             dialog.hide();
                         }
                     }
-              }
+                }
             }).placeAt(botons);
 
             // El botó de cancel·lar
