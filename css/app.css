@@ -1513,6 +1513,40 @@ span.view-field, div.view-textarea {
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
+div.diffmain {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+div.diffrow {
+  display: flex;
+  width: 100%;
+}
+div.diffcolumn {
+  display: flex;
+  width: 50%;
+}
+.diffkeycolor {
+    color:gray;
+}
+span.diffkey {
+    font-weight: bold;
+    width: 25%;
+}
+
+span.difflevel1 {
+    padding-left: 0px;
+}
+span.difflevel2 {
+    padding-left: 20px;
+}
+span.difflevel3 {
+    padding-left: 40px;
+}
+span.difflevel4 {
+    padding-left: 60px;
+}
+
 .leftcolor,
 .rightcolor{
     font-size: 100%;
