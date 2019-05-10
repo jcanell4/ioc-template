@@ -68,7 +68,7 @@ class WikiIocCfg {
     }
 
     private function addControls(){
-        $path = split("/", cfgIdConstants::WIKI_IOC_BUTTON_PATH);
+        $path = explode("/", cfgIdConstants::WIKI_IOC_BUTTON_PATH);
         $root = &$this->arrCfgGUI;
         foreach ($path as $dir) {
             if(empty($dir)){
