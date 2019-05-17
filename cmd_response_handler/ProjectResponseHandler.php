@@ -509,7 +509,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 }
 
                 $this->updateReadonlyFromConfig($arrValues);
-                $this->updateFromCalculate($ns, $arrValues, $outValues);
 
                 $aGroups[$grupo]->addElement(FormBuilder::createFieldBuilder()
                     ->setId($arrValues[ProjectKeys::KEY_ID])
@@ -529,17 +528,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         return $form;
     }
 
-    protected function updateFromCalculate($ns, &$arrValues, $outValues) {
-        if (isset($arrValues['calculate'])) {
-            $className = $arrValues['calculate']['class'];
-            $calculator = new $className;
-            if ($calculator) {
-                $calculator->init($ns);
-                $value = $calculator->calculate($outValues[$arrValues['calculate']['data']]);
-                $arrValues['value'] = $value;
-            }
-        }
-    }
 
     protected function updateReadonlyFromConfig(&$outArrValues) {
         if (!isset($outArrValues['config']) || !isset($outArrValues['config']['readonly'])) {
