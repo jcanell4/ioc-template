@@ -43,6 +43,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]);
             }
 
+            if ($responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]) {
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "ftpSendButton", $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
+            }
+
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_GENERATED] = $responseData[ProjectKeys::KEY_GENERATED];
 
@@ -100,7 +104,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case ProjectKeys::KEY_GENERATE:
                     if ($responseData[ProjectKeys::KEY_INFO])
                         $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
-//                    $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
                     if(!$responseData[ProjectKeys::KEY_GENERATED]){
                         $ajaxCmdResponseGenerator->addAlert(WikiIocLangManager::getLang("project_not_generated"));
                     }
