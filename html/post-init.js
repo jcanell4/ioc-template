@@ -103,7 +103,11 @@ require([
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
                         selectedSection = disp.getGlobalState().getCurrentElement(),
                         isRevision;
-                
+
+                    if (page['cfgIdConstants::FTPSEND_BUTTON'] === true) {
+                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", true);
+                    }
+
                     if (page.action === 'view') {
                         if (selectedSection.id) {
                             disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
@@ -152,9 +156,6 @@ require([
                         disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                     }
                     else if (page.action === "view_form" || page.action === "project_view") {
-                        if (page.ftpSendButton === true) {
-                            disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", true);
-                        }
                         if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }

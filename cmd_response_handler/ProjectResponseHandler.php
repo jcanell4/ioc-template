@@ -44,7 +44,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
 
             if ($responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]) {
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "ftpSendButton", $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], ProjectKeys::KEY_FTPSEND_BUTTON, $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
             }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
