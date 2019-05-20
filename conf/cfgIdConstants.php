@@ -84,6 +84,7 @@ class cfgIdConstants
     const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";
     const MEDIA_EDIT_BUTTON = "mediaEditButton";
     const EXIT_BUTTON = "exitButton";
+    const FTPSEND_BUTTON = "ftpSendButton";
 
     const BOTTOM_PANEL = "id_BottomPanel";
     const ZONA_MISSATGES = "zonaMissatges";
