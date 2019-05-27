@@ -24,7 +24,7 @@ class ControlTplGenerator {
         $this->controls["controlScript"][]=$textScript;
     }
 
-    public function addWikiIocButton($class=NULL, $params=NULL, $name=NULL){
+    public function addWikiIocButton($class=NULL, $params=NULL, $name=NULL, $nameIsPre=false){
         if ($class == NULL){
             $class = self::defaultClass;
         }
@@ -36,10 +36,12 @@ class ControlTplGenerator {
 
         if (!empty($params)) $this->checkParams($params);
         if (!$name){
-            $name = $this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
+            $name = sprintf("iX%03d_%s", count($this->controls["IocButtonControls"]), $this->getFirstParamIn(array("DOM", "DJO"), "id", $params));
             if (empty($name)){
                 throw new RequiredParamNotFoundException("id");
             }
+        }elseif($nameIsPre){
+            $name .= "_".$this->getFirstParamIn(array("DOM", "DJO"), "id", $params);
         }
         $this->controls["IocButtonControls"][] = array("name" => $name, "class" => $class, "parms" => $params);
     }

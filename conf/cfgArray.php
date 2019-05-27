@@ -1313,7 +1313,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'iB_ftp_send' => 
+            'iY_ftp_send' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 

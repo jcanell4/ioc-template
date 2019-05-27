@@ -85,6 +85,8 @@ class WikiIocCfg {
                 $root[$value["name"]]["parms"] = $value["parms"];
             }
         }
+        
+        uksort($root, "strcasecmp");
     }
 
     private function GeneraFicheroArray() {

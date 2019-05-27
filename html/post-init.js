@@ -93,6 +93,10 @@ require([
                                           disp.getGlobalState().permissions['ismanager'] ||
                                           disp.getGlobalState().permissions['isprojectmanager']);
                 }
+                var send_button_visible = false;
+                if (Object.keys(disp.getGlobalState().permissions).length > 0) {
+                    send_button_visible = disp.getGlobalState().permissions['isadmin'];
+                }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
                 disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", true);
@@ -105,7 +109,7 @@ require([
                         isRevision;
 
                     if (page['cfgIdConstants::FTPSEND_BUTTON'] === true) {
-                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", true);
+                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
                     }
 
                     if (page.action === 'view') {
