@@ -14,6 +14,7 @@
 if (!defined('DOKU_INC')) die();
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
 
+global $conf;
 $conf['dojo_base'] = "//ajax.googleapis.com/ajax/libs/dojo/1.8/";
 
 //startpage
