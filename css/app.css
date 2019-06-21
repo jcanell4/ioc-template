@@ -1608,9 +1608,8 @@ th.rightcolor{
 }
 
 .ioc-bootstrap thead tr {
--webkit-gradient(linear,left top,left bottom,from(#EDF2F7),to(#D0DFEA)); /* TODO: Afegir la versió per altres navegadors */
-
-	height: 38px;
+    background: -webkit-gradient(linear,left top,left bottom,from(#EDF2F7),to(#D0DFEA)); /* TODO: Afegir la versió per altres navegadors */
+    height: 38px;
 }
 
 .ioc-bootstrap th {
@@ -1757,8 +1756,8 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
     width: 32px !important;
     height: 32px !important;
     background-color: #fff !important;
-    bottom: -32 !important;
-    right: -32 !important;
+    bottom: -32px !important;
+    right: -32px !important;
 }
 
 span.iocmarkkey,
