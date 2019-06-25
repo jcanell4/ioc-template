@@ -367,3 +367,7 @@ cookie("IOCForceScriptLoad", 1);
 };
 }
 });
+require([
+"dijit/registry"
+], function (registry) {
+});
