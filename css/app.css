@@ -1768,7 +1768,8 @@ ace_markkey{
 div.iocprotectedcontent,
 .ace_markup.ace_protectedcontent{
     /*content: "  "*/
-    background-color: #E99 !important;
+    border-left: 3px solid #E99;
+    /*background-color: #E99 !important;*/
 }
 
 .ace_keyword.ace_operator.ace_protectedcontent{
