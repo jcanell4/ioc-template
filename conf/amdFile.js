@@ -369,5 +369,18 @@ cookie("IOCForceScriptLoad", 1);
 });
 require([
 "dijit/registry"
-], function (registry) {
+,"ioc/wiki30/dispatcherSingleton"
+], function (registry,dispatcherSingleton) {
+var dispatcher = dispatcherSingleton();
+var ftpSendButton = registry.byId('ftpSendButton');
+var globalState = dispatcher.getGlobalState();
+var ns = globalState.getContent(globalState.currentTabId).ns;
+var fOnClick = function () {
+var id = dispatcher.getGlobalState().getCurrentId();
+registry.byId("zonaMetaInfo").selectChild(id + "_ftpsend");
+this.setStandbyId(id + "_ftpsend");
+};
+if (ftpSendButton) {
+ftpSendButton.onClick = fOnClick;
+}
 });
