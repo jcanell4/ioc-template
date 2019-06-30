@@ -157,5 +157,6 @@ $lang['notifier_pop_messaged'] = 'S\'han recuperat missatges del notificador';
 $lang['notifier_closed'] = 'S\'ha tancat el notificador';
 
 $lang["metadata_export_title"]="Propietats exportació";
+$lang["metadata_ftpsend_title"]="Propietats FTP";
 
 $lang["hasDraft"]="Hi ha un esborrany d'aquest document";

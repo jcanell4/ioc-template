@@ -108,7 +108,7 @@ require([
                         selectedSection = disp.getGlobalState().getCurrentElement(),
                         isRevision;
 
-                    if (page['cfgIdConstants::FTPSEND_BUTTON'] === true) {
+                    if (page.ftpSendButton === true) {
                         disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
                     }
 
