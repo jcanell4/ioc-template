@@ -85,6 +85,10 @@ class WikiIocTpl {
 
     public function printPage() {
         global $conf, $lang;
+        
+        // TODO[Xavi] Establir cookie
+        setcookie("IOCForceScriptLoad", null);
+                
         echo "<!DOCTYPE html>\n";
         echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='" . hsc($conf["lang"]) . "' lang='" . hsc($conf["lang"]) . "' dir='" . hsc($lang["direction"]) . "'>\n";
         $this->printHeaderTags();
@@ -135,8 +139,6 @@ class WikiIocTpl {
         array_unshift($event->data["script"], $item1);
         array_unshift($event->data["script"], $item0);
 
-        // TODO[Xavi] Establir cookie
-        setcookie("IOCForceScriptLoad", null);
     }
 
     public function printHeaderTags() {
