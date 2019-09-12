@@ -280,7 +280,12 @@ require([
 
                 var queryParams, page, ns, projectType, metaDataSubSet, elid;
 
+
                 for (var id in state.pages) {
+
+                    if (id === "null") {
+                        continue;
+                    }
 
                     if (paramId && paramId !== state.pages[id].ns) {
                         // Si existeix el paràmetre només es carrega aquesta pàgina
