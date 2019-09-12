@@ -283,10 +283,6 @@ require([
 
                 for (var id in state.pages) {
 
-                    if (id === "null") {
-                        continue;
-                    }
-
                     if (paramId && paramId !== state.pages[id].ns) {
                         // Si existeix el paràmetre només es carrega aquesta pàgina
                         console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
