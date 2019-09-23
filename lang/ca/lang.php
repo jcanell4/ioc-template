@@ -160,3 +160,4 @@ $lang["metadata_export_title"]="Propietats exportació";
 $lang["metadata_ftpsend_title"]="Propietats FTP";
 
 $lang["hasDraft"]="Hi ha un esborrany d'aquest document";
+$lang["update_message"]="canvis automatics realitzats des de la darrera actualització del projecte";
