@@ -264,7 +264,11 @@ table.diff th.author {
 	width: 32px;
 	height: 32px;
 }
-
+.iocIconRenameProject{
+	background-image: url("css/icons/rename_project.png"); 
+	width: 32px;
+	height: 32px;
+}
 .iocIconSave { background-position: 0; }
 .iocIconPrint { background-position: -32px; }
 .iocIconCut { background-position: -64px; }

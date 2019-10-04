@@ -82,6 +82,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -110,6 +111,12 @@ require([
 
                     if (page.ftpSendButton === true) {
                         disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
+                    }
+                    
+                    if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
+                        if (page.rol === "responsable") {
+                            disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                        }
                     }
 
                     if (page.action === 'view') {
@@ -474,6 +481,7 @@ require([
 
         new RequestControl(eventName.NOTIFY, ajax_call+"notify", true);
         new RequestControl(eventName.MEDIA_DETAIL, ajax_call+"mediadetails", true);
+        new RequestControl(eventName.RENAME_PROJECT, ajax_call+"project&do=rename_project", true);
 
         // Recuperem el contenidor de notificacions
         var inboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_INBOX');

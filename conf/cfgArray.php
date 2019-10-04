@@ -1337,6 +1337,26 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'ib_rename_project' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'renameProjectButton',
+                  'title' => 'Canviar nom',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconRenameProject\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var id = this.dispatcher.getGlobalState().getCurrentId();_ret = { id: id, name: \'rename\', dataToSend: {keep_draft: false}};return _ret;}',
+                ),
+              ),
+            ),
           ),
         ),
         'i3_bottom' => 
