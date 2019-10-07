@@ -112,12 +112,6 @@ require([
                     if (page.ftpSendButton === true) {
                         disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
                     }
-                    
-                    if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
-                        if (page.rol === "responsable") {
-                            disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
-                        }
-                    }
 
                     if (page.action === 'view') {
                         if (selectedSection.id) {
@@ -173,6 +167,12 @@ require([
                         if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
                             disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
                         }
+                        if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
+                            if (page.rol === "responsable") {
+                                disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                            }
+                        }
+                    
                     }
                     else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
