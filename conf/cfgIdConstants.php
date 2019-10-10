@@ -76,6 +76,7 @@ class cfgIdConstants
     const PRINT_BUTTON = "printButton";
     const REVERT_BUTTON = "revertButton";
     const RENAME_PROJECT_BUTTON = "renameProjectButton";
+    const REMOVE_PROJECT_BUTTON = "removeProjectButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";

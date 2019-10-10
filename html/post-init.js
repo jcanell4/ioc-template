@@ -83,6 +83,7 @@ require([
             disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
             disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
+            disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -170,6 +171,7 @@ require([
                         if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
                             if (page.rol === "responsable") {
                                 disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
                             }
                         }
                     

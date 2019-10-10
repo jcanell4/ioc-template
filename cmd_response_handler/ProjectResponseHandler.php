@@ -52,6 +52,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
             switch ($requestParams[ProjectKeys::KEY_DO]) {
 
+                case ProjectKeys::KEY_RENAME_PROJECT:
+                    $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
+                    $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_OLD_ID]);
+                    $extra = ['old_ns' => $responseData[ProjectKeys::KEY_OLD_NS],
+                              'new_ns' => $responseData[ProjectKeys::KEY_NS]];
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $extra); //refresca el tab 'Dreceres'
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
+
                 case ProjectKeys::KEY_DIFF:
                     $ajaxCmdResponseGenerator->addDiffProject($responseData['rdata'], $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]);
                     //afegir la metadata de revisions com a resposta
@@ -89,8 +99,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case ProjectKeys::KEY_PARTIAL:
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
                     break;
-
-                    // ALERTA[Xavi] FI AVÍS
 
                 case ProjectKeys::KEY_EDIT:
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
