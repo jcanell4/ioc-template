@@ -316,7 +316,7 @@ require([
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
-                        if (metaDataSubSet == undefined) {
+                        if (metaDataSubSet === undefined) {
                             queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&id=";
                         }else {
                             queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
@@ -326,7 +326,7 @@ require([
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
-                        if (metaDataSubSet == undefined) {
+                        if (metaDataSubSet === undefined) {
                             queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&id=";
                         }else {
                             queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
@@ -440,7 +440,6 @@ require([
         var container = registry.byId(wikiIocDispatcher.metaInfoNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
-
         container = registry.byId(wikiIocDispatcher.containerNodeId);
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher, isCentral: true});
 
@@ -484,6 +483,7 @@ require([
         new RequestControl(eventName.NOTIFY, ajax_call+"notify", true);
         new RequestControl(eventName.MEDIA_DETAIL, ajax_call+"mediadetails", true);
         new RequestControl(eventName.RENAME_PROJECT, ajax_call+"project&do=rename_project", true);
+        new RequestControl(eventName.REMOVE_PROJECT, ajax_call+"project&do=remove_project", true);
 
         // Recuperem el contenidor de notificacions
         var inboxNotifierContainer = registry.byId('cfgIdConstants::NOTIFIER_CONTAINER_INBOX');

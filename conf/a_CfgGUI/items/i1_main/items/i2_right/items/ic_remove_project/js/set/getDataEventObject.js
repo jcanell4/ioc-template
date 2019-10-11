@@ -1,4 +1,4 @@
-if (this.ok){
+if (this.ok==true){
     var globalState=this.dispatcher.getGlobalState();
     var id=globalState.getCurrentId();
     var ns=globalState.getContent(globalState.currentTabId)["ns"];

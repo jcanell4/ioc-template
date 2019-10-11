@@ -1,4 +1,5 @@
-var globalState = this.dispatcher.getGlobalState();
+var globalState=this.dispatcher.getGlobalState();
 if (globalState.currentTabId) {
-    this.ok = prompt("Vols eliminat el projecte?");
+    var id=globalState.getCurrentId();
+    this.ok=confirm("Vols eliminar el projecte\n\t\'"+globalState.getContent(id).projectType+"\'?");
 }
