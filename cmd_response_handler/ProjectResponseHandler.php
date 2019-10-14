@@ -33,6 +33,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
             }
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
+
+            if ($requestParams[ProjectKeys::KEY_DO] === ProjectKeys::KEY_REMOVE_PROJECT) {
+                $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_ID]);
+                $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
+                $extra = ['old_ns' => "<p>.*id=" . $responseData[ProjectKeys::KEY_OLD_ID] . ".*</p>",
+                          'new_ns' => ""];
+                $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $extra); //refresca el tab 'Dreceres'
+            }
         }
         else {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
@@ -106,6 +114,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_CREATE_PROJECT:
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
                     $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 

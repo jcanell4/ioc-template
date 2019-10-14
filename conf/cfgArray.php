@@ -1375,7 +1375,7 @@ $_arrIocCfgGUI = array (
                   'visible' => false,
                   'iconClass' => '\'iocIconRemoveProject\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; if (this.ok==true){ var globalState=this.dispatcher.getGlobalState(); var id=globalState.getCurrentId(); var ns=globalState.getContent(globalState.currentTabId)[\'ns\']; var pType = globalState.getContent(id).projectType; _ret = { id: id, name: \'remove_project\', dataToSend: {id: ns, projectType: pType} };}return _ret;}',
-                  'onClick' => 'function(_data){var _ret=null; var globalState=this.dispatcher.getGlobalState();if (globalState.currentTabId) { var id=globalState.getCurrentId(); this.ok=confirm(\'Vols eliminar el projecte\\n\\t\\\'\'+globalState.getContent(id).projectType+\'\\\'?\');}return _ret;}',
+                  'onClick' => 'function(_data){var _ret=null; var globalState=this.dispatcher.getGlobalState();if (globalState.currentTabId) { var id=globalState.getCurrentId(); this.ok=confirm(\'Vols eliminar el projecte\\n\\n\\t\\\'\'+globalState.getContent(id).ns+\'\\\'?\');}return _ret;}',
                 ),
               ),
             ),
