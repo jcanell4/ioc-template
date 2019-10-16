@@ -108,6 +108,7 @@ require([
 
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
                         selectedSection = disp.getGlobalState().getCurrentElement(),
+                        isProjectManager = disp.getGlobalState().getIsProjectManager(),
                         isRevision;
 
                     if (page.ftpSendButton === true) {
@@ -171,6 +172,8 @@ require([
                         if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
                             if (page.rol === "responsable") {
                                 disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                            }
+                            if (isProjectManager) {
                                 disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
                             }
                         }
