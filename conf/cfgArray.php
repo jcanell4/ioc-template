@@ -1337,7 +1337,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'ib_rename_project' => 
+            'iZ0_rename_project' => 
             array (
               'class' => 'WikiEventButton',
               'parms' => 
@@ -1358,7 +1358,7 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'ic_remove_project' => 
+            'iZ9_remove_project' => 
             array (
               'class' => 'WikiEventButton',
               'parms' => 
