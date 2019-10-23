@@ -142,7 +142,6 @@ require([
                                  disp.getContentCache(cur).getMainContentTool().readonly;
 
                         isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
-
                         if (isRevision) {
                             disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
                         }
@@ -166,18 +165,20 @@ require([
                         if (page.generated===false) {
                             disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                         }
-                        if (!disp.getContentCache(cur).getMainContentTool().get('isRevision')) {
+
+                        isRevision = disp.getContentCache(cur).getMainContentTool().get('isRevision');
+                        if (!isRevision) {
                             disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
-                        }
-                        if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
-                            if (isManager || page.rol === "responsable") {
-                                disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                            
+                            if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
+                                if (isManager || page.rol === "responsable") {
+                                    disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                                }
+                                if (isManager) {
+                                    disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
+                                }
                             }
-                            if (isManager) {
-                                disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
-                            }
                         }
-                    
                     }
                     else if (page.action === 'media') {
                         selectedSection = disp.getGlobalState().getCurrentElement();
