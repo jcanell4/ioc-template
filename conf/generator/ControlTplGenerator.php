@@ -36,7 +36,8 @@ class ControlTplGenerator {
 
         if (!empty($params)) $this->checkParams($params);
         if (!$name){
-            $name = sprintf("iX%03d_%s", count($this->controls["IocButtonControls"]), $this->getFirstParamIn(array("DOM", "DJO"), "id", $params));
+            $d = ($this->controls["IocButtonControls"]) ? count($this->controls["IocButtonControls"]) : 0;
+            $name = sprintf("iX%03d_%s", $d, $this->getFirstParamIn(array("DOM", "DJO"), "id", $params));
             if (empty($name)){
                 throw new RequiredParamNotFoundException("id");
             }
