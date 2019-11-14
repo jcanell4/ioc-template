@@ -687,6 +687,12 @@ th[align="right"] {
   margin: 0 auto 2em;
   min-width:300px;
 }
+
+.dokuwiki .ioctable table.inline {
+  background-color: __background__;
+  width:100%;
+}
+
 .dokuwiki table.inline th,
 .dokuwiki table.inline td {
   border: 1px solid __border__;
