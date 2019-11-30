@@ -383,7 +383,7 @@ require([
                         queryParams = "call=page&id=";
                     }
 
-                    console.log("Que hi ha al content state pel id?", id, state.getContent(id));
+                    // console.log("Que hi ha al content state pel id?", id, state.getContent(id));
 
                     requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
                         np++;

@@ -680,6 +680,7 @@ span.arrow-icon {
 .dijitIocIconIocMergeCell { background-position-x: -504px; }
 .dijitIocIconIocTableDelete { background-position-x: -522px; }
 .dijitIocIconIocInsertTable{ background-position: -630px -18px;}
+.dijitIocIconIocToggleTableHeader{ background-position: -558px -18px;}
 
 
 /* Icons to show with dropdown buttons */
