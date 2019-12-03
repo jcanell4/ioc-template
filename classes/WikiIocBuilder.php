@@ -1,7 +1,7 @@
 <?php
 // check if we are running within the DokuWiki environment
 if(!defined("DOKU_INC")) die();
-if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', tpl_incdir() . 'classes/');
+if(!defined('DOKU_TPL_CLASSES')) define('DOKU_TPL_CLASSES', WikiGlobalConfig::tplIncDir().'classes/');
 
 require_once(DOKU_TPL_CLASSES . 'WikiIocBuilderManager.php');
 
