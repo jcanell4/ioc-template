@@ -264,7 +264,7 @@ if (newButton) {
                             var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
                             var query = 'call=new_page' + 
                                         '&do=new' + 
-                                        '&id=' + EspaiNoms.value + separacio + this._normalitzaCaracters(NouDocument.value) +
+                                        '&id=' + this._normalitzaCaracters(EspaiNoms.value) + separacio + this._normalitzaCaracters(NouDocument.value) +
                                         templatePar;
                             newButton.sendRequest(query);
                             dialog.hide();
@@ -274,7 +274,7 @@ if (newButton) {
                             var separacio = (EspaiNoms.value !== '') ? ':' : '';
                             var query = 'call=project' + 
                                         '&do=create_project' + 
-                                        '&id=' + EspaiNoms.value + separacio + this._normalitzaCaracters(NouProjecte.value) +
+                                        '&id=' + this._normalitzaCaracters(EspaiNoms.value) + separacio + this._normalitzaCaracters(NouProjecte.value) +
                                         '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.item.id;
                             newButton.sendRequest(query);
                             dialog.hide();
