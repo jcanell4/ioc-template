@@ -290,7 +290,7 @@ innerHTML: '<br><br>'
 }, botons);
 new Button({
 label: newButton.labelButtonAcceptar,
-_normalitzaCaracters: function(cadena) {
+_normalitzaCaracters: function(cadena, preserveSep) {
 cadena = cadena.toLowerCase();
 cadena = cadena.replace(/[áäàâ]/gi,"a");
 cadena = cadena.replace(/[éèëê]/gi,"e");
@@ -299,29 +299,36 @@ cadena = cadena.replace(/[óòöô]/gi,"o");
 cadena = cadena.replace(/[úùüû]/gi,"u");
 cadena = cadena.replace(/ç/gi,"c");
 cadena = cadena.replace(/ñ/gi,"n");
+if(preserveSep){
+cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
+}else{
 cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
+}
 cadena = cadena.replace(/_+/g,"_");
 cadena = cadena.replace(/^_+|_+$/g,"");
 return cadena;
 },
 onClick: function(){
+var separacio = "";
+if(EspaiNoms.value !== ''
+&& EspaiNoms.value.slice(-1)!==":"){
+separacio= ':';
+}
 if (selectProjecte.value === defaultProject) {
 if (NouDocument.value !== '') {
-var separacio = (EspaiNoms.value !== '') ? ':' : '';
 var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
 var query = 'call=new_page' +
 '&do=new' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value) + separacio + this._normalitzaCaracters(NouDocument.value) +
+'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouDocument.value) +
 templatePar;
 newButton.sendRequest(query);
 dialog.hide();
 }
 }else {
 if (NouProjecte.value !== '') {
-var separacio = (EspaiNoms.value !== '') ? ':' : '';
 var query = 'call=project' +
 '&do=create_project' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value) + separacio + this._normalitzaCaracters(NouProjecte.value) +
+'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouProjecte.value) +
 '&projectType=' + selectProjecte.item.id;
 newButton.sendRequest(query);
 dialog.hide();
