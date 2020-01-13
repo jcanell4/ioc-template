@@ -666,6 +666,7 @@ span.arrow-icon {
 .dijitIocIconIocUnderline { background-position: -234px -18px; }
 .dijitIocIconIocCode { background-position: -180px -18px; }
 .dijitIocIconIocStrikethrough { background-position: -252px -18px; }
+.dijitIocIconIocHeader0{ background-position: -108px -18px; }
 .dijitIocIconIocHeader1{ background-position-x: -306px; }
 .dijitIocIconIocHeader2{ background-position-x: -324px; }
 .dijitIocIconIocHeader3{ background-position-x: -342px; }
@@ -684,6 +685,8 @@ span.arrow-icon {
 .dijitIocIconIocTableAlignLeft{ background-position: -342px -18px; }
 .dijitIocIconIocTableAlignCenter{ background-position: -306px -18px; }
 .dijitIocIconIocTableAlignRight{ background-position: -360px -18px; }
+
+.dijitIocIconClearFormat{ background-position: -108px -18px; }
 
 /* Icons to show with dropdown buttons */
 .dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
