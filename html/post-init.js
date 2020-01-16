@@ -56,34 +56,34 @@ require([
             if (cur) {
                 style.set(cur, "overflow", "auto");
             }
-            disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
-            /*disp.changeWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
-            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_OUTBOX', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
-            disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
+            /*disp.initUpdateWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
+            disp.initUpdateWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_OUTBOX', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -111,9 +111,9 @@ require([
                         isManager = disp.getGlobalState().getIsManager(),
                         isRevision;
 
-                    if (page.ftpSendButton === true) {
-                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
-                    }
+//                    if (page.ftpSendButton === true) {
+//                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
+//                    }
 
                     if (page.action === 'view') {
                         if (selectedSection.id) {
