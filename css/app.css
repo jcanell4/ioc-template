@@ -659,12 +659,11 @@ span.arrow-icon {
 .dijitIocIconIocInsertAccountingSyntax { background-position-x: -144px; }
 
 
-
-
 .dijitIocIconIocBold { background-position: -198px -18px; }
 .dijitIocIconIocItalic { background-position: -216px -18px; }
 .dijitIocIconIocUnderline { background-position: -234px -18px; }
-.dijitIocIconIocCode { background-position: -180px -18px; }
+.dijitIocIconIocMonospace { background-position: -180px -18px; }
+.dijitIocIconIocCode { background-position: -756px -18px; }
 .dijitIocIconIocStrikethrough { background-position: -252px -18px; }
 .dijitIocIconIocHeader0{ background-position: -108px -18px; }
 .dijitIocIconIocHeader1{ background-position-x: -306px; }
