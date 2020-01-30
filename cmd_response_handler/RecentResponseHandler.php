@@ -36,7 +36,7 @@ class RecentResponseHandler extends WikiIocResponseHandler {
             ))
         );
 
-        $ajaxCmdResponseGenerator->addInfoDta($ajaxCmdResponseGenerator->generateInfo(
+        $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
                 'info',
                 WikiIocLangManager::getLang("recent_list_loaded"),
                 'recent_list'
