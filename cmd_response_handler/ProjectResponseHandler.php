@@ -771,7 +771,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
         if ($requestParams[PageKeys::KEY_TO_REQUIRE]) {
             $this->_addRequireDialogRefreshParams($params, $requestParams, $responseData);
-            $message = $ajaxCmdResponseGenerator->generateInfo('warning', $params['content']['requiring']['message'], $requestParams[ProjectKeys::KEY_ID], -1, $requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
+            $message = AjaxCmdResponseGenerator::generateInfo('warning', $params['content']['requiring']['message'], $requestParams[ProjectKeys::KEY_ID], -1, $requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
             $responseData[ProjectKeys::KEY_INFO] = $ajaxCmdResponseGenerator->addInfoToInfo($responseData[ProjectKeys::KEY_INFO], $message);
         } else {
             $this->_addDialogParamsToParams($params, $requestParams, $responseData);
