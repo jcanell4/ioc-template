@@ -111,9 +111,9 @@ require([
                         isManager = disp.getGlobalState().getIsManager(),
                         isRevision;
 
-//                    if (page.ftpSendButton === true) {
-//                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
-//                    }
+                    if (page.ftpSendButton === true) {
+                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
+                    }
 
                     if (page.action === 'view') {
                         if (selectedSection.id) {
