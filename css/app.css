@@ -2129,6 +2129,18 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element]{
     margin-top:3px;
 }
 
+.picker.symbols {
+	padding:5px;
+}
+
+.symbols button.pickerbutton {
+	padding: 2px;
+	font-size: 15px;
+}
+
+.symbols button.pickerbutton:hover {
+	color: red;
+}
 
 
 
