@@ -69,6 +69,10 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         if ($responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]){
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_FTPSEND_BUTTON, $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
         }
+
+        if ($responseData['user_state']) {
+            $ajaxCmdResponseGenerator->addUserState($responseData['user_state']);
+        }
     }
 
     protected function preResponse($requestParams, &$ajaxCmdResponseGenerator) {

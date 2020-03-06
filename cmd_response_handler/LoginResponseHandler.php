@@ -25,10 +25,6 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                 $responseData['loginResult'],
                                                 $responseData['userId']);
 
-        if ($responseData['user_state']) {
-            $ajaxCmdResponseGenerator->addUserState($responseData['user_state']);
-        }
-
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
         if($responseData["loginResult"]){
