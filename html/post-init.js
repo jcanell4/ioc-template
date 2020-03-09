@@ -293,7 +293,6 @@ require([
 
                 var queryParams, page, ns, projectType, metaDataSubSet, elid;
 
-
                 for (var id in state.pages) {
 
                     if (paramId && paramId !== state.pages[id].ns) {
@@ -301,6 +300,11 @@ require([
                         console.log("S'està carregant un URL específic, ignorant la càrrega de ", state.pages[id].ns);
                         continue;
                     }
+
+                    //Podriem ignorar les 'pages.undefined{}'
+                    //if (typeof(state.pages.undefined) === "object") {
+                    //    continue;
+                    //}
                     
                     queryParams = '';
 
@@ -379,10 +383,13 @@ require([
                             queryParams += '&rev1=' + page.rev1;
                         }
 
+                    } else if (id === "user_profile" && state.currentTabId === "user_profile") {
+                        user = state.userId;
+                        queryParams = 'call=profile&page=usermanager&user='+user+'&fn[edit]['+user+']=1' + '&basura=';
+                        
                     } else {
                         queryParams = "call=page&id=";
                     }
-
                     // console.log("Que hi ha al content state pel id?", id, state.getContent(id));
 
                     requestState.sendRequest(queryParams + state.getContent(id).ns).always(function () {
