@@ -21,6 +21,7 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                 "urlBase" => $urlBase,
                 "method" => "post",
                 "query" => "page=".$requestParams["page"],
+                "delay" => WikiGlobalConfig::getConf('delay_recall')*1000
             );
             $ajaxCmdResponseGenerator->addProcessFunction(TRUE, "ioc/dokuwiki/recallCommand", $params);
         }
