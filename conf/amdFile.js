@@ -350,6 +350,169 @@ return false;
 });
 require([
 "dijit/registry"
+,"dojo/dom"
+,"dojo/dom-construct"
+,"dojo/dom-style"
+,"dijit/layout/BorderContainer"
+,"dijit/Dialog"
+,"dijit/layout/ContentPane"
+,"dijit/form/Form"
+,"dijit/form/TextBox"
+,"dijit/form/Button"
+,"dijit/form/ComboBox"
+,"dojo/store/JsonRest"
+,"ioc/gui/NsTreeContainer"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
+var renameButton = registry.byId('renameFolderButton');
+if (renameButton) {
+renameButton.onClick = function () {
+var defaultProject = 'defaultProject';
+var path = [];
+var dialog = registry.byId("newDocumentDlg");
+if(!dialog){
+dialog = new Dialog({
+id: "newDocumentDlg",
+title: renameButton.dialogTitle,
+style: "width: 470px; height: 350px;",
+renameButton: renameButton
+});
+dialog.on('hide', function () {
+dialog.destroyRecursive(false);
+domConstruct.destroy("newDocumentDlg");
+});
+dialog.on('show', function () {
+dialog.dialogTree.tree.set('path',path).then(function(){
+dom.byId('textBoxNouNom').focus();
+});
+dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+dom.byId('textBoxEspaiNoms').focus();
+});
+dialog.nsActivePage = function (){
+path.length=0;
+if (this.renameButton.dispatcher.getGlobalState().currentTabId) {
+var stPath = "";
+var aPath = this.renameButton.dispatcher.getGlobalState().getContent(this.renameButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+aPath = aPath.split(':');
+aPath.pop();
+aPath.unshift("");
+for (var i=0; i<aPath.length; i++) {
+if (i > 1) {
+stPath = stPath + ":";
+}
+stPath = stPath + aPath[i];
+path[i]=stPath;
+}
+}
+};
+dialog.setDefaultDocumentName = function(n,o,e) {
+dom.byId('textBoxNouNom').value = e;
+dom.byId('textBoxNouNom').focus();
+};
+var bc = new BorderContainer({
+style: "height: 300px; width: 450px;"
+});
+var cpEsquerra = new ContentPane({
+region: "left",
+style: "width: 220px"
+});
+bc.addChild(cpEsquerra);
+var cpDreta = new ContentPane({
+region: "center"
+});
+bc.addChild(cpDreta);
+bc.placeAt(dialog.containerNode);
+var divizquierda = domConstruct.create('div', {
+className: 'izquierda'
+},cpEsquerra.containerNode);
+var dialogTree = new NsTreeContainer({
+treeDataSource: 'lib/exe/ioc_ajaxrest.php/ns_tree_rest/',
+onlyDirs:true,
+hiddenProjects:true
+}).placeAt(divizquierda);
+dialogTree.startup();
+dialog.dialogTree = dialogTree;
+dialogTree.tree.onClick=function(item) {
+dom.byId('textBoxEspaiNoms').value= item.id;
+dom.byId('textBoxEspaiNoms').focus();
+};
+var divdreta = domConstruct.create('div', {
+className: 'dreta'
+},cpDreta.containerNode);
+var form = new Form().placeAt(divdreta);
+var divEspaiNoms = domConstruct.create('div', {
+className: 'divEspaiNoms'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: renameButton.EspaideNomslabel + '<br>'
+},divEspaiNoms);
+var EspaiNoms = new TextBox({
+id: 'textBoxEspaiNoms',
+placeHolder: renameButton.EspaideNomsplaceHolder
+}).placeAt(divEspaiNoms);
+dialog.textBoxEspaiNoms = EspaiNoms;
+var divNouNom = domConstruct.create('div', {
+id: 'id_divNouNom',
+className: 'divNouNom'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + renameButton.NouNomlabel + '<br>'
+}, divNouNom);
+var NouNom = new TextBox({
+id: "textBoxNouNom",
+placeHolder: renameButton.NouNomplaceHolder
+}).placeAt(divNouNom);
+var botons = domConstruct.create('div', {
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>'
+}, botons);
+new Button({
+label: renameButton.labelButtonAcceptar,
+_normalitzaCaracters: function(cadena, preserveSep) {
+cadena = cadena.toLowerCase();
+cadena = cadena.replace(/[áäàâ]/gi,"a");
+cadena = cadena.replace(/[éèëê]/gi,"e");
+cadena = cadena.replace(/[íìïî]/gi,"i");
+cadena = cadena.replace(/[óòöô]/gi,"o");
+cadena = cadena.replace(/[úùüû]/gi,"u");
+cadena = cadena.replace(/ç/gi,"c");
+cadena = cadena.replace(/ñ/gi,"n");
+if(preserveSep){
+cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
+}else{
+cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
+}
+cadena = cadena.replace(/_+/g,"_");
+cadena = cadena.replace(/^_+|_+$/g,"");
+return cadena;
+},
+onClick: function(){
+if (NouNom.value !== '') {
+var query = 'call=rename_folder' +
+'&do=rename' +
+'&old_name=' + this._normalitzaCaracters(EspaiNoms.value, true) +
+'&new_name=' + this._normalitzaCaracters(NouNom.value);
+renameButton.sendRequest(query);
+dialog.hide();
+}
+}
+}).placeAt(botons);
+new Button({
+label: renameButton.labelButtonCancellar,
+onClick: function(){dialog.hide();}
+}).placeAt(botons);
+form.startup();
+}
+dialog.nsActivePage();
+dialog.show();
+return false;
+};
+}
+});
+require([
+"dijit/registry"
 ,"ioc/functions/getValidator"
 ], function (registry,getValidator) {
 var button = registry.byId('editButton');

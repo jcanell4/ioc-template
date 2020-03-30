@@ -62,7 +62,7 @@ class cfgIdConstants
 
     const ZONA_CANVI = "zonaCanvi";
     const NEW_BUTTON = "newButton";
-    const NEW_BUTTON_DIALOG = "newButtonDialog";
+    /*const NEW_BUTTON_DIALOG = "newButtonDialog";*/
     const SAVE_BUTTON = "saveButton";
     const CANCEL_BUTTON = "cancelButton";
     const EDIT_BUTTON = "editButton";
@@ -77,6 +77,7 @@ class cfgIdConstants
     const REVERT_BUTTON = "revertButton";
     const RENAME_PROJECT_BUTTON = "renameProjectButton";
     const REMOVE_PROJECT_BUTTON = "removeProjectButton";
+    const RENAME_FOLDER_BUTTON = "renameFolderButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";

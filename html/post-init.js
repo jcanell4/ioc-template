@@ -58,10 +58,10 @@ require([
             }
             disp.initUpdateWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", false);
-            /*disp.initUpdateWidgetProperty('cfgIdConstants::PREVIEW_BUTTON', "visible", false);*/
             disp.initUpdateWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", false);
@@ -100,6 +100,7 @@ require([
                     send_button_visible = disp.getGlobalState().permissions['isadmin'];
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
                 disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", true);
                 disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_OUTBOX', "visible", true);
