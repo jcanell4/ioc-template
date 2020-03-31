@@ -649,6 +649,7 @@ span.arrow-icon {
 .dijitIocIconIocBack { background-position-x: -36px; }
 .dijitIocIconIocSave { background-position-x: -54px; }
 .dijitIocIconIocDocumentPreview { background-position-x: -72px; }
+.dijitIocIconIocSwitchEditorAce { background-position-x: -810px}
 
 /* IOC syntax buttons */
 .dijitIocIconIocNewContent { background-position-x: -90px; }
