@@ -4,8 +4,6 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN . 'ajaxcommand/defkeys/ResponseHandlerKeys.php');
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
 

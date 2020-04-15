@@ -4,7 +4,6 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-require_once(DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/ResponseHandlerKeys.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 
 class CancelResponseHandler extends PageResponseHandler {

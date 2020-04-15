@@ -4,8 +4,6 @@
  * @author Josep Cañellas <jcanell4@ioc.cat>
  */
 if (!defined("DOKU_INC")) die();
-if (!defined('DOKU_COMMAND')) define('DOKU_COMMAND', DOKU_INC."lib/plugins/ajaxcommand/");
-require_once(DOKU_COMMAND.'defkeys/ResponseHandlerKeys.php');
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/PageResponseHandler.php');
 require_once(DOKU_TPL_INCDIR.'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/utility/ExpiringCalc.php');

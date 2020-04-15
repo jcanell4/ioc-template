@@ -1,10 +1,7 @@
 <?php
-require_once (DOKU_INC . 'lib/plugins/ajaxcommand/defkeys/GlobalKeys.php');
 
 class cfgIdConstants
 {
-
-    //id principal
     const MAIN = "main";
 
     //elemento topBloc de MAIN
