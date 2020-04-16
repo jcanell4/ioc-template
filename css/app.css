@@ -295,7 +295,7 @@ table.diff th.author {
 .iocIconClose { background-position: -416px; }
 .iocIconUpload { background-position: -448px; }
 .iocIconMediaEdit { background-position: -480px; }
-iocIconRenameFolder { background-position: -512px; }
+.iocIconRenameFolder { background-position: -512px; }
 
 
 /* NOTIFICATIONS */
