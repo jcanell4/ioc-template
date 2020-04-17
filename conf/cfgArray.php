@@ -1366,6 +1366,30 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'iYa_ftp_project' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'ftpProjectButton',
+                  'title' => 'Envia fitxers de projecte via FTP',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=ftp\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconFtpProject\'',
+                  'standbyId' => 'topBloc',
+                  'hasTimer' => true,
+                  'urlBase' => '\'lib/exe/ioc_ajax.php?call=project\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';var globalState = this.dispatcher.getGlobalState();if (globalState.currentTabId) { var ns = globalState.getContent(globalState.currentTabId).ns; var pType = globalState.getContent(globalState.currentTabId).projectType; var pMoodleToken = globalState.getUserState(\'moodleToken\'); _ret=(this.query) ? this.query + \'&id=\'+ns : \'id=\'+ns; if (pType && pType!==\'\' && pType!==undefined) _ret+=\'&projectType=\'+pType; if (pMoodleToken && pMoodleToken!==\'\' && pMoodleToken!==undefined) _ret+=\'&moodleToken=\'+pMoodleToken; }return _ret;}',
+                ),
+              ),
+            ),
             'iZ0_rename_project' => 
             array (
               'class' => 'WikiEventButton',

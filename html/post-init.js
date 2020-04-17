@@ -76,6 +76,7 @@ require([
             disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", false);
@@ -114,6 +115,10 @@ require([
 
                     if (page.ftpSendButton === true) {
                         disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
+                    }
+
+                    if (page.ftpProjectButton === true) {
+                        disp.changeWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", send_button_visible);
                     }
 
                     if (page.action === 'view') {
