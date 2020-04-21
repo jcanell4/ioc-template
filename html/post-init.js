@@ -97,8 +97,10 @@ require([
                                           disp.getGlobalState().permissions['isprojectmanager']);
                 }
                 var send_button_visible = false;
+                var ftpproject_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
                     send_button_visible = disp.getGlobalState().permissions['isadmin'];
+                    ftpproject_button_visible = disp.getGlobalState().permissions['isadmin'] || disp.getGlobalState().permissions['ismanager'];
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
@@ -118,7 +120,7 @@ require([
                     }
 
                     if (page.ftpProjectButton === true) {
-                        disp.changeWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", send_button_visible);
+                        disp.changeWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", ftpproject_button_visible);
                     }
 
                     if (page.action === 'view') {
