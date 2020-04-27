@@ -6,7 +6,4 @@ if (globalState.currentTabId) {
     var pType = globalState.getContent(globalState.currentTabId).projectType;
     if (pType && pType!=="" && pType!==undefined) 
         _ret+="&projectType="+pType;
-    var pMoodleToken = globalState.getUserState("moodleToken");
-    if (pMoodleToken && pMoodleToken!=="" && pMoodleToken!==undefined) 
-        _ret+="&moodleToken="+pMoodleToken;
 }

@@ -11,8 +11,8 @@ $arrParcial = array(
                                            "query" => "'do=ftp_project'"
                                           ,"autoSize" => true
                                           ,"visible" => false
-                                          ,"iconClass" => "'iocIconFtpProject'"
-                                          ,"standbyId" => cfgIdConstants::TOP_BLOC
+                                          ,"iconClass" => "'iocIconUpload'"
+                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                           ,"hasTimer" => true
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php?call=project'"
                                         )
