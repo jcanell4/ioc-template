@@ -38,12 +38,12 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         unset($evt);
         $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
 
-        $projectId = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
+        $id = ($responseData[ProjectKeys::KEY_ID]) ? $responseData[ProjectKeys::KEY_ID] : $responseData['info'][ProjectKeys::KEY_ID];
 
         if ($requestParams[ProjectKeys::PROJECT_TYPE] && !isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if (!$responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::PROJECT_TYPE]) {
                 //es una página de un proyecto pero (es raro) no tiene aún: $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA]['projectType']
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
+                $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_TYPE, $requestParams[ProjectKeys::PROJECT_TYPE]);
             }
 
         } else if ($data['command'] !== 'notify'){  //S'ha de canviar aquesta condició per alguna cosa més genèrica que només englobi comandes de documents
@@ -53,19 +53,19 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         }
 
         if ($requestParams[ProjectKeys::PROJECT_OWNER]) {
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_OWNER, $requestParams[ProjectKeys::PROJECT_OWNER]);
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::PROJECT_SOURCE_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_OWNER, $requestParams[ProjectKeys::PROJECT_OWNER]);
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::PROJECT_SOURCE_TYPE, $requestParams[ProjectKeys::PROJECT_SOURCE_TYPE]);
         }
         if ($responseData[ProjectKeys::KEY_GENERATED]){
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::KEY_GENERATED, $responseData[ProjectKeys::KEY_GENERATED]);
         }
         if ($responseData[ProjectKeys::KEY_ID] && $responseData[ProjectKeys::KEY_CODETYPE] !== ProjectKeys::VAL_CODETYPE_REMOVE) {
             $value = ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] === "1"||$responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN] >=1 ) ? "1" : "0";
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $value);
         }
 
-        if ($responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]){
-            $ajaxCmdResponseGenerator->addExtraContentStateResponse($projectId, ProjectKeys::KEY_FTPSEND_BUTTON, $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
+        if ($responseData[AjaxKeys::KEY_ACTIVA_FTPSEND_BTN]){
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::KEY_FTPSEND_BUTTON, $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
         }
 
         if ($responseData['user_state']) {
