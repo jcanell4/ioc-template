@@ -20,6 +20,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         parent::__construct(($cmd !== NULL) ? $cmd : ProjectKeys::KEY_PROJECT);
     }
 
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+
+        if ($responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]) {
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], AjaxKeys::KEY_FTP_PROJECT_BUTTON, $responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]);
+        }
+    }
+
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $this->responseData = $responseData;
         if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
@@ -42,13 +50,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
 
-            if ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]) {
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]);
-            }
-
-            if ($responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]) {
-                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], AjaxKeys::KEY_FTP_PROJECT_BUTTON, $responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]);
-            }
+//            if ($responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]) {
+//                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData[ProjectKeys::KEY_ACTIVA_UPDATE_BTN]);
+//            }
 
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_GENERATED] = $responseData[ProjectKeys::KEY_GENERATED];
