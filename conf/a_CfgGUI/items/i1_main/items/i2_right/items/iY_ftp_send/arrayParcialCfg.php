@@ -12,9 +12,9 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,"iconClass" => "'iocIconUpload'"
-                                          ,"standbyId" => cfgIdConstants::TOP_BLOC
-//                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
+                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                           ,"hasTimer" => true
+                                          ,'disableOnSend' => true
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php?call=ftpsend'"
                                         )
                             )
