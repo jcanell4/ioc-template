@@ -14,6 +14,7 @@ $arrParcial = array(
                                           ,"iconClass" => "'iocIconUpload'"
                                           ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                           ,"hasTimer" => true
+                                          ,'disableOnSend' => true
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php?call=project'"
                                         )
                             )

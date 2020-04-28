@@ -554,3 +554,19 @@ if (ftpSendButton) {
 ftpSendButton.onClick = fOnClick;
 }
 });
+require([
+"dijit/registry"
+,"ioc/wiki30/dispatcherSingleton"
+], function (registry,dispatcherSingleton) {
+var dispatcher = dispatcherSingleton();
+var ftpSendButton = registry.byId('ftpProjectButton');
+var globalState = dispatcher.getGlobalState();
+var fOnClick = function () {
+var id = dispatcher.getGlobalState().getCurrentId();
+registry.byId("zonaMetaInfo").selectChild(id + "_ftpsend");
+this.setStandbyId(id + "_ftpsend");
+};
+if (ftpSendButton) {
+ftpSendButton.onClick = fOnClick;
+}
+});
