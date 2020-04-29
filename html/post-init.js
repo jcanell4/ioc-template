@@ -115,6 +115,12 @@ require([
                         isManager = disp.getGlobalState().getIsManager(),
                         isRevision;
 
+                    if (!(page.action==='view' || page.action==="view_form" || page.action==="project_view")) {
+                        new_button_visible = false;
+                    }
+                    disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                    disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
+                        
                     if (page.ftpSendButton === true) {
                         disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
                     }
