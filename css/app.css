@@ -302,6 +302,7 @@ table.diff th.author {
 .iocIconClose { background-position: -416px; }
 .iocIconUpload { background-position: -448px; }
 .iocIconMediaEdit { background-position: -480px; }
+.iocIconRenameFolder { background-position: -512px; }
 
 
 /* NOTIFICATIONS */
@@ -2056,9 +2057,11 @@ form.ioc-bootstrap.form-dialog {
 	font-style: italic;
 }
 
-div.editComment {
+span.editComment {
 	display: none;
 }
+
+
 
 /*.ioc-reply-list div:first-child {*/
 /*background-color:#FEE067;*/
@@ -2091,7 +2094,7 @@ span.ioc-comment-toolbar-button {
 	font-size: smaller;
 }
 
-div.ioc-comment [data-type="ioc-comment"] {
+span.ioc-comment [data-type="ioc-comment"] {
 	float: right;
 	display: block;
 	max-width: 350px;
