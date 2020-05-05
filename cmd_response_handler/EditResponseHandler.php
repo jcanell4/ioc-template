@@ -124,6 +124,11 @@ class EditResponseHandler extends WikiIocResponseHandler
             $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         }
 
+        if ($requestParams['contentFormat']) {
+            $responseData['format'] = $requestParams['contentFormat'];
+        }
+
+
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
         $this->addEditDocumentCommand($responseData, $cmdResponseGenerator, $recoverDrafts, $editing, $timer, $autosaveTimer);
     }
