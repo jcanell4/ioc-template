@@ -348,8 +348,8 @@ if (newButton) {
                         if (EspaiNoms.value !== '') {
                             var apartats = "{";
                             for (var i=1; i<=NumUnitats.value; i++) {
-                                unitat = 'id_input_u'+i;
-                                apartats += 'u'+i + ":" + formNewButton["id_input_u1"].value + ",";
+                                var unitat = 'id_input_u'+i;
+                                apartats += 'u'+i + ":" + formNewButton[unitat].value + ",";
                             }
                             apartats += "}";
                             var query = 'call=new_material' + 
