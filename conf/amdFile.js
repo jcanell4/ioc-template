@@ -392,16 +392,14 @@ dialog.hide();
 }
 }else if (selectProjecte.value === materials) {
 if (EspaiNoms.value !== '') {
-var apartats = "{";
+var apartats = {};
 for (var i=1; i<=NumUnitats.value; i++) {
-var unitat = 'id_input_u'+i;
-apartats += 'u'+i + ":" + formNewButton[unitat].value + ",";
+apartats['u'+i] = formNewButton['id_input_u'+i].value;
 }
-apartats += "}";
 var query = 'call=new_material' +
 '&do=new' +
 '&id=' + this._normalitzaCaracters(EspaiNoms.value, true) +
-'&unitats=' + apartats;
+'&unitats=' + JSON.stringify(apartats);
 newButton.sendRequest(query);
 dialog.hide();
 }
