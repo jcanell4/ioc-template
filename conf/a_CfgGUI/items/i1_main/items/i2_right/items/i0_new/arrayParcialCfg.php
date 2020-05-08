@@ -26,6 +26,9 @@ $arrParcial = array(
                                           ,"TemplatesplaceHolder" => "'Selecció de la plantilla'"
                                           ,"NouDocumentlabel" => "'Nom del nou Document'"
                                           ,"NouDocumentplaceHolder" => "'Nom del nou Document'"
+                                          ,"NumUnitatslabel" => "'Indica el nombre d\'unitats'"
+                                          ,"NumUnitatsplaceHolder" => "'nombre d\'unitats'"
+                                          ,"labelButtonNumUnitats" => "'mostra taula'"
                                           ,"labelButtonAcceptar" => "'Acceptar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
                                         )
