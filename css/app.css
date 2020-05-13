@@ -654,6 +654,7 @@ span.arrow-icon {
 .dijitDisabled .dijitIocIconIocComment { opacity: 0.5; }
 .dijitIocIconIocSound { background-position-x: -18px; }
 .dijitIocIconIocVideo { background-position-x: -792px; }
+.dijitIocIconIocGif { background-position-x: -774px; }
 .dijitIocIconIocBack { background-position-x: -36px; }
 .dijitIocIconIocSave { background-position-x: -54px; }
 .dijitIocIconIocDocumentPreview { background-position-x: -72px; }
