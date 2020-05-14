@@ -912,6 +912,8 @@ $_arrIocCfgGUI = array (
                   'labelButtonNumUnitats' => '\'mostra taula\'',
                   'labelButtonAcceptar' => '\'Acceptar\'',
                   'labelButtonCancellar' => '\'Cancel·lar\'',
+                  'standbyId' => 'bodyContent',
+                  'disableOnSend' => true,
                   'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent( this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
                 ),
               ),

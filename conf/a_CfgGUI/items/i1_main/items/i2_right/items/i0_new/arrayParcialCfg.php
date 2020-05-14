@@ -31,6 +31,8 @@ $arrParcial = array(
                                           ,"labelButtonNumUnitats" => "'mostra taula'"
                                           ,"labelButtonAcceptar" => "'Acceptar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
+                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
+                                          ,'disableOnSend' => true
                                         )
                             )
               );
