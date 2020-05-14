@@ -16,7 +16,6 @@ var renameButton = registry.byId('cfgIdConstants::RENAME_FOLDER_BUTTON');
 if (renameButton) {
 
     renameButton.onClick = function () {
-        var defaultProject = 'defaultProject';
         var path = [];
         var dialog = registry.byId("newDocumentDlg");
 

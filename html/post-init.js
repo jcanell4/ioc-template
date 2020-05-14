@@ -110,102 +110,111 @@ require([
 
                 if (disp.getGlobalState().currentTabId) {
 
-                    var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId),
-                        selectedSection = disp.getGlobalState().getCurrentElement(),
-                        isManager = disp.getGlobalState().getIsManager(),
-                        isRevision;
+                    var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
+                    
+                    if (page.action !== undefined) {
+                        var selectedSection = disp.getGlobalState().getCurrentElement();
+                        var isManager = disp.getGlobalState().getIsManager();
+                        var isRevision;
 
-                    if (page.ftpSendButton === true) {
-                        disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
-                    }
-
-                    if (page.ftpProjectButton === true) {
-                        disp.changeWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", ftpproject_button_visible);
-                    }
-
-                    if (page.action === 'view') {
-                        if (selectedSection.id) {
-                            disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
+                        if (!(page.action==='view' || page.action==="view_form" || page.action==="project_view")) {
+                            new_button_visible = false;
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-                    }
-                    else if (page.action === 'sec_edit') {
-                        if (selectedSection.id) {
-                            if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
-                                // La edició seleccionada està en edició
-                                var ro = disp.getContentCache(cur).getMainContentTool().locked ||
-                                         disp.getContentCache(cur).getMainContentTool().readonly;
-                                disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", !ro);
-                                disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
-                            } else {
-                                // La edició seleccionada no està en edició
+                        disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                        disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
+
+                        if (page.ftpSendButton === true) {
+                            disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
+                        }
+
+                        if (page.ftpProjectButton === true) {
+                            disp.changeWidgetProperty('cfgIdConstants::FTP_PROJECT_BUTTON', "visible", ftpproject_button_visible);
+                        }
+
+                        if (page.action === 'view') {
+                            if (selectedSection.id) {
                                 disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                             }
+                            disp.changeWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", true);
+                            disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
                         }
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-                    }
-                    else if (page.action === 'edit') {
-                        var ro = disp.getContentCache(cur).getMainContentTool().locked ||
-                                 disp.getContentCache(cur).getMainContentTool().readonly;
-
-                        isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
-                        if (isRevision) {
-                            disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
-                        }
-
-                        disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
-                        disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
-
-                        if (cur) {
-                            style.set(cur, "overflow", "hidden");
-                        }
-                        disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
-                    }
-                    else if (page.action === "form" || page.action === "project_edit" || page.action === "project_partial") {
-                        disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
-                        if (page.generated===false) {
-                            disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
-                        }
-                        disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
-                    }
-                    else if (page.action === "view_form" || page.action === "project_view") {
-                        if (page.generated===false) {
-                            disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
-                        }
-
-                        isRevision = disp.getContentCache(cur).getMainContentTool().get('isRevision');
-                        if (!isRevision) {
-                            disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
-                            
-                            if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
-                                if (isManager || page.rol === "responsable") {
-                                    disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                        else if (page.action === 'sec_edit') {
+                            if (selectedSection.id) {
+                                if (selectedSection.state) { // TODO[Xavi] per ara considerem qualsevol valor com a en edició
+                                    // La edició seleccionada està en edició
+                                    var ro = disp.getContentCache(cur).getMainContentTool().locked ||
+                                             disp.getContentCache(cur).getMainContentTool().readonly;
+                                    disp.changeWidgetProperty('cfgIdConstants::SAVE_PARC_BUTTON', "visible", !ro);
+                                    disp.changeWidgetProperty('cfgIdConstants::CANCEL_PARC_BUTTON', "visible", true);
+                                } else {
+                                    // La edició seleccionada no està en edició
+                                    disp.changeWidgetProperty('cfgIdConstants::ED_PARC_BUTTON', "visible", true);
                                 }
-                                if (isManager) {
-                                    disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
+                            }
+                            disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
+                        }
+                        else if (page.action === 'edit') {
+                            var ro = disp.getContentCache(cur).getMainContentTool().locked ||
+                                     disp.getContentCache(cur).getMainContentTool().readonly;
+
+                            isRevision = disp.getContentCache(cur).getMainContentTool().rev ? true : false;
+                            if (isRevision) {
+                                disp.changeWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", true);
+                            }
+
+                            disp.changeWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", !ro);
+                            disp.changeWidgetProperty('cfgIdConstants::CANCEL_BUTTON', "visible", true);
+
+                            if (cur) {
+                                style.set(cur, "overflow", "hidden");
+                            }
+                            disp.changeWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", true);
+                        }
+                        else if (page.action === "form" || page.action === "project_edit" || page.action === "project_partial") {
+                            disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
+                            if (page.generated===false) {
+                                disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                            }
+                            disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
+                        }
+                        else if (page.action === "view_form" || page.action === "project_view") {
+                            if (page.generated===false) {
+                                disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
+                            }
+
+                            isRevision = disp.getContentCache(cur).getMainContentTool().get('isRevision');
+                            if (!isRevision) {
+                                disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
+
+                                if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
+                                    if (isManager || page.rol === "responsable") {
+                                        disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
+                                    }
+                                    if (isManager) {
+                                        disp.changeWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", true);
+                                    }
                                 }
                             }
                         }
-                    }
-                    else if (page.action === 'media') {
-                        selectedSection = disp.getGlobalState().getCurrentElement();
-                        if (selectedSection.id) {
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
-                        }
-                        disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
-                    }
-                    else if (page.action === 'mediadetails') {
-                        var pageDif = (page.mediado && page.mediado === "diff");
-                        if (!pageDif) {
-                            disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", true);
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", true);
-                            if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
-                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
+                        else if (page.action === 'media') {
+                            selectedSection = disp.getGlobalState().getCurrentElement();
+                            if (selectedSection.id) {
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_SUPRESSIO_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_DETAIL_BUTTON', "visible", true);
                             }
-                        } else {
-                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
+                            disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPLOAD_BUTTON', "visible", true);
+                        }
+                        else if (page.action === 'mediadetails') {
+                            var pageDif = (page.mediado && page.mediado === "diff");
+                            if (!pageDif) {
+                                disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", true);
+                                if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
+                                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
+                                }
+                            } else {
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
+                            }
                         }
                     }
                 }

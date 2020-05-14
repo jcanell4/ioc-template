@@ -59,7 +59,6 @@ class cfgIdConstants
 
     const ZONA_CANVI = "zonaCanvi";
     const NEW_BUTTON = "newButton";
-    /*const NEW_BUTTON_DIALOG = "newButtonDialog";*/
     const SAVE_BUTTON = "saveButton";
     const CANCEL_BUTTON = "cancelButton";
     const EDIT_BUTTON = "editButton";

@@ -129,14 +129,15 @@ require([
 var newButton = registry.byId('newButton');
 if (newButton) {
 newButton.onClick = function () {
-var defaultProject = 'defaultProject';
+var materials = 'defaultProject';
+var wikipages = 'wikipages';
 var path = [];
 var dialog = registry.byId("newDocumentDlg");
 if(!dialog){
 dialog = new Dialog({
 id: "newDocumentDlg",
 title: newButton.dialogTitle,
-style: "width: 470px; height: 350px;",
+style: "width: 590px; height: 350px;",
 newButton: newButton
 });
 dialog.on('hide', function () {
@@ -149,7 +150,7 @@ dom.byId('textBoxNouDocument').focus();
 });
 dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
 dom.byId('textBoxEspaiNoms').focus();
-dialog.switchBloc(null,null,defaultProject);
+dialog.switchBloc(null,null,wikipages);
 });
 dialog.nsActivePage = function (){
 path.length=0;
@@ -169,22 +170,52 @@ path[i]=stPath;
 }
 };
 dialog.switchBloc = function(n,o,e) {
-if (e === defaultProject || selectProjecte.value === defaultProject) {
-dom.byId('id_divNouProjecte').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Projecte'
-dom.byId('id_divTemplate').hidden = false;      //muestra el DIV que contiene el combo de 'Plantilla'
-dom.byId('id_divNouDocument').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Document'
+if (e === wikipages || selectProjecte.value === wikipages) {
+dom.byId('id_divNouProjecte').hidden = true;   //oculta el DIV que contiene el textBox de 'Nou Projecte'
+dom.byId('id_divNumUnitats').hidden = true;    //oculta el DIV que contiene el textBox de 'Num. Unitats'
+dom.byId('id_divBotoUnitats').hidden = true;   //oculta el DIV que contiene el Botón de 'Enviar Num. Unitats'
+dom.byId('id_divTaulaUnitats').hidden = true;  //oculta el DIV que contiene la taula 'Unitats-Apartats'
+dom.byId('id_divTemplate').hidden = false;     //muestra el DIV que contiene el combo de 'Plantilla'
+dom.byId('id_divNouDocument').hidden = false;  //muestra el DIV que contiene el textBox de 'Nou Document'
+}else if (e === materials || selectProjecte.value === materials) {
+dom.byId('id_divNouProjecte').hidden = true;   //oculta el DIV que contiene el textBox de 'Nou Projecte'
+dom.byId('id_divNumUnitats').hidden = false;   //muestra el DIV que contiene el textBox de 'Num. Unitats'
+dom.byId('id_divBotoUnitats').hidden = false;  //muestra el DIV que contiene el Botón de 'Enviar Num. Unitats'
+dom.byId('id_divTaulaUnitats').hidden = false; //muestra el DIV que contiene la taula 'Unitats-Apartats'
+dom.byId('id_divTemplate').hidden = true;      //oculta el DIV que contiene el combo de 'Plantilla'
+dom.byId('id_divNouDocument').hidden = true;   //oculta el DIV que contiene el textBox de 'Nou Document'
 }else{
-dom.byId('id_divNouProjecte').hidden = false;   //muestra el DIV que contiene el textBox de 'Nou Projecte'
-dom.byId('id_divTemplate').hidden = true;       //oculta el DIV que contiene el combo de 'Plantilla'
-dom.byId('id_divNouDocument').hidden = true;    //oculta el DIV que contiene el textBox de 'Nou Document'
+dom.byId('id_divNouProjecte').hidden = false;  //muestra el DIV que contiene el textBox de 'Nou Projecte'
+dom.byId('id_divNumUnitats').hidden = true;    //oculta el DIV que contiene el textBox de 'Num. Unitats'
+dom.byId('id_divBotoUnitats').hidden = true;   //oculta el DIV que contiene el Botón de 'Enviar Num. Unitats'
+dom.byId('id_divTaulaUnitats').hidden = true;  //oculta el DIV que contiene la taula 'Unitats-Apartats'
+dom.byId('id_divTemplate').hidden = true;      //oculta el DIV que contiene el combo de 'Plantilla'
+dom.byId('id_divNouDocument').hidden = true;   //oculta el DIV que contiene el textBox de 'Nou Document'
 }
 };
 dialog.setDefaultDocumentName = function(n,o,e) {
 dom.byId('textBoxNouDocument').value = e;
 dom.byId('textBoxNouDocument').focus();
 };
+dialog.mostraTaula = function(divTaulaUnitats, num) {
+var td, i, unitat;
+var padding = "padding:2px 5px";
+var bold = "padding:2px 5px; font-weight:bold";
+var table = domConstruct.create("table", null, divTaulaUnitats);
+var tr = domConstruct.create("tr", null, table);
+domConstruct.create("td", {style:bold, innerHTML:"unitat"}, tr);
+domConstruct.create("td", {style:bold, innerHTML:"apartat"}, tr);
+for (i=1; i<=num; i++) {
+unitat = 'u'+i;
+tr = domConstruct.create("tr", {id:"tr_"+unitat}, table);
+domConstruct.create("td", {id:"td_unitat_"+i, style:bold, innerHTML:unitat}, tr);
+td = domConstruct.create("td", {id:"td_apartat_"+i, style:padding}, tr);
+domConstruct.create("input", {id:"id_input_"+unitat, name:unitat, form:"formNewButton", type:"text", style:{width:"3em"}}, td);
+}
+dom.byId('id_divTaulaUnitats').hidden = false;
+};
 var bc = new BorderContainer({
-style: "height: 300px; width: 450px;"
+style: "height: 300px; width: 570px;"
 });
 var cpEsquerra = new ContentPane({
 region: "left",
@@ -192,9 +223,15 @@ style: "width: 220px"
 });
 bc.addChild(cpEsquerra);
 var cpDreta = new ContentPane({
-region: "center"
+region: "center",
+style: "width: 250px"
 });
 bc.addChild(cpDreta);
+var cpTaula = new ContentPane({
+region: "right",
+style: "width: 100px"
+});
+bc.addChild(cpTaula);
 bc.placeAt(dialog.containerNode);
 var divizquierda = domConstruct.create('div', {
 className: 'izquierda'
@@ -213,7 +250,7 @@ dom.byId('textBoxEspaiNoms').focus();
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
 },cpDreta.containerNode);
-var form = new Form().placeAt(divdreta);
+var form = new Form({id:"formNewButton"}).placeAt(divdreta);
 var divEspaiNoms = domConstruct.create('div', {
 className: 'divEspaiNoms'
 },form.containerNode);
@@ -235,7 +272,7 @@ var selectProjecte = new ComboBox({
 id: 'comboProjectes',
 placeHolder: newButton.ProjectesplaceHolder,
 name: 'projecte',
-value: defaultProject,
+value: wikipages,
 searchAttr: 'name',
 store: new JsonRest({target: newButton.urlListProjects })
 }).placeAt(divProjecte);
@@ -281,6 +318,36 @@ var NouDocument = new TextBox({
 id: "textBoxNouDocument",
 placeHolder: newButton.NouDocumentplaceHolder
 }).placeAt(divNouDocument);
+var divNumUnitats = domConstruct.create('div', {
+id: 'id_divNumUnitats',
+className: 'divNumUnitats'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + newButton.NumUnitatslabel + '<br>'
+}, divNumUnitats);
+var NumUnitats = new TextBox({
+id: "textBoxNumUnitats",
+placeHolder: newButton.NumUnitatsplaceHolder
+}).placeAt(divNumUnitats);
+var divTaulaUnitats = domConstruct.create('div', {
+id: 'id_divTaulaUnitats',
+className: 'divTaulaUnitats'
+},cpTaula.containerNode);
+var bunit = domConstruct.create('div', {
+id: 'id_divBotoUnitats',
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+new Button({
+label: newButton.labelButtonNumUnitats,
+onClick: function(){
+if (NumUnitats.value !== undefined && NumUnitats.value > 0) {
+dialog.mostraTaula(divTaulaUnitats, NumUnitats.value);
+}else {
+dom.byId('textBoxNumUnitats').focus();
+}
+}
+}).placeAt(bunit);
 var botons = domConstruct.create('div', {
 className: 'botons',
 style: "text-align:center;"
@@ -310,17 +377,29 @@ return cadena;
 },
 onClick: function(){
 var separacio = "";
-if(EspaiNoms.value !== ''
-&& EspaiNoms.value.slice(-1)!==":"){
-separacio= ':';
+if (EspaiNoms.value !== '' && EspaiNoms.value.slice(-1) !== ":"){
+separacio = ':';
 }
-if (selectProjecte.value === defaultProject) {
+if (selectProjecte.value === wikipages) {
 if (NouDocument.value !== '') {
 var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
 var query = 'call=new_page' +
 '&do=new' +
 '&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouDocument.value) +
 templatePar;
+newButton.sendRequest(query);
+dialog.hide();
+}
+}else if (selectProjecte.value === materials) {
+if (EspaiNoms.value !== '') {
+var apartats = {};
+for (var i=1; i<=NumUnitats.value; i++) {
+apartats['u'+i] = formNewButton['id_input_u'+i].value;
+}
+var query = 'call=new_material' +
+'&do=new' +
+'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) +
+'&unitats=' + JSON.stringify(apartats);
 newButton.sendRequest(query);
 dialog.hide();
 }
@@ -366,7 +445,6 @@ require([
 var renameButton = registry.byId('renameFolderButton');
 if (renameButton) {
 renameButton.onClick = function () {
-var defaultProject = 'defaultProject';
 var path = [];
 var dialog = registry.byId("newDocumentDlg");
 if(!dialog){
