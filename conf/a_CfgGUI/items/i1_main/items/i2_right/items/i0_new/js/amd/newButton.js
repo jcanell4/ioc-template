@@ -95,7 +95,7 @@ if (newButton) {
                 var td, i, unitat;
                 var padding = "padding:2px 5px";
                 var bold = "padding:2px 5px; font-weight:bold";
-
+                
                 var table = domConstruct.create("table", null, divTaulaUnitats);
                 var tr = domConstruct.create("tr", null, table);
                 domConstruct.create("td", {style:bold, innerHTML:"unitat"}, tr);
@@ -109,6 +109,7 @@ if (newButton) {
                     domConstruct.create("input", {id:"id_input_"+unitat, name:unitat, form:"formNewButton", type:"text", style:{width:"3em"}}, td);
                 }
                 dom.byId('id_divTaulaUnitats').hidden = false;
+                dom.byId('id_input_u1').focus();
             };
             
             var bc = new BorderContainer({
@@ -282,11 +283,18 @@ if (newButton) {
                 style: "text-align:center;"
             },form.containerNode);
 
+            var mostraTaulaClicked = false;
+            
             new Button({
                 label: newButton.labelButtonNumUnitats,
                 onClick: function(){
                     if (NumUnitats.value !== undefined && NumUnitats.value > 0) {
-                        dialog.mostraTaula(divTaulaUnitats, NumUnitats.value);
+                        if (mostraTaulaClicked === true) {
+                            dom.byId('id_input_u1').focus();
+                        }else {
+                            dialog.mostraTaula(divTaulaUnitats, NumUnitats.value);
+                            mostraTaulaClicked = true;
+                        }
                     }else {
                         dom.byId('textBoxNumUnitats').focus();
                     }

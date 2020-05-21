@@ -213,6 +213,7 @@ td = domConstruct.create("td", {id:"td_apartat_"+i, style:padding}, tr);
 domConstruct.create("input", {id:"id_input_"+unitat, name:unitat, form:"formNewButton", type:"text", style:{width:"3em"}}, td);
 }
 dom.byId('id_divTaulaUnitats').hidden = false;
+dom.byId('id_input_u1').focus();
 };
 var bc = new BorderContainer({
 style: "height: 300px; width: 570px;"
@@ -338,11 +339,17 @@ id: 'id_divBotoUnitats',
 className: 'botons',
 style: "text-align:center;"
 },form.containerNode);
+var mostraTaulaClicked = false;
 new Button({
 label: newButton.labelButtonNumUnitats,
 onClick: function(){
 if (NumUnitats.value !== undefined && NumUnitats.value > 0) {
+if (mostraTaulaClicked === true) {
+dom.byId('id_input_u1').focus();
+}else {
 dialog.mostraTaula(divTaulaUnitats, NumUnitats.value);
+mostraTaulaClicked = true;
+}
 }else {
 dom.byId('textBoxNumUnitats').focus();
 }
