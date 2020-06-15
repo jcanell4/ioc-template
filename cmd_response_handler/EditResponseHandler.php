@@ -141,7 +141,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             $responseData['title'], $responseData['content'], $responseData['draft'], $recoverDrafts,
             $responseData["htmlForm"], $editing, $timer, $responseData['rev'],
             $autosaveTimer, $responseData['extra'],
-            $responseData['format']
+            $responseData['editorType']
         );
     }
 
@@ -230,7 +230,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
 
-        $params['content']['format'] = $responseData['format'];
+        $params['content']['editorType'] = $responseData['editorType'];
 
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
