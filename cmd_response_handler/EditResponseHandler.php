@@ -124,9 +124,10 @@ class EditResponseHandler extends WikiIocResponseHandler
             $timer = $this->generateEditDocumentTimer($requestParams, $responseData);
         }
 
-        if ($requestParams['contentFormat']) {
-            $responseData['format'] = $requestParams['contentFormat'];
-        }
+        // Això s'estableix al RawPageAction
+//        if ($requestParams['contentFormat']) {
+//            $responseData['format'] = $requestParams['contentFormat'];
+//        }
 
 
         $this->addSaveOrDiscardDialog($responseData, $responseData['id']);
@@ -228,6 +229,8 @@ class EditResponseHandler extends WikiIocResponseHandler
         } else {
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
+
+        $params['content']['format'] = $responseData['format'];
 
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
