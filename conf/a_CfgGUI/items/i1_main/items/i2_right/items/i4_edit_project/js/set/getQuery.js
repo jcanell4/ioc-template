@@ -15,5 +15,5 @@ if (this.dispatcher.getGlobalState().currentTabId) {
    if(hasDraft) _ret+="&hasDraft=true"; else _ret+="&noTieneDraftLocal=true";
    if(rev) _ret+="&rev="+rev;
    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
-   _ret+="&contentFormat="+globalState.userState['editor'];
+   _ret+="&editorType="+globalState.userState['editor'];
 }

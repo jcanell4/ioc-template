@@ -125,8 +125,8 @@ class EditResponseHandler extends WikiIocResponseHandler
         }
 
         // Això s'estableix al RawPageAction
-//        if ($requestParams['contentFormat']) {
-//            $responseData['format'] = $requestParams['contentFormat'];
+//        if ($requestParams['editorType']) {
+//            $responseData['format'] = $requestParams['editorType'];
 //        }
 
 
