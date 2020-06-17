@@ -215,6 +215,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             "content" => [ //ALERTA / TODO [JOSEP] Canviar content per data
                 "text" => $responseData["content"],
             ],
+            "editorType" => $responseData['editorType']
         ];
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
@@ -229,8 +230,6 @@ class EditResponseHandler extends WikiIocResponseHandler
         } else {
             $this->addDialogParamsToParams($params, $requestParams, $responseData);
         }
-
-        $params['content']['editorType'] = $responseData['editorType'];
 
         $this->addRequiringDoc($cmdResponseGenerator, $params);
     }
@@ -247,6 +246,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             "content" => [ //ALERTA / TODO [JOSEP] Canviar content per data
                 "text" => $responseData["content"],
             ],
+            "editorType" => $responseData['editorType']
         ];
 
         return $params;
@@ -259,6 +259,7 @@ class EditResponseHandler extends WikiIocResponseHandler
             "paramsOnExpire" => [
                 "dataToSend" => PageKeys::KEY_ID . "=" . $requestParams[PageKeys::KEY_ID]
                     . "&" . PageKeys::KEY_TO_REQUIRE . "=true"
+                    . "&" . PageKeys::KEY_EDITOR_TYPE . "=" . $responseData[PageKeys::KEY_EDITOR_TYPE]
                     . (PageKeys::KEY_REV ? ("&" . PageKeys::KEY_REV . "=" . $requestParams[PageKeys::KEY_REV]) : ""),
             ],
             "eventOnCancel" => "cancel",
@@ -316,7 +317,9 @@ class EditResponseHandler extends WikiIocResponseHandler
             $params["timer"],
             $params["content"],
             'full',
-            $params["dialog"]);
+            $params["editorType"],
+            $params["dialog"]
+            );
     }
 
     protected function addSaveOrDiscardDialog(&$responseData, $id) {
