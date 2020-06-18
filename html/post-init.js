@@ -445,6 +445,7 @@ require([
         // Reescrivint la URL si s'ha passat un id per paràmetre
 
         unload.addOnWindowUnload(function () {
+            console.log("Unload");
             if (typeof(Storage) !== "undefined") {
                 var state = wikiIocDispatcher.getGlobalState();
                 state.freeAllPages();
@@ -475,10 +476,18 @@ require([
         containerContentToolFactory.generate(container, {dispatcher: wikiIocDispatcher});
 
         window.addEventListener("beforeunload", function (event) {
+            console.log("post-init:beforeunload"); // ALERTA! si es tanca la pestanya no es veurà aquest missatge, cal afegir un event.returnValue per mostrar el dialeg que aturarà la execució fins escollir una opció
+
+            // es dispara al reload
+            // es dispara quan es tanca la pestanya
+            // es dispara quan es tanca el navegador
+
             // ALERTA[Xavi] Si es detectan canvis retorna a "event.returnValue" el que fa que el navegador mostri un missatge (segons el navegador el missatge serà el propi i no el que es passa com a valor, Firefox i Chrome fan servir el missatge propi)
             if (wikiIocDispatcher.getChangesManager().thereAreChangedContents()) {
                 event.returnValue = LANG.notsavedyet;
             }
+
+
         });
 
         var ajax_call = "lib/exe/ioc_ajax.php?call=";

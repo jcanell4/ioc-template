@@ -108,7 +108,7 @@ class EditResponseHandler extends WikiIocResponseHandler
 
     protected function addEditDocumentResponse($requestParams, $responseData, &$cmdResponseGenerator, $forceReadOnly=FALSE)
     {
-        $isRev = isset($responseData['rev']);
+        $isRev = isset($responseData['rev']) && strlen($responseData['rev']) > 0;
 
         $autosaveTimer = NULL;
         if(WikiGlobalConfig::getConf("autosaveTimer")){
