@@ -517,8 +517,12 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $columns = $view['definition']['n_columns'];
 
                 if (!$arrValues['n_rows']) {
-                    $arrValues['n_rows'] = 1;
-                    $rows = false;
+                    if($arrValues['type']=="objectArray"){
+                        $rows = $arrValues['n_rows'] = 5;
+                    }else{
+                        $arrValues['n_rows'] = 1;
+                        $rows = false;
+                    }
                 } else {
                     $rows = $arrValues['n_rows'];
                 }
@@ -659,6 +663,16 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config'] = [];
             }
             $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']['defaultRow'] = $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['defaultRow'];
+            if( $structureProperties["type"]==="objectArray" && !isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']["fields"])){
+                $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']["fields"]=[];
+                foreach ($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['defaultRow'] as $key => $value) {
+                    if(isset($structureProperties["rowTypes"]) && isset($structureProperties["rowTypes"][$key])){
+                        $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']["fields"][$key]=["type" => $structureProperties["rowTypes"][$key]];
+                    }else{
+                        $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']["fields"][$key]=["type" => "string" ];
+                    }
+                }
+            }
 
             //TODO[Xavi] Determinar quin es el valor que s'ha de guardar aquí!
         }
