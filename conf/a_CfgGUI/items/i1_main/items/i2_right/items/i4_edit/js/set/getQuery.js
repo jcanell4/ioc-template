@@ -22,4 +22,12 @@ if (this.dispatcher.getGlobalState().currentTabId) {
 
     _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
     _ret+="&editorType=" + globalState.userState['editor'];
+
+
+    console.log("cache:", globalState.getContent(globalState.currentTabId));
+    console.log("projectOwner?", globalState.getContent(globalState.currentTabId).projectOwner);
+    console.log("projectSourceType?", globalState.getContent(globalState.currentTabId).projectSourceType);
+
+    _ret+="&projectOwner=" + globalState.getContent(globalState.currentTabId).projectOwner;
+    _ret+="&projectSourceType=" + globalState.getContent(globalState.currentTabId).projectSourceType;
 }
