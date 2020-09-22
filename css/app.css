@@ -709,6 +709,14 @@ span.arrow-icon {
 
 .dijitIocIconClearFormat{ background-position: -108px -18px; }
 
+.dijitIocIconIocQuizVF { background-position-x: -756px; }
+.dijitIocIconIocQuizChoice { background-position-x: -738px; }
+.dijitIocIconIocQuizRelations { background-position-x: -720px; }
+.dijitIocIconIocQuizComplete { background-position-x: -702px; }
+
+
+
+
 /* Icons to show with dropdown buttons */
 .dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
 
