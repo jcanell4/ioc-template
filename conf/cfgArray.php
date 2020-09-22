@@ -1418,6 +1418,35 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'iZ1_duplicate_project' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'duplicateProjectButton',
+                  'title' => 'Duplicar projecte',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconDuplicateProject\'',
+                  'query' => '\'do=duplicate_project\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
+                  'dialogTitle' => '\'Duplicar un projecte\'',
+                  'EspaideNomslabel' => '\'Escriu el nou Espai de Noms\'',
+                  'EspaideNomsplaceHolder' => '\'Espai de Noms\'',
+                  'NouProjectlabel' => '\'Escriu el nom del nou Projecte\'',
+                  'NouProjectplaceHolder' => '\'Nom del nou Projecte\'',
+                  'labelButtonAcceptar' => '\'Crear\'',
+                  'labelButtonCancellar' => '\'Cancel·lar\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent(this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
             'iZ9_remove_project' => 
             array (
               'class' => 'WikiEventButton',

@@ -83,6 +83,7 @@ require([
             disp.initUpdateWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::PRINT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REVERT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::DUPLICATE_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
 
@@ -188,6 +189,7 @@ require([
 
                                 if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
                                     if (isManager || page.rol === "responsable") {
+                                        disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_PROJECT_BUTTON', "visible", true);
                                         disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
                                     }
                                     if (isManager) {
@@ -519,6 +521,7 @@ require([
 
         new RequestControl(eventName.NOTIFY, ajax_call+"notify", true);
         new RequestControl(eventName.MEDIA_DETAIL, ajax_call+"mediadetails", true);
+        new RequestControl(eventName.DUPLICATE_PROJECT, ajax_call+"project&do=duplicate_project", true);
         new RequestControl(eventName.RENAME_PROJECT, ajax_call+"project&do=rename_project", true);
         new RequestControl(eventName.REMOVE_PROJECT, ajax_call+"project&do=remove_project", true);
 

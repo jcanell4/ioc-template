@@ -655,3 +655,167 @@ if (ftpSendButton) {
 ftpSendButton.onClick = fOnClick;
 }
 });
+require([
+"dijit/registry"
+,"dojo/dom"
+,"dojo/dom-construct"
+,"dojo/dom-style"
+,"dijit/layout/BorderContainer"
+,"dijit/Dialog"
+,"dijit/layout/ContentPane"
+,"dijit/form/Form"
+,"dijit/form/TextBox"
+,"dijit/form/Button"
+,"dijit/form/ComboBox"
+,"dojo/store/JsonRest"
+,"ioc/gui/NsTreeContainer"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
+var duplicateButton = registry.byId('duplicateProjectButton');
+if (duplicateButton) {
+duplicateButton.onClick = function () {
+var path = [];
+var projectType, old_path, old_project;
+var dialog = registry.byId("newDocumentDlg");
+if(!dialog){
+dialog = new Dialog({
+id: "newDocumentDlg",
+title: duplicateButton.dialogTitle,
+style: "width: 470px; height: 350px;",
+duplicateButton: duplicateButton
+});
+dialog.on('hide', function () {
+dialog.destroyRecursive(false);
+domConstruct.destroy("newDocumentDlg");
+});
+dialog.on('show', function () {
+dialog.dialogTree.tree.set('path',path).then(function(){
+dom.byId('textBoxNouProject').focus();
+});
+dom.byId('textBoxNouProject').value = old_project;
+dom.byId('textBoxNouProject').focus();
+dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
+dom.byId('textBoxEspaiNoms').focus();
+});
+dialog.nsActivePage = function (){
+path.length=0;
+var globalState = this.duplicateButton.dispatcher.getGlobalState();
+if (globalState && globalState.currentTabId) {
+var stPath = "";
+var aPath = globalState.getContent(globalState.currentTabId)['ns'] || '';
+projectType = globalState.getContent(globalState.getCurrentId()).projectType;
+aPath = aPath.split(':');
+old_project = aPath.pop();
+old_path = aPath.join(':');
+aPath.unshift("");
+for (var i=0; i<aPath.length; i++) {
+if (i > 1) stPath += ":";
+stPath = stPath + aPath[i];
+path[i] = stPath;
+}
+}
+};
+var bc = new BorderContainer({
+style: "height: 300px; width: 450px;"
+});
+var cpEsquerra = new ContentPane({
+region: "left",
+style: "width: 220px"
+});
+bc.addChild(cpEsquerra);
+var cpDreta = new ContentPane({
+region: "center"
+});
+bc.addChild(cpDreta);
+bc.placeAt(dialog.containerNode);
+var divizquierda = domConstruct.create('div', {
+className: 'izquierda'
+},cpEsquerra.containerNode);
+var dialogTree = new NsTreeContainer({
+treeDataSource: 'lib/exe/ioc_ajaxrest.php/ns_tree_rest/',
+onlyDirs:true,
+hiddenProjects:true
+}).placeAt(divizquierda);
+dialogTree.startup();
+dialog.dialogTree = dialogTree;
+dialogTree.tree.onClick=function(item) {
+dom.byId('textBoxEspaiNoms').value= item.id;
+dom.byId('textBoxEspaiNoms').focus();
+};
+var divdreta = domConstruct.create('div', {
+className: 'dreta'
+},cpDreta.containerNode);
+var form = new Form().placeAt(divdreta);
+var divEspaiNoms = domConstruct.create('div', {
+className: 'divEspaiNoms'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: duplicateButton.EspaideNomslabel + '<br>'
+},divEspaiNoms);
+var EspaiNoms = new TextBox({
+id: 'textBoxEspaiNoms',
+placeHolder: duplicateButton.EspaideNomsplaceHolder
+}).placeAt(divEspaiNoms);
+dialog.textBoxEspaiNoms = EspaiNoms;
+var divNouProject = domConstruct.create('div', {
+id: 'id_divNouProject',
+className: 'divNouProject'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + duplicateButton.NouProjectlabel + '<br>'
+}, divNouProject);
+var NouProject = new TextBox({
+id: "textBoxNouProject",
+placeHolder: duplicateButton.NouProjectplaceHolder
+}).placeAt(divNouProject);
+var botons = domConstruct.create('div', {
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>'
+}, botons);
+new Button({
+label: duplicateButton.labelButtonAcceptar,
+_normalitzaCaracters: function(cadena, preserveSep) {
+cadena = cadena.toLowerCase();
+cadena = cadena.replace(/[áäàâ]/gi,"a");
+cadena = cadena.replace(/[éèëê]/gi,"e");
+cadena = cadena.replace(/[íìïî]/gi,"i");
+cadena = cadena.replace(/[óòöô]/gi,"o");
+cadena = cadena.replace(/[úùüû]/gi,"u");
+cadena = cadena.replace(/ç/gi,"c");
+cadena = cadena.replace(/ñ/gi,"n");
+if (preserveSep){
+cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
+}else{
+cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
+}
+cadena = cadena.replace(/_+/g,"_");
+cadena = cadena.replace(/^_+|_+$/g,"");
+return cadena;
+},
+onClick: function(){
+if (NouProject.value !== '' && EspaiNoms.value !== '') {
+var query = 'call=project' +
+'&do=duplicate_project' +
+'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + ":" + this._normalitzaCaracters(NouProject.value) +
+'&projectType=' + projectType +
+'&old_path=' + old_path +
+'&old_project=' + old_project;
+duplicateButton.sendRequest(query);
+dialog.hide();
+}
+}
+}).placeAt(botons);
+new Button({
+label: duplicateButton.labelButtonCancellar,
+onClick: function(){dialog.hide();}
+}).placeAt(botons);
+form.startup();
+}
+dialog.nsActivePage();
+dialog.show();
+return false;
+};
+}
+});

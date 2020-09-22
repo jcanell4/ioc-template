@@ -1,0 +1,4 @@
+var globalState = this.dispatcher.getGlobalState();
+if (globalState.currentTabId) {
+    this.newname = prompt("Escriu el nom pel nou projecte");
+}
