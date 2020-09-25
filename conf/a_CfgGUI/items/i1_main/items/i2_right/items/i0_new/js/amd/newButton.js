@@ -11,6 +11,7 @@
 //include "dijit/form/ComboBox"
 //include "dojo/store/JsonRest"
 //include "ioc/gui/NsTreeContainer"
+//include "ioc/functions/normalitzaCaracters"
 
 var newButton = registry.byId('cfgIdConstants::NEW_BUTTON');
 if (newButton) {
@@ -316,27 +317,6 @@ if (newButton) {
             new Button({
                 label: newButton.labelButtonAcceptar,
                 
-                _normalitzaCaracters: function(cadena, preserveSep) {
-                    //console.log ("newButton#_normalitzaCaracters 1:", cadena);
-                    cadena = cadena.toLowerCase();
-                    cadena = cadena.replace(/[áäàâ]/gi,"a");
-                    cadena = cadena.replace(/[éèëê]/gi,"e");
-                    cadena = cadena.replace(/[íìïî]/gi,"i");
-                    cadena = cadena.replace(/[óòöô]/gi,"o");
-                    cadena = cadena.replace(/[úùüû]/gi,"u");
-                    cadena = cadena.replace(/ç/gi,"c");
-                    cadena = cadena.replace(/ñ/gi,"n");
-                    if(preserveSep){
-                        cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
-                    }else{
-                        cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
-                    }
-                    cadena = cadena.replace(/_+/g,"_");
-                    cadena = cadena.replace(/^_+|_+$/g,"");
-                    //console.log ("newButton#_normalitzaCaracters 2:", cadena);
-                    return cadena;
-                },
-
                 onClick: function(){
                     var separacio = "";
                     if (EspaiNoms.value !== '' && EspaiNoms.value.slice(-1) !== ":"){
@@ -347,7 +327,7 @@ if (newButton) {
                             var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
                             var query = 'call=new_page' + 
                                         '&do=new' + 
-                                        '&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouDocument.value) +
+                                        '&id=' + normalitzaCaracters(EspaiNoms.value, true) + separacio + normalitzaCaracters(NouDocument.value) +
                                         templatePar;
                             newButton.sendRequest(query);
                             dialog.hide();
@@ -360,7 +340,7 @@ if (newButton) {
                             }
                             var query = 'call=new_material' + 
                                         '&do=new' + 
-                                        '&id=' + this._normalitzaCaracters(EspaiNoms.value, true) +
+                                        '&id=' + normalitzaCaracters(EspaiNoms.value, true) +
                                         '&unitats=' + JSON.stringify(apartats);
                             newButton.sendRequest(query);
                             dialog.hide();
@@ -369,7 +349,7 @@ if (newButton) {
                         if (NouProjecte.value !== '') {
                             var query = 'call=project' + 
                                         '&do=create_project' + 
-                                        '&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouProjecte.value) +
+                                        '&id=' + normalitzaCaracters(EspaiNoms.value, true) + separacio + normalitzaCaracters(NouProjecte.value) +
                                         '&cfgIdConstants::PROJECT_TYPE=' + selectProjecte.item.id;
                             newButton.sendRequest(query);
                             dialog.hide();

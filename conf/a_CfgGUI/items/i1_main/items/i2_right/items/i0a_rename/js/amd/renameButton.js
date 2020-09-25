@@ -11,6 +11,7 @@
 //include "dijit/form/ComboBox"
 //include "dojo/store/JsonRest"
 //include "ioc/gui/NsTreeContainer"
+//include "ioc/functions/normalitzaCaracters"
 
 var renameButton = registry.byId('cfgIdConstants::RENAME_FOLDER_BUTTON');
 if (renameButton) {
@@ -153,31 +154,12 @@ if (renameButton) {
             new Button({
                 label: renameButton.labelButtonAcceptar,
                 
-                _normalitzaCaracters: function(cadena, preserveSep) {
-                    cadena = cadena.toLowerCase();
-                    cadena = cadena.replace(/[áäàâ]/gi,"a");
-                    cadena = cadena.replace(/[éèëê]/gi,"e");
-                    cadena = cadena.replace(/[íìïî]/gi,"i");
-                    cadena = cadena.replace(/[óòöô]/gi,"o");
-                    cadena = cadena.replace(/[úùüû]/gi,"u");
-                    cadena = cadena.replace(/ç/gi,"c");
-                    cadena = cadena.replace(/ñ/gi,"n");
-                    if(preserveSep){
-                        cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
-                    }else{
-                        cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
-                    }
-                    cadena = cadena.replace(/_+/g,"_");
-                    cadena = cadena.replace(/^_+|_+$/g,"");
-                    return cadena;
-                },
-
                 onClick: function(){
                     if (NouNom.value !== '') {
                         var query = 'call=rename_folder' + 
                                     '&do=rename' + 
-                                    '&old_name=' + this._normalitzaCaracters(EspaiNoms.value, true) + 
-                                    '&new_name=' + this._normalitzaCaracters(NouNom.value);
+                                    '&old_name=' + normalitzaCaracters(EspaiNoms.value, true) + 
+                                    '&new_name=' + normalitzaCaracters(NouNom.value);
                         renameButton.sendRequest(query);
                         dialog.hide();
                     }
