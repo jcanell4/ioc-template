@@ -125,7 +125,8 @@ require([
 ,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/gui/NsTreeContainer"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
 var newButton = registry.byId('newButton');
 if (newButton) {
 newButton.onClick = function () {
@@ -364,24 +365,6 @@ innerHTML: '<br><br>'
 }, botons);
 new Button({
 label: newButton.labelButtonAcceptar,
-_normalitzaCaracters: function(cadena, preserveSep) {
-cadena = cadena.toLowerCase();
-cadena = cadena.replace(/[áäàâ]/gi,"a");
-cadena = cadena.replace(/[éèëê]/gi,"e");
-cadena = cadena.replace(/[íìïî]/gi,"i");
-cadena = cadena.replace(/[óòöô]/gi,"o");
-cadena = cadena.replace(/[úùüû]/gi,"u");
-cadena = cadena.replace(/ç/gi,"c");
-cadena = cadena.replace(/ñ/gi,"n");
-if(preserveSep){
-cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
-}else{
-cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
-}
-cadena = cadena.replace(/_+/g,"_");
-cadena = cadena.replace(/^_+|_+$/g,"");
-return cadena;
-},
 onClick: function(){
 var separacio = "";
 if (EspaiNoms.value !== '' && EspaiNoms.value.slice(-1) !== ":"){
@@ -392,7 +375,7 @@ if (NouDocument.value !== '') {
 var templatePar = selectTemplate.item?'&template=' + selectTemplate.item.path:'';
 var query = 'call=new_page' +
 '&do=new' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouDocument.value) +
+'&id=' + normalitzaCaracters(EspaiNoms.value, true) + separacio + normalitzaCaracters(NouDocument.value) +
 templatePar;
 newButton.sendRequest(query);
 dialog.hide();
@@ -405,7 +388,7 @@ apartats['u'+i] = formNewButton['id_input_u'+i].value;
 }
 var query = 'call=new_material' +
 '&do=new' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) +
+'&id=' + normalitzaCaracters(EspaiNoms.value, true) +
 '&unitats=' + JSON.stringify(apartats);
 newButton.sendRequest(query);
 dialog.hide();
@@ -414,7 +397,7 @@ dialog.hide();
 if (NouProjecte.value !== '') {
 var query = 'call=project' +
 '&do=create_project' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + separacio + this._normalitzaCaracters(NouProjecte.value) +
+'&id=' + normalitzaCaracters(EspaiNoms.value, true) + separacio + normalitzaCaracters(NouProjecte.value) +
 '&projectType=' + selectProjecte.item.id;
 newButton.sendRequest(query);
 dialog.hide();
@@ -448,7 +431,8 @@ require([
 ,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/gui/NsTreeContainer"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
 var renameButton = registry.byId('renameFolderButton');
 if (renameButton) {
 renameButton.onClick = function () {
@@ -555,30 +539,12 @@ innerHTML: '<br><br>'
 }, botons);
 new Button({
 label: renameButton.labelButtonAcceptar,
-_normalitzaCaracters: function(cadena, preserveSep) {
-cadena = cadena.toLowerCase();
-cadena = cadena.replace(/[áäàâ]/gi,"a");
-cadena = cadena.replace(/[éèëê]/gi,"e");
-cadena = cadena.replace(/[íìïî]/gi,"i");
-cadena = cadena.replace(/[óòöô]/gi,"o");
-cadena = cadena.replace(/[úùüû]/gi,"u");
-cadena = cadena.replace(/ç/gi,"c");
-cadena = cadena.replace(/ñ/gi,"n");
-if(preserveSep){
-cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
-}else{
-cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
-}
-cadena = cadena.replace(/_+/g,"_");
-cadena = cadena.replace(/^_+|_+$/g,"");
-return cadena;
-},
 onClick: function(){
 if (NouNom.value !== '') {
 var query = 'call=rename_folder' +
 '&do=rename' +
-'&old_name=' + this._normalitzaCaracters(EspaiNoms.value, true) +
-'&new_name=' + this._normalitzaCaracters(NouNom.value);
+'&old_name=' + normalitzaCaracters(EspaiNoms.value, true) +
+'&new_name=' + normalitzaCaracters(NouNom.value);
 renameButton.sendRequest(query);
 dialog.hide();
 }
@@ -669,7 +635,8 @@ require([
 ,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/gui/NsTreeContainer"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer) {
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
 var duplicateButton = registry.byId('duplicateProjectButton');
 if (duplicateButton) {
 duplicateButton.onClick = function () {
@@ -776,32 +743,14 @@ innerHTML: '<br><br>'
 }, botons);
 new Button({
 label: duplicateButton.labelButtonAcceptar,
-_normalitzaCaracters: function(cadena, preserveSep) {
-cadena = cadena.toLowerCase();
-cadena = cadena.replace(/[áäàâ]/gi,"a");
-cadena = cadena.replace(/[éèëê]/gi,"e");
-cadena = cadena.replace(/[íìïî]/gi,"i");
-cadena = cadena.replace(/[óòöô]/gi,"o");
-cadena = cadena.replace(/[úùüû]/gi,"u");
-cadena = cadena.replace(/ç/gi,"c");
-cadena = cadena.replace(/ñ/gi,"n");
-if (preserveSep){
-cadena = cadena.replace(/[^0-9a-z:_]/gi,"_");
-}else{
-cadena = cadena.replace(/[^0-9a-z_]/gi,"_");
-}
-cadena = cadena.replace(/_+/g,"_");
-cadena = cadena.replace(/^_+|_+$/g,"");
-return cadena;
-},
 onClick: function(){
 if (NouProject.value !== '' && EspaiNoms.value !== '') {
 var query = 'call=project' +
 '&do=duplicate_project' +
-'&id=' + this._normalitzaCaracters(EspaiNoms.value, true) + ":" + this._normalitzaCaracters(NouProject.value) +
+'&id=' + old_path + ":" + old_project +
 '&projectType=' + projectType +
-'&old_path=' + old_path +
-'&old_project=' + old_project;
+'&new_path=' + normalitzaCaracters(EspaiNoms.value, true) +
+'&new_project=' + normalitzaCaracters(NouProject.value);
 duplicateButton.sendRequest(query);
 dialog.hide();
 }
