@@ -517,7 +517,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $columns = $view['definition']['n_columns'];
 
                 if (!$arrValues['n_rows']) {
-                    if($arrValues['type']=="objectArray"){
+                    if(($arrValues['type']=="objectArray")||($arrValues['type']=="array")||($arrValues['type']=="table")){
                         $rows = $arrValues['n_rows'] = 5;
                     }else{
                         $arrValues['n_rows'] = 1;
@@ -543,6 +543,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     ->setColumns($columns)
                     ->setRows($rows)
                     ->setValue($arrValues['value'])
+                    ->addConfig($arrValues['typeDef']?["typeDef" => $arrValues['typeDef']]:null)
+                    ->addConfig($arrValues['array_columns']?["array_columns" => $arrValues['array_columns']]:null)
+                    ->addConfig($arrValues['array_rows']?["array_rows" => $arrValues['array_rows']]:null)
                 );
             }
         }
