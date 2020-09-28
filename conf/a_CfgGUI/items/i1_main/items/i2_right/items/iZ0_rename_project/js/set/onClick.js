@@ -1,4 +1,5 @@
-var globalState = this.dispatcher.getGlobalState();
-if (globalState.currentTabId) {
+var normalitzaCaracters = dojo.require("ioc/functions/normalitzaCaracters");
+if (this.dispatcher.getGlobalState().currentTabId) {
     this.newname = prompt("Escriu el nou nom pel projecte");
-}
+    this.newname = normalitzaCaracters(this.newname);
+};
