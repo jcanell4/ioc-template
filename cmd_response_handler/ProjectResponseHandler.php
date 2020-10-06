@@ -49,15 +49,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
-
-//            if ($responseData[AjaxKeys::KEY_ACTIVA_UPDATE_BTN]) {
-//                $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $responseData[AjaxKeys::KEY_ACTIVA_UPDATE_BTN]);
-//            }
-
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_GENERATED] = $responseData[ProjectKeys::KEY_GENERATED];
 
             switch ($requestParams[ProjectKeys::KEY_DO]) {
+
+                case ProjectKeys::KEY_DUPLICATE_PROJECT:
+                    $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
+                    $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_OLD_ID]);
+                    $extra = ['old_ns' => $responseData[ProjectKeys::KEY_OLD_NS],
+                              'new_ns' => $responseData[ProjectKeys::KEY_NS]];
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $extra); //refresca el tab 'Dreceres'
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
+                    $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    break;
 
                 case ProjectKeys::KEY_RENAME_PROJECT:
                     $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];

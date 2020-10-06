@@ -72,6 +72,7 @@ class cfgIdConstants
     const GENERATE_PROJECT_BUTTON = "generateProjectButton";
     const PRINT_BUTTON = "printButton";
     const REVERT_BUTTON = "revertButton";
+    const DUPLICATE_PROJECT_BUTTON = "duplicateProjectButton";
     const RENAME_PROJECT_BUTTON = "renameProjectButton";
     const REMOVE_PROJECT_BUTTON = "removeProjectButton";
     const RENAME_FOLDER_BUTTON = "renameFolderButton";

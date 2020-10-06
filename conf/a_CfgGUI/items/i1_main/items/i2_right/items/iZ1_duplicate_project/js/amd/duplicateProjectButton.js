@@ -13,19 +13,20 @@
 //include "ioc/gui/NsTreeContainer"
 //include "ioc/functions/normalitzaCaracters"
 
-var renameButton = registry.byId('cfgIdConstants::RENAME_FOLDER_BUTTON');
-if (renameButton) {
+var duplicateButton = registry.byId('cfgIdConstants::DUPLICATE_PROJECT_BUTTON');
+if (duplicateButton) {
 
-    renameButton.onClick = function () {
+    duplicateButton.onClick = function () {
         var path = [];
+        var projectType, old_path, old_project;
         var dialog = registry.byId("newDocumentDlg");
 
         if(!dialog){
             dialog = new Dialog({
                 id: "newDocumentDlg",
-                title: renameButton.dialogTitle,
+                title: duplicateButton.dialogTitle,
                 style: "width: 470px; height: 350px;",
-                renameButton: renameButton
+                duplicateButton: duplicateButton
             });
 
             dialog.on('hide', function () {
@@ -35,35 +36,33 @@ if (renameButton) {
             
             dialog.on('show', function () {
                 dialog.dialogTree.tree.set('path',path).then(function(){
-                    dom.byId('textBoxNouNom').focus();
+                    dom.byId('textBoxNouProject').focus();
                 });
+                dom.byId('textBoxNouProject').value = old_project;
+                dom.byId('textBoxNouProject').focus();
                 dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
                 dom.byId('textBoxEspaiNoms').focus();
             });
 
             dialog.nsActivePage = function (){
                 path.length=0;
-                if (this.renameButton.dispatcher.getGlobalState().currentTabId) {
+                var globalState = this.duplicateButton.dispatcher.getGlobalState();
+                if (globalState && globalState.currentTabId) {
                     var stPath = "";
-                    var aPath = this.renameButton.dispatcher.getGlobalState().getContent(this.renameButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+                    var aPath = globalState.getContent(globalState.currentTabId)['ns'] || '';
+                    projectType = globalState.getContent(globalState.getCurrentId()).projectType;
                     aPath = aPath.split(':');
-                    aPath.pop();
+                    old_project = aPath.pop();
+                    old_path = aPath.join(':');
                     aPath.unshift("");
                     for (var i=0; i<aPath.length; i++) {
-                        if (i > 1) {
-                            stPath = stPath + ":";
-                        }
+                        if (i > 1) stPath += ":";
                         stPath = stPath + aPath[i];
-                        path[i]=stPath;
+                        path[i] = stPath;
                     }
-                }    
+                }
             };
 
-            dialog.setDefaultDocumentName = function(n,o,e) {
-                dom.byId('textBoxNouNom').value = e;
-                dom.byId('textBoxNouNom').focus();
-            };
-        
             var bc = new BorderContainer({
                 style: "height: 300px; width: 450px;"
             });
@@ -110,35 +109,35 @@ if (renameButton) {
 
             var form = new Form().placeAt(divdreta);
 
-            //ESPAI DE NOMS Un camp de text per poder escriure l'espai de noms
+            //ESPAI DE NOMS Un camp de text per poder escriure l'espai de noms de destí
             var divEspaiNoms = domConstruct.create('div', {
                 className: 'divEspaiNoms'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: renameButton.EspaideNomslabel + '<br>'
+                innerHTML: duplicateButton.EspaideNomslabel + '<br>'
             },divEspaiNoms);
 
             var EspaiNoms = new TextBox({
                 id: 'textBoxEspaiNoms',
-                placeHolder: renameButton.EspaideNomsplaceHolder
+                placeHolder: duplicateButton.EspaideNomsplaceHolder
             }).placeAt(divEspaiNoms);
             dialog.textBoxEspaiNoms = EspaiNoms;
 
-            //DIV NOU NOM: Un camp de text per poder escriure el nou nom del directori
-            var divNouNom = domConstruct.create('div', {
-                id: 'id_divNouNom',
-                className: 'divNouNom'
+            //DIV NOU NOM DEL PROJECTE: Un camp de text per poder escriure el nou nom del projecte
+            var divNouProject = domConstruct.create('div', {
+                id: 'id_divNouProject',
+                className: 'divNouProject'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + renameButton.NouNomlabel + '<br>'
-            }, divNouNom);
+                innerHTML: '<br>' + duplicateButton.NouProjectlabel + '<br>'
+            }, divNouProject);
 
-            var NouNom = new TextBox({
-                id: "textBoxNouNom",
-                placeHolder: renameButton.NouNomplaceHolder
-            }).placeAt(divNouNom);
+            var NouProject = new TextBox({
+                id: "textBoxNouProject",
+                placeHolder: duplicateButton.NouProjectplaceHolder
+            }).placeAt(divNouProject);
 
 
             // botons
@@ -152,15 +151,17 @@ if (renameButton) {
             }, botons);
 
             new Button({
-                label: renameButton.labelButtonAcceptar,
+                label: duplicateButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (NouNom.value !== '') {
-                        var query = 'call=rename_folder' + 
-                                    '&do=rename' + 
-                                    '&old_name=' + normalitzaCaracters(EspaiNoms.value, true) + 
-                                    '&new_name=' + normalitzaCaracters(NouNom.value);
-                        renameButton.sendRequest(query);
+                    if (NouProject.value !== '' && EspaiNoms.value !== '') {
+                        var query = 'call=project' +
+                                    '&do=duplicate_project' +
+                                    '&id=' + old_path + ":" + old_project +
+                                    '&projectType=' + projectType +
+                                    '&new_path=' + normalitzaCaracters(EspaiNoms.value, true) +
+                                    '&new_project=' + normalitzaCaracters(NouProject.value);
+                        duplicateButton.sendRequest(query);
                         dialog.hide();
                     }
                 }
@@ -168,8 +169,8 @@ if (renameButton) {
 
             // Botó cancel·lar
             new Button({
-              label: renameButton.labelButtonCancellar,
-              onClick: function(){dialog.hide();}
+                label: duplicateButton.labelButtonCancellar,
+                onClick: function(){dialog.hide();}
             }).placeAt(botons);
 
             form.startup();
