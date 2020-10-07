@@ -50,7 +50,7 @@ $vector_action = "print";
  * @author Andreas Haerter <development@andreas-haerter.com>
  */
 $vector_context = "article";
-if (preg_match("/^".tpl_getConf("vector_discuss_ns")."?$|^".tpl_getConf("vector_discuss_ns").".*?$/i", ":".getNS(getID()))){
+if (tpl_getConf("vector_discuss_ns") && (preg_match("/^".tpl_getConf("vector_discuss_ns")."?$|^".tpl_getConf("vector_discuss_ns").".*?$/i", ":".getNS(getID())))){
     $vector_context = "discuss";
 }
 
