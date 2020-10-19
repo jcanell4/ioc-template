@@ -76,6 +76,7 @@ class cfgIdConstants
     const RENAME_PROJECT_BUTTON = "renameProjectButton";
     const REMOVE_PROJECT_BUTTON = "removeProjectButton";
     const RENAME_FOLDER_BUTTON = "renameFolderButton";
+    const REVERT_PROJECT_BUTTON = "revertProjectButton";
 
     const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
     const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
