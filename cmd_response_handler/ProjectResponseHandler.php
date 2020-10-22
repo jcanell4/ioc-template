@@ -26,6 +26,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]) {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], AjaxKeys::KEY_FTP_PROJECT_BUTTON, $responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]);
         }
+        if ($requestParams[ProjectKeys::KEY_DO] === ProjectKeys::KEY_REVERT_PROJECT) {
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $responseData['close']);
+            $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $responseData['reload']);
+        }
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
@@ -46,7 +50,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
         else {
-            if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF) {
+            if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_REVERT_PROJECT) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
             $this->responseType = $requestParams[ProjectKeys::KEY_DO];
@@ -134,9 +138,27 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
-                case ProjectKeys::KEY_REVERT:
-                    throw new Exception("Excepció a ProjectResponseHandler: [" . ProjectKeys::KEY_REVERT . "]\n"
-                        . "S'ha traslladat a: wikiocmodel/projects/documentation/command/responseHandler/ProjectRevertResponseHandler.php");
+                case ProjectKeys::KEY_REVERT_PROJECT:
+                    $id = $responseData[ProjectKeys::KEY_ID];
+                    $pType = $requestParams[ProjectKeys::KEY_PROJECT_TYPE];
+
+                    $this->viewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+
+                    //afegir la metadata de revisions com a resposta
+                    if ($responseData[ProjectKeys::KEY_REV] && count($responseData[ProjectKeys::KEY_REV]) > 0) {
+                        $subSet = ($this->getSubSet($requestParams[ProjectKeys::KEY_METADATA_SUBSET])) ? "&metaDataSubSet=".$requestParams[ProjectKeys::KEY_METADATA_SUBSET] : "";
+                        $responseData[ProjectKeys::KEY_REV]['call_diff'] = "project&do=diff&projectType=$pType$subSet";
+                        $responseData[ProjectKeys::KEY_REV]['call_view'] = "project&do=view&projectType=$pType$subSet";
+                        $responseData[ProjectKeys::KEY_REV]['urlBase'] = "lib/exe/ioc_ajax.php?call=".$responseData[ProjectKeys::KEY_REV]['call_diff'];
+                        $ajaxCmdResponseGenerator->addRevisionsTypeResponse($id, $responseData[ProjectKeys::KEY_REV]);
+                    }else {
+                        $xtr = ['id' => $id,
+                                'idr' => "{$id}_revisions",
+                                'txt' => "No hi ha revisions",
+                                'html' => "<h3>Aquest projecte no té revisions</h3>"
+                               ];
+                        $ajaxCmdResponseGenerator->addExtraMetadata($xtr['id'], $xtr['idr'], $xtr['txt'], $xtr['html']);
+                    }
 
                 case ProjectKeys::KEY_SAVE_PROJECT_DRAFT:
                     if ($responseData['lockInfo']) {
