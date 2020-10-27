@@ -11,4 +11,4 @@ if (this.ok==true){
                      projectType: pType,
                      user_id: userId}
     };
-}
+};

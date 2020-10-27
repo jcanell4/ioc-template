@@ -1,13 +1,19 @@
 var globalState = this.dispatcher.getGlobalState();
 var id = globalState.getCurrentId();
 
-// console.log("Cancel, quins params es pasen: projectOwner, projectSourceType", globalState.getContent(globalState.currentTabId).projectOwner, globalState.getContent(globalState.currentTabId).projectSourceType);
+
 _ret = {
     id: id,
     name: 'cancel',
     dataToSend: {keep_draft: false},
-    projectOwner: globalState.getContent(globalState.currentTabId).projectOwner,
-    projectSourceType: globalState.getContent(globalState.currentTabId).projectSourceType
 };
+
+var contentCache = globalState.getContent(globalState.currentTabId);
+
+if (contentCache.projectOwner && contentCache.projectOwner !== 'undefined') {
+    _ret['projectOwner'] = contentCache.projectOwner;
+    _ret['projectSourceType'] = contentCache.projectSourceType;
+};
+
 
 

@@ -10,4 +10,4 @@ if (this.newname){
                      projectType: pType,
                      newname: this.newname}
     };
-}
+};

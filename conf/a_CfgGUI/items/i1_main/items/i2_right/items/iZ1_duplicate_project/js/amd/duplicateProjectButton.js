@@ -179,4 +179,4 @@ if (duplicateButton) {
         dialog.show();
         return false;
     };
-}
+};

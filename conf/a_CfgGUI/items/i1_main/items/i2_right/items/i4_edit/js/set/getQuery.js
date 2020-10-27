@@ -23,7 +23,8 @@ if (this.dispatcher.getGlobalState().currentTabId) {
     _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
     _ret+="&editorType=" + globalState.userState['editor'];
 
-
-    _ret+="&projectOwner=" + globalState.getContent(globalState.currentTabId).projectOwner;
-    _ret+="&projectSourceType=" + globalState.getContent(globalState.currentTabId).projectSourceType;
-}
+    if (globalState.getContent(globalState.currentTabId).projectOwner) {
+        _ret+="&projectOwner=" + globalState.getContent(globalState.currentTabId).projectOwner;
+        _ret+="&projectSourceType=" + globalState.getContent(globalState.currentTabId).projectSourceType;
+    }
+};
