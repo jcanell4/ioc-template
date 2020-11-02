@@ -162,7 +162,9 @@ class EditResponseHandler extends WikiIocResponseHandler
     protected function generateEditDocumentParams($responseData)
     {
         $excludeKeyList = [PageKeys::KEY_RECOVER_DRAFT, PageKeys::KEY_RECOVER_LOCAL_DRAFT, 'id', 'ns', 'rev', 'title',
-            'content', 'draft', 'meta', 'htmlForm', 'info'];
+            'content', 'draft', 'meta', 'htmlForm', 'info', 'extra'];
+
+        // ALERTA! [Xavi] afegit extra a la llista d'excluded, confirmar is cal el 'extra' en algun cas (conflicte amb les dades de la estructura wioccl per l'editor wysiwyg, es passa duplicat perquè es troba a l'extra
 
         $params = [];
         foreach ($responseData as $key => $value) {
