@@ -48,8 +48,14 @@ html {
 body {
   font: normal 100%/1.4 sans-serif;
 }
+
+hr::before{
+    content: "^[SALT DE PÀGINA]^"
+}
+
 hr {
-  border: 0 none;
+  border:0 none;
+  border-top: 1px dashed red;
   text-align: center;
   width: 100%;
   clear: both;
