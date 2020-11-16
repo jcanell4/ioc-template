@@ -187,7 +187,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     if ($responseData['alert']) {
                         $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
                     } else if (!$responseData[ProjectKeys::KEY_INFO]) {
-                        new IncorrectParametersException();
+                        throw new IncorrectParametersException();
                     }
 
             }
@@ -680,11 +680,17 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ret = false;
         if (array_key_exists($structureProperties[ProjectKeys::KEY_ID], $viewFields)) {
             //merge
+            if(isset($structureProperties["viewType"]) && !isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"])){
+                $viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"] = $structureProperties["viewType"];
+            }
             $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = array_merge(array(), $structureProperties, $viewFields[$structureProperties[ProjectKeys::KEY_ID]]);
         } else {
             if ($mandatoryParent || $structureProperties['mandatory']) {
                 $ret = true;
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties;
+                if(isset($structureProperties["viewType"])){
+                    $viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"] = $structureProperties["viewType"];
+                }                
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['group'] = $defaultParent;
             }
         }
@@ -714,7 +720,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $structureProperties['value'] = $this->renderContent($originalValue, $mode);
             $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
         }
-
+        
         $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
 
         return $ret;
