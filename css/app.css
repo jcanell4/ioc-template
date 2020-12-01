@@ -29,69 +29,69 @@
  *
  * [1] http://www.w3.org/TR/CSS21/cascade.html#cascade
  */
-html,body {
-	height: 100%;
-	width: 100%;
+html, body {
+    height: 100%;
+    width: 100%;
 }
 
 #mainContent .ioc_content {
-   color: __text__;
-   background-color: __background__;
+    color: __text__;
+    background-color: __background__;
 }
 
 #header .container {
-	height: 78px;
-	text-align: left;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
+    height: 78px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
 }
 
-#p-navigation ul{
+#p-navigation ul {
     display: block;
-	list-style-type: disc;
-	list-style-type: disc;
-	list-style-position: outside;
+    list-style-type: disc;
+    list-style-type: disc;
+    list-style-position: outside;
 }
 
-#navigation ul{
-	display: block;
-	list-style-type: disc;
-	list-style-type: disc;
-	list-style-position: outside;
+#navigation ul {
+    display: block;
+    list-style-type: disc;
+    list-style-type: disc;
+    list-style-position: outside;
 }
 
 #header ul li {
-	list-style: none;
-	display: inline;
+    list-style: none;
+    display: inline;
 }
 
-div.tb_container ul{
+div.tb_container ul {
     overflow: hidden !important;
     padding: 0;
     padding-bottom: 0.5em;
     margin: 0;
-/*    font-size: 0.75em;*/
+    /*    font-size: 0.75em;*/
 }
 
-.claro .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabContent{
+.claro .dijitTabContainerTop .dijitTabContainerTop-tabs .dijitTabContent {
     min-width: 5px;
-/*    padding-left: 2px;
-    padding-right: 2px;*/
+    /*    padding-left: 2px;
+        padding-right: 2px;*/
 }
 
-.wikiIocRotate{
-/*-webkit-transform: rotate(90deg);
--moz-transform: rotate(90deg);
--o-transform: rotate(90deg);
-writing-mode: tb-rl;    */
+.wikiIocRotate {
+    /*-webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    writing-mode: tb-rl;    */
 }
 
-.iocDisplayBlock{
-	display:block;
+.iocDisplayBlock {
+    display: block;
 }
 
-div.dokuwiki .section_highlight{
+div.dokuwiki .section_highlight {
     background-color: #eff8fd !important;
 }
 
@@ -103,7 +103,6 @@ div.dokuwiki .section_selected {
     padding-left: 5px;
     padding-right: 5px;
 }
-
 
 /* CSS pel DiffLib */
 /*
@@ -130,118 +129,138 @@ authors and should not be interpreted as representing official policies, either 
 or implied, of Chas Emerick.
 */
 table.diff {
-	border-collapse:collapse;
-	border:1px solid darkgray;
-	white-space:pre-wrap;
-	width: 100%;
+    border-collapse: collapse;
+    border: 1px solid darkgray;
+    white-space: pre-wrap;
+    width: 100%;
 }
+
 table.diff tbody {
-	font-family:Courier, monospace
+    font-family: Courier, monospace
 }
+
 table.diff tbody th {
-	font-family:verdana,arial,'Bitstream Vera Sans',helvetica,sans-serif;
-	background:#EED;
-	font-size:11px;
-	font-weight:normal;
-	border:1px solid #BBC;
-	color:#886;
-	padding:.3em .5em .1em 2em;
-	text-align:right;
-	vertical-align:top
+    font-family: verdana, arial, 'Bitstream Vera Sans', helvetica, sans-serif;
+    background: #EED;
+    font-size: 11px;
+    font-weight: normal;
+    border: 1px solid #BBC;
+    color: #886;
+    padding: .3em .5em .1em 2em;
+    text-align: right;
+    vertical-align: top
 }
+
 table.diff thead {
-	border-bottom:1px solid #BBC;
-	background:#EFEFEF;
-	font-family: Verdana, serif;
+    border-bottom: 1px solid #BBC;
+    background: #EFEFEF;
+    font-family: Verdana, serif;
 }
+
 table.diff thead th.texttitle {
-	text-align:left
+    text-align: left
 }
+
 table.diff tbody td {
-	padding: .4em .4em 0;
-	vertical-align:top;
+    padding: .4em .4em 0;
+    vertical-align: top;
 }
 
 table.diff th {
-	width: 5%;
+    width: 5%;
 }
 
 table.diff th {
-	width: 5%;
+    width: 5%;
 }
 
-.diff-dialog-diff>table.diff td {
+.diff-dialog-diff > table.diff td {
     min-width: 265px; /* les cel·les de les taules no funcionen amb mides percentuals ni amb width fixa */
     max-width: 265px;
     overflow: hidden;
 }
 
 table.diff .empty {
-	background-color:#DDD;
+    background-color: #DDD;
 }
+
 table.diff .replace {
-	background-color:#FD8
+    background-color: #FD8
 }
+
 table.diff .delete {
-	background-color:#E99;
+    background-color: #E99;
 }
+
 table.diff .skip {
-	background-color:#EFEFEF;
-	border:1px solid #AAA;
-	border-right:1px solid #BBC;
+    background-color: #EFEFEF;
+    border: 1px solid #AAA;
+    border-right: 1px solid #BBC;
 }
+
 table.diff .insert {
-	background-color:#9E9
+    background-color: #9E9
 }
+
 table.diff th.author {
-	text-align:right;
-	border-top:1px solid #BBC;
-	background:#EFEFEF;
+    text-align: right;
+    border-top: 1px solid #BBC;
+    background: #EFEFEF;
 }
 
 /* CUSTOM STYLE */
 .diff-dialog-diff {
-	height: 200px;
-	width: auto;
-	overflow: scroll;
+    height: 200px;
+    width: auto;
+    overflow: scroll;
 }
 
 .iocIconRemove,
-.iocIconAdd{
-	background-image: url("css/icons/201528-remove-add_32.png"); 
-	width: 32px;
-	height: 32px;
+.iocIconAdd {
+    background-image: url("css/icons/201528-remove-add_32.png");
+    width: 32px;
+    height: 32px;
 }
 
-.iocIconRemove { background-position: -32px -64px; }
-.iocIconAdd { background-position: -32px -32px; }
+.iocIconRemove {
+    background-position: -32px -64px;
+}
+
+.iocIconAdd {
+    background-position: -32px -32px;
+}
 
 .iocIconFactory,
-.iocIconFactoryG{
-	background-image: url("css/icons/factory_icon_2.png"); 
-	width: 32px;
-	height: 32px;
-}
-
-.iocIconFactory { background-position: 0px -32px; }
-.iocIconFactoryG { background-position: -32px 0px; }
-
-.iocIconPreviewPrint{
-    background-image: url("css/icons/printPreview.png"); 
+.iocIconFactoryG {
+    background-image: url("css/icons/factory_icon_2.png");
     width: 32px;
-    height: 32px;    
+    height: 32px;
 }
 
-.iocIconProjectClosed{
-    background-image: url("css/icons/prj_b_closed.png"); 
-    width: 16px;
-    height: 16px;    
+.iocIconFactory {
+    background-position: 0px -32px;
 }
 
-.iocIconProjectOpened{
-    background-image: url("css/icons/prj_b_opened.png"); 
+.iocIconFactoryG {
+    background-position: -32px 0px;
+}
+
+.iocIconPreviewPrint {
+    background-image: url("css/icons/printPreview.png");
+    width: 32px;
+    height: 32px;
+}
+
+.iocIconProjectClosed {
+    background-image: url("css/icons/prj_b_closed.png");
     width: 16px;
-    height: 16px;    
+    height: 16px;
+}
+
+.iocIconProjectOpened {
+    background-image: url("css/icons/prj_b_opened.png");
+    width: 16px;
+    height: 16px;
 }
 
 .iocIconSave,
@@ -259,83 +278,134 @@ table.diff th.author {
 .iocIconTrash,
 .iocIconClose,
 .iocIconUpload,
-.iocIconMediaEdit{
-	background-image: url("css/icons/commonIconsObjActEnabled.png"); 
-	width: 32px;
-	height: 32px;
-}
-
-.iocIconFtpProject{
-    background-image: url("css/icons/ftp_project.png"); 
-    width: 32px;
-    height: 32px;
-}
-.iocIconDuplicateProject{
-    background-image: url("css/icons/duplicate_project.png"); 
-    width: 32px;
-    height: 32px;
-}
-.iocIconRenameProject{
-    background-image: url("css/icons/rename_project.png"); 
-    width: 32px;
-    height: 32px;
-}
-.iocIconRemoveProject{
-    background-image: url("css/icons/remove_project.png"); 
-    width: 32px;
-    height: 32px;
-}
-.iocIconRenameFolder{
-    background-image: url("css/icons/rename_folder.png"); 
+.iocIconMediaEdit {
+    background-image: url("css/icons/commonIconsObjActEnabled.png");
     width: 32px;
     height: 32px;
 }
 
-.iocIconSave { background-position: 0; }
-.iocIconPrint { background-position: -32px; }
-.iocIconCut { background-position: -64px; }
-.iocIconCopy { background-position: -96px; }
-.iocIconExit { background-position: -128px; }
-.iocIconDelete { background-position: -160px; }
-.iocIconUndo { background-position: -192px; }
-.iocIconRedo { background-position: -224px; }
-.iocIconNew { background-position: -256px; }
-.iocIconEdit { background-position: -288px; }
-.iocIconPartialEdit { background-position: -320px; }
-.iocIconMediaDetail { background-position: -352px; }
-.iocIconTrash { background-position: -384px; }
-.iocIconClose { background-position: -416px; }
-.iocIconUpload { background-position: -448px; }
-.iocIconMediaEdit { background-position: -480px; }
-.iocIconRenameFolder { background-position: -512px; }
+.iocIconFtpProject {
+    background-image: url("css/icons/ftp_project.png");
+    width: 32px;
+    height: 32px;
+}
 
+.iocIconDuplicateProject {
+    background-image: url("css/icons/duplicate_project.png");
+    width: 32px;
+    height: 32px;
+}
+
+.iocIconRenameProject {
+    background-image: url("css/icons/rename_project.png");
+    width: 32px;
+    height: 32px;
+}
+
+.iocIconRemoveProject {
+    background-image: url("css/icons/remove_project.png");
+    width: 32px;
+    height: 32px;
+}
+
+.iocIconRenameFolder {
+    background-image: url("css/icons/rename_folder.png");
+    width: 32px;
+    height: 32px;
+}
+
+.iocIconSave {
+    background-position: 0;
+}
+
+.iocIconPrint {
+    background-position: -32px;
+}
+
+.iocIconCut {
+    background-position: -64px;
+}
+
+.iocIconCopy {
+    background-position: -96px;
+}
+
+.iocIconExit {
+    background-position: -128px;
+}
+
+.iocIconDelete {
+    background-position: -160px;
+}
+
+.iocIconUndo {
+    background-position: -192px;
+}
+
+.iocIconRedo {
+    background-position: -224px;
+}
+
+.iocIconNew {
+    background-position: -256px;
+}
+
+.iocIconEdit {
+    background-position: -288px;
+}
+
+.iocIconPartialEdit {
+    background-position: -320px;
+}
+
+.iocIconMediaDetail {
+    background-position: -352px;
+}
+
+.iocIconTrash {
+    background-position: -384px;
+}
+
+.iocIconClose {
+    background-position: -416px;
+}
+
+.iocIconUpload {
+    background-position: -448px;
+}
+
+.iocIconMediaEdit {
+    background-position: -480px;
+}
+
+.iocIconRenameFolder {
+    background-position: -512px;
+}
 
 /* NOTIFICATIONS */
 .notification {
-	border: 1px solid  #8cacbb;
-	background-color: #fff;
-	color: black;
-	width: 300px;
-	opacity: 0.5;
-	border-radius: 5px;
-	background-image: url("css/icons/notify.png");
-	margin: 0 0 0.5em;
-	padding: 0.4em;
-	padding-left: 32px;
-	background-repeat: no-repeat;
-	background-position: 8px 8px;
+    border: 1px solid #8cacbb;
+    background-color: #fff;
+    color: black;
+    width: 300px;
+    opacity: 0.5;
+    border-radius: 5px;
+    background-image: url("css/icons/notify.png");
+    margin: 0 0 0.5em;
+    padding: 0.4em;
+    padding-left: 32px;
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
 }
-
 
 .notification-container {
     background-color: #fff;
     min-width: 310px;
-	border-radius: 5px;
+    border-radius: 5px;
 }
 
-
 .unread .notification {
-	opacity: 1;
+    opacity: 1;
 }
 
 .notification span.dijitTabCloseIcon {
@@ -346,48 +416,46 @@ table.diff th.author {
 /* AVISOS DEL SISTEMA */
 
 div.warning-container {
-    overflow:hidden;
+    overflow: hidden;
 }
-.warning-container .notification, .warning-buttons{
+
+.warning-container .notification, .warning-buttons {
 
     cursor: pointer;
     cursor: hand;
 }
 
-.warning-container .notification{
-	opacity: 1;
-	font-size: inherit;
-	line-height: inherit;
+.warning-container .notification {
+    opacity: 1;
+    font-size: inherit;
+    line-height: inherit;
 
-	background-position: 8px 8px;
+    background-position: 8px 8px;
 
 }
 
 .notification.warning, .warning-buttons .warning {
-	color:#9F6000;
-	background-color:#FEEFB3;
-	border-color:#9F6000;
-	background-image: url("css/icons/warning.png");
+    color: #9F6000;
+    background-color: #FEEFB3;
+    border-color: #9F6000;
+    background-image: url("css/icons/warning.png");
 }
 
-
-.warning-buttons>span{
+.warning-buttons > span {
     display: inline-block;
 }
 
 .warning-container {
-	transform: translateY(27px);
+    transform: translateY(27px);
 }
 
 .warning-container div.dijitContentPane {
-	padding:0;
+    padding: 0;
 }
-
 
 .warning-container.toggle {
-	transform: translateY(0);
+    transform: translateY(0);
 }
-
 
 .warning-container.toggle {
     transform: translateY(7px);
@@ -395,7 +463,7 @@ div.warning-container {
 }
 
 .warning-container.toggle .warning-buttons span:after {
-    content:" [v]";
+    content: " [v]";
 }
 
 .warning-container .warning-buttons span:after {
@@ -413,144 +481,140 @@ div.warning-container {
     transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
-
 .notification.error, .warning-buttons .error {
-	color:#D8000C;
-	background-color:#FFBABA;
-	border-color:#D8000C;
-	background-image: url("css/icons/error.png");
+    color: #D8000C;
+    background-color: #FFBABA;
+    border-color: #D8000C;
+    background-image: url("css/icons/error.png");
 }
 
 .notification.info, .notification.message, .warning-buttons .info {
-	color:#00529B;
-	background-color:#BDE5F8;
-	border-color:#00529B;
-	background-image: url("css/icons/info.png");
+    color: #00529B;
+    background-color: #BDE5F8;
+    border-color: #00529B;
+    background-image: url("css/icons/info.png");
 }
 
 .notification.success, .warning-buttons .success {
-	color:#4f8A10;
-	background-color:#DFF2BF;
-	border-color:#4f8A10;
-	background-image: url("css/icons/success.png");
+    color: #4f8A10;
+    background-color: #DFF2BF;
+    border-color: #4f8A10;
+    background-image: url("css/icons/success.png");
 }
 
 .warning-buttons.right {
-	margin: 0;
-	padding: 0 0 0.2em;
-	text-align: right;
+    margin: 0;
+    padding: 0 0 0.2em;
+    text-align: right;
 }
 
 .warning-buttons span {
-	border: 1px solid;
-	border-radius: 5px;
+    border: 1px solid;
+    border-radius: 5px;
 
-	padding: 0.4em;
-	padding-left: 32px;
-	background-repeat: no-repeat;
-	background-position: 8px 4px;
+    padding: 0.4em;
+    padding-left: 32px;
+    background-repeat: no-repeat;
+    background-position: 8px 4px;
     display: none;
 }
 
-
-.activeAlarm{
+.activeAlarm {
     font-weight: bold !important;
     color: #EE2C2C !important;
 }
 
-.inactiveAlarm{
+.inactiveAlarm {
     font-weight: normal;
     color: black;
 }
 
-.iocIconActiveAlarm{
-	background-image: url("css/icons/activeAlarm.gif"); 
-	width: 16px;
-	height: 16px;
+.iocIconActiveAlarm {
+    background-image: url("css/icons/activeAlarm.gif");
+    width: 16px;
+    height: 16px;
 }
 
-.iocIconOutbox{
-	background-image: url("css/icons/outbox.png");
-	width: 16px;
-	height: 16px;
+.iocIconOutbox {
+    background-image: url("css/icons/outbox.png");
+    width: 16px;
+    height: 16px;
 }
 
-
-.iocIconInactiveAlarm{
-	background-image: url("css/icons/inactiveAlarm.png"); 
-	width: 16px;
-	height: 16px;
+.iocIconInactiveAlarm {
+    background-image: url("css/icons/inactiveAlarm.png");
+    width: 16px;
+    height: 16px;
 }
 
 /* Forms */
 .ioc-bootstrap .form-group.form-frame {
-	border-radius:5px;
-	border: 1px solid #8cacbb;
+    border-radius: 5px;
+    border: 1px solid #8cacbb;
 }
 
 .ioc-bootstrap .form-group.form-without-frame {
-	margin-bottom: 16px;
-	margin-top: 1px;
+    margin-bottom: 16px;
+    margin-top: 1px;
 }
 
 .ioc-bootstrap .form-group { /* Pertany a Bootstrap */
-	padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 /* Capçeleres falses pels formularis */
 .h1, .h2 {
-	/*margin-top: 20px;*/
-	/*margin-bottom: 10px;*/
-	font-family: inherit;
-	font-weight: 500;
-	/*line-height: 1.1;*/
-	color: inherit;
+    /*margin-top: 20px;*/
+    /*margin-bottom: 10px;*/
+    font-family: inherit;
+    font-weight: 500;
+    /*line-height: 1.1;*/
+    color: inherit;
 }
 
 .h1 {
-	font-size: 20px;
-	text-align: center;
+    font-size: 20px;
+    text-align: center;
 }
 
 .h2 {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 /* Correcció posició de l'icona de la carpeta a la vista d'arbre */
-.dijitTreeIcon.dijitIconFolderClosed, .dijitTreeIcon.dijitFolderClosed{
-	background-position: -463px;
+.dijitTreeIcon.dijitIconFolderClosed, .dijitTreeIcon.dijitFolderClosed {
+    background-position: -463px;
 }
 
-#bodyContent{
-    font-size:  1.1em;
+#bodyContent {
+    font-size: 1.1em;
 }
 
 /* panells de tipus form_request */
 .request_form input, .request_form textarea {
-	width: 100%
+    width: 100%
 }
 
 .request_form div {
-	margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .request_form div.hidden {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
-
 .request_form label {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .request_form input[type="checkbox"], .request_form input[type="radio"] {
-	width: auto;
-	margin-right: 0.5em;
+    width: auto;
+    margin-right: 0.5em;
 }
 
 .changeType fieldset,
-.pagenav fieldset{
+.pagenav fieldset {
     border: 2px solid __fieldset_border__;
     padding: 10px;
 }
@@ -562,1041 +626,1271 @@ div.warning-container {
 */
 
 .new-section {
-	clear:both;
+    clear: both;
 }
 
-#zonaNavegacio{
+#zonaNavegacio {
     overflow: hidden;
 }
 
 #zonaNavegacio .dijitTabContainerTop-container,
-#zonaNavegacio .dijitTabContainerTopChildWrapper
-{
+#zonaNavegacio .dijitTabContainerTopChildWrapper {
     overflow: visible;
     height: 100%;
 }
 
-#zonaNavegacio .dijitTabContainerTop-dijitLayoutContainer
-{
+#zonaNavegacio .dijitTabContainerTop-dijitLayoutContainer {
     overflow: auto;
     height: 100%;
 }
 
 #tb_shortcuts .dijitLayoutContainer,
 #tb_shortcuts .dijitContainer,
-.dijitTree{
+.dijitTree {
     overflow: visible;
 }
 
-#bodyContent .dijitTabContainerTop-container
-{
+#bodyContent .dijitTabContainerTop-container {
     border: 0;
 }
 
 textarea[name="wikitext"] {
-	font-size: 14px;
-	font-family: monospace;
+    font-size: 14px;
+    font-family: monospace;
 }
-
 
 /* Ressaltadors pel Drag & Drop */
 
-
 /*.highlight {*/
-	/*border: 2px solid red !important;*/
+/*border: 2px solid red !important;*/
 /*}*/
 
 /*.glow {*/
-	/*border: 2px solid green !important;*/
+/*border: 2px solid green !important;*/
 /*}*/
 
 span.arrow-icon {
-	padding: 1px;
-	/*background-color:lightgrey;*/
-	/*border: 1px solid black;*/
-	border-radius: 50%;
-	display: none;
-	width: 18px;
-	height: 18px;
-	background-image: url("css/icons/dojo-arrows.png");
+    padding: 1px;
+    /*background-color:lightgrey;*/
+    /*border: 1px solid black;*/
+    border-radius: 50%;
+    display: none;
+    width: 18px;
+    height: 18px;
+    background-image: url("css/icons/dojo-arrows.png");
 }
 
-
 .arrow-right {
-	background-position: 0;
+    background-position: 0;
 }
 
 .arrow-left {
-	background-position: -18px;
+    background-position: -18px;
 }
 
 .arrow-up {
-	background-position: -36px;
-	/*transform:rotateY(90deg);*/
+    background-position: -36px;
+    /*transform:rotateY(90deg);*/
 }
 
 .arrow-down {
-	background-position: -54px;
+    background-position: -54px;
 }
 
 /* Dojo Editor Plugin Icons */
 .dijitIocIcon {
-	background-image: url('css/icons/iocIconsEnabled.png'); /* editor icons sprite image for the enabled state */
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
-	text-align: center;
-	background-position-y: 0; /* Per defecte la primera fila */
+    background-image: url('css/icons/iocIconsEnabled.png'); /* editor icons sprite image for the enabled state */
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    background-position-y: 0; /* Per defecte la primera fila */
 }
 
 .dijitDisabled .dijitIocIcon {
-	/*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
-	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-	filter: grayscale(100%);
+    /*background-image: url('images/ioc-icons-disabled.png'); !* editor icons sprite image for the disabled state *!*/
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
 }
 
-.dijitIocIconIocComment { background-position-x: 0; }
-.dijitDisabled .dijitIocIconIocComment { opacity: 0.5; }
-.dijitIocIconIocSound { background-position-x: -18px; }
-.dijitIocIconIocVideo { background-position-x: -792px; }
-.dijitIocIconIocGif { background-position-x: -774px; }
-.dijitIocIconIocBack { background-position-x: -36px; }
-.dijitIocIconIocSave { background-position-x: -54px; }
-.dijitIocIconIocDocumentPreview { background-position-x: -72px; }
-.dijitIocIconIocSwitchEditorAce { background-position-x: -810px}
+.dijitIocIconIocComment {
+    background-position-x: 0;
+}
+
+.dijitDisabled .dijitIocIconIocComment {
+    opacity: 0.5;
+}
+
+.dijitIocIconIocSound {
+    background-position-x: -18px;
+}
+
+.dijitIocIconIocVideo {
+    background-position-x: -792px;
+}
+
+.dijitIocIconIocGif {
+    background-position-x: -774px;
+}
+
+.dijitIocIconIocBack {
+    background-position-x: -36px;
+}
+
+.dijitIocIconIocSave {
+    background-position-x: -54px;
+}
+
+.dijitIocIconIocDocumentPreview {
+    background-position-x: -72px;
+}
+
+.dijitIocIconIocSwitchEditorAce {
+    background-position-x: -810px
+}
 
 /* IOC syntax buttons */
-.dijitIocIconIocNewContent { background-position-x: -90px; }
-.dijitIocIconIocInsertFigureSyntax { background-position-x: -108px; }
-.dijitIocIconIocInsertFigureLinkSyntax { background-position-x: -126px; }
-.dijitIocIconIocInsertTableSyntax { background-position-x: -144px; }
-.dijitIocIconIocInsertTableLinkSyntax { background-position-x: -162px; }
-.dijitIocIconIocInsertTextSyntax { background-position-x: -180px; }
-.dijitIocIconIocInsertTextLargeSyntax { background-position-x: -198px; }
-.dijitIocIconIocInsertExampleSyntax { background-position-x: -216px; }
-.dijitIocIconIocInsertNoteSyntax { background-position-x: -234px; }
-.dijitIocIconIocInsertReferenceSyntax { background-position-x: -252px; }
-.dijitIocIconIocInsertImportantSyntax { background-position-x: -270px; }
-.dijitIocIconIocInsertQuoteSyntax { background-position-x: -288px; }
-.dijitIocIconIocInsertAccountingSyntax { background-position-x: -144px; }
-
-
-.dijitIocIconIocBold { background-position: -198px -18px; }
-.dijitIocIconIocItalic { background-position: -216px -18px; }
-.dijitIocIconIocUnderline { background-position: -234px -18px; }
-.dijitIocIconIocMonospace { background-position: -180px -18px; }
-.dijitIocIconIocCode { background-position: -756px -18px; }
-.dijitIocIconIocStrikethrough { background-position: -252px -18px; }
-.dijitIocIconIocHeader0{ background-position: -108px -18px; }
-.dijitIocIconIocHeader1{ background-position-x: -306px; }
-.dijitIocIconIocHeader2{ background-position-x: -324px; }
-.dijitIocIconIocHeader3{ background-position-x: -342px; }
-.dijitIocIconIocHeader4{ background-position-x: -360px; }
-.dijitIocIconIocHeader5{ background-position-x: -378px; }
-.dijitIocIconIocHeader6{ background-position-x: -396px; }
-.dijitIocIconIocLink{ background-position-x: -414px; }
-.dijitIocIconIocLinkExternal{ background-position-x: -432px; }
-.dijitIocIconIocMedia{ background-position-x: -450px; }
-.dijitIocIconIocHr{ background-position-x: -468px; }
-.dijitIocIconIocSpecialChars{ background-position-x: -486px; }
-.dijitIocIconIocMergeCell { background-position-x: -504px; }
-.dijitIocIconIocTableDelete { background-position-x: -522px; }
-.dijitIocIconIocInsertTable{ background-position: -630px -18px;}
-.dijitIocIconIocToggleTableHeader{ background-position: -558px -18px;}
-.dijitIocIconIocTableAlignLeft{ background-position: -342px -18px; }
-.dijitIocIconIocTableAlignCenter{ background-position: -306px -18px; }
-.dijitIocIconIocTableAlignRight{ background-position: -360px -18px; }
-
-.dijitIocIconClearFormat{ background-position: -108px -18px; }
-
-.dijitIocIconIocQuizVF { background-position-x: -756px; }
-.dijitIocIconIocQuizChoice { background-position-x: -738px; }
-.dijitIocIconIocQuizRelations { background-position-x: -720px; }
-.dijitIocIconIocQuizComplete { background-position-x: -702px; }
-
-
-
-
-/* Icons to show with dropdown buttons */
-.dijitAdditionalEditorIconIocBack { background-position-x: -36px; }
-
-
-.floating-toolbar {
-	padding: 2px 0 0;
+.dijitIocIconIocNewContent {
+    background-position-x: -90px;
 }
 
+.dijitIocIconIocInsertFigureSyntax {
+    background-position-x: -108px;
+}
+
+.dijitIocIconIocInsertFigureLinkSyntax {
+    background-position-x: -126px;
+}
+
+.dijitIocIconIocInsertTableSyntax {
+    background-position-x: -144px;
+}
+
+.dijitIocIconIocInsertTableLinkSyntax {
+    background-position-x: -162px;
+}
+
+.dijitIocIconIocInsertTextSyntax {
+    background-position-x: -180px;
+}
+
+.dijitIocIconIocInsertTextLargeSyntax {
+    background-position-x: -198px;
+}
+
+.dijitIocIconIocInsertExampleSyntax {
+    background-position-x: -216px;
+}
+
+.dijitIocIconIocInsertNoteSyntax {
+    background-position-x: -234px;
+}
+
+.dijitIocIconIocInsertReferenceSyntax {
+    background-position-x: -252px;
+}
+
+.dijitIocIconIocInsertImportantSyntax {
+    background-position-x: -270px;
+}
+
+.dijitIocIconIocInsertQuoteSyntax {
+    background-position-x: -288px;
+}
+
+.dijitIocIconIocInsertAccountingSyntax {
+    background-position-x: -144px;
+}
+
+.dijitIocIconIocBold {
+    background-position: -198px -18px;
+}
+
+.dijitIocIconIocItalic {
+    background-position: -216px -18px;
+}
+
+.dijitIocIconIocUnderline {
+    background-position: -234px -18px;
+}
+
+.dijitIocIconIocMonospace {
+    background-position: -180px -18px;
+}
+
+.dijitIocIconIocCode {
+    background-position: -756px -18px;
+}
+
+.dijitIocIconIocStrikethrough {
+    background-position: -252px -18px;
+}
+
+.dijitIocIconIocHeader0 {
+    background-position: -108px -18px;
+}
+
+.dijitIocIconIocHeader1 {
+    background-position-x: -306px;
+}
+
+.dijitIocIconIocHeader2 {
+    background-position-x: -324px;
+}
+
+.dijitIocIconIocHeader3 {
+    background-position-x: -342px;
+}
+
+.dijitIocIconIocHeader4 {
+    background-position-x: -360px;
+}
+
+.dijitIocIconIocHeader5 {
+    background-position-x: -378px;
+}
+
+.dijitIocIconIocHeader6 {
+    background-position-x: -396px;
+}
+
+.dijitIocIconIocLink {
+    background-position-x: -414px;
+}
+
+.dijitIocIconIocLinkExternal {
+    background-position-x: -432px;
+}
+
+.dijitIocIconIocMedia {
+    background-position-x: -450px;
+}
+
+.dijitIocIconIocHr {
+    background-position-x: -468px;
+}
+
+.dijitIocIconIocSpecialChars {
+    background-position-x: -486px;
+}
+
+.dijitIocIconIocMergeCell {
+    background-position-x: -504px;
+}
+
+.dijitIocIconIocTableDelete {
+    background-position-x: -522px;
+}
+
+.dijitIocIconIocInsertTable {
+    background-position: -630px -18px;
+}
+
+.dijitIocIconIocToggleTableHeader {
+    background-position: -558px -18px;
+}
+
+.dijitIocIconIocTableAlignLeft {
+    background-position: -342px -18px;
+}
+
+.dijitIocIconIocTableAlignCenter {
+    background-position: -306px -18px;
+}
+
+.dijitIocIconIocTableAlignRight {
+    background-position: -360px -18px;
+}
+
+.dijitIocIconClearFormat {
+    background-position: -108px -18px;
+}
+
+.dijitIocIconIocQuizVF {
+    background-position-x: -756px;
+}
+
+.dijitIocIconIocQuizChoice {
+    background-position-x: -738px;
+}
+
+.dijitIocIconIocQuizRelations {
+    background-position-x: -720px;
+}
+
+.dijitIocIconIocQuizComplete {
+    background-position-x: -702px;
+}
+
+/* Icons to show with dropdown buttons */
+.dijitAdditionalEditorIconIocBack {
+    background-position-x: -36px;
+}
+
+.floating-toolbar {
+    padding: 2px 0 0;
+}
 
 /* Tests Readonly */
 
 .ace-tm .ace_keyword.ace_operator.ace_readonly {
-	color: blue;
+    color: blue;
 }
 
-.readonly-highlight{
-	background-color: red;
-	opacity: 0.2;
-	position: absolute;
+.readonly-highlight {
+    background-color: red;
+    opacity: 0.2;
+    position: absolute;
 }
 
-.edittable-highlight{
-	background-color: green;
-	opacity: 0.2;
-	position: absolute;
+.edittable-highlight {
+    background-color: green;
+    opacity: 0.2;
+    position: absolute;
 }
 
-.ace_readonly{
-	/*display: none;*/
+.ace_readonly {
+    /*display: none;*/
 }
 
 /* Codi pel grid */
 
-
-
 /* Claro styles for DataGrid */
 .dojoxGrid {
-	position: relative;
-	background-color: #EBEADB;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	-moz-outline-style: none;
-	outline: none;
-	overflow: hidden;
-	height: 0;
+    position: relative;
+    background-color: #EBEADB;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    -moz-outline-style: none;
+    outline: none;
+    overflow: hidden;
+    height: 0;
 }
 
 .dojoxGrid table {
-	padding: 0;
+    padding: 0;
 }
 
 .dojoxGrid td {
-	-moz-outline: none;
+    -moz-outline: none;
 }
 
 /* master header */
 
 .dojoxGridMasterHeader {
-	position: relative;
+    position: relative;
 }
 
 /* master view */
 
-.dojoxGridMasterView  {
-	position: relative;
+.dojoxGridMasterView {
+    position: relative;
 }
 
 /* master messages */
 
 .dojoxGridMasterMessages {
-	position: relative;
-	padding: 1em;
-	text-align: center;
-	background-color: white;
+    position: relative;
+    padding: 1em;
+    text-align: center;
+    background-color: white;
 }
 
 /* views */
 
 .dojoxGridView {
-	position: absolute;
-	overflow: hidden;
+    position: absolute;
+    overflow: hidden;
 }
 
 /* header */
 
 .dojoxGridHeader {
-	position: absolute;
-	overflow: hidden;
-	cursor: default;
+    position: absolute;
+    overflow: hidden;
+    cursor: default;
 }
 
 .dojoxGridHeader {
-	background-color: #E8E1CF;
+    background-color: #E8E1CF;
 }
 
 .dojoxGridHeader table {
-	text-align: center;
+    text-align: center;
 }
 
 .dojoxGridHeader .dojoxGridCell {
-	border: 1px solid;
-	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
-	padding-bottom: 2px;
+    border: 1px solid;
+    border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
+    background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+    padding-bottom: 2px;
 }
 
 .dojoxGridHeader .dojoxGridCellOver {
-	background-image: none;
-	background-color: white;
-	border-bottom-color: #FEBE47;
-	margin-bottom: 0;
-	padding-bottom: 0;
-	border-bottom-width: 3px;
+    background-image: none;
+    background-color: white;
+    border-bottom-color: #FEBE47;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom-width: 3px;
 }
 
 .dojoxGridHeader .dojoxGridCellFocus {
-	border: 1px dashed blue;
+    border: 1px dashed blue;
 }
 
 .dojoxGridHeader.dojoxGridCellFocus.dojoxGridCellOver {
-	background-image: none;
-	background-color: white;
-	border-bottom-color: #FEBE47;
-	margin-bottom: 0;
-	padding-bottom: 0;
-	border-bottom-width: 3px;
+    background-image: none;
+    background-color: white;
+    border-bottom-color: #FEBE47;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom-width: 3px;
 }
+
 .dojoxGridArrowButtonNode {
-	display: none;
-	padding-left: 16px;
+    display: none;
+    padding-left: 16px;
 }
+
 .dojoxGridArrowButtonChar {
-	display:inline;
+    display: inline;
 }
 
 /* Need to explicitly define how to treat hovering over the arrow on IE */
 .dojoxGridArrowButtonNode:hover {
-	cursor: default;
+    cursor: default;
 }
+
 .dojoxGridArrowButtonChar:hover {
-	cursor: default;
+    cursor: default;
 }
+
 .dojoxGridSortUp:hover {
-	cursor: default;
+    cursor: default;
 }
+
 .dojoxGridSortDown:hover {
-	cursor: default;
+    cursor: default;
 }
 
 .dijit_a11y .dojoxGridArrowButtonChar {
-	display:inline !important;
+    display: inline !important;
 }
 
 /* content */
 
 .dojoxGridScrollbox {
-	position: relative;
-	overflow: auto;
-	background-color: white;
-	width: 100%;
+    position: relative;
+    overflow: auto;
+    background-color: white;
+    width: 100%;
 }
 
 .dojoxGridContent {
-	position: relative;
-	overflow: hidden;
-	-moz-outline-style: none;
-	outline: none;
+    position: relative;
+    overflow: hidden;
+    -moz-outline-style: none;
+    outline: none;
 }
 
 /* rowbar */
 
 .dojoxGridRowbar {
-	border: 1px solid;
-	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	border-top: none;
-	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+    border: 1px solid;
+    border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
+    border-top: none;
+    background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
 }
 
 .dojoxGridRowbarInner {
-	border-top: 1px solid #F6F4EB;
+    border-top: 1px solid #F6F4EB;
 }
 
 .dojoxGridRowbarOver {
-	background-image: none;
-	background-color: white;
-	border-top-color: #FEBE47;
-	border-bottom-color: #FEBE47;
+    background-image: none;
+    background-color: white;
+    border-top-color: #FEBE47;
+    border-bottom-color: #FEBE47;
 }
 
 .dojoxGridRowbarSelected {
-	background-color: #D9E8F9;
+    background-color: #D9E8F9;
 }
 
 /* rows */
 
 .dojoxGridRow {
-	position: relative;
-	width: 9000em;
+    position: relative;
+    width: 9000em;
 }
 
 .dojoxGridRow {
-	/*border: 1px solid #E8E4D8;*/
-	border: 1px solid #E8E4D8;
-	border-color: #F8F7F1;
-	/*padding: 0 0 1px 0;*/
-	border-left: none;
-	border-right: none;
-	background-color: white;
-	border-top: none;
+    /*border: 1px solid #E8E4D8;*/
+    border: 1px solid #E8E4D8;
+    border-color: #F8F7F1;
+    /*padding: 0 0 1px 0;*/
+    border-left: none;
+    border-right: none;
+    background-color: white;
+    border-top: none;
 }
 
 .dojoxGridRowOver {
-	border-top-color: #FEBE47;
-	border-bottom-color: #FEBE47;
-	/*border-bottom-width: 2px;
-	padding-bottom: 0;*/
-	/*background-color: #FFDD9D;*/
-	/*background-color: #FDFDFD;*/
+    border-top-color: #FEBE47;
+    border-bottom-color: #FEBE47;
+    /*border-bottom-width: 2px;
+    padding-bottom: 0;*/
+    /*background-color: #FFDD9D;*/
+    /*background-color: #FDFDFD;*/
 }
 
 .dojoxGridRowOdd {
-	background-color: #FFFDF3;
-	/*background-color: #F9F7E8;*/
+    background-color: #FFFDF3;
+    /*background-color: #F9F7E8;*/
 }
 
 .dojoxGridRowSelected {
-	background-color: #D9E8F9;
+    background-color: #D9E8F9;
 }
 
 .dojoxGridRowTable {
-	table-layout: fixed;
-	width: 0;
-	empty-cells: show;
+    table-layout: fixed;
+    width: 0;
+    empty-cells: show;
 }
+
 .dj_ie .dojoxGridRowTable {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .dojoxGridInvisible {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .Xdojo-ie .dojoxGridInvisible {
-	display: none;
+    display: none;
 }
 
 .dojoxGridInvisible td, .dojoxGridHeader .dojoxGridInvisible td {
-	border-top-width: 0;
-	border-bottom-width: 0;
-	padding-top: 0;
-	padding-bottom: 0;
-	height: 0;
-	overflow: hidden;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+    overflow: hidden;
 }
 
 /* cells */
 
 .dojoxGrid .dojoxGridCell {
-	border: 1px solid;
-	border-color: #EBEADB;
-	border-right-color: #D5CDB5;
-	padding: 3px 3px 3px 3px;
-	text-align: left;
-	overflow: hidden;
-	word-wrap: break-word;
+    border: 1px solid;
+    border-color: #EBEADB;
+    border-right-color: #D5CDB5;
+    padding: 3px 3px 3px 3px;
+    text-align: left;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .dojoxGrid .dojoxGridFixedRowHeight .dojoxGridCell {
-	white-space: nowrap;
-	word-break: keep-all;
-	word-wrap: normal;
-	text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    word-wrap: normal;
+    text-overflow: ellipsis;
 }
 
 .dojoxGridCellFocus {
-	border: 1px dashed blue;
+    border: 1px dashed blue;
 }
 
 .dojoxGridCellOver {
-	border: 1px dotted #FEBE47;
+    border: 1px dotted #FEBE47;
 }
 
 .dojoxGridCellFocus.dojoxGridCellOver {
-	border: 1px dashed green;
+    border: 1px dashed green;
 }
 
 /* editing */
 
 .dojoxGridRowEditing td {
-	background-color: #F4FFF4;
+    background-color: #F4FFF4;
 }
 
 .dojoxGridRow-inserting td {
-	background-color: #F4FFF4;
+    background-color: #F4FFF4;
 }
+
 .dojoxGridRow-inflight td {
-	background-color: #F2F7B7;
+    background-color: #F2F7B7;
 }
+
 .dojoxGridRow-error td {
-	background-color: #F8B8B6;
+    background-color: #F8B8B6;
 }
 
 .dojoxGridInput, .dojoxGridSelect, .dojoxGridTextarea {
-	margin: 0;
-	padding: 0;
-	border-style: none;
-	width: 100%;
-	font-size: 100%;
-	font-family: inherit;
+    margin: 0;
+    padding: 0;
+    border-style: none;
+    width: 100%;
+    font-size: 100%;
+    font-family: inherit;
 }
 
 .dojoxGridHiddenFocus {
-	position: absolute;
-	top: -1000px;
-	height: 0;
-	width: 0;
+    position: absolute;
+    top: -1000px;
+    height: 0;
+    width: 0;
 }
 
 .dijit_a11y .dojoxGridRowbarSelected {
-	border-top: 1px solid white;
-	border-bottom: 1px dashed black;
-	border-top: 0;
-	background: none;
+    border-top: 1px solid white;
+    border-bottom: 1px dashed black;
+    border-top: 0;
+    background: none;
 }
 
 .dijit_a11y .dojoxGridRowbarSelected .dojoxGridRowbarInner {
-	border: 0;
-	border-top: 1px solid white;
+    border: 0;
+    border-top: 1px solid white;
 }
 
 .dijit_a11y .dojoxGridRowSelected {
-	border: 1px solid black !important;
+    border: 1px solid black !important;
 }
 
 /* Drag and Drop */
 .dojoxGridRowTable .dojoDndHorizontal th.dojoDndItem {
-	display: table-cell;
-	/* overwrite margin/padding setting from dijit.css */
-	margin: 0;
+    display: table-cell;
+    /* overwrite margin/padding setting from dijit.css */
+    margin: 0;
 }
+
 .dojoxGridDndAvatar {
-	font-size: 100%;
+    font-size: 100%;
 }
+
 .dojoxGrid .dojoDndItemBefore {
-	border-left-color: red;
+    border-left-color: red;
 }
+
 .dojoxGrid .dojoDndItemAfter {
-	border-right-color: red;
+    border-right-color: red;
 }
+
 .dijit_a11y .dojoDndItemBefore {
-	border-left: double;
+    border-left: double;
 }
+
 .dijit_a11y .dojoDndItemAfter {
-	border-right: double;
+    border-right: double;
 }
-.dojoxGridDndAvatarItem	td {
-	border: 1px solid;
-	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
-	padding: 0pt;
-	margin: 0pt;
+
+.dojoxGridDndAvatarItem td {
+    border: 1px solid;
+    border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
+    background: url(css/icons/Grid/grid_dx_gradient.gif) #E8E1CF top repeat-x;
+    padding: 0pt;
+    margin: 0pt;
 }
-.dojoxGridDndAvatarItem	td.dojoxGridDndAvatarItemImage {
-	border: 0;
-	border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
-	background-color: transparent;
-	padding: 3px;
-	padding-bottom: 2px;
-	margin: 0;
+
+.dojoxGridDndAvatarItem td.dojoxGridDndAvatarItemImage {
+    border: 0;
+    border-color: #F6F4EB #ACA899 #ACA899 #F6F4EB;
+    background-color: transparent;
+    padding: 3px;
+    padding-bottom: 2px;
+    margin: 0;
 }
+
 .dojoDndMove .dojoxGridDndAvatarItem .dojoxGridDndAvatarItemImage {
-	background-image: url(../../../dojo/resources/images/dndNoMove.png);
-	background-repeat: no-repeat;
-	background-position: center center;
+    background-image: url(../../../dojo/resources/images/dndNoMove.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
+
 .dojoDndCopy .dojoxGridDndAvatarItem .dojoxGridDndAvatarItemImage {
-	background-image: url(../../../dojo/resources/images/dndNoCopy.png);
-	background-repeat: no-repeat;
-	background-position: center center;
+    background-image: url(../../../dojo/resources/images/dndNoCopy.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
+
 .dojoDndMove .dojoDndAvatarCanDrop .dojoxGridDndAvatarItem .dojoxGridDndAvatarItemImage {
-	background-image: url(../../../dojo/resources/images/dndMove.png);
-	background-repeat: no-repeat;
-	background-position: center center;
+    background-image: url(../../../dojo/resources/images/dndMove.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
+
 .dojoDndCopy .dojoDndAvatarCanDrop .dojoxGridDndAvatarItem .dojoxGridDndAvatarItemImage {
-	background-image: url(../../../dojo/resources/images/dndCopy.png);
-	background-repeat: no-repeat;
-	background-position: center center;
+    background-image: url(../../../dojo/resources/images/dndCopy.png);
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .dojoxGridColPlaceBottom {
-	background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
+    background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
 }
+
 .dojoxGridColPlaceTop {
-	background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
+    background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
 }
 
 .dojoxGridColPlaceTop, .dojoxGridColPlaceBottom {
-	font-size:1px;
-	height:6px;
-	z-index:10000;
-	top:0;
-	overflow:hidden;
-	position:absolute;
-	line-height:1px;
-	width:8px;
+    font-size: 1px;
+    height: 6px;
+    z-index: 10000;
+    top: 0;
+    overflow: hidden;
+    position: absolute;
+    line-height: 1px;
+    width: 8px;
 }
+
 .dojoxGridResizeColLine {
-	width: 1px;
-	background-color: #777;
-	position: absolute;
-	cursor: col-resize;
-	z-index:10000;
+    width: 1px;
+    background-color: #777;
+    position: absolute;
+    cursor: col-resize;
+    z-index: 10000;
 }
+
 .dojoxGridColNoResize,
 .dojoxGridColNoResize .dojoDndItemOver {
-	cursor: not-allowed !important;
+    cursor: not-allowed !important;
 }
+
 .dojoxGridColResize,
 .dojoxGridColResize .dojoDndItemOver,
 .dojoxGridColumnResizing,
 .dojoxGridColumnResizing .dojoDndItemOver,
 .dojoxGridColumnResizing .dojoxGridHeader {
-	cursor: col-resize !important;
+    cursor: col-resize !important;
 }
 
 .dojoxGridColPlaceBottom {
-	background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
+    background: transparent url(css/icons/Grid/grid_sort_up.gif) no-repeat scroll left top;
 }
+
 .dojoxGridColPlaceTop {
-	background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
+    background: transparent url(css/icons/Grid/grid_sort_down.gif) no-repeat scroll left top;
 }
 
 .dojoxGridColPlaceTop, .dojoxGridColPlaceBottom {
-	font-size:1px;
-	height:6px;
-	z-index:10000;
-	top:0;
-	overflow:hidden;
-	position:absolute;
-	line-height:1px;
-	width:8px;
+    font-size: 1px;
+    height: 6px;
+    z-index: 10000;
+    top: 0;
+    overflow: hidden;
+    position: absolute;
+    line-height: 1px;
+    width: 8px;
 }
+
 .dojoxGridResizeColLine {
-	width: 1px;
-	background-color: #777;
-	position: absolute;
+    width: 1px;
+    background-color: #777;
+    position: absolute;
 }
 
 /* Tree Grid */
 .dojoxGridExpandoCell {
-	vertical-align: middle;
-}
-.dojoxGridSummarySpan {
-	visibility: hidden;
-}
-.dojoxGridSummaryRow .dojoxGridSummarySpan,
-.dojoxGridRowCollapsed .dojoxGridSummarySpan {
-	visibility: visible;
-}
-.dojoxGridNoChildren .dojoxGridExpando {
-	visibility: hidden !important;
-	width: 0px !important;
+    vertical-align: middle;
 }
 
+.dojoxGridSummarySpan {
+    visibility: hidden;
+}
+
+.dojoxGridSummaryRow .dojoxGridSummarySpan,
+.dojoxGridRowCollapsed .dojoxGridSummarySpan {
+    visibility: visible;
+}
+
+.dojoxGridNoChildren .dojoxGridExpando {
+    visibility: hidden !important;
+    width: 0px !important;
+}
 
 /* Grid_rtl.css */
 .dj_ie .dojoxGridRtl .dojoxGridHeader table {
-	float:none;
+    float: none;
 }
 
 .dojoxGridRtl .dojoxGridCell {
-	text-align:right;
+    text-align: right;
 }
 
 .dj_ie8 .dojoxGridRtl .dojoxGridCell {
-	border-left: none;
+    border-left: none;
 }
 
 .dj_ie .dojoxGridRtl .dojoxGridMasterView .dojoxGridRowTable {
-	border-left: #e5dac8 1px solid
+    border-left: #e5dac8 1px solid
 }
 
 .dojoxGridRtl .dojoxGridArrowButtonNode {
-	float:left;
+    float: left;
 }
-
 
 .claro .dojoxGrid {
-	margin:0px;
-	padding:0px;
-	border-collapse:collapse;
-	background-color: #fff;
-	border: 1px solid #DBDBDB;
+    margin: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border: 1px solid #DBDBDB;
 }
+
 /*  messages */
 .claro .dojoxGridMasterMessages {
-	background-color: #fefefe;
+    background-color: #fefefe;
 }
+
 .claro .dojoxGridLoading,
 .claro .dojoxGridError {
-	background-position:left center;
-	background-repeat: no-repeat;
-	padding-left:25px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    padding-left: 25px;
 }
+
 .claro .dojoxGridLoading {
-	background-image:url("css/icons/Grid/loadingAnimation.gif");
+    background-image: url("css/icons/Grid/loadingAnimation.gif");
 }
+
 .claro .dojoxGridError {
-	background-image: url('css/icons/commonIconsObjActEnabled.png');
-	background-position: -496px;
-	width: 16px;
-	height: 16px;
+    background-image: url('css/icons/commonIconsObjActEnabled.png');
+    background-position: -496px;
+    width: 16px;
+    height: 16px;
 }
 
 /* header */
 .claro .dojoxGridHeader {
-	background: transparent;
-	margin-left: -2px;
+    background: transparent;
+    margin-left: -2px;
 }
+
 .claro .dojoxGridHeader .dojoxGridCell {
-	padding: 2px 5px;
-	vertical-align: top;
-	background: transparent;
-	border-style:solid;
-	border-width:1px;
-	border-color: #FFFFFF #BCBCBC #BCBCBC #FFFFFF;
+    padding: 2px 5px;
+    vertical-align: top;
+    background: transparent;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FFFFFF #BCBCBC #BCBCBC #FFFFFF;
 }
+
 .dj_ie6 .claro .dojoxGridHeader .dojoxGridCell {
-	border-color:#BCBCBC #BCBCBC #BCBCBC #e5edf4;
+    border-color: #BCBCBC #BCBCBC #BCBCBC #e5edf4;
 }
+
 .claro .dojoxGridHeader .dojoxGridCellOver {
-	background: #9dcfff;
+    background: #9dcfff;
 }
 
 /* header sorting arrow */
 .claro .dojoxGridSortNode {
-	text-decoration:none;
-	display:block;
-	white-space: normal;
-	background: none;
-	border: none;
-	padding: 0;
+    text-decoration: none;
+    display: block;
+    white-space: normal;
+    background: none;
+    border: none;
+    padding: 0;
 }
+
 .claro .dojoxGridCellOver .dojoxGridSortNode {
-	background-color:#9dcfff;
+    background-color: #9dcfff;
 }
+
 .claro .dojoxGridArrowButtonChar {
-	display:none;
-	float:right;
+    display: none;
+    float: right;
 }
+
 .claro .dojoxGridArrowButtonNode {
-	background:transparent url("css/icons/Grid/spriteArrows.png") no-repeat scroll left center;
-	display:block;
-	float:right;
-	height:1em;
-	margin:2px 4px 0 5px;
-	padding-left:0;
-	width:7px;
+    background: transparent url("css/icons/Grid/spriteArrows.png") no-repeat scroll left center;
+    display: block;
+    float: right;
+    height: 1em;
+    margin: 2px 4px 0 5px;
+    padding-left: 0;
+    width: 7px;
 }
+
 .claro .dojoxGridSortUp .dojoxGridArrowButtonNode {
-	background-position:-21px 50%;
+    background-position: -21px 50%;
 }
 
 /* header rows */
 .claro .dojoxGridMasterHeader {
-	background: url("css/icons/Grid/header.png") #EDF2F7 repeat-x bottom;
-	background: -moz-linear-gradient(top, #EDF2F7, #D0DFEA);
-	background: -webkit-gradient(linear, left top, left bottom, from(#EDF2F7), to(#D0DFEA));
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFEDF2F7, endColorstr=#FFD0DFEA);
-	border: 1px solid #FFFFFF;
-	border-right: none;
+    background: url("css/icons/Grid/header.png") #EDF2F7 repeat-x bottom;
+    background: -moz-linear-gradient(top, #EDF2F7, #D0DFEA);
+    background: -webkit-gradient(linear, left top, left bottom, from(#EDF2F7), to(#D0DFEA));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFEDF2F7, endColorstr=#FFD0DFEA);
+    border: 1px solid #FFFFFF;
+    border-right: none;
 }
+
 .claro .dojoxGridMasterHeader .dojoxGridRowTable {
-	border-left: 1px solid #BCBCBC;
-	border-right: 1px solid #FFFFFF;
-	background-color: transparent;
+    border-left: 1px solid #BCBCBC;
+    border-right: 1px solid #FFFFFF;
+    background-color: transparent;
 }
+
 .dj_ie .claro .dojoxGridHeader .dojoxGridRowTable {
-	border-collapse:separate;
+    border-collapse: separate;
 }
+
 .dj_ie6 .claro .dojoxGridHeader .dojoxGridRowTable,
 .dj_ie7 .claro .dojoxGridHeader .dojoxGridRowTable {
-	border-collapse:collapse;
-	border-right: 0px;
+    border-collapse: collapse;
+    border-right: 0px;
 }
+
 .claro .dojoxGridHeader .dojoxGridRowTable tr {
-	background: none;
+    background: none;
 }
+
 .claro .dojoxGridHeader tr:first-child .dojoxGridCell {
-	border-top: 1px solid transparent;
+    border-top: 1px solid transparent;
 }
+
 .claro .dojoxGridHeader:first-child .dojoxGridRowTable {
-	border-left-width: 0;
+    border-left-width: 0;
 }
+
 .claro .dojoxGridHeader:first-child {
-	margin-left: -1px;
+    margin-left: -1px;
 }
+
 /* Grid view content */
 .claro .dojoxGridScrollbox {
-	background-color: #fefefe;
+    background-color: #fefefe;
 }
 
 /* rowbar - row headers */
 .claro .dojoxGridRowbar {
-	background:url("css/icons/Grid/header.png") #e5edf4 repeat-x top;
-	border:none;
-	border-right:1px solid #BCBCBC;
+    background: url("css/icons/Grid/header.png") #e5edf4 repeat-x top;
+    border: none;
+    border-right: 1px solid #BCBCBC;
 }
+
 .claro .dojoxGridRowbarTable {
-	background:transparent url("css/icons/Grid/header_shadow.png") repeat-x scroll center bottom;
+    background: transparent url("css/icons/Grid/header_shadow.png") repeat-x scroll center bottom;
 }
+
 .dj_ie6 .claro .dojoxGridRowbar,
 .dj_ie6 .claro .dojoxGridRowbarTable {
-	background-image:none;
+    background-image: none;
 }
+
 .claro .dojoxGridRowbarInner {
-	border:none;
-	border-bottom:1px solid #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
 }
+
 .claro .dojoxGridRowbarOver .dojoxGridRowbarTable {
-	background-color:#abd5fd;
+    background-color: #abd5fd;
 }
+
 .claro .dojoxGridRowbarSelected {
-	background-color:#abd5fd;
-	border-right:1px solid #ccc;
+    background-color: #abd5fd;
+    border-right: 1px solid #ccc;
 }
 
 /* rows */
 .claro .dojoxGridRow {
-	border:none;
-	background-color:#fff;
+    border: none;
+    background-color: #fff;
 }
+
 .dj_ie .claro .dojoxGridMasterView .dojoxGridRowTable {
-	border-collapse:separate;/*IE, separate is must to show the border of tr and td*/
+    border-collapse: separate; /*IE, separate is must to show the border of tr and td*/
 }
+
 .dj_ie6 .claro .dojoxGridMasterView .dojoxGridRowTable,
 .dj_ie7 .claro .dojoxGridMasterView .dojoxGridRowTable {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
+
 .claro .dojoxGridRowTable tr {
-	background:url("css/icons/Grid/row_back.png") #fff repeat-x;
+    background: url("css/icons/Grid/row_back.png") #fff repeat-x;
 }
+
 .claro .dojoxGridRowOdd .dojoxGridRowTable tr {
-	background-color:#f7fcff;
+    background-color: #f7fcff;
 }
+
 .claro .dojoxGridRowSelected .dojoxGridRowTable tr {
-	background-color:#cee6fa;
+    background-color: #cee6fa;
 }
 
 /* cells */
 .claro .dojoxGrid .dojoxGridCell {
-	outline: none;
-	padding: 3px 5px;
-	border:1px solid transparent;
-	border-color: transparent #E5DAC8 #E5DAC8 transparent;
+    outline: none;
+    padding: 3px 5px;
+    border: 1px solid transparent;
+    border-color: transparent #E5DAC8 #E5DAC8 transparent;
 }
+
 .dj_ie7 .claro .dojoxGridCell,
 .dj_ie7 .claro .dojoxGridHeader .dojoxGridCell {
-	border-left: 0px;
+    border-left: 0px;
 }
+
 .dj_ie6 .claro .dojoxGridCell {
-	border-color: #F5F5F5;
+    border-color: #F5F5F5;
 }
+
 .dj_ie6 .claro .dojoxGridRowOdd .dojoxGridCell {
-	border-left-color:#f4f9fd;
-	border-right-color:#f4f9fd;
+    border-left-color: #f4f9fd;
+    border-right-color: #f4f9fd;
 }
+
 .dj_ie6 .claro .dojoxGridRowSelected .dojoxGridCell {
-	border-left-color:#d3e9fb;
-	border-right-color:#d3e9fb;
+    border-left-color: #d3e9fb;
+    border-right-color: #d3e9fb;
 }
+
 .claro .dojoxGridRowSelected .dojoxGridCell {
-	border-top:1px solid #BFD6EB;
-	border-bottom:1px solid #BFD6EB;
+    border-top: 1px solid #BFD6EB;
+    border-bottom: 1px solid #BFD6EB;
 }
+
 .claro .dojoxGridCellFocus {
-	outline: none;
-	border:1px dashed darkblue !important;
+    outline: none;
+    border: 1px dashed darkblue !important;
 }
 
 /*  Single Affordance Hover Effect */
 .claro .dojoxGridRowOver .dojoxGridCell {
-	background:url("css/icons/Grid/row_back.png") #ABD6FF repeat-x;
-	border-top:1px solid #769DC0;
-	border-bottom:1px solid #769DC0;
+    background: url("css/icons/Grid/row_back.png") #ABD6FF repeat-x;
+    border-top: 1px solid #769DC0;
+    border-bottom: 1px solid #769DC0;
 }
+
 .dj_ie6 .claro .dojoxGridRowOver .dojoxGridCell,
 .dj_ie7 .claro .dojoxGridRowOver .dojoxGridCell {
-	border-right:1px solid #ABD6FF;
+    border-right: 1px solid #ABD6FF;
 }
+
 .claro .dojoxGridRowActive .dojoxGridCell {
-	background:url("css/icons/Grid/td_button_down.png") #7DBEFA repeat-x;
+    background: url("css/icons/Grid/td_button_down.png") #7DBEFA repeat-x;
 }
+
 .dj_ie6 .claro .dojoxGridRowActive .dojoxGridCell,
 .dj_ie7 .claro .dojoxGridRowActive .dojoxGridCell {
-	border-left:1px solid #7DBEFA;
-	border-right:1px solid #7DBEFA;
+    border-left: 1px solid #7DBEFA;
+    border-right: 1px solid #7DBEFA;
 }
 
 /*  Double Affordance Hover Effect */
 .claro .dojoxGridDoubleAffordance .dojoxGridRowOver .dojoxGridCellOver {
-	border:solid 1px #769dc0;
-	background-color:#93cafe;
-	border-collapse:separate;/*FF*/
+    border: solid 1px #769dc0;
+    background-color: #93cafe;
+    border-collapse: separate; /*FF*/
 }
-.claro .dojoxGridDoubleAffordance .dojoxGridRowActive .dojoxGridCell{
-	background-image:url("css/icons/Grid/row_back.png");
+
+.claro .dojoxGridDoubleAffordance .dojoxGridRowActive .dojoxGridCell {
+    background-image: url("css/icons/Grid/row_back.png");
 }
+
 .claro .dojoxGridDoubleAffordance .dojoxGridRowActive .dojoxGridCellActive {
-	background:url("css/icons/Grid/td_button_down.png") #93cafe repeat-x;
+    background: url("css/icons/Grid/td_button_down.png") #93cafe repeat-x;
 }
+
 .dj_ie6 .claro .dojoxGridCell {
-	background-image:none !important;
+    background-image: none !important;
 }
 
 /* editing */
 .claro .dojoxGridRowEditing td {
-	/* background-color: #F4FFF4; */
-	background-color: #cee6fa;
-	/* padding: 0px 3px 0px 3px; */
+    /* background-color: #F4FFF4; */
+    background-color: #cee6fa;
+    /* padding: 0px 3px 0px 3px; */
 }
+
 .claro .dojoxGridRow-inserting td {
-	background-color: #F4FFF4;
+    background-color: #F4FFF4;
 }
+
 .claro .dojoxGridRow-inflight td {
-	background-color: #F2F7B7;
+    background-color: #F2F7B7;
 }
+
 .claro .dojoxGridRow-error td {
-	background-color: #F8B8B6;
+    background-color: #F8B8B6;
 }
 
 /* Drag and Drop */
 .claro .dojoxGrid .dojoDndItemBefore {
-	border-left-color: #3559ac;
+    border-left-color: #3559ac;
 }
+
 .claro .dojoxGrid .dojoDndItemAfter {
-	border-right-color: #3559ac;
+    border-right-color: #3559ac;
 }
 
 /* Tree Grid */
 .claro .dojoxGridExpando {
-	float: left;
-	height: 18px;
-	width: 18px;
-	text-align: center;
-	margin-top: -3px;
+    float: left;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    margin-top: -3px;
 }
+
 .dijitRtl .claro .dojoxGridExpando {
-	float: right;
+    float: right;
 }
+
 .claro .dojoxGridExpandoCell {
-	padding-top: 5px;
-	background-position: left top !important;
+    padding-top: 5px;
+    background-position: left top !important;
 }
+
 .claro .dojoxGridExpandoNode {
-	background-image: url('../../../dijit/themes/claro/images/treeExpandImages.png');
-	width: 16px;
-	height: 16px;
-	cursor: pointer;
-	background-position: 1px 0px; /* for closed state */
+    background-image: url('../../../dijit/themes/claro/images/treeExpandImages.png');
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background-position: 1px 0px; /* for closed state */
 }
+
 .dj_ie6 .claro .dojoxGridExpandoNode {
-	background-image: url('../../../dijit/themes/claro/images/treeExpandImages8bit.png');
+    background-image: url('../../../dijit/themes/claro/images/treeExpandImages8bit.png');
 }
+
 .claro .dojoxGridRowOver .dojoxGridExpandoNode {
-	background-position: -17px 0px;
+    background-position: -17px 0px;
 }
+
 .claro .dojoxGridExpandoOpened .dojoxGridExpandoNode {
-	background-position: -35px 0px;
+    background-position: -35px 0px;
 }
+
 .claro .dojoxGridRowOver .dojoxGridExpandoOpened .dojoxGridExpandoNode {
-	background-position: -53px 0px;
+    background-position: -53px 0px;
 }
+
 .claro .dojoxGridExpandoLoading .dojoxGridExpandoNode {
-	background-image: url('css/icons/Grid/loadingAnimation.gif');
+    background-image: url('css/icons/Grid/loadingAnimation.gif');
 }
+
 .claro .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpando {
-	visibility: visible !important;
-	width: 18px !important;
+    visibility: visible !important;
+    width: 18px !important;
 }
+
 .claro .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpandoNode,
 .dj_ie6 .claro .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpandoNode {
-	background-image:none;
+    background-image: none;
 }
+
 .claro .dojoxGridExpandoNodeInner {
-	visibility: hidden;
+    visibility: hidden;
 }
+
 .dijit_a11y .dojoxGridExpandoNodeInner {
-	visibility: visible;
+    visibility: visible;
 }
 
 .claro .dojoxGridSummaryRow .dojoxGridCell {
-	border:1px solid transparent;
+    border: 1px solid transparent;
 }
+
 .dj_ie6 .claro .dojoxGridSummaryRow .dojoxGridCell {
-	border-color:#fff
+    border-color: #fff
 }
+
 .claro tr.dojoxGridSubRowAlt {
-	background-color:#f4f9fd;
+    background-color: #f4f9fd;
 }
+
 .claro .dojoxGridRowOdd tr.dojoxGridSubRowAlt {
-	background-color:#fff;
+    background-color: #fff;
 }
+
 .claro .dojoxGridRow .dojoxGridRowTable tr.dojoxGridRowSelected {
-	background-color:#cee6fa;
+    background-color: #cee6fa;
 }
 
-span.view-field{
-  overflow: hidden;
-  white-space: nowrap;
+span.view-field {
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-span.view-field:hover{
-  overflow-x: auto;
+span.view-field:hover {
+    overflow-x: auto;
 }
 
 div.view-textarea {
-  overflow: auto;
+    overflow: auto;
 }
 
 span.view-field, div.view-textarea {
-  display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555555;
-  background-color: #eeeeee;
-  background-image: none;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
-  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #eeeeee;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
 span.view-check {
-  width:20px;
-  height:20px;
-  border: 1px solid #000;
-  display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    display: inline-block;
 }
 
 /* This is what simulates a checkmark icon */
 span.view-check.view-checked:after {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 7px;
-  
-  /* "Center" the checkmark */
-  position:relative;
-  top:4px;
-  left:7px;
-  
-  border: solid #000;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+    content: '';
+    display: block;
+    width: 4px;
+    height: 7px;
+
+    /* "Center" the checkmark */
+    position: relative;
+    top: 4px;
+    left: 7px;
+
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 div.diffmain {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+
 div.diffrow {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
 }
+
 div.diffcolumn {
-  display: flex;
-  width: 50%;
+    display: flex;
+    width: 50%;
 }
+
 .diffkeycolor {
-    color:gray;
+    color: gray;
 }
+
 span.diffkey {
     font-weight: bold;
     width: 25%;
@@ -1605,91 +1899,95 @@ span.diffkey {
 span.difflevel1 {
     padding-left: 0px;
 }
+
 span.difflevel2 {
     padding-left: 20px;
 }
+
 span.difflevel3 {
     padding-left: 40px;
 }
+
 span.difflevel4 {
     padding-left: 60px;
 }
 
 .leftcolor,
-.rightcolor{
+.rightcolor {
     font-size: 100%;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     padding: 2px 8px;
 }
 
-.leftcolor{
+.leftcolor {
     background-color: #DFF2BF;
 }
 
-.rightcolor{
+.rightcolor {
     background-color: lightpink;
 }
 
-.leftcolor.itemProjectChanged{
+.leftcolor.itemProjectChanged {
     background-color: #9E9;
-    color: red;    
+    color: red;
 }
 
-.rightcolor.itemProjectChanged{
+.rightcolor.itemProjectChanged {
     background-color: #E99;
-    color: red;    
+    color: red;
 }
 
 th.leftcolor,
-th.rightcolor{
-     font-weight: bold;
+th.rightcolor {
+    font-weight: bold;
 }
+
 .ioc-bootstrap table {
-	border: 1px solid #DBDBDB;
-	width:100%;
-	margin-top:15px;
-	margin-bottom:15px;
+    border: 1px solid #DBDBDB;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .ioc-bootstrap thead tr {
-    background: -webkit-gradient(linear,left top,left bottom,from(#EDF2F7),to(#D0DFEA)); /* TODO: Afegir la versió per altres navegadors */
+    background: -webkit-gradient(linear, left top, left bottom, from(#EDF2F7), to(#D0DFEA)); /* TODO: Afegir la versió per altres navegadors */
     height: 38px;
 }
 
 .ioc-bootstrap th {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .ioc-bootstrap tbody th {
-	background-color:inherit;
+    background-color: inherit;
 }
 
 .ioc-bootstrap table th, .ioc-bootstrap table td {
-	text-align: left;
-	padding: 3px 5px;
-	border:1px solid #BFD6EB;
+    text-align: left;
+    padding: 3px 5px;
+    border: 1px solid #BFD6EB;
 }
 
 .ioc-bootstrap table tr:nth-child(odd) {
-	background-color: #f7fcff;
+    background-color: #f7fcff;
 }
 
 .dojoxGridHeader {
-	font-weight:bold;
+    font-weight: bold;
 }
 
 .dojoxGridRow table.dojoxGridRowTable {
-	margin:0;
+    margin: 0;
 }
 
-div.ioc-bootstrap table[data-editable-element]{
-	margin-top:15px;
-	margin-bottom:15px;
+div.ioc-bootstrap table[data-editable-element] {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .ioc-bootstrap .element-container {
-	margin-top:15px;
-	margin-bottom:15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .dokuwiki .pt_taula table.inline th,
@@ -1702,95 +2000,93 @@ div.ioc-bootstrap table[data-editable-element]{
 }
 
 .dokuwiki .pt_taula table.inline .centeralign {
-	text-align: center !important;
+    text-align: center !important;
 }
 
 .dokuwiki .pt_taula table.inline .leftalign {
-	text-align: left !important;
+    text-align: left !important;
 }
 
 .dokuwiki .pt_taula table.inline .rightalign {
-	text-align: right !important;
+    text-align: right !important;
 }
 
-
-.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="1"], 
+.dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="1"],
 .dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="3"],
 .dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="5"],
 .dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="7"],
 .dokuwiki .ioc_evenrow table.inline tr[class^="row"][class$="9"] {
-    background-color: #D0DFEA;    
+    background-color: #D0DFEA;
 }
 
-.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="0"], 
+.dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="0"],
 .dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="2"],
 .dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="4"],
 .dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="6"],
 .dokuwiki .ioc_oddrow table.inline tr[class^="row"][class$="8"] {
-    background-color: #D0DFEA;    
+    background-color: #D0DFEA;
 }
 
 .leftalign,
 table.inline .leftalign,
 table.inline td.leftalign,
 table.inline th.leftalign {
-	text-align: left;
+    text-align: left;
 }
 
 .centeralign,
 table.inline .centeralign,
 table.inline td.centeralign,
 table.inline th.centeralign {
-	text-align: center;
+    text-align: center;
 }
 
-.rightalign 
+.rightalign
 table.inline .rightalign,
 table.inline td.rightalign,
-table.inline th.rightalign{
-	text-align: right;
-}
-
-.imploded{
-    display: none;
-}
-
-.hiddenContainer{
+table.inline th.rightalign {
     text-align: right;
 }
 
-.imploded.hiddenContainer{
+.imploded {
+    display: none;
+}
+
+.hiddenContainer {
+    text-align: right;
+}
+
+.imploded.hiddenContainer {
     display: inherit;
 }
 
-.imploded.hiddenContainer::after{
+.imploded.hiddenContainer::after {
     content: ' [+]';
 }
 
-.exploded{
+.exploded {
     display: inherit;
 }
 
-.exploded.hiddenContainer::after{
+.exploded.hiddenContainer::after {
     content: " [-]";
 }
 
-
 /* DataGrid Table Fix for row selector */
 .dojoxGridMasterView .dojoxGridRowbar.dojoxGridNonNormalizedCell:not(:first-child) {
-	margin-top: -15.5px;
+    margin-top: -15.5px;
 }
 
 table.dojoxGridRowTable {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 td.dojoxGridCell i {
-	color: lightgrey;
-	text-align: center;
+    color: lightgrey;
+    text-align: center;
 }
 
-div[data-dojo-attach-point="sectionsNode"] .sectionNode{
+div[data-dojo-attach-point="sectionsNode"] .sectionNode {
     display: inline-block;
     min-height: 180px;
     min-width: 200px;
@@ -1801,14 +2097,14 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode{
     vertical-align: top;
 }
 
-div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
+div[data-dojo-attach-point="sectionsNode"] .sectionNode .content {
     display: block;
     border: none;
 }
 
-.imageOnly{
+.imageOnly {
     border: 0px !important;
-    margin: 0px !important;     
+    margin: 0px !important;
     padding: 0px !important;
     width: 32px !important;
     height: 32px !important;
@@ -1818,31 +2114,31 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode .content{
 }
 
 span.iocmarkkey,
-ace_markkey{
+ace_markkey {
     background-color: #BFFF80 !important;
 }
 
 div.iocprotectedcontent,
-.ace_markup.ace_protectedcontent{
+.ace_markup.ace_protectedcontent {
     /*content: "  "*/
     border-left: 3px solid #E99;
     /*background-color: #E99 !important;*/
 }
 
-.ace_keyword.ace_operator.ace_protectedcontent{
+.ace_keyword.ace_operator.ace_protectedcontent {
     color: #EE2C2C !important;
 }
 
-div.ioctodo, .ace_markup.ace_ioctodo{
+div.ioctodo, .ace_markup.ace_ioctodo {
     background-color: #FFFF00 !important;
 }
 
-.ace_keyword.ace_operator.ace_ioctodo{
+.ace_keyword.ace_operator.ace_ioctodo {
     color: green !important;
 }
 
 .ioctodogroc,
-.ioctodogroc p{
+.ioctodogroc p {
     background-color: yellow;
 }
 
@@ -1850,233 +2146,229 @@ span.ioctodoboldgroc {
     font-weight: bold;
     color: lightgreen;
 }
-div.dokuwiki button.toolbutton.toggled {
-	background-color: grey;
-}
 
+div.dokuwiki button.toolbutton.toggled {
+    background-color: grey;
+}
 
 /** editor de taules **/
 
 div.table-editor {
-	text-align:center;
-	clear:both;
-	padding: 5px;
+    text-align: center;
+    clear: both;
+    padding: 5px;
 }
 
 ul.table-editor {
-	list-style-type: none;
-	padding: 5px;
+    list-style-type: none;
+    padding: 5px;
 }
 
-ul.table-editor li{
-	float: left;
-	width: 49%;
-	padding-left: 5px;
+ul.table-editor li {
+    float: left;
+    width: 49%;
+    padding-left: 5px;
 }
 
-ul.table-editor label{
-	font-weight: bold;
+ul.table-editor label {
+    font-weight: bold;
 }
 
-ul.table-editor input{
-	float: right;
-	width: 70%
+ul.table-editor input {
+    float: right;
+    width: 70%
 }
 
 .zoom {
-	position: absolute;
-	cursor: pointer;
-	z-index: 99999;
+    position: absolute;
+    cursor: pointer;
+    z-index: 99999;
 }
 
 .zoom img {
-	width: 32px;
-	height: 32px;
+    width: 32px;
+    height: 32px;
 }
 
 .collapse-icon {
-	position:absolute;
-	right:15px;
-	width:20px;
-	height:20px;
-	border-radius: 50%;
-	border: 1px solid #8cacbb;
-	text-align: center;
-	font-weight:bold;
-	z-index: 100;
-	cursor: pointer;
-	margin-top: 2px;
-
+    position: absolute;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #8cacbb;
+    text-align: center;
+    font-weight: bold;
+    z-index: 100;
+    cursor: pointer;
+    margin-top: 2px;
 
 }
 
 .collapse-icon span {
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 6px 6px 6px;
-	border-color: transparent transparent #8cacbb transparent;
-	position: absolute;
-	top: 5px;
-	left: 3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent #8cacbb transparent;
+    position: absolute;
+    top: 5px;
+    left: 3px;
 }
 
 .collapse-icon span.collapsed {
-	border-width: 6px 6px 0 6px;
-	border-color: #8cacbb transparent transparent transparent;
-	top: 6px;
-	left: 3px;
+    border-width: 6px 6px 0 6px;
+    border-color: #8cacbb transparent transparent transparent;
+    top: 6px;
+    left: 3px;
 }
 
 .category-button {
-	position: relative;
+    position: relative;
 }
 
 .category-button span {
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 0 0 4px 4px;
-	border-color: transparent transparent #000000 transparent;
-	position: absolute;
-	bottom: 1px;
-	right: 3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 4px 4px;
+    border-color: transparent transparent #000000 transparent;
+    position: absolute;
+    bottom: 1px;
+    right: 3px;
 }
 
 /* Fix dialog dialog barbutton */
 .dijitDialogPaneActionBar {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .custom-ioc-dialog.digitDialog.dijitDialogPaneContent, .dijitDialog .dijitDialogPaneContent.custom-ioc-dialog {
-	padding-bottom:25px;
+    padding-bottom: 25px;
 }
 
 #grid.dojoxGrid {
-	padding-bottom: 25px; /* Alçada de la secció de botons inferior. Editor de taules del ACE */
+    padding-bottom: 25px; /* Alçada de la secció de botons inferior. Editor de taules del ACE */
 }
 
 /*#grid_container .dojoxGrid {*/
-	/*padding-bottom: 25px; !* Correspon a la taula dels formularis *!*/
+/*padding-bottom: 25px; !* Correspon a la taula dels formularis *!*/
 /*}*/
 
-.left-position{
+.left-position {
     position: fixed;
     left: 0;
 }
 
-.right-position{
+.right-position {
     position: fixed;
     right: 0;
 }
 
-.collapseAll-icon{
+.collapseAll-icon {
     position: fixed;
     right: 135px;
     z-index: 100;
 }
 
-.collapseAll-icon:after{
-    content: url("css/icons/collapseAll.png"); 
+.collapseAll-icon:after {
+    content: url("css/icons/collapseAll.png");
     width: 16px;
-    height: 16px;    
+    height: 16px;
 }
 
-.expandAll-icon{
+.expandAll-icon {
     position: fixed;
     right: 155px;
     z-index: 100;
 }
 
-.expandAll-icon:after{
-    content: url("css/icons/expandAll.png"); 
+.expandAll-icon:after {
+    content: url("css/icons/expandAll.png");
     width: 16px;
-    height: 16px;    
+    height: 16px;
 }
 
 @import url('dojox/editor/plugins/resources/editorPlugins.css');
 
-
 form.ioc-bootstrap.form-dialog {
-	padding: 1px; /* si es deixa a 0 els botons tapen l'ultim camp */
+    padding: 1px; /* si es deixa a 0 els botons tapen l'ultim camp */
 }
+
 .ioc-bootstrap.form-dialog ul {
-	padding:0;
-	margin:0;
-	list-style-type: none;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
 }
 
-.ioc-bootstrap.form-dialog li{
-	padding: 10px 10px 10px 5px;
+.ioc-bootstrap.form-dialog li {
+    padding: 10px 10px 10px 5px;
 
 }
 
-.ioc-bootstrap.form-dialog li input{
-	padding:0;
-	padding-left:5px;
+.ioc-bootstrap.form-dialog li input {
+    padding: 0;
+    padding-left: 5px;
 
 }
 
 .no-render {
-	display: none;
+    display: none;
 }
-
 
 /* Plugin comentaris */
 
 .ioc-comment-block {
-	display: inline;
-	opacity: 0.999999; /* Sense això no es dibuixa correctament el triangle en el mode de lectura, meravelles de CSS i el z-index: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/ */
+    display: inline;
+    opacity: 0.999999; /* Sense això no es dibuixa correctament el triangle en el mode de lectura, meravelles de CSS i el z-index: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/ */
 }
 
 .ioc-comment-reference {
-	font-style: italic;
+    font-style: italic;
 }
 
 .ioc-comment {
-	cursor: default;
-	color: black;
-	background-color: #FEEFB3;
-	border: 1px solid #9F6000;
-	border-radius: 5px;
-	padding: 5px;
+    cursor: default;
+    color: black;
+    background-color: #FEEFB3;
+    border: 1px solid #9F6000;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .ioc-comment-body {
-	position: relative;
-	max-width: 400px;
+    position: relative;
+    max-width: 400px;
 }
 
 .ioc-comment textarea {
-	width: 96.5%;
-	margin: 10px 5px 5px;
-	resize: none;
+    width: 96.5%;
+    margin: 10px 5px 5px;
+    resize: none;
 }
 
 .ioc-comment-reply {
-	margin: 5px;
-	padding: 10px;
-	border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .ioc-comment-reply:nth-child(even) {
-	background-color: #CBBF8F;
+    background-color: #CBBF8F;
 }
 
 .ioc-signature span {
-	color: red;
-	font-weight: normal;
-	font-style: italic;
+    color: red;
+    font-weight: normal;
+    font-style: italic;
 }
 
 span.editComment {
-	display: none;
+    display: none;
 }
-
-
 
 /*.ioc-reply-list div:first-child {*/
 /*background-color:#FEE067;*/
@@ -2087,93 +2379,201 @@ span.editComment {
 /*}*/
 
 .ioc-comment-reply .editComment {
-	overflow: auto;
+    overflow: auto;
 }
 
 .ioc-comment-reply textarea {
-	width: 96%;
+    width: 96%;
 }
 
 .ioc-comment-body, .ioc-comment button {
-	float: right;
+    float: right;
 }
 
 span.ioc-comment-toolbar {
-	float: right;
-	color: #9F6000;
+    float: right;
+    color: #9F6000;
 }
 
 span.ioc-comment-toolbar-button {
-	cursor: pointer;
-	font-weight: 100;
-	font-size: smaller;
+    cursor: pointer;
+    font-weight: 100;
+    font-size: smaller;
 }
 
 span.ioc-comment [data-type="ioc-comment"] {
-	float: right;
-	display: block;
-	max-width: 350px;
-	position: relative;
-	box-shadow: 0.2em 0.3em 1.5em #eee;
+    float: right;
+    display: block;
+    max-width: 350px;
+    position: relative;
+    box-shadow: 0.2em 0.3em 1.5em #eee;
 }
 
 .ioc-signature {
-	display: block;
-	width: 100%;
-	border-top: 1px dotted #9F6000;
-	padding-top: 5px;
-	font-weight: bold;
-	font-size: smaller;
+    display: block;
+    width: 100%;
+    border-top: 1px dotted #9F6000;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: smaller;
 }
 
 .triangle-inner {
-	position: absolute;
-	border-top: none;
-	border-bottom: 24px solid transparent;
-	border-left: none;
-	border-right: 24px solid #9F6000;
-	left: -15px;
-	top: -1px;
-	z-index: -1;
+    position: absolute;
+    border-top: none;
+    border-bottom: 24px solid transparent;
+    border-left: none;
+    border-right: 24px solid #9F6000;
+    left: -15px;
+    top: -1px;
+    z-index: -1;
 }
 
 .triangle-outer {
-	position: absolute;
-	border-top: none;
-	border-bottom: 18px solid transparent;
-	border-left: none;
-	border-right: 18px solid #FEEFB3;
-	left: -13px;
-	top: 0;
+    position: absolute;
+    border-top: none;
+    border-bottom: 18px solid transparent;
+    border-left: none;
+    border-right: 18px solid #FEEFB3;
+    left: -13px;
+    top: 0;
 }
 
 /* Solució simple pels comentaris: amagar els elements interactius a la vista html*/
 
-textarea.reply, .ioc-comment-toolbar, .ioc-comment.ioc-comment-body button{
-	/*display: none;*/
+textarea.reply, .ioc-comment-toolbar, .ioc-comment.ioc-comment-body button {
+    /*display: none;*/
 }
 
-.pair-label-field{
-    padding-top:10px;
+.pair-label-field {
+    padding-top: 10px;
 }
 
-div.ioc-bootstrap .pair-label-field table[data-editable-element]{
-    margin-top:3px;
+div.ioc-bootstrap .pair-label-field table[data-editable-element] {
+    margin-top: 3px;
 }
 
 .picker.symbols {
-	padding:5px;
+    padding: 5px;
 }
 
 .symbols button.pickerbutton {
-	padding: 2px;
-	font-size: 15px;
+    padding: 2px;
+    font-size: 15px;
 }
 
 .symbols button.pickerbutton:hover {
-	color: red;
+    color: red;
 }
 
-
-
 /* Fi plugin comentaris */
+
+.wioccl-detail {
+    float: left;
+    /*width: 400px;*/
+    height: 500px;
+    padding: 5px !important;
+    margin: 15px !important;
+    border: 1px solid lightgrey;
+
+
+    display: flex;
+    flex-direction: column;
+}
+
+.wioccl-detail {
+    flex: 1;
+}
+
+.wioccl-attr {
+
+}
+
+.wioccl-attr label{
+    display:inline-block;
+    width: 65px;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.wioccl-attr input{
+    /*display:inline-block;*/
+    /*width: 115px;*/
+    width: 300px;
+    /*font-weight: bold;*/
+}
+
+.wioccl-attr fieldset{
+    border: 1px solid lightgrey;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.wioccl-attr legend {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+}
+
+.wioccl-field {
+    display: inline-block;
+    /*width: 50%;*/
+}
+
+.wioccl-attr pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.wioccl-content {
+    /*float:left;*/
+    /*width: 400px;*/
+    /*height: 500px;*/
+    /*padding: 15px !important;*/
+    /*margin: 15px !important;*/
+    /*border: 1px solid lightgrey;*/
+    /*padding-left: 0 !important;*/
+
+
+}
+
+.wioccl-content textarea{
+    /*width: 100%;*/
+    /*height: 410px;*/
+
+    /*display: none;*/
+}
+
+.wioccl-content pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.wioccl-tree {
+    float: left;
+    /*width: 200px;*/
+    height: 500px;
+    padding: 5px;
+    /*padding-left: 0;*/
+    margin: 15px;
+    /*margin-left:0;*/
+    border: 1px solid lightgrey;
+    overflow: scroll;
+}
+
+.full-screen {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
