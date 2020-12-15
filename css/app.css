@@ -2521,40 +2521,6 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     /*width: 50%;*/
 }
 
-.wioccl-attr pre {
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-}
-
-.wioccl-content {
-    /*float:left;*/
-    /*width: 400px;*/
-    /*height: 500px;*/
-    /*padding: 15px !important;*/
-    /*margin: 15px !important;*/
-    /*border: 1px solid lightgrey;*/
-    /*padding-left: 0 !important;*/
-
-
-}
-
-.wioccl-content textarea{
-    /*width: 100%;*/
-    /*height: 410px;*/
-
-    /*display: none;*/
-}
-
-.wioccl-content pre {
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
-}
 
 .wioccl-tree {
     float: left;
@@ -2566,6 +2532,12 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     /*margin-left:0;*/
     border: 1px solid lightgrey;
     overflow: scroll;
+}
+
+.wioccl-btn {
+    margin:5px;
+    margin-right:15px;
+    padding: 5px;
 }
 
 .full-screen {
