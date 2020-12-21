@@ -14,6 +14,9 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        if ($responseData["loginRequest"] && !$responseData["loginResult"]) {
+            throw new HttpErrorCodeException("badlogin", "403");
+        }
         $this->login($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 

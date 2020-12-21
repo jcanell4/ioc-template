@@ -45,6 +45,11 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                     $this->getPluginSelectors($params);
                     $task = "ioc/dokuwiki/processPluginTask";
                     break;
+                case "extension":
+                    $params = array('urlBase' => $urlBase);
+                    $this->getExtensionSelectors($params);
+                    $task = "ioc/dokuwiki/processExtensionTask";
+                    break;
                 case "config":
                     $params = array('urlBase' => $urlBase);
                     $this->getConfigSelectors($params);
