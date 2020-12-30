@@ -102,6 +102,22 @@ class WikiIocTpl {
         $EVENT_HANDLER->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'setDojoMetaHeaders');
     }
 
+	public function handleLazyHeaders() {
+		global $EVENT_HANDLER;
+		$EVENT_HANDLER->register_hook('TPL_METAHEADER_OUTPUT', 'AFTER', $this, 'writeAfterScript');
+	}
+
+	public function writeAfterScript(Doku_Event &$event, $param) {
+		echo "<!--[if gte IE 9]><!-->\n";
+		foreach($event->data['lazyscript'] as $attr) {
+			if (empty($attr)) continue;
+				echo '<script ', buildAttributes($attr);
+			if ($attr['_data']) $attr['_data'] = "\n/*<![CDATA[*/\n" . $attr['_data'] . "\n/*!]]>*/\n";
+				echo ">", $attr['_data'], "</script>\n";
+		}
+		echo "<!--<![endif]-->\n";
+	}
+
     public function setDojoMetaHeaders(Doku_Event &$event, $param) {
         global $conf;
         global $js_packages;
@@ -114,41 +130,36 @@ class WikiIocTpl {
                                     "href" => $js_packages["dijit"]
                                                 . "/themes/claro/document.css",
                                     "media" => "screen");
-        $item0 = $event->data["script"][0];
-        $item1 = $event->data["script"][1];
 
-        $event->data["script"][0] = array(
+        $event->data["script"][] = array(
                 "type" => "text/javascript",
                 "charset" => "utf-8",
-                "_data" => "var dojoConfig = {\n".
+                "_data" => "\nvar dojoConfig = {\n".
                         "   parseOnLoad:true,\n".
                         "   async:true,\n".
                         "   baseUrl: '/',\n".
                         "   tlmSiblingOfDojo: false,\n".
                         "   locale: \"".hsc($conf["lang"])."\",\n".
                         WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredPackages().
-                        "};\n",
+                        "};",
         );
 
-        $event->data["script"][1] = array (
+        $event->data["script"][] = array (
                 "type" => "text/javascript",
                 "charset" => "utf-8",
                 "_data" => "",
                 "src" => $js_packages["dojo"].'/dojo.js',
         );
-        array_unshift($event->data["script"], $item1);
-        array_unshift($event->data["script"], $item0);
 
     }
 
     public function printHeaderTags() {
-        global $conf, $lang, $js_packages;
+        global $conf, $lang;
         echo "<head>\n";
         echo "<meta charset='utf-8'/>\n";
         echo "<meta http-equiv='X-UA-Compatible' content='IE=edge'/>\n";
         echo "<title>::" . $this->getTitle() . "::</title>\n";
-        //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/claro.css' />\n";
-        //echo "<link rel='stylesheet' href='" . $js_packages["dijit"] . "/themes/claro/document.css'/>\n";
+	$this->handleLazyHeaders();
         tpl_metaheaders();
         echo "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n";
 	//TO DO [Josep] Cal afegir aquesta línia fent servir el sistema de configuració actual, no pas de forma literal!
@@ -161,6 +172,7 @@ class WikiIocTpl {
 
         $this->_userdefinedFavicon();
         $this->_userdefinedJs();
+	echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>\n";
 
         if(file_exists(DOKU_TPL_INCDIR . "lang/" . $conf["lang"] . "/style.css")) {
             $interim = trim(file_get_contents(DOKU_TPL_INCDIR . "lang/" . $conf["lang"] . "/style.css"));
@@ -168,9 +180,6 @@ class WikiIocTpl {
                 echo "<style type=\"text/css\" media=\"all\">\n" . hsc($interim) . "\n</style>\n";
             }
         }
-
-        // TODO[Xavi] carreguem la llibrería ace
-        echo "<script src=\"/ace-builds/src-noconflict/ace.js\"></script>";
 
         echo WikiIocBuilderManager::Instance()->getRenderingCodeForRequiredStyles();
 
