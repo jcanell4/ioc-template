@@ -987,6 +987,26 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i1b_revert_project' => 
+            array (
+              'class' => 'WikiEventButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'revertProjectButton',
+                  'title' => 'Revertir Projecte',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconUndo\'',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var ns = globalState.getContent(globalState.currentTabId)[\'ns\'];var pType = globalState.getContent(id).projectType;var metaDataSubSet = globalState.getContent(id).metaDataSubSet;var rev = globalState.getContent(id).rev;_ret = { id: id, name: \'revert_project\', dataToSend: {id: ns, projectType: pType, metaDataSubSet: metaDataSubSet, rev: rev}};return _ret;}',
+                ),
+              ),
+            ),
             'i1save' => 
             array (
               'class' => 'WikiEventButton',

@@ -64,6 +64,12 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], "updateButton", $value);
         }
 
+        if ($responseData[ProjectKeys::KEY_EXTRA_STATE]) {
+            $stateId = $responseData[ProjectKeys::KEY_EXTRA_STATE][ProjectKeys::KEY_EXTRA_STATE_ID];
+            $stateValue = $responseData[ProjectKeys::KEY_EXTRA_STATE][ProjectKeys::KEY_EXTRA_STATE_VALUE];
+            $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], $stateId, $stateValue);
+        }
+
         if ($responseData[AjaxKeys::KEY_ACTIVA_FTPSEND_BTN]){
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($id, ProjectKeys::KEY_FTPSEND_BUTTON, $responseData[ProjectKeys::KEY_ACTIVA_FTPSEND_BTN]);
         }
@@ -104,6 +110,10 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
         $this->getModelAdapter()->getPluginSelectors($value);
     }
 
+    protected function getExtensionSelectors(&$value) {
+        $this->getModelAdapter()->getExtensionSelectors($value);
+    }
+
    /**
     * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin PLUGIN
     * @param array $value - array de paràmetres
@@ -134,6 +144,10 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     */
      protected function getLatexSelectors(&$value){
          $this->getModelAdapter()->getLatexSelectors($value);
+     }
+
+     protected function getSmtpSelectors(&$value){
+         $this->getModelAdapter()->getSmtpSelectors($value);
      }
 
      protected $defaultFormat = "undefined";

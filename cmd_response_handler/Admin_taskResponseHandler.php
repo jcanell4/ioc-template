@@ -45,6 +45,11 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                     $this->getPluginSelectors($params);
                     $task = "ioc/dokuwiki/processPluginTask";
                     break;
+                case "extension":
+                    $params = array('urlBase' => $urlBase);
+                    $this->getExtensionSelectors($params);
+                    $task = "ioc/dokuwiki/processExtensionTask";
+                    break;
                 case "config":
                     $params = array('urlBase' => $urlBase);
                     $this->getConfigSelectors($params);
@@ -65,8 +70,14 @@ class Admin_taskResponseHandler extends WikiIocResponseHandler {
                     $this->getLatexSelectors($params);
                     $task = "ioc/dokuwiki/processLatexTask";
                     break;
+                case "smtp":
+                    $params = array('urlBase' => $urlBase);
+                    $this->getSmtpSelectors($params);
+                    $task = "ioc/dokuwiki/processSmtpTask";
+                    break;
             }
 
+            $params["standbyId"]=$responseData['id'];
             $ajaxCmdResponseGenerator->addProcessDomFromFunction($responseData['id'], true, $task, $params);
 
       }
