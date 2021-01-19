@@ -85,10 +85,10 @@ class WikiIocTpl {
 
     public function printPage() {
         global $conf, $lang;
-        
+
         // TODO[Xavi] Establir cookie
         setcookie("IOCForceScriptLoad", null);
-                
+
         echo "<!DOCTYPE html>\n";
         echo "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='" . hsc($conf["lang"]) . "' lang='" . hsc($conf["lang"]) . "' dir='" . hsc($lang["direction"]) . "'>\n";
         $this->printHeaderTags();
@@ -109,12 +109,14 @@ class WikiIocTpl {
 
 	public function writeAfterScript(Doku_Event &$event, $param) {
 		echo "<!--[if gte IE 9]><!-->\n";
-		foreach($event->data['lazyscript'] as $attr) {
-			if (empty($attr)) continue;
-				echo '<script ', buildAttributes($attr);
-			if ($attr['_data']) $attr['_data'] = "\n/*<![CDATA[*/\n" . $attr['_data'] . "\n/*!]]>*/\n";
-				echo ">", $attr['_data'], "</script>\n";
-		}
+        if ($event->data['lazyscript']) {
+            foreach($event->data['lazyscript'] as $attr) {
+                if (empty($attr)) continue;
+                    echo '<script ', buildAttributes($attr);
+                if ($attr['_data']) $attr['_data'] = "\n/*<![CDATA[*/\n" . $attr['_data'] . "\n/*!]]>*/\n";
+                    echo ">", $attr['_data'], "</script>\n";
+            }
+        }
 		echo "<!--<![endif]-->\n";
 	}
 
