@@ -1,6 +1,6 @@
 <?php
 $arrParcial = array(
-                 "class" => "WikiEventButton"
+                 "class" => "WikiRequestEventButton"
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::CANCEL_PROJECT_BUTTON
@@ -11,6 +11,7 @@ $arrParcial = array(
                                           "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconClose'"
+                                          ,"query" => "'do=cancel'"
                                         )
                             )
               );
