@@ -34,65 +34,67 @@ class cfgIdConstants
     //elemento mainContent de MAIN
     const MAIN_CONTENT = "mainContent";
     const MAIN_BC      = "mainContent_bc"; //Main BorderContainer
-
-    const LEFT_PANEL = "id_LeftPanel";
-    const TB_CONTAINER = "tb_container";
-    const ZONA_NAVEGACIO = "zonaNavegacio";
-    const TB_INDEX = "tb_index";
-    const TB_PERFIL = "tb_perfil";
-    const TB_ADMIN = "tb_admin";
-    const TB_DOCU = "tb_docu";
-    const TB_MENU = "tb_menu";
-    const TB_SHORTCUTS = "tb_shortcuts";
-    const LEFT_BC_PANEL = "leftBorderContainerPanel";
-    const LEFT_TOP = "left_top_panel";
-    const LEFT_BOTTOM = "left_bottom_panel";
-
-    const EINES_CANVIS_RECENTS = "canvisRecents";
-    const EINES_MEDIAMANGER = "mediaManager";
-
-    const ZONA_METAINFO_DIV = "zonaMetaInfoDiv";
-    const ZONA_METAINFO = "zonaMetaInfo";
-
-    const CONTENT = "content";
+    const CONTENT      = "content";
     const BODY_CONTENT = "bodyContent";
 
-    const ZONA_CANVI = "zonaCanvi";
-    const NEW_BUTTON = "newButton";
-    const SAVE_BUTTON = "saveButton";
-    const CANCEL_BUTTON = "cancelButton";
-    const EDIT_BUTTON = "editButton";
-    const ED_PARC_BUTTON = "edparcButton";
-    const CANCEL_PARC_BUTTON = "cancelparcButton";
-    const SAVE_PARC_BUTTON = "saveparcButton";
-    const EDIT_PROJECT_BUTTON = "editProjectButton";
-    const SAVE_PROJECT_BUTTON = "saveProjectButton";
-    const CANCEL_PROJECT_BUTTON = "cancelProjectButton";
-    const FTP_PROJECT_BUTTON = "ftpProjectButton";
-    const GENERATE_PROJECT_BUTTON = "generateProjectButton";
-    const PRINT_BUTTON = "printButton";
-    const REVERT_BUTTON = "revertButton";
-    const DUPLICATE_PROJECT_BUTTON = "duplicateProjectButton";
-    const RENAME_PROJECT_BUTTON = "renameProjectButton";
-    const REMOVE_PROJECT_BUTTON = "removeProjectButton";
-    const RENAME_FOLDER_BUTTON = "renameFolderButton";
-    const REVERT_PROJECT_BUTTON = "revertProjectButton";
+    const LEFT_PANEL     = "id_LeftPanel";
+    const TB_CONTAINER   = "tb_container";
+    const ZONA_NAVEGACIO = "zonaNavegacio";
+    const TB_INDEX       = "tb_index";
+    const TB_PERFIL      = "tb_perfil";
+    const TB_ADMIN       = "tb_admin";
+    const TB_DOCU        = "tb_docu";
+    const TB_MENU        = "tb_menu";
+    const TB_SHORTCUTS   = "tb_shortcuts";
+    const LEFT_BC_PANEL  = "leftBorderContainerPanel";
+    const LEFT_TOP       = "left_top_panel";
+    const LEFT_BOTTOM    = "left_bottom_panel";
+    const BOTTOM_PANEL   = "id_BottomPanel";
 
-    const MEDIA_DETAIL_BUTTON = "mediaDetailButton";
-    const MEDIA_TORNAR_BUTTON = "mediaTornarButton";
-    const DETAIL_SUPRESSIO_BUTTON = "detailSupressioButton";
-    const MEDIA_SUPRESSIO_BUTTON = "mediaSupressioButton";
-    const MEDIA_UPLOAD_BUTTON = "mediaUploadButton";
-    const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";
-    const MEDIA_EDIT_BUTTON = "mediaEditButton";
-    const EXIT_BUTTON = "exitButton";
-    const FTPSEND_BUTTON = "ftpSendButton";
+    const EINES_CANVIS_RECENTS = "canvisRecents";
+    const EINES_MEDIAMANGER    = "mediaManager";
 
-    const BOTTOM_PANEL = "id_BottomPanel";
-    const ZONA_MISSATGES = "zonaMissatges";
-    const ZONA_TOP_RIGHT = "zonaTopRight";
-    const ZONA_TOP_NOTIFICATION_INBOX = "zonaNotificationInbox";
+    const ZONA_CANVI        = "zonaCanvi";
+    const ZONA_METAINFO     = "zonaMetaInfo";
+    const ZONA_METAINFO_DIV = "zonaMetaInfoDiv";
+    const ZONA_MISSATGES    = "zonaMissatges";
+    const ZONA_TOP_RIGHT    = "zonaTopRight";
+    const ZONA_TOP_NOTIFICATION_INBOX  = "zonaNotificationInbox";
     const ZONA_TOP_NOTIFICATION_OUTBOX = "zonaNotificationOutbox";
+
+
+    const EDIT_BUTTON    = "editButton";
+    const CANCEL_BUTTON  = "cancelButton";
+    const EXIT_BUTTON    = "exitButton";
+    const FTPSEND_BUTTON = "ftpSendButton";
+    const NEW_BUTTON     = "newButton";
+    const PRINT_BUTTON   = "printButton";
+    const REVERT_BUTTON  = "revertButton";
+    const SAVE_BUTTON    = "saveButton";
+
+    const ED_PARC_BUTTON     = "edparcButton";
+    const CANCEL_PARC_BUTTON = "cancelparcButton";
+    const SAVE_PARC_BUTTON   = "saveparcButton";
+
+    const CANCEL_PROJECT_BUTTON    = "cancelProjectButton";
+    const DUPLICATE_PROJECT_BUTTON = "duplicateProjectButton";
+    const EDIT_PROJECT_BUTTON      = "editProjectButton";
+    const FTP_PROJECT_BUTTON       = "ftpProjectButton";
+    const GENERATE_PROJECT_BUTTON  = "generateProjectButton";
+    const IMPORT_PROJECT_BUTTON    = "importProjectButton";
+    const REMOVE_PROJECT_BUTTON    = "removeProjectButton";
+    const RENAME_FOLDER_BUTTON     = "renameFolderButton";
+    const RENAME_PROJECT_BUTTON    = "renameProjectButton";
+    const REVERT_PROJECT_BUTTON    = "revertProjectButton";
+    const SAVE_PROJECT_BUTTON      = "saveProjectButton";
+
+    const MEDIA_DETAIL_BUTTON       = "mediaDetailButton";
+    const MEDIA_TORNAR_BUTTON       = "mediaTornarButton";
+    const DETAIL_SUPRESSIO_BUTTON   = "detailSupressioButton";
+    const MEDIA_SUPRESSIO_BUTTON    = "mediaSupressioButton";
+    const MEDIA_UPLOAD_BUTTON       = "mediaUploadButton";
+    const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";
+    const MEDIA_EDIT_BUTTON         = "mediaEditButton";
 
     const SYSTEM_WARNING_CONTAINER = "systemWarningContainer";
 

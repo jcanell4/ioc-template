@@ -116,9 +116,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
                     break;
 
+                case ProjectKeys::KEY_WORKFLOW:
                 case ProjectKeys::KEY_EDIT:
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
-
                     break;
 
                 case ProjectKeys::KEY_CREATE_PROJECT:
@@ -690,7 +690,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties;
                 if(isset($structureProperties["viewType"])){
                     $viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"] = $structureProperties["viewType"];
-                }                
+                }
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['group'] = $defaultParent;
             }
         }
@@ -720,7 +720,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $structureProperties['value'] = $this->renderContent($originalValue, $mode);
             $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
         }
-        
+
         $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
 
         return $ret;
