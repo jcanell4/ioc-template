@@ -689,6 +689,28 @@ class WikiDojoButton extends WikiIocComponent {
     }
 }
 
+class WikiRequestEventButton extends WikiIocComponent {
+    function __construct($aParms = array()) {
+        global $js_packages;
+        $reqPackage = array(
+                         array("name" => "dojo", "location" => $js_packages["dojo"])
+                        ,array("name" => "dijit", "location" => $js_packages["dijit"])
+                        ,array("name" => "ioc", "location" => $js_packages["ioc"])
+                      );
+        $reqJsModule = array(
+            "ButtonClass" => "ioc/gui/RequestEventButton"
+        );
+        parent::__construct($aParms, $reqPackage, $reqJsModule);
+    }
+
+    public function getRenderingCode() {
+        $ret = "<input {$this->getDOM()} type='button' data-dojo-type='{$this->getReqJsModule('ButtonClass')}'"
+            . " {$this->getDJO()} tabIndex='-1' intermediateChanges='false'"
+            . " style='font-size:0.75em;'></input>\n";
+        return $ret;
+    }
+}
+
 class WikiEventButton extends WikiIocComponent {
     function __construct($aParms = array()) {
         global $js_packages;

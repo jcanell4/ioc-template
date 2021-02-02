@@ -519,8 +519,8 @@ require([
 
         //new RequestControl(eventName.VIEW_PROJECT, ajax_call+"project&do=view", true, true);
         new RequestControl(eventName.EDIT_PROJECT, ajax_call+"project&do=edit", true, true);
-        new RequestControl(eventName.SAVE_PROJECT, ajax_call+"project&do=save", true, true);
-        new RequestControl(eventName.CANCEL_PROJECT, ajax_call+"project&do=cancel", true, true);
+        new RequestControl(eventName.SAVE_PROJECT, ajax_call+"project", true, true, false, "cfgIdConstants::SAVE_PROJECT_BUTTON");//El paràmetre do i altres el posa el botó
+        new RequestControl(eventName.CANCEL_PROJECT, ajax_call+"project", true, true, false, "cfgIdConstants::CANCEL_PROJECT_BUTTON");//El paràmetre do i altres el posa el botó
         new RequestControl(eventName.SAVE_PROJECT_DRAFT, ajax_call+"project&do=save_project_draft", true);
         new RequestControl(eventName.REMOVE_PROJECT_DRAFT, ajax_call+"project&do=remove_project_draft", true);
 

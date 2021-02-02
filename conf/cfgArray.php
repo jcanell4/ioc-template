@@ -949,7 +949,7 @@ $_arrIocCfgGUI = array (
             ),
             'i1_save_project' => 
             array (
-              'class' => 'WikiEventButton',
+              'class' => 'WikiRequestEventButton',
               'parms' => 
               array (
                 'DOM' => 
@@ -963,6 +963,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSave\'',
+                  'query' => '\'do=save\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; var globalState=this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var metaDataSubSet=globalState.getContent(globalState.getCurrentId()).metaDataSubSet;_ret = { id: id, metaDataSubSet: metaDataSubSet, name: \'save_project\'};return _ret;}',
                 ),
               ),
@@ -1070,7 +1071,7 @@ $_arrIocCfgGUI = array (
             ),
             'i3_cancel_project' => 
             array (
-              'class' => 'WikiEventButton',
+              'class' => 'WikiRequestEventButton',
               'parms' => 
               array (
                 'DOM' => 
@@ -1084,6 +1085,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconClose\'',
+                  'query' => '\'do=cancel\'',
                   'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var pType = globalState.getContent(id).projectType;_ret = { id: id, name: \'cancel_project\', projectType: pType, dataToSend: {keep_draft: false}};return _ret;}',
                 ),
               ),
