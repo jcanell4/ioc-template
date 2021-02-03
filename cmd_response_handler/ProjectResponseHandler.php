@@ -117,6 +117,8 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_WORKFLOW:
+                    if ($responseData[ProjectKeys::KEY_INFO]) $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
+                    if ($responseData['alert']) $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
                 case ProjectKeys::KEY_EDIT:
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
                     break;
