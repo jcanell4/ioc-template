@@ -294,7 +294,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title = "Projecte $ns $extratitle $title_rev";
 
         $outValues = [];
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
+        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
 
         if ($requestParams[ProjectKeys::KEY_DISCARD_CHANGES])
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
@@ -321,7 +321,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
         $outValues = [];
-        $form = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, $action, FALSE, $extratitle);
+        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, $action, FALSE, $extratitle);
 
         $this->addSaveOrDiscardDialog($responseData);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer")*1000 : NULL;
@@ -844,7 +844,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ns = $requestParams[ProjectKeys::KEY_ID];
         $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
         $outValues = [];
-        $content = $this->buildForm($id, $ns, $responseData['projectMetaData'], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
+        $content = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
         $timer = $this->_generateRequireDialogTimer($requestParams, $responseData);
         $params = [
             ProjectKeys::KEY_ID => $id,
