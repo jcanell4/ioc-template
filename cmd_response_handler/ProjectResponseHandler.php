@@ -26,7 +26,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if ($responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]) {
             $ajaxCmdResponseGenerator->addExtraContentStateResponse($responseData[ProjectKeys::KEY_ID], AjaxKeys::KEY_FTP_PROJECT_BUTTON, $responseData[AjaxKeys::KEY_ACTIVA_FTP_PROJECT_BTN]);
         }
-        if ($requestParams[ProjectKeys::KEY_DO] === ProjectKeys::KEY_REVERT_PROJECT) {
+        if ($this->requestParamsDO($requestParams) === ProjectKeys::KEY_REVERT_PROJECT) {
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processCloseTab", $responseData['close']);
             $ajaxCmdResponseGenerator->addProcessFunction(true, "ioc/dokuwiki/processRequest", $responseData['reload']);
         }
@@ -43,20 +43,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
             $ajaxCmdResponseGenerator->addCodeTypeResponse($responseData[ProjectKeys::KEY_CODETYPE]);
 
-            if ($requestParams[ProjectKeys::KEY_DO] === ProjectKeys::KEY_REMOVE_PROJECT) {
+            if ($this->requestParamsDO($requestParams) === ProjectKeys::KEY_REMOVE_PROJECT) {
                 $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_ID]);
                 $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
                 $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $responseData[PageKeys::KEY_HTML_SC]); //refresca el tab 'Dreceres'
             }
         }
         else {
-            if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_DIFF && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_REVERT_PROJECT) {
+            if (isset($requestParams[ProjectKeys::KEY_REV]) && $this->requestParamsDO($requestParams) !== ProjectKeys::KEY_DIFF && $this->requestParamsDO($requestParams) !== ProjectKeys::KEY_REVERT_PROJECT) {
                 $requestParams[ProjectKeys::KEY_DO] = ProjectKeys::KEY_VIEW;
             }
-            $this->responseType = $requestParams[ProjectKeys::KEY_DO];
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ProjectKeys::KEY_GENERATED] = $responseData[ProjectKeys::KEY_GENERATED];
+            $this->responseType = $this->requestParamsDO($requestParams);
 
-            switch ($requestParams[ProjectKeys::KEY_DO]) {
+            switch ($this->responseType) {
 
                 case ProjectKeys::KEY_DUPLICATE_PROJECT:
                     $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
@@ -108,6 +108,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     }
                     break;
 
+                case ProjectKeys::KEY_IMPORT:
+                    if ($responseData[ProjectKeys::KEY_INFO]) $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
+                    if ($responseData['alert']) $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
                 case ProjectKeys::KEY_VIEW:
                     $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
@@ -116,9 +119,6 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
                     break;
 
-                case ProjectKeys::KEY_WORKFLOW:
-                    if ($responseData[ProjectKeys::KEY_INFO]) $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
-                    if ($responseData['alert']) $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
                 case ProjectKeys::KEY_EDIT:
                     $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
                     break;
@@ -287,7 +287,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $id = $responseData[ProjectKeys::KEY_ID];
         $ns = $requestParams[ProjectKeys::KEY_ID];
 
-        if (isset($requestParams[ProjectKeys::KEY_REV]) && $requestParams[ProjectKeys::KEY_DO] !== ProjectKeys::KEY_REVERT)
+        if (isset($requestParams[ProjectKeys::KEY_REV]) && $this->requestParamsDO($requestParams) !== ProjectKeys::KEY_REVERT)
             $title_rev = "- revisió (" . date("d.m.Y h:i:s", $requestParams[ProjectKeys::KEY_REV]) . ")";
         if (($responseData['isSubSet']))
             $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET], TRUE);
@@ -961,6 +961,10 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function _isSubSet($subSet=NULL) {
         return ($subSet && $subSet !== ProjectKeys::VAL_DEFAULTSUBSET);
+    }
+
+    private function requestParamsDO($requestParams) {
+        return ($requestParams[ProjectKeys::KEY_ACTION]) ? $requestParams[ProjectKeys::KEY_ACTION] : $requestParams[ProjectKeys::KEY_DO];
     }
 
 }
