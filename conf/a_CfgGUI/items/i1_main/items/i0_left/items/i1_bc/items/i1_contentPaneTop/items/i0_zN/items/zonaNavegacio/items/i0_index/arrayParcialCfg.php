@@ -16,6 +16,10 @@ $arrParcial = array(
                                  "po" => [
                                         "urlBase" => "'lib/exe/ioc_ajax.php?call=project'",
                                         "params" => ['projectType','nsproject']
+                                        ],
+                                  'p#w' => [
+                                        'urlBase' => "lib/exe/ioc_ajax.php?call=project&do=workflow&action=view",
+                                        'params' => ['projectType','nsproject']
                                         ]
                                 ]
             ,"expandProject" => "false"
