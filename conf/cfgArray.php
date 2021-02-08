@@ -634,6 +634,15 @@ $_arrIocCfgGUI = array (
                                         1 => 'nsproject',
                                       ),
                                     ),
+                                    'p#w' => 
+                                    array (
+                                      'urlBase' => 'lib/exe/ioc_ajax.php?call=project&do=workflow&action=view',
+                                      'params' => 
+                                      array (
+                                        0 => 'projectType',
+                                        1 => 'nsproject',
+                                      ),
+                                    ),
                                   ),
                                   'expandProject' => 'false',
                                   'processOnClickAndOpenOnClick' => 'function(_data){var _ret=null; _ret=_data===\'p\'||_data===\'po\';return _ret;}',
