@@ -455,7 +455,7 @@ class WikiIocContentPane extends WikiIocContainer {
         $ret = "";
         $page = $this->get('PRP','page');
         if($page != NULL) {
-            $ret .= "<div class='tb_container'>\n" . tpl_include_page($page, FALSE) . "\n</div>\n";
+            $ret .= "<div class='tb_container'>\n" . tpl_include_page($page, FALSE, false, false) . "\n</div>\n";
         }
         return $ret;
     }

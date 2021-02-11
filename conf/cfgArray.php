@@ -667,7 +667,7 @@ $_arrIocCfgGUI = array (
                                 ),
                                 'PRP' => 
                                 array (
-                                  'page' => ':wiki:navigation',
+                                  'page' => 'wiki:navigation',
                                 ),
                               ),
                             ),

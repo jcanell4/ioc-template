@@ -11,7 +11,7 @@ $arrParcial = array(
                                           ,"defaultCall" => "'call=print'"
                                         )
                               ,"PRP" => array(
-                                           "page" => ":wiki:navigation"
+                                           "page" => "wiki:navigation"
                                         )
                             )
               );
