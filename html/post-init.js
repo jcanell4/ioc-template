@@ -285,7 +285,7 @@ require([
                 // console.log("detectat estat d'usuari", state.userState);
                 wikiIocDispatcher.getGlobalState().userState = state.userState;
             }
-
+            //var projectType = state.pages[state.currentTabId].projectType;
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state.getCurrentNavigationId();
@@ -357,14 +357,20 @@ require([
                         }
 
                     } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view" || state.getContent(id).action === "project_partial") {
+                        queryParams = "call=project&do=";
+                        if (state.getContent(id).workflowState) {
+                            queryParams += "workflow&action=view";
+                        }else {
+                            queryParams += "view";
+                        }
                         ns = state.getContent(id).ns;
                         projectType = state.getContent(id).projectType;
+                        queryParams += "&ns="+ns + "&projectType="+projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
-                        if (metaDataSubSet === undefined) {
-                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&id=";
-                        }else {
-                            queryParams = "call=project&do=view&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                        if (metaDataSubSet !== undefined) {
+                            queryParams += "&metaDataSubSet="+metaDataSubSet;
                         }
+                        queryParams += "&id=";
 
                     } else if (state.getContent(id).action === "project_diff") {
                         page = state.getContent(id);
