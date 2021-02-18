@@ -450,11 +450,8 @@ dialog.destroyRecursive(false);
 domConstruct.destroy("newDocumentDlg");
 });
 dialog.on('show', function () {
-dialog.dialogTree.tree.set('path',path).then(function(){
-dom.byId('textBoxNouNom').focus();
-});
-dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
-dom.byId('textBoxEspaiNoms').focus();
+dom.byId('textBoxNomOrigen').value = path[path.length-1] || "";
+dom.byId('textBoxNomOrigen').focus();
 });
 dialog.nsActivePage = function (){
 path.length=0;
@@ -474,8 +471,8 @@ path[i]=stPath;
 }
 };
 dialog.setDefaultDocumentName = function(n,o,e) {
-dom.byId('textBoxNouNom').value = e;
-dom.byId('textBoxNouNom').focus();
+dom.byId('textBoxNomCarpeta').value = e;
+dom.byId('textBoxNomCarpeta').focus();
 };
 var bc = new BorderContainer({
 style: "height: 300px; width: 450px;"
@@ -501,35 +498,35 @@ hiddenProjects:true
 dialogTree.startup();
 dialog.dialogTree = dialogTree;
 dialogTree.tree.onClick=function(item) {
-dom.byId('textBoxEspaiNoms').value= item.id;
-dom.byId('textBoxEspaiNoms').focus();
+dom.byId('textBoxNomOrigen').value= item.id;
+dom.byId('textBoxNomOrigen').focus();
 };
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
 },cpDreta.containerNode);
 var form = new Form().placeAt(divdreta);
-var divEspaiNoms = domConstruct.create('div', {
-className: 'divEspaiNoms'
+var divNomOrigen = domConstruct.create('div', {
+className: 'divNomOrigen'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: renameButton.EspaideNomslabel + '<br>'
-},divEspaiNoms);
-var EspaiNoms = new TextBox({
-id: 'textBoxEspaiNoms',
-placeHolder: renameButton.EspaideNomsplaceHolder
-}).placeAt(divEspaiNoms);
-dialog.textBoxEspaiNoms = EspaiNoms;
-var divNouNom = domConstruct.create('div', {
-id: 'id_divNouNom',
-className: 'divNouNom'
+innerHTML: renameButton.NomOrigenlabel + '<br>'
+},divNomOrigen);
+var NomOrigen = new TextBox({
+id: 'textBoxNomOrigen',
+placeHolder: renameButton.NomOrigenplaceHolder
+}).placeAt(divNomOrigen);
+dialog.textBoxNomOrigen = NomOrigen;
+var divNomCarpeta = domConstruct.create('div', {
+id: 'id_divNomCarpeta',
+className: 'divNomCarpeta'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: '<br>' + renameButton.NouNomlabel + '<br>'
-}, divNouNom);
-var NouNom = new TextBox({
-id: "textBoxNouNom",
-placeHolder: renameButton.NouNomplaceHolder
-}).placeAt(divNouNom);
+innerHTML: '<br>' + renameButton.NomCarpetalabel + '<br>'
+}, divNomCarpeta);
+var NomCarpeta = new TextBox({
+id: "textBoxNomCarpeta",
+placeHolder: renameButton.NomCarpetaplaceHolder
+}).placeAt(divNomCarpeta);
 var botons = domConstruct.create('div', {
 className: 'botons',
 style: "text-align:center;"
@@ -540,11 +537,11 @@ innerHTML: '<br><br>'
 new Button({
 label: renameButton.labelButtonAcceptar,
 onClick: function(){
-if (NouNom.value !== '') {
+if (NomCarpeta.value !== '') {
 var query = 'call=rename_folder' +
 '&do=rename' +
-'&old_name=' + normalitzaCaracters(EspaiNoms.value, true) +
-'&new_name=' + normalitzaCaracters(NouNom.value);
+'&old_folder_name=' + normalitzaCaracters(NomOrigen.value, true) +
+'&new_folder_name=' + normalitzaCaracters(NomCarpeta.value, true);
 renameButton.sendRequest(query);
 dialog.hide();
 }

@@ -34,11 +34,8 @@ if (renameButton) {
             });
             
             dialog.on('show', function () {
-                dialog.dialogTree.tree.set('path',path).then(function(){
-                    dom.byId('textBoxNouNom').focus();
-                });
-                dom.byId('textBoxEspaiNoms').value = path[path.length-1] || "";
-                dom.byId('textBoxEspaiNoms').focus();
+                dom.byId('textBoxNomOrigen').value = path[path.length-1] || "";
+                dom.byId('textBoxNomOrigen').focus();
             });
 
             dialog.nsActivePage = function (){
@@ -60,8 +57,8 @@ if (renameButton) {
             };
 
             dialog.setDefaultDocumentName = function(n,o,e) {
-                dom.byId('textBoxNouNom').value = e;
-                dom.byId('textBoxNouNom').focus();
+                dom.byId('textBoxNomCarpeta').value = e;
+                dom.byId('textBoxNomCarpeta').focus();
             };
         
             var bc = new BorderContainer({
@@ -99,8 +96,8 @@ if (renameButton) {
             dialog.dialogTree = dialogTree;
 
             dialogTree.tree.onClick=function(item) {
-                dom.byId('textBoxEspaiNoms').value= item.id;
-                dom.byId('textBoxEspaiNoms').focus();
+                dom.byId('textBoxNomOrigen').value= item.id;
+                dom.byId('textBoxNomOrigen').focus();
             };
 
             // Un formulari a la banda dreta contenint:
@@ -110,35 +107,35 @@ if (renameButton) {
 
             var form = new Form().placeAt(divdreta);
 
-            //ESPAI DE NOMS Un camp de text per poder escriure l'espai de noms
-            var divEspaiNoms = domConstruct.create('div', {
-                className: 'divEspaiNoms'
+            //ESPAI DE NOMS ORIGEN Un camp de text per poder escriure l'espai de noms origen
+            var divNomOrigen = domConstruct.create('div', {
+                className: 'divNomOrigen'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: renameButton.EspaideNomslabel + '<br>'
-            },divEspaiNoms);
+                innerHTML: renameButton.NomOrigenlabel + '<br>'
+            },divNomOrigen);
 
-            var EspaiNoms = new TextBox({
-                id: 'textBoxEspaiNoms',
-                placeHolder: renameButton.EspaideNomsplaceHolder
-            }).placeAt(divEspaiNoms);
-            dialog.textBoxEspaiNoms = EspaiNoms;
+            var NomOrigen = new TextBox({
+                id: 'textBoxNomOrigen',
+                placeHolder: renameButton.NomOrigenplaceHolder
+            }).placeAt(divNomOrigen);
+            dialog.textBoxNomOrigen = NomOrigen;
 
-            //DIV NOU NOM: Un camp de text per poder escriure el nou nom del directori
-            var divNouNom = domConstruct.create('div', {
-                id: 'id_divNouNom',
-                className: 'divNouNom'
+            //DIV NOU NOM: Un camp de text per poder escriure el nou nom de la carpeta
+            var divNomCarpeta = domConstruct.create('div', {
+                id: 'id_divNomCarpeta',
+                className: 'divNomCarpeta'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + renameButton.NouNomlabel + '<br>'
-            }, divNouNom);
+                innerHTML: '<br>' + renameButton.NomCarpetalabel + '<br>'
+            }, divNomCarpeta);
 
-            var NouNom = new TextBox({
-                id: "textBoxNouNom",
-                placeHolder: renameButton.NouNomplaceHolder
-            }).placeAt(divNouNom);
+            var NomCarpeta = new TextBox({
+                id: "textBoxNomCarpeta",
+                placeHolder: renameButton.NomCarpetaplaceHolder
+            }).placeAt(divNomCarpeta);
 
 
             // botons
@@ -155,11 +152,11 @@ if (renameButton) {
                 label: renameButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (NouNom.value !== '') {
+                    if (NomCarpeta.value !== '') {
                         var query = 'call=rename_folder' + 
                                     '&do=rename' + 
-                                    '&old_name=' + normalitzaCaracters(EspaiNoms.value, true) + 
-                                    '&new_name=' + normalitzaCaracters(NouNom.value);
+                                    '&old_folder_name=' + normalitzaCaracters(NomOrigen.value, true) +
+                                    '&new_folder_name=' + normalitzaCaracters(NomCarpeta.value, true);
                         renameButton.sendRequest(query);
                         dialog.hide();
                     }
