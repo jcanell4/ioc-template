@@ -450,8 +450,8 @@ dialog.destroyRecursive(false);
 domConstruct.destroy("newDocumentDlg");
 });
 dialog.on('show', function () {
-dom.byId('textBoxNomOrigen').value = path[path.length-1] || "";
-dom.byId('textBoxNomOrigen').focus();
+dom.byId('textBoxDirectoriOrigen').value = path[path.length-1] || "";
+dom.byId('textBoxDirectoriOrigen').focus();
 });
 dialog.nsActivePage = function (){
 path.length=0;
@@ -469,10 +469,6 @@ stPath = stPath + aPath[i];
 path[i]=stPath;
 }
 }
-};
-dialog.setDefaultDocumentName = function(n,o,e) {
-dom.byId('textBoxNomCarpeta').value = e;
-dom.byId('textBoxNomCarpeta').focus();
 };
 var bc = new BorderContainer({
 style: "height: 300px; width: 450px;"
@@ -498,35 +494,49 @@ hiddenProjects:true
 dialogTree.startup();
 dialog.dialogTree = dialogTree;
 dialogTree.tree.onClick=function(item) {
-dom.byId('textBoxNomOrigen').value= item.id;
-dom.byId('textBoxNomOrigen').focus();
+dom.byId('textBoxDirectoriOrigen').value= item.id;
+dom.byId('textBoxDirectoriOrigen').focus();  //borra el placeholder
+dom.byId('textBoxDirectoriDesti').value= item.id;
+dom.byId('textBoxDirectoriDesti').focus();
+dom.byId('textBoxNouNomCarpeta').focus();
 };
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
 },cpDreta.containerNode);
 var form = new Form().placeAt(divdreta);
-var divNomOrigen = domConstruct.create('div', {
-className: 'divNomOrigen'
+var divDirectoriOrigen = domConstruct.create('div', {
+className: 'divDirectoriOrigen'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: renameButton.NomOrigenlabel + '<br>'
-},divNomOrigen);
-var NomOrigen = new TextBox({
-id: 'textBoxNomOrigen',
-placeHolder: renameButton.NomOrigenplaceHolder
-}).placeAt(divNomOrigen);
-dialog.textBoxNomOrigen = NomOrigen;
-var divNomCarpeta = domConstruct.create('div', {
-id: 'id_divNomCarpeta',
-className: 'divNomCarpeta'
+innerHTML: renameButton.DirectoriOrigenlabel + '<br>'
+},divDirectoriOrigen);
+var DirectoriOrigen = new TextBox({
+id: 'textBoxDirectoriOrigen',
+placeHolder: renameButton.DirectoriOrigenplaceHolder
+}).placeAt(divDirectoriOrigen);
+dialog.textBoxDirectoriOrigen = DirectoriOrigen;
+var divDirectoriDesti = domConstruct.create('div', {
+className: 'divDirectoriDesti'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: '<br>' + renameButton.NomCarpetalabel + '<br>'
-}, divNomCarpeta);
-var NomCarpeta = new TextBox({
-id: "textBoxNomCarpeta",
-placeHolder: renameButton.NomCarpetaplaceHolder
-}).placeAt(divNomCarpeta);
+innerHTML: '<br><br>' + renameButton.DirectoriDestilabel + '<br>'
+},divDirectoriDesti);
+var DirectoriDesti = new TextBox({
+id: 'textBoxDirectoriDesti',
+placeHolder: renameButton.DirectoriDestiplaceHolder
+}).placeAt(divDirectoriDesti);
+dialog.textBoxDirectoriDesti = DirectoriDesti;
+var divNouNomCarpeta = domConstruct.create('div', {
+id: 'id_divNouNomCarpeta',
+className: 'divNouNomCarpeta'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + renameButton.NouNomCarpetalabel + '<br>'
+}, divNouNomCarpeta);
+var NouNomCarpeta = new TextBox({
+id: "textBoxNouNomCarpeta",
+placeHolder: renameButton.NouNomCarpetaplaceHolder
+}).placeAt(divNouNomCarpeta);
 var botons = domConstruct.create('div', {
 className: 'botons',
 style: "text-align:center;"
@@ -537,11 +547,15 @@ innerHTML: '<br><br>'
 new Button({
 label: renameButton.labelButtonAcceptar,
 onClick: function(){
-if (NomCarpeta.value !== '') {
+if (DirectoriOrigen.value !== '' && NouNomCarpeta.value !== '') {
+var ns_desti = normalitzaCaracters(DirectoriOrigen.value, true);
+if (DirectoriDesti.value !== '') {
+ns_desti = normalitzaCaracters(DirectoriDesti.value, true) + ':';
+}
 var query = 'call=rename_folder' +
 '&do=rename' +
-'&old_folder_name=' + normalitzaCaracters(NomOrigen.value, true) +
-'&new_folder_name=' + normalitzaCaracters(NomCarpeta.value, true);
+'&old_folder_name=' + ns_desti +
+'&new_folder_name=' + ns_desti + normalitzaCaracters(NouNomCarpeta.value);
 renameButton.sendRequest(query);
 dialog.hide();
 }

@@ -34,8 +34,8 @@ if (renameButton) {
             });
             
             dialog.on('show', function () {
-                dom.byId('textBoxNomOrigen').value = path[path.length-1] || "";
-                dom.byId('textBoxNomOrigen').focus();
+                dom.byId('textBoxDirectoriOrigen').value = path[path.length-1] || "";
+                dom.byId('textBoxDirectoriOrigen').focus();
             });
 
             dialog.nsActivePage = function (){
@@ -56,11 +56,6 @@ if (renameButton) {
                 }    
             };
 
-            dialog.setDefaultDocumentName = function(n,o,e) {
-                dom.byId('textBoxNomCarpeta').value = e;
-                dom.byId('textBoxNomCarpeta').focus();
-            };
-        
             var bc = new BorderContainer({
                 style: "height: 300px; width: 450px;"
             });
@@ -96,8 +91,11 @@ if (renameButton) {
             dialog.dialogTree = dialogTree;
 
             dialogTree.tree.onClick=function(item) {
-                dom.byId('textBoxNomOrigen').value= item.id;
-                dom.byId('textBoxNomOrigen').focus();
+                dom.byId('textBoxDirectoriOrigen').value= item.id;
+                dom.byId('textBoxDirectoriOrigen').focus();  //borra el placeholder
+                dom.byId('textBoxDirectoriDesti').value= item.id;
+                dom.byId('textBoxDirectoriDesti').focus();
+                dom.byId('textBoxNouNomCarpeta').focus();
             };
 
             // Un formulari a la banda dreta contenint:
@@ -108,34 +106,49 @@ if (renameButton) {
             var form = new Form().placeAt(divdreta);
 
             //ESPAI DE NOMS ORIGEN Un camp de text per poder escriure l'espai de noms origen
-            var divNomOrigen = domConstruct.create('div', {
-                className: 'divNomOrigen'
+            var divDirectoriOrigen = domConstruct.create('div', {
+                className: 'divDirectoriOrigen'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: renameButton.NomOrigenlabel + '<br>'
-            },divNomOrigen);
+                innerHTML: renameButton.DirectoriOrigenlabel + '<br>'
+            },divDirectoriOrigen);
 
-            var NomOrigen = new TextBox({
-                id: 'textBoxNomOrigen',
-                placeHolder: renameButton.NomOrigenplaceHolder
-            }).placeAt(divNomOrigen);
-            dialog.textBoxNomOrigen = NomOrigen;
+            var DirectoriOrigen = new TextBox({
+                id: 'textBoxDirectoriOrigen',
+                placeHolder: renameButton.DirectoriOrigenplaceHolder
+            }).placeAt(divDirectoriOrigen);
+            dialog.textBoxDirectoriOrigen = DirectoriOrigen;
+
+            //ESPAI DE NOMS DESTÍ Un camp de text per poder escriure l'espai de noms de destí
+            var divDirectoriDesti = domConstruct.create('div', {
+                className: 'divDirectoriDesti'
+            },form.containerNode);
+
+            domConstruct.create('label', {
+                innerHTML: '<br><br>' + renameButton.DirectoriDestilabel + '<br>'
+            },divDirectoriDesti);
+
+            var DirectoriDesti = new TextBox({
+                id: 'textBoxDirectoriDesti',
+                placeHolder: renameButton.DirectoriDestiplaceHolder
+            }).placeAt(divDirectoriDesti);
+            dialog.textBoxDirectoriDesti = DirectoriDesti;
 
             //DIV NOU NOM: Un camp de text per poder escriure el nou nom de la carpeta
-            var divNomCarpeta = domConstruct.create('div', {
-                id: 'id_divNomCarpeta',
-                className: 'divNomCarpeta'
+            var divNouNomCarpeta = domConstruct.create('div', {
+                id: 'id_divNouNomCarpeta',
+                className: 'divNouNomCarpeta'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + renameButton.NomCarpetalabel + '<br>'
-            }, divNomCarpeta);
+                innerHTML: '<br>' + renameButton.NouNomCarpetalabel + '<br>'
+            }, divNouNomCarpeta);
 
-            var NomCarpeta = new TextBox({
-                id: "textBoxNomCarpeta",
-                placeHolder: renameButton.NomCarpetaplaceHolder
-            }).placeAt(divNomCarpeta);
+            var NouNomCarpeta = new TextBox({
+                id: "textBoxNouNomCarpeta",
+                placeHolder: renameButton.NouNomCarpetaplaceHolder
+            }).placeAt(divNouNomCarpeta);
 
 
             // botons
@@ -152,11 +165,15 @@ if (renameButton) {
                 label: renameButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (NomCarpeta.value !== '') {
+                    if (DirectoriOrigen.value !== '' && NouNomCarpeta.value !== '') {
+                        var ns_desti = normalitzaCaracters(DirectoriOrigen.value, true);
+                        if (DirectoriDesti.value !== '') {
+                            ns_desti = normalitzaCaracters(DirectoriDesti.value, true) + ':';
+                        }
                         var query = 'call=rename_folder' + 
                                     '&do=rename' + 
-                                    '&old_folder_name=' + normalitzaCaracters(NomOrigen.value, true) +
-                                    '&new_folder_name=' + normalitzaCaracters(NomCarpeta.value, true);
+                                    '&old_folder_name=' + ns_desti +
+                                    '&new_folder_name=' + ns_desti + normalitzaCaracters(NouNomCarpeta.value);
                         renameButton.sendRequest(query);
                         dialog.hide();
                     }
