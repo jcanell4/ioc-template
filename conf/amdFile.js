@@ -494,12 +494,17 @@ hiddenProjects:true
 dialogTree.startup();
 dialog.dialogTree = dialogTree;
 dialogTree.tree.onClick=function(item) {
-dom.byId('textBoxDirectoriOrigen').value= item.id;
+dom.byId('textBoxDirectoriOrigen').value = item.id;
 dom.byId('textBoxDirectoriOrigen').focus();  //borra el placeholder
-dom.byId('textBoxDirectoriDesti').value= item.id;
+dom.byId('textBoxDirectoriDesti').value = dialog.getNsDesti(item.id);
 dom.byId('textBoxDirectoriDesti').focus();
 dom.byId('textBoxNouNomCarpeta').focus();
 };
+dialog.getNsDesti = function(ns) {
+ns = ns.split(':');
+ns.pop();
+return ns.join(":");
+}
 var divdreta = domConstruct.create('div', {
 className: 'dreta'
 },cpDreta.containerNode);
@@ -548,13 +553,13 @@ new Button({
 label: renameButton.labelButtonAcceptar,
 onClick: function(){
 if (DirectoriOrigen.value !== '' && NouNomCarpeta.value !== '') {
-var ns_desti = normalitzaCaracters(DirectoriOrigen.value, true);
+var ns_desti = '';
 if (DirectoriDesti.value !== '') {
 ns_desti = normalitzaCaracters(DirectoriDesti.value, true) + ':';
 }
 var query = 'call=rename_folder' +
 '&do=rename' +
-'&old_folder_name=' + ns_desti +
+'&old_folder_name=' + normalitzaCaracters(DirectoriOrigen.value, true) +
 '&new_folder_name=' + ns_desti + normalitzaCaracters(NouNomCarpeta.value);
 renameButton.sendRequest(query);
 dialog.hide();
