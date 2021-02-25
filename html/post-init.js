@@ -186,9 +186,9 @@ require([
 
                             isRevision = disp.getContentCache(cur).getMainContentTool().get('isRevision');
                             if (!isRevision) {
-                                if(page.updateButton!=1){
+//                                if(page.updateButton!=1){
                                     disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
-                                }
+//                                }
 
                                 if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
                                     if (isManager || page.rol === "responsable") {
