@@ -215,11 +215,12 @@ require([
                         }
                         else if (page.action === 'mediadetails') {
                             var pageDif = (page.mediado && page.mediado === "diff");
+                            isRevision = (page.rev && page.rev !== 0);
                             if (!pageDif) {
-                                disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", true);
-                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", true);
+                                disp.changeWidgetProperty('cfgIdConstants::DETAIL_SUPRESSIO_BUTTON', "visible", !isRevision);
+                                disp.changeWidgetProperty('cfgIdConstants::MEDIA_UPDATE_IMAGE_BUTTON', "visible", !isRevision);
                                 if (disp.getGlobalState().pages["media"] && disp.getGlobalState().pages["media"][disp.getGlobalState().currentTabId]) {
-                                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", true);
+                                    disp.changeWidgetProperty('cfgIdConstants::MEDIA_EDIT_BUTTON', "visible", !isRevision);
                                 }
                             } else {
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
