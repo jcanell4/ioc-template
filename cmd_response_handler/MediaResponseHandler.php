@@ -123,8 +123,8 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 $info['message'] = $MSG[0]["msg"];
             }
         }
-        if (isset($_REQUEST['mediado'])) {
-            if ($_REQUEST['mediado'] == 'searchlist') {
+        if (isset($_REQUEST[MediaKeys::KEY_MEDIA_DO])) {
+            if ($_REQUEST[MediaKeys::KEY_MEDIA_DO] == 'searchlist') {
                 $info['type'] = 'success';
                 $info['message'] = 'Fitxers de carpeta "' . $responseData['ns'] . '" i subcarpetes, que es corresponen amb la cerca: "'.$_REQUEST['q'].'"';
             }
