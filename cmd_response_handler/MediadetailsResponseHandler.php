@@ -55,10 +55,11 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
     private function _responseDetail($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $difftype = ($requestParams[MediaKeys::KEY_DIFFTYPE]) ? $requestParams[MediaKeys::KEY_DIFFTYPE] : "";
         $mediado = ($requestParams[MediaKeys::KEY_MEDIA_DO]) ? $requestParams[MediaKeys::KEY_MEDIA_DO] : "";
+        $rev_suffix = ($responseData[MediaKeys::KEY_REV] > 0) ? MediaKeys::REVISION_SUFFIX : "";
         $ajaxCmdResponseGenerator->addMediaDetails($difftype, 
                                                    $mediado,
                                                    "details", 
-                                                   $responseData[MediaKeys::KEY_ID],
+                                                   $responseData[MediaKeys::KEY_ID].$rev_suffix,
                                                    $responseData[MediaKeys::KEY_NS],
                                                    $responseData['title'],
                                                    $responseData['content'],
@@ -66,7 +67,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
 
         // Històric de versions
         $propLlista = array(
-            'id' => $responseData['id'] . '_metaMediaDetailsProva',
+            'id' => $responseData['id'] . '_metaMediaDetails',
             'title' => "Històric de versions",
             'ns' => $responseData['ns'],
             'content' => $this->getModelAdapter()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
