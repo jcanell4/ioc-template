@@ -174,21 +174,15 @@ require([
                         }
                         else if (page.action === "form" || page.action === "project_edit" || page.action === "project_partial") {
                             disp.changeWidgetProperty('cfgIdConstants::SAVE_PROJECT_BUTTON', "visible", true);
-                            if (page.generated===false) {
-                                disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
-                            }
                             disp.changeWidgetProperty('cfgIdConstants::CANCEL_PROJECT_BUTTON', "visible", true);
                         }
                         else if (page.action === "view_form" || page.action === "project_view") {
                             if (page.generated===false) {
                                 disp.changeWidgetProperty('cfgIdConstants::GENERATE_PROJECT_BUTTON', "visible", true);
                             }
-
                             isRevision = disp.getContentCache(cur).getMainContentTool().get('isRevision');
                             if (!isRevision) {
-//                                if(page.updateButton!=1){
-                                    disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
-//                                }
+                                disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
 
                                 if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
                                     if (isManager || page.rol === "responsable") {
