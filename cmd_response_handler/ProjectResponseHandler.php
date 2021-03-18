@@ -109,6 +109,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_IMPORT:
+                    if($requestParams["fromPageAction"] == "project_view"){
+                        $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    }else if($requestParams["fromPageAction"] == "project_edit"){
+                        $this->_responseEditResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_PARTIAL_TYPE);
+                    }
                     if ($responseData[ProjectKeys::KEY_INFO]) $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
                     if ($responseData['alert']) $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
                 case ProjectKeys::KEY_VIEW:
