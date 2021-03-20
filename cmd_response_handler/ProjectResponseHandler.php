@@ -188,15 +188,18 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     PageResponseHandler::staticResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
                 default:
-                    if ($responseData[ProjectKeys::KEY_INFO]) {
-                        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
+                    if($responseData["alternativeResponseHandler"]){
+                        $responseData["alternativeResponseHandler"]->response($requestParams, $responseData, $ajaxCmdResponseGenerator);
+                    }else{
+                        if ($responseData[ProjectKeys::KEY_INFO]) {
+                            $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
+                        }
+                        if ($responseData['alert']) {
+                            $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
+                        } else if (!$responseData[ProjectKeys::KEY_INFO]) {
+                            throw new IncorrectParametersException();
+                        }
                     }
-                    if ($responseData['alert']) {
-                        $ajaxCmdResponseGenerator->addAlert($responseData['alert']);
-                    } else if (!$responseData[ProjectKeys::KEY_INFO]) {
-                        throw new IncorrectParametersException();
-                    }
-
             }
 
         }
