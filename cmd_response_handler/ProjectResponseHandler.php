@@ -189,6 +189,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
                 default:
                     if($responseData["alternativeResponseHandler"]){
+                        $responseData["alternativeResponseHandler"]->setModelManager($this->getModelManager());
+                        $responseData["alternativeResponseHandler"]->setModelAdapter($this->getModelAdapter());
+                        $responseData["alternativeResponseHandler"]->setPermission($this->getPermission());
                         $responseData["alternativeResponseHandler"]->response($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     }else{
                         if ($responseData[ProjectKeys::KEY_INFO]) {
