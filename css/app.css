@@ -2549,3 +2549,10 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     max-width: 100% !important;
     max-height: 100% !important;
 }
+
+.meta-error-highlight {
+    box-shadow: 0 0 5px red;
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid red;
+}
