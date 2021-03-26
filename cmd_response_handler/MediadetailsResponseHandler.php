@@ -70,7 +70,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
             'id' => $responseData['id'] . '_metaMediaDetails',
             'title' => "Històric de versions",
             'ns' => $responseData['ns'],
-            'content' => $this->getModelAdapter()->mediaDetailsHistory($responseData['ns'], $responseData['image'])
+            'content' => $this->mediaDetailsHistory($responseData['ns'], $responseData['image'])
         );
 
         // File Upload
