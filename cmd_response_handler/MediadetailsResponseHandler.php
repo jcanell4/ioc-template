@@ -74,7 +74,7 @@ class MediadetailsResponseHandler extends WikiIocResponseHandler {
         );
 
         // File Upload
-        $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
+        $metaDataFileUpload = $this->getMediaFileUpload();
         $metaDataFileUpload['ns'] = $responseData['ns'];
         $metaDataFileUpload['id'] = $responseData['id'] . '_metaMediafileupload';
         if ($requestParams["versioupload"]){

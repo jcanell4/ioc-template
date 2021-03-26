@@ -155,9 +155,9 @@ class MediaResponseHandler extends WikiIocResponseHandler {
                 'list' => $list
             );
 
-            $metaDataFileOptions = $this->getModelAdapter()->getMediaTabFileOptions();
-            $metaDataFileSort = $this->getModelAdapter()->getMediaTabFileSort();
-            $metaDataSearch= $this->getModelAdapter()->getMediaTabSearch();
+            $metaDataFileOptions = $this->getMediaTabFileOptions();
+            $metaDataFileSort = $this->getMediaTabFileSort();
+            $metaDataSearch= $this->getMediaTabSearch();
 
             /*
              * Agrupant Visualtizació, Ordenació i Cerca al mateix element de l'acordió
@@ -168,7 +168,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 			'content' => $metaDataFileOptions.$metaDataFileSort.$metaDataSearch
 		);
 
-            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }
@@ -180,7 +180,7 @@ class MediaResponseHandler extends WikiIocResponseHandler {
 
             $ajaxCmdResponseGenerator->addMetaMediaData("media", $metaAgrupa);
         }else{
-            $metaDataFileUpload = $this->getModelAdapter()->getMediaFileUpload();
+            $metaDataFileUpload = $this->getMediaFileUpload();
             if($requestParams["versioupload"]){
                 $metaDataFileUpload['versioupload'] = $requestParams["id"];
             }

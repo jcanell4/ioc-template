@@ -118,41 +118,119 @@ abstract class WikiIocResponseHandler extends AbstractResponseHandler {
     * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin PLUGIN
     * @param array $value - array de paràmetres
     */
-     protected function getConfigSelectors(&$value){
-         $this->getModelAdapter()->getConfigSelectors($value);
-     }
+    protected function getConfigSelectors(&$value){
+        $this->getModelAdapter()->getConfigSelectors($value);
+    }
 
    /**
     * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin USERMANAGER
     * @param array $value - array de paràmetres
     */
-     protected function getUserManagerSelectors(&$value){
-         $this->getModelAdapter()->getUserManagerSelectors($value);
-     }
+    protected function getUserManagerSelectors(&$value){
+        $this->getModelAdapter()->getUserManagerSelectors($value);
+    }
 
    /**
     * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin REVERT
     * @param array $value - array de paràmetres
     */
      protected function getRevertSelectors(&$value){
-         $this->getModelAdapter()->getRevertSelectors($value);
+        $this->getModelAdapter()->getRevertSelectors($value);
      }
 
    /**
     * Afegeix al paràmetre $value els selectors css que es fan servir per seleccionar els forms al html del pluguin LATEX
     * @param array $value - array de paràmetres
     */
-     protected function getLatexSelectors(&$value){
-         $this->getModelAdapter()->getLatexSelectors($value);
-     }
+    protected function getLatexSelectors(&$value){
+        $this->getModelAdapter()->getLatexSelectors($value);
+    }
 
-     protected function getSmtpSelectors(&$value){
-         $this->getModelAdapter()->getSmtpSelectors($value);
-     }
+    protected function getSmtpSelectors(&$value){
+        $this->getModelAdapter()->getSmtpSelectors($value);
+    }
 
-     protected $defaultFormat = "undefined";
+    protected $defaultFormat = "undefined";
 
     protected function getFormat(){
         return IocCommon::getFormat($this->params[PageKeys::KEY_ID], $this->defaultFormat);
     }
+
+    // Extraido de DokuModelAdapter
+    protected function getMediaFileUpload() {
+        global $NS, $AUTH, $JUMPTO;
+        ob_start();
+        media_tab_upload($NS, $AUTH, $JUMPTO);
+        $strData = ob_get_clean();
+        $tree_ret = ['id' => 'metaMediafileupload',
+                     'title' => "Càrrega de fitxers",
+                     'content' => $strData];
+        return $tree_ret;
+    }
+
+    // Extraido de DokuModelAdapter
+    public function getMediaTabFileOptions() {
+        global $INPUT;
+
+        $checkThumbs = "checked";
+        $checkRows = "";
+        if ($INPUT->str('list')) {
+            if ($INPUT->str('list') == "rows") {
+                $checkThumbs = "";
+                $checkRows = "checked";
+            }
+        }
+        ob_start();
+        echo '<span style="font-weight: bold;">Visualització</span></br>';
+        echo '<div style="margin-left:10px;">';
+        echo '  <input type="radio" data-dojo-type="dijit/form/RadioButton" name="fileoptions" id="thumbs" value="thumbs" ' . $checkThumbs . '/>
+                <label for="radioOne">Thumbnails</label> <br />';
+        echo '  <input type="radio" data-dojo-type="dijit/form/RadioButton" name="fileoptions" id="rows" value="rows" ' . $checkRows . '/>
+                <label for="radioTwo">Rows</label> <br/><br/></div>';
+        $strData = ob_get_clean();
+        return $strData;
+    }
+
+    // Extraido de DokuModelAdapter
+    public function getMediaTabFileSort() {
+        global $INPUT;
+        $checkedNom = "checked";
+        $checkedData = "";
+        if ($INPUT->str('sort')) {
+            if ($INPUT->str('sort') == "date") {
+                $checkedNom = "";
+                $checkedData = "checked";
+            }
+        }
+
+        ob_start();
+        echo '<span style="font-weight: bold;">Ordenació</span></br>';
+        echo '<div style="margin-left:10px;">';
+        echo '  <input type="radio" data-dojo-type="dijit/form/RadioButton" name="filesort" id="nom" value="name" ' . $checkedNom . '/>
+                <label for="nom">Nom</label> <br />';
+        echo '  <input type="radio" data-dojo-type="dijit/form/RadioButton" name="filesort" id="data" value="date" ' . $checkedData . '/>
+                <label for="data">Data</label> <br/><br/></div>';
+        $strData = ob_get_clean();
+        return $strData;
+    }
+
+    // Extraido de DokuModelAdapter
+    public function getMediaTabSearch() {
+        global $NS;
+        ob_start();
+        echo '<span style="font-weight: bold;">Cerca</span></br>';
+        echo '<div class="search" style="margin-left:10px;">';
+        echo '<form accept-charset="utf-8" method="post"  id="dw__mediasearch">';
+        echo '<div class="no">';
+        echo '<p>';
+        echo '<input type="text" id="mediaSearchq" placeholder = "Nom de fitxer" title="Cerca en: ' . $NS . '" class="edit" name="q">';
+        echo '</label>';
+        echo '<input type="submit" class="button" value="Filtrar" id="mediaSearchs">';
+        echo '<input style="display:none" type="submit" class="button" value="Desfer filtre" id="mediaSearchr">';
+        echo '</p>';
+        echo '</div></form></div>';
+        $strData = ob_get_clean();
+        return $strData;
+    }
+
 }
