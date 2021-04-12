@@ -42,6 +42,9 @@ class PageResponseHandler extends WikiIocResponseHandler {
 
         if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
             $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+            if ($requestParams[RequestParameterKeys::PROJECT_OWNER]) {
+                $responseData['revs']['call_view'] = "page&projectOwner={$requestParams[RequestParameterKeys::PROJECT_OWNER]}&projectSourceType={$requestParams[RequestParameterKeys::PROJECT_SOURCE_TYPE]}";
+            }
             $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
         }
         else if(isset($responseData['meta'])) {

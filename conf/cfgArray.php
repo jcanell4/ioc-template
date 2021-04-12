@@ -1,6 +1,6 @@
 <?php
 function iocNeedResetArrayGUI(){
-  $_needReset = 0;
+  $_needReset = 1;
   return $_needReset;
 }
 
@@ -995,7 +995,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconUndo\'',
-                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var pType = globalState.getContent(id).projectType;var contentCache = this.dispatcher.getContentCache(id);var contentToolActual = contentCache.getMainContentTool();var ns = contentToolActual.ns;_ret = { id: id, name: \'save\', extraDataToSend: {do:\'save_rev\', ns:ns, projectType:pType, projectOwner:contentCache.projectOwner, projectSourceType:contentCache.projectSourceType }};return _ret;}',
+                  'getDataEventObject' => 'function(_data){var _ret=null; var globalState = this.dispatcher.getGlobalState();var id = globalState.getCurrentId();var pType = globalState.getContent(id).projectType;var projectOwner = globalState.getContent(id).projectOwner;var projectSourceType = globalState.getContent(id).projectSourceType;var ns=globalState.getContent(id).ns;_ret = { id: id, name: \'save\', extraDataToSend: {do:\'save_rev\', ns:ns, projectType:pType, projectOwner:projectOwner, projectSourceType:projectSourceType }};return _ret;}',
                 ),
               ),
             ),
