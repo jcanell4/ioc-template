@@ -281,7 +281,7 @@ if (newButton) {
             var bunit = domConstruct.create('div', {
                 id: 'id_divBotoUnitats',
                 className: 'botons',
-                style: "text-align:center;"
+                style: "text-align:right;margin-top:10px;"
             },form.containerNode);
 
             var mostraTaulaClicked = false;
@@ -307,11 +307,11 @@ if (newButton) {
             // ----- Botons generals del formulari ------
             var botons = domConstruct.create('div', {
                 className: 'botons',
-                style: "text-align:center;"
+                style: "text-align:center;margin-top:20px;"
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br><br>'
+                innerHTML: '<br>'
             }, botons);
 
             new Button({
