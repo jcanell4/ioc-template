@@ -922,6 +922,17 @@ span.arrow-icon {
     background-position-x: -702px;
 }
 
+.dijitIocIconIocReadonly {
+    background-position-x: -684px;
+}
+
+.dijitButtonChecked .dijitIocIconIocReadonly{
+    border: 1px solid #759dc0;
+    border-radius: 2px;
+    background-color: #86bdf2;
+}
+
+
 /* Icons to show with dropdown buttons */
 .dijitAdditionalEditorIconIocBack {
     background-position-x: -36px;
