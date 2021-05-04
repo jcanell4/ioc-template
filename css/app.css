@@ -2542,7 +2542,7 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     margin: 15px;
     /*margin-left:0;*/
     border: 1px solid lightgrey;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .wioccl-btn {
@@ -2566,4 +2566,13 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 1px solid red;
+}
+
+
+.background-white {
+    background-color: white;
+}
+
+.dijitDialogTitleBar {
+    z-index: 1;
 }
