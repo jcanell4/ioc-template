@@ -2535,12 +2535,9 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
 
 .wioccl-tree {
     float: left;
-    /*width: 200px;*/
     height: 500px;
     padding: 5px;
-    /*padding-left: 0;*/
     margin: 15px;
-    /*margin-left:0;*/
     border: 1px solid lightgrey;
     overflow: auto;
 }
@@ -2549,6 +2546,21 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     margin:5px;
     margin-right:15px;
     padding: 5px;
+}
+
+.wioccl-actionbar {
+    margin: 0;
+    padding: 0;
+}
+
+.wioccl-pane {
+    position: absolute;
+    top: 30px;
+    bottom: 45px;
+    left: 0;
+    right: 0;
+    max-width: 99%;
+    max-height: 100%;
 }
 
 .full-screen {
