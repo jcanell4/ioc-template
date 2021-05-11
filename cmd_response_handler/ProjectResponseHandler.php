@@ -129,8 +129,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     break;
 
                 case ProjectKeys::KEY_CREATE_PROJECT:
+                    if ($responseData['ShortcutTabCreate']) {
+                        IocCommon::addResponseTab($responseData['ShortcutTabCreate'], $ajaxCmdResponseGenerator);
+                    }
                     $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
-                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $responseData[PageKeys::KEY_HTML_SC]); //refresca el tab 'Dreceres'
+                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $responseData[PageKeys::KEY_HTML_SC]);
                     $this->editResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 
