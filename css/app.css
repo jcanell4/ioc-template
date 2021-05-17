@@ -2532,6 +2532,10 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     /*width: 50%;*/
 }
 
+.wioccl-fields {
+    height: 110px;
+    overflow-y: auto;
+}
 
 .wioccl-tree {
     float: left;
