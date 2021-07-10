@@ -2543,7 +2543,7 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     width: 100%
 }
 
-.wioccl-textarea label {
+.wioccl-textarea label, .wioccl-field label {
     width: 100%;
 }
 .wioccl-textarea textarea{
