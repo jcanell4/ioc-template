@@ -2112,6 +2112,12 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode {
     vertical-align: top;
 }
 
+div[data-dojo-attach-point="sectionsNode"] .sectionNode.minimal {
+    min-height: inherit;
+    margin-bottom: 15px;
+}
+
+
 div[data-dojo-attach-point="sectionsNode"] .sectionNode .content {
     display: block;
     border: none;
