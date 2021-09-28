@@ -2101,6 +2101,11 @@ td.dojoxGridCell i {
     text-align: center;
 }
 
+div[data-dojo-attach-point="sectionsNode"], div[data-dojo-attach-point="sectionsNode"] .sectionNode {
+    width: 100%;
+}
+
+
 div[data-dojo-attach-point="sectionsNode"] .sectionNode {
     display: inline-block;
     min-height: 180px;
@@ -2110,6 +2115,18 @@ div[data-dojo-attach-point="sectionsNode"] .sectionNode {
     border: 1px #b5bcc7 solid;
     border-radius: 3px;
     vertical-align: top;
+}
+
+div[data-dojo-attach-point="sectionsNode"] .sectionNode.minimal {
+    min-height: inherit;
+    margin: 0;
+    margin-bottom: 15px;
+
+    padding: 0;
+}
+
+div[data-dojo-attach-point="sectionsNode"] .sectionNode.minimal .content {
+    padding:15px;
 }
 
 div[data-dojo-attach-point="sectionsNode"] .sectionNode .content {
@@ -2613,4 +2630,17 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
 
 .dijitDialogTitleBar {
     z-index: 1;
+}
+
+
+/*Com que les taules no admeten min-widt es pot fer servir això o establir el height (que funciona igual que el min-height per les taules)*/
+/*table.dojoxGridRowTable tr td:first-child::after {*/
+/*    content: "";*/
+/*    display: inline-block;*/
+/*    vertical-align: top;*/
+/*    min-height: 20px;*/
+/*}*/
+
+table.dojoxGridRowTable tr td {
+    height: 20px;
 }
