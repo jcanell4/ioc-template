@@ -762,7 +762,7 @@ label: duplicateButton.labelButtonAcceptar,
 onClick: function(){
 if (NouProject.value !== '' && EspaiNoms.value !== '') {
 var query = 'call=project' +
-'&do=duplicate_project' +
+'&' + duplicateButton.query +
 '&id=' + old_path + ":" + old_project +
 '&projectType=' + projectType +
 '&new_path=' + normalitzaCaracters(EspaiNoms.value, true) +

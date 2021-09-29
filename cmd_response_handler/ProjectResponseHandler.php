@@ -58,6 +58,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
             switch ($this->responseType) {
 
+                case ProjectKeys::KEY_DUPLICATE:
                 case ProjectKeys::KEY_DUPLICATE_PROJECT:
                     $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
                     $extra = ['old_ns' => $responseData[ProjectKeys::KEY_OLD_NS],
