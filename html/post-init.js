@@ -530,7 +530,7 @@ require([
         new RequestControl(eventName.NOTIFY, ajax_call+"notify", true);
         new RequestControl(eventName.MEDIA_DETAIL, ajax_call+"mediadetails", true);
         new RequestControl(eventName.DUPLICATE_PROJECT, ajax_call+"project&do=duplicate_project", true);
-        new RequestControl(eventName.RENAME_PROJECT, ajax_call+"project&do=rename_project", true);
+        new RequestControl(eventName.RENAME_PROJECT, ajax_call+"project", true);
         new RequestControl(eventName.REMOVE_PROJECT, ajax_call+"project&do=remove_project", true);
         new RequestControl(eventName.REVERT_PROJECT, ajax_call+"project&do=revert_project", true);
 

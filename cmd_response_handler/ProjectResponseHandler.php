@@ -68,6 +68,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                     $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
 
+                case ProjectKeys::KEY_RENAME:
                 case ProjectKeys::KEY_RENAME_PROJECT:
                     $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
                     $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_OLD_ID]);
