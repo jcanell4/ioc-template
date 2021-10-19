@@ -545,6 +545,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 }
                 $arrValues = array_merge((!is_array($properties)) ? array($properties) : $properties, $valField);
 
+                $this->updateReadonlyFromProps($arrValues);
                 if ($form_readonly && (!isset($arrValues['props']) || ($arrValues['props'] && $arrValues['props']['readonly'] == FALSE)))
                     $arrValues['props']['readonly'] = TRUE;
 
@@ -601,12 +602,20 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
 
 
+    protected function updateReadonlyFromProps(&$outArrValues) {
+        $this->updateReadonlyFrom($outArrValues, "props");
+    }
+    
     protected function updateReadonlyFromConfig(&$outArrValues) {
-        if (!isset($outArrValues['config']) || !isset($outArrValues['config']['readonly'])) {
+        $this->updateReadonlyFrom($outArrValues, "config");
+    }
+    
+    private function updateReadonlyFrom(&$outArrValues, $fromAtt) {
+        if (!isset($outArrValues[$fromAtt]) || !isset($outArrValues[$fromAtt]['readonly'])) {
             return; //no s'ha establert la propietat al config, no cal fer res
         }
 
-        $isReadOnly = $outArrValues['config']['readonly'];
+        $isReadOnly = $outArrValues[$fromAtt]['readonly'];
 
         if (is_array($isReadOnly)) {
             $funcREadOnly = $isReadOnly;
@@ -625,13 +634,15 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             }
         }
 
-        $outArrValues['config']['readonly'] = $isReadOnly;
+        $outArrValues[$fromAtt]['readonly'] = $isReadOnly;
+        
+        if($fromAtt!=="props"){
+            if (!isset($outArrValues['props'])) {
+                $outArrValues['props'] = [];
+            }
 
-        if (!isset($outArrValues['props'])) {
-            $outArrValues['props'] = [];
+            $outArrValues['props']['readonly'] = $isReadOnly;
         }
-
-        $outArrValues['props']['readonly'] = $isReadOnly;
     }
 
     private function getValidatorValue($outArrValues){
@@ -648,7 +659,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 $validator->init($this->getPermission());
                 break;
             case "response":
-                $validator->init($this->responseData);
+                $validator->init($this->responseData["projectMetaData"]);
                 break;
         }
         $isReadOnly = $validator->validate($outArrValues['data']);
@@ -700,6 +711,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             //merge
             if(isset($structureProperties["viewType"]) && !isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"])){
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"] = $structureProperties["viewType"];
+            }
+            if(isset($structureProperties['props']) && isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['props'])){
+                $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['props'] = array_merge($structureProperties['props'], $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['props']);
             }
             $viewFields[$structureProperties[ProjectKeys::KEY_ID]] = array_merge(array(), $structureProperties, $viewFields[$structureProperties[ProjectKeys::KEY_ID]]);
         } else {
