@@ -746,14 +746,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         }
 
         // ALERTA! Comprovar el mode, no s'ha de renderitzar en edit
-        if ($this->responseType !== "edit" ){
-            $mode=false;
-            if($structureProperties['config'] && $structureProperties['config']['renderable']) {
+        if ($this->responseType !== "edit"  && !(isset($structureProperties["parseOnView"]) && $structureProperties["parseOnView"])){
+            $mode="";
+            if(isset($structureProperties['config']['renderable']) && $structureProperties['config']['renderable']) {
                 $mode = $structureProperties['config']['mode'];
-            }elseif ($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config'] && $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']['renderable']) {
+            }elseif (isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']['renderable']) && $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']['renderable']) {
                 $mode = $viewFields[$structureProperties[ProjectKeys::KEY_ID]]['config']['mode'];
             }    
-            if($mode){            
+            if(!empty($mode)){            
                 $originalValue = $structureProperties['value'];
                 $structureProperties['value'] = $this->renderContent($originalValue, $mode);
                 $outValues[$structureProperties[ProjectKeys::KEY_ID]] = $structureProperties['value'];
