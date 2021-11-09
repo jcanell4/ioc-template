@@ -2591,6 +2591,10 @@ div.ioc-bootstrap .pair-label-field table[data-editable-element] {
     padding: 5px;
 }
 
+.wioccl-btn.left {
+    float: left;
+}
+
 .wioccl-actionbar {
     margin: 0;
     padding: 0;
