@@ -34,7 +34,11 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $this->responseData = $responseData;
-        if (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
+        if ($responseData['show_draft_dialog']) {
+            //Hi ha un esborrany. Es pregunta que cal fer.
+            $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);
+        }
+        elseif (isset($responseData[ProjectKeys::KEY_CODETYPE])) {
             if ($responseData[ProjectKeys::KEY_INFO]) {
                 $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
             }
@@ -1002,6 +1006,36 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     private function requestParamsDO($requestParams) {
         return ($requestParams[ProjectKeys::KEY_ACTION]) ? $requestParams[ProjectKeys::KEY_ACTION] : $requestParams[ProjectKeys::KEY_DO];
+    }
+
+    protected function addDraftDialogResponse($responseData, &$cmdResponseGenerator) {
+        if (!WikiIocInfoManager::getInfo('locked')) {
+            $params = $this->generateDraftDialogParams($responseData);
+            $this->addDraftDialog($responseData, $cmdResponseGenerator, $params);
+        }
+    }
+
+    protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params) {
+        $cmdResponseGenerator->addDraftDialog(
+            $responseData['id'],
+            $responseData['ns'],
+            $responseData['rev'],
+            $params,
+            WikiGlobalConfig::getConf("locktime")
+        );
+    }
+
+    protected function generateDraftDialogParams($responseData) {
+        $params = [];
+        $excludeKeyList = ['show_draft_dialog', 'id', 'ns', 'rev', 'dataErrorList'];
+
+        foreach ($responseData as $key => $value) {
+            if (!in_array($key, $excludeKeyList)) {
+                $params[$key] = $value;
+            }
+        }
+        $params["base"] = 'lib/exe/ioc_ajax.php?call=project&do=edit';
+        return $params;
     }
 
 }
