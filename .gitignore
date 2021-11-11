@@ -1,5 +1,6 @@
 clipart/*
 lang/*
+!lang/ca/*
 maqetta/*
 shapes/*
 themes/*
