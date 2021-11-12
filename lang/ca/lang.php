@@ -124,7 +124,7 @@ $lang['draft_found'] = "S'ha trobat un esborrany complet del document.";
 $lang['partial_draft_found'] = "S'ha trobat un esborrany complet del document.";
 
 $lang['expiring_dialog_title'] = "Temps excedit sense editar el document";
-$lang['expiring_dialog_message'] = "Heu exhaurit el temps màxim d'inactivitat, editant un document. Si voleu continuar editant, és necessari que guardeu els canvis, prement el botó guardar. Si NO desitgeu mantenir els canvis, cancel·leu l'edició. La cancel·lació restaurarà el document a la darrera versió guardada i eliminarà qualsevol esborrany que s'hagi generat.";
+$lang['expiring_dialog_message'] = "Heu exhaurit el temps màxim d'inactivitat, editant un document.<br>Si voleu continuar editant, és necessari que guardeu els canvis, prement el botó guardar.<br>Si NO desitgeu mantenir els canvis, cancel·leu l'edició.<br>La cancel·lació restaurarà el document a la darrera versió guardada i eliminarà qualsevol esborrany que s'hagi generat.";
 $lang['expiring_dialog_yes'] = "Guardar";
 $lang['expiring_dialog_no'] = "Cancel·lar";
 
