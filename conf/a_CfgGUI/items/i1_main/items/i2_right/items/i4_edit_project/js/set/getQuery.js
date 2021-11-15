@@ -8,11 +8,10 @@ if (this.dispatcher.getGlobalState().currentTabId) {
    if (!metaDataSubSet) metaDataSubSet=globalState.getContent(globalState.currentTabId).metaDataSubSet;
    var hasDraft;
    var localDraft=this.dispatcher.getDraftManager().getContentLocalDraft(ns,metaDataSubSet);
-   if(localDraft && localDraft.project && localDraft.project.metaDataSubSet===metaDataSubSet) hasDraft=true;
    if(this.query) _ret=this.query+"&";
    _ret+="id="+ns+"&projectType="+projectType;
    if(metaDataSubSet) _ret+="&metaDataSubSet="+metaDataSubSet;
-   _ret+="&hasDraft="+hasDraft;
+   if(localDraft && localDraft.project && localDraft.project.metaDataSubSet===metaDataSubSet) _ret+="&hasDraft=true";
    _ret+=this.dispatcher.getDraftManager().generateLastLocalDraftTimesParam(globalState.currentTabId, ns);
    if(rev) _ret+="&rev="+rev;
    _ret+="&editorType="+globalState.userState['editor'];
