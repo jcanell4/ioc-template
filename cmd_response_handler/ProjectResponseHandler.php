@@ -1009,18 +1009,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function generateDraftDialogParams($responseData) {
         $params = [];
-        $excludeKeyList = ['id', 'ns', 'rev', 'show_draft_dialog', 'dataErrorList', 'generated', 'projectExtraData', 'extraState'];
-        $includeKeyList = [ProjectKeys::KEY_DRAFT, ProjectKeys::KEY_PROJECT_TYPE, ProjectKeys::KEY_TYPE];
-        foreach ($responseData as $key => $value) {
-            if (in_array($key, $includeKeyList)) {
-                $params[$key] = $value;
-            }
-        }
-
         //Obtener un 'content' con los datos planos
         $content = [];
         $this->buildForm($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_NS], $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA], $content);
         $params['content'] = json_encode($content);
+
+        $params[ProjectKeys::KEY_DRAFT] = $responseData[ProjectKeys::KEY_DRAFT];
+        $params[ProjectKeys::KEY_TYPE] = $responseData[ProjectKeys::KEY_TYPE];
+        $params[ProjectKeys::KEY_PROJECT_TYPE] = $responseData[ProjectKeys::KEY_PROJECT_TYPE];
 
         if ($responseData['extraState']['extraStateId']==="workflowState") {
             $params['base'] = 'lib/exe/ioc_ajax.php?call=project&do=workflow&action=edit';
