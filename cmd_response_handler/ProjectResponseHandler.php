@@ -309,7 +309,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $title = "Projecte $ns $extratitle $title_rev";
 
         $outValues = [];
-        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
+        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA], $outValues, NULL, FALSE, $extratitle);
 
         if ($requestParams[ProjectKeys::KEY_DISCARD_CHANGES])
             $responseData[ProjectKeys::KEY_PROJECT_EXTRADATA][ResponseHandlerKeys::KEY_DISCARD_CHANGES] = $requestParams[ProjectKeys::KEY_DISCARD_CHANGES];
@@ -336,7 +336,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $action = "lib/exe/ioc_ajax.php?call=project&do=save";
 
         $outValues = [];
-        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, $action, FALSE, $extratitle);
+        $form = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA], $outValues, $action, FALSE, $extratitle);
 
         $this->addSaveOrDiscardDialog($responseData);
         $autosaveTimer = WikiGlobalConfig::getConf("autosaveTimer") ? WikiGlobalConfig::getConf("autosaveTimer")*1000 : NULL;
@@ -872,7 +872,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         $ns = $requestParams[ProjectKeys::KEY_ID];
         $extratitle = $this->_getExtraTitle($requestParams[ProjectKeys::KEY_METADATA_SUBSET]);
         $outValues = [];
-        $content = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData['projectViewData'], $outValues, NULL, FALSE, $extratitle);
+        $content = $this->buildForm($id, $ns, $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA], $outValues, NULL, FALSE, $extratitle);
         $timer = $this->_generateRequireDialogTimer($requestParams, $responseData);
         $params = [
             ProjectKeys::KEY_ID => $id,
@@ -999,9 +999,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function addDraftDialog($responseData, &$cmdResponseGenerator, $params) {
         $cmdResponseGenerator->addDraftDialog(
-            $responseData['id'],
-            $responseData['ns'],
-            $responseData['rev'],
+            $responseData[ProjectKeys::KEY_ID],
+            $responseData[ProjectKeys::KEY_NS],
+            $responseData[ProjectKeys::KEY_REV],
             $params,
             WikiGlobalConfig::getConf("locktime")
         );
@@ -1009,17 +1009,23 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function generateDraftDialogParams($responseData) {
         $params = [];
-        $excludeKeyList = ['show_draft_dialog', 'id', 'ns', 'rev', 'dataErrorList', 'generated', 'projectExtraData', 'extraState'];
-
+        $excludeKeyList = ['id', 'ns', 'rev', 'show_draft_dialog', 'dataErrorList', 'generated', 'projectExtraData', 'extraState'];
+        $includeKeyList = [ProjectKeys::KEY_DRAFT, ProjectKeys::KEY_PROJECT_TYPE, ProjectKeys::KEY_TYPE];
         foreach ($responseData as $key => $value) {
-            if (!in_array($key, $excludeKeyList)) {
+            if (in_array($key, $includeKeyList)) {
                 $params[$key] = $value;
             }
         }
+
+        //Obtener un 'content' con los datos planos
+        $content = [];
+        $this->buildForm($responseData[ProjectKeys::KEY_ID], $responseData[ProjectKeys::KEY_NS], $responseData[ProjectKeys::KEY_PROJECT_METADATA], $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA], $content);
+        $params['content'] = json_encode($content);
+
         if ($responseData['extraState']['extraStateId']==="workflowState") {
-            $params["base"] = 'lib/exe/ioc_ajax.php?call=project&do=workflow&action=edit';
+            $params['base'] = 'lib/exe/ioc_ajax.php?call=project&do=workflow&action=edit';
         }else {
-            $params["base"] = 'lib/exe/ioc_ajax.php?call=project&do=edit';
+            $params['base'] = 'lib/exe/ioc_ajax.php?call=project&do=edit';
         }
         return $params;
     }
