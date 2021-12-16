@@ -7,9 +7,8 @@ if (!defined("DOKU_INC")) die();
 require_once(DOKU_TPL_INCDIR.'cmd_response_handler/PageResponseHandler.php');
 require_once(DOKU_TPL_INCDIR.'conf/cfgIdConstants.php');
 
+class New_pageResponseHandler extends PageResponseHandler {
 
-class New_pageResponseHandler extends PageResponseHandler
-{
     function __construct() {
         parent::__construct(ResponseHandlerKeys::PAGE);
     }
@@ -24,8 +23,6 @@ class New_pageResponseHandler extends PageResponseHandler
         }
     }
 
-// [WARNING] [JOSEP] Mira este pobre, huérfano y desgraciado código
-// [Rafa] Me sabe grave pero parece ser que este código es un pobre huerfanito al que nadie llama
     private function shortcutsResponse($responseData, &$ajaxCmdResponseGenerator){
         $responseData['selected'] = TRUE;
         IocCommon::addResponseTab($responseData, $ajaxCmdResponseGenerator);
