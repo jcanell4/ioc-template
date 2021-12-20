@@ -389,6 +389,10 @@ require([
                         // fix? ns empty, load with page name
                         state.getContent(id).ns = "";
 
+                    } else if (state.getContent(id).action === "html_form") {
+                        queryParams = "call=" + id + "&id=";
+                        state.getContent(id).ns = "";
+
                     } else if (state.getContent(id).action === "media") {
                         queryParams = "call=media";
                         elid = state.getContent(id).ns;

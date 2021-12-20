@@ -5,7 +5,8 @@
  */
 if (!defined("DOKU_INC")) die();
 if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tplIncDir());
-require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/WikiIocResponseHandler.php');
+require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
+require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 
 class SelectProjectsResponseHandler extends WikiIocResponseHandler {
 
@@ -14,25 +15,54 @@ class SelectProjectsResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addRecents(
-                $responseData['id'],
-                $responseData['title'],
-                $responseData['content']['list'],
-                array(
-                    'urlBase' => "lib/exe/ioc_ajax.php?call=select_projects",
-                    'formId' => $responseData['content']['formId'],
-                ),
-                array(
-                    'callAtt' => "call",
-                    'urlBase' => "lib/exe/ioc_ajax.php",
-                )
-        );
+        if (isset($requestParams['projectType'])) {
+//            $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
 
-        $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
-                'info',
-                WikiIocLangManager::getLang("select_projects_loaded"),
-                'select_projects'
-        ));
+            $ajaxCmdResponseGenerator->addHtmlForm(
+                    $responseData[AjaxKeys::KEY_ID],
+                    $responseData[PageKeys::KEY_TITLE],
+                    $responseData[PageKeys::KEY_CONTENT],
+                    array(
+                        'urlBase' => "lib/exe/ioc_ajax.php?call=${requestParams[AjaxKeys::KEY_ID]}",
+                        'id' => $responseData[AjaxKeys::KEY_ID],
+                    ),
+                    array(
+                        'callAtt' => "call",
+                        'urlBase' => "lib/exe/ioc_ajax.php",
+                    )
+           );
+
+            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+                    RequestParameterKeys::KEY_INFO,
+                    WikiIocLangManager::getLang("list_projects_showed"),
+                    $requestParams[AjaxKeys::KEY_ID]
+            ));
+        }
+        else{
+            $ajaxCmdResponseGenerator->addHtmlForm(
+                    $responseData[AjaxKeys::KEY_ID],
+                    $responseData[PageKeys::KEY_TITLE],
+                    $responseData[PageKeys::KEY_CONTENT]['list'],
+                    array(
+                        'urlBase' => "lib/exe/ioc_ajax.php?call=${requestParams[AjaxKeys::KEY_ID]}",
+                        'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
+                    ),
+                    array(
+                        'callAtt' => "call",
+                        'urlBase' => "lib/exe/ioc_ajax.php",
+                    )
+            );
+
+            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+                    RequestParameterKeys::KEY_INFO,
+                    WikiIocLangManager::getLang("select_projects_loaded"),
+                    $requestParams[AjaxKeys::KEY_ID]
+            ));
+        }
+    }
+
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        $ajaxCmdResponseGenerator->addSetJsInfo($this->getJsInfo());
     }
 
 }
