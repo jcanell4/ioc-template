@@ -389,7 +389,7 @@ require([
                         // fix? ns empty, load with page name
                         state.getContent(id).ns = "";
 
-                    } else if (state.getContent(id).action === "html_form") {
+                    } else if (state.getContent(id).action === "html_form") { //JOSEP: Potsr millor anomenar-lo admin_form o util_form
                         queryParams = "call=" + id + "&id=";
                         state.getContent(id).ns = "";
 
