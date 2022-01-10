@@ -1,6 +1,6 @@
 <?php
 /**
- * SelectProjectsResponseHandler
+ * SuppliesFormResponseHandler
  * @author Rafael
  */
 if (!defined("DOKU_INC")) die();
@@ -8,34 +8,33 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tpl
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 
-class SelectProjectsResponseHandler extends WikiIocResponseHandler {
+class SuppliesFormResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct("select_projects");
+        parent::__construct("supplies_form");
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-//        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
-
         $ajaxCmdResponseGenerator->addHtmlForm(
                 $responseData[AjaxKeys::KEY_ID],
                 $responseData[PageKeys::KEY_TITLE],
-                $responseData[PageKeys::KEY_CONTENT],
+                $responseData[PageKeys::KEY_CONTENT]['list'],
                 array(
-                    'urlBase' => "lib/exe/ioc_ajax.php?call=${requestParams[AjaxKeys::KEY_ID]}",
-                    'id' => $responseData[AjaxKeys::KEY_ID],
+                    'urlBase' => "lib/exe/ioc_ajax.php?call=${responseData[AjaxKeys::KEY_ACTION_COMMAND]}",
+                    'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
                 ),
                 array(
                     'callAtt' => "call",
                     'urlBase' => "lib/exe/ioc_ajax.php",
+                    'do' => $responseData[AjaxKeys::KEY_ACTION_COMMAND]
                 )
-            );
+        );
 
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
                 RequestParameterKeys::KEY_INFO,
-                WikiIocLangManager::getLang("list_projects_showed"),
+                WikiIocLangManager::getLang("select_projects_loaded"),
                 $requestParams[AjaxKeys::KEY_ID]
-            ));
+        ));
     }
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {

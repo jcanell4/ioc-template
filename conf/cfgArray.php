@@ -740,7 +740,7 @@ $_arrIocCfgGUI = array (
                                     'DJO' => 
                                     array (
                                       'iconClass' => '\'dijitNoIcon\'',
-                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=select_projects\'',
+                                      'urlBase' => '\'lib/exe/ioc_ajax.php?call=supplies_form\'',
                                       'disabled' => false,
                                     ),
                                   ),
