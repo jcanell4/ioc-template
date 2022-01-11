@@ -391,7 +391,7 @@ require([
 
                     } else if (state.getContent(id).action === "html_form") { //JOSEP: Potsr millor anomenar-lo admin_form o util_form
                         queryParams = "call=" + id + "&id=";
-                        state.getContent(id).ns = "";
+                        state.getContent(id).ns = id;
 
                     } else if (state.getContent(id).action === "media") {
                         queryParams = "call=media";
