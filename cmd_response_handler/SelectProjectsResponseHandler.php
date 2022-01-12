@@ -15,20 +15,13 @@ class SelectProjectsResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-//        $ajaxCmdResponseGenerator->addAddItemTree(cfgIdConstants::TB_INDEX, $requestParams[AjaxKeys::KEY_ID]);
-
-        $ajaxCmdResponseGenerator->addHtmlForm(
+        $ajaxCmdResponseGenerator->addHtmlRsponseForm(
                 $responseData[AjaxKeys::KEY_ID],
                 $responseData[PageKeys::KEY_TITLE],
                 $responseData[PageKeys::KEY_CONTENT],
-                array(
-                    'urlBase' => "lib/exe/ioc_ajax.php?call=${requestParams[AjaxKeys::KEY_ID]}",
-                    'id' => $responseData[AjaxKeys::KEY_ID],
-                ),
-                array(
-                    'callAtt' => "call",
-                    'urlBase' => "lib/exe/ioc_ajax.php",
-                )
+                array(AjaxKeys::KEY_ID => $requestParams[AjaxKeys::KEY_ACTION_COMMAND],
+                      AjaxKeys::PROJECT_TYPE => $requestParams[AjaxKeys::PROJECT_TYPE],
+                      'consulta' => $requestParams['consulta'])
             );
 
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
