@@ -220,6 +220,10 @@ require([
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
                             }
                         }
+                        else if (page.action === 'html_form') {
+                        }
+                        else if (page.action === 'html_response_form') {
+                        }
                     }
                 }
             }
