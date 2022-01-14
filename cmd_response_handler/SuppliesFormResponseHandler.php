@@ -26,7 +26,7 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
                                  $responseData[ProjectKeys::KEY_PROJECT_VIEWDATA],
                                  $outValues);
 
-        $ajaxCmdResponseGenerator->addForm($responseData[AjaxKeys::KEY_ID],
+        $ajaxCmdResponseGenerator->addEditProject($responseData[AjaxKeys::KEY_ID],
                                            $requestParams[AjaxKeys::KEY_ID],
                                            $responseData[PageKeys::KEY_TITLE],
                                            $form,
