@@ -15,13 +15,14 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addHtmlForm(
+        $ajaxCmdResponseGenerator->addHtmlSuppliesForm(
                 $responseData[AjaxKeys::KEY_ID],
                 $responseData[PageKeys::KEY_TITLE],
                 $responseData[PageKeys::KEY_CONTENT]['list'],
                 array(
                     'urlBase' => "lib/exe/ioc_ajax.php?call=${responseData[AjaxKeys::KEY_ACTION_COMMAND]}",
                     'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
+                    'params' => $requestParams
                 ),
                 array(
                     'callAtt' => "call",
