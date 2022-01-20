@@ -220,11 +220,9 @@ require([
                                 disp.changeWidgetProperty('cfgIdConstants::MEDIA_TORNAR_BUTTON', "visible", true);
                             }
                         }
-                        else if (page.action === 'html_form') {
+                        else if (page.action === 'html_supplies_form') {
                         }
                         else if (page.action === 'html_response_form') {
-                        }
-                        else if (page.action === 'html_supplies_form') {
                         }
                     }
                 }
@@ -395,19 +393,13 @@ require([
                         // fix? ns empty, load with page name
                         state.getContent(id).ns = "";
 
-                    } else if (state.getContent(id).action === "html_form") { //JOSEP: Potsr millor anomenar-lo admin_form o util_form
-                        queryParams = "call=" + id + "&id=";
-                        state.getContent(id).ns = id;
-
-                    } else if (state.getContent(id).action === "html_response_form") {
+                    } else if (state.getContent(id).action === "html_supplies_form") {
                         queryParams = "call=" + id +
                                       "&projectType=" + state.getContent(id).extra.projectType +
-                                      "&consulta=" + state.getContent(id).extra.consulta +
                                       "&id=";
                         state.getContent(id).ns = id;
 
-                    } else if (state.getContent(id).action === "html_supplies_form") {
-                        //Fer un bucle per enviar-ho tot
+                    } else if (state.getContent(id).action === "html_response_form") {
                         queryParams = "call=" + id +
                                       "&projectType=" + state.getContent(id).extra.projectType +
                                       "&consulta=" + state.getContent(id).extra.consulta +

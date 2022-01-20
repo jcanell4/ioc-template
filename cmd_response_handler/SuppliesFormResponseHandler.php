@@ -19,8 +19,6 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
                 $responseData[AjaxKeys::KEY_ID],
                 $responseData[PageKeys::KEY_TITLE],
                 $responseData[PageKeys::KEY_CONTENT]['list'],
-                $responseData['grups'],
-                array('params' => $requestParams),
                 array(
                     'urlBase' => "lib/exe/ioc_ajax.php?call=${responseData[AjaxKeys::KEY_ACTION_COMMAND]}",
                     'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
