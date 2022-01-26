@@ -15,7 +15,8 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        $ajaxCmdResponseGenerator->addHtmlSuppliesForm(
+        if ($responseData[PageKeys::KEY_TYPE] == "html_supplies_form") {
+            $ajaxCmdResponseGenerator->addHtmlSuppliesForm(
                 $responseData[AjaxKeys::KEY_ID],
                 $responseData[PageKeys::KEY_TITLE],
                 $responseData[PageKeys::KEY_CONTENT]['list'],
@@ -28,13 +29,31 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
                     'urlBase' => "lib/exe/ioc_ajax.php",
                     'do' => $responseData[AjaxKeys::KEY_ACTION_COMMAND]
                 )
-        );
+            );
 
-        $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
                 RequestParameterKeys::KEY_INFO,
                 WikiIocLangManager::getLang("select_projects_loaded"),
                 $requestParams[AjaxKeys::KEY_ID]
-        ));
+            ));
+        }
+        elseif ($responseData[PageKeys::KEY_TYPE] == "html_response_form") {
+            $ajaxCmdResponseGenerator->addHtmlRsponseForm(
+                $responseData[AjaxKeys::KEY_ACTION_COMMAND],
+                $responseData[PageKeys::KEY_TITLE],
+                $responseData[PageKeys::KEY_CONTENT]['list'],
+                array(AjaxKeys::KEY_ID => $responseData[AjaxKeys::KEY_ACTION_COMMAND],
+                      AjaxKeys::PROJECT_TYPE => $responseData[AjaxKeys::PROJECT_TYPE],
+                      'consulta' => $responseData[PageKeys::KEY_CONTENT]['grups'])
+            );
+
+            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+                RequestParameterKeys::KEY_INFO,
+                WikiIocLangManager::getLang("list_projects_showed"),
+                $responseData[AjaxKeys::KEY_ACTION_COMMAND]
+            ));
+            
+        }
     }
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
