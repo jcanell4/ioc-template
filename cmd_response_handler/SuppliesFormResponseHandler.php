@@ -38,12 +38,15 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
             ));
         }
         elseif ($responseData[PageKeys::KEY_TYPE] == "html_response_form") {
+//            $responseData[ProjectKeys::KEY_ID] = $responseData[AjaxKeys::KEY_ACTION_COMMAND];
+            $responseData[PageKeys::KEY_CONTENT]['list'] = '<h1 class="sectionedit1" id="id_'.$this->params[AjaxKeys::KEY_ACTION_COMMAND].'">Llistat de projectes seleccionats</h1>';
+//            $responseData[ProjectKeys::KEY_EXTRA_STATE] = [ProjectKeys::KEY_EXTRA_STATE_ID => AjaxKeys::KEY_ACTION_COMMAND,
+//                                                           ProjectKeys::KEY_EXTRA_STATE_VALUE => $responseData[PageKeys::KEY_CONTENT]['grups']];
             $ajaxCmdResponseGenerator->addHtmlRsponseForm(
                 $responseData[AjaxKeys::KEY_ACTION_COMMAND],
                 $responseData[PageKeys::KEY_TITLE],
                 $responseData[PageKeys::KEY_CONTENT]['list'],
                 array(AjaxKeys::KEY_ID => $responseData[AjaxKeys::KEY_ACTION_COMMAND],
-                      AjaxKeys::PROJECT_TYPE => $responseData[AjaxKeys::PROJECT_TYPE],
                       'consulta' => $responseData[PageKeys::KEY_CONTENT]['grups'])
             );
 
