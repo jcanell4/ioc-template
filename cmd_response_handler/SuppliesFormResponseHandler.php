@@ -23,11 +23,6 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
                 'urlBase' => "lib/exe/ioc_ajax.php?",
                 'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
                 'query' => "call=${responseData[AjaxKeys::KEY_ID]}"
-            ),
-            array(
-                'callAtt' => "call",
-                'urlBase' => "lib/exe/ioc_ajax.php",
-                'do' => $responseData[AjaxKeys::KEY_ACTION_COMMAND]
             )
         );
 
