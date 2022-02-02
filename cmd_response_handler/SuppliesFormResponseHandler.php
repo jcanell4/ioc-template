@@ -15,49 +15,27 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        if ($responseData[PageKeys::KEY_TYPE] == "html_supplies_form") {
-            $ajaxCmdResponseGenerator->addHtmlSuppliesForm(
-                $responseData[AjaxKeys::KEY_ID],
-                $responseData[PageKeys::KEY_TITLE],
-                $responseData[PageKeys::KEY_CONTENT]['list'],
-                array(
-                    'urlBase' => "lib/exe/ioc_ajax.php?",
-                    'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
-                    'query' => "call=${responseData[AjaxKeys::KEY_ACTION_COMMAND]}"
-                ),
-                array(
-                    'callAtt' => "call",
-                    'urlBase' => "lib/exe/ioc_ajax.php",
-                    'do' => $responseData[AjaxKeys::KEY_ACTION_COMMAND]
-                )
-            );
+        $ajaxCmdResponseGenerator->addHtmlSuppliesForm(
+            $responseData[AjaxKeys::KEY_ID],
+            $responseData[PageKeys::KEY_TITLE],
+            $responseData[PageKeys::KEY_CONTENT]['list'],
+            array(
+                'urlBase' => "lib/exe/ioc_ajax.php?",
+                'formId' => $responseData[PageKeys::KEY_CONTENT]['formId'],
+                'query' => "call=${responseData[AjaxKeys::KEY_ID]}"
+            ),
+            array(
+                'callAtt' => "call",
+                'urlBase' => "lib/exe/ioc_ajax.php",
+                'do' => $responseData[AjaxKeys::KEY_ACTION_COMMAND]
+            )
+        );
 
-            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
-                RequestParameterKeys::KEY_INFO,
-                WikiIocLangManager::getLang("select_projects_loaded"),
-                $requestParams[AjaxKeys::KEY_ID]
-            ));
-        }
-        elseif ($responseData[PageKeys::KEY_TYPE] == "html_response_form") {
-//            $responseData[ProjectKeys::KEY_ID] = $responseData[AjaxKeys::KEY_ACTION_COMMAND];
-            $responseData[PageKeys::KEY_CONTENT]['list'] = '<h1 class="sectionedit1" id="id_'.$this->params[AjaxKeys::KEY_ACTION_COMMAND].'">Llistat de projectes seleccionats</h1>';
-//            $responseData[ProjectKeys::KEY_EXTRA_STATE] = [ProjectKeys::KEY_EXTRA_STATE_ID => AjaxKeys::KEY_ACTION_COMMAND,
-//                                                           ProjectKeys::KEY_EXTRA_STATE_VALUE => $responseData[PageKeys::KEY_CONTENT]['grups']];
-            $ajaxCmdResponseGenerator->addHtmlRsponseForm(
-                $responseData[AjaxKeys::KEY_ACTION_COMMAND],
-                $responseData[PageKeys::KEY_TITLE],
-                $responseData[PageKeys::KEY_CONTENT]['list'],
-                array(AjaxKeys::KEY_ID => $responseData[AjaxKeys::KEY_ACTION_COMMAND],
-                      'consulta' => $responseData[PageKeys::KEY_CONTENT]['grups'])
-            );
-
-            $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
-                RequestParameterKeys::KEY_INFO,
-                WikiIocLangManager::getLang("list_projects_showed"),
-                $responseData[AjaxKeys::KEY_ACTION_COMMAND]
-            ));
-            
-        }
+        $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+            RequestParameterKeys::KEY_INFO,
+            WikiIocLangManager::getLang("select_projects_loaded"),
+            $requestParams[AjaxKeys::KEY_ID]
+        ));
     }
 
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
