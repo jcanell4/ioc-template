@@ -1,6 +1,6 @@
 <?php
 /**
- * SelectProjectsResponseHandler
+ * SelectedProjectsResponseHandler
  * @author Rafael
  */
 if (!defined("DOKU_INC")) die();
@@ -8,10 +8,10 @@ if (!defined('DOKU_TPL_INCDIR')) define('DOKU_TPL_INCDIR', WikiGlobalConfig::tpl
 require_once(DOKU_TPL_INCDIR . 'conf/cfgIdConstants.php');
 require_once(DOKU_TPL_INCDIR . 'cmd_response_handler/PageResponseHandler.php');
 
-class SelectProjectsResponseHandler extends WikiIocResponseHandler {
+class SelectedProjectsResponseHandler extends WikiIocResponseHandler {
 
     function __construct() {
-        parent::__construct("select_projects");
+        parent::__construct("selected_projects");
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {

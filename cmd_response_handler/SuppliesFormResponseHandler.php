@@ -28,7 +28,7 @@ class SuppliesFormResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
             RequestParameterKeys::KEY_INFO,
-            WikiIocLangManager::getLang("select_projects_loaded"),
+            WikiIocLangManager::getLang("selected_projects_loaded"),
             $requestParams[AjaxKeys::KEY_ID]
         ));
     }
