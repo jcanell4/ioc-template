@@ -930,6 +930,15 @@ span.arrow-icon {
     background-position-x: -666px;
 }
 
+.dijitIocIconIocIncludePage {
+    background-position-x: -540px;
+}
+
+.dijitIocIconIocIncludeSection {
+    background-position-x: -558px;
+}
+
+
 .dijitButtonChecked .dijitIocIconIocReadonly{
     border: 1px solid #759dc0;
     border-radius: 2px;
@@ -2649,3 +2658,11 @@ table.dojoxGridRowTable tr td {
     height: 20px;
 }
 
+
+.divMostrarHighlight{
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 5px;
+}
