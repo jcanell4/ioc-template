@@ -401,8 +401,7 @@ require([
 
                     } else if (state.getContent(id).action === "html_response_form") {
                         queryParams = "call=" + id +
-                                      "&projectType=" + state.getContent(id).extra.projectType +
-                                      "&consulta=" + state.getContent(id).extra.consulta +
+                                      "&grups=" + state.getContent(id).extra.grups +
                                       "&id=";
                         state.getContent(id).ns = id;
 
