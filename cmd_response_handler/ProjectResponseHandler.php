@@ -700,7 +700,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     protected function mergeStructureDefaultToForm($structureProperties, &$viewFields, &$outValues, $mandatoryParent=false, $defaultParent="")
     {
         $ret = false;
-        if (array_key_exists($structureProperties[ProjectKeys::KEY_ID], $viewFields)) {
+        if ($viewFields && array_key_exists($structureProperties[ProjectKeys::KEY_ID], $viewFields)) {
             //merge
             if(isset($structureProperties["viewType"]) && !isset($viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"])){
                 $viewFields[$structureProperties[ProjectKeys::KEY_ID]]["type"] = $structureProperties["viewType"];
