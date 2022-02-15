@@ -606,6 +606,98 @@ cookie("IOCForceScriptLoad", 1);
 });
 require([
 "dijit/registry"
+,"dojo/dom"
+,"dojo/dom-construct"
+,"dojo/dom-style"
+,"dijit/layout/BorderContainer"
+,"dijit/Dialog"
+,"dijit/layout/ContentPane"
+,"dijit/form/Form"
+,"dijit/form/Button"
+,"dojox/form/MultiComboBox"
+,"dojo/store/JsonRest"
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Button,MultiComboBox,JsonRest,normalitzaCaracters) {
+var sendmessageButton = registry.byId('sendMessageButton');
+if (sendmessageButton) {
+sendmessageButton.onClick = function () {
+var dialog = registry.byId("newDocumentDlg");
+if(!dialog){
+dialog = new Dialog({
+id: "newDocumentDlg",
+title: sendmessageButton.dialogTitle,
+style: "width: 270px; height: 350px;",
+sendmessageButton: sendmessageButton
+});
+dialog.on('hide', function () {
+dialog.destroyRecursive(false);
+domConstruct.destroy("newDocumentDlg");
+});
+dialog.on('show', function () {
+dom.byId('comboRolsDestinataris').focus();
+});
+var bc = new BorderContainer({
+style: "width: 250px; height: 300px;"
+});
+var cpCentre = new ContentPane({
+region: "center"
+});
+bc.addChild(cpCentre);
+bc.placeAt(dialog.containerNode);
+var divcentre = domConstruct.create('div', {
+className: 'dreta'
+},cpCentre.containerNode);
+var form = new Form().placeAt(divcentre);
+var divRolsDestinataris = domConstruct.create('div', {
+className: 'divRolsDestinataris'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + sendmessageButton.RolsDestinatarislabel + '<br>'
+},divRolsDestinataris);
+var selectRols = new MultiComboBox({
+id: 'comboRolsDestinataris',
+placeHolder: sendmessageButton.RolsDestinatarisplaceHolder,
+name: 'rols',
+value: "",
+autoComplete: true,
+searchAttr: 'name',
+store: new JsonRest({target: sendmessageButton.urlListRols})
+}).placeAt(divRolsDestinataris);
+dialog.comboRols = selectRols;
+dialog.comboRols.startup();
+dialog.comboRols.watch('value', dialog.switchBloc );
+var botons = domConstruct.create('div', {
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>'
+}, botons);
+new Button({
+label: sendmessageButton.labelButtonAcceptar,
+onClick: function(){
+if (selectRols.value !== '') {
+var query = 'call=send_message' +
+'&' + sendmessageButton.query +
+'&rolsdestinataris=' + normalitzaCaracters(selectRols.value, true);
+sendmessageButton.sendRequest(query);
+dialog.hide();
+}
+}
+}).placeAt(botons);
+new Button({
+label: sendmessageButton.labelButtonCancellar,
+onClick: function(){dialog.hide();}
+}).placeAt(botons);
+form.startup();
+}
+dialog.show();
+return false;
+};
+}
+});
+require([
+"dijit/registry"
 ,"ioc/wiki30/dispatcherSingleton"
 ], function (registry,dispatcherSingleton) {
 var dispatcher = dispatcherSingleton();

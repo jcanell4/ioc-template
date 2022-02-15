@@ -87,11 +87,11 @@ require([
             disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REVERT_PROJECT_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SEND_MESSAGE_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
             } else {
-                //disp.changeWidgetProperty('cfgIdConstants::EXIT_BUTTON', "visible", true);
                 var new_button_visible = false;
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
                     new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
@@ -223,6 +223,7 @@ require([
                         else if (page.action === 'html_supplies_form') {
                         }
                         else if (page.action === 'html_response_form') {
+                            disp.changeWidgetProperty('cfgIdConstants::SEND_MESSAGE_BUTTON', "visible", true);
                         }
                     }
                 }

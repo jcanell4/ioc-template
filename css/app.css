@@ -314,6 +314,12 @@ table.diff th.author {
     height: 32px;
 }
 
+.iocIconSendMessage {
+    background-image: url("css/icons/send_message.png");
+    width: 32px;
+    height: 32px;
+}
+
 .iocIconSave {
     background-position: 0;
 }
@@ -380,6 +386,9 @@ table.diff th.author {
 
 .iocIconRenameFolder {
     background-position: -512px;
+}
+.iocIconSendMessage {
+    background-position: -544px;
 }
 
 /* NOTIFICATIONS */

@@ -63,7 +63,6 @@ class cfgIdConstants
     const ZONA_TOP_NOTIFICATION_INBOX  = "zonaNotificationInbox";
     const ZONA_TOP_NOTIFICATION_OUTBOX = "zonaNotificationOutbox";
 
-
     const EDIT_BUTTON    = "editButton";
     const CANCEL_BUTTON  = "cancelButton";
     const EXIT_BUTTON    = "exitButton";
@@ -97,7 +96,8 @@ class cfgIdConstants
     const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";
     const MEDIA_EDIT_BUTTON         = "mediaEditButton";
 
-    const SYSTEM_WARNING_CONTAINER = "systemWarningContainer";
+    const SEND_MESSAGE_BUTTON       = "sendMessageButton";
+    const SYSTEM_WARNING_CONTAINER  = "systemWarningContainer";
 
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;

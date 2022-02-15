@@ -1399,6 +1399,34 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'iX0_send_message' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'sendMessageButton',
+                  'title' => 'Enviar missatge',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconSendMessage\'',
+                  'query' => '\'do=send_message\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
+                  'urlListRols' => '\'lib/exe/ioc_ajaxrest.php/list_rols_rest/\'',
+                  'dialogTitle' => '\'Enviar un missatge\'',
+                  'RolsDestinatarislabel' => '\'Selecciona els rols dels destinataris\'',
+                  'RolsDestinatarisplaceHolder' => '\'Rols destinataris\'',
+                  'labelButtonAcceptar' => '\'Enviar\'',
+                  'labelButtonCancellar' => '\'Cancel·lar\'',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent(this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
             'iY_ftp_send' => 
             array (
               'class' => 'WikiIocButton',
