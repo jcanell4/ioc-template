@@ -134,7 +134,7 @@ if (sendmessageButton) {
                                     '&' + sendmessageButton.query +
                                     '&grups=' + grups +
                                     '&rols=' + LlistaRols.value +
-                                    '&missatge=' + Missatge.value;
+                                    '&message=' + Missatge.value;
                         sendmessageButton.sendRequest(query);
                         dialog.hide();
                     }

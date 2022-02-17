@@ -709,7 +709,7 @@ var query = 'call=' + sendmessageButton.call +
 '&' + sendmessageButton.query +
 '&grups=' + grups +
 '&rols=' + LlistaRols.value +
-'&missatge=' + Missatge.value;
+'&message=' + Missatge.value;
 sendmessageButton.sendRequest(query);
 dialog.hide();
 }
