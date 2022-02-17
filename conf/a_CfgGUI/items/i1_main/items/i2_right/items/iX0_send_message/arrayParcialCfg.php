@@ -8,17 +8,22 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                          "autoSize" => true
+                                          "query" => "'do=send_message'"
+                                          ,"call" => "'selected_projects'"
+                                          ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSendMessage'"
-                                          ,"query" => "'do=send_message'"
                                           ,"urlBase" => "'lib/exe/ioc_ajax.php'"
                                           ,"urlListRols" => "'lib/exe/ioc_ajaxrest.php/list_rols_rest/'"
                                           ,"dialogTitle" => "'Enviar un missatge'"
-                                          ,"RolsDestinatarislabel" => "'Selecciona els rols dels destinataris'"
-                                          ,"RolsDestinatarisplaceHolder" => "'Rols destinataris'"
+                                          ,"labelRols" => "'Selecciona els rols dels destinataris'"
+                                          ,"placeholderRols" => "'Rols destinataris'"
+                                          ,"labelLlista" => "'Llista de rols seleccionats'"
+                                          ,"labelMissatge" => "'Missatge pels destinataris'"
+                                          ,"placeholderMissatge" => "'Escriu un missatge'"
                                           ,"labelButtonAcceptar" => "'Enviar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
+                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                         )
                             )
               );

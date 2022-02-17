@@ -613,31 +613,40 @@ require([
 ,"dijit/Dialog"
 ,"dijit/layout/ContentPane"
 ,"dijit/form/Form"
+,"dijit/form/Textarea"
+,"dijit/form/TextBox"
 ,"dijit/form/Button"
-,"dojox/form/MultiComboBox"
+,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/functions/normalitzaCaracters"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Button,MultiComboBox,JsonRest,normalitzaCaracters) {
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters) {
 var sendmessageButton = registry.byId('sendMessageButton');
 if (sendmessageButton) {
 sendmessageButton.onClick = function () {
-var dialog = registry.byId("newDocumentDlg");
-if(!dialog){
+var dialog = registry.byId("sendmessageDocumentDlg");
+var grups = sendmessageButton.dispatcher.getGlobalState().pages[sendmessageButton.call]['extra']['grups'];
+if (!dialog){
 dialog = new Dialog({
-id: "newDocumentDlg",
+id: "sendmessageDocumentDlg",
 title: sendmessageButton.dialogTitle,
-style: "width: 270px; height: 350px;",
+style: "width:300px; height:350px;",
 sendmessageButton: sendmessageButton
 });
 dialog.on('hide', function () {
 dialog.destroyRecursive(false);
-domConstruct.destroy("newDocumentDlg");
+domConstruct.destroy("sendmessageDocumentDlg");
 });
 dialog.on('show', function () {
-dom.byId('comboRolsDestinataris').focus();
+dom.byId('comboRols').focus();
+dom.byId('textAreaMissatge').value = "";
+dom.byId('textBoxLlistaRols').value = "";
 });
+dialog.storeListRols = function(n,o,e) {
+dom.byId('textBoxLlistaRols').value += e + ",";
+LlistaRols.value = textBoxLlistaRols.value;
+};
 var bc = new BorderContainer({
-style: "width: 250px; height: 300px;"
+style: "width:280px; height:300px;"
 });
 var cpCentre = new ContentPane({
 region: "center"
@@ -648,24 +657,43 @@ var divcentre = domConstruct.create('div', {
 className: 'dreta'
 },cpCentre.containerNode);
 var form = new Form().placeAt(divcentre);
-var divRolsDestinataris = domConstruct.create('div', {
-className: 'divRolsDestinataris'
+var divRols = domConstruct.create('div', {
+className: 'divRols'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: '<br>' + sendmessageButton.RolsDestinatarislabel + '<br>'
-},divRolsDestinataris);
-var selectRols = new MultiComboBox({
-id: 'comboRolsDestinataris',
-placeHolder: sendmessageButton.RolsDestinatarisplaceHolder,
+innerHTML: sendmessageButton.labelRols + '<br>'
+},divRols);
+var selectRols = new ComboBox({
+id: 'comboRols',
+placeHolder: sendmessageButton.placeholderRols,
 name: 'rols',
-value: "",
-autoComplete: true,
-searchAttr: 'name',
+value: '',
 store: new JsonRest({target: sendmessageButton.urlListRols})
-}).placeAt(divRolsDestinataris);
+}).placeAt(divRols);
 dialog.comboRols = selectRols;
 dialog.comboRols.startup();
-dialog.comboRols.watch('value', dialog.switchBloc );
+dialog.comboRols.watch('value', dialog.storeListRols);
+var divLlistaRols = domConstruct.create('div', {
+className: 'divLlistaRols'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + sendmessageButton.labelLlista + '<br>'
+},divLlistaRols);
+var LlistaRols = new TextBox({
+id: 'textBoxLlistaRols'
+}).placeAt(divLlistaRols);
+dialog.textBoxLlistaRols = LlistaRols;
+var divMissatge = domConstruct.create('div', {
+className: 'divMissatge'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + sendmessageButton.labelMissatge + '<br>'
+},divMissatge);
+var Missatge = new Textarea({
+id: 'textAreaMissatge',
+placeHolder: sendmessageButton.placeholderMissatge,
+}).placeAt(divMissatge);
+dialog.textAreaMissatge = Missatge;
 var botons = domConstruct.create('div', {
 className: 'botons',
 style: "text-align:center;"
@@ -676,10 +704,12 @@ innerHTML: '<br><br>'
 new Button({
 label: sendmessageButton.labelButtonAcceptar,
 onClick: function(){
-if (selectRols.value !== '') {
-var query = 'call=send_message' +
+if (LlistaRols.value !== '') {
+var query = 'call=' + sendmessageButton.call +
 '&' + sendmessageButton.query +
-'&rolsdestinataris=' + normalitzaCaracters(selectRols.value, true);
+'&grups=' + grups +
+'&rols=' + LlistaRols.value +
+'&missatge=' + Missatge.value;
 sendmessageButton.sendRequest(query);
 dialog.hide();
 }
