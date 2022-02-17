@@ -624,7 +624,7 @@ var sendmessageButton = registry.byId('sendMessageButton');
 if (sendmessageButton) {
 sendmessageButton.onClick = function () {
 var dialog = registry.byId("sendmessageDocumentDlg");
-var grups = sendmessageButton.dispatcher.getGlobalState().pages[sendmessageButton.call]['extra']['grups'];
+var grups = sendmessageButton.dispatcher.getGlobalState().pages[sendmessageButton.parent]['extra']['grups'];
 if (!dialog){
 dialog = new Dialog({
 id: "sendmessageDocumentDlg",
@@ -706,7 +706,6 @@ label: sendmessageButton.labelButtonAcceptar,
 onClick: function(){
 if (LlistaRols.value !== '') {
 var query = 'call=' + sendmessageButton.call +
-'&' + sendmessageButton.query +
 '&grups=' + grups +
 '&rols=' + LlistaRols.value +
 '&message=' + Missatge.value;

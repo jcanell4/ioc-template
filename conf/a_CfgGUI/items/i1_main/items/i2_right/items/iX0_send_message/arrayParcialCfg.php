@@ -8,8 +8,8 @@ $arrParcial = array(
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(
-                                          "query" => "'do=send_message'"
-                                          ,"call" => "'selected_projects'"
+                                          "call" => "'send_message'"
+                                          ,"parent" => "'selected_projects'"
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSendMessage'"
