@@ -13,19 +13,19 @@
 //include "dojo/store/JsonRest"
 //include "ioc/functions/normalitzaCaracters"
 
-var sendmessageButton = registry.byId('cfgIdConstants::SEND_MESSAGE_BUTTON');
+var sendlistButton = registry.byId('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON');
 
-if (sendmessageButton) {
-    sendmessageButton.onClick = function () {
+if (sendlistButton) {
+    sendlistButton.onClick = function () {
         var dialog = registry.byId("sendmessageDocumentDlg");
-        var grups = sendmessageButton.dispatcher.getGlobalState().pages[sendmessageButton.parent]['extra']['grups'];
+        var grups = sendlistButton.dispatcher.getGlobalState().pages[sendlistButton.parent]['extra']['grups'];
 
         if (!dialog){
             dialog = new Dialog({
                 id: "sendmessageDocumentDlg",
-                title: sendmessageButton.dialogTitle,
+                title: sendlistButton.dialogTitle,
                 style: "width:300px; height:350px;",
-                sendmessageButton: sendmessageButton
+                sendlistButton: sendlistButton
             });
 
             dialog.on('hide', function () {
@@ -34,14 +34,14 @@ if (sendmessageButton) {
             });
             
             dialog.on('show', function () {
-                dom.byId('comboRols').focus();
+                dom.byId('comboUsuaris').focus();
                 dom.byId('textAreaMissatge').value = "";
-                dom.byId('textBoxLlistaRols').value = "";
+                dom.byId('textBoxLlistaUsuaris').value = "";
             });
 
-            dialog.storeListRols = function(n,o,e) {
-                dom.byId('textBoxLlistaRols').value += e + ",";
-                LlistaRols.value = textBoxLlistaRols.value;
+            dialog.storeListUsuaris = function(n,o,e) {
+                dom.byId('textBoxLlistaUsuaris').value += e + ",";
+                LlistaUsuaris.value = textBoxLlistaUsuaris.value;
             };
 
             var bc = new BorderContainer({
@@ -64,40 +64,40 @@ if (sendmessageButton) {
 
             var form = new Form().placeAt(divcentre);
 
-            //DIV ROLS DESTINATARIS Un div per contenir la selecció de Rols
-            var divRols = domConstruct.create('div', {
-                className: 'divRols'
+            //DIV ROLS DESTINATARIS Un div per contenir la selecció de Usuaris
+            var divUsuaris = domConstruct.create('div', {
+                className: 'divUsuaris'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: sendmessageButton.labelRols + '<br>'
-            },divRols);
+                innerHTML: sendlistButton.labelUsuaris + '<br>'
+            },divUsuaris);
 
             //Un combo per seleccionar els rols dels destinataris
-            var selectRols = new ComboBox({
-                id: 'comboRols',
-                placeHolder: sendmessageButton.placeholderRols,
-                name: 'rols',
+            var selectUsuaris = new ComboBox({
+                id: 'comboUsuaris',
+                placeHolder: sendlistButton.placeholderUsuaris,
+                name: 'users',
                 value: '',
-                store: new JsonRest({target: sendmessageButton.urlListRols})
-            }).placeAt(divRols);
-            dialog.comboRols = selectRols;
-            dialog.comboRols.startup();
-            dialog.comboRols.watch('value', dialog.storeListRols);
+                store: new JsonRest({target: sendlistButton.urlListUsuaris})
+            }).placeAt(divUsuaris);
+            dialog.comboUsuaris = selectUsuaris;
+            dialog.comboUsuaris.startup();
+            dialog.comboUsuaris.watch('value', dialog.storeListUsuaris);
 
-            //DIV LLISTA DE ROLS Un camp de text per contenir la llista de Rols
-            var divLlistaRols = domConstruct.create('div', {
-                className: 'divLlistaRols'
+            //DIV LLISTA DE ROLS Un camp de text per contenir la llista d'Usuaris
+            var divLlistaUsuaris = domConstruct.create('div', {
+                className: 'divLlistaUsuaris'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + sendmessageButton.labelLlista + '<br>'
-            },divLlistaRols);
+                innerHTML: '<br>' + sendlistButton.labelLlista + '<br>'
+            },divLlistaUsuaris);
 
-            var LlistaRols = new TextBox({
-                id: 'textBoxLlistaRols'
-            }).placeAt(divLlistaRols);
-            dialog.textBoxLlistaRols = LlistaRols;
+            var LlistaUsuaris = new TextBox({
+                id: 'textBoxLlistaUsuaris'
+            }).placeAt(divLlistaUsuaris);
+            dialog.textBoxLlistaUsuaris = LlistaUsuaris;
 
             //DIV MISSATGE Un camp de text per poder escriure el missatge
             var divMissatge = domConstruct.create('div', {
@@ -105,12 +105,12 @@ if (sendmessageButton) {
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + sendmessageButton.labelMissatge + '<br>'
+                innerHTML: '<br>' + sendlistButton.labelMissatge + '<br>'
             },divMissatge);
 
             var Missatge = new Textarea({
                 id: 'textAreaMissatge',
-                placeHolder: sendmessageButton.placeholderMissatge,
+                placeHolder: sendlistButton.placeholderMissatge,
             }).placeAt(divMissatge);
             dialog.textAreaMissatge = Missatge;
 
@@ -126,15 +126,16 @@ if (sendmessageButton) {
             }, botons);
 
             new Button({
-                label: sendmessageButton.labelButtonAcceptar,
+                label: sendlistButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (LlistaRols.value !== '') {
-                        var query = 'call=' + sendmessageButton.call +
+                    if (LlistaUsuaris.value !== '') {
+                        var query = 'call=' + sendlistButton.call +
+                                    '&id=' + sendlistButton.parent +
                                     '&grups=' + grups +
-                                    '&rols=' + LlistaRols.value +
+                                    '&users=' + LlistaUsuaris.value +
                                     '&message=' + Missatge.value;
-                        sendmessageButton.sendRequest(query);
+                        sendlistButton.sendRequest(query);
                         dialog.hide();
                     }
                 }
@@ -142,7 +143,7 @@ if (sendmessageButton) {
 
             // Botó cancel·lar
             new Button({
-                label: sendmessageButton.labelButtonCancellar,
+                label: sendlistButton.labelButtonCancellar,
                 onClick: function(){dialog.hide();}
             }).placeAt(botons);
 

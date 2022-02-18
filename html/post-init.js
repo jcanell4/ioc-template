@@ -87,7 +87,8 @@ require([
             disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REMOVE_PROJECT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::REVERT_PROJECT_BUTTON', "visible", false);
-            disp.initUpdateWidgetProperty('cfgIdConstants::SEND_MESSAGE_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SEND_MESSAGE_TO_ROLS_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON', "visible", false);
 
             if (!disp.getGlobalState().login) {
                 disp.changeWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", true);
@@ -223,7 +224,8 @@ require([
                         else if (page.action === 'html_supplies_form') {
                         }
                         else if (page.action === 'html_response_form') {
-                            disp.changeWidgetProperty('cfgIdConstants::SEND_MESSAGE_BUTTON', "visible", true);
+                            disp.changeWidgetProperty('cfgIdConstants::SEND_MESSAGE_TO_ROLS_BUTTON', "visible", true);
+                            disp.changeWidgetProperty('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON', "visible", true);
                         }
                     }
                 }

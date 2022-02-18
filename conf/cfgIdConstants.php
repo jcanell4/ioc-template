@@ -96,8 +96,9 @@ class cfgIdConstants
     const MEDIA_UPDATE_IMAGE_BUTTON = "mediaUpdateImageButton";
     const MEDIA_EDIT_BUTTON         = "mediaEditButton";
 
-    const SEND_MESSAGE_BUTTON       = "sendMessageButton";
-    const SYSTEM_WARNING_CONTAINER  = "systemWarningContainer";
+    const SEND_MESSAGE_TO_ROLS_BUTTON = "sendMessageToRolsButton";
+    const SEND_LIST_TO_USERS_BUTTON   = "sendListToUsersButton";
+    const SYSTEM_WARNING_CONTAINER    = "systemWarningContainer";
 
     //Constantes de la clase WikiIocTabsContainer de WikiIocComponents
     const DEFAULT_TAB_TYPE = 0;

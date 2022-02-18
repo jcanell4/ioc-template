@@ -620,7 +620,7 @@ require([
 ,"dojo/store/JsonRest"
 ,"ioc/functions/normalitzaCaracters"
 ], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters) {
-var sendmessageButton = registry.byId('sendMessageButton');
+var sendmessageButton = registry.byId('sendMessageToRolsButton');
 if (sendmessageButton) {
 sendmessageButton.onClick = function () {
 var dialog = registry.byId("sendmessageDocumentDlg");
@@ -716,6 +716,128 @@ dialog.hide();
 }).placeAt(botons);
 new Button({
 label: sendmessageButton.labelButtonCancellar,
+onClick: function(){dialog.hide();}
+}).placeAt(botons);
+form.startup();
+}
+dialog.show();
+return false;
+};
+}
+});
+require([
+"dijit/registry"
+,"dojo/dom"
+,"dojo/dom-construct"
+,"dojo/dom-style"
+,"dijit/layout/BorderContainer"
+,"dijit/Dialog"
+,"dijit/layout/ContentPane"
+,"dijit/form/Form"
+,"dijit/form/Textarea"
+,"dijit/form/TextBox"
+,"dijit/form/Button"
+,"dijit/form/ComboBox"
+,"dojo/store/JsonRest"
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters) {
+var sendlistButton = registry.byId('sendListToUsersButton');
+if (sendlistButton) {
+sendlistButton.onClick = function () {
+var dialog = registry.byId("sendmessageDocumentDlg");
+var grups = sendlistButton.dispatcher.getGlobalState().pages[sendlistButton.parent]['extra']['grups'];
+if (!dialog){
+dialog = new Dialog({
+id: "sendmessageDocumentDlg",
+title: sendlistButton.dialogTitle,
+style: "width:300px; height:350px;",
+sendlistButton: sendlistButton
+});
+dialog.on('hide', function () {
+dialog.destroyRecursive(false);
+domConstruct.destroy("sendmessageDocumentDlg");
+});
+dialog.on('show', function () {
+dom.byId('comboUsuaris').focus();
+dom.byId('textAreaMissatge').value = "";
+dom.byId('textBoxLlistaUsuaris').value = "";
+});
+dialog.storeListUsuaris = function(n,o,e) {
+dom.byId('textBoxLlistaUsuaris').value += e + ",";
+LlistaUsuaris.value = textBoxLlistaUsuaris.value;
+};
+var bc = new BorderContainer({
+style: "width:280px; height:300px;"
+});
+var cpCentre = new ContentPane({
+region: "center"
+});
+bc.addChild(cpCentre);
+bc.placeAt(dialog.containerNode);
+var divcentre = domConstruct.create('div', {
+className: 'dreta'
+},cpCentre.containerNode);
+var form = new Form().placeAt(divcentre);
+var divUsuaris = domConstruct.create('div', {
+className: 'divUsuaris'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: sendlistButton.labelUsuaris + '<br>'
+},divUsuaris);
+var selectUsuaris = new ComboBox({
+id: 'comboUsuaris',
+placeHolder: sendlistButton.placeholderUsuaris,
+name: 'users',
+value: '',
+store: new JsonRest({target: sendlistButton.urlListUsuaris})
+}).placeAt(divUsuaris);
+dialog.comboUsuaris = selectUsuaris;
+dialog.comboUsuaris.startup();
+dialog.comboUsuaris.watch('value', dialog.storeListUsuaris);
+var divLlistaUsuaris = domConstruct.create('div', {
+className: 'divLlistaUsuaris'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + sendlistButton.labelLlista + '<br>'
+},divLlistaUsuaris);
+var LlistaUsuaris = new TextBox({
+id: 'textBoxLlistaUsuaris'
+}).placeAt(divLlistaUsuaris);
+dialog.textBoxLlistaUsuaris = LlistaUsuaris;
+var divMissatge = domConstruct.create('div', {
+className: 'divMissatge'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>' + sendlistButton.labelMissatge + '<br>'
+},divMissatge);
+var Missatge = new Textarea({
+id: 'textAreaMissatge',
+placeHolder: sendlistButton.placeholderMissatge,
+}).placeAt(divMissatge);
+dialog.textAreaMissatge = Missatge;
+var botons = domConstruct.create('div', {
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>'
+}, botons);
+new Button({
+label: sendlistButton.labelButtonAcceptar,
+onClick: function(){
+if (LlistaUsuaris.value !== '') {
+var query = 'call=' + sendlistButton.call +
+'&id=' + sendlistButton.parent +
+'&grups=' + grups +
+'&users=' + LlistaUsuaris.value +
+'&message=' + Missatge.value;
+sendlistButton.sendRequest(query);
+dialog.hide();
+}
+}
+}).placeAt(botons);
+new Button({
+label: sendlistButton.labelButtonCancellar,
 onClick: function(){dialog.hide();}
 }).placeAt(botons);
 form.startup();

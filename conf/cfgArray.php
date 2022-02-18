@@ -1399,30 +1399,63 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
-            'iX0_send_message' => 
+            'iX0_send_message_to_rols' => 
             array (
               'class' => 'WikiIocButton',
               'parms' => 
               array (
                 'DOM' => 
                 array (
-                  'id' => 'sendMessageButton',
+                  'id' => 'sendMessageToRolsButton',
                   'title' => 'Enviar missatge',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
                 array (
-                  'call' => '\'send_message\'',
+                  'call' => '\'send_message_to_rols\'',
                   'parent' => '\'selected_projects\'',
                   'autoSize' => true,
                   'visible' => false,
-                  'iconClass' => '\'iocIconSendMessage\'',
+                  'iconClass' => '\'iocIconSendMessageToRols\'',
                   'urlBase' => '\'lib/exe/ioc_ajax.php\'',
                   'urlListRols' => '\'lib/exe/ioc_ajaxrest.php/list_rols_rest/\'',
                   'dialogTitle' => '\'Enviar un missatge\'',
                   'labelRols' => '\'Selecciona els rols dels destinataris\'',
                   'placeholderRols' => '\'Rols destinataris\'',
                   'labelLlista' => '\'Llista de rols seleccionats\'',
+                  'labelMissatge' => '\'Missatge pels destinataris\'',
+                  'placeholderMissatge' => '\'Escriu un missatge\'',
+                  'labelButtonAcceptar' => '\'Enviar\'',
+                  'labelButtonCancellar' => '\'Cancel·lar\'',
+                  'standbyId' => 'bodyContent',
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent(this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
+            'iX1_send_list_to_users' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'sendListToUsersButton',
+                  'title' => 'Enviar missatge',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'call' => '\'send_list_to_users\'',
+                  'parent' => '\'selected_projects\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconSendListToUsers\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
+                  'urlListUsuaris' => '\'lib/exe/ioc_ajaxrest.php/list_users_rest/\'',
+                  'dialogTitle' => '\'Enviar un missatge\'',
+                  'labelUsuaris' => '\'Selecciona els destinataris\'',
+                  'placeholderUsuaris' => '\'Destinataris\'',
+                  'labelLlista' => '\'Llista d usuaris seleccionats\'',
                   'labelMissatge' => '\'Missatge pels destinataris\'',
                   'placeholderMissatge' => '\'Escriu un missatge\'',
                   'labelButtonAcceptar' => '\'Enviar\'',
