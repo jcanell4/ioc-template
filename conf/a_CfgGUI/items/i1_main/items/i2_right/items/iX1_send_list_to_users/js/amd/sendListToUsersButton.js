@@ -63,7 +63,7 @@ if (sendlistButton) {
                             }
                 };
                 addWidgetToNode(data, id);
-            }
+            };
 
             var bc = new BorderContainer({
                 style: "width:380px; height:300px;"
@@ -110,7 +110,7 @@ if (sendlistButton) {
 
             var Missatge = new Textarea({
                 id: 'textAreaMissatge',
-                placeHolder: sendlistButton.placeholderMissatge,
+                placeHolder: sendlistButton.placeholderMissatge
             }).placeAt(divMissatge);
             dialog.textAreaMissatge = Missatge;
 

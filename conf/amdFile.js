@@ -786,7 +786,7 @@ data: []
 }
 };
 addWidgetToNode(data, id);
-}
+};
 var bc = new BorderContainer({
 style: "width:380px; height:300px;"
 });
@@ -817,7 +817,7 @@ innerHTML: '<br>' + sendlistButton.labelMissatge + '<br>'
 },divMissatge);
 var Missatge = new Textarea({
 id: 'textAreaMissatge',
-placeHolder: sendlistButton.placeholderMissatge,
+placeHolder: sendlistButton.placeholderMissatge
 }).placeAt(divMissatge);
 dialog.textAreaMissatge = Missatge;
 var botons = domConstruct.create('div', {
@@ -836,12 +836,14 @@ var llista = llistaUsuaris.textContent;
 llista = llista.replace(/[ \n●]/g, "");
 u = llista.split("x");
 for (var i=0; i<u.length; i++) {
+if (u[i] !== "") {
 usuaris[i] = u[i].replace(/.*<(.*)>/, "$1");
+}
 }
 var query = 'call=' + sendlistButton.call +
 '&id=' + sendlistButton.parent +
 '&grups=' + grups +
-'&users=' + llistaUsuaris.value +
+'&users=' + usuaris.toString() +
 '&message=' + Missatge.value;
 sendlistButton.sendRequest(query);
 dialog.hide();
