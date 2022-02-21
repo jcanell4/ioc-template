@@ -13,17 +13,21 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSendListToUsers'"
-                                          ,"urlBase" => "'lib/exe/ioc_ajax.php'"
-                                          ,"urlListUsuaris" => "'lib/exe/ioc_ajaxrest.php/list_users_rest/'"
                                           ,"dialogTitle" => "'Enviar un missatge'"
-                                          ,"labelUsuaris" => "'Selecciona els destinataris'"
-                                          ,"placeholderUsuaris" => "'Destinataris'"
-                                          ,"labelLlista" => "'Llista d usuaris seleccionats'"
+                                          ,"labelLlistaUsuaris" => "'Llista d\'usuaris seleccionats'"
                                           ,"labelMissatge" => "'Missatge pels destinataris'"
                                           ,"placeholderMissatge" => "'Escriu un missatge'"
+                                          ,"widgetClass" => "'IocFilteredList'"
+                                          ,"widgetLabel" => "'Destinatari'"
+                                          ,"widgetSearchDataUrl" => "'lib/exe/ioc_ajax.php?call=user_list'"
+                                          ,"widgetDialogTitle" => "'Cerca usuaris per afegir'"
+                                          ,"widgetButtonLabel" => "'Cercar'"
+                                          ,"widgetDialogButtonLabel" => "'Afegir'"
+                                          ,"widgetFieldName" => "'to'"
+                                          ,"widgetFieldId" => "'username'"
+                                          ,"widgetDefaultEntryField" => "'name'"
                                           ,"labelButtonAcceptar" => "'Enviar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
-                                          ,"standbyId" => cfgIdConstants::BODY_CONTENT
                                         )
                             )
               );

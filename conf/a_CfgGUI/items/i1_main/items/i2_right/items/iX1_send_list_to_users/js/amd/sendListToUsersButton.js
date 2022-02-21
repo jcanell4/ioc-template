@@ -12,19 +12,21 @@
 //include "dijit/form/ComboBox"
 //include "dojo/store/JsonRest"
 //include "ioc/functions/normalitzaCaracters"
+//include "ioc/widgets/WidgetFactory"
 
 var sendlistButton = registry.byId('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON');
 
 if (sendlistButton) {
     sendlistButton.onClick = function () {
         var dialog = registry.byId("sendmessageDocumentDlg");
-        var grups = sendlistButton.dispatcher.getGlobalState().pages[sendlistButton.parent]['extra']['grups'];
+        var globalState = sendlistButton.dispatcher.getGlobalState();
+        var grups = globalState.pages[sendlistButton.parent]['extra']['grups'];
 
         if (!dialog){
             dialog = new Dialog({
                 id: "sendmessageDocumentDlg",
                 title: sendlistButton.dialogTitle,
-                style: "width:300px; height:350px;",
+                style: "width:400px; height:350px;",
                 sendlistButton: sendlistButton
             });
 
@@ -34,18 +36,37 @@ if (sendlistButton) {
             });
             
             dialog.on('show', function () {
-                dom.byId('comboUsuaris').focus();
+                dom.byId('llistaUsuaris').value = "";
                 dom.byId('textAreaMissatge').value = "";
-                dom.byId('textBoxLlistaUsuaris').value = "";
+                dom.byId('llistaUsuaris').focus();
             });
 
-            dialog.storeListUsuaris = function(n,o,e) {
-                dom.byId('textBoxLlistaUsuaris').value += e + ",";
-                LlistaUsuaris.value = textBoxLlistaUsuaris.value;
-            };
+            dialog.creaWidget = function(id) {
+                var data = {class: sendlistButton.widgetClass,
+                            label: sendlistButton.widgetLabel,
+                            type: sendlistButton.widgetType,
+                            data: {
+                                ns: globalState.getCurrentId(),
+                                token: globalState.sectok,
+                                searchDataUrl: sendlistButton.widgetSearchDataUrl,
+                                dialogTitle: sendlistButton.widgetDialogTitle,
+                                buttonLabel: sendlistButton.widgetButtonLabel,
+                                dialogButtonLabel: sendlistButton.widgetDialogButtonLabel,
+                                fieldName: sendlistButton.widgetFieldName,
+                                fieldId: sendlistButton.widgetFieldId,
+                                defaultEntryField: sendlistButton.widgetDefaultEntryField,
+                                fields: {
+                                    username: "Nom d'usuari",
+                                    name: "Nom"
+                                },
+                                data: []
+                            }
+                };
+                addWidgetToNode(data, id);
+            }
 
             var bc = new BorderContainer({
-                style: "width:280px; height:300px;"
+                style: "width:380px; height:300px;"
             });
 
             // create a ContentPane as the center pane in the BorderContainer
@@ -64,40 +85,19 @@ if (sendlistButton) {
 
             var form = new Form().placeAt(divcentre);
 
-            //DIV ROLS DESTINATARIS Un div per contenir la selecció de Usuaris
-            var divUsuaris = domConstruct.create('div', {
-                className: 'divUsuaris'
-            },form.containerNode);
-
-            domConstruct.create('label', {
-                innerHTML: sendlistButton.labelUsuaris + '<br>'
-            },divUsuaris);
-
-            //Un combo per seleccionar els rols dels destinataris
-            var selectUsuaris = new ComboBox({
-                id: 'comboUsuaris',
-                placeHolder: sendlistButton.placeholderUsuaris,
-                name: 'users',
-                value: '',
-                store: new JsonRest({target: sendlistButton.urlListUsuaris})
-            }).placeAt(divUsuaris);
-            dialog.comboUsuaris = selectUsuaris;
-            dialog.comboUsuaris.startup();
-            dialog.comboUsuaris.watch('value', dialog.storeListUsuaris);
-
             //DIV LLISTA DE ROLS Un camp de text per contenir la llista d'Usuaris
             var divLlistaUsuaris = domConstruct.create('div', {
                 className: 'divLlistaUsuaris'
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br>' + sendlistButton.labelLlista + '<br>'
+                innerHTML: '<br>' + sendlistButton.labelLlistaUsuaris + '<br>'
             },divLlistaUsuaris);
 
-            var LlistaUsuaris = new TextBox({
-                id: 'textBoxLlistaUsuaris'
-            }).placeAt(divLlistaUsuaris);
-            dialog.textBoxLlistaUsuaris = LlistaUsuaris;
+            var llistaUsuaris = domConstruct.create('span', {
+                id: 'llistaUsuaris',
+                data: dialog.creaWidget('llistaUsuaris')
+            },divLlistaUsuaris);
 
             //DIV MISSATGE Un camp de text per poder escriure el missatge
             var divMissatge = domConstruct.create('div', {
@@ -129,11 +129,20 @@ if (sendlistButton) {
                 label: sendlistButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (LlistaUsuaris.value !== '') {
+                    if (llistaUsuaris.textContent !== '' && Missatge.value !== "") {
+                        var u, usuaris = [];
+                        var llista = llistaUsuaris.textContent;
+                        llista = llista.replace(/[ \n●]/g, "");
+                        u = llista.split("x");
+                        for (var i=0; i<u.length; i++) {
+                            if (u[i] !== "") {
+                                usuaris[i] = u[i].replace(/.*<(.*)>/, "$1");
+                            }
+                        }
                         var query = 'call=' + sendlistButton.call +
                                     '&id=' + sendlistButton.parent +
                                     '&grups=' + grups +
-                                    '&users=' + LlistaUsuaris.value +
+                                    '&users=' + usuaris.toString() +
                                     '&message=' + Missatge.value;
                         sendlistButton.sendRequest(query);
                         dialog.hide();

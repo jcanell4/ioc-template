@@ -740,17 +740,19 @@ require([
 ,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/functions/normalitzaCaracters"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters) {
+,"ioc/widgets/WidgetFactory"
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters,WidgetFactory) {
 var sendlistButton = registry.byId('sendListToUsersButton');
 if (sendlistButton) {
 sendlistButton.onClick = function () {
 var dialog = registry.byId("sendmessageDocumentDlg");
-var grups = sendlistButton.dispatcher.getGlobalState().pages[sendlistButton.parent]['extra']['grups'];
+var globalState = sendlistButton.dispatcher.getGlobalState();
+var grups = globalState.pages[sendlistButton.parent]['extra']['grups'];
 if (!dialog){
 dialog = new Dialog({
 id: "sendmessageDocumentDlg",
 title: sendlistButton.dialogTitle,
-style: "width:300px; height:350px;",
+style: "width:400px; height:350px;",
 sendlistButton: sendlistButton
 });
 dialog.on('hide', function () {
@@ -758,16 +760,35 @@ dialog.destroyRecursive(false);
 domConstruct.destroy("sendmessageDocumentDlg");
 });
 dialog.on('show', function () {
-dom.byId('comboUsuaris').focus();
+dom.byId('llistaUsuaris').value = "";
 dom.byId('textAreaMissatge').value = "";
-dom.byId('textBoxLlistaUsuaris').value = "";
+dom.byId('llistaUsuaris').focus();
 });
-dialog.storeListUsuaris = function(n,o,e) {
-dom.byId('textBoxLlistaUsuaris').value += e + ",";
-LlistaUsuaris.value = textBoxLlistaUsuaris.value;
+dialog.creaWidget = function(id) {
+var data = {class: sendlistButton.widgetClass,
+label: sendlistButton.widgetLabel,
+type: sendlistButton.widgetType,
+data: {
+ns: globalState.getCurrentId(),
+token: globalState.sectok,
+searchDataUrl: sendlistButton.widgetSearchDataUrl,
+dialogTitle: sendlistButton.widgetDialogTitle,
+buttonLabel: sendlistButton.widgetButtonLabel,
+dialogButtonLabel: sendlistButton.widgetDialogButtonLabel,
+fieldName: sendlistButton.widgetFieldName,
+fieldId: sendlistButton.widgetFieldId,
+defaultEntryField: sendlistButton.widgetDefaultEntryField,
+fields: {
+username: "Nom d'usuari",
+name: "Nom"
+},
+data: []
+}
 };
+addWidgetToNode(data, id);
+}
 var bc = new BorderContainer({
-style: "width:280px; height:300px;"
+style: "width:380px; height:300px;"
 });
 var cpCentre = new ContentPane({
 region: "center"
@@ -778,32 +799,16 @@ var divcentre = domConstruct.create('div', {
 className: 'dreta'
 },cpCentre.containerNode);
 var form = new Form().placeAt(divcentre);
-var divUsuaris = domConstruct.create('div', {
-className: 'divUsuaris'
-},form.containerNode);
-domConstruct.create('label', {
-innerHTML: sendlistButton.labelUsuaris + '<br>'
-},divUsuaris);
-var selectUsuaris = new ComboBox({
-id: 'comboUsuaris',
-placeHolder: sendlistButton.placeholderUsuaris,
-name: 'users',
-value: '',
-store: new JsonRest({target: sendlistButton.urlListUsuaris})
-}).placeAt(divUsuaris);
-dialog.comboUsuaris = selectUsuaris;
-dialog.comboUsuaris.startup();
-dialog.comboUsuaris.watch('value', dialog.storeListUsuaris);
 var divLlistaUsuaris = domConstruct.create('div', {
 className: 'divLlistaUsuaris'
 },form.containerNode);
 domConstruct.create('label', {
-innerHTML: '<br>' + sendlistButton.labelLlista + '<br>'
+innerHTML: '<br>' + sendlistButton.labelLlistaUsuaris + '<br>'
 },divLlistaUsuaris);
-var LlistaUsuaris = new TextBox({
-id: 'textBoxLlistaUsuaris'
-}).placeAt(divLlistaUsuaris);
-dialog.textBoxLlistaUsuaris = LlistaUsuaris;
+var llistaUsuaris = domConstruct.create('span', {
+id: 'llistaUsuaris',
+data: dialog.creaWidget('llistaUsuaris')
+},divLlistaUsuaris);
 var divMissatge = domConstruct.create('div', {
 className: 'divMissatge'
 },form.containerNode);
@@ -825,11 +830,18 @@ innerHTML: '<br><br>'
 new Button({
 label: sendlistButton.labelButtonAcceptar,
 onClick: function(){
-if (LlistaUsuaris.value !== '') {
+if (llistaUsuaris.textContent !== '' && Missatge.value !== "") {
+var u, usuaris = [];
+var llista = llistaUsuaris.textContent;
+llista = llista.replace(/[ \n●]/g, "");
+u = llista.split("x");
+for (var i=0; i<u.length; i++) {
+usuaris[i] = u[i].replace(/.*<(.*)>/, "$1");
+}
 var query = 'call=' + sendlistButton.call +
 '&id=' + sendlistButton.parent +
 '&grups=' + grups +
-'&users=' + LlistaUsuaris.value +
+'&users=' + llistaUsuaris.value +
 '&message=' + Missatge.value;
 sendlistButton.sendRequest(query);
 dialog.hide();
