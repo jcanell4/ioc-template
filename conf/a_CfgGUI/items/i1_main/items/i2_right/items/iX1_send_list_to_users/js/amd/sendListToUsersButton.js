@@ -138,8 +138,10 @@ if (sendlistButton) {
                         var query = 'call=' + sendlistButton.call +
                                     '&id=' + sendlistButton.parent +
                                     '&grups=' + grups +
-                                    '&users=' + usuaris.toString() +
-                                    '&message=' + Missatge.value;
+                                    '&to=' + usuaris.toString() +
+                                    '&message=' + Missatge.value +
+                                    '&type=warning' +
+                                    '&send_email=true';
                         sendlistButton.sendRequest(query);
                         dialog.hide();
                     }

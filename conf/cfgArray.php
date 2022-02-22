@@ -1450,6 +1450,7 @@ $_arrIocCfgGUI = array (
                   'autoSize' => true,
                   'visible' => false,
                   'iconClass' => '\'iocIconSendListToUsers\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
                   'dialogTitle' => '\'Enviar un missatge\'',
                   'labelLlistaUsuaris' => '\'Llista d\\\'usuaris seleccionats\'',
                   'labelMissatge' => '\'Missatge pels destinataris\'',
