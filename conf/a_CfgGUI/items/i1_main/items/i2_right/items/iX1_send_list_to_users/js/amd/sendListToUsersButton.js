@@ -7,11 +7,7 @@
 //include "dijit/layout/ContentPane"
 //include "dijit/form/Form"
 //include "dijit/form/Textarea"
-//include "dijit/form/TextBox"
 //include "dijit/form/Button"
-//include "dijit/form/ComboBox"
-//include "dojo/store/JsonRest"
-//include "ioc/functions/normalitzaCaracters"
 //include "ioc/widgets/WidgetFactory"
 
 var sendlistButton = registry.byId('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON');

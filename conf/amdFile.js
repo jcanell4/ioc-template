@@ -735,13 +735,9 @@ require([
 ,"dijit/layout/ContentPane"
 ,"dijit/form/Form"
 ,"dijit/form/Textarea"
-,"dijit/form/TextBox"
 ,"dijit/form/Button"
-,"dijit/form/ComboBox"
-,"dojo/store/JsonRest"
-,"ioc/functions/normalitzaCaracters"
 ,"ioc/widgets/WidgetFactory"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,TextBox,Button,ComboBox,JsonRest,normalitzaCaracters,WidgetFactory) {
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,Textarea,Button,WidgetFactory) {
 var sendlistButton = registry.byId('sendListToUsersButton');
 if (sendlistButton) {
 sendlistButton.onClick = function () {
