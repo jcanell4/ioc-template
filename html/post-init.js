@@ -405,7 +405,6 @@ require([
                     } else if (state.getContent(id).action === "html_response_form") {
                         queryParams = "call=" + id +
                                       "&grups=" + state.getContent(id).extra.grups +
-                                      "&checked_items=" + state.getContent(id).extra.checked_items +
                                       "&id=";
                         state.getContent(id).ns = id;
 

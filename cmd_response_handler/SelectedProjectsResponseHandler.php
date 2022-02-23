@@ -22,8 +22,7 @@ class SelectedProjectsResponseHandler extends WikiIocResponseHandler {
                 array('callAtt' => "call",
                       'urlBase' => "lib/exe/ioc_ajax.php"),
                 array('id' => $requestParams[AjaxKeys::KEY_ID],
-                      'grups' => $requestParams['grups'],
-                      'checked_items' => $requestParams['checked_items'])
+                      'grups' => $requestParams['grups'])
             );
 
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
