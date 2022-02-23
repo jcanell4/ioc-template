@@ -15,6 +15,7 @@ var sendlistButton = registry.byId('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON');
 if (sendlistButton) {
     sendlistButton.onClick = function () {
         var dialog = registry.byId("sendmessageDocumentDlg");
+        var checkedItems = [];
         var globalState = sendlistButton.dispatcher.getGlobalState();
         var grups = globalState.pages[sendlistButton.parent]['extra']['grups'];
 
@@ -35,7 +36,18 @@ if (sendlistButton) {
                 dom.byId('llistaUsuaris').value = "";
                 dom.byId('textAreaMissatge').value = "";
                 dom.byId('llistaUsuaris').focus();
+                dialog.getCheckedItems();
             });
+
+            dialog.getCheckedItems = function() {
+                var $form = jQuery(dom.byId("dw__" + sendlistButton.parent));
+                var c = 0;
+                for (var i=0; i<$form[0].length; i++) {
+                    if ($form[0][i].type == "checkbox" && $form[0][i].checked) {
+                        checkedItems[c++] = $form[0][i].alt;
+                    }
+                }
+            };
 
             dialog.creaWidget = function(id) {
                 var data = {class: sendlistButton.widgetClass,
@@ -141,7 +153,8 @@ if (sendlistButton) {
                                     '&to=' + usuaris.toString() +
                                     '&message=' + Missatge.value +
                                     '&type=warning' +
-                                    '&send_email=true';
+                                    '&send_email=true' +
+                                    '&checked_items=' + JSON.stringify(checkedItems);
                         sendlistButton.sendRequest(query);
                         dialog.hide();
                     }
