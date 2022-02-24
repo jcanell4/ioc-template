@@ -624,6 +624,7 @@ var sendmessageButton = registry.byId('sendMessageToRolsButton');
 if (sendmessageButton) {
 sendmessageButton.onClick = function () {
 var dialog = registry.byId("sendmessageDocumentDlg");
+var checkedItems = [];
 var grups = sendmessageButton.dispatcher.getGlobalState().pages[sendmessageButton.parent]['extra']['grups'];
 if (!dialog){
 dialog = new Dialog({
@@ -637,10 +638,20 @@ dialog.destroyRecursive(false);
 domConstruct.destroy("sendmessageDocumentDlg");
 });
 dialog.on('show', function () {
-dom.byId('comboRols').focus();
 dom.byId('textAreaMissatge').value = "";
 dom.byId('textBoxLlistaRols').value = "";
+dom.byId('comboRols').focus();
+dialog.getCheckedItems();
 });
+dialog.getCheckedItems = function() {
+var $form = jQuery(dom.byId("dw__" + sendmessageButton.parent));
+var c = 0;
+for (var i=0; i<$form[0].length; i++) {
+if ($form[0][i].type == "checkbox" && $form[0][i].checked) {
+checkedItems[c++] = $form[0][i].alt;
+}
+}
+};
 dialog.storeListRols = function(n,o,e) {
 dom.byId('textBoxLlistaRols').value += e + ",";
 LlistaRols.value = textBoxLlistaRols.value;
@@ -690,8 +701,7 @@ domConstruct.create('label', {
 innerHTML: '<br>' + sendmessageButton.labelMissatge + '<br>'
 },divMissatge);
 var Missatge = new Textarea({
-id: 'textAreaMissatge',
-placeHolder: sendmessageButton.placeholderMissatge,
+id: 'textAreaMissatge'
 }).placeAt(divMissatge);
 dialog.textAreaMissatge = Missatge;
 var botons = domConstruct.create('div', {
@@ -708,7 +718,10 @@ if (LlistaRols.value !== '') {
 var query = 'call=' + sendmessageButton.call +
 '&grups=' + grups +
 '&rols=' + LlistaRols.value +
-'&message=' + Missatge.value;
+'&message=' + Missatge.value +
+'&type=warning' +
+'&send_email=true' +
+'&checked_items=' + JSON.stringify(checkedItems);
 sendmessageButton.sendRequest(query);
 dialog.hide();
 }
@@ -823,8 +836,7 @@ domConstruct.create('label', {
 innerHTML: '<br>' + sendlistButton.labelMissatge + '<br>'
 },divMissatge);
 var Missatge = new Textarea({
-id: 'textAreaMissatge',
-placeHolder: sendlistButton.placeholderMissatge
+id: 'textAreaMissatge'
 }).placeAt(divMissatge);
 dialog.textAreaMissatge = Missatge;
 var botons = domConstruct.create('div', {

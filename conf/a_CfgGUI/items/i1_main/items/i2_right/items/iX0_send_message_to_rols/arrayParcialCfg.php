@@ -20,7 +20,6 @@ $arrParcial = array(
                                           ,"placeholderRols" => "'Rols destinataris'"
                                           ,"labelLlista" => "'Llista de rols seleccionats'"
                                           ,"labelMissatge" => "'Missatge pels destinataris'"
-                                          ,"placeholderMissatge" => "'Escriu un missatge'"
                                           ,"labelButtonAcceptar" => "'Enviar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
                                           ,"standbyId" => cfgIdConstants::BODY_CONTENT

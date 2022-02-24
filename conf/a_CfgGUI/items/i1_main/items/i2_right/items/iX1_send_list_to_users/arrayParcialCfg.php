@@ -17,7 +17,6 @@ $arrParcial = array(
                                           ,'dialogTitle' => "'Enviar un missatge'"
                                           ,'labelLlistaUsuaris' => "'Llista d\'usuaris seleccionats'"
                                           ,'labelMissatge' => "'Missatge pels destinataris'"
-                                          ,'placeholderMissatge' => "'Escriu un missatge'"
                                           ,'widgetClass' => "'IocFilteredList'"
                                           ,'widgetLabel' => "'Destinatari'"
                                           ,'widgetSearchDataUrl' => "'lib/exe/ioc_ajax.php?call=user_list'"

@@ -117,8 +117,7 @@ if (sendlistButton) {
             },divMissatge);
 
             var Missatge = new Textarea({
-                id: 'textAreaMissatge',
-                placeHolder: sendlistButton.placeholderMissatge
+                id: 'textAreaMissatge'
             }).placeAt(divMissatge);
             dialog.textAreaMissatge = Missatge;
 
