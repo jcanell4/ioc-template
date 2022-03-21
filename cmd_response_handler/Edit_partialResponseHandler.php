@@ -139,10 +139,10 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     /** TODO[Xavi] Aquesta funció s'ha d'heretar de EditResponseHandler **/
     protected function addRevisionListResponse($responseData, &$cmdResponseGenerator)
     {
-        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+        if (isset($responseData[PageKeys::KEY_REVISIONS]) && count($responseData[PageKeys::KEY_REVISIONS]) > 0) {
 
-            $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
-            $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+            $responseData[PageKeys::KEY_REVISIONS]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+            $cmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData[PageKeys::KEY_REVISIONS]);
 
         } else {
             $cmdResponseGenerator->addExtraMetadata(

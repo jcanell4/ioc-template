@@ -40,12 +40,12 @@ class PageResponseHandler extends WikiIocResponseHandler {
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
 
-        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
-            $responseData['revs']['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
+        if (isset($responseData[PageKeys::KEY_REVISIONS]) && count($responseData[PageKeys::KEY_REVISIONS]) > 0) {
+            $responseData[PageKeys::KEY_REVISIONS]['urlBase'] = "lib/exe/ioc_ajax.php?call=diff";
             if ($requestParams[RequestParameterKeys::PROJECT_OWNER]) {
-                $responseData['revs']['call_view'] = "page&projectOwner={$requestParams[RequestParameterKeys::PROJECT_OWNER]}&projectSourceType={$requestParams[RequestParameterKeys::PROJECT_SOURCE_TYPE]}";
+                $responseData[PageKeys::KEY_REVISIONS]['call_view'] = "page&projectOwner={$requestParams[RequestParameterKeys::PROJECT_OWNER]}&projectSourceType={$requestParams[RequestParameterKeys::PROJECT_SOURCE_TYPE]}";
             }
-            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData[PageKeys::KEY_REVISIONS]);
         }
         else if(isset($responseData['meta'])) {
             $ajaxCmdResponseGenerator->addExtraMetadata(

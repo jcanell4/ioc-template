@@ -52,9 +52,9 @@ class Save_partialResponseHandler extends PageResponseHandler
             $ajaxCmdResponseGenerator->addInfoDta($responseData['info']);
         }
 
-        if (isset($responseData['revs']) && count($responseData['revs']) > 0) {
+        if (isset($responseData[PageKeys::KEY_REVISIONS]) && count($responseData[PageKeys::KEY_REVISIONS]) > 0) {
             // No ha de ser possible cap altre cas perquè hem desat així que com a minim hi ha una
-            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData['revs']);
+            $ajaxCmdResponseGenerator->addRevisionsTypeResponse($responseData['structure']['id'], $responseData[PageKeys::KEY_REVISIONS]);
         }
 
         if ($responseData["cancel_params"]) {
