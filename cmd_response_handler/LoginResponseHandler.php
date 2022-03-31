@@ -28,7 +28,12 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
-        if($responseData["loginResult"]){
+        if ($responseData["loginResult"]){
+            $ajaxCmdResponseGenerator->addProcessFunction(TRUE,
+                                                          "ioc/dokuwiki/processMoodleTimeout",
+                                                          ['urlBase' => "lib/exe/ioc_ajax.php?call=refresh_moodle_session",
+                                                           'moodleToken' => $responseData['user_state']['moodleToken']]);
+
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(
                                                     cfgIdConstants::USER_BUTTON,
