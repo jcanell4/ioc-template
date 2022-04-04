@@ -235,10 +235,13 @@ require([
 
 
         // Gestió del relogin
-        var relogin = function (userId) {
-
+        var relogin = function (userId, moodleToken) {
             var requestLogin = new Request();
-            requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId;
+            var moodleT = "";
+            if (moodleToken) {
+                moodleT = "&moodleToken="+moodleToken;
+            }
+            requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId + moodleT;
             requestLogin.sendRequest().then(function() {
                 // ALERTA[Xavi] Això només s'utilitza per depurar, per mostrar per consola quan s'ha rebut la resposta del login
                 // console.log("---------- Ha arribat la resposta del login ------------");
@@ -265,16 +268,12 @@ require([
             console.log("Detectats canvis al login", e);
         });
 
-
         // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
         var loginState = storageManager.findObject('login');
-        // console.log("loginState:", loginState);
-
+        var moodleToken = storageManager.findObject('globalState').userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            // console.log("enviant petició del login", loginState.userId);
-            relogin(loginState.userId);
+            relogin(loginState.userId, moodleToken);
         }
-
 
         // Objecte que gestiona el refresc de la pàgina
         var reloadStateHandler = new ReloadStateHandler(function (state) {
