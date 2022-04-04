@@ -35,10 +35,10 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                                                            'moodleToken' => $responseData['user_state']['moodleToken']]);
 
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
-            $ajaxCmdResponseGenerator->addChangeWidgetProperty(
-                                                    cfgIdConstants::USER_BUTTON,
-                                                    "label",
-                                                    $responseData["userId"]);
+
+            $ajaxCmdResponseGenerator->addChangeWidgetProperty(cfgIdConstants::USER_BUTTON,
+                                                               "label",
+                                                               $responseData["userId"]);
             $modelManager = $this->getModelManager();
 
             if ($this->getPermission()->isAdminOrManager()){
