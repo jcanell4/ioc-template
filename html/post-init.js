@@ -270,9 +270,11 @@ require([
 
         // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
         var loginState = storageManager.findObject('login');
-        var moodleToken = storageManager.findObject('globalState').userState.moodleToken;
+        var stateMoodle = storageManager.findObject('globalState');
+        if (stateMoodle)
+            stateMoodle = stateMoodle.userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            relogin(loginState.userId, moodleToken);
+            relogin(loginState.userId, stateMoodle);
         }
 
         // Objecte que gestiona el refresc de la pàgina
