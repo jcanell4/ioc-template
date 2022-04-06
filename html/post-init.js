@@ -238,7 +238,7 @@ require([
         var relogin = function (userId, moodleToken) {
             var requestLogin = new Request();
             var moodleT = "";
-            if (moodleToken) {
+            if (moodleToken && moodleToken!=="" && moodleToken!==undefined && moodleToken!=="null") {
                 moodleT = "&moodleToken="+moodleToken;
             }
             requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId + moodleT;
@@ -271,7 +271,7 @@ require([
         // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
         var loginState = storageManager.findObject('login');
         var stateMoodle = storageManager.findObject('globalState');
-        if (stateMoodle)
+        if (stateMoodle && stateMoodle.userState.moodleToken)
             stateMoodle = stateMoodle.userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
             relogin(loginState.userId, stateMoodle);

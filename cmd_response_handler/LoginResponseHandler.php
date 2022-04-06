@@ -14,9 +14,9 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-        if ($responseData["loginRequest"] && !$responseData["loginResult"]) {
-            throw new HttpErrorCodeException("badlogin", "403");
-        }
+//        if ($responseData["loginRequest"] && !$responseData["loginResult"]) {
+//            throw new HttpErrorCodeException("badlogin", "403");
+//        }
         $this->login($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 
@@ -29,10 +29,12 @@ class LoginResponseHandler extends WikiIocResponseHandler {
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
         if ($responseData["loginResult"]){
-            $ajaxCmdResponseGenerator->addProcessFunction(TRUE,
-                                                          "ioc/dokuwiki/processMoodleTimeout",
-                                                          ['urlBase' => "lib/exe/ioc_ajax.php?call=refresh_moodle_session",
-                                                           'moodleToken' => $responseData['user_state']['moodleToken']]);
+            if ($responseData['user_state']['moodleToken']) {
+                $ajaxCmdResponseGenerator->addProcessFunction(TRUE,
+                                                              "ioc/dokuwiki/processMoodleTimeout",
+                                                              ['urlBase' => "lib/exe/ioc_ajax.php?call=refresh_moodle_session",
+                                                               'moodleToken' => $responseData['user_state']['moodleToken']]);
+            }
 
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
 
@@ -67,7 +69,6 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $sig = toolbar_signature();
         }else{
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
-            $ajaxCmdResponseGenerator->addRemoveAllContentTab();
             $title = '';
             $sig = '';
         }
@@ -85,21 +86,30 @@ class LoginResponseHandler extends WikiIocResponseHandler {
             $info['type'] = 'info';
             $info['message'] = 'Usuari desconnectat';
 
-            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
-                cfgIdConstants::TB_ADMIN);
-
-            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO,
-                cfgIdConstants::TB_SHORTCUTS);
+            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO, cfgIdConstants::TB_ADMIN);
+            $ajaxCmdResponseGenerator->addRemoveTab(cfgIdConstants::ZONA_NAVEGACIO, cfgIdConstants::TB_SHORTCUTS);
         } else  {
-            $info['type']= 'success';
+            $info['type'] = 'success';
             $info['message'] = 'Usuari connectat';
         }
+
+        $info['login'] = $requestParams[ProjectKeys::KEY_DO];
+        $info = $ajaxCmdResponseGenerator->generateInfo($info['type'], $info['message'], $info['login'], 20);
+        $responseData[ProjectKeys::KEY_INFO] = $ajaxCmdResponseGenerator->addInfoToInfo($responseData[ProjectKeys::KEY_INFO], $info);
+        $ajaxCmdResponseGenerator->addInfoDta($responseData[ProjectKeys::KEY_INFO]);
 
         for ($i=0; $i<count($responseData['notifications']); $i++) {
             $action = $responseData['notifications'][$i]['action'];
             $params = $responseData['notifications'][$i]['params'];
             $ajaxCmdResponseGenerator->addNotification($action, $params);
         }
+    }
 
+    protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
+        parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
+
+        if (!$responseData["loginResult"]){
+            $ajaxCmdResponseGenerator->addRemoveAllContentTab();
+        }
     }
 }
