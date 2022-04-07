@@ -238,7 +238,7 @@ require([
         var relogin = function (userId, moodleToken) {
             var requestLogin = new Request();
             var moodleT = "";
-            if (moodleToken && moodleToken!=="" && moodleToken!==undefined && moodleToken!=="null") {
+            if (moodleToken && moodleToken!="" && moodleToken!=undefined && moodleToken!="null") {
                 moodleT = "&moodleToken="+moodleToken;
             }
             requestLogin.urlBase = "lib/exe/ioc_ajax.php?call=login&do=relogin&userId=" + userId + moodleT;
@@ -250,16 +250,14 @@ require([
 
         storageManager.on('change', 'login', function (e) {
             var request;
-
             var newState = JSON.parse(e.newValue),
                 oldState = JSON.parse(e.oldValue);
 
-            // No estava logejat i ara ho està
             if (newState.login && (!oldState || !oldState.login) && newState.userId) {
+                // No estava logejat i ara ho està
                 relogin(newState.userId);
-
+            }else if (!newState.login && oldState.login) {
                 // Ara no està logejat però abans si ho estava
-            } else if (!newState.login && oldState.login) {
                 request = new Request();
                 request.urlBase = "lib/exe/ioc_ajax.php?call=login&do=logoff";
                 request.sendRequest();
@@ -268,27 +266,18 @@ require([
             console.log("Detectats canvis al login", e);
         });
 
-        // ALERTA[Xavi] Eliminat del updateHandler i afegit per executar-lo sempre
         var loginState = storageManager.findObject('login');
-        var stateMoodle = storageManager.findObject('globalState');
-        if (stateMoodle && stateMoodle.userState.moodleToken)
-            stateMoodle = stateMoodle.userState.moodleToken;
+        var stateMoodle = storageManager.findObject('globalState').userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
             relogin(loginState.userId, stateMoodle);
         }
 
         // Objecte que gestiona el refresc de la pàgina
         var reloadStateHandler = new ReloadStateHandler(function (state) {
-
-            //actualitza l'estat a partir de les dades emmagatzemades en local
-            // relogin();
-
             // Recarreguem l'estat de l'usuari
             if (state.userState) {
-                // console.log("detectat estat d'usuari", state.userState);
                 wikiIocDispatcher.getGlobalState().userState = state.userState;
             }
-            //var projectType = state.pages[state.currentTabId].projectType;
 
             // Establim el panell d'informació actiu
             var currentNavigationPaneId = state.getCurrentNavigationId();
