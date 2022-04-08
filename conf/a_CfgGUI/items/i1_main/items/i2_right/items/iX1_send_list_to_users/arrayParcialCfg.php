@@ -28,6 +28,7 @@ $arrParcial = array(
                                           ,'widgetDefaultEntryField' => "'name'"
                                           ,'labelButtonAcceptar' => "'Enviar'"
                                           ,'labelButtonCancellar' => "'Cancel·lar'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

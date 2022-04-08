@@ -22,6 +22,7 @@ $arrParcial = array(
                                           ,"NouNomCarpetaplaceHolder" => "'Nou nom de la carpeta'"
                                           ,"labelButtonAcceptar" => "'Acceptar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

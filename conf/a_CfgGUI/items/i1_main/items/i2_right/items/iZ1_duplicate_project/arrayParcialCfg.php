@@ -21,6 +21,7 @@ $arrParcial = array(
                                           ,"NouProjectplaceHolder" => "'Nom del nou Projecte'"
                                           ,"labelButtonAcceptar" => "'Crear'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );
