@@ -12,6 +12,7 @@ $arrParcial = array(
                                           ,"autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconMediaEdit'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

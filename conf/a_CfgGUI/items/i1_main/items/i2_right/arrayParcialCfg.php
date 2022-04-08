@@ -16,6 +16,7 @@ $arrParcial = array(
                                          ,"doLayout" => "true"
                                          ,"splitter" => "false"
                                          ,"closable" => "true"
+                                         ,'disableOnSend' => true
                             )
                     )
               );

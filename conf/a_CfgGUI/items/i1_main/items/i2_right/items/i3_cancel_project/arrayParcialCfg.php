@@ -12,6 +12,7 @@ $arrParcial = array(
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconClose'"
                                           ,"query" => "'do=cancel'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

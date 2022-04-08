@@ -23,6 +23,7 @@ $arrParcial = array(
                                           ,"labelButtonAcceptar" => "'Enviar'"
                                           ,"labelButtonCancellar" => "'Cancel·lar'"
                                           ,"standbyId" => cfgIdConstants::BODY_CONTENT
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

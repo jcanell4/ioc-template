@@ -11,6 +11,7 @@ $arrParcial = array(
                                           "autoSize" => true
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSave'"
+                                          ,'disableOnSend' => true
                                         )
                             )
               );

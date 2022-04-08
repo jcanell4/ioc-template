@@ -12,7 +12,7 @@ $arrParcial = array(
                                           ,"visible" => false
                                           ,'iconClass' => "'iocIconSave'"
                                           ,"query" => "'do=save'"
-                                          ,'getDataEventObject' => 'function(_data){var _ret=null; var globalState=this.dispatcher.getGlobalState(), id=globalState.getCurrentId(), metaDataSubSet=globalState.getContent(globalState.getCurrentId()).metaDataSubSet; _ret={id:id, metaDataSubSet:metaDataSubSet, name:\'save_project\'}; return _ret;}'
+                                          ,'disableOnSend' => true
                                         )
                             )
               );
