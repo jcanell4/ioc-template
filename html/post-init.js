@@ -267,7 +267,9 @@ require([
         });
 
         var loginState = storageManager.findObject('login');
-        var stateMoodle = storageManager.findObject('globalState').userState.moodleToken;
+        var stateMoodle = storageManager.findObject('globalState');
+        if (stateMoodle)
+            stateMoodle = stateMoodle.userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
             relogin(loginState.userId, stateMoodle);
         }
