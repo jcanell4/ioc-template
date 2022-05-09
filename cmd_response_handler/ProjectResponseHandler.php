@@ -34,6 +34,14 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         $this->responseData = $responseData;
+
+        if ($requestParams[ProjectKeys::KEY_MISSING_CONTENT_TOOL]) {
+            // TODO: Comprovar
+            // Sembla que això no funciona, però l'anterior sí
+//            $this->_responseEditResponse($requestParams, $responseData['content_tool_content'],$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
+            $this->_responseViewResponse($requestParams, $responseData,$ajaxCmdResponseGenerator, JsonGenerator::PROJECT_EDIT_TYPE);
+        }
+
         if ($responseData['show_draft_dialog']) {
             //Hi ha un esborrany. Es pregunta que cal fer.
             $this->addDraftDialogResponse($responseData, $ajaxCmdResponseGenerator);

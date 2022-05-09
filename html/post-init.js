@@ -268,7 +268,7 @@ require([
 
         var loginState = storageManager.findObject('login');
         var stateMoodle = storageManager.findObject('globalState');
-        if (stateMoodle && stateMoodle.userState)
+        if (stateMoodle)
             stateMoodle = stateMoodle.userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
             relogin(loginState.userId, stateMoodle);
@@ -345,9 +345,9 @@ require([
                         projectType = state.getContent(id).projectType;
                         metaDataSubSet = state.getContent(id).metaDataSubSet;
                         if (metaDataSubSet === undefined) {
-                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&id=";
+                            queryParams = "call=project&do=edit&ns="+ns + "&missingContentTool=true&projectType="+projectType + "&id=";
                         }else {
-                            queryParams = "call=project&do=edit&ns="+ns + "&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
+                            queryParams = "call=project&do=edit&ns="+ns + "&missingContentTool=true&projectType="+projectType + "&metaDataSubSet="+metaDataSubSet + "&id=";
                         }
 
                     } else if (state.getContent(id).action === "view_form" || state.getContent(id).action === "project_view" || state.getContent(id).action === "project_partial") {
