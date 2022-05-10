@@ -577,9 +577,16 @@ require([
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             var extraState = wikiIocDispatcher.getRequestedState();
 
-            wikiIocDispatcher.reloadFromState(state);
-            if (extraState)
-                wikiIocDispatcher.reloadFromState(extraState);
+
+            // Afegim un retard per assegurar-nos que els contenidors són llestos
+            setTimeout(function() {
+                wikiIocDispatcher.reloadFromState(state);
+                if (extraState)
+                    wikiIocDispatcher.reloadFromState(extraState);
+            }, 100);
+
+
+
             
             removeParamsFromURL();
         }
