@@ -267,11 +267,13 @@ require([
         });
 
         var loginState = storageManager.findObject('login');
-        var stateMoodle = storageManager.findObject('globalState');
-        if (stateMoodle)
-            stateMoodle = stateMoodle.userState.moodleToken;
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            relogin(loginState.userId, stateMoodle);
+            var globalState = storageManager.findObject('globalState');
+            if(globalState && globalState.userState){
+                relogin(loginState.userId, globalState.userState.moodleToken);
+            }else{
+                relogin(loginState.userId);
+            }
         }
 
         // Objecte que gestiona el refresc de la pàgina
