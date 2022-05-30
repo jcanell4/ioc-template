@@ -620,27 +620,91 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
     }
     
     private function updateReadonlyFrom(&$outArrValues, $fromAtt) {
-        if (!isset($outArrValues[$fromAtt]) || !isset($outArrValues[$fromAtt]['readonly'])) {
-            return; //no s'ha establert la propietat al config, no cal fer res
+        if (isset($outArrValues[$fromAtt]) && isset($outArrValues[$fromAtt]['readonly'])) {
+            $this->_updateReadOnlySingleFieldFrom($outArrValues, $fromAtt);
+        }else if($fromAtt=="config"){
+            switch ($outArrValues["type"]){
+                case 'editableObject':
+                    if(isset($outArrValues["props"]) 
+                            && isset($outArrValues["props"]["data-editable-element"]) 
+                            && $outArrValues["props"]["data-editable-element"] == "table"){
+                        $this->_updateReadOnlyObjecArrayFieldFromConfig($outArrValues);
+                    }
+                    break;
+                case 'objectArray':
+                    $this->_updateReadOnlyObjecArrayFieldFromConfig($outArrValues);
+                    break;
+                //case "object":
+                case 'array':
+                    $this->_updateReadOnlyArrayFieldFromConfig($outArrValues);
+                    break;
+                case 'table':
+                    $this->_updateReadOnlyTableFieldFromConfig($outArrValues);
+            }
+            if(isset($outArrValues["config"]["actions"])){
+                $actions = array();
+                foreach ($outArrValues["config"]["actions"] as $key => $value) {
+                    if(is_array($value)){
+                        if(isset($value["condition"]) && $this->getValueOfLogicExpression($value["condition"])){
+                            $actions[$key]=$value["label"];
+                        }else if(!isset($value["condition"]) && isset($value["label"])){
+                            $actions[$key]=$value["label"];
+                        }
+                    }else{
+                        $actions[$key]=$value;
+                    }
+                }
+                $outArrValues["config"]["actions"]=$actions;
+            }
         }
-
+    }
+    
+    private function _updateReadOnlyArrayFieldFromConfig(&$outArrValues) {
+        //Cal veure com es pot fer una columna readonly. Imagino que caldrà un layout indicant a la columna la propietat editable=false
+    }
+    
+    private function _updateReadOnlyTableFieldFromConfig(&$outArrValues) {
+        //Cal veure com es pot fer una columna readonly. Imagino que caldrà un layout indicant a la columna la propietat editable=false
+    }
+    
+    private function _updateReadOnlyObjecArrayFieldFromConfig(&$outArrValues) {
+        //Si hi ha layout fem el bicle usant els camps del layout perquè n'hi poden haver menys que no pas camps
+        if(isset($outArrValues["config"]["layout"])){
+            foreach ($outArrValues["config"]["layout"] as &$itemlayout){
+                foreach ($itemlayout["cells"] as &$itemColumn) {
+                    $editable = isset($itemColumn["editable"])?$itemColumn["editable"]:FALSE;
+                    if(is_array($editable)){
+                        $editable = $this->getValueOfLogicExpression($editable);
+                    }                    
+                    $itemColumn["editable"] = $editable /*&& */;
+                }
+            }            
+        }else{
+            
+        }
+        
+    }
+    
+    private function _updateReadOnlySingleFieldFrom(&$outArrValues, $fromAtt) {
         $isReadOnly = $outArrValues[$fromAtt]['readonly'];
 
         if (is_array($isReadOnly)) {
-            $funcREadOnly = $isReadOnly;
-            if(isset($funcREadOnly["or"])){
-                $isReadOnly=FALSE;
-                foreach ($funcREadOnly["or"] as $readOnlyValidator){
-                    $isReadOnly = $isReadOnly || $this->getValidatorValue($readOnlyValidator);
-                }
-            }else if(isset($funcREadOnly["and"])){
-                $isReadOnly=TRUE;
-                foreach ($funcREadOnly["and"] as $readOnlyValidator){
-                    $isReadOnly = $isReadOnly && $this->getValidatorValue($readOnlyValidator);
-                }
-            }else{
-                $isReadOnly = $this->getValidatorValue($funcREadOnly);
-            }
+            $isReadOnly = $this->getValueOfLogicExpression($isReadOnly);
+            
+//            $funcREadOnly = $isReadOnly;
+//            if(isset($funcREadOnly["or"])){
+//                $isReadOnly=FALSE;
+//                foreach ($funcREadOnly["or"] as $readOnlyValidator){
+//                    $isReadOnly = $isReadOnly || $this->getValidatorValue($readOnlyValidator);
+//                }
+//            }else if(isset($funcREadOnly["and"])){
+//                $isReadOnly=TRUE;
+//                foreach ($funcREadOnly["and"] as $readOnlyValidator){
+//                    $isReadOnly = $isReadOnly && $this->getValidatorValue($readOnlyValidator);
+//                }
+//            }else{
+//                $isReadOnly = $this->getValidatorValue($funcREadOnly);
+//            }
         }
 
         $outArrValues[$fromAtt]['readonly'] = $isReadOnly;
@@ -653,26 +717,46 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
             $outArrValues['props']['readonly'] = $isReadOnly;
         }
     }
+    
+    private function getValueOfLogicExpression($expression){
+        return IocCommon::getValidatorValueFromExpression($expression, $this->getPermission(), $this->responseData["projectMetaData"]);
+//        $funcREadOnly = $expression;
+//        if(isset($funcREadOnly["or"])){
+//            $value=FALSE;
+//            foreach ($funcREadOnly["or"] as $readOnlyValidator){
+//                $value = $value || $this->getValidatorValue($readOnlyValidator);
+//            }
+//        }else if(isset($funcREadOnly["and"])){
+//            $value=TRUE;
+//            foreach ($funcREadOnly["and"] as $readOnlyValidator){
+//                $value = $value && $this->getValidatorValue($readOnlyValidator);
+//            }
+//        }else{
+//            $value = $this->getValidatorValue($funcREadOnly);
+//        }
+//        return $value;
+    }
 
     private function getValidatorValue($outArrValues){
-        $className = $outArrValues['class'];
-        $validator = new $className;
-
-        if (!$validator) {
-            // TODO: la classe no existeix, llençar execepció
-            return;
-        }
-        $validatorTypeData = $validator->getValidatorTypeData();
-        switch ($validatorTypeData){
-            case "permission":
-                $validator->init($this->getPermission());
-                break;
-            case "response":
-                $validator->init($this->responseData["projectMetaData"]);
-                break;
-        }
-        $isReadOnly = $validator->validate($outArrValues['data']);
-        return $isReadOnly;
+        return IocCommon::getValidatorValue($outArrValues,  $this->getPermission(), $this->responseData["projectMetaData"]);
+//        $className = $outArrValues['class'];
+//        $validator = new $className;
+//
+//        if (!$validator) {
+//            // TODO: la classe no existeix, llençar execepció
+//            return;
+//        }
+//        $validatorTypeData = $validator->getValidatorTypeData();
+//        switch ($validatorTypeData){
+//            case "permission":
+//                $validator->init($this->getPermission());
+//                break;
+//            case "response":
+//                $validator->init($this->responseData["projectMetaData"]);
+//                break;
+//        }
+//        $isReadOnly = $validator->validate($outArrValues['data']);
+//        return $isReadOnly;
     }
 
     protected function mergeStructureToForm($structure, &$viewFields, &$viewGroups, $viewDefinition, &$outValues, $mandatoryParent=false, $defaultParent="")
