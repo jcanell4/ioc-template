@@ -926,12 +926,13 @@ require([
 ,"dijit/layout/ContentPane"
 ,"dijit/form/Form"
 ,"dijit/form/TextBox"
+,"dijit/form/CheckBox"
 ,"dijit/form/Button"
 ,"dijit/form/ComboBox"
 ,"dojo/store/JsonRest"
 ,"ioc/gui/NsTreeContainer"
 ,"ioc/functions/normalitzaCaracters"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
+], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,CheckBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
 var duplicateButton = registry.byId('duplicateProjectButton');
 if (duplicateButton) {
 duplicateButton.onClick = function () {
@@ -1029,6 +1030,19 @@ var NouProject = new TextBox({
 id: "textBoxNouProject",
 placeHolder: duplicateButton.NouProjectplaceHolder
 }).placeAt(divNouProject);
+var divSeleccio = domConstruct.create('div', {
+id: 'id_divSeleccioAccio',
+className: 'divSeleccio'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br>'
+}, divSeleccio);
+var Seleccio = new CheckBox({
+id: "checkBoxSeleccio"
+}).placeAt(divSeleccio);
+domConstruct.create('label', {
+innerHTML: ' ' + duplicateButton.SeleccioAcciolabel + '<br>' + duplicateButton.SeleccioAcciolabel2 + '<br>'
+}, divSeleccio);
 var botons = domConstruct.create('div', {
 className: 'botons',
 style: "text-align:center;"
@@ -1040,12 +1054,14 @@ new Button({
 label: duplicateButton.labelButtonAcceptar,
 onClick: function(){
 if (NouProject.value !== '' && EspaiNoms.value !== '') {
+var accio = (Seleccio.checked) ? 'move' : 'duplicate';
 var query = 'call=project' +
 '&' + duplicateButton.query +
 '&id=' + old_path + ":" + old_project +
 '&projectType=' + projectType +
 '&new_path=' + normalitzaCaracters(EspaiNoms.value, true) +
-'&new_project=' + normalitzaCaracters(NouProject.value);
+'&new_project=' + normalitzaCaracters(NouProject.value) +
+'&accio=' + accio;
 duplicateButton.sendRequest(query);
 dialog.hide();
 }

@@ -7,6 +7,7 @@
 //include "dijit/layout/ContentPane"
 //include "dijit/form/Form"
 //include "dijit/form/TextBox"
+//include "dijit/form/CheckBox"
 //include "dijit/form/Button"
 //include "dijit/form/ComboBox"
 //include "dojo/store/JsonRest"
@@ -139,6 +140,24 @@ if (duplicateButton) {
                 placeHolder: duplicateButton.NouProjectplaceHolder
             }).placeAt(divNouProject);
 
+            //DIV SELECCIÓ de l'ACCIÓ: Un CheckBox per seleccionar: copiar o moure projecte
+            var divSeleccio = domConstruct.create('div', {
+                id: 'id_divSeleccioAccio',
+                className: 'divSeleccio'
+            },form.containerNode);
+
+            domConstruct.create('label', {
+                innerHTML: '<br>'
+            }, divSeleccio);
+
+            var Seleccio = new CheckBox({
+                id: "checkBoxSeleccio"
+            }).placeAt(divSeleccio);
+
+            domConstruct.create('label', {
+                innerHTML: ' ' + duplicateButton.SeleccioAcciolabel + '<br>' + duplicateButton.SeleccioAcciolabel2 + '<br>'
+            }, divSeleccio);
+
 
             // botons
             var botons = domConstruct.create('div', {
@@ -155,12 +174,14 @@ if (duplicateButton) {
                 
                 onClick: function(){
                     if (NouProject.value !== '' && EspaiNoms.value !== '') {
+                        var accio = (Seleccio.checked) ? 'move' : 'duplicate';
                         var query = 'call=project' +
                                     '&' + duplicateButton.query +
                                     '&id=' + old_path + ":" + old_project +
                                     '&projectType=' + projectType +
                                     '&new_path=' + normalitzaCaracters(EspaiNoms.value, true) +
-                                    '&new_project=' + normalitzaCaracters(NouProject.value);
+                                    '&new_project=' + normalitzaCaracters(NouProject.value) +
+                                    '&accio=' + accio;
                         duplicateButton.sendRequest(query);
                         dialog.hide();
                     }
