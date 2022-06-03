@@ -75,9 +75,13 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case ProjectKeys::KEY_DUPLICATE:
                 case ProjectKeys::KEY_DUPLICATE_PROJECT:
                     $requestParams[ProjectKeys::KEY_ID] = $responseData[ProjectKeys::KEY_NS];
-                    $extra = ['old_ns' => $responseData[ProjectKeys::KEY_OLD_NS],
-                              'new_ns' => $responseData[ProjectKeys::KEY_NS]];
-                    $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $extra); //refresca el tab 'Dreceres'
+                    if ($requestParams['accio'] === "move") {
+                        $ajaxCmdResponseGenerator->addRemoveContentTab($responseData[ProjectKeys::KEY_OLD_ID]);
+                    }else {
+                        $extra = ['old_ns' => $responseData[ProjectKeys::KEY_OLD_NS],
+                                  'new_ns' => $responseData[ProjectKeys::KEY_NS]];
+                        $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_SHORTCUTS, $extra); //refresca el tab 'Dreceres'
+                    }
                     $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
                     $this->_responseViewResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
                     break;
