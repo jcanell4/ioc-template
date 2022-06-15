@@ -268,9 +268,9 @@ require([
 
         var loginState = storageManager.findObject('login');
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            var globalState = storageManager.findObject('globalState');
-            if(globalState && globalState.userState){
-                relogin(loginState.userId, globalState.userState.moodleToken);
+            var objGlobalState = storageManager.findObject('globalState');
+            if (objGlobalState && objGlobalState.userState){
+                relogin(loginState.userId, objGlobalState.userState.moodleToken);
             }else{
                 relogin(loginState.userId);
             }
@@ -579,7 +579,6 @@ require([
             var state = globalState.newInstance(JSON.parse(sessionStorage.globalState));
             var extraState = wikiIocDispatcher.getRequestedState();
 
-
             // Afegim un retard per assegurar-nos que els contenidors són llestos
             setTimeout(function() {
                 wikiIocDispatcher.reloadFromState(state);
@@ -587,9 +586,6 @@ require([
                     wikiIocDispatcher.reloadFromState(extraState);
             }, 100);
 
-
-
-            
             removeParamsFromURL();
         }
 
