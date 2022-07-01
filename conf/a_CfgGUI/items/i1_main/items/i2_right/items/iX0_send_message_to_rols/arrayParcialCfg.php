@@ -4,7 +4,7 @@ $arrParcial = array(
                 ,"parms" => array(
                                "DOM" => array(
                                            "id" => cfgIdConstants::SEND_MESSAGE_TO_ROLS_BUTTON
-                                          ,"title" => "Enviar missatge"
+                                          ,"title" => "Enviar missatge als rols escollits"
                                           ,"class" => "iocDisplayBlock"
                                         )
                               ,"DJO" => array(

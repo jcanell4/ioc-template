@@ -1426,7 +1426,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'sendMessageToRolsButton',
-                  'title' => 'Enviar missatge',
+                  'title' => 'Enviar missatge als rols escollits',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
@@ -1459,7 +1459,7 @@ $_arrIocCfgGUI = array (
                 'DOM' => 
                 array (
                   'id' => 'sendListToUsersButton',
-                  'title' => 'Enviar missatge',
+                  'title' => 'Enviar missatge a usuaris',
                   'class' => 'iocDisplayBlock',
                 ),
                 'DJO' => 
