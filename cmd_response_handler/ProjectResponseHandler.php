@@ -676,7 +676,7 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if(isset($outArrValues["config"]["layout"])){
             foreach ($outArrValues["config"]["layout"] as &$itemlayout){
                 foreach ($itemlayout["cells"] as &$itemColumn) {
-                    $editable = isset($itemColumn["editable"])?$itemColumn["editable"]:FALSE;
+                    $editable = isset($itemColumn["editable"])?$itemColumn["editable"]:(isset($itemlayout["defaultCell"]["editable"])?$itemlayout["defaultCell"]["editable"]:FALSE);
                     if(is_array($editable)){
                         $editable = $this->getValueOfLogicExpression($editable);
                     }                    
