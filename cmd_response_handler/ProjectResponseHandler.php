@@ -627,9 +627,9 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
         if (isset($outArrValues[$fromAtt]) && isset($outArrValues[$fromAtt]['readonly'])) {
             $this->_updateReadOnlySingleFieldFrom($outArrValues, $fromAtt);
         }else if($fromAtt=="config"){
-            switch ($outArrValues["type"]){
+            switch ($outArrValues["type"]) {
                 case 'editableObject':
-                    if(isset($outArrValues["props"]) 
+                    if (isset($outArrValues["props"])
                             && isset($outArrValues["props"]["data-editable-element"]) 
                             && $outArrValues["props"]["data-editable-element"] == "table"){
                         $this->_updateReadOnlyObjecArrayFieldFromConfig($outArrValues);
@@ -645,20 +645,28 @@ class ProjectResponseHandler extends WikiIocResponseHandler {
                 case 'table':
                     $this->_updateReadOnlyTableFieldFromConfig($outArrValues);
             }
-            if(isset($outArrValues["config"]["actions"])){
+            if (isset($outArrValues["config"]["actions"])) {
                 $actions = array();
                 foreach ($outArrValues["config"]["actions"] as $key => $value) {
-                    if(is_array($value)){
-                        if(isset($value["condition"]) && $this->getValueOfLogicExpression($value["condition"])){
-                            $actions[$key]=$value["label"];
-                        }else if(!isset($value["condition"]) && isset($value["label"])){
-                            $actions[$key]=$value["label"];
+                    if (is_array($value)){
+                        if (isset($value["condition"])) {
+                            if ($this->getValueOfLogicExpression($value["condition"])){
+                                if (isset($value["label"])) {
+                                    $actions[$key] = $value["label"];
+                                }else {
+                                    $actions[$key] = $value["action_config"];
+                                }
+                            }
+                        }else if(isset($value["label"])){
+                            $actions[$key] = $value["label"];
+                        }else {
+                            $actions[$key] = $value;
                         }
                     }else{
-                        $actions[$key]=$value;
+                        $actions[$key] = $value;
                     }
                 }
-                $outArrValues["config"]["actions"]=$actions;
+                $outArrValues["config"]["actions"] = $actions;
             }
         }
     }
