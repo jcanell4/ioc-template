@@ -1002,27 +1002,16 @@ class WikiIocFormInputField extends WikiIocComponent {
         );
         parent::__construct($aParms, $reqPackage, $reqJsModule);
     }
-    /*
-    public function setName($name) {
-        $this->set('name', $name);
-    }
-    public function setType($type) {
-        $this->set('type', $type);
-    }
-
-    public function getName() {
-        return $this->get('name');
-    }
-    public function getType() {
-        return $this->get('type');
-    }
-    */
+    
     public function getRenderingCode() {
-        $id = $this->get('DOM','id');
+        $id = $this->getId();
         $name = $this->get('DOM','name'); $name = "name='" . (($name == NULL) ? $id : $name) . "'";
-        $type = $this->get('DOM','type'); $type = ($type == NULL) ? "" : "type='$type' ";
+        $type = $this->get('DOM','type'); $type = ($type != NULL) ? "type='$type' " : "";
         $required = ($this->get('DOM','required')) ? "required=true" : "";
-        $ret = "\n<label for='$id'>{$this->get('DOM','label')}</label><br />\n"
+        //$onkeyup = $this->get('PRP', 'onkeyup'); $onkeyup = ($onkeyup != NULL) ? "onKeyUp='$onkeyup'" : "";
+        //$css = $this->getCSS(); if ($css == "style=''") $css = "";
+
+        $ret = "\n<label for='$id'>{$this->getLabel()}</label><br />\n"
              . "<input data-dojo-type='{$this->getReqJsModule('TextBox')}' "
              . "id='$id' {$name} {$type} {$required}/><br />";
         return $ret;
