@@ -236,8 +236,19 @@ require([
 
         // Gestió del relogin
         var relogin = function (userId, moodleToken) {
+            var loginState;
             var requestLogin = new Request();
             var moodleT = "";
+            if (!moodleToken) {
+                console.log("post-init#var relogin", "2-!moodleToken");
+                if (localStorage.login) {
+                    loginState = JSON.parse(localStorage.login);
+                    console.log("post-init#var relogin:loginState", loginState);
+                    if (loginState) {
+                        moodleToken = loginState.moodleToken;
+                    }
+                }
+            }
             if (moodleToken && moodleToken!="" && moodleToken!=undefined && moodleToken!="null") {
                 moodleT = "&moodleToken="+moodleToken;
             }
@@ -261,16 +272,14 @@ require([
                 request = new Request();
                 request.urlBase = "lib/exe/ioc_ajax.php?call=login&do=logoff";
                 request.sendRequest();
-
             }
             console.log("Detectats canvis al login", e);
         });
 
         var loginState = storageManager.findObject('login');
         if (loginState && loginState.login && !wikiIocDispatcher.getGlobalState().userId) {
-            var objGlobalState = storageManager.findObject('globalState');
-            if (objGlobalState && objGlobalState.userState){
-                relogin(loginState.userId, objGlobalState.userState.moodleToken);
+            if (loginState.moodleToken){
+                relogin(loginState.userId, loginState.moodleToken);
             }else{
                 relogin(loginState.userId);
             }

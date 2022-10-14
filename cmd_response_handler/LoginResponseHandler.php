@@ -14,33 +14,31 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     }
 
     protected function response($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
-//        if ($responseData["loginRequest"] && !$responseData["loginResult"]) {
-//            throw new HttpErrorCodeException("badlogin", "403");
-//        }
         $this->login($requestParams, $responseData, $ajaxCmdResponseGenerator);
     }
 
     private function login ($requestParams, $responseData, &$ajaxCmdResponseGenerator){
 
-        $ajaxCmdResponseGenerator->addLoginInfo($responseData["loginRequest"],
-                                                $responseData['loginResult'],
-                                                $responseData['userId']);
+        $ajaxCmdResponseGenerator->addLoginInfo($responseData[ProjectKeys::KEY_LOGIN_REQUEST],
+                                                $responseData[ProjectKeys::KEY_LOGIN_RESULT],
+                                                $responseData[ProjectKeys::KEY_USER_ID],
+                                                $responseData[ProjectKeys::KEY_MOODLE_TOKEN]);
 
         $ajaxCmdResponseGenerator->addSectokData(getSecurityToken());
 
-        if ($responseData["loginResult"]){
-            if ($responseData['user_state']['moodleToken']) {
+        if ($responseData[ProjectKeys::KEY_LOGIN_RESULT]){
+            if ($responseData[ProjectKeys::KEY_MOODLE_TOKEN]) {
                 $ajaxCmdResponseGenerator->addProcessFunction(TRUE,
                                                               "ioc/dokuwiki/processMoodleTimeout",
                                                               ['urlBase' => "lib/exe/ioc_ajax.php?call=refresh_moodle_session",
-                                                               'moodleToken' => $responseData['user_state']['moodleToken']]);
+                                                               ProjectKeys::KEY_MOODLE_TOKEN => $responseData[ProjectKeys::KEY_MOODLE_TOKEN]]);
             }
 
             $ajaxCmdResponseGenerator->addReloadWidgetContent(cfgIdConstants::TB_INDEX);
 
             $ajaxCmdResponseGenerator->addChangeWidgetProperty(cfgIdConstants::USER_BUTTON,
                                                                "label",
-                                                               $responseData["userId"]);
+                                                               $responseData[ProjectKeys::KEY_USER_ID]);
             $modelManager = $this->getModelManager();
 
             if ($this->getPermission()->isAdminOrManager()){
@@ -58,7 +56,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
                 $ajaxCmdResponseGenerator->addAddTab(cfgIdConstants::ZONA_NAVEGACIO, $params);
             }
 
-            $action = $modelManager->getActionInstance("ShortcutsTaskListAction", $responseData['userId']);
+            $action = $modelManager->getActionInstance("ShortcutsTaskListAction", $responseData[ProjectKeys::KEY_USER_ID]);
             $dades = $action->get(['id' => $action->getNsShortcut()]);
 
             if ($dades["content"]){
@@ -78,11 +76,11 @@ class LoginResponseHandler extends WikiIocResponseHandler {
 
         $info = array('timestamp' => date('d-m-Y H:i:s'));
 
-        if ($responseData['loginRequest'] && !$responseData['loginResult']) {
+        if ($responseData[ProjectKeys::KEY_LOGIN_REQUEST] && !$responseData[ProjectKeys::KEY_LOGIN_RESULT]) {
             $info['type'] = 'error';
             $info['message'] = 'Error d\'autenticació';
 
-        } else if (!$responseData['loginRequest'] && !$responseData['loginResult']) {
+        } else if (!$responseData[ProjectKeys::KEY_LOGIN_REQUEST] && !$responseData[ProjectKeys::KEY_LOGIN_RESULT]) {
             $info['type'] = 'info';
             $info['message'] = 'Usuari desconnectat';
 
@@ -108,7 +106,7 @@ class LoginResponseHandler extends WikiIocResponseHandler {
     protected function postResponse($requestParams, $responseData, &$ajaxCmdResponseGenerator) {
         parent::postResponse($requestParams, $responseData, $ajaxCmdResponseGenerator);
 
-        if (!$responseData["loginResult"]){
+        if (!$responseData[ProjectKeys::KEY_LOGIN_RESULT]){
             $ajaxCmdResponseGenerator->addRemoveAllContentTab();
         }
     }
