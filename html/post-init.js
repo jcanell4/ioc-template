@@ -240,10 +240,8 @@ require([
             var requestLogin = new Request();
             var moodleT = "";
             if (!moodleToken) {
-                console.log("post-init#var relogin", "2-!moodleToken");
                 if (localStorage.login) {
                     loginState = JSON.parse(localStorage.login);
-                    console.log("post-init#var relogin:loginState", loginState);
                     if (loginState) {
                         moodleToken = loginState.moodleToken;
                     }
