@@ -358,23 +358,19 @@ class Edit_partialResponseHandler extends WikiIocResponseHandler
     }
 
 
-    private function getEditingChunksIds($requestParams)
-    {
+    private function getEditingChunksIds($requestParams) {
         $chunks = $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS];
 
-
-        if (strpos($requestParams[PageKeys::KEY_SECTION_ID], $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) > -1) {
-            // Ja es troba el seleccionat als chunks en edició
-
-        } else {
+        if (empty($requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) ||
+                empty($requestParams[PageKeys::KEY_SECTION_ID]) ||
+                strpos($requestParams[PageKeys::KEY_SECTION_ID], $requestParams[PageKeys::KEY_IN_EDITING_CHUNKS]) == false) {
+            // No es troba el seleccionat als chunks en edició
             if (strlen($chunks) > 0) {
                 $chunks .= ',' . $requestParams[PageKeys::KEY_SECTION_ID];
             } else {
                 $chunks = $requestParams[PageKeys::KEY_SECTION_ID];
             }
-
         }
-
         return $chunks;
     }
 
