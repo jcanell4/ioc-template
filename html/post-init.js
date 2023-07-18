@@ -97,6 +97,7 @@ require([
                 if (Object.keys(disp.getGlobalState().permissions).length > 0) {
                     new_button_visible = (disp.getGlobalState().permissions['isadmin'] || 
                                           disp.getGlobalState().permissions['ismanager'] ||
+                                          disp.getGlobalState().permissions['ispagemanager'] ||
                                           disp.getGlobalState().permissions['isprojectmanager']);
                 }
                 var send_button_visible = false;
