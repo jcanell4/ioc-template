@@ -54,6 +54,7 @@ class cfgIdConstants
     const EINES_CANVIS_RECENTS = "canvisRecents";
     const EINES_MEDIAMANGER    = "mediaManager";
     const EINES_SELECCIO_PROJECTES = "seleccioProjectes";
+    const CREACIO_NOUS_USUARIS = "nousUsuaris";
 
     const ZONA_CANVI        = "zonaCanvi";
     const ZONA_METAINFO     = "zonaMetaInfo";

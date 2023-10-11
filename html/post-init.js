@@ -224,6 +224,8 @@ require([
                         }
                         else if (page.action === 'html_supplies_form') {
                         }
+                        else if (page.action === 'html_new_user_teachers_form') {
+                        }
                         else if (page.action === 'html_response_form') {
                             disp.changeWidgetProperty('cfgIdConstants::SEND_MESSAGE_TO_ROLS_BUTTON', "visible", true);
                             disp.changeWidgetProperty('cfgIdConstants::SEND_LIST_TO_USERS_BUTTON', "visible", true);
@@ -399,6 +401,12 @@ require([
                         state.getContent(id).ns = "";
 
                     } else if (state.getContent(id).action === "html_supplies_form") {
+                        queryParams = "call=" + id +
+                                      state.getContent(id).parms +
+                                      "&id=";
+                        state.getContent(id).ns = id;
+
+                    } else if (state.getContent(id).action === "html_new_user_teachers_form") {
                         queryParams = "call=" + id +
                                       state.getContent(id).parms +
                                       "&id=";
