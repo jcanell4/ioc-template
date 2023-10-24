@@ -26,9 +26,10 @@ class NewUserTeachersResponseHandler extends WikiIocResponseHandler {
             )
         );
 
+        $info = ($responseData['content']['info']) ? $responseData['content']['info'] : "new_user_teachers_loaded";
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
             RequestParameterKeys::KEY_INFO,
-            WikiIocLangManager::getLang("new_user_teachers_loaded"),
+            WikiIocLangManager::getLang($info),
             $requestParams[AjaxKeys::KEY_ID]
         ));
     }
