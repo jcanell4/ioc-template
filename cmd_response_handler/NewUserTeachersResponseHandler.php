@@ -26,10 +26,17 @@ class NewUserTeachersResponseHandler extends WikiIocResponseHandler {
             )
         );
 
+
         $info = ($responseData['content']['info']) ? $responseData['content']['info'] : "new_user_teachers_loaded";
         $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
             RequestParameterKeys::KEY_INFO,
             WikiIocLangManager::getLang($info),
+                
+//======= marjose: codi conflictiu. He triat la versió que sembla que es més completa
+//        $ajaxCmdResponseGenerator->addInfoDta(AjaxCmdResponseGenerator::generateInfo(
+//            RequestParameterKeys::KEY_INFO,
+//            WikiIocLangManager::getLang("new_user_teachers_loaded"),
+//>>>>>>> master == end marjose ==
             $requestParams[AjaxKeys::KEY_ID]
         ));
     }
