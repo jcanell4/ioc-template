@@ -55,6 +55,7 @@ class cfgIdConstants
     const EINES_MEDIAMANGER    = "mediaManager";
     const EINES_SELECCIO_PROJECTES = "seleccioProjectes";
     const CREACIO_NOUS_USUARIS = "nousUsuaris";
+   
 
     const ZONA_CANVI        = "zonaCanvi";
     const ZONA_METAINFO     = "zonaMetaInfo";
@@ -119,6 +120,7 @@ class cfgIdConstants
 
     //Constant necessaria per a la generació dinàmica de controls
     const WIKI_IOC_BUTTON_PATH = "/i1_main/i2_right";
+    
 
     /*
     const NAVEGACIO_NODE_ID   = "zonaNavegacio";    //cambiada por ZONA_NAVEGACIO
