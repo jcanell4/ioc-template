@@ -998,6 +998,36 @@ $_arrIocCfgGUI = array (
                 ),
               ),
             ),
+            'i0b_duplicate' => 
+            array (
+              'class' => 'WikiIocButton',
+              'parms' => 
+              array (
+                'DOM' => 
+                array (
+                  'id' => 'duplicateFolderButton',
+                  'title' => 'Duplicate Folder',
+                  'class' => 'iocDisplayBlock',
+                ),
+                'DJO' => 
+                array (
+                  'query' => '\'do=new\'',
+                  'autoSize' => true,
+                  'visible' => false,
+                  'iconClass' => '\'iocIconDuplicateFolder\'',
+                  'urlBase' => '\'lib/exe/ioc_ajax.php\'',
+                  'dialogTitle' => '\'Duplicar una carpeta de materials\'',
+                  'DirectoriOrigenlabel' => '\'Carpeta origen\'',
+                  'DirectoriOrigenplaceHolder' => '\'Selecciona la carpeta a l\\\'arbre\'',
+                  'DirectoriDestilabel' => '\'Carpeta destí\'',
+                  'DirectoriDestiplaceHolder' => '\'Carpeta destí\'',
+                  'labelButtonAcceptar' => '\'Acceptar\'',
+                  'labelButtonCancellar' => '\'Cancel·lar\'',
+                  'disableOnSend' => true,
+                  'getQuery' => 'function(_data){var _ret=null; _ret=\'\';if (this.dispatcher.getGlobalState().currentTabId) { var ns=this.dispatcher.getGlobalState().getContent(this.dispatcher.getGlobalState().currentTabId)[\'ns\']; if(this.query){ _ret=this.query + \'&id=\' + ns; }else{ _ret=\'id=\' + ns; }}return _ret;}',
+                ),
+              ),
+            ),
             'i1_save_project' => 
             array (
               'class' => 'WikiRequestEventButton',

@@ -308,6 +308,12 @@ table.diff th.author {
     height: 32px;
 }
 
+.iocIconDuplicateFolder {
+    background-image: url("css/icons/duplicate_folder.png");
+    width: 32px;
+    height: 32px;
+}
+
 .iocIconRenameFolder {
     background-image: url("css/icons/rename_folder.png");
     width: 32px;
@@ -390,14 +396,17 @@ table.diff th.author {
     background-position: -480px;
 }
 
-.iocIconRenameFolder {
+.iocIconDuplicateFolder {
     background-position: -512px;
 }
-.iocIconSendMessageToRols {
+.iocIconRenameFolder {
     background-position: -544px;
 }
-.iocIconSendListToUsers {
+.iocIconSendMessageToRols {
     background-position: -576px;
+}
+.iocIconSendListToUsers {
+    background-position: -608px;
 }
 
 /* NOTIFICATIONS */

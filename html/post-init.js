@@ -58,6 +58,7 @@ require([
             }
             disp.initUpdateWidgetProperty('cfgIdConstants::LOGIN_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", false);
+            disp.initUpdateWidgetProperty('cfgIdConstants::DUPLICATE_FOLDER_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::EDIT_BUTTON', "visible", false);
             disp.initUpdateWidgetProperty('cfgIdConstants::SAVE_BUTTON', "visible", false);
@@ -107,6 +108,7 @@ require([
                     ftpproject_button_visible = disp.getGlobalState().permissions['isadmin'] || disp.getGlobalState().permissions['ismanager'];
                 }
                 disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_FOLDER_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
                 disp.changeWidgetProperty('cfgIdConstants::USER_BUTTON', "visible", true);
                 disp.changeWidgetProperty('cfgIdConstants::NOTIFIER_BUTTON_INBOX', "visible", true);
@@ -125,6 +127,7 @@ require([
                             new_button_visible = false;
                         }
                         disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
+                        disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_FOLDER_BUTTON', "visible", new_button_visible);
                         disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
 
                         if (page.ftpSendButton === true) {

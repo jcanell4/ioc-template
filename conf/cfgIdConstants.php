@@ -79,6 +79,7 @@ class cfgIdConstants
     const SAVE_PARC_BUTTON   = "saveparcButton";
 
     const CANCEL_PROJECT_BUTTON    = "cancelProjectButton";
+    const DUPLICATE_FOLDER_BUTTON  = "duplicateFolderButton";
     const DUPLICATE_PROJECT_BUTTON = "duplicateProjectButton";
     const EDIT_PROJECT_BUTTON      = "editProjectButton";
     const FTP_PROJECT_BUTTON       = "ftpProjectButton";

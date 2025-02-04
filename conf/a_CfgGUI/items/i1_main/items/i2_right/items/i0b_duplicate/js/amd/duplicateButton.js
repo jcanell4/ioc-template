@@ -10,19 +10,19 @@
 //include "ioc/gui/NsTreeContainer"
 //include "ioc/functions/normalitzaCaracters"
 
-var renameButton = registry.byId('cfgIdConstants::RENAME_FOLDER_BUTTON');
-if (renameButton) {
+var duplicateFolderButton = registry.byId('cfgIdConstants::DUPLICATE_FOLDER_BUTTON');
+if (duplicateFolderButton) {
 
-    renameButton.onClick = function () {
+    duplicateFolderButton.onClick = function () {
         var path = [];
         var dialog = registry.byId("newDocumentDlg");
 
         if(!dialog){
             dialog = new Dialog({
                 id: "newDocumentDlg",
-                title: renameButton.dialogTitle,
+                title: duplicateFolderButton.dialogTitle,
                 style: "width: 470px; height: 350px;",
-                renameButton: renameButton
+                duplicateFolderButton: duplicateFolderButton
             });
 
             dialog.on('hide', function () {
@@ -37,9 +37,9 @@ if (renameButton) {
 
             dialog.nsActivePage = function (){
                 path.length=0;
-                if (this.renameButton.dispatcher.getGlobalState().currentTabId) {
+                if (this.duplicateFolderButton.dispatcher.getGlobalState().currentTabId) {
                     var stPath = "";
-                    var aPath = this.renameButton.dispatcher.getGlobalState().getContent(this.renameButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+                    var aPath = this.duplicateFolderButton.dispatcher.getGlobalState().getContent(this.duplicateFolderButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
                     aPath = aPath.split(':');
                     aPath.pop();
                     aPath.unshift("");
@@ -92,14 +92,14 @@ if (renameButton) {
                 dom.byId('textBoxDirectoriOrigen').focus();  //borra el placeholder
                 dom.byId('textBoxDirectoriDesti').value = dialog.getNsDesti(item.id);
                 dom.byId('textBoxDirectoriDesti').focus();
-                dom.byId('textBoxNouNomCarpeta').focus();
             };
 
             dialog.getNsDesti = function(ns) {
-                ns = ns.split(':');
-                ns.pop();
-                return ns.join(":");
-            }
+                //ns = ns.split(':');
+                //ns.pop();
+                //return ns.join(":");
+                return ns+"_dup";
+            };
 
             // Un formulari a la banda dreta contenint:
             var divdreta = domConstruct.create('div', {
@@ -114,12 +114,12 @@ if (renameButton) {
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: renameButton.DirectoriOrigenlabel + '<br>'
+                innerHTML: duplicateFolderButton.DirectoriOrigenlabel + '<br>'
             },divDirectoriOrigen);
 
             var DirectoriOrigen = new TextBox({
                 id: 'textBoxDirectoriOrigen',
-                placeHolder: renameButton.DirectoriOrigenplaceHolder
+                placeHolder: duplicateFolderButton.DirectoriOrigenplaceHolder
             }).placeAt(divDirectoriOrigen);
             dialog.textBoxDirectoriOrigen = DirectoriOrigen;
 
@@ -129,29 +129,14 @@ if (renameButton) {
             },form.containerNode);
 
             domConstruct.create('label', {
-                innerHTML: '<br><br>' + renameButton.DirectoriDestilabel + '<br>'
+                innerHTML: '<br><br>' + duplicateFolderButton.DirectoriDestilabel + '<br>'
             },divDirectoriDesti);
 
             var DirectoriDesti = new TextBox({
                 id: 'textBoxDirectoriDesti',
-                placeHolder: renameButton.DirectoriDestiplaceHolder
+                placeHolder: duplicateFolderButton.DirectoriDestiplaceHolder
             }).placeAt(divDirectoriDesti);
             dialog.textBoxDirectoriDesti = DirectoriDesti;
-
-            //DIV NOU NOM: Un camp de text per poder escriure el nou nom de la carpeta
-            var divNouNomCarpeta = domConstruct.create('div', {
-                id: 'id_divNouNomCarpeta',
-                className: 'divNouNomCarpeta'
-            },form.containerNode);
-
-            domConstruct.create('label', {
-                innerHTML: '<br>' + renameButton.NouNomCarpetalabel + '<br>'
-            }, divNouNomCarpeta);
-
-            var NouNomCarpeta = new TextBox({
-                id: "textBoxNouNomCarpeta",
-                placeHolder: renameButton.NouNomCarpetaplaceHolder
-            }).placeAt(divNouNomCarpeta);
 
 
             // botons
@@ -165,19 +150,15 @@ if (renameButton) {
             }, botons);
 
             new Button({
-                label: renameButton.labelButtonAcceptar,
+                label: duplicateFolderButton.labelButtonAcceptar,
                 
                 onClick: function(){
-                    if (DirectoriOrigen.value !== '' && NouNomCarpeta.value !== '') {
-                        var ns_desti = '';
-                        if (DirectoriDesti.value !== '') {
-                            ns_desti = normalitzaCaracters(DirectoriDesti.value, true) + ':';
-                        }
-                        var query = 'call=rename_folder' + 
-                                    '&do=rename' + 
+                    if (DirectoriOrigen.value !== '' && DirectoriDesti.value !== '') {
+                        var query = 'call=duplicate_folder' + 
+                                    '&do=copy' + 
                                     '&old_folder_name=' + normalitzaCaracters(DirectoriOrigen.value, true) +
-                                    '&new_folder_name=' + ns_desti + normalitzaCaracters(NouNomCarpeta.value);
-                        renameButton.sendRequest(query);
+                                    '&new_folder_name=' + normalitzaCaracters(DirectoriDesti.value, true);
+                        duplicateFolderButton.sendRequest(query);
                         dialog.hide();
                     }
                 }
@@ -185,7 +166,7 @@ if (renameButton) {
 
             // Botó cancel·lar
             new Button({
-              label: renameButton.labelButtonCancellar,
+              label: duplicateFolderButton.labelButtonCancellar,
               onClick: function(){dialog.hide();}
             }).placeAt(botons);
 

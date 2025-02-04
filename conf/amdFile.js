@@ -406,18 +406,15 @@ require([
 "dijit/registry"
 ,"dojo/dom"
 ,"dojo/dom-construct"
-,"dojo/dom-style"
 ,"dijit/layout/BorderContainer"
 ,"dijit/Dialog"
 ,"dijit/layout/ContentPane"
 ,"dijit/form/Form"
 ,"dijit/form/TextBox"
 ,"dijit/form/Button"
-,"dijit/form/ComboBox"
-,"dojo/store/JsonRest"
 ,"ioc/gui/NsTreeContainer"
 ,"ioc/functions/normalitzaCaracters"
-], function (registry,dom,domConstruct,domStyle,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,ComboBox,JsonRest,NsTreeContainer,normalitzaCaracters) {
+], function (registry,dom,domConstruct,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,NsTreeContainer,normalitzaCaracters) {
 var renameButton = registry.byId('renameFolderButton');
 if (renameButton) {
 renameButton.onClick = function () {
@@ -553,6 +550,146 @@ dialog.hide();
 }).placeAt(botons);
 new Button({
 label: renameButton.labelButtonCancellar,
+onClick: function(){dialog.hide();}
+}).placeAt(botons);
+form.startup();
+}
+dialog.nsActivePage();
+dialog.show();
+return false;
+};
+}
+});
+require([
+"dijit/registry"
+,"dojo/dom"
+,"dojo/dom-construct"
+,"dijit/layout/BorderContainer"
+,"dijit/Dialog"
+,"dijit/layout/ContentPane"
+,"dijit/form/Form"
+,"dijit/form/TextBox"
+,"dijit/form/Button"
+,"ioc/gui/NsTreeContainer"
+,"ioc/functions/normalitzaCaracters"
+], function (registry,dom,domConstruct,BorderContainer,Dialog,ContentPane,Form,TextBox,Button,NsTreeContainer,normalitzaCaracters) {
+var duplicateFolderButton = registry.byId('duplicateFolderButton');
+if (duplicateFolderButton) {
+duplicateFolderButton.onClick = function () {
+var path = [];
+var dialog = registry.byId("newDocumentDlg");
+if(!dialog){
+dialog = new Dialog({
+id: "newDocumentDlg",
+title: duplicateFolderButton.dialogTitle,
+style: "width: 470px; height: 350px;",
+duplicateFolderButton: duplicateFolderButton
+});
+dialog.on('hide', function () {
+dialog.destroyRecursive(false);
+domConstruct.destroy("newDocumentDlg");
+});
+dialog.on('show', function () {
+dom.byId('textBoxDirectoriOrigen').value = path[path.length-1] || "";
+dom.byId('textBoxDirectoriOrigen').focus();
+});
+dialog.nsActivePage = function (){
+path.length=0;
+if (this.duplicateFolderButton.dispatcher.getGlobalState().currentTabId) {
+var stPath = "";
+var aPath = this.duplicateFolderButton.dispatcher.getGlobalState().getContent(this.duplicateFolderButton.dispatcher.getGlobalState().currentTabId)['ns'] || '';
+aPath = aPath.split(':');
+aPath.pop();
+aPath.unshift("");
+for (var i=0; i<aPath.length; i++) {
+if (i > 1) {
+stPath = stPath + ":";
+}
+stPath = stPath + aPath[i];
+path[i]=stPath;
+}
+}
+};
+var bc = new BorderContainer({
+style: "height: 300px; width: 450px;"
+});
+var cpEsquerra = new ContentPane({
+region: "left",
+style: "width: 220px"
+});
+bc.addChild(cpEsquerra);
+var cpDreta = new ContentPane({
+region: "center"
+});
+bc.addChild(cpDreta);
+bc.placeAt(dialog.containerNode);
+var divizquierda = domConstruct.create('div', {
+className: 'izquierda'
+},cpEsquerra.containerNode);
+var dialogTree = new NsTreeContainer({
+treeDataSource: 'lib/exe/ioc_ajaxrest.php/ns_tree_rest/',
+onlyDirs:true,
+hiddenProjects:true
+}).placeAt(divizquierda);
+dialogTree.startup();
+dialog.dialogTree = dialogTree;
+dialogTree.tree.onClick=function(item) {
+dom.byId('textBoxDirectoriOrigen').value = item.id;
+dom.byId('textBoxDirectoriOrigen').focus();  //borra el placeholder
+dom.byId('textBoxDirectoriDesti').value = dialog.getNsDesti(item.id);
+dom.byId('textBoxDirectoriDesti').focus();
+};
+dialog.getNsDesti = function(ns) {
+return ns+"_dup";
+};
+var divdreta = domConstruct.create('div', {
+className: 'dreta'
+},cpDreta.containerNode);
+var form = new Form().placeAt(divdreta);
+var divDirectoriOrigen = domConstruct.create('div', {
+className: 'divDirectoriOrigen'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: duplicateFolderButton.DirectoriOrigenlabel + '<br>'
+},divDirectoriOrigen);
+var DirectoriOrigen = new TextBox({
+id: 'textBoxDirectoriOrigen',
+placeHolder: duplicateFolderButton.DirectoriOrigenplaceHolder
+}).placeAt(divDirectoriOrigen);
+dialog.textBoxDirectoriOrigen = DirectoriOrigen;
+var divDirectoriDesti = domConstruct.create('div', {
+className: 'divDirectoriDesti'
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>' + duplicateFolderButton.DirectoriDestilabel + '<br>'
+},divDirectoriDesti);
+var DirectoriDesti = new TextBox({
+id: 'textBoxDirectoriDesti',
+placeHolder: duplicateFolderButton.DirectoriDestiplaceHolder
+}).placeAt(divDirectoriDesti);
+dialog.textBoxDirectoriDesti = DirectoriDesti;
+var botons = domConstruct.create('div', {
+className: 'botons',
+style: "text-align:center;"
+},form.containerNode);
+domConstruct.create('label', {
+innerHTML: '<br><br>'
+}, botons);
+new Button({
+label: duplicateFolderButton.labelButtonAcceptar,
+onClick: function(){
+if (DirectoriOrigen.value !== '' && DirectoriDesti.value !== '') {
+var query = 'call=duplicate_folder' +
+'&do=copy' +
+'&old_folder_name=' + normalitzaCaracters(DirectoriOrigen.value, true) +
+'&new_folder_name=' + normalitzaCaracters(DirectoriDesti.value, true);
+duplicateFolderButton.sendRequest(query);
+dialog.hide();
+}
+}
+}).placeAt(botons);
+new Button({
+label: duplicateFolderButton.labelButtonCancellar,
 onClick: function(){dialog.hide();}
 }).placeAt(botons);
 form.startup();
