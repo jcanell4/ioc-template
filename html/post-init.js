@@ -117,6 +117,7 @@ require([
                 if (disp.getGlobalState().currentTabId) {
 
                     var page = disp.getGlobalState().getContent(disp.getGlobalState().currentTabId);
+                    var is_project = (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined);
                     
                     if (page.action !== undefined) {
                         var selectedSection = disp.getGlobalState().getCurrentElement();
@@ -127,8 +128,8 @@ require([
                             new_button_visible = false;
                         }
                         disp.changeWidgetProperty('cfgIdConstants::NEW_BUTTON', "visible", new_button_visible);
-                        disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_FOLDER_BUTTON', "visible", new_button_visible);
                         disp.changeWidgetProperty('cfgIdConstants::RENAME_FOLDER_BUTTON', "visible", new_button_visible);
+                        disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_FOLDER_BUTTON', "visible", new_button_visible && !is_project);
 
                         if (page.ftpSendButton === true) {
                             disp.changeWidgetProperty('cfgIdConstants::FTPSEND_BUTTON', "visible", send_button_visible);
@@ -189,7 +190,7 @@ require([
                             if (!isRevision) {
                                 disp.changeWidgetProperty('cfgIdConstants::EDIT_PROJECT_BUTTON', "visible", true);
 
-                                if (page.projectType !== null && page.projectType !== "" && page.projectType !== undefined) {
+                                if (is_project) {
                                     if (isManager || page.rol === "responsable") {
                                         disp.changeWidgetProperty('cfgIdConstants::DUPLICATE_PROJECT_BUTTON', "visible", true);
                                         disp.changeWidgetProperty('cfgIdConstants::RENAME_PROJECT_BUTTON', "visible", true);
